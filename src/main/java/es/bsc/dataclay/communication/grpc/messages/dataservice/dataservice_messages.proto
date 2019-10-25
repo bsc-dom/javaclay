@@ -1,0 +1,307 @@
+syntax = "proto3";
+package dataclay.communication.grpc.dataservice;
+import "dataclay/communication/grpc/messages/common/common_messages.proto";
+option java_package = "dataclay.communication.grpc.messages.dataservice";
+option java_multiple_files = false;
+
+message InitBackendIDRequest {
+	dataclay.communication.grpc.common.StorageLocationID backendID = 1;
+}
+
+message AssociateExecutionEnvironmentRequest { 
+	dataclay.communication.grpc.common.ExecutionEnvironmentID executionEnvironmentID = 1;
+}
+
+message DeployMetaClassesRequest {
+	string namespace = 1;
+	map<string, string> deploymentPack = 2;
+}
+
+message DeployClassesRequest {
+	string namespace = 1;
+	map<string, bytes> classesToDeploy = 2;
+	map<string, dataclay.communication.grpc.common.MetaClassID> classIds = 3;
+	map<string, bytes> aspects = 4;
+	map<string, bytes> yamls = 5;
+}
+
+message EnrichClassRequest {
+	string namespace = 1;
+	string classname = 2;
+	bytes classToDeploy = 3;
+	bytes aspect = 4;
+	bytes yaml = 5;
+
+}
+
+message NewPersistentInstanceRequest {
+	dataclay.communication.grpc.common.SessionID sessionID = 1;
+	dataclay.communication.grpc.common.MetaClassID classID = 2;
+	dataclay.communication.grpc.common.ImplementationID implementationID = 3;
+	map<string, bytes> ifaceBitMaps = 4;
+	dataclay.communication.grpc.common.SerializedParametersOrReturn params = 5;
+}
+
+message NewPersistentInstanceResponse {
+	dataclay.communication.grpc.common.ObjectID objectID = 1;
+	dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;
+}
+
+message StoreObjectsRequest {
+	dataclay.communication.grpc.common.SessionID sessionID = 1;
+	repeated dataclay.communication.grpc.common.ObjectWithDataParamOrReturn objects = 2;
+	bool moving = 3;
+	repeated dataclay.communication.grpc.common.ObjectID idsWithAlias = 4;
+}
+
+message NewMetaDataRequest {
+	map<string, string> mdInfos = 1;
+}
+
+message GetCopyOfObjectRequest {
+    dataclay.communication.grpc.common.SessionID sessionID = 1;
+    dataclay.communication.grpc.common.ObjectID objectID = 2;
+    bool recursive = 3;
+}
+
+message GetCopyOfObjectResponse {
+	dataclay.communication.grpc.common.SerializedParametersOrReturn ret = 1;
+	dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;
+}
+
+message UpdateObjectRequest {
+    dataclay.communication.grpc.common.SessionID sessionID = 1;
+    dataclay.communication.grpc.common.ObjectID intoObjectID = 2;
+    dataclay.communication.grpc.common.SerializedParametersOrReturn fromObject = 3;
+}
+
+message GetObjectsRequest {
+	dataclay.communication.grpc.common.SessionID sessionID = 1;
+	repeated dataclay.communication.grpc.common.ObjectID objectIDS = 2;
+	bool recursive = 3;
+	bool moving = 4;
+}
+
+message GetObjectsResponse {
+	repeated dataclay.communication.grpc.common.ObjectWithDataParamOrReturn objects = 1;
+	dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;
+}
+
+message GetFederatedObjectsRequest {
+	dataclay.communication.grpc.common.DataClayInstanceID extDataClayID = 1;
+	repeated dataclay.communication.grpc.common.ObjectID objectIDS = 2;
+}
+
+message GetFederatedObjectsResponse {
+	repeated dataclay.communication.grpc.common.ObjectWithDataParamOrReturn objects = 1;
+	dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;
+}
+
+message FilterObjectRequest {
+	dataclay.communication.grpc.common.SessionID sessionID = 1;
+	dataclay.communication.grpc.common.ObjectID objectID = 2;
+	string conditions = 3;
+}
+
+message FilterObjectResponse {
+	dataclay.communication.grpc.common.SerializedParametersOrReturn ret = 1;
+	dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;
+}
+
+message GetReferencedObjectIDsRequest {
+	dataclay.communication.grpc.common.SessionID sessionID = 1;
+	repeated dataclay.communication.grpc.common.ObjectID objectIDS = 2;
+}
+
+message GetReferencedObjectIDsResponse {
+	repeated dataclay.communication.grpc.common.ObjectID objectIDs = 1;
+	dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;
+}
+
+message MakePersistentRequest { 
+	dataclay.communication.grpc.common.SessionID sessionID = 1;
+	dataclay.communication.grpc.common.SerializedParametersOrReturn params = 2;
+}
+
+message FederateRequest { 
+	dataclay.communication.grpc.common.SessionID sessionID = 1;
+	dataclay.communication.grpc.common.SerializedParametersOrReturn params = 2;
+}
+
+message UnfederateRequest { 
+	dataclay.communication.grpc.common.SessionID sessionID = 1;
+	repeated dataclay.communication.grpc.common.ObjectID objectIDs = 2;
+}
+
+message ExecuteImplementationRequest {
+	dataclay.communication.grpc.common.ObjectID objectID = 1;
+	dataclay.communication.grpc.common.ImplementationID implementationID = 2;
+	dataclay.communication.grpc.common.SessionID sessionID = 3;
+	dataclay.communication.grpc.common.SerializedParametersOrReturn params = 4;
+
+}
+
+message ExecuteImplementationResponse {
+	dataclay.communication.grpc.common.SerializedParametersOrReturn ret = 1;
+	dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;
+}
+
+message SetNotVolatileRequest {
+	dataclay.communication.grpc.common.ObjectID objectID = 1;
+	dataclay.communication.grpc.common.DataSetID storaDataSet = 2;
+}
+
+message NewVersionRequest {
+	dataclay.communication.grpc.common.SessionID sessionID = 1;
+	dataclay.communication.grpc.common.ObjectID objectID = 2;
+	string metadataInfo = 3;
+}
+
+message NewVersionResponse {
+	dataclay.communication.grpc.common.ObjectID objectID = 1;
+	map<string, string> versionedIDs = 2;
+	dataclay.communication.grpc.common.ExceptionInfo excInfo = 3;
+}
+
+message ConsolidateVersionRequest {
+	dataclay.communication.grpc.common.SessionID sessionID = 1;
+	string versionInfo = 2;
+}
+
+message UpsertObjectsRequest {
+	dataclay.communication.grpc.common.SessionID sessionID = 1;
+	repeated dataclay.communication.grpc.common.ObjectWithDataParamOrReturn bytesUpdate = 2;
+}
+
+message NewReplicaRequest {
+	dataclay.communication.grpc.common.SessionID sessionID = 1;
+	dataclay.communication.grpc.common.ObjectID objectID = 2;
+	bool recursive = 3;
+}
+
+message NewReplicaResponse {
+	repeated dataclay.communication.grpc.common.ObjectID replicatedIDs = 1;
+	dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;
+}
+
+message MoveObjectsRequest {
+	dataclay.communication.grpc.common.SessionID sessionID = 1;
+	dataclay.communication.grpc.common.ObjectID objectID = 2;
+	dataclay.communication.grpc.common.ExecutionEnvironmentID destLocID = 3;
+	bool recursive = 4;
+}
+
+message MoveObjectsResponse {
+	repeated dataclay.communication.grpc.common.ObjectID movedObjects = 1;
+	dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;
+}
+
+message RemoveObjectsRequest {
+	dataclay.communication.grpc.common.SessionID sessionID = 1;
+	repeated dataclay.communication.grpc.common.ObjectID objectIDs = 2;
+	bool recursive = 3;
+	bool moving = 4;
+	dataclay.communication.grpc.common.ExecutionEnvironmentID newHint = 5;
+}
+
+message JumpMapThreadMsg {
+	map<int64, string> jumpMapThread = 1;
+}
+
+message RemoveObjectsResponse {
+	map<string, string> removedObjects = 1;
+	dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;
+}
+
+message MigrateObjectsRequest {
+	map<string, string> destStorageLocs = 1;
+}
+
+message MigratedObjects {
+	repeated dataclay.communication.grpc.common.ObjectID objs = 1;
+}
+
+message MigrateObjectsResponse {
+	map<string, MigratedObjects> migratedObjs = 1;
+	MigratedObjects nonMigratedObjs = 2;
+	dataclay.communication.grpc.common.ExceptionInfo excInfo = 3;
+}
+
+message ActivateTracingRequest {
+	int32 taskid = 1;
+}
+
+message CloseSessionInDSRequest {
+	dataclay.communication.grpc.common.SessionID sessionID = 1;
+}
+
+message DiskCollectRequest {
+	dataclay.communication.grpc.common.ExecutionEnvironmentID epochNodeID = 1;
+	repeated dataclay.communication.grpc.common.ExecutionEnvironmentID ringPath = 2;
+	repeated dataclay.communication.grpc.common.ObjectID candidates = 3;
+	map<string, int32> refsToUpdate = 4;
+}
+
+message GetClassIDFromObjectInMemoryRequest {
+	dataclay.communication.grpc.common.ObjectID objectID = 1;
+}
+
+message GetClassIDFromObjectInMemoryResponse {
+	dataclay.communication.grpc.common.MetaClassID classID = 1;
+	dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;
+}
+
+message StoreToDBRequest {
+	dataclay.communication.grpc.common.ExecutionEnvironmentID executionEnvironmentID = 1;
+	dataclay.communication.grpc.common.ObjectID objectID = 2;
+	bytes objBytes = 3;
+}
+
+message GetFromDBRequest {
+	dataclay.communication.grpc.common.ExecutionEnvironmentID executionEnvironmentID = 1;
+	dataclay.communication.grpc.common.ObjectID objectID = 2;
+}
+
+message GetFromDBResponse {
+	bytes objBytes = 1;
+	dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;
+}
+
+message UpdateToDBRequest {
+	dataclay.communication.grpc.common.ExecutionEnvironmentID executionEnvironmentID = 1;
+	dataclay.communication.grpc.common.ObjectID objectID = 2;
+	bytes objBytes = 3;
+	bool dirty = 4;
+}
+
+message DeleteToDBRequest {
+	dataclay.communication.grpc.common.ExecutionEnvironmentID executionEnvironmentID = 1;
+	dataclay.communication.grpc.common.ObjectID objectID = 2;
+}
+
+message UpdateRefsRequest {
+	map<string, int32> refsToUpdate = 1;
+}
+
+message GetRetainedReferencesResponse {
+	repeated dataclay.communication.grpc.common.ObjectID retainedReferences = 1;
+	dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;
+}
+
+message ExistsRequest { 
+	dataclay.communication.grpc.common.ObjectID objectID = 1;
+}
+
+message ExistsResponse { 
+	bool exists = 1;
+	dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;
+}
+
+message ExistsInDBRequest { 
+	dataclay.communication.grpc.common.ObjectID objectID = 1;
+}
+
+message ExistsInDBResponse { 
+	bool exists = 1;
+	dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;
+}

@@ -1,0 +1,169 @@
+syntax = "proto3";
+package dataclay.communication.grpc.logicmodule;
+import "dataclay/communication/grpc/messages/logicmodule/logicmodule_messages.proto";
+import "dataclay/communication/grpc/messages/common/common_messages.proto";
+option java_package = "dataclay.communication.grpc.generated.logicmodule";
+option java_outer_classname="LogicModuleGrpcService";
+// Interface exported by the server.
+service LogicModule {
+
+	rpc autoregisterSL(AutoRegisterSLRequest) returns (dataclay.communication.grpc.common.ExceptionInfo) {}
+	rpc autoregisterEE(AutoRegisterEERequest) returns (AutoRegisterEEResponse) {}
+	
+	rpc unregisterStorageLocation(UnregisterStorageLocationRequest) returns (dataclay.communication.grpc.common.ExceptionInfo) {}
+	rpc unregisterExecutionEnvironment(UnregisterExecutionEnvironmentRequest) returns (dataclay.communication.grpc.common.ExceptionInfo) {}
+	rpc checkAlive(communication.grpc.common.EmptyMessage) returns (dataclay.communication.grpc.common.ExceptionInfo) {}
+	rpc performSetOfNewAccounts(PerformSetAccountsRequest) returns (PerformSetAccountsResponse) {}
+	rpc performSetOfOperations(PerformSetOperationsRequest) returns (PerformSetOperationsResponse) {}
+
+	rpc publishAddress(PublishAddressRequest) returns (dataclay.communication.grpc.common.ExceptionInfo) {}
+
+	// Account Manager
+	rpc newAccountNoAdmin(NewAccountNoAdminRequest) returns (NewAccountResponse) {}
+	rpc newAccount(NewAccountRequest) returns (NewAccountResponse) {}
+	rpc getAccountID(GetAccountIDRequest) returns (GetAccountIDResponse) {}
+	rpc getAccountList(GetAccountListRequest) returns (GetAccountListResponse) {}
+
+	// Session Manager
+	rpc newSession(NewSessionRequest) returns (NewSessionResponse) {}
+	rpc getInfoOfSessionForDS(GetInfoOfSessionForDSRequest) returns (GetInfoOfSessionForDSResponse) {}
+
+	// Namespace Manager
+	rpc newNamespace(NewNamespaceRequest) returns (NewNamespaceResponse) {}
+	rpc removeNamespace(RemoveNamespaceRequest) returns (dataclay.communication.grpc.common.ExceptionInfo) {}
+	rpc getNamespaceID(GetNamespaceIDRequest) returns (GetNamespaceIDResponse) {}
+	rpc getNamespaceLang(GetNamespaceLangRequest) returns (GetNamespaceLangResponse) {}
+	rpc getObjectDataSetID(GetObjectDataSetIDRequest) returns (GetObjectDataSetIDResponse) {}
+	rpc importInterface(ImportInterfaceRequest) returns (dataclay.communication.grpc.common.ExceptionInfo) {}
+	rpc importContract(ImportContractRequest) returns (dataclay.communication.grpc.common.ExceptionInfo) {}
+	rpc getInfoOfClassesInNamespace(GetInfoOfClassesInNamespaceRequest) returns (GetInfoOfClassesInNamespaceResponse) {}
+	rpc getImportedClassesInfoInNamespace(GetImportedClassesInfoInNamespaceRequest) returns (GetImportedClassesInfoInNamespaceResponse) {}
+	rpc getClassIDfromImport(GetClassIDFromImportRequest) returns (GetClassIDFromImportResponse) {}
+	rpc getNamespaces(GetNamespacesRequest) returns (GetNamespacesResponse) {}
+
+	// DataSet Manager
+	rpc newDataSet(NewDataSetRequest) returns (NewDataSetResponse) {}
+	rpc removeDataSet(RemoveDataSetRequest) returns (dataclay.communication.grpc.common.ExceptionInfo) {}
+	rpc getDataSetID(GetDataSetIDRequest) returns (GetDataSetIDResponse) {}
+	rpc checkDataSetIsPublic(CheckDataSetIsPublicRequest) returns (CheckDataSetIsPublicResponse) {}
+	rpc getPublicDataSets(GetPublicDataSetsRequest) returns (GetPublicDataSetsResponse) {}
+	rpc getAccountDataSets(GetAccountDataSetsRequest) returns (GetAccountDataSetsResponse) {}
+
+	// Class Manager
+	rpc newClass(NewClassRequest) returns (NewClassResponse) {}
+	rpc newClassID(NewClassIDRequest) returns (NewClassIDResponse) {}
+	rpc removeClass(RemoveClassRequest) returns (dataclay.communication.grpc.common.ExceptionInfo) {}
+	rpc removeOperation(RemoveOperationRequest) returns (dataclay.communication.grpc.common.ExceptionInfo) {}
+	rpc removeImplementation(RemoveImplementationRequest) returns (dataclay.communication.grpc.common.ExceptionInfo) {}
+	rpc getOperationID(GetOperationIDRequest) returns (GetOperationIDResponse) {}
+	rpc getPropertyID(GetPropertyIDRequest) returns (GetPropertyIDResponse) {}
+	rpc getClassID(GetClassIDRequest) returns (GetClassIDResponse) {}
+	rpc getClassInfo(GetClassInfoRequest) returns (GetClassInfoResponse) {}
+
+	// Contract Manager
+	rpc newContract(NewContractRequest) returns (NewContractResponse) {}
+	rpc registerToPublicContract(RegisterToPublicContractRequest) returns (dataclay.communication.grpc.common.ExceptionInfo) {}
+	rpc registerToPublicContractOfNamespace(RegisterToPublicContractOfNamespaceRequest) returns (RegisterToPublicContractOfNamespaceResponse) {}
+	rpc getContractIDsOfApplicant(GetContractIDsOfApplicantRequest) returns (GetContractIDsOfApplicantResponse) {}
+	rpc getContractIDsOfProvider(GetContractIDsOfProviderRequest) returns (GetContractIDsOfProviderResponse) {}
+	rpc getContractIDsOfApplicantWithProvider(GetContractsOfApplicantWithProvRequest) returns (GetContractsOfApplicantWithProvResponse) {}
+
+	// DataContract Manager
+	rpc newDataContract(NewDataContractRequest) returns (NewDataContractResponse) {}
+	rpc registerToPublicDataContract(RegisterToPublicDataContractRequest) returns (dataclay.communication.grpc.common.ExceptionInfo) {}
+	rpc getDataContractIDsOfApplicant(GetDataContractIDsOfApplicantRequest) returns (GetDataContractIDsOfApplicantResponse) {}
+	rpc getDataContractIDsOfProvider(GetDataContractIDsOfProviderRequest) returns (GetDataContractIDsOfProviderResponse) {}
+	rpc getDataContractInfoOfApplicantWithProvider(GetDataContractInfoOfApplicantWithProvRequest) returns (GetDataContractInfoOfApplicantWithProvResponse) {}
+
+	// Interface Manager
+	rpc newInterface(NewInterfaceRequest) returns (NewInterfaceResponse) {}
+	rpc getInterfaceInfo(GetInterfaceInfoRequest) returns (GetInterfaceInfoResponse) {}
+	rpc removeInterface(RemoveInterfaceRequest) returns (communication.grpc.common.ExceptionInfo) {}
+
+	// EE-SL information
+	rpc getExecutionEnvironmentsInfo(GetExecutionEnvironmentsInfoRequest) returns (GetExecutionEnvironmentsInfoResponse) {}
+	rpc getExecutionEnvironmentsNames(GetExecutionEnvironmentsNamesRequest) returns (GetExecutionEnvironmentsNamesResponse) {}
+	// TODO: modify next functions also called from Python to more scalable information
+	rpc getExecutionEnvironmentForDS(GetExecutionEnvironmentForDSRequest) returns (GetExecutionEnvironmentForDSResponse) {}
+	rpc getStorageLocationForDS(GetStorageLocationForDSRequest) returns (GetStorageLocationForDSResponse) {}
+	
+	// Object Metadata
+	rpc getObjectInfo(GetObjectInfoRequest) returns (GetObjectInfoResponse) {}
+	rpc getObjectFromAlias(GetObjectFromAliasRequest) returns (GetObjectFromAliasResponse) {}
+	rpc deleteAlias(DeleteAliasRequest) returns (dataclay.communication.grpc.common.ExceptionInfo) {}
+	rpc getObjectsMetaDataInfoOfClassForNM(GetObjectsMetaDataInfoOfClassForNMRequest) returns (GetObjectsMetaDataInfoOfClassForNMResponse) {}
+	rpc addAlias(AddAliasRequest) returns (dataclay.communication.grpc.common.ExceptionInfo) {}
+	rpc registerObjectFromGC(RegisterObjectForGCRequest) returns (dataclay.communication.grpc.common.ExceptionInfo) {}
+	rpc unregisterObjects(UnregisterObjectsRequest) returns (dataclay.communication.grpc.common.ExceptionInfo) {}
+	rpc registerObject(RegisterObjectRequest) returns (dataclay.communication.grpc.common.ExceptionInfo) {}
+	rpc setDataSetIDFromGarbageCollector(SetDataSetIDFromGarbageCollectorRequest) returns (dataclay.communication.grpc.common.ExceptionInfo) {}
+	
+	// Storage Location
+	rpc setDataSetID(SetDataSetIDRequest) returns (dataclay.communication.grpc.common.ExceptionInfo) {}
+	rpc newVersion(NewVersionRequest) returns (NewVersionResponse) {}
+	rpc consolidateVersion(ConsolidateVersionRequest) returns (dataclay.communication.grpc.common.ExceptionInfo) {}
+	rpc newReplica(NewReplicaRequest) returns (NewReplicaResponse) {}
+	rpc moveObject(MoveObjectRequest) returns (MoveObjectResponse) {}
+	rpc setObjectReadOnly(SetObjectReadOnlyRequest) returns (dataclay.communication.grpc.common.ExceptionInfo) {}
+	rpc setObjectReadWrite(SetObjectReadWriteRequest) returns (dataclay.communication.grpc.common.ExceptionInfo) {}
+	rpc getMetadataByOID(GetMetadataByOIDRequest) returns (GetMetadataByOIDResponse) {}
+
+	// Execution Environment
+	rpc executeImplementation(ExecuteImplementationRequest) returns (ExecuteImplementationResponse) {}
+	rpc executeMethodOnTarget(ExecuteMethodOnTargetRequest) returns (ExecuteMethodOnTargetResponse) {}
+	rpc synchronizeFederatedObject(SynchronizeFederatedObjectRequest) returns (dataclay.communication.grpc.common.ExceptionInfo) {}
+
+	// Federation 
+	rpc getDataClayID(communication.grpc.common.EmptyMessage) returns (GetDataClayIDResponse) {}
+	rpc registerExternalDataClay(RegisterExternalDataClayRequest) returns (RegisterExternalDataClayResponse) {}
+	rpc registerExternalDataClayOverrideAuthority(RegisterExternalDataClayOverrideAuthorityRequest) returns (RegisterExternalDataClayResponse) {}
+	rpc notifyRegistrationOfExternalDataClay(NotifyRegistrationOfExternalDataClayRequest) returns (NotifyRegistrationOfExternalDataClayResponse) {}
+	rpc getExternalDataClayInfo(GetExtDataClayInfoRequest) returns (GetExtDataClayInfoResponse) {}
+	rpc getExternalDataclayId(GetExternalDataclayIDRequest) returns (GetExternalDataclayIDResponse) {}
+	rpc federateObject(FederateObjectRequest) returns (dataclay.communication.grpc.common.ExceptionInfo) {}
+	rpc unfederateObject(UnfederateObjectRequest) returns (dataclay.communication.grpc.common.ExceptionInfo) {}
+	rpc notifyUnfederatedObjects(NotifyUnfederatedObjectsRequest) returns (dataclay.communication.grpc.common.ExceptionInfo) {}
+	rpc notifyFederatedObjects(NotifyFederatedObjectsRequest) returns (dataclay.communication.grpc.common.ExceptionInfo) {}
+	rpc checkObjectIsFederatedWithDataClayInstance(CheckObjectFederatedWithDataClayInstanceRequest) returns (CheckObjectFederatedWithDataClayInstanceResponse) {}
+	rpc getDataClaysObjectIsFederatedWith(GetDataClaysObjectIsFederatedWithRequest) returns (GetDataClaysObjectIsFederatedWithResponse) {}
+	rpc getExternalSourceDataClayOfObject(GetExternalSourceDataClayOfObjectRequest) returns (GetExternalSourceDataClayOfObjectResponse) {}
+	rpc unfederateAllObjects(UnfederateAllObjectsRequest) returns (dataclay.communication.grpc.common.ExceptionInfo) {}
+	rpc unfederateAllObjectsWithAllDCs(UnfederateAllObjectsWithAllDCsRequest) returns (dataclay.communication.grpc.common.ExceptionInfo) {}
+	rpc unfederateObjectWithAllDCs(UnfederateObjectWithAllDCsRequest) returns (dataclay.communication.grpc.common.ExceptionInfo) {}
+	rpc migrateFederatedObjects(MigrateFederatedObjectsRequest) returns (dataclay.communication.grpc.common.ExceptionInfo) {}
+	rpc federateAllObjects(FederateAllObjectsRequest) returns (dataclay.communication.grpc.common.ExceptionInfo) {}
+	
+	// Stubs
+	rpc getStubs(GetStubsRequest) returns (GetStubsResponse) {}
+	rpc getBabelStubs(GetBabelStubsRequest) returns (GetBabelStubsResponse) {}
+
+	// Notification Manager
+	rpc registerECA(RegisterECARequest) returns (dataclay.communication.grpc.common.ExceptionInfo) {}
+	rpc adviseEvent(AdviseEventRequest) returns (dataclay.communication.grpc.common.ExceptionInfo) {}
+
+	// Prefetching 
+	rpc isPrefetchingEnabled(dataclay.communication.grpc.common.EmptyMessage) returns (IsPrefetchingEnabledResponse) {}
+	
+	// Others
+	rpc getClassNameForDS(GetClassNameForDSRequest) returns (GetClassNameForDSResponse) {}
+	rpc getClassNameAndNamespaceForDS(GetClassNameAndNamespaceForDSRequest) returns (GetClassNameAndNamespaceForDSResponse) {}
+	rpc getContractIDOfDataClayProvider(GetContractIDOfDataClayProviderRequest) returns (GetContractIDOfDataClayProviderResponse) {}
+
+	// Testing
+	rpc objectExistsInDataClay(ObjectExistsInDataClayRequest) returns (ObjectExistsInDataClayResponse) {}
+
+	// Others
+	rpc closeSession(CloseSessionRequest) returns (dataclay.communication.grpc.common.ExceptionInfo) {}
+	rpc getMetadataByOIDForDS(GetMetadataByOIDForDSRequest) returns (GetMetadataByOIDForDSResponse) {}
+	
+	// Paraver
+	rpc activateTracing(ActivateTracingRequest) returns (dataclay.communication.grpc.common.ExceptionInfo) {}
+	rpc deactivateTracing(communication.grpc.common.EmptyMessage) returns (dataclay.communication.grpc.common.ExceptionInfo) {}
+	rpc getTraces(communication.grpc.common.EmptyMessage) returns (communication.grpc.common.GetTracesResponse) {}
+	
+	
+	rpc cleanMetaDataCaches(communication.grpc.common.EmptyMessage) returns (dataclay.communication.grpc.common.ExceptionInfo) {}
+	rpc closeManagerDb(communication.grpc.common.EmptyMessage) returns (dataclay.communication.grpc.common.ExceptionInfo) {}
+	rpc closeDb(communication.grpc.common.EmptyMessage) returns (dataclay.communication.grpc.common.ExceptionInfo) {}
+
+}

@@ -1,0 +1,34 @@
+
+package es.bsc.dataclay.serialization.java;
+
+/** Language types (used during serialization/deserialization). */
+//CHECKSTYLE:OFF
+public enum LanguageTypes {
+	DATACLAYOBJ,
+	INT,
+	BOOL,
+	BYTE,
+	CHAR,
+	DOUBLE,
+	FLOAT,
+	LONG,
+	SHORT,
+	JAVA_INTEGER, 
+	JAVA_BOOLEAN,
+	JAVA_BYTE,
+	JAVA_CHARACTER,
+	JAVA_DOUBLE,
+	JAVA_FLOAT,
+	JAVA_LONG,
+	JAVA_SHORT,
+	JAVA_STRING,
+	JAVA_ARRAY,
+	JAVA_PRIMITIVE_ARRAY,
+	JAVA_COLLECTION,
+	JAVA_MAP,
+	JAVA_MAP_ENTRY,
+	JAVA_OBJECT,
+	DATACLAY_OID, 
+	JAVA_ATOMIC_INTEGER,
+}
+//CHECKSTYLE:ON

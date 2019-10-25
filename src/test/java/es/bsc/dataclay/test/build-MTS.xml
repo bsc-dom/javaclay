@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+ -->
+
+<project default="create_run_jar" name="Create Runnable Jar for Project PersistentObjects with Jar-in-Jar Loader">
+    <!--this file was created by Eclipse Runnable JAR Export Wizard-->
+    <!--ANT 1.7 is required                                        -->
+    <target name="create_run_jar">
+        <jar destfile="/opt/Sources/poas/PersistentObjects/MinimalTestingServer.jar">
+            <manifest>
+                <attribute name="Main-Class" value="org.eclipse.jdt.internal.jarinjarloader.JarRsrcLoader"/>
+                <attribute name="Rsrc-Main-Class" value="testutils.MinimalTestingServer"/>
+                <attribute name="Class-Path" value="."/>
+                <attribute name="Rsrc-Class-Path" value="./ bcel-5.2.jar bsh-2.0b4.jar cassandra-driver-core-2.0.0.jar cassandra-driver-dse-2.0.0.jar guava-16.0.1.jar jcommander-1.27.jar log4j-1.2.17.jar lz4-1.2.0.jar metrics-core-3.0.2.jar netty-3.9.0.Final.jar slf4j-api-1.7.5.jar slf4j-log4j12-1.7.6.jar snappy-java-1.0.5.jar db4o-8.0.249.16098-all-java5.jar dexjava.jar javassist.jar junit-4.11.jar netty-all-4.0.14.Final-javadoc.jar netty-all-4.0.14.Final.jar postgresql-9.3-1102.jdbc41.jar snakeyaml-1.11-javadoc.jar snakeyaml-1.11-sources.jar snakeyaml-1.11.jar jacocoant.jar"/>
+            </manifest>
+            <zipfileset src="jar-in-jar-loader.zip"/>
+            <fileset dir="/home/persi/tests/PersistentObjects/bin"/>
+            <zipfileset dir="/home/persi/tests/PersistentObjects/lib" includes="bcel-5.2.jar"/>
+            <zipfileset dir="/home/persi/tests/PersistentObjects/lib/cassandra" includes="bsh-2.0b4.jar"/>
+            <zipfileset dir="/home/persi/tests/PersistentObjects/lib/cassandra" includes="cassandra-driver-core-2.0.0.jar"/>
+            <zipfileset dir="/home/persi/tests/PersistentObjects/lib/cassandra" includes="cassandra-driver-dse-2.0.0.jar"/>
+            <zipfileset dir="/home/persi/tests/PersistentObjects/lib/cassandra" includes="guava-16.0.1.jar"/>
+            <zipfileset dir="/home/persi/tests/PersistentObjects/lib/cassandra" includes="jcommander-1.27.jar"/>
+            <zipfileset dir="/home/persi/tests/PersistentObjects/lib/cassandra" includes="log4j-1.2.17.jar"/>
+            <zipfileset dir="/home/persi/tests/PersistentObjects/lib/cassandra" includes="lz4-1.2.0.jar"/>
+            <zipfileset dir="/home/persi/tests/PersistentObjects/lib/cassandra" includes="metrics-core-3.0.2.jar"/>
+            <zipfileset dir="/home/persi/tests/PersistentObjects/lib/cassandra" includes="netty-3.9.0.Final.jar"/>
+            <zipfileset dir="/home/persi/tests/PersistentObjects/lib/cassandra" includes="slf4j-api-1.7.5.jar"/>
+            <zipfileset dir="/home/persi/tests/PersistentObjects/lib/cassandra" includes="slf4j-log4j12-1.7.6.jar"/>
+            <zipfileset dir="/home/persi/tests/PersistentObjects/lib/cassandra" includes="snappy-java-1.0.5.jar"/>
+            <zipfileset dir="/home/persi/tests/PersistentObjects/lib" includes="db4o-8.0.249.16098-all-java5.jar"/>
+            <zipfileset dir="/home/persi/tests/PersistentObjects/lib" includes="dexjava.jar"/>
+            <zipfileset dir="/home/persi/tests/PersistentObjects/lib" includes="javassist.jar"/>
+            <zipfileset dir="/home/persi/tests/PersistentObjects/lib" includes="junit-4.11.jar"/>
+            <zipfileset dir="/home/persi/tests/PersistentObjects/lib/netty" includes="netty-all-4.0.14.Final-javadoc.jar"/>
+            <zipfileset dir="/home/persi/tests/PersistentObjects/lib/netty" includes="netty-all-4.0.14.Final.jar"/>
+            <zipfileset dir="/home/persi/tests/PersistentObjects/lib" includes="postgresql-9.3-1102.jdbc41.jar"/>
+            <zipfileset dir="/home/persi/tests/PersistentObjects/lib" includes="snakeyaml-1.11-javadoc.jar"/>
+            <zipfileset dir="/home/persi/tests/PersistentObjects/lib" includes="snakeyaml-1.11-sources.jar"/>
+            <zipfileset dir="/home/persi/tests/PersistentObjects/lib" includes="snakeyaml-1.11.jar"/>
+            <zipfileset dir="/home/persi/tests/PersistentObjects/test_scripts/lib" includes="jacocoant.jar"/>
+        </jar>
+    </target>
+</project>
