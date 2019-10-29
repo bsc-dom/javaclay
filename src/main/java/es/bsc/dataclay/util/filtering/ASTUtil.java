@@ -10,9 +10,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class ASTUtil {
 
 	public static List<Object> cimiToAST(final String cimiAST) {
-		System.out.println("[CIMItoAST] Received " + cimiAST);
 		final String jsonAST = cimiToJSON(cimiAST);
-		System.out.println("[CIMItoAST] Post processed " + jsonAST);
 		return jsonToAST(jsonAST);
 	}
 
