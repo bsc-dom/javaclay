@@ -21,9 +21,8 @@ import static io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall;
  * </pre>
  */
 @javax.annotation.Generated(
-    value = "by gRPC proto compiler (version 1.22.3-SNAPSHOT)",
+    value = "by gRPC proto compiler (version 1.22.0)",
     comments = "Source: dataclay/communication/grpc/generated/logicmodule/logicmodule.proto")
-@SuppressWarnings("all")
 public final class LogicModuleGrpc {
 
   private LogicModuleGrpc() {}

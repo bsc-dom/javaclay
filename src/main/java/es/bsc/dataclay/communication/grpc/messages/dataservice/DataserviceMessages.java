@@ -3,7 +3,6 @@
 
 package es.bsc.dataclay.communication.grpc.messages.dataservice;
 
-@SuppressWarnings("all")
 public final class DataserviceMessages {
   private DataserviceMessages() {}
   public static void registerAllExtensions(
@@ -21,10 +20,12 @@ public final class DataserviceMessages {
 
     /**
      * <code>.dataclay.communication.grpc.common.StorageLocationID backendID = 1;</code>
+     * @return Whether the backendID field is set.
      */
     boolean hasBackendID();
     /**
      * <code>.dataclay.communication.grpc.common.StorageLocationID backendID = 1;</code>
+     * @return The backendID.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.StorageLocationID getBackendID();
     /**
@@ -48,6 +49,13 @@ public final class DataserviceMessages {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new InitBackendIDRequest();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -60,7 +68,6 @@ public final class DataserviceMessages {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -120,12 +127,14 @@ public final class DataserviceMessages {
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.StorageLocationID backendID_;
     /**
      * <code>.dataclay.communication.grpc.common.StorageLocationID backendID = 1;</code>
+     * @return Whether the backendID field is set.
      */
     public boolean hasBackendID() {
       return backendID_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.common.StorageLocationID backendID = 1;</code>
+     * @return The backendID.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.StorageLocationID getBackendID() {
       return backendID_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.StorageLocationID.getDefaultInstance() : backendID_;
@@ -317,7 +326,7 @@ public final class DataserviceMessages {
                 es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.InitBackendIDRequest.class, es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.InitBackendIDRequest.Builder.class);
       }
 
-      // Construct using dataclay.communication.grpc.messages.dataservice.DataserviceMessages.InitBackendIDRequest.newBuilder()
+      // Construct using es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.InitBackendIDRequest.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -457,12 +466,14 @@ public final class DataserviceMessages {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.StorageLocationID, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.StorageLocationID.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.StorageLocationIDOrBuilder> backendIDBuilder_;
       /**
        * <code>.dataclay.communication.grpc.common.StorageLocationID backendID = 1;</code>
+       * @return Whether the backendID field is set.
        */
       public boolean hasBackendID() {
         return backendIDBuilder_ != null || backendID_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.common.StorageLocationID backendID = 1;</code>
+       * @return The backendID.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.StorageLocationID getBackendID() {
         if (backendIDBuilder_ == null) {
@@ -627,10 +638,12 @@ public final class DataserviceMessages {
 
     /**
      * <code>.dataclay.communication.grpc.common.ExecutionEnvironmentID executionEnvironmentID = 1;</code>
+     * @return Whether the executionEnvironmentID field is set.
      */
     boolean hasExecutionEnvironmentID();
     /**
      * <code>.dataclay.communication.grpc.common.ExecutionEnvironmentID executionEnvironmentID = 1;</code>
+     * @return The executionEnvironmentID.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironmentID getExecutionEnvironmentID();
     /**
@@ -654,6 +667,13 @@ public final class DataserviceMessages {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new AssociateExecutionEnvironmentRequest();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -666,7 +686,6 @@ public final class DataserviceMessages {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -726,12 +745,14 @@ public final class DataserviceMessages {
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironmentID executionEnvironmentID_;
     /**
      * <code>.dataclay.communication.grpc.common.ExecutionEnvironmentID executionEnvironmentID = 1;</code>
+     * @return Whether the executionEnvironmentID field is set.
      */
     public boolean hasExecutionEnvironmentID() {
       return executionEnvironmentID_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.common.ExecutionEnvironmentID executionEnvironmentID = 1;</code>
+     * @return The executionEnvironmentID.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironmentID getExecutionEnvironmentID() {
       return executionEnvironmentID_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironmentID.getDefaultInstance() : executionEnvironmentID_;
@@ -923,7 +944,7 @@ public final class DataserviceMessages {
                 es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.AssociateExecutionEnvironmentRequest.class, es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.AssociateExecutionEnvironmentRequest.Builder.class);
       }
 
-      // Construct using dataclay.communication.grpc.messages.dataservice.DataserviceMessages.AssociateExecutionEnvironmentRequest.newBuilder()
+      // Construct using es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.AssociateExecutionEnvironmentRequest.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -1063,12 +1084,14 @@ public final class DataserviceMessages {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironmentID, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironmentID.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironmentIDOrBuilder> executionEnvironmentIDBuilder_;
       /**
        * <code>.dataclay.communication.grpc.common.ExecutionEnvironmentID executionEnvironmentID = 1;</code>
+       * @return Whether the executionEnvironmentID field is set.
        */
       public boolean hasExecutionEnvironmentID() {
         return executionEnvironmentIDBuilder_ != null || executionEnvironmentID_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.common.ExecutionEnvironmentID executionEnvironmentID = 1;</code>
+       * @return The executionEnvironmentID.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironmentID getExecutionEnvironmentID() {
         if (executionEnvironmentIDBuilder_ == null) {
@@ -1233,10 +1256,12 @@ public final class DataserviceMessages {
 
     /**
      * <code>string namespace = 1;</code>
+     * @return The namespace.
      */
     java.lang.String getNamespace();
     /**
      * <code>string namespace = 1;</code>
+     * @return The bytes for namespace.
      */
     com.google.protobuf.ByteString
         getNamespaceBytes();
@@ -1292,6 +1317,13 @@ public final class DataserviceMessages {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new DeployMetaClassesRequest();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -1322,10 +1354,10 @@ public final class DataserviceMessages {
               break;
             }
             case 18: {
-              if (!((mutable_bitField0_ & 0x00000002) != 0)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 deploymentPack_ = com.google.protobuf.MapField.newMapField(
                     DeploymentPackDefaultEntryHolder.defaultEntry);
-                mutable_bitField0_ |= 0x00000002;
+                mutable_bitField0_ |= 0x00000001;
               }
               com.google.protobuf.MapEntry<java.lang.String, java.lang.String>
               deploymentPack__ = input.readMessage(
@@ -1378,11 +1410,11 @@ public final class DataserviceMessages {
               es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.DeployMetaClassesRequest.class, es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.DeployMetaClassesRequest.Builder.class);
     }
 
-    private int bitField0_;
     public static final int NAMESPACE_FIELD_NUMBER = 1;
     private volatile java.lang.Object namespace_;
     /**
      * <code>string namespace = 1;</code>
+     * @return The namespace.
      */
     public java.lang.String getNamespace() {
       java.lang.Object ref = namespace_;
@@ -1398,6 +1430,7 @@ public final class DataserviceMessages {
     }
     /**
      * <code>string namespace = 1;</code>
+     * @return The bytes for namespace.
      */
     public com.google.protobuf.ByteString
         getNamespaceBytes() {
@@ -1707,7 +1740,7 @@ public final class DataserviceMessages {
                 es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.DeployMetaClassesRequest.class, es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.DeployMetaClassesRequest.Builder.class);
       }
 
-      // Construct using dataclay.communication.grpc.messages.dataservice.DataserviceMessages.DeployMetaClassesRequest.newBuilder()
+      // Construct using es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.DeployMetaClassesRequest.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -1755,11 +1788,9 @@ public final class DataserviceMessages {
       public es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.DeployMetaClassesRequest buildPartial() {
         es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.DeployMetaClassesRequest result = new es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.DeployMetaClassesRequest(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         result.namespace_ = namespace_;
         result.deploymentPack_ = internalGetDeploymentPack();
         result.deploymentPack_.makeImmutable();
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
@@ -1847,6 +1878,7 @@ public final class DataserviceMessages {
       private java.lang.Object namespace_ = "";
       /**
        * <code>string namespace = 1;</code>
+       * @return The namespace.
        */
       public java.lang.String getNamespace() {
         java.lang.Object ref = namespace_;
@@ -1862,6 +1894,7 @@ public final class DataserviceMessages {
       }
       /**
        * <code>string namespace = 1;</code>
+       * @return The bytes for namespace.
        */
       public com.google.protobuf.ByteString
           getNamespaceBytes() {
@@ -1878,6 +1911,8 @@ public final class DataserviceMessages {
       }
       /**
        * <code>string namespace = 1;</code>
+       * @param value The namespace to set.
+       * @return This builder for chaining.
        */
       public Builder setNamespace(
           java.lang.String value) {
@@ -1891,6 +1926,7 @@ public final class DataserviceMessages {
       }
       /**
        * <code>string namespace = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearNamespace() {
         
@@ -1900,6 +1936,8 @@ public final class DataserviceMessages {
       }
       /**
        * <code>string namespace = 1;</code>
+       * @param value The bytes for namespace to set.
+       * @return This builder for chaining.
        */
       public Builder setNamespaceBytes(
           com.google.protobuf.ByteString value) {
@@ -2094,10 +2132,12 @@ public final class DataserviceMessages {
 
     /**
      * <code>string namespace = 1;</code>
+     * @return The namespace.
      */
     java.lang.String getNamespace();
     /**
      * <code>string namespace = 1;</code>
+     * @return The bytes for namespace.
      */
     com.google.protobuf.ByteString
         getNamespaceBytes();
@@ -2255,6 +2295,13 @@ public final class DataserviceMessages {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new DeployClassesRequest();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -2285,10 +2332,10 @@ public final class DataserviceMessages {
               break;
             }
             case 18: {
-              if (!((mutable_bitField0_ & 0x00000002) != 0)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 classesToDeploy_ = com.google.protobuf.MapField.newMapField(
                     ClassesToDeployDefaultEntryHolder.defaultEntry);
-                mutable_bitField0_ |= 0x00000002;
+                mutable_bitField0_ |= 0x00000001;
               }
               com.google.protobuf.MapEntry<java.lang.String, com.google.protobuf.ByteString>
               classesToDeploy__ = input.readMessage(
@@ -2298,10 +2345,10 @@ public final class DataserviceMessages {
               break;
             }
             case 26: {
-              if (!((mutable_bitField0_ & 0x00000004) != 0)) {
+              if (!((mutable_bitField0_ & 0x00000002) != 0)) {
                 classIds_ = com.google.protobuf.MapField.newMapField(
                     ClassIdsDefaultEntryHolder.defaultEntry);
-                mutable_bitField0_ |= 0x00000004;
+                mutable_bitField0_ |= 0x00000002;
               }
               com.google.protobuf.MapEntry<java.lang.String, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.MetaClassID>
               classIds__ = input.readMessage(
@@ -2311,10 +2358,10 @@ public final class DataserviceMessages {
               break;
             }
             case 34: {
-              if (!((mutable_bitField0_ & 0x00000008) != 0)) {
+              if (!((mutable_bitField0_ & 0x00000004) != 0)) {
                 aspects_ = com.google.protobuf.MapField.newMapField(
                     AspectsDefaultEntryHolder.defaultEntry);
-                mutable_bitField0_ |= 0x00000008;
+                mutable_bitField0_ |= 0x00000004;
               }
               com.google.protobuf.MapEntry<java.lang.String, com.google.protobuf.ByteString>
               aspects__ = input.readMessage(
@@ -2324,10 +2371,10 @@ public final class DataserviceMessages {
               break;
             }
             case 42: {
-              if (!((mutable_bitField0_ & 0x00000010) != 0)) {
+              if (!((mutable_bitField0_ & 0x00000008) != 0)) {
                 yamls_ = com.google.protobuf.MapField.newMapField(
                     YamlsDefaultEntryHolder.defaultEntry);
-                mutable_bitField0_ |= 0x00000010;
+                mutable_bitField0_ |= 0x00000008;
               }
               com.google.protobuf.MapEntry<java.lang.String, com.google.protobuf.ByteString>
               yamls__ = input.readMessage(
@@ -2386,11 +2433,11 @@ public final class DataserviceMessages {
               es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.DeployClassesRequest.class, es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.DeployClassesRequest.Builder.class);
     }
 
-    private int bitField0_;
     public static final int NAMESPACE_FIELD_NUMBER = 1;
     private volatile java.lang.Object namespace_;
     /**
      * <code>string namespace = 1;</code>
+     * @return The namespace.
      */
     public java.lang.String getNamespace() {
       java.lang.Object ref = namespace_;
@@ -2406,6 +2453,7 @@ public final class DataserviceMessages {
     }
     /**
      * <code>string namespace = 1;</code>
+     * @return The bytes for namespace.
      */
     public com.google.protobuf.ByteString
         getNamespaceBytes() {
@@ -3021,7 +3069,7 @@ public final class DataserviceMessages {
                 es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.DeployClassesRequest.class, es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.DeployClassesRequest.Builder.class);
       }
 
-      // Construct using dataclay.communication.grpc.messages.dataservice.DataserviceMessages.DeployClassesRequest.newBuilder()
+      // Construct using es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.DeployClassesRequest.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -3072,7 +3120,6 @@ public final class DataserviceMessages {
       public es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.DeployClassesRequest buildPartial() {
         es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.DeployClassesRequest result = new es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.DeployClassesRequest(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         result.namespace_ = namespace_;
         result.classesToDeploy_ = internalGetClassesToDeploy();
         result.classesToDeploy_.makeImmutable();
@@ -3082,7 +3129,6 @@ public final class DataserviceMessages {
         result.aspects_.makeImmutable();
         result.yamls_ = internalGetYamls();
         result.yamls_.makeImmutable();
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
@@ -3176,6 +3222,7 @@ public final class DataserviceMessages {
       private java.lang.Object namespace_ = "";
       /**
        * <code>string namespace = 1;</code>
+       * @return The namespace.
        */
       public java.lang.String getNamespace() {
         java.lang.Object ref = namespace_;
@@ -3191,6 +3238,7 @@ public final class DataserviceMessages {
       }
       /**
        * <code>string namespace = 1;</code>
+       * @return The bytes for namespace.
        */
       public com.google.protobuf.ByteString
           getNamespaceBytes() {
@@ -3207,6 +3255,8 @@ public final class DataserviceMessages {
       }
       /**
        * <code>string namespace = 1;</code>
+       * @param value The namespace to set.
+       * @return This builder for chaining.
        */
       public Builder setNamespace(
           java.lang.String value) {
@@ -3220,6 +3270,7 @@ public final class DataserviceMessages {
       }
       /**
        * <code>string namespace = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearNamespace() {
         
@@ -3229,6 +3280,8 @@ public final class DataserviceMessages {
       }
       /**
        * <code>string namespace = 1;</code>
+       * @param value The bytes for namespace to set.
+       * @return This builder for chaining.
        */
       public Builder setNamespaceBytes(
           com.google.protobuf.ByteString value) {
@@ -3792,36 +3845,43 @@ public final class DataserviceMessages {
 
     /**
      * <code>string namespace = 1;</code>
+     * @return The namespace.
      */
     java.lang.String getNamespace();
     /**
      * <code>string namespace = 1;</code>
+     * @return The bytes for namespace.
      */
     com.google.protobuf.ByteString
         getNamespaceBytes();
 
     /**
      * <code>string classname = 2;</code>
+     * @return The classname.
      */
     java.lang.String getClassname();
     /**
      * <code>string classname = 2;</code>
+     * @return The bytes for classname.
      */
     com.google.protobuf.ByteString
         getClassnameBytes();
 
     /**
      * <code>bytes classToDeploy = 3;</code>
+     * @return The classToDeploy.
      */
     com.google.protobuf.ByteString getClassToDeploy();
 
     /**
      * <code>bytes aspect = 4;</code>
+     * @return The aspect.
      */
     com.google.protobuf.ByteString getAspect();
 
     /**
      * <code>bytes yaml = 5;</code>
+     * @return The yaml.
      */
     com.google.protobuf.ByteString getYaml();
   }
@@ -3846,6 +3906,13 @@ public final class DataserviceMessages {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new EnrichClassRequest();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -3858,7 +3925,6 @@ public final class DataserviceMessages {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -3932,6 +3998,7 @@ public final class DataserviceMessages {
     private volatile java.lang.Object namespace_;
     /**
      * <code>string namespace = 1;</code>
+     * @return The namespace.
      */
     public java.lang.String getNamespace() {
       java.lang.Object ref = namespace_;
@@ -3947,6 +4014,7 @@ public final class DataserviceMessages {
     }
     /**
      * <code>string namespace = 1;</code>
+     * @return The bytes for namespace.
      */
     public com.google.protobuf.ByteString
         getNamespaceBytes() {
@@ -3966,6 +4034,7 @@ public final class DataserviceMessages {
     private volatile java.lang.Object classname_;
     /**
      * <code>string classname = 2;</code>
+     * @return The classname.
      */
     public java.lang.String getClassname() {
       java.lang.Object ref = classname_;
@@ -3981,6 +4050,7 @@ public final class DataserviceMessages {
     }
     /**
      * <code>string classname = 2;</code>
+     * @return The bytes for classname.
      */
     public com.google.protobuf.ByteString
         getClassnameBytes() {
@@ -4000,6 +4070,7 @@ public final class DataserviceMessages {
     private com.google.protobuf.ByteString classToDeploy_;
     /**
      * <code>bytes classToDeploy = 3;</code>
+     * @return The classToDeploy.
      */
     public com.google.protobuf.ByteString getClassToDeploy() {
       return classToDeploy_;
@@ -4009,6 +4080,7 @@ public final class DataserviceMessages {
     private com.google.protobuf.ByteString aspect_;
     /**
      * <code>bytes aspect = 4;</code>
+     * @return The aspect.
      */
     public com.google.protobuf.ByteString getAspect() {
       return aspect_;
@@ -4018,6 +4090,7 @@ public final class DataserviceMessages {
     private com.google.protobuf.ByteString yaml_;
     /**
      * <code>bytes yaml = 5;</code>
+     * @return The yaml.
      */
     public com.google.protobuf.ByteString getYaml() {
       return yaml_;
@@ -4240,7 +4313,7 @@ public final class DataserviceMessages {
                 es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.EnrichClassRequest.class, es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.EnrichClassRequest.Builder.class);
       }
 
-      // Construct using dataclay.communication.grpc.messages.dataservice.DataserviceMessages.EnrichClassRequest.newBuilder()
+      // Construct using es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.EnrichClassRequest.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -4396,6 +4469,7 @@ public final class DataserviceMessages {
       private java.lang.Object namespace_ = "";
       /**
        * <code>string namespace = 1;</code>
+       * @return The namespace.
        */
       public java.lang.String getNamespace() {
         java.lang.Object ref = namespace_;
@@ -4411,6 +4485,7 @@ public final class DataserviceMessages {
       }
       /**
        * <code>string namespace = 1;</code>
+       * @return The bytes for namespace.
        */
       public com.google.protobuf.ByteString
           getNamespaceBytes() {
@@ -4427,6 +4502,8 @@ public final class DataserviceMessages {
       }
       /**
        * <code>string namespace = 1;</code>
+       * @param value The namespace to set.
+       * @return This builder for chaining.
        */
       public Builder setNamespace(
           java.lang.String value) {
@@ -4440,6 +4517,7 @@ public final class DataserviceMessages {
       }
       /**
        * <code>string namespace = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearNamespace() {
         
@@ -4449,6 +4527,8 @@ public final class DataserviceMessages {
       }
       /**
        * <code>string namespace = 1;</code>
+       * @param value The bytes for namespace to set.
+       * @return This builder for chaining.
        */
       public Builder setNamespaceBytes(
           com.google.protobuf.ByteString value) {
@@ -4465,6 +4545,7 @@ public final class DataserviceMessages {
       private java.lang.Object classname_ = "";
       /**
        * <code>string classname = 2;</code>
+       * @return The classname.
        */
       public java.lang.String getClassname() {
         java.lang.Object ref = classname_;
@@ -4480,6 +4561,7 @@ public final class DataserviceMessages {
       }
       /**
        * <code>string classname = 2;</code>
+       * @return The bytes for classname.
        */
       public com.google.protobuf.ByteString
           getClassnameBytes() {
@@ -4496,6 +4578,8 @@ public final class DataserviceMessages {
       }
       /**
        * <code>string classname = 2;</code>
+       * @param value The classname to set.
+       * @return This builder for chaining.
        */
       public Builder setClassname(
           java.lang.String value) {
@@ -4509,6 +4593,7 @@ public final class DataserviceMessages {
       }
       /**
        * <code>string classname = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearClassname() {
         
@@ -4518,6 +4603,8 @@ public final class DataserviceMessages {
       }
       /**
        * <code>string classname = 2;</code>
+       * @param value The bytes for classname to set.
+       * @return This builder for chaining.
        */
       public Builder setClassnameBytes(
           com.google.protobuf.ByteString value) {
@@ -4534,12 +4621,15 @@ public final class DataserviceMessages {
       private com.google.protobuf.ByteString classToDeploy_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <code>bytes classToDeploy = 3;</code>
+       * @return The classToDeploy.
        */
       public com.google.protobuf.ByteString getClassToDeploy() {
         return classToDeploy_;
       }
       /**
        * <code>bytes classToDeploy = 3;</code>
+       * @param value The classToDeploy to set.
+       * @return This builder for chaining.
        */
       public Builder setClassToDeploy(com.google.protobuf.ByteString value) {
         if (value == null) {
@@ -4552,6 +4642,7 @@ public final class DataserviceMessages {
       }
       /**
        * <code>bytes classToDeploy = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearClassToDeploy() {
         
@@ -4563,12 +4654,15 @@ public final class DataserviceMessages {
       private com.google.protobuf.ByteString aspect_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <code>bytes aspect = 4;</code>
+       * @return The aspect.
        */
       public com.google.protobuf.ByteString getAspect() {
         return aspect_;
       }
       /**
        * <code>bytes aspect = 4;</code>
+       * @param value The aspect to set.
+       * @return This builder for chaining.
        */
       public Builder setAspect(com.google.protobuf.ByteString value) {
         if (value == null) {
@@ -4581,6 +4675,7 @@ public final class DataserviceMessages {
       }
       /**
        * <code>bytes aspect = 4;</code>
+       * @return This builder for chaining.
        */
       public Builder clearAspect() {
         
@@ -4592,12 +4687,15 @@ public final class DataserviceMessages {
       private com.google.protobuf.ByteString yaml_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <code>bytes yaml = 5;</code>
+       * @return The yaml.
        */
       public com.google.protobuf.ByteString getYaml() {
         return yaml_;
       }
       /**
        * <code>bytes yaml = 5;</code>
+       * @param value The yaml to set.
+       * @return This builder for chaining.
        */
       public Builder setYaml(com.google.protobuf.ByteString value) {
         if (value == null) {
@@ -4610,6 +4708,7 @@ public final class DataserviceMessages {
       }
       /**
        * <code>bytes yaml = 5;</code>
+       * @return This builder for chaining.
        */
       public Builder clearYaml() {
         
@@ -4676,10 +4775,12 @@ public final class DataserviceMessages {
 
     /**
      * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+     * @return Whether the sessionID field is set.
      */
     boolean hasSessionID();
     /**
      * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+     * @return The sessionID.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID getSessionID();
     /**
@@ -4689,10 +4790,12 @@ public final class DataserviceMessages {
 
     /**
      * <code>.dataclay.communication.grpc.common.MetaClassID classID = 2;</code>
+     * @return Whether the classID field is set.
      */
     boolean hasClassID();
     /**
      * <code>.dataclay.communication.grpc.common.MetaClassID classID = 2;</code>
+     * @return The classID.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.MetaClassID getClassID();
     /**
@@ -4702,10 +4805,12 @@ public final class DataserviceMessages {
 
     /**
      * <code>.dataclay.communication.grpc.common.ImplementationID implementationID = 3;</code>
+     * @return Whether the implementationID field is set.
      */
     boolean hasImplementationID();
     /**
      * <code>.dataclay.communication.grpc.common.ImplementationID implementationID = 3;</code>
+     * @return The implementationID.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ImplementationID getImplementationID();
     /**
@@ -4749,10 +4854,12 @@ public final class DataserviceMessages {
 
     /**
      * <code>.dataclay.communication.grpc.common.SerializedParametersOrReturn params = 5;</code>
+     * @return Whether the params field is set.
      */
     boolean hasParams();
     /**
      * <code>.dataclay.communication.grpc.common.SerializedParametersOrReturn params = 5;</code>
+     * @return The params.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn getParams();
     /**
@@ -4773,6 +4880,13 @@ public final class DataserviceMessages {
       super(builder);
     }
     private NewPersistentInstanceRequest() {
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new NewPersistentInstanceRequest();
     }
 
     @java.lang.Override
@@ -4839,10 +4953,10 @@ public final class DataserviceMessages {
               break;
             }
             case 34: {
-              if (!((mutable_bitField0_ & 0x00000008) != 0)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 ifaceBitMaps_ = com.google.protobuf.MapField.newMapField(
                     IfaceBitMapsDefaultEntryHolder.defaultEntry);
-                mutable_bitField0_ |= 0x00000008;
+                mutable_bitField0_ |= 0x00000001;
               }
               com.google.protobuf.MapEntry<java.lang.String, com.google.protobuf.ByteString>
               ifaceBitMaps__ = input.readMessage(
@@ -4908,17 +5022,18 @@ public final class DataserviceMessages {
               es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NewPersistentInstanceRequest.class, es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NewPersistentInstanceRequest.Builder.class);
     }
 
-    private int bitField0_;
     public static final int SESSIONID_FIELD_NUMBER = 1;
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID sessionID_;
     /**
      * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+     * @return Whether the sessionID field is set.
      */
     public boolean hasSessionID() {
       return sessionID_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+     * @return The sessionID.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID getSessionID() {
       return sessionID_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID.getDefaultInstance() : sessionID_;
@@ -4934,12 +5049,14 @@ public final class DataserviceMessages {
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.MetaClassID classID_;
     /**
      * <code>.dataclay.communication.grpc.common.MetaClassID classID = 2;</code>
+     * @return Whether the classID field is set.
      */
     public boolean hasClassID() {
       return classID_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.common.MetaClassID classID = 2;</code>
+     * @return The classID.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.MetaClassID getClassID() {
       return classID_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.MetaClassID.getDefaultInstance() : classID_;
@@ -4955,12 +5072,14 @@ public final class DataserviceMessages {
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ImplementationID implementationID_;
     /**
      * <code>.dataclay.communication.grpc.common.ImplementationID implementationID = 3;</code>
+     * @return Whether the implementationID field is set.
      */
     public boolean hasImplementationID() {
       return implementationID_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.common.ImplementationID implementationID = 3;</code>
+     * @return The implementationID.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ImplementationID getImplementationID() {
       return implementationID_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ImplementationID.getDefaultInstance() : implementationID_;
@@ -5052,12 +5171,14 @@ public final class DataserviceMessages {
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn params_;
     /**
      * <code>.dataclay.communication.grpc.common.SerializedParametersOrReturn params = 5;</code>
+     * @return Whether the params field is set.
      */
     public boolean hasParams() {
       return params_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.common.SerializedParametersOrReturn params = 5;</code>
+     * @return The params.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn getParams() {
       return params_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn.getDefaultInstance() : params_;
@@ -5341,7 +5462,7 @@ public final class DataserviceMessages {
                 es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NewPersistentInstanceRequest.class, es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NewPersistentInstanceRequest.Builder.class);
       }
 
-      // Construct using dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NewPersistentInstanceRequest.newBuilder()
+      // Construct using es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NewPersistentInstanceRequest.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -5411,7 +5532,6 @@ public final class DataserviceMessages {
       public es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NewPersistentInstanceRequest buildPartial() {
         es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NewPersistentInstanceRequest result = new es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NewPersistentInstanceRequest(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         if (sessionIDBuilder_ == null) {
           result.sessionID_ = sessionID_;
         } else {
@@ -5434,7 +5554,6 @@ public final class DataserviceMessages {
         } else {
           result.params_ = paramsBuilder_.build();
         }
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
@@ -5532,12 +5651,14 @@ public final class DataserviceMessages {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionIDOrBuilder> sessionIDBuilder_;
       /**
        * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+       * @return Whether the sessionID field is set.
        */
       public boolean hasSessionID() {
         return sessionIDBuilder_ != null || sessionID_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+       * @return The sessionID.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID getSessionID() {
         if (sessionIDBuilder_ == null) {
@@ -5649,12 +5770,14 @@ public final class DataserviceMessages {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.MetaClassID, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.MetaClassID.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.MetaClassIDOrBuilder> classIDBuilder_;
       /**
        * <code>.dataclay.communication.grpc.common.MetaClassID classID = 2;</code>
+       * @return Whether the classID field is set.
        */
       public boolean hasClassID() {
         return classIDBuilder_ != null || classID_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.common.MetaClassID classID = 2;</code>
+       * @return The classID.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.MetaClassID getClassID() {
         if (classIDBuilder_ == null) {
@@ -5766,12 +5889,14 @@ public final class DataserviceMessages {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ImplementationID, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ImplementationID.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ImplementationIDOrBuilder> implementationIDBuilder_;
       /**
        * <code>.dataclay.communication.grpc.common.ImplementationID implementationID = 3;</code>
+       * @return Whether the implementationID field is set.
        */
       public boolean hasImplementationID() {
         return implementationIDBuilder_ != null || implementationID_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.common.ImplementationID implementationID = 3;</code>
+       * @return The implementationID.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ImplementationID getImplementationID() {
         if (implementationIDBuilder_ == null) {
@@ -6006,12 +6131,14 @@ public final class DataserviceMessages {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturnOrBuilder> paramsBuilder_;
       /**
        * <code>.dataclay.communication.grpc.common.SerializedParametersOrReturn params = 5;</code>
+       * @return Whether the params field is set.
        */
       public boolean hasParams() {
         return paramsBuilder_ != null || params_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.common.SerializedParametersOrReturn params = 5;</code>
+       * @return The params.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn getParams() {
         if (paramsBuilder_ == null) {
@@ -6176,10 +6303,12 @@ public final class DataserviceMessages {
 
     /**
      * <code>.dataclay.communication.grpc.common.ObjectID objectID = 1;</code>
+     * @return Whether the objectID field is set.
      */
     boolean hasObjectID();
     /**
      * <code>.dataclay.communication.grpc.common.ObjectID objectID = 1;</code>
+     * @return The objectID.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID getObjectID();
     /**
@@ -6189,10 +6318,12 @@ public final class DataserviceMessages {
 
     /**
      * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+     * @return Whether the excInfo field is set.
      */
     boolean hasExcInfo();
     /**
      * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+     * @return The excInfo.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo getExcInfo();
     /**
@@ -6216,6 +6347,13 @@ public final class DataserviceMessages {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new NewPersistentInstanceResponse();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -6228,7 +6366,6 @@ public final class DataserviceMessages {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -6301,12 +6438,14 @@ public final class DataserviceMessages {
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID objectID_;
     /**
      * <code>.dataclay.communication.grpc.common.ObjectID objectID = 1;</code>
+     * @return Whether the objectID field is set.
      */
     public boolean hasObjectID() {
       return objectID_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.common.ObjectID objectID = 1;</code>
+     * @return The objectID.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID getObjectID() {
       return objectID_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID.getDefaultInstance() : objectID_;
@@ -6322,12 +6461,14 @@ public final class DataserviceMessages {
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo excInfo_;
     /**
      * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+     * @return Whether the excInfo field is set.
      */
     public boolean hasExcInfo() {
       return excInfo_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+     * @return The excInfo.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo getExcInfo() {
       return excInfo_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.getDefaultInstance() : excInfo_;
@@ -6535,7 +6676,7 @@ public final class DataserviceMessages {
                 es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NewPersistentInstanceResponse.class, es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NewPersistentInstanceResponse.Builder.class);
       }
 
-      // Construct using dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NewPersistentInstanceResponse.newBuilder()
+      // Construct using es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NewPersistentInstanceResponse.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -6689,12 +6830,14 @@ public final class DataserviceMessages {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectIDOrBuilder> objectIDBuilder_;
       /**
        * <code>.dataclay.communication.grpc.common.ObjectID objectID = 1;</code>
+       * @return Whether the objectID field is set.
        */
       public boolean hasObjectID() {
         return objectIDBuilder_ != null || objectID_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.common.ObjectID objectID = 1;</code>
+       * @return The objectID.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID getObjectID() {
         if (objectIDBuilder_ == null) {
@@ -6806,12 +6949,14 @@ public final class DataserviceMessages {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfoOrBuilder> excInfoBuilder_;
       /**
        * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+       * @return Whether the excInfo field is set.
        */
       public boolean hasExcInfo() {
         return excInfoBuilder_ != null || excInfo_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+       * @return The excInfo.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo getExcInfo() {
         if (excInfoBuilder_ == null) {
@@ -6976,10 +7121,12 @@ public final class DataserviceMessages {
 
     /**
      * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+     * @return Whether the sessionID field is set.
      */
     boolean hasSessionID();
     /**
      * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+     * @return The sessionID.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID getSessionID();
     /**
@@ -7013,6 +7160,7 @@ public final class DataserviceMessages {
 
     /**
      * <code>bool moving = 3;</code>
+     * @return The moving.
      */
     boolean getMoving();
 
@@ -7058,6 +7206,13 @@ public final class DataserviceMessages {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new StoreObjectsRequest();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -7095,9 +7250,9 @@ public final class DataserviceMessages {
               break;
             }
             case 18: {
-              if (!((mutable_bitField0_ & 0x00000002) != 0)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 objects_ = new java.util.ArrayList<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn>();
-                mutable_bitField0_ |= 0x00000002;
+                mutable_bitField0_ |= 0x00000001;
               }
               objects_.add(
                   input.readMessage(es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn.parser(), extensionRegistry));
@@ -7109,9 +7264,9 @@ public final class DataserviceMessages {
               break;
             }
             case 34: {
-              if (!((mutable_bitField0_ & 0x00000008) != 0)) {
+              if (!((mutable_bitField0_ & 0x00000002) != 0)) {
                 idsWithAlias_ = new java.util.ArrayList<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID>();
-                mutable_bitField0_ |= 0x00000008;
+                mutable_bitField0_ |= 0x00000002;
               }
               idsWithAlias_.add(
                   input.readMessage(es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID.parser(), extensionRegistry));
@@ -7132,10 +7287,10 @@ public final class DataserviceMessages {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000002) != 0)) {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
           objects_ = java.util.Collections.unmodifiableList(objects_);
         }
-        if (((mutable_bitField0_ & 0x00000008) != 0)) {
+        if (((mutable_bitField0_ & 0x00000002) != 0)) {
           idsWithAlias_ = java.util.Collections.unmodifiableList(idsWithAlias_);
         }
         this.unknownFields = unknownFields.build();
@@ -7155,17 +7310,18 @@ public final class DataserviceMessages {
               es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.StoreObjectsRequest.class, es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.StoreObjectsRequest.Builder.class);
     }
 
-    private int bitField0_;
     public static final int SESSIONID_FIELD_NUMBER = 1;
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID sessionID_;
     /**
      * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+     * @return Whether the sessionID field is set.
      */
     public boolean hasSessionID() {
       return sessionID_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+     * @return The sessionID.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID getSessionID() {
       return sessionID_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID.getDefaultInstance() : sessionID_;
@@ -7216,6 +7372,7 @@ public final class DataserviceMessages {
     private boolean moving_;
     /**
      * <code>bool moving = 3;</code>
+     * @return The moving.
      */
     public boolean getMoving() {
       return moving_;
@@ -7474,7 +7631,7 @@ public final class DataserviceMessages {
                 es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.StoreObjectsRequest.class, es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.StoreObjectsRequest.Builder.class);
       }
 
-      // Construct using dataclay.communication.grpc.messages.dataservice.DataserviceMessages.StoreObjectsRequest.newBuilder()
+      // Construct using es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.StoreObjectsRequest.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -7502,7 +7659,7 @@ public final class DataserviceMessages {
         }
         if (objectsBuilder_ == null) {
           objects_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
+          bitField0_ = (bitField0_ & ~0x00000001);
         } else {
           objectsBuilder_.clear();
         }
@@ -7510,7 +7667,7 @@ public final class DataserviceMessages {
 
         if (idsWithAliasBuilder_ == null) {
           idsWithAlias_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000008);
+          bitField0_ = (bitField0_ & ~0x00000002);
         } else {
           idsWithAliasBuilder_.clear();
         }
@@ -7541,16 +7698,15 @@ public final class DataserviceMessages {
       public es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.StoreObjectsRequest buildPartial() {
         es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.StoreObjectsRequest result = new es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.StoreObjectsRequest(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         if (sessionIDBuilder_ == null) {
           result.sessionID_ = sessionID_;
         } else {
           result.sessionID_ = sessionIDBuilder_.build();
         }
         if (objectsBuilder_ == null) {
-          if (((bitField0_ & 0x00000002) != 0)) {
+          if (((bitField0_ & 0x00000001) != 0)) {
             objects_ = java.util.Collections.unmodifiableList(objects_);
-            bitField0_ = (bitField0_ & ~0x00000002);
+            bitField0_ = (bitField0_ & ~0x00000001);
           }
           result.objects_ = objects_;
         } else {
@@ -7558,15 +7714,14 @@ public final class DataserviceMessages {
         }
         result.moving_ = moving_;
         if (idsWithAliasBuilder_ == null) {
-          if (((bitField0_ & 0x00000008) != 0)) {
+          if (((bitField0_ & 0x00000002) != 0)) {
             idsWithAlias_ = java.util.Collections.unmodifiableList(idsWithAlias_);
-            bitField0_ = (bitField0_ & ~0x00000008);
+            bitField0_ = (bitField0_ & ~0x00000002);
           }
           result.idsWithAlias_ = idsWithAlias_;
         } else {
           result.idsWithAlias_ = idsWithAliasBuilder_.build();
         }
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
@@ -7622,7 +7777,7 @@ public final class DataserviceMessages {
           if (!other.objects_.isEmpty()) {
             if (objects_.isEmpty()) {
               objects_ = other.objects_;
-              bitField0_ = (bitField0_ & ~0x00000002);
+              bitField0_ = (bitField0_ & ~0x00000001);
             } else {
               ensureObjectsIsMutable();
               objects_.addAll(other.objects_);
@@ -7635,7 +7790,7 @@ public final class DataserviceMessages {
               objectsBuilder_.dispose();
               objectsBuilder_ = null;
               objects_ = other.objects_;
-              bitField0_ = (bitField0_ & ~0x00000002);
+              bitField0_ = (bitField0_ & ~0x00000001);
               objectsBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getObjectsFieldBuilder() : null;
@@ -7651,7 +7806,7 @@ public final class DataserviceMessages {
           if (!other.idsWithAlias_.isEmpty()) {
             if (idsWithAlias_.isEmpty()) {
               idsWithAlias_ = other.idsWithAlias_;
-              bitField0_ = (bitField0_ & ~0x00000008);
+              bitField0_ = (bitField0_ & ~0x00000002);
             } else {
               ensureIdsWithAliasIsMutable();
               idsWithAlias_.addAll(other.idsWithAlias_);
@@ -7664,7 +7819,7 @@ public final class DataserviceMessages {
               idsWithAliasBuilder_.dispose();
               idsWithAliasBuilder_ = null;
               idsWithAlias_ = other.idsWithAlias_;
-              bitField0_ = (bitField0_ & ~0x00000008);
+              bitField0_ = (bitField0_ & ~0x00000002);
               idsWithAliasBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getIdsWithAliasFieldBuilder() : null;
@@ -7708,12 +7863,14 @@ public final class DataserviceMessages {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionIDOrBuilder> sessionIDBuilder_;
       /**
        * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+       * @return Whether the sessionID field is set.
        */
       public boolean hasSessionID() {
         return sessionIDBuilder_ != null || sessionID_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+       * @return The sessionID.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID getSessionID() {
         if (sessionIDBuilder_ == null) {
@@ -7823,9 +7980,9 @@ public final class DataserviceMessages {
       private java.util.List<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn> objects_ =
         java.util.Collections.emptyList();
       private void ensureObjectsIsMutable() {
-        if (!((bitField0_ & 0x00000002) != 0)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           objects_ = new java.util.ArrayList<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn>(objects_);
-          bitField0_ |= 0x00000002;
+          bitField0_ |= 0x00000001;
          }
       }
 
@@ -7975,7 +8132,7 @@ public final class DataserviceMessages {
       public Builder clearObjects() {
         if (objectsBuilder_ == null) {
           objects_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
+          bitField0_ = (bitField0_ & ~0x00000001);
           onChanged();
         } else {
           objectsBuilder_.clear();
@@ -8052,7 +8209,7 @@ public final class DataserviceMessages {
           objectsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturnOrBuilder>(
                   objects_,
-                  ((bitField0_ & 0x00000002) != 0),
+                  ((bitField0_ & 0x00000001) != 0),
                   getParentForChildren(),
                   isClean());
           objects_ = null;
@@ -8063,12 +8220,15 @@ public final class DataserviceMessages {
       private boolean moving_ ;
       /**
        * <code>bool moving = 3;</code>
+       * @return The moving.
        */
       public boolean getMoving() {
         return moving_;
       }
       /**
        * <code>bool moving = 3;</code>
+       * @param value The moving to set.
+       * @return This builder for chaining.
        */
       public Builder setMoving(boolean value) {
         
@@ -8078,6 +8238,7 @@ public final class DataserviceMessages {
       }
       /**
        * <code>bool moving = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearMoving() {
         
@@ -8089,9 +8250,9 @@ public final class DataserviceMessages {
       private java.util.List<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID> idsWithAlias_ =
         java.util.Collections.emptyList();
       private void ensureIdsWithAliasIsMutable() {
-        if (!((bitField0_ & 0x00000008) != 0)) {
+        if (!((bitField0_ & 0x00000002) != 0)) {
           idsWithAlias_ = new java.util.ArrayList<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID>(idsWithAlias_);
-          bitField0_ |= 0x00000008;
+          bitField0_ |= 0x00000002;
          }
       }
 
@@ -8241,7 +8402,7 @@ public final class DataserviceMessages {
       public Builder clearIdsWithAlias() {
         if (idsWithAliasBuilder_ == null) {
           idsWithAlias_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000008);
+          bitField0_ = (bitField0_ & ~0x00000002);
           onChanged();
         } else {
           idsWithAliasBuilder_.clear();
@@ -8318,7 +8479,7 @@ public final class DataserviceMessages {
           idsWithAliasBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectIDOrBuilder>(
                   idsWithAlias_,
-                  ((bitField0_ & 0x00000008) != 0),
+                  ((bitField0_ & 0x00000002) != 0),
                   getParentForChildren(),
                   isClean());
           idsWithAlias_ = null;
@@ -8429,6 +8590,13 @@ public final class DataserviceMessages {
       super(builder);
     }
     private NewMetaDataRequest() {
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new NewMetaDataRequest();
     }
 
     @java.lang.Override
@@ -8796,7 +8964,7 @@ public final class DataserviceMessages {
                 es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NewMetaDataRequest.class, es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NewMetaDataRequest.Builder.class);
       }
 
-      // Construct using dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NewMetaDataRequest.newBuilder()
+      // Construct using es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NewMetaDataRequest.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -9105,10 +9273,12 @@ public final class DataserviceMessages {
 
     /**
      * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+     * @return Whether the sessionID field is set.
      */
     boolean hasSessionID();
     /**
      * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+     * @return The sessionID.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID getSessionID();
     /**
@@ -9118,10 +9288,12 @@ public final class DataserviceMessages {
 
     /**
      * <code>.dataclay.communication.grpc.common.ObjectID objectID = 2;</code>
+     * @return Whether the objectID field is set.
      */
     boolean hasObjectID();
     /**
      * <code>.dataclay.communication.grpc.common.ObjectID objectID = 2;</code>
+     * @return The objectID.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID getObjectID();
     /**
@@ -9131,6 +9303,7 @@ public final class DataserviceMessages {
 
     /**
      * <code>bool recursive = 3;</code>
+     * @return The recursive.
      */
     boolean getRecursive();
   }
@@ -9150,6 +9323,13 @@ public final class DataserviceMessages {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new GetCopyOfObjectRequest();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -9162,7 +9342,6 @@ public final class DataserviceMessages {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -9240,12 +9419,14 @@ public final class DataserviceMessages {
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID sessionID_;
     /**
      * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+     * @return Whether the sessionID field is set.
      */
     public boolean hasSessionID() {
       return sessionID_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+     * @return The sessionID.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID getSessionID() {
       return sessionID_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID.getDefaultInstance() : sessionID_;
@@ -9261,12 +9442,14 @@ public final class DataserviceMessages {
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID objectID_;
     /**
      * <code>.dataclay.communication.grpc.common.ObjectID objectID = 2;</code>
+     * @return Whether the objectID field is set.
      */
     public boolean hasObjectID() {
       return objectID_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.common.ObjectID objectID = 2;</code>
+     * @return The objectID.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID getObjectID() {
       return objectID_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID.getDefaultInstance() : objectID_;
@@ -9282,6 +9465,7 @@ public final class DataserviceMessages {
     private boolean recursive_;
     /**
      * <code>bool recursive = 3;</code>
+     * @return The recursive.
      */
     public boolean getRecursive() {
       return recursive_;
@@ -9495,7 +9679,7 @@ public final class DataserviceMessages {
                 es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetCopyOfObjectRequest.class, es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetCopyOfObjectRequest.Builder.class);
       }
 
-      // Construct using dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetCopyOfObjectRequest.newBuilder()
+      // Construct using es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetCopyOfObjectRequest.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -9655,12 +9839,14 @@ public final class DataserviceMessages {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionIDOrBuilder> sessionIDBuilder_;
       /**
        * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+       * @return Whether the sessionID field is set.
        */
       public boolean hasSessionID() {
         return sessionIDBuilder_ != null || sessionID_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+       * @return The sessionID.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID getSessionID() {
         if (sessionIDBuilder_ == null) {
@@ -9772,12 +9958,14 @@ public final class DataserviceMessages {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectIDOrBuilder> objectIDBuilder_;
       /**
        * <code>.dataclay.communication.grpc.common.ObjectID objectID = 2;</code>
+       * @return Whether the objectID field is set.
        */
       public boolean hasObjectID() {
         return objectIDBuilder_ != null || objectID_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.common.ObjectID objectID = 2;</code>
+       * @return The objectID.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID getObjectID() {
         if (objectIDBuilder_ == null) {
@@ -9887,12 +10075,15 @@ public final class DataserviceMessages {
       private boolean recursive_ ;
       /**
        * <code>bool recursive = 3;</code>
+       * @return The recursive.
        */
       public boolean getRecursive() {
         return recursive_;
       }
       /**
        * <code>bool recursive = 3;</code>
+       * @param value The recursive to set.
+       * @return This builder for chaining.
        */
       public Builder setRecursive(boolean value) {
         
@@ -9902,6 +10093,7 @@ public final class DataserviceMessages {
       }
       /**
        * <code>bool recursive = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearRecursive() {
         
@@ -9968,10 +10160,12 @@ public final class DataserviceMessages {
 
     /**
      * <code>.dataclay.communication.grpc.common.SerializedParametersOrReturn ret = 1;</code>
+     * @return Whether the ret field is set.
      */
     boolean hasRet();
     /**
      * <code>.dataclay.communication.grpc.common.SerializedParametersOrReturn ret = 1;</code>
+     * @return The ret.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn getRet();
     /**
@@ -9981,10 +10175,12 @@ public final class DataserviceMessages {
 
     /**
      * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+     * @return Whether the excInfo field is set.
      */
     boolean hasExcInfo();
     /**
      * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+     * @return The excInfo.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo getExcInfo();
     /**
@@ -10008,6 +10204,13 @@ public final class DataserviceMessages {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new GetCopyOfObjectResponse();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -10020,7 +10223,6 @@ public final class DataserviceMessages {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -10093,12 +10295,14 @@ public final class DataserviceMessages {
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn ret_;
     /**
      * <code>.dataclay.communication.grpc.common.SerializedParametersOrReturn ret = 1;</code>
+     * @return Whether the ret field is set.
      */
     public boolean hasRet() {
       return ret_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.common.SerializedParametersOrReturn ret = 1;</code>
+     * @return The ret.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn getRet() {
       return ret_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn.getDefaultInstance() : ret_;
@@ -10114,12 +10318,14 @@ public final class DataserviceMessages {
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo excInfo_;
     /**
      * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+     * @return Whether the excInfo field is set.
      */
     public boolean hasExcInfo() {
       return excInfo_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+     * @return The excInfo.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo getExcInfo() {
       return excInfo_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.getDefaultInstance() : excInfo_;
@@ -10327,7 +10533,7 @@ public final class DataserviceMessages {
                 es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetCopyOfObjectResponse.class, es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetCopyOfObjectResponse.Builder.class);
       }
 
-      // Construct using dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetCopyOfObjectResponse.newBuilder()
+      // Construct using es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetCopyOfObjectResponse.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -10481,12 +10687,14 @@ public final class DataserviceMessages {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturnOrBuilder> retBuilder_;
       /**
        * <code>.dataclay.communication.grpc.common.SerializedParametersOrReturn ret = 1;</code>
+       * @return Whether the ret field is set.
        */
       public boolean hasRet() {
         return retBuilder_ != null || ret_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.common.SerializedParametersOrReturn ret = 1;</code>
+       * @return The ret.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn getRet() {
         if (retBuilder_ == null) {
@@ -10598,12 +10806,14 @@ public final class DataserviceMessages {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfoOrBuilder> excInfoBuilder_;
       /**
        * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+       * @return Whether the excInfo field is set.
        */
       public boolean hasExcInfo() {
         return excInfoBuilder_ != null || excInfo_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+       * @return The excInfo.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo getExcInfo() {
         if (excInfoBuilder_ == null) {
@@ -10768,10 +10978,12 @@ public final class DataserviceMessages {
 
     /**
      * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+     * @return Whether the sessionID field is set.
      */
     boolean hasSessionID();
     /**
      * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+     * @return The sessionID.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID getSessionID();
     /**
@@ -10781,10 +10993,12 @@ public final class DataserviceMessages {
 
     /**
      * <code>.dataclay.communication.grpc.common.ObjectID intoObjectID = 2;</code>
+     * @return Whether the intoObjectID field is set.
      */
     boolean hasIntoObjectID();
     /**
      * <code>.dataclay.communication.grpc.common.ObjectID intoObjectID = 2;</code>
+     * @return The intoObjectID.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID getIntoObjectID();
     /**
@@ -10794,10 +11008,12 @@ public final class DataserviceMessages {
 
     /**
      * <code>.dataclay.communication.grpc.common.SerializedParametersOrReturn fromObject = 3;</code>
+     * @return Whether the fromObject field is set.
      */
     boolean hasFromObject();
     /**
      * <code>.dataclay.communication.grpc.common.SerializedParametersOrReturn fromObject = 3;</code>
+     * @return The fromObject.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn getFromObject();
     /**
@@ -10821,6 +11037,13 @@ public final class DataserviceMessages {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new UpdateObjectRequest();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -10833,7 +11056,6 @@ public final class DataserviceMessages {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -10919,12 +11141,14 @@ public final class DataserviceMessages {
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID sessionID_;
     /**
      * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+     * @return Whether the sessionID field is set.
      */
     public boolean hasSessionID() {
       return sessionID_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+     * @return The sessionID.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID getSessionID() {
       return sessionID_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID.getDefaultInstance() : sessionID_;
@@ -10940,12 +11164,14 @@ public final class DataserviceMessages {
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID intoObjectID_;
     /**
      * <code>.dataclay.communication.grpc.common.ObjectID intoObjectID = 2;</code>
+     * @return Whether the intoObjectID field is set.
      */
     public boolean hasIntoObjectID() {
       return intoObjectID_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.common.ObjectID intoObjectID = 2;</code>
+     * @return The intoObjectID.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID getIntoObjectID() {
       return intoObjectID_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID.getDefaultInstance() : intoObjectID_;
@@ -10961,12 +11187,14 @@ public final class DataserviceMessages {
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn fromObject_;
     /**
      * <code>.dataclay.communication.grpc.common.SerializedParametersOrReturn fromObject = 3;</code>
+     * @return Whether the fromObject field is set.
      */
     public boolean hasFromObject() {
       return fromObject_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.common.SerializedParametersOrReturn fromObject = 3;</code>
+     * @return The fromObject.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn getFromObject() {
       return fromObject_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn.getDefaultInstance() : fromObject_;
@@ -11190,7 +11418,7 @@ public final class DataserviceMessages {
                 es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.UpdateObjectRequest.class, es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.UpdateObjectRequest.Builder.class);
       }
 
-      // Construct using dataclay.communication.grpc.messages.dataservice.DataserviceMessages.UpdateObjectRequest.newBuilder()
+      // Construct using es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.UpdateObjectRequest.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -11358,12 +11586,14 @@ public final class DataserviceMessages {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionIDOrBuilder> sessionIDBuilder_;
       /**
        * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+       * @return Whether the sessionID field is set.
        */
       public boolean hasSessionID() {
         return sessionIDBuilder_ != null || sessionID_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+       * @return The sessionID.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID getSessionID() {
         if (sessionIDBuilder_ == null) {
@@ -11475,12 +11705,14 @@ public final class DataserviceMessages {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectIDOrBuilder> intoObjectIDBuilder_;
       /**
        * <code>.dataclay.communication.grpc.common.ObjectID intoObjectID = 2;</code>
+       * @return Whether the intoObjectID field is set.
        */
       public boolean hasIntoObjectID() {
         return intoObjectIDBuilder_ != null || intoObjectID_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.common.ObjectID intoObjectID = 2;</code>
+       * @return The intoObjectID.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID getIntoObjectID() {
         if (intoObjectIDBuilder_ == null) {
@@ -11592,12 +11824,14 @@ public final class DataserviceMessages {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturnOrBuilder> fromObjectBuilder_;
       /**
        * <code>.dataclay.communication.grpc.common.SerializedParametersOrReturn fromObject = 3;</code>
+       * @return Whether the fromObject field is set.
        */
       public boolean hasFromObject() {
         return fromObjectBuilder_ != null || fromObject_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.common.SerializedParametersOrReturn fromObject = 3;</code>
+       * @return The fromObject.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn getFromObject() {
         if (fromObjectBuilder_ == null) {
@@ -11762,10 +11996,12 @@ public final class DataserviceMessages {
 
     /**
      * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+     * @return Whether the sessionID field is set.
      */
     boolean hasSessionID();
     /**
      * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+     * @return The sessionID.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID getSessionID();
     /**
@@ -11799,11 +12035,13 @@ public final class DataserviceMessages {
 
     /**
      * <code>bool recursive = 3;</code>
+     * @return The recursive.
      */
     boolean getRecursive();
 
     /**
      * <code>bool moving = 4;</code>
+     * @return The moving.
      */
     boolean getMoving();
   }
@@ -11821,6 +12059,13 @@ public final class DataserviceMessages {
     }
     private GetObjectsRequest() {
       objectIDS_ = java.util.Collections.emptyList();
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new GetObjectsRequest();
     }
 
     @java.lang.Override
@@ -11861,9 +12106,9 @@ public final class DataserviceMessages {
               break;
             }
             case 18: {
-              if (!((mutable_bitField0_ & 0x00000002) != 0)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 objectIDS_ = new java.util.ArrayList<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID>();
-                mutable_bitField0_ |= 0x00000002;
+                mutable_bitField0_ |= 0x00000001;
               }
               objectIDS_.add(
                   input.readMessage(es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID.parser(), extensionRegistry));
@@ -11894,7 +12139,7 @@ public final class DataserviceMessages {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000002) != 0)) {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
           objectIDS_ = java.util.Collections.unmodifiableList(objectIDS_);
         }
         this.unknownFields = unknownFields.build();
@@ -11914,17 +12159,18 @@ public final class DataserviceMessages {
               es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetObjectsRequest.class, es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetObjectsRequest.Builder.class);
     }
 
-    private int bitField0_;
     public static final int SESSIONID_FIELD_NUMBER = 1;
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID sessionID_;
     /**
      * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+     * @return Whether the sessionID field is set.
      */
     public boolean hasSessionID() {
       return sessionID_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+     * @return The sessionID.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID getSessionID() {
       return sessionID_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID.getDefaultInstance() : sessionID_;
@@ -11975,6 +12221,7 @@ public final class DataserviceMessages {
     private boolean recursive_;
     /**
      * <code>bool recursive = 3;</code>
+     * @return The recursive.
      */
     public boolean getRecursive() {
       return recursive_;
@@ -11984,6 +12231,7 @@ public final class DataserviceMessages {
     private boolean moving_;
     /**
      * <code>bool moving = 4;</code>
+     * @return The moving.
      */
     public boolean getMoving() {
       return moving_;
@@ -12206,7 +12454,7 @@ public final class DataserviceMessages {
                 es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetObjectsRequest.class, es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetObjectsRequest.Builder.class);
       }
 
-      // Construct using dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetObjectsRequest.newBuilder()
+      // Construct using es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetObjectsRequest.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -12233,7 +12481,7 @@ public final class DataserviceMessages {
         }
         if (objectIDSBuilder_ == null) {
           objectIDS_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
+          bitField0_ = (bitField0_ & ~0x00000001);
         } else {
           objectIDSBuilder_.clear();
         }
@@ -12268,16 +12516,15 @@ public final class DataserviceMessages {
       public es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetObjectsRequest buildPartial() {
         es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetObjectsRequest result = new es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetObjectsRequest(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         if (sessionIDBuilder_ == null) {
           result.sessionID_ = sessionID_;
         } else {
           result.sessionID_ = sessionIDBuilder_.build();
         }
         if (objectIDSBuilder_ == null) {
-          if (((bitField0_ & 0x00000002) != 0)) {
+          if (((bitField0_ & 0x00000001) != 0)) {
             objectIDS_ = java.util.Collections.unmodifiableList(objectIDS_);
-            bitField0_ = (bitField0_ & ~0x00000002);
+            bitField0_ = (bitField0_ & ~0x00000001);
           }
           result.objectIDS_ = objectIDS_;
         } else {
@@ -12285,7 +12532,6 @@ public final class DataserviceMessages {
         }
         result.recursive_ = recursive_;
         result.moving_ = moving_;
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
@@ -12341,7 +12587,7 @@ public final class DataserviceMessages {
           if (!other.objectIDS_.isEmpty()) {
             if (objectIDS_.isEmpty()) {
               objectIDS_ = other.objectIDS_;
-              bitField0_ = (bitField0_ & ~0x00000002);
+              bitField0_ = (bitField0_ & ~0x00000001);
             } else {
               ensureObjectIDSIsMutable();
               objectIDS_.addAll(other.objectIDS_);
@@ -12354,7 +12600,7 @@ public final class DataserviceMessages {
               objectIDSBuilder_.dispose();
               objectIDSBuilder_ = null;
               objectIDS_ = other.objectIDS_;
-              bitField0_ = (bitField0_ & ~0x00000002);
+              bitField0_ = (bitField0_ & ~0x00000001);
               objectIDSBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getObjectIDSFieldBuilder() : null;
@@ -12404,12 +12650,14 @@ public final class DataserviceMessages {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionIDOrBuilder> sessionIDBuilder_;
       /**
        * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+       * @return Whether the sessionID field is set.
        */
       public boolean hasSessionID() {
         return sessionIDBuilder_ != null || sessionID_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+       * @return The sessionID.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID getSessionID() {
         if (sessionIDBuilder_ == null) {
@@ -12519,9 +12767,9 @@ public final class DataserviceMessages {
       private java.util.List<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID> objectIDS_ =
         java.util.Collections.emptyList();
       private void ensureObjectIDSIsMutable() {
-        if (!((bitField0_ & 0x00000002) != 0)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           objectIDS_ = new java.util.ArrayList<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID>(objectIDS_);
-          bitField0_ |= 0x00000002;
+          bitField0_ |= 0x00000001;
          }
       }
 
@@ -12671,7 +12919,7 @@ public final class DataserviceMessages {
       public Builder clearObjectIDS() {
         if (objectIDSBuilder_ == null) {
           objectIDS_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
+          bitField0_ = (bitField0_ & ~0x00000001);
           onChanged();
         } else {
           objectIDSBuilder_.clear();
@@ -12748,7 +12996,7 @@ public final class DataserviceMessages {
           objectIDSBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectIDOrBuilder>(
                   objectIDS_,
-                  ((bitField0_ & 0x00000002) != 0),
+                  ((bitField0_ & 0x00000001) != 0),
                   getParentForChildren(),
                   isClean());
           objectIDS_ = null;
@@ -12759,12 +13007,15 @@ public final class DataserviceMessages {
       private boolean recursive_ ;
       /**
        * <code>bool recursive = 3;</code>
+       * @return The recursive.
        */
       public boolean getRecursive() {
         return recursive_;
       }
       /**
        * <code>bool recursive = 3;</code>
+       * @param value The recursive to set.
+       * @return This builder for chaining.
        */
       public Builder setRecursive(boolean value) {
         
@@ -12774,6 +13025,7 @@ public final class DataserviceMessages {
       }
       /**
        * <code>bool recursive = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearRecursive() {
         
@@ -12785,12 +13037,15 @@ public final class DataserviceMessages {
       private boolean moving_ ;
       /**
        * <code>bool moving = 4;</code>
+       * @return The moving.
        */
       public boolean getMoving() {
         return moving_;
       }
       /**
        * <code>bool moving = 4;</code>
+       * @param value The moving to set.
+       * @return This builder for chaining.
        */
       public Builder setMoving(boolean value) {
         
@@ -12800,6 +13055,7 @@ public final class DataserviceMessages {
       }
       /**
        * <code>bool moving = 4;</code>
+       * @return This builder for chaining.
        */
       public Builder clearMoving() {
         
@@ -12890,10 +13146,12 @@ public final class DataserviceMessages {
 
     /**
      * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+     * @return Whether the excInfo field is set.
      */
     boolean hasExcInfo();
     /**
      * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+     * @return The excInfo.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo getExcInfo();
     /**
@@ -12915,6 +13173,13 @@ public final class DataserviceMessages {
     }
     private GetObjectsResponse() {
       objects_ = java.util.Collections.emptyList();
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new GetObjectsResponse();
     }
 
     @java.lang.Override
@@ -12998,7 +13263,6 @@ public final class DataserviceMessages {
               es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetObjectsResponse.class, es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetObjectsResponse.Builder.class);
     }
 
-    private int bitField0_;
     public static final int OBJECTS_FIELD_NUMBER = 1;
     private java.util.List<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn> objects_;
     /**
@@ -13038,12 +13302,14 @@ public final class DataserviceMessages {
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo excInfo_;
     /**
      * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+     * @return Whether the excInfo field is set.
      */
     public boolean hasExcInfo() {
       return excInfo_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+     * @return The excInfo.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo getExcInfo() {
       return excInfo_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.getDefaultInstance() : excInfo_;
@@ -13248,7 +13514,7 @@ public final class DataserviceMessages {
                 es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetObjectsResponse.class, es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetObjectsResponse.Builder.class);
       }
 
-      // Construct using dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetObjectsResponse.newBuilder()
+      // Construct using es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetObjectsResponse.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -13306,7 +13572,6 @@ public final class DataserviceMessages {
       public es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetObjectsResponse buildPartial() {
         es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetObjectsResponse result = new es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetObjectsResponse(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         if (objectsBuilder_ == null) {
           if (((bitField0_ & 0x00000001) != 0)) {
             objects_ = java.util.Collections.unmodifiableList(objects_);
@@ -13321,7 +13586,6 @@ public final class DataserviceMessages {
         } else {
           result.excInfo_ = excInfoBuilder_.build();
         }
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
@@ -13674,12 +13938,14 @@ public final class DataserviceMessages {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfoOrBuilder> excInfoBuilder_;
       /**
        * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+       * @return Whether the excInfo field is set.
        */
       public boolean hasExcInfo() {
         return excInfoBuilder_ != null || excInfo_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+       * @return The excInfo.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo getExcInfo() {
         if (excInfoBuilder_ == null) {
@@ -13844,10 +14110,12 @@ public final class DataserviceMessages {
 
     /**
      * <code>.dataclay.communication.grpc.common.DataClayInstanceID extDataClayID = 1;</code>
+     * @return Whether the extDataClayID field is set.
      */
     boolean hasExtDataClayID();
     /**
      * <code>.dataclay.communication.grpc.common.DataClayInstanceID extDataClayID = 1;</code>
+     * @return The extDataClayID.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.DataClayInstanceID getExtDataClayID();
     /**
@@ -13896,6 +14164,13 @@ public final class DataserviceMessages {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new GetFederatedObjectsRequest();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -13933,9 +14208,9 @@ public final class DataserviceMessages {
               break;
             }
             case 18: {
-              if (!((mutable_bitField0_ & 0x00000002) != 0)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 objectIDS_ = new java.util.ArrayList<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID>();
-                mutable_bitField0_ |= 0x00000002;
+                mutable_bitField0_ |= 0x00000001;
               }
               objectIDS_.add(
                   input.readMessage(es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID.parser(), extensionRegistry));
@@ -13956,7 +14231,7 @@ public final class DataserviceMessages {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000002) != 0)) {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
           objectIDS_ = java.util.Collections.unmodifiableList(objectIDS_);
         }
         this.unknownFields = unknownFields.build();
@@ -13976,17 +14251,18 @@ public final class DataserviceMessages {
               es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetFederatedObjectsRequest.class, es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetFederatedObjectsRequest.Builder.class);
     }
 
-    private int bitField0_;
     public static final int EXTDATACLAYID_FIELD_NUMBER = 1;
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.DataClayInstanceID extDataClayID_;
     /**
      * <code>.dataclay.communication.grpc.common.DataClayInstanceID extDataClayID = 1;</code>
+     * @return Whether the extDataClayID field is set.
      */
     public boolean hasExtDataClayID() {
       return extDataClayID_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.common.DataClayInstanceID extDataClayID = 1;</code>
+     * @return The extDataClayID.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.DataClayInstanceID getExtDataClayID() {
       return extDataClayID_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.DataClayInstanceID.getDefaultInstance() : extDataClayID_;
@@ -14226,7 +14502,7 @@ public final class DataserviceMessages {
                 es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetFederatedObjectsRequest.class, es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetFederatedObjectsRequest.Builder.class);
       }
 
-      // Construct using dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetFederatedObjectsRequest.newBuilder()
+      // Construct using es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetFederatedObjectsRequest.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -14253,7 +14529,7 @@ public final class DataserviceMessages {
         }
         if (objectIDSBuilder_ == null) {
           objectIDS_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
+          bitField0_ = (bitField0_ & ~0x00000001);
         } else {
           objectIDSBuilder_.clear();
         }
@@ -14284,22 +14560,20 @@ public final class DataserviceMessages {
       public es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetFederatedObjectsRequest buildPartial() {
         es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetFederatedObjectsRequest result = new es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetFederatedObjectsRequest(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         if (extDataClayIDBuilder_ == null) {
           result.extDataClayID_ = extDataClayID_;
         } else {
           result.extDataClayID_ = extDataClayIDBuilder_.build();
         }
         if (objectIDSBuilder_ == null) {
-          if (((bitField0_ & 0x00000002) != 0)) {
+          if (((bitField0_ & 0x00000001) != 0)) {
             objectIDS_ = java.util.Collections.unmodifiableList(objectIDS_);
-            bitField0_ = (bitField0_ & ~0x00000002);
+            bitField0_ = (bitField0_ & ~0x00000001);
           }
           result.objectIDS_ = objectIDS_;
         } else {
           result.objectIDS_ = objectIDSBuilder_.build();
         }
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
@@ -14355,7 +14629,7 @@ public final class DataserviceMessages {
           if (!other.objectIDS_.isEmpty()) {
             if (objectIDS_.isEmpty()) {
               objectIDS_ = other.objectIDS_;
-              bitField0_ = (bitField0_ & ~0x00000002);
+              bitField0_ = (bitField0_ & ~0x00000001);
             } else {
               ensureObjectIDSIsMutable();
               objectIDS_.addAll(other.objectIDS_);
@@ -14368,7 +14642,7 @@ public final class DataserviceMessages {
               objectIDSBuilder_.dispose();
               objectIDSBuilder_ = null;
               objectIDS_ = other.objectIDS_;
-              bitField0_ = (bitField0_ & ~0x00000002);
+              bitField0_ = (bitField0_ & ~0x00000001);
               objectIDSBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getObjectIDSFieldBuilder() : null;
@@ -14412,12 +14686,14 @@ public final class DataserviceMessages {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.DataClayInstanceID, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.DataClayInstanceID.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.DataClayInstanceIDOrBuilder> extDataClayIDBuilder_;
       /**
        * <code>.dataclay.communication.grpc.common.DataClayInstanceID extDataClayID = 1;</code>
+       * @return Whether the extDataClayID field is set.
        */
       public boolean hasExtDataClayID() {
         return extDataClayIDBuilder_ != null || extDataClayID_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.common.DataClayInstanceID extDataClayID = 1;</code>
+       * @return The extDataClayID.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.DataClayInstanceID getExtDataClayID() {
         if (extDataClayIDBuilder_ == null) {
@@ -14527,9 +14803,9 @@ public final class DataserviceMessages {
       private java.util.List<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID> objectIDS_ =
         java.util.Collections.emptyList();
       private void ensureObjectIDSIsMutable() {
-        if (!((bitField0_ & 0x00000002) != 0)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           objectIDS_ = new java.util.ArrayList<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID>(objectIDS_);
-          bitField0_ |= 0x00000002;
+          bitField0_ |= 0x00000001;
          }
       }
 
@@ -14679,7 +14955,7 @@ public final class DataserviceMessages {
       public Builder clearObjectIDS() {
         if (objectIDSBuilder_ == null) {
           objectIDS_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
+          bitField0_ = (bitField0_ & ~0x00000001);
           onChanged();
         } else {
           objectIDSBuilder_.clear();
@@ -14756,7 +15032,7 @@ public final class DataserviceMessages {
           objectIDSBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectIDOrBuilder>(
                   objectIDS_,
-                  ((bitField0_ & 0x00000002) != 0),
+                  ((bitField0_ & 0x00000001) != 0),
                   getParentForChildren(),
                   isClean());
           objectIDS_ = null;
@@ -14846,10 +15122,12 @@ public final class DataserviceMessages {
 
     /**
      * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+     * @return Whether the excInfo field is set.
      */
     boolean hasExcInfo();
     /**
      * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+     * @return The excInfo.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo getExcInfo();
     /**
@@ -14871,6 +15149,13 @@ public final class DataserviceMessages {
     }
     private GetFederatedObjectsResponse() {
       objects_ = java.util.Collections.emptyList();
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new GetFederatedObjectsResponse();
     }
 
     @java.lang.Override
@@ -14954,7 +15239,6 @@ public final class DataserviceMessages {
               es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetFederatedObjectsResponse.class, es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetFederatedObjectsResponse.Builder.class);
     }
 
-    private int bitField0_;
     public static final int OBJECTS_FIELD_NUMBER = 1;
     private java.util.List<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn> objects_;
     /**
@@ -14994,12 +15278,14 @@ public final class DataserviceMessages {
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo excInfo_;
     /**
      * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+     * @return Whether the excInfo field is set.
      */
     public boolean hasExcInfo() {
       return excInfo_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+     * @return The excInfo.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo getExcInfo() {
       return excInfo_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.getDefaultInstance() : excInfo_;
@@ -15204,7 +15490,7 @@ public final class DataserviceMessages {
                 es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetFederatedObjectsResponse.class, es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetFederatedObjectsResponse.Builder.class);
       }
 
-      // Construct using dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetFederatedObjectsResponse.newBuilder()
+      // Construct using es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetFederatedObjectsResponse.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -15262,7 +15548,6 @@ public final class DataserviceMessages {
       public es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetFederatedObjectsResponse buildPartial() {
         es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetFederatedObjectsResponse result = new es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetFederatedObjectsResponse(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         if (objectsBuilder_ == null) {
           if (((bitField0_ & 0x00000001) != 0)) {
             objects_ = java.util.Collections.unmodifiableList(objects_);
@@ -15277,7 +15562,6 @@ public final class DataserviceMessages {
         } else {
           result.excInfo_ = excInfoBuilder_.build();
         }
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
@@ -15630,12 +15914,14 @@ public final class DataserviceMessages {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfoOrBuilder> excInfoBuilder_;
       /**
        * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+       * @return Whether the excInfo field is set.
        */
       public boolean hasExcInfo() {
         return excInfoBuilder_ != null || excInfo_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+       * @return The excInfo.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo getExcInfo() {
         if (excInfoBuilder_ == null) {
@@ -15800,10 +16086,12 @@ public final class DataserviceMessages {
 
     /**
      * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+     * @return Whether the sessionID field is set.
      */
     boolean hasSessionID();
     /**
      * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+     * @return The sessionID.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID getSessionID();
     /**
@@ -15813,10 +16101,12 @@ public final class DataserviceMessages {
 
     /**
      * <code>.dataclay.communication.grpc.common.ObjectID objectID = 2;</code>
+     * @return Whether the objectID field is set.
      */
     boolean hasObjectID();
     /**
      * <code>.dataclay.communication.grpc.common.ObjectID objectID = 2;</code>
+     * @return The objectID.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID getObjectID();
     /**
@@ -15826,10 +16116,12 @@ public final class DataserviceMessages {
 
     /**
      * <code>string conditions = 3;</code>
+     * @return The conditions.
      */
     java.lang.String getConditions();
     /**
      * <code>string conditions = 3;</code>
+     * @return The bytes for conditions.
      */
     com.google.protobuf.ByteString
         getConditionsBytes();
@@ -15851,6 +16143,13 @@ public final class DataserviceMessages {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new FilterObjectRequest();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -15863,7 +16162,6 @@ public final class DataserviceMessages {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -15942,12 +16240,14 @@ public final class DataserviceMessages {
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID sessionID_;
     /**
      * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+     * @return Whether the sessionID field is set.
      */
     public boolean hasSessionID() {
       return sessionID_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+     * @return The sessionID.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID getSessionID() {
       return sessionID_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID.getDefaultInstance() : sessionID_;
@@ -15963,12 +16263,14 @@ public final class DataserviceMessages {
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID objectID_;
     /**
      * <code>.dataclay.communication.grpc.common.ObjectID objectID = 2;</code>
+     * @return Whether the objectID field is set.
      */
     public boolean hasObjectID() {
       return objectID_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.common.ObjectID objectID = 2;</code>
+     * @return The objectID.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID getObjectID() {
       return objectID_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID.getDefaultInstance() : objectID_;
@@ -15984,6 +16286,7 @@ public final class DataserviceMessages {
     private volatile java.lang.Object conditions_;
     /**
      * <code>string conditions = 3;</code>
+     * @return The conditions.
      */
     public java.lang.String getConditions() {
       java.lang.Object ref = conditions_;
@@ -15999,6 +16302,7 @@ public final class DataserviceMessages {
     }
     /**
      * <code>string conditions = 3;</code>
+     * @return The bytes for conditions.
      */
     public com.google.protobuf.ByteString
         getConditionsBytes() {
@@ -16220,7 +16524,7 @@ public final class DataserviceMessages {
                 es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.FilterObjectRequest.class, es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.FilterObjectRequest.Builder.class);
       }
 
-      // Construct using dataclay.communication.grpc.messages.dataservice.DataserviceMessages.FilterObjectRequest.newBuilder()
+      // Construct using es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.FilterObjectRequest.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -16381,12 +16685,14 @@ public final class DataserviceMessages {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionIDOrBuilder> sessionIDBuilder_;
       /**
        * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+       * @return Whether the sessionID field is set.
        */
       public boolean hasSessionID() {
         return sessionIDBuilder_ != null || sessionID_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+       * @return The sessionID.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID getSessionID() {
         if (sessionIDBuilder_ == null) {
@@ -16498,12 +16804,14 @@ public final class DataserviceMessages {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectIDOrBuilder> objectIDBuilder_;
       /**
        * <code>.dataclay.communication.grpc.common.ObjectID objectID = 2;</code>
+       * @return Whether the objectID field is set.
        */
       public boolean hasObjectID() {
         return objectIDBuilder_ != null || objectID_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.common.ObjectID objectID = 2;</code>
+       * @return The objectID.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID getObjectID() {
         if (objectIDBuilder_ == null) {
@@ -16613,6 +16921,7 @@ public final class DataserviceMessages {
       private java.lang.Object conditions_ = "";
       /**
        * <code>string conditions = 3;</code>
+       * @return The conditions.
        */
       public java.lang.String getConditions() {
         java.lang.Object ref = conditions_;
@@ -16628,6 +16937,7 @@ public final class DataserviceMessages {
       }
       /**
        * <code>string conditions = 3;</code>
+       * @return The bytes for conditions.
        */
       public com.google.protobuf.ByteString
           getConditionsBytes() {
@@ -16644,6 +16954,8 @@ public final class DataserviceMessages {
       }
       /**
        * <code>string conditions = 3;</code>
+       * @param value The conditions to set.
+       * @return This builder for chaining.
        */
       public Builder setConditions(
           java.lang.String value) {
@@ -16657,6 +16969,7 @@ public final class DataserviceMessages {
       }
       /**
        * <code>string conditions = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearConditions() {
         
@@ -16666,6 +16979,8 @@ public final class DataserviceMessages {
       }
       /**
        * <code>string conditions = 3;</code>
+       * @param value The bytes for conditions to set.
+       * @return This builder for chaining.
        */
       public Builder setConditionsBytes(
           com.google.protobuf.ByteString value) {
@@ -16737,10 +17052,12 @@ public final class DataserviceMessages {
 
     /**
      * <code>.dataclay.communication.grpc.common.SerializedParametersOrReturn ret = 1;</code>
+     * @return Whether the ret field is set.
      */
     boolean hasRet();
     /**
      * <code>.dataclay.communication.grpc.common.SerializedParametersOrReturn ret = 1;</code>
+     * @return The ret.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn getRet();
     /**
@@ -16750,10 +17067,12 @@ public final class DataserviceMessages {
 
     /**
      * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+     * @return Whether the excInfo field is set.
      */
     boolean hasExcInfo();
     /**
      * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+     * @return The excInfo.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo getExcInfo();
     /**
@@ -16777,6 +17096,13 @@ public final class DataserviceMessages {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new FilterObjectResponse();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -16789,7 +17115,6 @@ public final class DataserviceMessages {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -16862,12 +17187,14 @@ public final class DataserviceMessages {
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn ret_;
     /**
      * <code>.dataclay.communication.grpc.common.SerializedParametersOrReturn ret = 1;</code>
+     * @return Whether the ret field is set.
      */
     public boolean hasRet() {
       return ret_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.common.SerializedParametersOrReturn ret = 1;</code>
+     * @return The ret.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn getRet() {
       return ret_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn.getDefaultInstance() : ret_;
@@ -16883,12 +17210,14 @@ public final class DataserviceMessages {
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo excInfo_;
     /**
      * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+     * @return Whether the excInfo field is set.
      */
     public boolean hasExcInfo() {
       return excInfo_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+     * @return The excInfo.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo getExcInfo() {
       return excInfo_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.getDefaultInstance() : excInfo_;
@@ -17096,7 +17425,7 @@ public final class DataserviceMessages {
                 es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.FilterObjectResponse.class, es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.FilterObjectResponse.Builder.class);
       }
 
-      // Construct using dataclay.communication.grpc.messages.dataservice.DataserviceMessages.FilterObjectResponse.newBuilder()
+      // Construct using es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.FilterObjectResponse.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -17250,12 +17579,14 @@ public final class DataserviceMessages {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturnOrBuilder> retBuilder_;
       /**
        * <code>.dataclay.communication.grpc.common.SerializedParametersOrReturn ret = 1;</code>
+       * @return Whether the ret field is set.
        */
       public boolean hasRet() {
         return retBuilder_ != null || ret_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.common.SerializedParametersOrReturn ret = 1;</code>
+       * @return The ret.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn getRet() {
         if (retBuilder_ == null) {
@@ -17367,12 +17698,14 @@ public final class DataserviceMessages {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfoOrBuilder> excInfoBuilder_;
       /**
        * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+       * @return Whether the excInfo field is set.
        */
       public boolean hasExcInfo() {
         return excInfoBuilder_ != null || excInfo_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+       * @return The excInfo.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo getExcInfo() {
         if (excInfoBuilder_ == null) {
@@ -17537,10 +17870,12 @@ public final class DataserviceMessages {
 
     /**
      * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+     * @return Whether the sessionID field is set.
      */
     boolean hasSessionID();
     /**
      * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+     * @return The sessionID.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID getSessionID();
     /**
@@ -17589,6 +17924,13 @@ public final class DataserviceMessages {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new GetReferencedObjectIDsRequest();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -17626,9 +17968,9 @@ public final class DataserviceMessages {
               break;
             }
             case 18: {
-              if (!((mutable_bitField0_ & 0x00000002) != 0)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 objectIDS_ = new java.util.ArrayList<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID>();
-                mutable_bitField0_ |= 0x00000002;
+                mutable_bitField0_ |= 0x00000001;
               }
               objectIDS_.add(
                   input.readMessage(es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID.parser(), extensionRegistry));
@@ -17649,7 +17991,7 @@ public final class DataserviceMessages {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000002) != 0)) {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
           objectIDS_ = java.util.Collections.unmodifiableList(objectIDS_);
         }
         this.unknownFields = unknownFields.build();
@@ -17669,17 +18011,18 @@ public final class DataserviceMessages {
               es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetReferencedObjectIDsRequest.class, es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetReferencedObjectIDsRequest.Builder.class);
     }
 
-    private int bitField0_;
     public static final int SESSIONID_FIELD_NUMBER = 1;
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID sessionID_;
     /**
      * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+     * @return Whether the sessionID field is set.
      */
     public boolean hasSessionID() {
       return sessionID_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+     * @return The sessionID.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID getSessionID() {
       return sessionID_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID.getDefaultInstance() : sessionID_;
@@ -17919,7 +18262,7 @@ public final class DataserviceMessages {
                 es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetReferencedObjectIDsRequest.class, es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetReferencedObjectIDsRequest.Builder.class);
       }
 
-      // Construct using dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetReferencedObjectIDsRequest.newBuilder()
+      // Construct using es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetReferencedObjectIDsRequest.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -17946,7 +18289,7 @@ public final class DataserviceMessages {
         }
         if (objectIDSBuilder_ == null) {
           objectIDS_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
+          bitField0_ = (bitField0_ & ~0x00000001);
         } else {
           objectIDSBuilder_.clear();
         }
@@ -17977,22 +18320,20 @@ public final class DataserviceMessages {
       public es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetReferencedObjectIDsRequest buildPartial() {
         es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetReferencedObjectIDsRequest result = new es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetReferencedObjectIDsRequest(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         if (sessionIDBuilder_ == null) {
           result.sessionID_ = sessionID_;
         } else {
           result.sessionID_ = sessionIDBuilder_.build();
         }
         if (objectIDSBuilder_ == null) {
-          if (((bitField0_ & 0x00000002) != 0)) {
+          if (((bitField0_ & 0x00000001) != 0)) {
             objectIDS_ = java.util.Collections.unmodifiableList(objectIDS_);
-            bitField0_ = (bitField0_ & ~0x00000002);
+            bitField0_ = (bitField0_ & ~0x00000001);
           }
           result.objectIDS_ = objectIDS_;
         } else {
           result.objectIDS_ = objectIDSBuilder_.build();
         }
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
@@ -18048,7 +18389,7 @@ public final class DataserviceMessages {
           if (!other.objectIDS_.isEmpty()) {
             if (objectIDS_.isEmpty()) {
               objectIDS_ = other.objectIDS_;
-              bitField0_ = (bitField0_ & ~0x00000002);
+              bitField0_ = (bitField0_ & ~0x00000001);
             } else {
               ensureObjectIDSIsMutable();
               objectIDS_.addAll(other.objectIDS_);
@@ -18061,7 +18402,7 @@ public final class DataserviceMessages {
               objectIDSBuilder_.dispose();
               objectIDSBuilder_ = null;
               objectIDS_ = other.objectIDS_;
-              bitField0_ = (bitField0_ & ~0x00000002);
+              bitField0_ = (bitField0_ & ~0x00000001);
               objectIDSBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getObjectIDSFieldBuilder() : null;
@@ -18105,12 +18446,14 @@ public final class DataserviceMessages {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionIDOrBuilder> sessionIDBuilder_;
       /**
        * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+       * @return Whether the sessionID field is set.
        */
       public boolean hasSessionID() {
         return sessionIDBuilder_ != null || sessionID_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+       * @return The sessionID.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID getSessionID() {
         if (sessionIDBuilder_ == null) {
@@ -18220,9 +18563,9 @@ public final class DataserviceMessages {
       private java.util.List<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID> objectIDS_ =
         java.util.Collections.emptyList();
       private void ensureObjectIDSIsMutable() {
-        if (!((bitField0_ & 0x00000002) != 0)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           objectIDS_ = new java.util.ArrayList<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID>(objectIDS_);
-          bitField0_ |= 0x00000002;
+          bitField0_ |= 0x00000001;
          }
       }
 
@@ -18372,7 +18715,7 @@ public final class DataserviceMessages {
       public Builder clearObjectIDS() {
         if (objectIDSBuilder_ == null) {
           objectIDS_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
+          bitField0_ = (bitField0_ & ~0x00000001);
           onChanged();
         } else {
           objectIDSBuilder_.clear();
@@ -18449,7 +18792,7 @@ public final class DataserviceMessages {
           objectIDSBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectIDOrBuilder>(
                   objectIDS_,
-                  ((bitField0_ & 0x00000002) != 0),
+                  ((bitField0_ & 0x00000001) != 0),
                   getParentForChildren(),
                   isClean());
           objectIDS_ = null;
@@ -18539,10 +18882,12 @@ public final class DataserviceMessages {
 
     /**
      * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+     * @return Whether the excInfo field is set.
      */
     boolean hasExcInfo();
     /**
      * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+     * @return The excInfo.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo getExcInfo();
     /**
@@ -18564,6 +18909,13 @@ public final class DataserviceMessages {
     }
     private GetReferencedObjectIDsResponse() {
       objectIDs_ = java.util.Collections.emptyList();
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new GetReferencedObjectIDsResponse();
     }
 
     @java.lang.Override
@@ -18647,7 +18999,6 @@ public final class DataserviceMessages {
               es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetReferencedObjectIDsResponse.class, es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetReferencedObjectIDsResponse.Builder.class);
     }
 
-    private int bitField0_;
     public static final int OBJECTIDS_FIELD_NUMBER = 1;
     private java.util.List<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID> objectIDs_;
     /**
@@ -18687,12 +19038,14 @@ public final class DataserviceMessages {
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo excInfo_;
     /**
      * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+     * @return Whether the excInfo field is set.
      */
     public boolean hasExcInfo() {
       return excInfo_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+     * @return The excInfo.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo getExcInfo() {
       return excInfo_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.getDefaultInstance() : excInfo_;
@@ -18897,7 +19250,7 @@ public final class DataserviceMessages {
                 es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetReferencedObjectIDsResponse.class, es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetReferencedObjectIDsResponse.Builder.class);
       }
 
-      // Construct using dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetReferencedObjectIDsResponse.newBuilder()
+      // Construct using es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetReferencedObjectIDsResponse.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -18955,7 +19308,6 @@ public final class DataserviceMessages {
       public es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetReferencedObjectIDsResponse buildPartial() {
         es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetReferencedObjectIDsResponse result = new es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetReferencedObjectIDsResponse(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         if (objectIDsBuilder_ == null) {
           if (((bitField0_ & 0x00000001) != 0)) {
             objectIDs_ = java.util.Collections.unmodifiableList(objectIDs_);
@@ -18970,7 +19322,6 @@ public final class DataserviceMessages {
         } else {
           result.excInfo_ = excInfoBuilder_.build();
         }
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
@@ -19323,12 +19674,14 @@ public final class DataserviceMessages {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfoOrBuilder> excInfoBuilder_;
       /**
        * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+       * @return Whether the excInfo field is set.
        */
       public boolean hasExcInfo() {
         return excInfoBuilder_ != null || excInfo_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+       * @return The excInfo.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo getExcInfo() {
         if (excInfoBuilder_ == null) {
@@ -19493,10 +19846,12 @@ public final class DataserviceMessages {
 
     /**
      * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+     * @return Whether the sessionID field is set.
      */
     boolean hasSessionID();
     /**
      * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+     * @return The sessionID.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID getSessionID();
     /**
@@ -19506,10 +19861,12 @@ public final class DataserviceMessages {
 
     /**
      * <code>.dataclay.communication.grpc.common.SerializedParametersOrReturn params = 2;</code>
+     * @return Whether the params field is set.
      */
     boolean hasParams();
     /**
      * <code>.dataclay.communication.grpc.common.SerializedParametersOrReturn params = 2;</code>
+     * @return The params.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn getParams();
     /**
@@ -19533,6 +19890,13 @@ public final class DataserviceMessages {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new MakePersistentRequest();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -19545,7 +19909,6 @@ public final class DataserviceMessages {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -19618,12 +19981,14 @@ public final class DataserviceMessages {
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID sessionID_;
     /**
      * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+     * @return Whether the sessionID field is set.
      */
     public boolean hasSessionID() {
       return sessionID_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+     * @return The sessionID.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID getSessionID() {
       return sessionID_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID.getDefaultInstance() : sessionID_;
@@ -19639,12 +20004,14 @@ public final class DataserviceMessages {
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn params_;
     /**
      * <code>.dataclay.communication.grpc.common.SerializedParametersOrReturn params = 2;</code>
+     * @return Whether the params field is set.
      */
     public boolean hasParams() {
       return params_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.common.SerializedParametersOrReturn params = 2;</code>
+     * @return The params.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn getParams() {
       return params_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn.getDefaultInstance() : params_;
@@ -19852,7 +20219,7 @@ public final class DataserviceMessages {
                 es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.MakePersistentRequest.class, es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.MakePersistentRequest.Builder.class);
       }
 
-      // Construct using dataclay.communication.grpc.messages.dataservice.DataserviceMessages.MakePersistentRequest.newBuilder()
+      // Construct using es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.MakePersistentRequest.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -20006,12 +20373,14 @@ public final class DataserviceMessages {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionIDOrBuilder> sessionIDBuilder_;
       /**
        * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+       * @return Whether the sessionID field is set.
        */
       public boolean hasSessionID() {
         return sessionIDBuilder_ != null || sessionID_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+       * @return The sessionID.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID getSessionID() {
         if (sessionIDBuilder_ == null) {
@@ -20123,12 +20492,14 @@ public final class DataserviceMessages {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturnOrBuilder> paramsBuilder_;
       /**
        * <code>.dataclay.communication.grpc.common.SerializedParametersOrReturn params = 2;</code>
+       * @return Whether the params field is set.
        */
       public boolean hasParams() {
         return paramsBuilder_ != null || params_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.common.SerializedParametersOrReturn params = 2;</code>
+       * @return The params.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn getParams() {
         if (paramsBuilder_ == null) {
@@ -20293,10 +20664,12 @@ public final class DataserviceMessages {
 
     /**
      * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+     * @return Whether the sessionID field is set.
      */
     boolean hasSessionID();
     /**
      * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+     * @return The sessionID.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID getSessionID();
     /**
@@ -20306,10 +20679,12 @@ public final class DataserviceMessages {
 
     /**
      * <code>.dataclay.communication.grpc.common.SerializedParametersOrReturn params = 2;</code>
+     * @return Whether the params field is set.
      */
     boolean hasParams();
     /**
      * <code>.dataclay.communication.grpc.common.SerializedParametersOrReturn params = 2;</code>
+     * @return The params.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn getParams();
     /**
@@ -20333,6 +20708,13 @@ public final class DataserviceMessages {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new FederateRequest();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -20345,7 +20727,6 @@ public final class DataserviceMessages {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -20418,12 +20799,14 @@ public final class DataserviceMessages {
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID sessionID_;
     /**
      * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+     * @return Whether the sessionID field is set.
      */
     public boolean hasSessionID() {
       return sessionID_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+     * @return The sessionID.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID getSessionID() {
       return sessionID_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID.getDefaultInstance() : sessionID_;
@@ -20439,12 +20822,14 @@ public final class DataserviceMessages {
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn params_;
     /**
      * <code>.dataclay.communication.grpc.common.SerializedParametersOrReturn params = 2;</code>
+     * @return Whether the params field is set.
      */
     public boolean hasParams() {
       return params_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.common.SerializedParametersOrReturn params = 2;</code>
+     * @return The params.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn getParams() {
       return params_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn.getDefaultInstance() : params_;
@@ -20652,7 +21037,7 @@ public final class DataserviceMessages {
                 es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.FederateRequest.class, es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.FederateRequest.Builder.class);
       }
 
-      // Construct using dataclay.communication.grpc.messages.dataservice.DataserviceMessages.FederateRequest.newBuilder()
+      // Construct using es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.FederateRequest.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -20806,12 +21191,14 @@ public final class DataserviceMessages {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionIDOrBuilder> sessionIDBuilder_;
       /**
        * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+       * @return Whether the sessionID field is set.
        */
       public boolean hasSessionID() {
         return sessionIDBuilder_ != null || sessionID_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+       * @return The sessionID.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID getSessionID() {
         if (sessionIDBuilder_ == null) {
@@ -20923,12 +21310,14 @@ public final class DataserviceMessages {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturnOrBuilder> paramsBuilder_;
       /**
        * <code>.dataclay.communication.grpc.common.SerializedParametersOrReturn params = 2;</code>
+       * @return Whether the params field is set.
        */
       public boolean hasParams() {
         return paramsBuilder_ != null || params_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.common.SerializedParametersOrReturn params = 2;</code>
+       * @return The params.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn getParams() {
         if (paramsBuilder_ == null) {
@@ -21093,10 +21482,12 @@ public final class DataserviceMessages {
 
     /**
      * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+     * @return Whether the sessionID field is set.
      */
     boolean hasSessionID();
     /**
      * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+     * @return The sessionID.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID getSessionID();
     /**
@@ -21145,6 +21536,13 @@ public final class DataserviceMessages {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new UnfederateRequest();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -21182,9 +21580,9 @@ public final class DataserviceMessages {
               break;
             }
             case 18: {
-              if (!((mutable_bitField0_ & 0x00000002) != 0)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 objectIDs_ = new java.util.ArrayList<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID>();
-                mutable_bitField0_ |= 0x00000002;
+                mutable_bitField0_ |= 0x00000001;
               }
               objectIDs_.add(
                   input.readMessage(es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID.parser(), extensionRegistry));
@@ -21205,7 +21603,7 @@ public final class DataserviceMessages {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000002) != 0)) {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
           objectIDs_ = java.util.Collections.unmodifiableList(objectIDs_);
         }
         this.unknownFields = unknownFields.build();
@@ -21225,17 +21623,18 @@ public final class DataserviceMessages {
               es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.UnfederateRequest.class, es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.UnfederateRequest.Builder.class);
     }
 
-    private int bitField0_;
     public static final int SESSIONID_FIELD_NUMBER = 1;
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID sessionID_;
     /**
      * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+     * @return Whether the sessionID field is set.
      */
     public boolean hasSessionID() {
       return sessionID_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+     * @return The sessionID.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID getSessionID() {
       return sessionID_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID.getDefaultInstance() : sessionID_;
@@ -21475,7 +21874,7 @@ public final class DataserviceMessages {
                 es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.UnfederateRequest.class, es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.UnfederateRequest.Builder.class);
       }
 
-      // Construct using dataclay.communication.grpc.messages.dataservice.DataserviceMessages.UnfederateRequest.newBuilder()
+      // Construct using es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.UnfederateRequest.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -21502,7 +21901,7 @@ public final class DataserviceMessages {
         }
         if (objectIDsBuilder_ == null) {
           objectIDs_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
+          bitField0_ = (bitField0_ & ~0x00000001);
         } else {
           objectIDsBuilder_.clear();
         }
@@ -21533,22 +21932,20 @@ public final class DataserviceMessages {
       public es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.UnfederateRequest buildPartial() {
         es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.UnfederateRequest result = new es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.UnfederateRequest(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         if (sessionIDBuilder_ == null) {
           result.sessionID_ = sessionID_;
         } else {
           result.sessionID_ = sessionIDBuilder_.build();
         }
         if (objectIDsBuilder_ == null) {
-          if (((bitField0_ & 0x00000002) != 0)) {
+          if (((bitField0_ & 0x00000001) != 0)) {
             objectIDs_ = java.util.Collections.unmodifiableList(objectIDs_);
-            bitField0_ = (bitField0_ & ~0x00000002);
+            bitField0_ = (bitField0_ & ~0x00000001);
           }
           result.objectIDs_ = objectIDs_;
         } else {
           result.objectIDs_ = objectIDsBuilder_.build();
         }
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
@@ -21604,7 +22001,7 @@ public final class DataserviceMessages {
           if (!other.objectIDs_.isEmpty()) {
             if (objectIDs_.isEmpty()) {
               objectIDs_ = other.objectIDs_;
-              bitField0_ = (bitField0_ & ~0x00000002);
+              bitField0_ = (bitField0_ & ~0x00000001);
             } else {
               ensureObjectIDsIsMutable();
               objectIDs_.addAll(other.objectIDs_);
@@ -21617,7 +22014,7 @@ public final class DataserviceMessages {
               objectIDsBuilder_.dispose();
               objectIDsBuilder_ = null;
               objectIDs_ = other.objectIDs_;
-              bitField0_ = (bitField0_ & ~0x00000002);
+              bitField0_ = (bitField0_ & ~0x00000001);
               objectIDsBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getObjectIDsFieldBuilder() : null;
@@ -21661,12 +22058,14 @@ public final class DataserviceMessages {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionIDOrBuilder> sessionIDBuilder_;
       /**
        * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+       * @return Whether the sessionID field is set.
        */
       public boolean hasSessionID() {
         return sessionIDBuilder_ != null || sessionID_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+       * @return The sessionID.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID getSessionID() {
         if (sessionIDBuilder_ == null) {
@@ -21776,9 +22175,9 @@ public final class DataserviceMessages {
       private java.util.List<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID> objectIDs_ =
         java.util.Collections.emptyList();
       private void ensureObjectIDsIsMutable() {
-        if (!((bitField0_ & 0x00000002) != 0)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           objectIDs_ = new java.util.ArrayList<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID>(objectIDs_);
-          bitField0_ |= 0x00000002;
+          bitField0_ |= 0x00000001;
          }
       }
 
@@ -21928,7 +22327,7 @@ public final class DataserviceMessages {
       public Builder clearObjectIDs() {
         if (objectIDsBuilder_ == null) {
           objectIDs_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
+          bitField0_ = (bitField0_ & ~0x00000001);
           onChanged();
         } else {
           objectIDsBuilder_.clear();
@@ -22005,7 +22404,7 @@ public final class DataserviceMessages {
           objectIDsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectIDOrBuilder>(
                   objectIDs_,
-                  ((bitField0_ & 0x00000002) != 0),
+                  ((bitField0_ & 0x00000001) != 0),
                   getParentForChildren(),
                   isClean());
           objectIDs_ = null;
@@ -22071,10 +22470,12 @@ public final class DataserviceMessages {
 
     /**
      * <code>.dataclay.communication.grpc.common.ObjectID objectID = 1;</code>
+     * @return Whether the objectID field is set.
      */
     boolean hasObjectID();
     /**
      * <code>.dataclay.communication.grpc.common.ObjectID objectID = 1;</code>
+     * @return The objectID.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID getObjectID();
     /**
@@ -22084,10 +22485,12 @@ public final class DataserviceMessages {
 
     /**
      * <code>.dataclay.communication.grpc.common.ImplementationID implementationID = 2;</code>
+     * @return Whether the implementationID field is set.
      */
     boolean hasImplementationID();
     /**
      * <code>.dataclay.communication.grpc.common.ImplementationID implementationID = 2;</code>
+     * @return The implementationID.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ImplementationID getImplementationID();
     /**
@@ -22097,10 +22500,12 @@ public final class DataserviceMessages {
 
     /**
      * <code>.dataclay.communication.grpc.common.SessionID sessionID = 3;</code>
+     * @return Whether the sessionID field is set.
      */
     boolean hasSessionID();
     /**
      * <code>.dataclay.communication.grpc.common.SessionID sessionID = 3;</code>
+     * @return The sessionID.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID getSessionID();
     /**
@@ -22110,10 +22515,12 @@ public final class DataserviceMessages {
 
     /**
      * <code>.dataclay.communication.grpc.common.SerializedParametersOrReturn params = 4;</code>
+     * @return Whether the params field is set.
      */
     boolean hasParams();
     /**
      * <code>.dataclay.communication.grpc.common.SerializedParametersOrReturn params = 4;</code>
+     * @return The params.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn getParams();
     /**
@@ -22137,6 +22544,13 @@ public final class DataserviceMessages {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ExecuteImplementationRequest();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -22149,7 +22563,6 @@ public final class DataserviceMessages {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -22248,12 +22661,14 @@ public final class DataserviceMessages {
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID objectID_;
     /**
      * <code>.dataclay.communication.grpc.common.ObjectID objectID = 1;</code>
+     * @return Whether the objectID field is set.
      */
     public boolean hasObjectID() {
       return objectID_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.common.ObjectID objectID = 1;</code>
+     * @return The objectID.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID getObjectID() {
       return objectID_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID.getDefaultInstance() : objectID_;
@@ -22269,12 +22684,14 @@ public final class DataserviceMessages {
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ImplementationID implementationID_;
     /**
      * <code>.dataclay.communication.grpc.common.ImplementationID implementationID = 2;</code>
+     * @return Whether the implementationID field is set.
      */
     public boolean hasImplementationID() {
       return implementationID_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.common.ImplementationID implementationID = 2;</code>
+     * @return The implementationID.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ImplementationID getImplementationID() {
       return implementationID_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ImplementationID.getDefaultInstance() : implementationID_;
@@ -22290,12 +22707,14 @@ public final class DataserviceMessages {
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID sessionID_;
     /**
      * <code>.dataclay.communication.grpc.common.SessionID sessionID = 3;</code>
+     * @return Whether the sessionID field is set.
      */
     public boolean hasSessionID() {
       return sessionID_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.common.SessionID sessionID = 3;</code>
+     * @return The sessionID.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID getSessionID() {
       return sessionID_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID.getDefaultInstance() : sessionID_;
@@ -22311,12 +22730,14 @@ public final class DataserviceMessages {
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn params_;
     /**
      * <code>.dataclay.communication.grpc.common.SerializedParametersOrReturn params = 4;</code>
+     * @return Whether the params field is set.
      */
     public boolean hasParams() {
       return params_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.common.SerializedParametersOrReturn params = 4;</code>
+     * @return The params.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn getParams() {
       return params_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn.getDefaultInstance() : params_;
@@ -22556,7 +22977,7 @@ public final class DataserviceMessages {
                 es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.ExecuteImplementationRequest.class, es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.ExecuteImplementationRequest.Builder.class);
       }
 
-      // Construct using dataclay.communication.grpc.messages.dataservice.DataserviceMessages.ExecuteImplementationRequest.newBuilder()
+      // Construct using es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.ExecuteImplementationRequest.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -22738,12 +23159,14 @@ public final class DataserviceMessages {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectIDOrBuilder> objectIDBuilder_;
       /**
        * <code>.dataclay.communication.grpc.common.ObjectID objectID = 1;</code>
+       * @return Whether the objectID field is set.
        */
       public boolean hasObjectID() {
         return objectIDBuilder_ != null || objectID_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.common.ObjectID objectID = 1;</code>
+       * @return The objectID.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID getObjectID() {
         if (objectIDBuilder_ == null) {
@@ -22855,12 +23278,14 @@ public final class DataserviceMessages {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ImplementationID, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ImplementationID.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ImplementationIDOrBuilder> implementationIDBuilder_;
       /**
        * <code>.dataclay.communication.grpc.common.ImplementationID implementationID = 2;</code>
+       * @return Whether the implementationID field is set.
        */
       public boolean hasImplementationID() {
         return implementationIDBuilder_ != null || implementationID_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.common.ImplementationID implementationID = 2;</code>
+       * @return The implementationID.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ImplementationID getImplementationID() {
         if (implementationIDBuilder_ == null) {
@@ -22972,12 +23397,14 @@ public final class DataserviceMessages {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionIDOrBuilder> sessionIDBuilder_;
       /**
        * <code>.dataclay.communication.grpc.common.SessionID sessionID = 3;</code>
+       * @return Whether the sessionID field is set.
        */
       public boolean hasSessionID() {
         return sessionIDBuilder_ != null || sessionID_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.common.SessionID sessionID = 3;</code>
+       * @return The sessionID.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID getSessionID() {
         if (sessionIDBuilder_ == null) {
@@ -23089,12 +23516,14 @@ public final class DataserviceMessages {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturnOrBuilder> paramsBuilder_;
       /**
        * <code>.dataclay.communication.grpc.common.SerializedParametersOrReturn params = 4;</code>
+       * @return Whether the params field is set.
        */
       public boolean hasParams() {
         return paramsBuilder_ != null || params_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.common.SerializedParametersOrReturn params = 4;</code>
+       * @return The params.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn getParams() {
         if (paramsBuilder_ == null) {
@@ -23259,10 +23688,12 @@ public final class DataserviceMessages {
 
     /**
      * <code>.dataclay.communication.grpc.common.SerializedParametersOrReturn ret = 1;</code>
+     * @return Whether the ret field is set.
      */
     boolean hasRet();
     /**
      * <code>.dataclay.communication.grpc.common.SerializedParametersOrReturn ret = 1;</code>
+     * @return The ret.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn getRet();
     /**
@@ -23272,10 +23703,12 @@ public final class DataserviceMessages {
 
     /**
      * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+     * @return Whether the excInfo field is set.
      */
     boolean hasExcInfo();
     /**
      * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+     * @return The excInfo.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo getExcInfo();
     /**
@@ -23299,6 +23732,13 @@ public final class DataserviceMessages {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ExecuteImplementationResponse();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -23311,7 +23751,6 @@ public final class DataserviceMessages {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -23384,12 +23823,14 @@ public final class DataserviceMessages {
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn ret_;
     /**
      * <code>.dataclay.communication.grpc.common.SerializedParametersOrReturn ret = 1;</code>
+     * @return Whether the ret field is set.
      */
     public boolean hasRet() {
       return ret_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.common.SerializedParametersOrReturn ret = 1;</code>
+     * @return The ret.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn getRet() {
       return ret_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn.getDefaultInstance() : ret_;
@@ -23405,12 +23846,14 @@ public final class DataserviceMessages {
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo excInfo_;
     /**
      * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+     * @return Whether the excInfo field is set.
      */
     public boolean hasExcInfo() {
       return excInfo_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+     * @return The excInfo.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo getExcInfo() {
       return excInfo_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.getDefaultInstance() : excInfo_;
@@ -23618,7 +24061,7 @@ public final class DataserviceMessages {
                 es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.ExecuteImplementationResponse.class, es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.ExecuteImplementationResponse.Builder.class);
       }
 
-      // Construct using dataclay.communication.grpc.messages.dataservice.DataserviceMessages.ExecuteImplementationResponse.newBuilder()
+      // Construct using es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.ExecuteImplementationResponse.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -23772,12 +24215,14 @@ public final class DataserviceMessages {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturnOrBuilder> retBuilder_;
       /**
        * <code>.dataclay.communication.grpc.common.SerializedParametersOrReturn ret = 1;</code>
+       * @return Whether the ret field is set.
        */
       public boolean hasRet() {
         return retBuilder_ != null || ret_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.common.SerializedParametersOrReturn ret = 1;</code>
+       * @return The ret.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn getRet() {
         if (retBuilder_ == null) {
@@ -23889,12 +24334,14 @@ public final class DataserviceMessages {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfoOrBuilder> excInfoBuilder_;
       /**
        * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+       * @return Whether the excInfo field is set.
        */
       public boolean hasExcInfo() {
         return excInfoBuilder_ != null || excInfo_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+       * @return The excInfo.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo getExcInfo() {
         if (excInfoBuilder_ == null) {
@@ -24059,10 +24506,12 @@ public final class DataserviceMessages {
 
     /**
      * <code>.dataclay.communication.grpc.common.ObjectID objectID = 1;</code>
+     * @return Whether the objectID field is set.
      */
     boolean hasObjectID();
     /**
      * <code>.dataclay.communication.grpc.common.ObjectID objectID = 1;</code>
+     * @return The objectID.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID getObjectID();
     /**
@@ -24072,10 +24521,12 @@ public final class DataserviceMessages {
 
     /**
      * <code>.dataclay.communication.grpc.common.DataSetID storaDataSet = 2;</code>
+     * @return Whether the storaDataSet field is set.
      */
     boolean hasStoraDataSet();
     /**
      * <code>.dataclay.communication.grpc.common.DataSetID storaDataSet = 2;</code>
+     * @return The storaDataSet.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.DataSetID getStoraDataSet();
     /**
@@ -24099,6 +24550,13 @@ public final class DataserviceMessages {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new SetNotVolatileRequest();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -24111,7 +24569,6 @@ public final class DataserviceMessages {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -24184,12 +24641,14 @@ public final class DataserviceMessages {
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID objectID_;
     /**
      * <code>.dataclay.communication.grpc.common.ObjectID objectID = 1;</code>
+     * @return Whether the objectID field is set.
      */
     public boolean hasObjectID() {
       return objectID_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.common.ObjectID objectID = 1;</code>
+     * @return The objectID.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID getObjectID() {
       return objectID_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID.getDefaultInstance() : objectID_;
@@ -24205,12 +24664,14 @@ public final class DataserviceMessages {
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.DataSetID storaDataSet_;
     /**
      * <code>.dataclay.communication.grpc.common.DataSetID storaDataSet = 2;</code>
+     * @return Whether the storaDataSet field is set.
      */
     public boolean hasStoraDataSet() {
       return storaDataSet_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.common.DataSetID storaDataSet = 2;</code>
+     * @return The storaDataSet.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.DataSetID getStoraDataSet() {
       return storaDataSet_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.DataSetID.getDefaultInstance() : storaDataSet_;
@@ -24418,7 +24879,7 @@ public final class DataserviceMessages {
                 es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.SetNotVolatileRequest.class, es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.SetNotVolatileRequest.Builder.class);
       }
 
-      // Construct using dataclay.communication.grpc.messages.dataservice.DataserviceMessages.SetNotVolatileRequest.newBuilder()
+      // Construct using es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.SetNotVolatileRequest.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -24572,12 +25033,14 @@ public final class DataserviceMessages {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectIDOrBuilder> objectIDBuilder_;
       /**
        * <code>.dataclay.communication.grpc.common.ObjectID objectID = 1;</code>
+       * @return Whether the objectID field is set.
        */
       public boolean hasObjectID() {
         return objectIDBuilder_ != null || objectID_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.common.ObjectID objectID = 1;</code>
+       * @return The objectID.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID getObjectID() {
         if (objectIDBuilder_ == null) {
@@ -24689,12 +25152,14 @@ public final class DataserviceMessages {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.DataSetID, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.DataSetID.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.DataSetIDOrBuilder> storaDataSetBuilder_;
       /**
        * <code>.dataclay.communication.grpc.common.DataSetID storaDataSet = 2;</code>
+       * @return Whether the storaDataSet field is set.
        */
       public boolean hasStoraDataSet() {
         return storaDataSetBuilder_ != null || storaDataSet_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.common.DataSetID storaDataSet = 2;</code>
+       * @return The storaDataSet.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.DataSetID getStoraDataSet() {
         if (storaDataSetBuilder_ == null) {
@@ -24859,10 +25324,12 @@ public final class DataserviceMessages {
 
     /**
      * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+     * @return Whether the sessionID field is set.
      */
     boolean hasSessionID();
     /**
      * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+     * @return The sessionID.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID getSessionID();
     /**
@@ -24872,10 +25339,12 @@ public final class DataserviceMessages {
 
     /**
      * <code>.dataclay.communication.grpc.common.ObjectID objectID = 2;</code>
+     * @return Whether the objectID field is set.
      */
     boolean hasObjectID();
     /**
      * <code>.dataclay.communication.grpc.common.ObjectID objectID = 2;</code>
+     * @return The objectID.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID getObjectID();
     /**
@@ -24885,10 +25354,12 @@ public final class DataserviceMessages {
 
     /**
      * <code>string metadataInfo = 3;</code>
+     * @return The metadataInfo.
      */
     java.lang.String getMetadataInfo();
     /**
      * <code>string metadataInfo = 3;</code>
+     * @return The bytes for metadataInfo.
      */
     com.google.protobuf.ByteString
         getMetadataInfoBytes();
@@ -24910,6 +25381,13 @@ public final class DataserviceMessages {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new NewVersionRequest();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -24922,7 +25400,6 @@ public final class DataserviceMessages {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -25001,12 +25478,14 @@ public final class DataserviceMessages {
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID sessionID_;
     /**
      * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+     * @return Whether the sessionID field is set.
      */
     public boolean hasSessionID() {
       return sessionID_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+     * @return The sessionID.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID getSessionID() {
       return sessionID_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID.getDefaultInstance() : sessionID_;
@@ -25022,12 +25501,14 @@ public final class DataserviceMessages {
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID objectID_;
     /**
      * <code>.dataclay.communication.grpc.common.ObjectID objectID = 2;</code>
+     * @return Whether the objectID field is set.
      */
     public boolean hasObjectID() {
       return objectID_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.common.ObjectID objectID = 2;</code>
+     * @return The objectID.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID getObjectID() {
       return objectID_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID.getDefaultInstance() : objectID_;
@@ -25043,6 +25524,7 @@ public final class DataserviceMessages {
     private volatile java.lang.Object metadataInfo_;
     /**
      * <code>string metadataInfo = 3;</code>
+     * @return The metadataInfo.
      */
     public java.lang.String getMetadataInfo() {
       java.lang.Object ref = metadataInfo_;
@@ -25058,6 +25540,7 @@ public final class DataserviceMessages {
     }
     /**
      * <code>string metadataInfo = 3;</code>
+     * @return The bytes for metadataInfo.
      */
     public com.google.protobuf.ByteString
         getMetadataInfoBytes() {
@@ -25279,7 +25762,7 @@ public final class DataserviceMessages {
                 es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NewVersionRequest.class, es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NewVersionRequest.Builder.class);
       }
 
-      // Construct using dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NewVersionRequest.newBuilder()
+      // Construct using es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NewVersionRequest.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -25440,12 +25923,14 @@ public final class DataserviceMessages {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionIDOrBuilder> sessionIDBuilder_;
       /**
        * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+       * @return Whether the sessionID field is set.
        */
       public boolean hasSessionID() {
         return sessionIDBuilder_ != null || sessionID_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+       * @return The sessionID.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID getSessionID() {
         if (sessionIDBuilder_ == null) {
@@ -25557,12 +26042,14 @@ public final class DataserviceMessages {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectIDOrBuilder> objectIDBuilder_;
       /**
        * <code>.dataclay.communication.grpc.common.ObjectID objectID = 2;</code>
+       * @return Whether the objectID field is set.
        */
       public boolean hasObjectID() {
         return objectIDBuilder_ != null || objectID_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.common.ObjectID objectID = 2;</code>
+       * @return The objectID.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID getObjectID() {
         if (objectIDBuilder_ == null) {
@@ -25672,6 +26159,7 @@ public final class DataserviceMessages {
       private java.lang.Object metadataInfo_ = "";
       /**
        * <code>string metadataInfo = 3;</code>
+       * @return The metadataInfo.
        */
       public java.lang.String getMetadataInfo() {
         java.lang.Object ref = metadataInfo_;
@@ -25687,6 +26175,7 @@ public final class DataserviceMessages {
       }
       /**
        * <code>string metadataInfo = 3;</code>
+       * @return The bytes for metadataInfo.
        */
       public com.google.protobuf.ByteString
           getMetadataInfoBytes() {
@@ -25703,6 +26192,8 @@ public final class DataserviceMessages {
       }
       /**
        * <code>string metadataInfo = 3;</code>
+       * @param value The metadataInfo to set.
+       * @return This builder for chaining.
        */
       public Builder setMetadataInfo(
           java.lang.String value) {
@@ -25716,6 +26207,7 @@ public final class DataserviceMessages {
       }
       /**
        * <code>string metadataInfo = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearMetadataInfo() {
         
@@ -25725,6 +26217,8 @@ public final class DataserviceMessages {
       }
       /**
        * <code>string metadataInfo = 3;</code>
+       * @param value The bytes for metadataInfo to set.
+       * @return This builder for chaining.
        */
       public Builder setMetadataInfoBytes(
           com.google.protobuf.ByteString value) {
@@ -25796,10 +26290,12 @@ public final class DataserviceMessages {
 
     /**
      * <code>.dataclay.communication.grpc.common.ObjectID objectID = 1;</code>
+     * @return Whether the objectID field is set.
      */
     boolean hasObjectID();
     /**
      * <code>.dataclay.communication.grpc.common.ObjectID objectID = 1;</code>
+     * @return The objectID.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID getObjectID();
     /**
@@ -25843,10 +26339,12 @@ public final class DataserviceMessages {
 
     /**
      * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 3;</code>
+     * @return Whether the excInfo field is set.
      */
     boolean hasExcInfo();
     /**
      * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 3;</code>
+     * @return The excInfo.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo getExcInfo();
     /**
@@ -25867,6 +26365,13 @@ public final class DataserviceMessages {
       super(builder);
     }
     private NewVersionResponse() {
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new NewVersionResponse();
     }
 
     @java.lang.Override
@@ -25907,10 +26412,10 @@ public final class DataserviceMessages {
               break;
             }
             case 18: {
-              if (!((mutable_bitField0_ & 0x00000002) != 0)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 versionedIDs_ = com.google.protobuf.MapField.newMapField(
                     VersionedIDsDefaultEntryHolder.defaultEntry);
-                mutable_bitField0_ |= 0x00000002;
+                mutable_bitField0_ |= 0x00000001;
               }
               com.google.protobuf.MapEntry<java.lang.String, java.lang.String>
               versionedIDs__ = input.readMessage(
@@ -25976,17 +26481,18 @@ public final class DataserviceMessages {
               es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NewVersionResponse.class, es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NewVersionResponse.Builder.class);
     }
 
-    private int bitField0_;
     public static final int OBJECTID_FIELD_NUMBER = 1;
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID objectID_;
     /**
      * <code>.dataclay.communication.grpc.common.ObjectID objectID = 1;</code>
+     * @return Whether the objectID field is set.
      */
     public boolean hasObjectID() {
       return objectID_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.common.ObjectID objectID = 1;</code>
+     * @return The objectID.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID getObjectID() {
       return objectID_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID.getDefaultInstance() : objectID_;
@@ -26078,12 +26584,14 @@ public final class DataserviceMessages {
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo excInfo_;
     /**
      * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 3;</code>
+     * @return Whether the excInfo field is set.
      */
     public boolean hasExcInfo() {
       return excInfo_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 3;</code>
+     * @return The excInfo.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo getExcInfo() {
       return excInfo_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.getDefaultInstance() : excInfo_;
@@ -26335,7 +26843,7 @@ public final class DataserviceMessages {
                 es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NewVersionResponse.class, es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NewVersionResponse.Builder.class);
       }
 
-      // Construct using dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NewVersionResponse.newBuilder()
+      // Construct using es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NewVersionResponse.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -26393,7 +26901,6 @@ public final class DataserviceMessages {
       public es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NewVersionResponse buildPartial() {
         es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NewVersionResponse result = new es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NewVersionResponse(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         if (objectIDBuilder_ == null) {
           result.objectID_ = objectID_;
         } else {
@@ -26406,7 +26913,6 @@ public final class DataserviceMessages {
         } else {
           result.excInfo_ = excInfoBuilder_.build();
         }
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
@@ -26498,12 +27004,14 @@ public final class DataserviceMessages {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectIDOrBuilder> objectIDBuilder_;
       /**
        * <code>.dataclay.communication.grpc.common.ObjectID objectID = 1;</code>
+       * @return Whether the objectID field is set.
        */
       public boolean hasObjectID() {
         return objectIDBuilder_ != null || objectID_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.common.ObjectID objectID = 1;</code>
+       * @return The objectID.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID getObjectID() {
         if (objectIDBuilder_ == null) {
@@ -26738,12 +27246,14 @@ public final class DataserviceMessages {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfoOrBuilder> excInfoBuilder_;
       /**
        * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 3;</code>
+       * @return Whether the excInfo field is set.
        */
       public boolean hasExcInfo() {
         return excInfoBuilder_ != null || excInfo_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 3;</code>
+       * @return The excInfo.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo getExcInfo() {
         if (excInfoBuilder_ == null) {
@@ -26908,10 +27418,12 @@ public final class DataserviceMessages {
 
     /**
      * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+     * @return Whether the sessionID field is set.
      */
     boolean hasSessionID();
     /**
      * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+     * @return The sessionID.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID getSessionID();
     /**
@@ -26921,10 +27433,12 @@ public final class DataserviceMessages {
 
     /**
      * <code>string versionInfo = 2;</code>
+     * @return The versionInfo.
      */
     java.lang.String getVersionInfo();
     /**
      * <code>string versionInfo = 2;</code>
+     * @return The bytes for versionInfo.
      */
     com.google.protobuf.ByteString
         getVersionInfoBytes();
@@ -26946,6 +27460,13 @@ public final class DataserviceMessages {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ConsolidateVersionRequest();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -26958,7 +27479,6 @@ public final class DataserviceMessages {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -27024,12 +27544,14 @@ public final class DataserviceMessages {
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID sessionID_;
     /**
      * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+     * @return Whether the sessionID field is set.
      */
     public boolean hasSessionID() {
       return sessionID_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+     * @return The sessionID.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID getSessionID() {
       return sessionID_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID.getDefaultInstance() : sessionID_;
@@ -27045,6 +27567,7 @@ public final class DataserviceMessages {
     private volatile java.lang.Object versionInfo_;
     /**
      * <code>string versionInfo = 2;</code>
+     * @return The versionInfo.
      */
     public java.lang.String getVersionInfo() {
       java.lang.Object ref = versionInfo_;
@@ -27060,6 +27583,7 @@ public final class DataserviceMessages {
     }
     /**
      * <code>string versionInfo = 2;</code>
+     * @return The bytes for versionInfo.
      */
     public com.google.protobuf.ByteString
         getVersionInfoBytes() {
@@ -27265,7 +27789,7 @@ public final class DataserviceMessages {
                 es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.ConsolidateVersionRequest.class, es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.ConsolidateVersionRequest.Builder.class);
       }
 
-      // Construct using dataclay.communication.grpc.messages.dataservice.DataserviceMessages.ConsolidateVersionRequest.newBuilder()
+      // Construct using es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.ConsolidateVersionRequest.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -27412,12 +27936,14 @@ public final class DataserviceMessages {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionIDOrBuilder> sessionIDBuilder_;
       /**
        * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+       * @return Whether the sessionID field is set.
        */
       public boolean hasSessionID() {
         return sessionIDBuilder_ != null || sessionID_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+       * @return The sessionID.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID getSessionID() {
         if (sessionIDBuilder_ == null) {
@@ -27527,6 +28053,7 @@ public final class DataserviceMessages {
       private java.lang.Object versionInfo_ = "";
       /**
        * <code>string versionInfo = 2;</code>
+       * @return The versionInfo.
        */
       public java.lang.String getVersionInfo() {
         java.lang.Object ref = versionInfo_;
@@ -27542,6 +28069,7 @@ public final class DataserviceMessages {
       }
       /**
        * <code>string versionInfo = 2;</code>
+       * @return The bytes for versionInfo.
        */
       public com.google.protobuf.ByteString
           getVersionInfoBytes() {
@@ -27558,6 +28086,8 @@ public final class DataserviceMessages {
       }
       /**
        * <code>string versionInfo = 2;</code>
+       * @param value The versionInfo to set.
+       * @return This builder for chaining.
        */
       public Builder setVersionInfo(
           java.lang.String value) {
@@ -27571,6 +28101,7 @@ public final class DataserviceMessages {
       }
       /**
        * <code>string versionInfo = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearVersionInfo() {
         
@@ -27580,6 +28111,8 @@ public final class DataserviceMessages {
       }
       /**
        * <code>string versionInfo = 2;</code>
+       * @param value The bytes for versionInfo to set.
+       * @return This builder for chaining.
        */
       public Builder setVersionInfoBytes(
           com.google.protobuf.ByteString value) {
@@ -27651,10 +28184,12 @@ public final class DataserviceMessages {
 
     /**
      * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+     * @return Whether the sessionID field is set.
      */
     boolean hasSessionID();
     /**
      * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+     * @return The sessionID.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID getSessionID();
     /**
@@ -27703,6 +28238,13 @@ public final class DataserviceMessages {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new UpsertObjectsRequest();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -27740,9 +28282,9 @@ public final class DataserviceMessages {
               break;
             }
             case 18: {
-              if (!((mutable_bitField0_ & 0x00000002) != 0)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 bytesUpdate_ = new java.util.ArrayList<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn>();
-                mutable_bitField0_ |= 0x00000002;
+                mutable_bitField0_ |= 0x00000001;
               }
               bytesUpdate_.add(
                   input.readMessage(es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn.parser(), extensionRegistry));
@@ -27763,7 +28305,7 @@ public final class DataserviceMessages {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000002) != 0)) {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
           bytesUpdate_ = java.util.Collections.unmodifiableList(bytesUpdate_);
         }
         this.unknownFields = unknownFields.build();
@@ -27783,17 +28325,18 @@ public final class DataserviceMessages {
               es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.UpsertObjectsRequest.class, es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.UpsertObjectsRequest.Builder.class);
     }
 
-    private int bitField0_;
     public static final int SESSIONID_FIELD_NUMBER = 1;
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID sessionID_;
     /**
      * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+     * @return Whether the sessionID field is set.
      */
     public boolean hasSessionID() {
       return sessionID_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+     * @return The sessionID.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID getSessionID() {
       return sessionID_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID.getDefaultInstance() : sessionID_;
@@ -28033,7 +28576,7 @@ public final class DataserviceMessages {
                 es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.UpsertObjectsRequest.class, es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.UpsertObjectsRequest.Builder.class);
       }
 
-      // Construct using dataclay.communication.grpc.messages.dataservice.DataserviceMessages.UpsertObjectsRequest.newBuilder()
+      // Construct using es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.UpsertObjectsRequest.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -28060,7 +28603,7 @@ public final class DataserviceMessages {
         }
         if (bytesUpdateBuilder_ == null) {
           bytesUpdate_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
+          bitField0_ = (bitField0_ & ~0x00000001);
         } else {
           bytesUpdateBuilder_.clear();
         }
@@ -28091,22 +28634,20 @@ public final class DataserviceMessages {
       public es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.UpsertObjectsRequest buildPartial() {
         es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.UpsertObjectsRequest result = new es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.UpsertObjectsRequest(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         if (sessionIDBuilder_ == null) {
           result.sessionID_ = sessionID_;
         } else {
           result.sessionID_ = sessionIDBuilder_.build();
         }
         if (bytesUpdateBuilder_ == null) {
-          if (((bitField0_ & 0x00000002) != 0)) {
+          if (((bitField0_ & 0x00000001) != 0)) {
             bytesUpdate_ = java.util.Collections.unmodifiableList(bytesUpdate_);
-            bitField0_ = (bitField0_ & ~0x00000002);
+            bitField0_ = (bitField0_ & ~0x00000001);
           }
           result.bytesUpdate_ = bytesUpdate_;
         } else {
           result.bytesUpdate_ = bytesUpdateBuilder_.build();
         }
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
@@ -28162,7 +28703,7 @@ public final class DataserviceMessages {
           if (!other.bytesUpdate_.isEmpty()) {
             if (bytesUpdate_.isEmpty()) {
               bytesUpdate_ = other.bytesUpdate_;
-              bitField0_ = (bitField0_ & ~0x00000002);
+              bitField0_ = (bitField0_ & ~0x00000001);
             } else {
               ensureBytesUpdateIsMutable();
               bytesUpdate_.addAll(other.bytesUpdate_);
@@ -28175,7 +28716,7 @@ public final class DataserviceMessages {
               bytesUpdateBuilder_.dispose();
               bytesUpdateBuilder_ = null;
               bytesUpdate_ = other.bytesUpdate_;
-              bitField0_ = (bitField0_ & ~0x00000002);
+              bitField0_ = (bitField0_ & ~0x00000001);
               bytesUpdateBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getBytesUpdateFieldBuilder() : null;
@@ -28219,12 +28760,14 @@ public final class DataserviceMessages {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionIDOrBuilder> sessionIDBuilder_;
       /**
        * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+       * @return Whether the sessionID field is set.
        */
       public boolean hasSessionID() {
         return sessionIDBuilder_ != null || sessionID_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+       * @return The sessionID.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID getSessionID() {
         if (sessionIDBuilder_ == null) {
@@ -28334,9 +28877,9 @@ public final class DataserviceMessages {
       private java.util.List<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn> bytesUpdate_ =
         java.util.Collections.emptyList();
       private void ensureBytesUpdateIsMutable() {
-        if (!((bitField0_ & 0x00000002) != 0)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           bytesUpdate_ = new java.util.ArrayList<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn>(bytesUpdate_);
-          bitField0_ |= 0x00000002;
+          bitField0_ |= 0x00000001;
          }
       }
 
@@ -28486,7 +29029,7 @@ public final class DataserviceMessages {
       public Builder clearBytesUpdate() {
         if (bytesUpdateBuilder_ == null) {
           bytesUpdate_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
+          bitField0_ = (bitField0_ & ~0x00000001);
           onChanged();
         } else {
           bytesUpdateBuilder_.clear();
@@ -28563,7 +29106,7 @@ public final class DataserviceMessages {
           bytesUpdateBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturnOrBuilder>(
                   bytesUpdate_,
-                  ((bitField0_ & 0x00000002) != 0),
+                  ((bitField0_ & 0x00000001) != 0),
                   getParentForChildren(),
                   isClean());
           bytesUpdate_ = null;
@@ -28629,10 +29172,12 @@ public final class DataserviceMessages {
 
     /**
      * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+     * @return Whether the sessionID field is set.
      */
     boolean hasSessionID();
     /**
      * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+     * @return The sessionID.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID getSessionID();
     /**
@@ -28642,10 +29187,12 @@ public final class DataserviceMessages {
 
     /**
      * <code>.dataclay.communication.grpc.common.ObjectID objectID = 2;</code>
+     * @return Whether the objectID field is set.
      */
     boolean hasObjectID();
     /**
      * <code>.dataclay.communication.grpc.common.ObjectID objectID = 2;</code>
+     * @return The objectID.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID getObjectID();
     /**
@@ -28655,6 +29202,7 @@ public final class DataserviceMessages {
 
     /**
      * <code>bool recursive = 3;</code>
+     * @return The recursive.
      */
     boolean getRecursive();
   }
@@ -28674,6 +29222,13 @@ public final class DataserviceMessages {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new NewReplicaRequest();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -28686,7 +29241,6 @@ public final class DataserviceMessages {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -28764,12 +29318,14 @@ public final class DataserviceMessages {
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID sessionID_;
     /**
      * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+     * @return Whether the sessionID field is set.
      */
     public boolean hasSessionID() {
       return sessionID_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+     * @return The sessionID.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID getSessionID() {
       return sessionID_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID.getDefaultInstance() : sessionID_;
@@ -28785,12 +29341,14 @@ public final class DataserviceMessages {
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID objectID_;
     /**
      * <code>.dataclay.communication.grpc.common.ObjectID objectID = 2;</code>
+     * @return Whether the objectID field is set.
      */
     public boolean hasObjectID() {
       return objectID_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.common.ObjectID objectID = 2;</code>
+     * @return The objectID.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID getObjectID() {
       return objectID_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID.getDefaultInstance() : objectID_;
@@ -28806,6 +29364,7 @@ public final class DataserviceMessages {
     private boolean recursive_;
     /**
      * <code>bool recursive = 3;</code>
+     * @return The recursive.
      */
     public boolean getRecursive() {
       return recursive_;
@@ -29019,7 +29578,7 @@ public final class DataserviceMessages {
                 es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NewReplicaRequest.class, es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NewReplicaRequest.Builder.class);
       }
 
-      // Construct using dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NewReplicaRequest.newBuilder()
+      // Construct using es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NewReplicaRequest.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -29179,12 +29738,14 @@ public final class DataserviceMessages {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionIDOrBuilder> sessionIDBuilder_;
       /**
        * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+       * @return Whether the sessionID field is set.
        */
       public boolean hasSessionID() {
         return sessionIDBuilder_ != null || sessionID_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+       * @return The sessionID.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID getSessionID() {
         if (sessionIDBuilder_ == null) {
@@ -29296,12 +29857,14 @@ public final class DataserviceMessages {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectIDOrBuilder> objectIDBuilder_;
       /**
        * <code>.dataclay.communication.grpc.common.ObjectID objectID = 2;</code>
+       * @return Whether the objectID field is set.
        */
       public boolean hasObjectID() {
         return objectIDBuilder_ != null || objectID_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.common.ObjectID objectID = 2;</code>
+       * @return The objectID.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID getObjectID() {
         if (objectIDBuilder_ == null) {
@@ -29411,12 +29974,15 @@ public final class DataserviceMessages {
       private boolean recursive_ ;
       /**
        * <code>bool recursive = 3;</code>
+       * @return The recursive.
        */
       public boolean getRecursive() {
         return recursive_;
       }
       /**
        * <code>bool recursive = 3;</code>
+       * @param value The recursive to set.
+       * @return This builder for chaining.
        */
       public Builder setRecursive(boolean value) {
         
@@ -29426,6 +29992,7 @@ public final class DataserviceMessages {
       }
       /**
        * <code>bool recursive = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearRecursive() {
         
@@ -29516,10 +30083,12 @@ public final class DataserviceMessages {
 
     /**
      * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+     * @return Whether the excInfo field is set.
      */
     boolean hasExcInfo();
     /**
      * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+     * @return The excInfo.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo getExcInfo();
     /**
@@ -29541,6 +30110,13 @@ public final class DataserviceMessages {
     }
     private NewReplicaResponse() {
       replicatedIDs_ = java.util.Collections.emptyList();
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new NewReplicaResponse();
     }
 
     @java.lang.Override
@@ -29624,7 +30200,6 @@ public final class DataserviceMessages {
               es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NewReplicaResponse.class, es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NewReplicaResponse.Builder.class);
     }
 
-    private int bitField0_;
     public static final int REPLICATEDIDS_FIELD_NUMBER = 1;
     private java.util.List<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID> replicatedIDs_;
     /**
@@ -29664,12 +30239,14 @@ public final class DataserviceMessages {
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo excInfo_;
     /**
      * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+     * @return Whether the excInfo field is set.
      */
     public boolean hasExcInfo() {
       return excInfo_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+     * @return The excInfo.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo getExcInfo() {
       return excInfo_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.getDefaultInstance() : excInfo_;
@@ -29874,7 +30451,7 @@ public final class DataserviceMessages {
                 es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NewReplicaResponse.class, es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NewReplicaResponse.Builder.class);
       }
 
-      // Construct using dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NewReplicaResponse.newBuilder()
+      // Construct using es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NewReplicaResponse.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -29932,7 +30509,6 @@ public final class DataserviceMessages {
       public es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NewReplicaResponse buildPartial() {
         es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NewReplicaResponse result = new es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NewReplicaResponse(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         if (replicatedIDsBuilder_ == null) {
           if (((bitField0_ & 0x00000001) != 0)) {
             replicatedIDs_ = java.util.Collections.unmodifiableList(replicatedIDs_);
@@ -29947,7 +30523,6 @@ public final class DataserviceMessages {
         } else {
           result.excInfo_ = excInfoBuilder_.build();
         }
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
@@ -30300,12 +30875,14 @@ public final class DataserviceMessages {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfoOrBuilder> excInfoBuilder_;
       /**
        * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+       * @return Whether the excInfo field is set.
        */
       public boolean hasExcInfo() {
         return excInfoBuilder_ != null || excInfo_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+       * @return The excInfo.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo getExcInfo() {
         if (excInfoBuilder_ == null) {
@@ -30470,10 +31047,12 @@ public final class DataserviceMessages {
 
     /**
      * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+     * @return Whether the sessionID field is set.
      */
     boolean hasSessionID();
     /**
      * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+     * @return The sessionID.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID getSessionID();
     /**
@@ -30483,10 +31062,12 @@ public final class DataserviceMessages {
 
     /**
      * <code>.dataclay.communication.grpc.common.ObjectID objectID = 2;</code>
+     * @return Whether the objectID field is set.
      */
     boolean hasObjectID();
     /**
      * <code>.dataclay.communication.grpc.common.ObjectID objectID = 2;</code>
+     * @return The objectID.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID getObjectID();
     /**
@@ -30496,10 +31077,12 @@ public final class DataserviceMessages {
 
     /**
      * <code>.dataclay.communication.grpc.common.ExecutionEnvironmentID destLocID = 3;</code>
+     * @return Whether the destLocID field is set.
      */
     boolean hasDestLocID();
     /**
      * <code>.dataclay.communication.grpc.common.ExecutionEnvironmentID destLocID = 3;</code>
+     * @return The destLocID.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironmentID getDestLocID();
     /**
@@ -30509,6 +31092,7 @@ public final class DataserviceMessages {
 
     /**
      * <code>bool recursive = 4;</code>
+     * @return The recursive.
      */
     boolean getRecursive();
   }
@@ -30528,6 +31112,13 @@ public final class DataserviceMessages {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new MoveObjectsRequest();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -30540,7 +31131,6 @@ public final class DataserviceMessages {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -30631,12 +31221,14 @@ public final class DataserviceMessages {
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID sessionID_;
     /**
      * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+     * @return Whether the sessionID field is set.
      */
     public boolean hasSessionID() {
       return sessionID_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+     * @return The sessionID.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID getSessionID() {
       return sessionID_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID.getDefaultInstance() : sessionID_;
@@ -30652,12 +31244,14 @@ public final class DataserviceMessages {
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID objectID_;
     /**
      * <code>.dataclay.communication.grpc.common.ObjectID objectID = 2;</code>
+     * @return Whether the objectID field is set.
      */
     public boolean hasObjectID() {
       return objectID_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.common.ObjectID objectID = 2;</code>
+     * @return The objectID.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID getObjectID() {
       return objectID_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID.getDefaultInstance() : objectID_;
@@ -30673,12 +31267,14 @@ public final class DataserviceMessages {
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironmentID destLocID_;
     /**
      * <code>.dataclay.communication.grpc.common.ExecutionEnvironmentID destLocID = 3;</code>
+     * @return Whether the destLocID field is set.
      */
     public boolean hasDestLocID() {
       return destLocID_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.common.ExecutionEnvironmentID destLocID = 3;</code>
+     * @return The destLocID.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironmentID getDestLocID() {
       return destLocID_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironmentID.getDefaultInstance() : destLocID_;
@@ -30694,6 +31290,7 @@ public final class DataserviceMessages {
     private boolean recursive_;
     /**
      * <code>bool recursive = 4;</code>
+     * @return The recursive.
      */
     public boolean getRecursive() {
       return recursive_;
@@ -30923,7 +31520,7 @@ public final class DataserviceMessages {
                 es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.MoveObjectsRequest.class, es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.MoveObjectsRequest.Builder.class);
       }
 
-      // Construct using dataclay.communication.grpc.messages.dataservice.DataserviceMessages.MoveObjectsRequest.newBuilder()
+      // Construct using es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.MoveObjectsRequest.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -31097,12 +31694,14 @@ public final class DataserviceMessages {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionIDOrBuilder> sessionIDBuilder_;
       /**
        * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+       * @return Whether the sessionID field is set.
        */
       public boolean hasSessionID() {
         return sessionIDBuilder_ != null || sessionID_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+       * @return The sessionID.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID getSessionID() {
         if (sessionIDBuilder_ == null) {
@@ -31214,12 +31813,14 @@ public final class DataserviceMessages {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectIDOrBuilder> objectIDBuilder_;
       /**
        * <code>.dataclay.communication.grpc.common.ObjectID objectID = 2;</code>
+       * @return Whether the objectID field is set.
        */
       public boolean hasObjectID() {
         return objectIDBuilder_ != null || objectID_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.common.ObjectID objectID = 2;</code>
+       * @return The objectID.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID getObjectID() {
         if (objectIDBuilder_ == null) {
@@ -31331,12 +31932,14 @@ public final class DataserviceMessages {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironmentID, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironmentID.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironmentIDOrBuilder> destLocIDBuilder_;
       /**
        * <code>.dataclay.communication.grpc.common.ExecutionEnvironmentID destLocID = 3;</code>
+       * @return Whether the destLocID field is set.
        */
       public boolean hasDestLocID() {
         return destLocIDBuilder_ != null || destLocID_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.common.ExecutionEnvironmentID destLocID = 3;</code>
+       * @return The destLocID.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironmentID getDestLocID() {
         if (destLocIDBuilder_ == null) {
@@ -31446,12 +32049,15 @@ public final class DataserviceMessages {
       private boolean recursive_ ;
       /**
        * <code>bool recursive = 4;</code>
+       * @return The recursive.
        */
       public boolean getRecursive() {
         return recursive_;
       }
       /**
        * <code>bool recursive = 4;</code>
+       * @param value The recursive to set.
+       * @return This builder for chaining.
        */
       public Builder setRecursive(boolean value) {
         
@@ -31461,6 +32067,7 @@ public final class DataserviceMessages {
       }
       /**
        * <code>bool recursive = 4;</code>
+       * @return This builder for chaining.
        */
       public Builder clearRecursive() {
         
@@ -31551,10 +32158,12 @@ public final class DataserviceMessages {
 
     /**
      * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+     * @return Whether the excInfo field is set.
      */
     boolean hasExcInfo();
     /**
      * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+     * @return The excInfo.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo getExcInfo();
     /**
@@ -31576,6 +32185,13 @@ public final class DataserviceMessages {
     }
     private MoveObjectsResponse() {
       movedObjects_ = java.util.Collections.emptyList();
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new MoveObjectsResponse();
     }
 
     @java.lang.Override
@@ -31659,7 +32275,6 @@ public final class DataserviceMessages {
               es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.MoveObjectsResponse.class, es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.MoveObjectsResponse.Builder.class);
     }
 
-    private int bitField0_;
     public static final int MOVEDOBJECTS_FIELD_NUMBER = 1;
     private java.util.List<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID> movedObjects_;
     /**
@@ -31699,12 +32314,14 @@ public final class DataserviceMessages {
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo excInfo_;
     /**
      * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+     * @return Whether the excInfo field is set.
      */
     public boolean hasExcInfo() {
       return excInfo_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+     * @return The excInfo.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo getExcInfo() {
       return excInfo_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.getDefaultInstance() : excInfo_;
@@ -31909,7 +32526,7 @@ public final class DataserviceMessages {
                 es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.MoveObjectsResponse.class, es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.MoveObjectsResponse.Builder.class);
       }
 
-      // Construct using dataclay.communication.grpc.messages.dataservice.DataserviceMessages.MoveObjectsResponse.newBuilder()
+      // Construct using es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.MoveObjectsResponse.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -31967,7 +32584,6 @@ public final class DataserviceMessages {
       public es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.MoveObjectsResponse buildPartial() {
         es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.MoveObjectsResponse result = new es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.MoveObjectsResponse(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         if (movedObjectsBuilder_ == null) {
           if (((bitField0_ & 0x00000001) != 0)) {
             movedObjects_ = java.util.Collections.unmodifiableList(movedObjects_);
@@ -31982,7 +32598,6 @@ public final class DataserviceMessages {
         } else {
           result.excInfo_ = excInfoBuilder_.build();
         }
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
@@ -32335,12 +32950,14 @@ public final class DataserviceMessages {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfoOrBuilder> excInfoBuilder_;
       /**
        * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+       * @return Whether the excInfo field is set.
        */
       public boolean hasExcInfo() {
         return excInfoBuilder_ != null || excInfo_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+       * @return The excInfo.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo getExcInfo() {
         if (excInfoBuilder_ == null) {
@@ -32505,10 +33122,12 @@ public final class DataserviceMessages {
 
     /**
      * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+     * @return Whether the sessionID field is set.
      */
     boolean hasSessionID();
     /**
      * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+     * @return The sessionID.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID getSessionID();
     /**
@@ -32542,20 +33161,24 @@ public final class DataserviceMessages {
 
     /**
      * <code>bool recursive = 3;</code>
+     * @return The recursive.
      */
     boolean getRecursive();
 
     /**
      * <code>bool moving = 4;</code>
+     * @return The moving.
      */
     boolean getMoving();
 
     /**
      * <code>.dataclay.communication.grpc.common.ExecutionEnvironmentID newHint = 5;</code>
+     * @return Whether the newHint field is set.
      */
     boolean hasNewHint();
     /**
      * <code>.dataclay.communication.grpc.common.ExecutionEnvironmentID newHint = 5;</code>
+     * @return The newHint.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironmentID getNewHint();
     /**
@@ -32577,6 +33200,13 @@ public final class DataserviceMessages {
     }
     private RemoveObjectsRequest() {
       objectIDs_ = java.util.Collections.emptyList();
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new RemoveObjectsRequest();
     }
 
     @java.lang.Override
@@ -32617,9 +33247,9 @@ public final class DataserviceMessages {
               break;
             }
             case 18: {
-              if (!((mutable_bitField0_ & 0x00000002) != 0)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 objectIDs_ = new java.util.ArrayList<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID>();
-                mutable_bitField0_ |= 0x00000002;
+                mutable_bitField0_ |= 0x00000001;
               }
               objectIDs_.add(
                   input.readMessage(es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID.parser(), extensionRegistry));
@@ -32663,7 +33293,7 @@ public final class DataserviceMessages {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000002) != 0)) {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
           objectIDs_ = java.util.Collections.unmodifiableList(objectIDs_);
         }
         this.unknownFields = unknownFields.build();
@@ -32683,17 +33313,18 @@ public final class DataserviceMessages {
               es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.RemoveObjectsRequest.class, es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.RemoveObjectsRequest.Builder.class);
     }
 
-    private int bitField0_;
     public static final int SESSIONID_FIELD_NUMBER = 1;
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID sessionID_;
     /**
      * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+     * @return Whether the sessionID field is set.
      */
     public boolean hasSessionID() {
       return sessionID_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+     * @return The sessionID.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID getSessionID() {
       return sessionID_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID.getDefaultInstance() : sessionID_;
@@ -32744,6 +33375,7 @@ public final class DataserviceMessages {
     private boolean recursive_;
     /**
      * <code>bool recursive = 3;</code>
+     * @return The recursive.
      */
     public boolean getRecursive() {
       return recursive_;
@@ -32753,6 +33385,7 @@ public final class DataserviceMessages {
     private boolean moving_;
     /**
      * <code>bool moving = 4;</code>
+     * @return The moving.
      */
     public boolean getMoving() {
       return moving_;
@@ -32762,12 +33395,14 @@ public final class DataserviceMessages {
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironmentID newHint_;
     /**
      * <code>.dataclay.communication.grpc.common.ExecutionEnvironmentID newHint = 5;</code>
+     * @return Whether the newHint field is set.
      */
     public boolean hasNewHint() {
       return newHint_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.common.ExecutionEnvironmentID newHint = 5;</code>
+     * @return The newHint.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironmentID getNewHint() {
       return newHint_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironmentID.getDefaultInstance() : newHint_;
@@ -33012,7 +33647,7 @@ public final class DataserviceMessages {
                 es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.RemoveObjectsRequest.class, es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.RemoveObjectsRequest.Builder.class);
       }
 
-      // Construct using dataclay.communication.grpc.messages.dataservice.DataserviceMessages.RemoveObjectsRequest.newBuilder()
+      // Construct using es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.RemoveObjectsRequest.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -33039,7 +33674,7 @@ public final class DataserviceMessages {
         }
         if (objectIDsBuilder_ == null) {
           objectIDs_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
+          bitField0_ = (bitField0_ & ~0x00000001);
         } else {
           objectIDsBuilder_.clear();
         }
@@ -33080,16 +33715,15 @@ public final class DataserviceMessages {
       public es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.RemoveObjectsRequest buildPartial() {
         es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.RemoveObjectsRequest result = new es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.RemoveObjectsRequest(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         if (sessionIDBuilder_ == null) {
           result.sessionID_ = sessionID_;
         } else {
           result.sessionID_ = sessionIDBuilder_.build();
         }
         if (objectIDsBuilder_ == null) {
-          if (((bitField0_ & 0x00000002) != 0)) {
+          if (((bitField0_ & 0x00000001) != 0)) {
             objectIDs_ = java.util.Collections.unmodifiableList(objectIDs_);
-            bitField0_ = (bitField0_ & ~0x00000002);
+            bitField0_ = (bitField0_ & ~0x00000001);
           }
           result.objectIDs_ = objectIDs_;
         } else {
@@ -33102,7 +33736,6 @@ public final class DataserviceMessages {
         } else {
           result.newHint_ = newHintBuilder_.build();
         }
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
@@ -33158,7 +33791,7 @@ public final class DataserviceMessages {
           if (!other.objectIDs_.isEmpty()) {
             if (objectIDs_.isEmpty()) {
               objectIDs_ = other.objectIDs_;
-              bitField0_ = (bitField0_ & ~0x00000002);
+              bitField0_ = (bitField0_ & ~0x00000001);
             } else {
               ensureObjectIDsIsMutable();
               objectIDs_.addAll(other.objectIDs_);
@@ -33171,7 +33804,7 @@ public final class DataserviceMessages {
               objectIDsBuilder_.dispose();
               objectIDsBuilder_ = null;
               objectIDs_ = other.objectIDs_;
-              bitField0_ = (bitField0_ & ~0x00000002);
+              bitField0_ = (bitField0_ & ~0x00000001);
               objectIDsBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getObjectIDsFieldBuilder() : null;
@@ -33224,12 +33857,14 @@ public final class DataserviceMessages {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionIDOrBuilder> sessionIDBuilder_;
       /**
        * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+       * @return Whether the sessionID field is set.
        */
       public boolean hasSessionID() {
         return sessionIDBuilder_ != null || sessionID_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+       * @return The sessionID.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID getSessionID() {
         if (sessionIDBuilder_ == null) {
@@ -33339,9 +33974,9 @@ public final class DataserviceMessages {
       private java.util.List<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID> objectIDs_ =
         java.util.Collections.emptyList();
       private void ensureObjectIDsIsMutable() {
-        if (!((bitField0_ & 0x00000002) != 0)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           objectIDs_ = new java.util.ArrayList<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID>(objectIDs_);
-          bitField0_ |= 0x00000002;
+          bitField0_ |= 0x00000001;
          }
       }
 
@@ -33491,7 +34126,7 @@ public final class DataserviceMessages {
       public Builder clearObjectIDs() {
         if (objectIDsBuilder_ == null) {
           objectIDs_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
+          bitField0_ = (bitField0_ & ~0x00000001);
           onChanged();
         } else {
           objectIDsBuilder_.clear();
@@ -33568,7 +34203,7 @@ public final class DataserviceMessages {
           objectIDsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectIDOrBuilder>(
                   objectIDs_,
-                  ((bitField0_ & 0x00000002) != 0),
+                  ((bitField0_ & 0x00000001) != 0),
                   getParentForChildren(),
                   isClean());
           objectIDs_ = null;
@@ -33579,12 +34214,15 @@ public final class DataserviceMessages {
       private boolean recursive_ ;
       /**
        * <code>bool recursive = 3;</code>
+       * @return The recursive.
        */
       public boolean getRecursive() {
         return recursive_;
       }
       /**
        * <code>bool recursive = 3;</code>
+       * @param value The recursive to set.
+       * @return This builder for chaining.
        */
       public Builder setRecursive(boolean value) {
         
@@ -33594,6 +34232,7 @@ public final class DataserviceMessages {
       }
       /**
        * <code>bool recursive = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearRecursive() {
         
@@ -33605,12 +34244,15 @@ public final class DataserviceMessages {
       private boolean moving_ ;
       /**
        * <code>bool moving = 4;</code>
+       * @return The moving.
        */
       public boolean getMoving() {
         return moving_;
       }
       /**
        * <code>bool moving = 4;</code>
+       * @param value The moving to set.
+       * @return This builder for chaining.
        */
       public Builder setMoving(boolean value) {
         
@@ -33620,6 +34262,7 @@ public final class DataserviceMessages {
       }
       /**
        * <code>bool moving = 4;</code>
+       * @return This builder for chaining.
        */
       public Builder clearMoving() {
         
@@ -33633,12 +34276,14 @@ public final class DataserviceMessages {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironmentID, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironmentID.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironmentIDOrBuilder> newHintBuilder_;
       /**
        * <code>.dataclay.communication.grpc.common.ExecutionEnvironmentID newHint = 5;</code>
+       * @return Whether the newHint field is set.
        */
       public boolean hasNewHint() {
         return newHintBuilder_ != null || newHint_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.common.ExecutionEnvironmentID newHint = 5;</code>
+       * @return The newHint.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironmentID getNewHint() {
         if (newHintBuilder_ == null) {
@@ -33848,6 +34493,13 @@ public final class DataserviceMessages {
       super(builder);
     }
     private JumpMapThreadMsg() {
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new JumpMapThreadMsg();
     }
 
     @java.lang.Override
@@ -34215,7 +34867,7 @@ public final class DataserviceMessages {
                 es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.JumpMapThreadMsg.class, es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.JumpMapThreadMsg.Builder.class);
       }
 
-      // Construct using dataclay.communication.grpc.messages.dataservice.DataserviceMessages.JumpMapThreadMsg.newBuilder()
+      // Construct using es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.JumpMapThreadMsg.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -34558,10 +35210,12 @@ public final class DataserviceMessages {
 
     /**
      * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+     * @return Whether the excInfo field is set.
      */
     boolean hasExcInfo();
     /**
      * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+     * @return The excInfo.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo getExcInfo();
     /**
@@ -34582,6 +35236,13 @@ public final class DataserviceMessages {
       super(builder);
     }
     private RemoveObjectsResponse() {
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new RemoveObjectsResponse();
     }
 
     @java.lang.Override
@@ -34678,7 +35339,6 @@ public final class DataserviceMessages {
               es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.RemoveObjectsResponse.class, es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.RemoveObjectsResponse.Builder.class);
     }
 
-    private int bitField0_;
     public static final int REMOVEDOBJECTS_FIELD_NUMBER = 1;
     private static final class RemovedObjectsDefaultEntryHolder {
       static final com.google.protobuf.MapEntry<
@@ -34759,12 +35419,14 @@ public final class DataserviceMessages {
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo excInfo_;
     /**
      * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+     * @return Whether the excInfo field is set.
      */
     public boolean hasExcInfo() {
       return excInfo_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+     * @return The excInfo.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo getExcInfo() {
       return excInfo_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.getDefaultInstance() : excInfo_;
@@ -35000,7 +35662,7 @@ public final class DataserviceMessages {
                 es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.RemoveObjectsResponse.class, es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.RemoveObjectsResponse.Builder.class);
       }
 
-      // Construct using dataclay.communication.grpc.messages.dataservice.DataserviceMessages.RemoveObjectsResponse.newBuilder()
+      // Construct using es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.RemoveObjectsResponse.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -35052,7 +35714,6 @@ public final class DataserviceMessages {
       public es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.RemoveObjectsResponse buildPartial() {
         es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.RemoveObjectsResponse result = new es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.RemoveObjectsResponse(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         result.removedObjects_ = internalGetRemovedObjects();
         result.removedObjects_.makeImmutable();
         if (excInfoBuilder_ == null) {
@@ -35060,7 +35721,6 @@ public final class DataserviceMessages {
         } else {
           result.excInfo_ = excInfoBuilder_.build();
         }
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
@@ -35272,12 +35932,14 @@ public final class DataserviceMessages {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfoOrBuilder> excInfoBuilder_;
       /**
        * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+       * @return Whether the excInfo field is set.
        */
       public boolean hasExcInfo() {
         return excInfoBuilder_ != null || excInfo_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+       * @return The excInfo.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo getExcInfo() {
         if (excInfoBuilder_ == null) {
@@ -35487,6 +36149,13 @@ public final class DataserviceMessages {
       super(builder);
     }
     private MigrateObjectsRequest() {
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new MigrateObjectsRequest();
     }
 
     @java.lang.Override
@@ -35854,7 +36523,7 @@ public final class DataserviceMessages {
                 es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.MigrateObjectsRequest.class, es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.MigrateObjectsRequest.Builder.class);
       }
 
-      // Construct using dataclay.communication.grpc.messages.dataservice.DataserviceMessages.MigrateObjectsRequest.newBuilder()
+      // Construct using es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.MigrateObjectsRequest.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -36202,6 +36871,13 @@ public final class DataserviceMessages {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new MigratedObjects();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -36481,7 +37157,7 @@ public final class DataserviceMessages {
                 es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.MigratedObjects.class, es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.MigratedObjects.Builder.class);
       }
 
-      // Construct using dataclay.communication.grpc.messages.dataservice.DataserviceMessages.MigratedObjects.newBuilder()
+      // Construct using es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.MigratedObjects.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -36978,10 +37654,12 @@ public final class DataserviceMessages {
 
     /**
      * <code>.dataclay.communication.grpc.dataservice.MigratedObjects nonMigratedObjs = 2;</code>
+     * @return Whether the nonMigratedObjs field is set.
      */
     boolean hasNonMigratedObjs();
     /**
      * <code>.dataclay.communication.grpc.dataservice.MigratedObjects nonMigratedObjs = 2;</code>
+     * @return The nonMigratedObjs.
      */
     es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.MigratedObjects getNonMigratedObjs();
     /**
@@ -36991,10 +37669,12 @@ public final class DataserviceMessages {
 
     /**
      * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 3;</code>
+     * @return Whether the excInfo field is set.
      */
     boolean hasExcInfo();
     /**
      * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 3;</code>
+     * @return The excInfo.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo getExcInfo();
     /**
@@ -37015,6 +37695,13 @@ public final class DataserviceMessages {
       super(builder);
     }
     private MigrateObjectsResponse() {
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new MigrateObjectsResponse();
     }
 
     @java.lang.Override
@@ -37124,7 +37811,6 @@ public final class DataserviceMessages {
               es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.MigrateObjectsResponse.class, es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.MigrateObjectsResponse.Builder.class);
     }
 
-    private int bitField0_;
     public static final int MIGRATEDOBJS_FIELD_NUMBER = 1;
     private static final class MigratedObjsDefaultEntryHolder {
       static final com.google.protobuf.MapEntry<
@@ -37205,12 +37891,14 @@ public final class DataserviceMessages {
     private es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.MigratedObjects nonMigratedObjs_;
     /**
      * <code>.dataclay.communication.grpc.dataservice.MigratedObjects nonMigratedObjs = 2;</code>
+     * @return Whether the nonMigratedObjs field is set.
      */
     public boolean hasNonMigratedObjs() {
       return nonMigratedObjs_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.dataservice.MigratedObjects nonMigratedObjs = 2;</code>
+     * @return The nonMigratedObjs.
      */
     public es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.MigratedObjects getNonMigratedObjs() {
       return nonMigratedObjs_ == null ? es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.MigratedObjects.getDefaultInstance() : nonMigratedObjs_;
@@ -37226,12 +37914,14 @@ public final class DataserviceMessages {
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo excInfo_;
     /**
      * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 3;</code>
+     * @return Whether the excInfo field is set.
      */
     public boolean hasExcInfo() {
       return excInfo_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 3;</code>
+     * @return The excInfo.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo getExcInfo() {
       return excInfo_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.getDefaultInstance() : excInfo_;
@@ -37483,7 +38173,7 @@ public final class DataserviceMessages {
                 es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.MigrateObjectsResponse.class, es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.MigrateObjectsResponse.Builder.class);
       }
 
-      // Construct using dataclay.communication.grpc.messages.dataservice.DataserviceMessages.MigrateObjectsResponse.newBuilder()
+      // Construct using es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.MigrateObjectsResponse.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -37541,7 +38231,6 @@ public final class DataserviceMessages {
       public es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.MigrateObjectsResponse buildPartial() {
         es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.MigrateObjectsResponse result = new es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.MigrateObjectsResponse(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         result.migratedObjs_ = internalGetMigratedObjs();
         result.migratedObjs_.makeImmutable();
         if (nonMigratedObjsBuilder_ == null) {
@@ -37554,7 +38243,6 @@ public final class DataserviceMessages {
         } else {
           result.excInfo_ = excInfoBuilder_.build();
         }
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
@@ -37769,12 +38457,14 @@ public final class DataserviceMessages {
           es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.MigratedObjects, es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.MigratedObjects.Builder, es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.MigratedObjectsOrBuilder> nonMigratedObjsBuilder_;
       /**
        * <code>.dataclay.communication.grpc.dataservice.MigratedObjects nonMigratedObjs = 2;</code>
+       * @return Whether the nonMigratedObjs field is set.
        */
       public boolean hasNonMigratedObjs() {
         return nonMigratedObjsBuilder_ != null || nonMigratedObjs_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.dataservice.MigratedObjects nonMigratedObjs = 2;</code>
+       * @return The nonMigratedObjs.
        */
       public es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.MigratedObjects getNonMigratedObjs() {
         if (nonMigratedObjsBuilder_ == null) {
@@ -37886,12 +38576,14 @@ public final class DataserviceMessages {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfoOrBuilder> excInfoBuilder_;
       /**
        * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 3;</code>
+       * @return Whether the excInfo field is set.
        */
       public boolean hasExcInfo() {
         return excInfoBuilder_ != null || excInfo_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 3;</code>
+       * @return The excInfo.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo getExcInfo() {
         if (excInfoBuilder_ == null) {
@@ -38056,6 +38748,7 @@ public final class DataserviceMessages {
 
     /**
      * <code>int32 taskid = 1;</code>
+     * @return The taskid.
      */
     int getTaskid();
   }
@@ -38075,6 +38768,13 @@ public final class DataserviceMessages {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ActivateTracingRequest();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -38087,7 +38787,6 @@ public final class DataserviceMessages {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -38139,6 +38838,7 @@ public final class DataserviceMessages {
     private int taskid_;
     /**
      * <code>int32 taskid = 1;</code>
+     * @return The taskid.
      */
     public int getTaskid() {
       return taskid_;
@@ -38319,7 +39019,7 @@ public final class DataserviceMessages {
                 es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.ActivateTracingRequest.class, es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.ActivateTracingRequest.Builder.class);
       }
 
-      // Construct using dataclay.communication.grpc.messages.dataservice.DataserviceMessages.ActivateTracingRequest.newBuilder()
+      // Construct using es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.ActivateTracingRequest.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -38449,12 +39149,15 @@ public final class DataserviceMessages {
       private int taskid_ ;
       /**
        * <code>int32 taskid = 1;</code>
+       * @return The taskid.
        */
       public int getTaskid() {
         return taskid_;
       }
       /**
        * <code>int32 taskid = 1;</code>
+       * @param value The taskid to set.
+       * @return This builder for chaining.
        */
       public Builder setTaskid(int value) {
         
@@ -38464,6 +39167,7 @@ public final class DataserviceMessages {
       }
       /**
        * <code>int32 taskid = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearTaskid() {
         
@@ -38530,10 +39234,12 @@ public final class DataserviceMessages {
 
     /**
      * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+     * @return Whether the sessionID field is set.
      */
     boolean hasSessionID();
     /**
      * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+     * @return The sessionID.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID getSessionID();
     /**
@@ -38557,6 +39263,13 @@ public final class DataserviceMessages {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new CloseSessionInDSRequest();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -38569,7 +39282,6 @@ public final class DataserviceMessages {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -38629,12 +39341,14 @@ public final class DataserviceMessages {
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID sessionID_;
     /**
      * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+     * @return Whether the sessionID field is set.
      */
     public boolean hasSessionID() {
       return sessionID_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+     * @return The sessionID.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID getSessionID() {
       return sessionID_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID.getDefaultInstance() : sessionID_;
@@ -38826,7 +39540,7 @@ public final class DataserviceMessages {
                 es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.CloseSessionInDSRequest.class, es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.CloseSessionInDSRequest.Builder.class);
       }
 
-      // Construct using dataclay.communication.grpc.messages.dataservice.DataserviceMessages.CloseSessionInDSRequest.newBuilder()
+      // Construct using es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.CloseSessionInDSRequest.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -38966,12 +39680,14 @@ public final class DataserviceMessages {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionIDOrBuilder> sessionIDBuilder_;
       /**
        * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+       * @return Whether the sessionID field is set.
        */
       public boolean hasSessionID() {
         return sessionIDBuilder_ != null || sessionID_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.common.SessionID sessionID = 1;</code>
+       * @return The sessionID.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID getSessionID() {
         if (sessionIDBuilder_ == null) {
@@ -39136,10 +39852,12 @@ public final class DataserviceMessages {
 
     /**
      * <code>.dataclay.communication.grpc.common.ExecutionEnvironmentID epochNodeID = 1;</code>
+     * @return Whether the epochNodeID field is set.
      */
     boolean hasEpochNodeID();
     /**
      * <code>.dataclay.communication.grpc.common.ExecutionEnvironmentID epochNodeID = 1;</code>
+     * @return The epochNodeID.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironmentID getEpochNodeID();
     /**
@@ -39247,6 +39965,13 @@ public final class DataserviceMessages {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new DiskCollectRequest();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -39284,28 +40009,28 @@ public final class DataserviceMessages {
               break;
             }
             case 18: {
-              if (!((mutable_bitField0_ & 0x00000002) != 0)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 ringPath_ = new java.util.ArrayList<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironmentID>();
-                mutable_bitField0_ |= 0x00000002;
+                mutable_bitField0_ |= 0x00000001;
               }
               ringPath_.add(
                   input.readMessage(es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironmentID.parser(), extensionRegistry));
               break;
             }
             case 26: {
-              if (!((mutable_bitField0_ & 0x00000004) != 0)) {
+              if (!((mutable_bitField0_ & 0x00000002) != 0)) {
                 candidates_ = new java.util.ArrayList<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID>();
-                mutable_bitField0_ |= 0x00000004;
+                mutable_bitField0_ |= 0x00000002;
               }
               candidates_.add(
                   input.readMessage(es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID.parser(), extensionRegistry));
               break;
             }
             case 34: {
-              if (!((mutable_bitField0_ & 0x00000008) != 0)) {
+              if (!((mutable_bitField0_ & 0x00000004) != 0)) {
                 refsToUpdate_ = com.google.protobuf.MapField.newMapField(
                     RefsToUpdateDefaultEntryHolder.defaultEntry);
-                mutable_bitField0_ |= 0x00000008;
+                mutable_bitField0_ |= 0x00000004;
               }
               com.google.protobuf.MapEntry<java.lang.String, java.lang.Integer>
               refsToUpdate__ = input.readMessage(
@@ -39329,10 +40054,10 @@ public final class DataserviceMessages {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000002) != 0)) {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
           ringPath_ = java.util.Collections.unmodifiableList(ringPath_);
         }
-        if (((mutable_bitField0_ & 0x00000004) != 0)) {
+        if (((mutable_bitField0_ & 0x00000002) != 0)) {
           candidates_ = java.util.Collections.unmodifiableList(candidates_);
         }
         this.unknownFields = unknownFields.build();
@@ -39364,17 +40089,18 @@ public final class DataserviceMessages {
               es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.DiskCollectRequest.class, es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.DiskCollectRequest.Builder.class);
     }
 
-    private int bitField0_;
     public static final int EPOCHNODEID_FIELD_NUMBER = 1;
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironmentID epochNodeID_;
     /**
      * <code>.dataclay.communication.grpc.common.ExecutionEnvironmentID epochNodeID = 1;</code>
+     * @return Whether the epochNodeID field is set.
      */
     public boolean hasEpochNodeID() {
       return epochNodeID_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.common.ExecutionEnvironmentID epochNodeID = 1;</code>
+     * @return The epochNodeID.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironmentID getEpochNodeID() {
       return epochNodeID_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironmentID.getDefaultInstance() : epochNodeID_;
@@ -39782,7 +40508,7 @@ public final class DataserviceMessages {
                 es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.DiskCollectRequest.class, es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.DiskCollectRequest.Builder.class);
       }
 
-      // Construct using dataclay.communication.grpc.messages.dataservice.DataserviceMessages.DiskCollectRequest.newBuilder()
+      // Construct using es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.DiskCollectRequest.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -39810,13 +40536,13 @@ public final class DataserviceMessages {
         }
         if (ringPathBuilder_ == null) {
           ringPath_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
+          bitField0_ = (bitField0_ & ~0x00000001);
         } else {
           ringPathBuilder_.clear();
         }
         if (candidatesBuilder_ == null) {
           candidates_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000004);
+          bitField0_ = (bitField0_ & ~0x00000002);
         } else {
           candidatesBuilder_.clear();
         }
@@ -39848,25 +40574,24 @@ public final class DataserviceMessages {
       public es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.DiskCollectRequest buildPartial() {
         es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.DiskCollectRequest result = new es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.DiskCollectRequest(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         if (epochNodeIDBuilder_ == null) {
           result.epochNodeID_ = epochNodeID_;
         } else {
           result.epochNodeID_ = epochNodeIDBuilder_.build();
         }
         if (ringPathBuilder_ == null) {
-          if (((bitField0_ & 0x00000002) != 0)) {
+          if (((bitField0_ & 0x00000001) != 0)) {
             ringPath_ = java.util.Collections.unmodifiableList(ringPath_);
-            bitField0_ = (bitField0_ & ~0x00000002);
+            bitField0_ = (bitField0_ & ~0x00000001);
           }
           result.ringPath_ = ringPath_;
         } else {
           result.ringPath_ = ringPathBuilder_.build();
         }
         if (candidatesBuilder_ == null) {
-          if (((bitField0_ & 0x00000004) != 0)) {
+          if (((bitField0_ & 0x00000002) != 0)) {
             candidates_ = java.util.Collections.unmodifiableList(candidates_);
-            bitField0_ = (bitField0_ & ~0x00000004);
+            bitField0_ = (bitField0_ & ~0x00000002);
           }
           result.candidates_ = candidates_;
         } else {
@@ -39874,7 +40599,6 @@ public final class DataserviceMessages {
         }
         result.refsToUpdate_ = internalGetRefsToUpdate();
         result.refsToUpdate_.makeImmutable();
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
@@ -39930,7 +40654,7 @@ public final class DataserviceMessages {
           if (!other.ringPath_.isEmpty()) {
             if (ringPath_.isEmpty()) {
               ringPath_ = other.ringPath_;
-              bitField0_ = (bitField0_ & ~0x00000002);
+              bitField0_ = (bitField0_ & ~0x00000001);
             } else {
               ensureRingPathIsMutable();
               ringPath_.addAll(other.ringPath_);
@@ -39943,7 +40667,7 @@ public final class DataserviceMessages {
               ringPathBuilder_.dispose();
               ringPathBuilder_ = null;
               ringPath_ = other.ringPath_;
-              bitField0_ = (bitField0_ & ~0x00000002);
+              bitField0_ = (bitField0_ & ~0x00000001);
               ringPathBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getRingPathFieldBuilder() : null;
@@ -39956,7 +40680,7 @@ public final class DataserviceMessages {
           if (!other.candidates_.isEmpty()) {
             if (candidates_.isEmpty()) {
               candidates_ = other.candidates_;
-              bitField0_ = (bitField0_ & ~0x00000004);
+              bitField0_ = (bitField0_ & ~0x00000002);
             } else {
               ensureCandidatesIsMutable();
               candidates_.addAll(other.candidates_);
@@ -39969,7 +40693,7 @@ public final class DataserviceMessages {
               candidatesBuilder_.dispose();
               candidatesBuilder_ = null;
               candidates_ = other.candidates_;
-              bitField0_ = (bitField0_ & ~0x00000004);
+              bitField0_ = (bitField0_ & ~0x00000002);
               candidatesBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getCandidatesFieldBuilder() : null;
@@ -40015,12 +40739,14 @@ public final class DataserviceMessages {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironmentID, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironmentID.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironmentIDOrBuilder> epochNodeIDBuilder_;
       /**
        * <code>.dataclay.communication.grpc.common.ExecutionEnvironmentID epochNodeID = 1;</code>
+       * @return Whether the epochNodeID field is set.
        */
       public boolean hasEpochNodeID() {
         return epochNodeIDBuilder_ != null || epochNodeID_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.common.ExecutionEnvironmentID epochNodeID = 1;</code>
+       * @return The epochNodeID.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironmentID getEpochNodeID() {
         if (epochNodeIDBuilder_ == null) {
@@ -40130,9 +40856,9 @@ public final class DataserviceMessages {
       private java.util.List<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironmentID> ringPath_ =
         java.util.Collections.emptyList();
       private void ensureRingPathIsMutable() {
-        if (!((bitField0_ & 0x00000002) != 0)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           ringPath_ = new java.util.ArrayList<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironmentID>(ringPath_);
-          bitField0_ |= 0x00000002;
+          bitField0_ |= 0x00000001;
          }
       }
 
@@ -40282,7 +41008,7 @@ public final class DataserviceMessages {
       public Builder clearRingPath() {
         if (ringPathBuilder_ == null) {
           ringPath_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
+          bitField0_ = (bitField0_ & ~0x00000001);
           onChanged();
         } else {
           ringPathBuilder_.clear();
@@ -40359,7 +41085,7 @@ public final class DataserviceMessages {
           ringPathBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironmentID, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironmentID.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironmentIDOrBuilder>(
                   ringPath_,
-                  ((bitField0_ & 0x00000002) != 0),
+                  ((bitField0_ & 0x00000001) != 0),
                   getParentForChildren(),
                   isClean());
           ringPath_ = null;
@@ -40370,9 +41096,9 @@ public final class DataserviceMessages {
       private java.util.List<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID> candidates_ =
         java.util.Collections.emptyList();
       private void ensureCandidatesIsMutable() {
-        if (!((bitField0_ & 0x00000004) != 0)) {
+        if (!((bitField0_ & 0x00000002) != 0)) {
           candidates_ = new java.util.ArrayList<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID>(candidates_);
-          bitField0_ |= 0x00000004;
+          bitField0_ |= 0x00000002;
          }
       }
 
@@ -40522,7 +41248,7 @@ public final class DataserviceMessages {
       public Builder clearCandidates() {
         if (candidatesBuilder_ == null) {
           candidates_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000004);
+          bitField0_ = (bitField0_ & ~0x00000002);
           onChanged();
         } else {
           candidatesBuilder_.clear();
@@ -40599,7 +41325,7 @@ public final class DataserviceMessages {
           candidatesBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectIDOrBuilder>(
                   candidates_,
-                  ((bitField0_ & 0x00000004) != 0),
+                  ((bitField0_ & 0x00000002) != 0),
                   getParentForChildren(),
                   isClean());
           candidates_ = null;
@@ -40788,10 +41514,12 @@ public final class DataserviceMessages {
 
     /**
      * <code>.dataclay.communication.grpc.common.ObjectID objectID = 1;</code>
+     * @return Whether the objectID field is set.
      */
     boolean hasObjectID();
     /**
      * <code>.dataclay.communication.grpc.common.ObjectID objectID = 1;</code>
+     * @return The objectID.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID getObjectID();
     /**
@@ -40815,6 +41543,13 @@ public final class DataserviceMessages {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new GetClassIDFromObjectInMemoryRequest();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -40827,7 +41562,6 @@ public final class DataserviceMessages {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -40887,12 +41621,14 @@ public final class DataserviceMessages {
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID objectID_;
     /**
      * <code>.dataclay.communication.grpc.common.ObjectID objectID = 1;</code>
+     * @return Whether the objectID field is set.
      */
     public boolean hasObjectID() {
       return objectID_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.common.ObjectID objectID = 1;</code>
+     * @return The objectID.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID getObjectID() {
       return objectID_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID.getDefaultInstance() : objectID_;
@@ -41084,7 +41820,7 @@ public final class DataserviceMessages {
                 es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetClassIDFromObjectInMemoryRequest.class, es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetClassIDFromObjectInMemoryRequest.Builder.class);
       }
 
-      // Construct using dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetClassIDFromObjectInMemoryRequest.newBuilder()
+      // Construct using es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetClassIDFromObjectInMemoryRequest.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -41224,12 +41960,14 @@ public final class DataserviceMessages {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectIDOrBuilder> objectIDBuilder_;
       /**
        * <code>.dataclay.communication.grpc.common.ObjectID objectID = 1;</code>
+       * @return Whether the objectID field is set.
        */
       public boolean hasObjectID() {
         return objectIDBuilder_ != null || objectID_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.common.ObjectID objectID = 1;</code>
+       * @return The objectID.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID getObjectID() {
         if (objectIDBuilder_ == null) {
@@ -41394,10 +42132,12 @@ public final class DataserviceMessages {
 
     /**
      * <code>.dataclay.communication.grpc.common.MetaClassID classID = 1;</code>
+     * @return Whether the classID field is set.
      */
     boolean hasClassID();
     /**
      * <code>.dataclay.communication.grpc.common.MetaClassID classID = 1;</code>
+     * @return The classID.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.MetaClassID getClassID();
     /**
@@ -41407,10 +42147,12 @@ public final class DataserviceMessages {
 
     /**
      * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+     * @return Whether the excInfo field is set.
      */
     boolean hasExcInfo();
     /**
      * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+     * @return The excInfo.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo getExcInfo();
     /**
@@ -41434,6 +42176,13 @@ public final class DataserviceMessages {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new GetClassIDFromObjectInMemoryResponse();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -41446,7 +42195,6 @@ public final class DataserviceMessages {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -41519,12 +42267,14 @@ public final class DataserviceMessages {
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.MetaClassID classID_;
     /**
      * <code>.dataclay.communication.grpc.common.MetaClassID classID = 1;</code>
+     * @return Whether the classID field is set.
      */
     public boolean hasClassID() {
       return classID_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.common.MetaClassID classID = 1;</code>
+     * @return The classID.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.MetaClassID getClassID() {
       return classID_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.MetaClassID.getDefaultInstance() : classID_;
@@ -41540,12 +42290,14 @@ public final class DataserviceMessages {
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo excInfo_;
     /**
      * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+     * @return Whether the excInfo field is set.
      */
     public boolean hasExcInfo() {
       return excInfo_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+     * @return The excInfo.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo getExcInfo() {
       return excInfo_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.getDefaultInstance() : excInfo_;
@@ -41753,7 +42505,7 @@ public final class DataserviceMessages {
                 es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetClassIDFromObjectInMemoryResponse.class, es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetClassIDFromObjectInMemoryResponse.Builder.class);
       }
 
-      // Construct using dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetClassIDFromObjectInMemoryResponse.newBuilder()
+      // Construct using es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetClassIDFromObjectInMemoryResponse.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -41907,12 +42659,14 @@ public final class DataserviceMessages {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.MetaClassID, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.MetaClassID.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.MetaClassIDOrBuilder> classIDBuilder_;
       /**
        * <code>.dataclay.communication.grpc.common.MetaClassID classID = 1;</code>
+       * @return Whether the classID field is set.
        */
       public boolean hasClassID() {
         return classIDBuilder_ != null || classID_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.common.MetaClassID classID = 1;</code>
+       * @return The classID.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.MetaClassID getClassID() {
         if (classIDBuilder_ == null) {
@@ -42024,12 +42778,14 @@ public final class DataserviceMessages {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfoOrBuilder> excInfoBuilder_;
       /**
        * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+       * @return Whether the excInfo field is set.
        */
       public boolean hasExcInfo() {
         return excInfoBuilder_ != null || excInfo_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+       * @return The excInfo.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo getExcInfo() {
         if (excInfoBuilder_ == null) {
@@ -42194,10 +42950,12 @@ public final class DataserviceMessages {
 
     /**
      * <code>.dataclay.communication.grpc.common.ExecutionEnvironmentID executionEnvironmentID = 1;</code>
+     * @return Whether the executionEnvironmentID field is set.
      */
     boolean hasExecutionEnvironmentID();
     /**
      * <code>.dataclay.communication.grpc.common.ExecutionEnvironmentID executionEnvironmentID = 1;</code>
+     * @return The executionEnvironmentID.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironmentID getExecutionEnvironmentID();
     /**
@@ -42207,10 +42965,12 @@ public final class DataserviceMessages {
 
     /**
      * <code>.dataclay.communication.grpc.common.ObjectID objectID = 2;</code>
+     * @return Whether the objectID field is set.
      */
     boolean hasObjectID();
     /**
      * <code>.dataclay.communication.grpc.common.ObjectID objectID = 2;</code>
+     * @return The objectID.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID getObjectID();
     /**
@@ -42220,6 +42980,7 @@ public final class DataserviceMessages {
 
     /**
      * <code>bytes objBytes = 3;</code>
+     * @return The objBytes.
      */
     com.google.protobuf.ByteString getObjBytes();
   }
@@ -42240,6 +43001,13 @@ public final class DataserviceMessages {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new StoreToDBRequest();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -42252,7 +43020,6 @@ public final class DataserviceMessages {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -42330,12 +43097,14 @@ public final class DataserviceMessages {
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironmentID executionEnvironmentID_;
     /**
      * <code>.dataclay.communication.grpc.common.ExecutionEnvironmentID executionEnvironmentID = 1;</code>
+     * @return Whether the executionEnvironmentID field is set.
      */
     public boolean hasExecutionEnvironmentID() {
       return executionEnvironmentID_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.common.ExecutionEnvironmentID executionEnvironmentID = 1;</code>
+     * @return The executionEnvironmentID.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironmentID getExecutionEnvironmentID() {
       return executionEnvironmentID_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironmentID.getDefaultInstance() : executionEnvironmentID_;
@@ -42351,12 +43120,14 @@ public final class DataserviceMessages {
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID objectID_;
     /**
      * <code>.dataclay.communication.grpc.common.ObjectID objectID = 2;</code>
+     * @return Whether the objectID field is set.
      */
     public boolean hasObjectID() {
       return objectID_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.common.ObjectID objectID = 2;</code>
+     * @return The objectID.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID getObjectID() {
       return objectID_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID.getDefaultInstance() : objectID_;
@@ -42372,6 +43143,7 @@ public final class DataserviceMessages {
     private com.google.protobuf.ByteString objBytes_;
     /**
      * <code>bytes objBytes = 3;</code>
+     * @return The objBytes.
      */
     public com.google.protobuf.ByteString getObjBytes() {
       return objBytes_;
@@ -42584,7 +43356,7 @@ public final class DataserviceMessages {
                 es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.StoreToDBRequest.class, es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.StoreToDBRequest.Builder.class);
       }
 
-      // Construct using dataclay.communication.grpc.messages.dataservice.DataserviceMessages.StoreToDBRequest.newBuilder()
+      // Construct using es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.StoreToDBRequest.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -42744,12 +43516,14 @@ public final class DataserviceMessages {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironmentID, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironmentID.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironmentIDOrBuilder> executionEnvironmentIDBuilder_;
       /**
        * <code>.dataclay.communication.grpc.common.ExecutionEnvironmentID executionEnvironmentID = 1;</code>
+       * @return Whether the executionEnvironmentID field is set.
        */
       public boolean hasExecutionEnvironmentID() {
         return executionEnvironmentIDBuilder_ != null || executionEnvironmentID_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.common.ExecutionEnvironmentID executionEnvironmentID = 1;</code>
+       * @return The executionEnvironmentID.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironmentID getExecutionEnvironmentID() {
         if (executionEnvironmentIDBuilder_ == null) {
@@ -42861,12 +43635,14 @@ public final class DataserviceMessages {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectIDOrBuilder> objectIDBuilder_;
       /**
        * <code>.dataclay.communication.grpc.common.ObjectID objectID = 2;</code>
+       * @return Whether the objectID field is set.
        */
       public boolean hasObjectID() {
         return objectIDBuilder_ != null || objectID_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.common.ObjectID objectID = 2;</code>
+       * @return The objectID.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID getObjectID() {
         if (objectIDBuilder_ == null) {
@@ -42976,12 +43752,15 @@ public final class DataserviceMessages {
       private com.google.protobuf.ByteString objBytes_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <code>bytes objBytes = 3;</code>
+       * @return The objBytes.
        */
       public com.google.protobuf.ByteString getObjBytes() {
         return objBytes_;
       }
       /**
        * <code>bytes objBytes = 3;</code>
+       * @param value The objBytes to set.
+       * @return This builder for chaining.
        */
       public Builder setObjBytes(com.google.protobuf.ByteString value) {
         if (value == null) {
@@ -42994,6 +43773,7 @@ public final class DataserviceMessages {
       }
       /**
        * <code>bytes objBytes = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearObjBytes() {
         
@@ -43060,10 +43840,12 @@ public final class DataserviceMessages {
 
     /**
      * <code>.dataclay.communication.grpc.common.ExecutionEnvironmentID executionEnvironmentID = 1;</code>
+     * @return Whether the executionEnvironmentID field is set.
      */
     boolean hasExecutionEnvironmentID();
     /**
      * <code>.dataclay.communication.grpc.common.ExecutionEnvironmentID executionEnvironmentID = 1;</code>
+     * @return The executionEnvironmentID.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironmentID getExecutionEnvironmentID();
     /**
@@ -43073,10 +43855,12 @@ public final class DataserviceMessages {
 
     /**
      * <code>.dataclay.communication.grpc.common.ObjectID objectID = 2;</code>
+     * @return Whether the objectID field is set.
      */
     boolean hasObjectID();
     /**
      * <code>.dataclay.communication.grpc.common.ObjectID objectID = 2;</code>
+     * @return The objectID.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID getObjectID();
     /**
@@ -43100,6 +43884,13 @@ public final class DataserviceMessages {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new GetFromDBRequest();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -43112,7 +43903,6 @@ public final class DataserviceMessages {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -43185,12 +43975,14 @@ public final class DataserviceMessages {
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironmentID executionEnvironmentID_;
     /**
      * <code>.dataclay.communication.grpc.common.ExecutionEnvironmentID executionEnvironmentID = 1;</code>
+     * @return Whether the executionEnvironmentID field is set.
      */
     public boolean hasExecutionEnvironmentID() {
       return executionEnvironmentID_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.common.ExecutionEnvironmentID executionEnvironmentID = 1;</code>
+     * @return The executionEnvironmentID.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironmentID getExecutionEnvironmentID() {
       return executionEnvironmentID_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironmentID.getDefaultInstance() : executionEnvironmentID_;
@@ -43206,12 +43998,14 @@ public final class DataserviceMessages {
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID objectID_;
     /**
      * <code>.dataclay.communication.grpc.common.ObjectID objectID = 2;</code>
+     * @return Whether the objectID field is set.
      */
     public boolean hasObjectID() {
       return objectID_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.common.ObjectID objectID = 2;</code>
+     * @return The objectID.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID getObjectID() {
       return objectID_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID.getDefaultInstance() : objectID_;
@@ -43419,7 +44213,7 @@ public final class DataserviceMessages {
                 es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetFromDBRequest.class, es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetFromDBRequest.Builder.class);
       }
 
-      // Construct using dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetFromDBRequest.newBuilder()
+      // Construct using es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetFromDBRequest.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -43573,12 +44367,14 @@ public final class DataserviceMessages {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironmentID, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironmentID.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironmentIDOrBuilder> executionEnvironmentIDBuilder_;
       /**
        * <code>.dataclay.communication.grpc.common.ExecutionEnvironmentID executionEnvironmentID = 1;</code>
+       * @return Whether the executionEnvironmentID field is set.
        */
       public boolean hasExecutionEnvironmentID() {
         return executionEnvironmentIDBuilder_ != null || executionEnvironmentID_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.common.ExecutionEnvironmentID executionEnvironmentID = 1;</code>
+       * @return The executionEnvironmentID.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironmentID getExecutionEnvironmentID() {
         if (executionEnvironmentIDBuilder_ == null) {
@@ -43690,12 +44486,14 @@ public final class DataserviceMessages {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectIDOrBuilder> objectIDBuilder_;
       /**
        * <code>.dataclay.communication.grpc.common.ObjectID objectID = 2;</code>
+       * @return Whether the objectID field is set.
        */
       public boolean hasObjectID() {
         return objectIDBuilder_ != null || objectID_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.common.ObjectID objectID = 2;</code>
+       * @return The objectID.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID getObjectID() {
         if (objectIDBuilder_ == null) {
@@ -43860,15 +44658,18 @@ public final class DataserviceMessages {
 
     /**
      * <code>bytes objBytes = 1;</code>
+     * @return The objBytes.
      */
     com.google.protobuf.ByteString getObjBytes();
 
     /**
      * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+     * @return Whether the excInfo field is set.
      */
     boolean hasExcInfo();
     /**
      * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+     * @return The excInfo.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo getExcInfo();
     /**
@@ -43893,6 +44694,13 @@ public final class DataserviceMessages {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new GetFromDBResponse();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -43905,7 +44713,6 @@ public final class DataserviceMessages {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -43970,6 +44777,7 @@ public final class DataserviceMessages {
     private com.google.protobuf.ByteString objBytes_;
     /**
      * <code>bytes objBytes = 1;</code>
+     * @return The objBytes.
      */
     public com.google.protobuf.ByteString getObjBytes() {
       return objBytes_;
@@ -43979,12 +44787,14 @@ public final class DataserviceMessages {
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo excInfo_;
     /**
      * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+     * @return Whether the excInfo field is set.
      */
     public boolean hasExcInfo() {
       return excInfo_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+     * @return The excInfo.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo getExcInfo() {
       return excInfo_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.getDefaultInstance() : excInfo_;
@@ -44187,7 +44997,7 @@ public final class DataserviceMessages {
                 es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetFromDBResponse.class, es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetFromDBResponse.Builder.class);
       }
 
-      // Construct using dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetFromDBResponse.newBuilder()
+      // Construct using es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetFromDBResponse.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -44331,12 +45141,15 @@ public final class DataserviceMessages {
       private com.google.protobuf.ByteString objBytes_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <code>bytes objBytes = 1;</code>
+       * @return The objBytes.
        */
       public com.google.protobuf.ByteString getObjBytes() {
         return objBytes_;
       }
       /**
        * <code>bytes objBytes = 1;</code>
+       * @param value The objBytes to set.
+       * @return This builder for chaining.
        */
       public Builder setObjBytes(com.google.protobuf.ByteString value) {
         if (value == null) {
@@ -44349,6 +45162,7 @@ public final class DataserviceMessages {
       }
       /**
        * <code>bytes objBytes = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearObjBytes() {
         
@@ -44362,12 +45176,14 @@ public final class DataserviceMessages {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfoOrBuilder> excInfoBuilder_;
       /**
        * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+       * @return Whether the excInfo field is set.
        */
       public boolean hasExcInfo() {
         return excInfoBuilder_ != null || excInfo_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+       * @return The excInfo.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo getExcInfo() {
         if (excInfoBuilder_ == null) {
@@ -44532,10 +45348,12 @@ public final class DataserviceMessages {
 
     /**
      * <code>.dataclay.communication.grpc.common.ExecutionEnvironmentID executionEnvironmentID = 1;</code>
+     * @return Whether the executionEnvironmentID field is set.
      */
     boolean hasExecutionEnvironmentID();
     /**
      * <code>.dataclay.communication.grpc.common.ExecutionEnvironmentID executionEnvironmentID = 1;</code>
+     * @return The executionEnvironmentID.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironmentID getExecutionEnvironmentID();
     /**
@@ -44545,10 +45363,12 @@ public final class DataserviceMessages {
 
     /**
      * <code>.dataclay.communication.grpc.common.ObjectID objectID = 2;</code>
+     * @return Whether the objectID field is set.
      */
     boolean hasObjectID();
     /**
      * <code>.dataclay.communication.grpc.common.ObjectID objectID = 2;</code>
+     * @return The objectID.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID getObjectID();
     /**
@@ -44558,11 +45378,13 @@ public final class DataserviceMessages {
 
     /**
      * <code>bytes objBytes = 3;</code>
+     * @return The objBytes.
      */
     com.google.protobuf.ByteString getObjBytes();
 
     /**
      * <code>bool dirty = 4;</code>
+     * @return The dirty.
      */
     boolean getDirty();
   }
@@ -44583,6 +45405,13 @@ public final class DataserviceMessages {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new UpdateToDBRequest();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -44595,7 +45424,6 @@ public final class DataserviceMessages {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -44678,12 +45506,14 @@ public final class DataserviceMessages {
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironmentID executionEnvironmentID_;
     /**
      * <code>.dataclay.communication.grpc.common.ExecutionEnvironmentID executionEnvironmentID = 1;</code>
+     * @return Whether the executionEnvironmentID field is set.
      */
     public boolean hasExecutionEnvironmentID() {
       return executionEnvironmentID_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.common.ExecutionEnvironmentID executionEnvironmentID = 1;</code>
+     * @return The executionEnvironmentID.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironmentID getExecutionEnvironmentID() {
       return executionEnvironmentID_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironmentID.getDefaultInstance() : executionEnvironmentID_;
@@ -44699,12 +45529,14 @@ public final class DataserviceMessages {
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID objectID_;
     /**
      * <code>.dataclay.communication.grpc.common.ObjectID objectID = 2;</code>
+     * @return Whether the objectID field is set.
      */
     public boolean hasObjectID() {
       return objectID_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.common.ObjectID objectID = 2;</code>
+     * @return The objectID.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID getObjectID() {
       return objectID_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID.getDefaultInstance() : objectID_;
@@ -44720,6 +45552,7 @@ public final class DataserviceMessages {
     private com.google.protobuf.ByteString objBytes_;
     /**
      * <code>bytes objBytes = 3;</code>
+     * @return The objBytes.
      */
     public com.google.protobuf.ByteString getObjBytes() {
       return objBytes_;
@@ -44729,6 +45562,7 @@ public final class DataserviceMessages {
     private boolean dirty_;
     /**
      * <code>bool dirty = 4;</code>
+     * @return The dirty.
      */
     public boolean getDirty() {
       return dirty_;
@@ -44953,7 +45787,7 @@ public final class DataserviceMessages {
                 es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.UpdateToDBRequest.class, es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.UpdateToDBRequest.Builder.class);
       }
 
-      // Construct using dataclay.communication.grpc.messages.dataservice.DataserviceMessages.UpdateToDBRequest.newBuilder()
+      // Construct using es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.UpdateToDBRequest.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -45119,12 +45953,14 @@ public final class DataserviceMessages {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironmentID, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironmentID.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironmentIDOrBuilder> executionEnvironmentIDBuilder_;
       /**
        * <code>.dataclay.communication.grpc.common.ExecutionEnvironmentID executionEnvironmentID = 1;</code>
+       * @return Whether the executionEnvironmentID field is set.
        */
       public boolean hasExecutionEnvironmentID() {
         return executionEnvironmentIDBuilder_ != null || executionEnvironmentID_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.common.ExecutionEnvironmentID executionEnvironmentID = 1;</code>
+       * @return The executionEnvironmentID.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironmentID getExecutionEnvironmentID() {
         if (executionEnvironmentIDBuilder_ == null) {
@@ -45236,12 +46072,14 @@ public final class DataserviceMessages {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectIDOrBuilder> objectIDBuilder_;
       /**
        * <code>.dataclay.communication.grpc.common.ObjectID objectID = 2;</code>
+       * @return Whether the objectID field is set.
        */
       public boolean hasObjectID() {
         return objectIDBuilder_ != null || objectID_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.common.ObjectID objectID = 2;</code>
+       * @return The objectID.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID getObjectID() {
         if (objectIDBuilder_ == null) {
@@ -45351,12 +46189,15 @@ public final class DataserviceMessages {
       private com.google.protobuf.ByteString objBytes_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <code>bytes objBytes = 3;</code>
+       * @return The objBytes.
        */
       public com.google.protobuf.ByteString getObjBytes() {
         return objBytes_;
       }
       /**
        * <code>bytes objBytes = 3;</code>
+       * @param value The objBytes to set.
+       * @return This builder for chaining.
        */
       public Builder setObjBytes(com.google.protobuf.ByteString value) {
         if (value == null) {
@@ -45369,6 +46210,7 @@ public final class DataserviceMessages {
       }
       /**
        * <code>bytes objBytes = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearObjBytes() {
         
@@ -45380,12 +46222,15 @@ public final class DataserviceMessages {
       private boolean dirty_ ;
       /**
        * <code>bool dirty = 4;</code>
+       * @return The dirty.
        */
       public boolean getDirty() {
         return dirty_;
       }
       /**
        * <code>bool dirty = 4;</code>
+       * @param value The dirty to set.
+       * @return This builder for chaining.
        */
       public Builder setDirty(boolean value) {
         
@@ -45395,6 +46240,7 @@ public final class DataserviceMessages {
       }
       /**
        * <code>bool dirty = 4;</code>
+       * @return This builder for chaining.
        */
       public Builder clearDirty() {
         
@@ -45461,10 +46307,12 @@ public final class DataserviceMessages {
 
     /**
      * <code>.dataclay.communication.grpc.common.ExecutionEnvironmentID executionEnvironmentID = 1;</code>
+     * @return Whether the executionEnvironmentID field is set.
      */
     boolean hasExecutionEnvironmentID();
     /**
      * <code>.dataclay.communication.grpc.common.ExecutionEnvironmentID executionEnvironmentID = 1;</code>
+     * @return The executionEnvironmentID.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironmentID getExecutionEnvironmentID();
     /**
@@ -45474,10 +46322,12 @@ public final class DataserviceMessages {
 
     /**
      * <code>.dataclay.communication.grpc.common.ObjectID objectID = 2;</code>
+     * @return Whether the objectID field is set.
      */
     boolean hasObjectID();
     /**
      * <code>.dataclay.communication.grpc.common.ObjectID objectID = 2;</code>
+     * @return The objectID.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID getObjectID();
     /**
@@ -45501,6 +46351,13 @@ public final class DataserviceMessages {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new DeleteToDBRequest();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -45513,7 +46370,6 @@ public final class DataserviceMessages {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -45586,12 +46442,14 @@ public final class DataserviceMessages {
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironmentID executionEnvironmentID_;
     /**
      * <code>.dataclay.communication.grpc.common.ExecutionEnvironmentID executionEnvironmentID = 1;</code>
+     * @return Whether the executionEnvironmentID field is set.
      */
     public boolean hasExecutionEnvironmentID() {
       return executionEnvironmentID_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.common.ExecutionEnvironmentID executionEnvironmentID = 1;</code>
+     * @return The executionEnvironmentID.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironmentID getExecutionEnvironmentID() {
       return executionEnvironmentID_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironmentID.getDefaultInstance() : executionEnvironmentID_;
@@ -45607,12 +46465,14 @@ public final class DataserviceMessages {
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID objectID_;
     /**
      * <code>.dataclay.communication.grpc.common.ObjectID objectID = 2;</code>
+     * @return Whether the objectID field is set.
      */
     public boolean hasObjectID() {
       return objectID_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.common.ObjectID objectID = 2;</code>
+     * @return The objectID.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID getObjectID() {
       return objectID_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID.getDefaultInstance() : objectID_;
@@ -45820,7 +46680,7 @@ public final class DataserviceMessages {
                 es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.DeleteToDBRequest.class, es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.DeleteToDBRequest.Builder.class);
       }
 
-      // Construct using dataclay.communication.grpc.messages.dataservice.DataserviceMessages.DeleteToDBRequest.newBuilder()
+      // Construct using es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.DeleteToDBRequest.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -45974,12 +46834,14 @@ public final class DataserviceMessages {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironmentID, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironmentID.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironmentIDOrBuilder> executionEnvironmentIDBuilder_;
       /**
        * <code>.dataclay.communication.grpc.common.ExecutionEnvironmentID executionEnvironmentID = 1;</code>
+       * @return Whether the executionEnvironmentID field is set.
        */
       public boolean hasExecutionEnvironmentID() {
         return executionEnvironmentIDBuilder_ != null || executionEnvironmentID_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.common.ExecutionEnvironmentID executionEnvironmentID = 1;</code>
+       * @return The executionEnvironmentID.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironmentID getExecutionEnvironmentID() {
         if (executionEnvironmentIDBuilder_ == null) {
@@ -46091,12 +46953,14 @@ public final class DataserviceMessages {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectIDOrBuilder> objectIDBuilder_;
       /**
        * <code>.dataclay.communication.grpc.common.ObjectID objectID = 2;</code>
+       * @return Whether the objectID field is set.
        */
       public boolean hasObjectID() {
         return objectIDBuilder_ != null || objectID_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.common.ObjectID objectID = 2;</code>
+       * @return The objectID.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID getObjectID() {
         if (objectIDBuilder_ == null) {
@@ -46306,6 +47170,13 @@ public final class DataserviceMessages {
       super(builder);
     }
     private UpdateRefsRequest() {
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new UpdateRefsRequest();
     }
 
     @java.lang.Override
@@ -46673,7 +47544,7 @@ public final class DataserviceMessages {
                 es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.UpdateRefsRequest.class, es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.UpdateRefsRequest.Builder.class);
       }
 
-      // Construct using dataclay.communication.grpc.messages.dataservice.DataserviceMessages.UpdateRefsRequest.newBuilder()
+      // Construct using es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.UpdateRefsRequest.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -47006,10 +47877,12 @@ public final class DataserviceMessages {
 
     /**
      * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+     * @return Whether the excInfo field is set.
      */
     boolean hasExcInfo();
     /**
      * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+     * @return The excInfo.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo getExcInfo();
     /**
@@ -47031,6 +47904,13 @@ public final class DataserviceMessages {
     }
     private GetRetainedReferencesResponse() {
       retainedReferences_ = java.util.Collections.emptyList();
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new GetRetainedReferencesResponse();
     }
 
     @java.lang.Override
@@ -47114,7 +47994,6 @@ public final class DataserviceMessages {
               es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetRetainedReferencesResponse.class, es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetRetainedReferencesResponse.Builder.class);
     }
 
-    private int bitField0_;
     public static final int RETAINEDREFERENCES_FIELD_NUMBER = 1;
     private java.util.List<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID> retainedReferences_;
     /**
@@ -47154,12 +48033,14 @@ public final class DataserviceMessages {
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo excInfo_;
     /**
      * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+     * @return Whether the excInfo field is set.
      */
     public boolean hasExcInfo() {
       return excInfo_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+     * @return The excInfo.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo getExcInfo() {
       return excInfo_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.getDefaultInstance() : excInfo_;
@@ -47364,7 +48245,7 @@ public final class DataserviceMessages {
                 es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetRetainedReferencesResponse.class, es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetRetainedReferencesResponse.Builder.class);
       }
 
-      // Construct using dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetRetainedReferencesResponse.newBuilder()
+      // Construct using es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetRetainedReferencesResponse.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -47422,7 +48303,6 @@ public final class DataserviceMessages {
       public es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetRetainedReferencesResponse buildPartial() {
         es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetRetainedReferencesResponse result = new es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetRetainedReferencesResponse(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         if (retainedReferencesBuilder_ == null) {
           if (((bitField0_ & 0x00000001) != 0)) {
             retainedReferences_ = java.util.Collections.unmodifiableList(retainedReferences_);
@@ -47437,7 +48317,6 @@ public final class DataserviceMessages {
         } else {
           result.excInfo_ = excInfoBuilder_.build();
         }
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
@@ -47790,12 +48669,14 @@ public final class DataserviceMessages {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfoOrBuilder> excInfoBuilder_;
       /**
        * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+       * @return Whether the excInfo field is set.
        */
       public boolean hasExcInfo() {
         return excInfoBuilder_ != null || excInfo_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+       * @return The excInfo.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo getExcInfo() {
         if (excInfoBuilder_ == null) {
@@ -47960,10 +48841,12 @@ public final class DataserviceMessages {
 
     /**
      * <code>.dataclay.communication.grpc.common.ObjectID objectID = 1;</code>
+     * @return Whether the objectID field is set.
      */
     boolean hasObjectID();
     /**
      * <code>.dataclay.communication.grpc.common.ObjectID objectID = 1;</code>
+     * @return The objectID.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID getObjectID();
     /**
@@ -47987,6 +48870,13 @@ public final class DataserviceMessages {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ExistsRequest();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -47999,7 +48889,6 @@ public final class DataserviceMessages {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -48059,12 +48948,14 @@ public final class DataserviceMessages {
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID objectID_;
     /**
      * <code>.dataclay.communication.grpc.common.ObjectID objectID = 1;</code>
+     * @return Whether the objectID field is set.
      */
     public boolean hasObjectID() {
       return objectID_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.common.ObjectID objectID = 1;</code>
+     * @return The objectID.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID getObjectID() {
       return objectID_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID.getDefaultInstance() : objectID_;
@@ -48256,7 +49147,7 @@ public final class DataserviceMessages {
                 es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.ExistsRequest.class, es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.ExistsRequest.Builder.class);
       }
 
-      // Construct using dataclay.communication.grpc.messages.dataservice.DataserviceMessages.ExistsRequest.newBuilder()
+      // Construct using es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.ExistsRequest.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -48396,12 +49287,14 @@ public final class DataserviceMessages {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectIDOrBuilder> objectIDBuilder_;
       /**
        * <code>.dataclay.communication.grpc.common.ObjectID objectID = 1;</code>
+       * @return Whether the objectID field is set.
        */
       public boolean hasObjectID() {
         return objectIDBuilder_ != null || objectID_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.common.ObjectID objectID = 1;</code>
+       * @return The objectID.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID getObjectID() {
         if (objectIDBuilder_ == null) {
@@ -48566,15 +49459,18 @@ public final class DataserviceMessages {
 
     /**
      * <code>bool exists = 1;</code>
+     * @return The exists.
      */
     boolean getExists();
 
     /**
      * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+     * @return Whether the excInfo field is set.
      */
     boolean hasExcInfo();
     /**
      * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+     * @return The excInfo.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo getExcInfo();
     /**
@@ -48598,6 +49494,13 @@ public final class DataserviceMessages {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ExistsResponse();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -48610,7 +49513,6 @@ public final class DataserviceMessages {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -48675,6 +49577,7 @@ public final class DataserviceMessages {
     private boolean exists_;
     /**
      * <code>bool exists = 1;</code>
+     * @return The exists.
      */
     public boolean getExists() {
       return exists_;
@@ -48684,12 +49587,14 @@ public final class DataserviceMessages {
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo excInfo_;
     /**
      * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+     * @return Whether the excInfo field is set.
      */
     public boolean hasExcInfo() {
       return excInfo_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+     * @return The excInfo.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo getExcInfo() {
       return excInfo_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.getDefaultInstance() : excInfo_;
@@ -48893,7 +49798,7 @@ public final class DataserviceMessages {
                 es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.ExistsResponse.class, es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.ExistsResponse.Builder.class);
       }
 
-      // Construct using dataclay.communication.grpc.messages.dataservice.DataserviceMessages.ExistsResponse.newBuilder()
+      // Construct using es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.ExistsResponse.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -49037,12 +49942,15 @@ public final class DataserviceMessages {
       private boolean exists_ ;
       /**
        * <code>bool exists = 1;</code>
+       * @return The exists.
        */
       public boolean getExists() {
         return exists_;
       }
       /**
        * <code>bool exists = 1;</code>
+       * @param value The exists to set.
+       * @return This builder for chaining.
        */
       public Builder setExists(boolean value) {
         
@@ -49052,6 +49960,7 @@ public final class DataserviceMessages {
       }
       /**
        * <code>bool exists = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearExists() {
         
@@ -49065,12 +49974,14 @@ public final class DataserviceMessages {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfoOrBuilder> excInfoBuilder_;
       /**
        * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+       * @return Whether the excInfo field is set.
        */
       public boolean hasExcInfo() {
         return excInfoBuilder_ != null || excInfo_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+       * @return The excInfo.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo getExcInfo() {
         if (excInfoBuilder_ == null) {
@@ -49235,10 +50146,12 @@ public final class DataserviceMessages {
 
     /**
      * <code>.dataclay.communication.grpc.common.ObjectID objectID = 1;</code>
+     * @return Whether the objectID field is set.
      */
     boolean hasObjectID();
     /**
      * <code>.dataclay.communication.grpc.common.ObjectID objectID = 1;</code>
+     * @return The objectID.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID getObjectID();
     /**
@@ -49262,6 +50175,13 @@ public final class DataserviceMessages {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ExistsInDBRequest();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -49274,7 +50194,6 @@ public final class DataserviceMessages {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -49334,12 +50253,14 @@ public final class DataserviceMessages {
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID objectID_;
     /**
      * <code>.dataclay.communication.grpc.common.ObjectID objectID = 1;</code>
+     * @return Whether the objectID field is set.
      */
     public boolean hasObjectID() {
       return objectID_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.common.ObjectID objectID = 1;</code>
+     * @return The objectID.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID getObjectID() {
       return objectID_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID.getDefaultInstance() : objectID_;
@@ -49531,7 +50452,7 @@ public final class DataserviceMessages {
                 es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.ExistsInDBRequest.class, es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.ExistsInDBRequest.Builder.class);
       }
 
-      // Construct using dataclay.communication.grpc.messages.dataservice.DataserviceMessages.ExistsInDBRequest.newBuilder()
+      // Construct using es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.ExistsInDBRequest.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -49671,12 +50592,14 @@ public final class DataserviceMessages {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectIDOrBuilder> objectIDBuilder_;
       /**
        * <code>.dataclay.communication.grpc.common.ObjectID objectID = 1;</code>
+       * @return Whether the objectID field is set.
        */
       public boolean hasObjectID() {
         return objectIDBuilder_ != null || objectID_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.common.ObjectID objectID = 1;</code>
+       * @return The objectID.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID getObjectID() {
         if (objectIDBuilder_ == null) {
@@ -49841,15 +50764,18 @@ public final class DataserviceMessages {
 
     /**
      * <code>bool exists = 1;</code>
+     * @return The exists.
      */
     boolean getExists();
 
     /**
      * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+     * @return Whether the excInfo field is set.
      */
     boolean hasExcInfo();
     /**
      * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+     * @return The excInfo.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo getExcInfo();
     /**
@@ -49873,6 +50799,13 @@ public final class DataserviceMessages {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ExistsInDBResponse();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -49885,7 +50818,6 @@ public final class DataserviceMessages {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -49950,6 +50882,7 @@ public final class DataserviceMessages {
     private boolean exists_;
     /**
      * <code>bool exists = 1;</code>
+     * @return The exists.
      */
     public boolean getExists() {
       return exists_;
@@ -49959,12 +50892,14 @@ public final class DataserviceMessages {
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo excInfo_;
     /**
      * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+     * @return Whether the excInfo field is set.
      */
     public boolean hasExcInfo() {
       return excInfo_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+     * @return The excInfo.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo getExcInfo() {
       return excInfo_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.getDefaultInstance() : excInfo_;
@@ -50168,7 +51103,7 @@ public final class DataserviceMessages {
                 es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.ExistsInDBResponse.class, es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.ExistsInDBResponse.Builder.class);
       }
 
-      // Construct using dataclay.communication.grpc.messages.dataservice.DataserviceMessages.ExistsInDBResponse.newBuilder()
+      // Construct using es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.ExistsInDBResponse.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -50312,12 +51247,15 @@ public final class DataserviceMessages {
       private boolean exists_ ;
       /**
        * <code>bool exists = 1;</code>
+       * @return The exists.
        */
       public boolean getExists() {
         return exists_;
       }
       /**
        * <code>bool exists = 1;</code>
+       * @param value The exists to set.
+       * @return This builder for chaining.
        */
       public Builder setExists(boolean value) {
         
@@ -50327,6 +51265,7 @@ public final class DataserviceMessages {
       }
       /**
        * <code>bool exists = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearExists() {
         
@@ -50340,12 +51279,14 @@ public final class DataserviceMessages {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfoOrBuilder> excInfoBuilder_;
       /**
        * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+       * @return Whether the excInfo field is set.
        */
       public boolean hasExcInfo() {
         return excInfoBuilder_ != null || excInfo_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+       * @return The excInfo.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo getExcInfo() {
         if (excInfoBuilder_ == null) {
@@ -51136,23 +52077,15 @@ public final class DataserviceMessages {
       "communication.grpc.common.ObjectID\"h\n\022Ex" +
       "istsInDBResponse\022\016\n\006exists\030\001 \001(\010\022B\n\007excI" +
       "nfo\030\002 \001(\01321.dataclay.communication.grpc." +
-      "common.ExceptionInfoB4\n0dataclay.communi" +
-      "cation.grpc.messages.dataserviceP\000b\006prot" +
-      "o3"
+      "common.ExceptionInfoB;\n7es.bsc.dataclay." +
+      "communication.grpc.messages.dataserviceP" +
+      "\000b\006proto3"
     };
-    com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
-        new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
-          public com.google.protobuf.ExtensionRegistry assignDescriptors(
-              com.google.protobuf.Descriptors.FileDescriptor root) {
-            descriptor = root;
-            return null;
-          }
-        };
-    com.google.protobuf.Descriptors.FileDescriptor
+    descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.getDescriptor(),
-        }, assigner);
+        });
     internal_static_dataclay_communication_grpc_dataservice_InitBackendIDRequest_descriptor =
       getDescriptor().getMessageTypes().get(0);
     internal_static_dataclay_communication_grpc_dataservice_InitBackendIDRequest_fieldAccessorTable = new

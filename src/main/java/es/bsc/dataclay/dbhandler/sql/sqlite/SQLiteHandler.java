@@ -44,7 +44,7 @@ public class SQLiteHandler extends SQLHandler<SQLiteHandlerConfig> {
 			}else {
 				url  += configuration.getDbPath();
 			}
-			LOGGER.info("SQLITE DB URL = " + url);
+			LOGGER.debug("SQLITE DB URL = " + url);
 			setConfiguration(rootDataSource, url);
 		}
 	}

@@ -71,7 +71,6 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>aspectj-maven-plugin</artifactId>
-				<version>1.11</version>
 				<executions>
 					<execution>
 						<phase />
@@ -104,7 +103,32 @@
 		</plugins>
 		<!--</pluginManagement> -->
 	</build>
-
+	<profiles>
+		<profile>
+			<id>extrae</id>
+			<build>
+				<plugins>
+				<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>1.3.2</version>
+				<configuration>
+					<executable>java</executable>
+					<arguments>
+						<argument>-classpath</argument>
+						<classpath/>
+						<!--   <argument>-javaagent:${org.aspectj:aspectjweaver:jar}</argument> -->
+						<argLine>-javaagent:${user.home}/.m2/repository/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar</argLine>
+						<!--  <argument>-Dorg.aspectj.weaver.showWeaveInfo=true</argument>
+						<argument>-Daj.weaving.verbose=true</argument> -->
+						<argument>${env.DATACLAY_MAIN_CLASS}</argument>
+					</arguments>
+				</configuration>
+			</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 	<reporting>
 		<plugins>
 			<plugin>
@@ -254,6 +278,7 @@
 			<groupId>org.aspectj</groupId>
 			<artifactId>aspectjweaver</artifactId>
 			<version>${aspectj.version}</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>es.bsc.dataclay</groupId>

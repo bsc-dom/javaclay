@@ -21,9 +21,8 @@ import static io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall;
  * </pre>
  */
 @javax.annotation.Generated(
-    value = "by gRPC proto compiler (version 1.22.3-SNAPSHOT)",
+    value = "by gRPC proto compiler (version 1.22.0)",
     comments = "Source: dataclay/communication/grpc/generated/dataservice/dataservice.proto")
-@SuppressWarnings("all")
 public final class DataServiceGrpc {
 
   private DataServiceGrpc() {}

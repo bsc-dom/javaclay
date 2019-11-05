@@ -23,6 +23,7 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
@@ -171,6 +172,7 @@ public final class DataContractManagerTest  extends AbstractManagerTest{
 	 * @author abarcelo
 	 * @post The datacontract can be retrieved after registering it in the DB
 	 */
+	@Ignore
 	@Test
 	public void testNewGMTPrivateDataContract() throws Exception {
 		// Use manager

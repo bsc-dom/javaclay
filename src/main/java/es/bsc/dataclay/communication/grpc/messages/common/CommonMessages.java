@@ -3,7 +3,6 @@
 
 package es.bsc.dataclay.communication.grpc.messages.common;
 
-@SuppressWarnings("all")
 public final class CommonMessages {
   private CommonMessages() {}
   public static void registerAllExtensions(
@@ -58,6 +57,8 @@ public final class CommonMessages {
     }
 
     /**
+     * @param value The numeric wire value of the corresponding enum entry.
+     * @return The enum associated with the given numeric wire value.
      * @deprecated Use {@link #forNumber(int)} instead.
      */
     @java.lang.Deprecated
@@ -65,6 +66,10 @@ public final class CommonMessages {
       return forNumber(value);
     }
 
+    /**
+     * @param value The numeric wire value of the corresponding enum entry.
+     * @return The enum associated with the given numeric wire value.
+     */
     public static Langs forNumber(int value) {
       switch (value) {
         case 0: return LANG_NONE;
@@ -128,10 +133,12 @@ public final class CommonMessages {
 
     /**
      * <code>string password = 1;</code>
+     * @return The password.
      */
     java.lang.String getPassword();
     /**
      * <code>string password = 1;</code>
+     * @return The bytes for password.
      */
     com.google.protobuf.ByteString
         getPasswordBytes();
@@ -153,6 +160,13 @@ public final class CommonMessages {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new Credential();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -165,7 +179,6 @@ public final class CommonMessages {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -218,6 +231,7 @@ public final class CommonMessages {
     private volatile java.lang.Object password_;
     /**
      * <code>string password = 1;</code>
+     * @return The password.
      */
     public java.lang.String getPassword() {
       java.lang.Object ref = password_;
@@ -233,6 +247,7 @@ public final class CommonMessages {
     }
     /**
      * <code>string password = 1;</code>
+     * @return The bytes for password.
      */
     public com.google.protobuf.ByteString
         getPasswordBytes() {
@@ -422,7 +437,7 @@ public final class CommonMessages {
                 es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.Credential.class, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.Credential.Builder.class);
       }
 
-      // Construct using dataclay.communication.grpc.messages.common.CommonMessages.Credential.newBuilder()
+      // Construct using es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.Credential.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -553,6 +568,7 @@ public final class CommonMessages {
       private java.lang.Object password_ = "";
       /**
        * <code>string password = 1;</code>
+       * @return The password.
        */
       public java.lang.String getPassword() {
         java.lang.Object ref = password_;
@@ -568,6 +584,7 @@ public final class CommonMessages {
       }
       /**
        * <code>string password = 1;</code>
+       * @return The bytes for password.
        */
       public com.google.protobuf.ByteString
           getPasswordBytes() {
@@ -584,6 +601,8 @@ public final class CommonMessages {
       }
       /**
        * <code>string password = 1;</code>
+       * @param value The password to set.
+       * @return This builder for chaining.
        */
       public Builder setPassword(
           java.lang.String value) {
@@ -597,6 +616,7 @@ public final class CommonMessages {
       }
       /**
        * <code>string password = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearPassword() {
         
@@ -606,6 +626,8 @@ public final class CommonMessages {
       }
       /**
        * <code>string password = 1;</code>
+       * @param value The bytes for password to set.
+       * @return This builder for chaining.
        */
       public Builder setPasswordBytes(
           com.google.protobuf.ByteString value) {
@@ -677,10 +699,12 @@ public final class CommonMessages {
 
     /**
      * <code>.dataclay.communication.grpc.common.ObjectID objectID = 1;</code>
+     * @return Whether the objectID field is set.
      */
     boolean hasObjectID();
     /**
      * <code>.dataclay.communication.grpc.common.ObjectID objectID = 1;</code>
+     * @return The objectID.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID getObjectID();
     /**
@@ -690,6 +714,7 @@ public final class CommonMessages {
 
     /**
      * <code>bytes serializedParam = 2;</code>
+     * @return The serializedParam.
      */
     com.google.protobuf.ByteString getSerializedParam();
   }
@@ -710,6 +735,13 @@ public final class CommonMessages {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ParamOrReturn();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -722,7 +754,6 @@ public final class CommonMessages {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -787,12 +818,14 @@ public final class CommonMessages {
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID objectID_;
     /**
      * <code>.dataclay.communication.grpc.common.ObjectID objectID = 1;</code>
+     * @return Whether the objectID field is set.
      */
     public boolean hasObjectID() {
       return objectID_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.common.ObjectID objectID = 1;</code>
+     * @return The objectID.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID getObjectID() {
       return objectID_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID.getDefaultInstance() : objectID_;
@@ -808,6 +841,7 @@ public final class CommonMessages {
     private com.google.protobuf.ByteString serializedParam_;
     /**
      * <code>bytes serializedParam = 2;</code>
+     * @return The serializedParam.
      */
     public com.google.protobuf.ByteString getSerializedParam() {
       return serializedParam_;
@@ -1004,7 +1038,7 @@ public final class CommonMessages {
                 es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ParamOrReturn.class, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ParamOrReturn.Builder.class);
       }
 
-      // Construct using dataclay.communication.grpc.messages.common.CommonMessages.ParamOrReturn.newBuilder()
+      // Construct using es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ParamOrReturn.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -1150,12 +1184,14 @@ public final class CommonMessages {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectIDOrBuilder> objectIDBuilder_;
       /**
        * <code>.dataclay.communication.grpc.common.ObjectID objectID = 1;</code>
+       * @return Whether the objectID field is set.
        */
       public boolean hasObjectID() {
         return objectIDBuilder_ != null || objectID_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.common.ObjectID objectID = 1;</code>
+       * @return The objectID.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID getObjectID() {
         if (objectIDBuilder_ == null) {
@@ -1265,12 +1301,15 @@ public final class CommonMessages {
       private com.google.protobuf.ByteString serializedParam_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <code>bytes serializedParam = 2;</code>
+       * @return The serializedParam.
        */
       public com.google.protobuf.ByteString getSerializedParam() {
         return serializedParam_;
       }
       /**
        * <code>bytes serializedParam = 2;</code>
+       * @param value The serializedParam to set.
+       * @return This builder for chaining.
        */
       public Builder setSerializedParam(com.google.protobuf.ByteString value) {
         if (value == null) {
@@ -1283,6 +1322,7 @@ public final class CommonMessages {
       }
       /**
        * <code>bytes serializedParam = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearSerializedParam() {
         
@@ -1360,6 +1400,13 @@ public final class CommonMessages {
       super(builder);
     }
     private EmptyMessage() {
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new EmptyMessage();
     }
 
     @java.lang.Override
@@ -1581,7 +1628,7 @@ public final class CommonMessages {
                 es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage.class, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage.Builder.class);
       }
 
-      // Construct using dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage.newBuilder()
+      // Construct using es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -1760,10 +1807,12 @@ public final class CommonMessages {
 
     /**
      * <code>string uuid = 1;</code>
+     * @return The uuid.
      */
     java.lang.String getUuid();
     /**
      * <code>string uuid = 1;</code>
+     * @return The bytes for uuid.
      */
     com.google.protobuf.ByteString
         getUuidBytes();
@@ -1785,6 +1834,13 @@ public final class CommonMessages {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new AccountID();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -1797,7 +1853,6 @@ public final class CommonMessages {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -1850,6 +1905,7 @@ public final class CommonMessages {
     private volatile java.lang.Object uuid_;
     /**
      * <code>string uuid = 1;</code>
+     * @return The uuid.
      */
     public java.lang.String getUuid() {
       java.lang.Object ref = uuid_;
@@ -1865,6 +1921,7 @@ public final class CommonMessages {
     }
     /**
      * <code>string uuid = 1;</code>
+     * @return The bytes for uuid.
      */
     public com.google.protobuf.ByteString
         getUuidBytes() {
@@ -2054,7 +2111,7 @@ public final class CommonMessages {
                 es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.AccountID.class, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.AccountID.Builder.class);
       }
 
-      // Construct using dataclay.communication.grpc.messages.common.CommonMessages.AccountID.newBuilder()
+      // Construct using es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.AccountID.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -2185,6 +2242,7 @@ public final class CommonMessages {
       private java.lang.Object uuid_ = "";
       /**
        * <code>string uuid = 1;</code>
+       * @return The uuid.
        */
       public java.lang.String getUuid() {
         java.lang.Object ref = uuid_;
@@ -2200,6 +2258,7 @@ public final class CommonMessages {
       }
       /**
        * <code>string uuid = 1;</code>
+       * @return The bytes for uuid.
        */
       public com.google.protobuf.ByteString
           getUuidBytes() {
@@ -2216,6 +2275,8 @@ public final class CommonMessages {
       }
       /**
        * <code>string uuid = 1;</code>
+       * @param value The uuid to set.
+       * @return This builder for chaining.
        */
       public Builder setUuid(
           java.lang.String value) {
@@ -2229,6 +2290,7 @@ public final class CommonMessages {
       }
       /**
        * <code>string uuid = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearUuid() {
         
@@ -2238,6 +2300,8 @@ public final class CommonMessages {
       }
       /**
        * <code>string uuid = 1;</code>
+       * @param value The bytes for uuid to set.
+       * @return This builder for chaining.
        */
       public Builder setUuidBytes(
           com.google.protobuf.ByteString value) {
@@ -2309,10 +2373,12 @@ public final class CommonMessages {
 
     /**
      * <code>string uuid = 1;</code>
+     * @return The uuid.
      */
     java.lang.String getUuid();
     /**
      * <code>string uuid = 1;</code>
+     * @return The bytes for uuid.
      */
     com.google.protobuf.ByteString
         getUuidBytes();
@@ -2334,6 +2400,13 @@ public final class CommonMessages {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ContractID();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -2346,7 +2419,6 @@ public final class CommonMessages {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -2399,6 +2471,7 @@ public final class CommonMessages {
     private volatile java.lang.Object uuid_;
     /**
      * <code>string uuid = 1;</code>
+     * @return The uuid.
      */
     public java.lang.String getUuid() {
       java.lang.Object ref = uuid_;
@@ -2414,6 +2487,7 @@ public final class CommonMessages {
     }
     /**
      * <code>string uuid = 1;</code>
+     * @return The bytes for uuid.
      */
     public com.google.protobuf.ByteString
         getUuidBytes() {
@@ -2603,7 +2677,7 @@ public final class CommonMessages {
                 es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ContractID.class, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ContractID.Builder.class);
       }
 
-      // Construct using dataclay.communication.grpc.messages.common.CommonMessages.ContractID.newBuilder()
+      // Construct using es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ContractID.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -2734,6 +2808,7 @@ public final class CommonMessages {
       private java.lang.Object uuid_ = "";
       /**
        * <code>string uuid = 1;</code>
+       * @return The uuid.
        */
       public java.lang.String getUuid() {
         java.lang.Object ref = uuid_;
@@ -2749,6 +2824,7 @@ public final class CommonMessages {
       }
       /**
        * <code>string uuid = 1;</code>
+       * @return The bytes for uuid.
        */
       public com.google.protobuf.ByteString
           getUuidBytes() {
@@ -2765,6 +2841,8 @@ public final class CommonMessages {
       }
       /**
        * <code>string uuid = 1;</code>
+       * @param value The uuid to set.
+       * @return This builder for chaining.
        */
       public Builder setUuid(
           java.lang.String value) {
@@ -2778,6 +2856,7 @@ public final class CommonMessages {
       }
       /**
        * <code>string uuid = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearUuid() {
         
@@ -2787,6 +2866,8 @@ public final class CommonMessages {
       }
       /**
        * <code>string uuid = 1;</code>
+       * @param value The bytes for uuid to set.
+       * @return This builder for chaining.
        */
       public Builder setUuidBytes(
           com.google.protobuf.ByteString value) {
@@ -2858,10 +2939,12 @@ public final class CommonMessages {
 
     /**
      * <code>string uuid = 1;</code>
+     * @return The uuid.
      */
     java.lang.String getUuid();
     /**
      * <code>string uuid = 1;</code>
+     * @return The bytes for uuid.
      */
     com.google.protobuf.ByteString
         getUuidBytes();
@@ -2883,6 +2966,13 @@ public final class CommonMessages {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new CredentialID();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -2895,7 +2985,6 @@ public final class CommonMessages {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -2948,6 +3037,7 @@ public final class CommonMessages {
     private volatile java.lang.Object uuid_;
     /**
      * <code>string uuid = 1;</code>
+     * @return The uuid.
      */
     public java.lang.String getUuid() {
       java.lang.Object ref = uuid_;
@@ -2963,6 +3053,7 @@ public final class CommonMessages {
     }
     /**
      * <code>string uuid = 1;</code>
+     * @return The bytes for uuid.
      */
     public com.google.protobuf.ByteString
         getUuidBytes() {
@@ -3152,7 +3243,7 @@ public final class CommonMessages {
                 es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.CredentialID.class, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.CredentialID.Builder.class);
       }
 
-      // Construct using dataclay.communication.grpc.messages.common.CommonMessages.CredentialID.newBuilder()
+      // Construct using es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.CredentialID.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -3283,6 +3374,7 @@ public final class CommonMessages {
       private java.lang.Object uuid_ = "";
       /**
        * <code>string uuid = 1;</code>
+       * @return The uuid.
        */
       public java.lang.String getUuid() {
         java.lang.Object ref = uuid_;
@@ -3298,6 +3390,7 @@ public final class CommonMessages {
       }
       /**
        * <code>string uuid = 1;</code>
+       * @return The bytes for uuid.
        */
       public com.google.protobuf.ByteString
           getUuidBytes() {
@@ -3314,6 +3407,8 @@ public final class CommonMessages {
       }
       /**
        * <code>string uuid = 1;</code>
+       * @param value The uuid to set.
+       * @return This builder for chaining.
        */
       public Builder setUuid(
           java.lang.String value) {
@@ -3327,6 +3422,7 @@ public final class CommonMessages {
       }
       /**
        * <code>string uuid = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearUuid() {
         
@@ -3336,6 +3432,8 @@ public final class CommonMessages {
       }
       /**
        * <code>string uuid = 1;</code>
+       * @param value The bytes for uuid to set.
+       * @return This builder for chaining.
        */
       public Builder setUuidBytes(
           com.google.protobuf.ByteString value) {
@@ -3407,10 +3505,12 @@ public final class CommonMessages {
 
     /**
      * <code>string uuid = 1;</code>
+     * @return The uuid.
      */
     java.lang.String getUuid();
     /**
      * <code>string uuid = 1;</code>
+     * @return The bytes for uuid.
      */
     com.google.protobuf.ByteString
         getUuidBytes();
@@ -3432,6 +3532,13 @@ public final class CommonMessages {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new DataContractID();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -3444,7 +3551,6 @@ public final class CommonMessages {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -3497,6 +3603,7 @@ public final class CommonMessages {
     private volatile java.lang.Object uuid_;
     /**
      * <code>string uuid = 1;</code>
+     * @return The uuid.
      */
     public java.lang.String getUuid() {
       java.lang.Object ref = uuid_;
@@ -3512,6 +3619,7 @@ public final class CommonMessages {
     }
     /**
      * <code>string uuid = 1;</code>
+     * @return The bytes for uuid.
      */
     public com.google.protobuf.ByteString
         getUuidBytes() {
@@ -3701,7 +3809,7 @@ public final class CommonMessages {
                 es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.DataContractID.class, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.DataContractID.Builder.class);
       }
 
-      // Construct using dataclay.communication.grpc.messages.common.CommonMessages.DataContractID.newBuilder()
+      // Construct using es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.DataContractID.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -3832,6 +3940,7 @@ public final class CommonMessages {
       private java.lang.Object uuid_ = "";
       /**
        * <code>string uuid = 1;</code>
+       * @return The uuid.
        */
       public java.lang.String getUuid() {
         java.lang.Object ref = uuid_;
@@ -3847,6 +3956,7 @@ public final class CommonMessages {
       }
       /**
        * <code>string uuid = 1;</code>
+       * @return The bytes for uuid.
        */
       public com.google.protobuf.ByteString
           getUuidBytes() {
@@ -3863,6 +3973,8 @@ public final class CommonMessages {
       }
       /**
        * <code>string uuid = 1;</code>
+       * @param value The uuid to set.
+       * @return This builder for chaining.
        */
       public Builder setUuid(
           java.lang.String value) {
@@ -3876,6 +3988,7 @@ public final class CommonMessages {
       }
       /**
        * <code>string uuid = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearUuid() {
         
@@ -3885,6 +3998,8 @@ public final class CommonMessages {
       }
       /**
        * <code>string uuid = 1;</code>
+       * @param value The bytes for uuid to set.
+       * @return This builder for chaining.
        */
       public Builder setUuidBytes(
           com.google.protobuf.ByteString value) {
@@ -3956,10 +4071,12 @@ public final class CommonMessages {
 
     /**
      * <code>string uuid = 1;</code>
+     * @return The uuid.
      */
     java.lang.String getUuid();
     /**
      * <code>string uuid = 1;</code>
+     * @return The bytes for uuid.
      */
     com.google.protobuf.ByteString
         getUuidBytes();
@@ -3981,6 +4098,13 @@ public final class CommonMessages {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new DataSetID();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -3993,7 +4117,6 @@ public final class CommonMessages {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -4046,6 +4169,7 @@ public final class CommonMessages {
     private volatile java.lang.Object uuid_;
     /**
      * <code>string uuid = 1;</code>
+     * @return The uuid.
      */
     public java.lang.String getUuid() {
       java.lang.Object ref = uuid_;
@@ -4061,6 +4185,7 @@ public final class CommonMessages {
     }
     /**
      * <code>string uuid = 1;</code>
+     * @return The bytes for uuid.
      */
     public com.google.protobuf.ByteString
         getUuidBytes() {
@@ -4250,7 +4375,7 @@ public final class CommonMessages {
                 es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.DataSetID.class, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.DataSetID.Builder.class);
       }
 
-      // Construct using dataclay.communication.grpc.messages.common.CommonMessages.DataSetID.newBuilder()
+      // Construct using es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.DataSetID.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -4381,6 +4506,7 @@ public final class CommonMessages {
       private java.lang.Object uuid_ = "";
       /**
        * <code>string uuid = 1;</code>
+       * @return The uuid.
        */
       public java.lang.String getUuid() {
         java.lang.Object ref = uuid_;
@@ -4396,6 +4522,7 @@ public final class CommonMessages {
       }
       /**
        * <code>string uuid = 1;</code>
+       * @return The bytes for uuid.
        */
       public com.google.protobuf.ByteString
           getUuidBytes() {
@@ -4412,6 +4539,8 @@ public final class CommonMessages {
       }
       /**
        * <code>string uuid = 1;</code>
+       * @param value The uuid to set.
+       * @return This builder for chaining.
        */
       public Builder setUuid(
           java.lang.String value) {
@@ -4425,6 +4554,7 @@ public final class CommonMessages {
       }
       /**
        * <code>string uuid = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearUuid() {
         
@@ -4434,6 +4564,8 @@ public final class CommonMessages {
       }
       /**
        * <code>string uuid = 1;</code>
+       * @param value The bytes for uuid to set.
+       * @return This builder for chaining.
        */
       public Builder setUuidBytes(
           com.google.protobuf.ByteString value) {
@@ -4505,10 +4637,12 @@ public final class CommonMessages {
 
     /**
      * <code>string uuid = 1;</code>
+     * @return The uuid.
      */
     java.lang.String getUuid();
     /**
      * <code>string uuid = 1;</code>
+     * @return The bytes for uuid.
      */
     com.google.protobuf.ByteString
         getUuidBytes();
@@ -4530,6 +4664,13 @@ public final class CommonMessages {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new NamespaceID();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -4542,7 +4683,6 @@ public final class CommonMessages {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -4595,6 +4735,7 @@ public final class CommonMessages {
     private volatile java.lang.Object uuid_;
     /**
      * <code>string uuid = 1;</code>
+     * @return The uuid.
      */
     public java.lang.String getUuid() {
       java.lang.Object ref = uuid_;
@@ -4610,6 +4751,7 @@ public final class CommonMessages {
     }
     /**
      * <code>string uuid = 1;</code>
+     * @return The bytes for uuid.
      */
     public com.google.protobuf.ByteString
         getUuidBytes() {
@@ -4799,7 +4941,7 @@ public final class CommonMessages {
                 es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.NamespaceID.class, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.NamespaceID.Builder.class);
       }
 
-      // Construct using dataclay.communication.grpc.messages.common.CommonMessages.NamespaceID.newBuilder()
+      // Construct using es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.NamespaceID.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -4930,6 +5072,7 @@ public final class CommonMessages {
       private java.lang.Object uuid_ = "";
       /**
        * <code>string uuid = 1;</code>
+       * @return The uuid.
        */
       public java.lang.String getUuid() {
         java.lang.Object ref = uuid_;
@@ -4945,6 +5088,7 @@ public final class CommonMessages {
       }
       /**
        * <code>string uuid = 1;</code>
+       * @return The bytes for uuid.
        */
       public com.google.protobuf.ByteString
           getUuidBytes() {
@@ -4961,6 +5105,8 @@ public final class CommonMessages {
       }
       /**
        * <code>string uuid = 1;</code>
+       * @param value The uuid to set.
+       * @return This builder for chaining.
        */
       public Builder setUuid(
           java.lang.String value) {
@@ -4974,6 +5120,7 @@ public final class CommonMessages {
       }
       /**
        * <code>string uuid = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearUuid() {
         
@@ -4983,6 +5130,8 @@ public final class CommonMessages {
       }
       /**
        * <code>string uuid = 1;</code>
+       * @param value The bytes for uuid to set.
+       * @return This builder for chaining.
        */
       public Builder setUuidBytes(
           com.google.protobuf.ByteString value) {
@@ -5054,10 +5203,12 @@ public final class CommonMessages {
 
     /**
      * <code>string uuid = 1;</code>
+     * @return The uuid.
      */
     java.lang.String getUuid();
     /**
      * <code>string uuid = 1;</code>
+     * @return The bytes for uuid.
      */
     com.google.protobuf.ByteString
         getUuidBytes();
@@ -5079,6 +5230,13 @@ public final class CommonMessages {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ECAID();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -5091,7 +5249,6 @@ public final class CommonMessages {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -5144,6 +5301,7 @@ public final class CommonMessages {
     private volatile java.lang.Object uuid_;
     /**
      * <code>string uuid = 1;</code>
+     * @return The uuid.
      */
     public java.lang.String getUuid() {
       java.lang.Object ref = uuid_;
@@ -5159,6 +5317,7 @@ public final class CommonMessages {
     }
     /**
      * <code>string uuid = 1;</code>
+     * @return The bytes for uuid.
      */
     public com.google.protobuf.ByteString
         getUuidBytes() {
@@ -5348,7 +5507,7 @@ public final class CommonMessages {
                 es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ECAID.class, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ECAID.Builder.class);
       }
 
-      // Construct using dataclay.communication.grpc.messages.common.CommonMessages.ECAID.newBuilder()
+      // Construct using es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ECAID.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -5479,6 +5638,7 @@ public final class CommonMessages {
       private java.lang.Object uuid_ = "";
       /**
        * <code>string uuid = 1;</code>
+       * @return The uuid.
        */
       public java.lang.String getUuid() {
         java.lang.Object ref = uuid_;
@@ -5494,6 +5654,7 @@ public final class CommonMessages {
       }
       /**
        * <code>string uuid = 1;</code>
+       * @return The bytes for uuid.
        */
       public com.google.protobuf.ByteString
           getUuidBytes() {
@@ -5510,6 +5671,8 @@ public final class CommonMessages {
       }
       /**
        * <code>string uuid = 1;</code>
+       * @param value The uuid to set.
+       * @return This builder for chaining.
        */
       public Builder setUuid(
           java.lang.String value) {
@@ -5523,6 +5686,7 @@ public final class CommonMessages {
       }
       /**
        * <code>string uuid = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearUuid() {
         
@@ -5532,6 +5696,8 @@ public final class CommonMessages {
       }
       /**
        * <code>string uuid = 1;</code>
+       * @param value The bytes for uuid to set.
+       * @return This builder for chaining.
        */
       public Builder setUuidBytes(
           com.google.protobuf.ByteString value) {
@@ -5603,10 +5769,12 @@ public final class CommonMessages {
 
     /**
      * <code>string uuid = 1;</code>
+     * @return The uuid.
      */
     java.lang.String getUuid();
     /**
      * <code>string uuid = 1;</code>
+     * @return The bytes for uuid.
      */
     com.google.protobuf.ByteString
         getUuidBytes();
@@ -5628,6 +5796,13 @@ public final class CommonMessages {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new EventMessageID();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -5640,7 +5815,6 @@ public final class CommonMessages {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -5693,6 +5867,7 @@ public final class CommonMessages {
     private volatile java.lang.Object uuid_;
     /**
      * <code>string uuid = 1;</code>
+     * @return The uuid.
      */
     public java.lang.String getUuid() {
       java.lang.Object ref = uuid_;
@@ -5708,6 +5883,7 @@ public final class CommonMessages {
     }
     /**
      * <code>string uuid = 1;</code>
+     * @return The bytes for uuid.
      */
     public com.google.protobuf.ByteString
         getUuidBytes() {
@@ -5897,7 +6073,7 @@ public final class CommonMessages {
                 es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EventMessageID.class, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EventMessageID.Builder.class);
       }
 
-      // Construct using dataclay.communication.grpc.messages.common.CommonMessages.EventMessageID.newBuilder()
+      // Construct using es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EventMessageID.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -6028,6 +6204,7 @@ public final class CommonMessages {
       private java.lang.Object uuid_ = "";
       /**
        * <code>string uuid = 1;</code>
+       * @return The uuid.
        */
       public java.lang.String getUuid() {
         java.lang.Object ref = uuid_;
@@ -6043,6 +6220,7 @@ public final class CommonMessages {
       }
       /**
        * <code>string uuid = 1;</code>
+       * @return The bytes for uuid.
        */
       public com.google.protobuf.ByteString
           getUuidBytes() {
@@ -6059,6 +6237,8 @@ public final class CommonMessages {
       }
       /**
        * <code>string uuid = 1;</code>
+       * @param value The uuid to set.
+       * @return This builder for chaining.
        */
       public Builder setUuid(
           java.lang.String value) {
@@ -6072,6 +6252,7 @@ public final class CommonMessages {
       }
       /**
        * <code>string uuid = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearUuid() {
         
@@ -6081,6 +6262,8 @@ public final class CommonMessages {
       }
       /**
        * <code>string uuid = 1;</code>
+       * @param value The bytes for uuid to set.
+       * @return This builder for chaining.
        */
       public Builder setUuidBytes(
           com.google.protobuf.ByteString value) {
@@ -6152,10 +6335,12 @@ public final class CommonMessages {
 
     /**
      * <code>string uuid = 1;</code>
+     * @return The uuid.
      */
     java.lang.String getUuid();
     /**
      * <code>string uuid = 1;</code>
+     * @return The bytes for uuid.
      */
     com.google.protobuf.ByteString
         getUuidBytes();
@@ -6177,6 +6362,13 @@ public final class CommonMessages {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new EventObjsMeetConditionID();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -6189,7 +6381,6 @@ public final class CommonMessages {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -6242,6 +6433,7 @@ public final class CommonMessages {
     private volatile java.lang.Object uuid_;
     /**
      * <code>string uuid = 1;</code>
+     * @return The uuid.
      */
     public java.lang.String getUuid() {
       java.lang.Object ref = uuid_;
@@ -6257,6 +6449,7 @@ public final class CommonMessages {
     }
     /**
      * <code>string uuid = 1;</code>
+     * @return The bytes for uuid.
      */
     public com.google.protobuf.ByteString
         getUuidBytes() {
@@ -6446,7 +6639,7 @@ public final class CommonMessages {
                 es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EventObjsMeetConditionID.class, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EventObjsMeetConditionID.Builder.class);
       }
 
-      // Construct using dataclay.communication.grpc.messages.common.CommonMessages.EventObjsMeetConditionID.newBuilder()
+      // Construct using es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EventObjsMeetConditionID.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -6577,6 +6770,7 @@ public final class CommonMessages {
       private java.lang.Object uuid_ = "";
       /**
        * <code>string uuid = 1;</code>
+       * @return The uuid.
        */
       public java.lang.String getUuid() {
         java.lang.Object ref = uuid_;
@@ -6592,6 +6786,7 @@ public final class CommonMessages {
       }
       /**
        * <code>string uuid = 1;</code>
+       * @return The bytes for uuid.
        */
       public com.google.protobuf.ByteString
           getUuidBytes() {
@@ -6608,6 +6803,8 @@ public final class CommonMessages {
       }
       /**
        * <code>string uuid = 1;</code>
+       * @param value The uuid to set.
+       * @return This builder for chaining.
        */
       public Builder setUuid(
           java.lang.String value) {
@@ -6621,6 +6818,7 @@ public final class CommonMessages {
       }
       /**
        * <code>string uuid = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearUuid() {
         
@@ -6630,6 +6828,8 @@ public final class CommonMessages {
       }
       /**
        * <code>string uuid = 1;</code>
+       * @param value The bytes for uuid to set.
+       * @return This builder for chaining.
        */
       public Builder setUuidBytes(
           com.google.protobuf.ByteString value) {
@@ -6701,10 +6901,12 @@ public final class CommonMessages {
 
     /**
      * <code>string uuid = 1;</code>
+     * @return The uuid.
      */
     java.lang.String getUuid();
     /**
      * <code>string uuid = 1;</code>
+     * @return The bytes for uuid.
      */
     com.google.protobuf.ByteString
         getUuidBytes();
@@ -6726,6 +6928,13 @@ public final class CommonMessages {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ExecutionEnvironmentID();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -6738,7 +6947,6 @@ public final class CommonMessages {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -6791,6 +6999,7 @@ public final class CommonMessages {
     private volatile java.lang.Object uuid_;
     /**
      * <code>string uuid = 1;</code>
+     * @return The uuid.
      */
     public java.lang.String getUuid() {
       java.lang.Object ref = uuid_;
@@ -6806,6 +7015,7 @@ public final class CommonMessages {
     }
     /**
      * <code>string uuid = 1;</code>
+     * @return The bytes for uuid.
      */
     public com.google.protobuf.ByteString
         getUuidBytes() {
@@ -6995,7 +7205,7 @@ public final class CommonMessages {
                 es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironmentID.class, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironmentID.Builder.class);
       }
 
-      // Construct using dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironmentID.newBuilder()
+      // Construct using es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironmentID.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -7126,6 +7336,7 @@ public final class CommonMessages {
       private java.lang.Object uuid_ = "";
       /**
        * <code>string uuid = 1;</code>
+       * @return The uuid.
        */
       public java.lang.String getUuid() {
         java.lang.Object ref = uuid_;
@@ -7141,6 +7352,7 @@ public final class CommonMessages {
       }
       /**
        * <code>string uuid = 1;</code>
+       * @return The bytes for uuid.
        */
       public com.google.protobuf.ByteString
           getUuidBytes() {
@@ -7157,6 +7369,8 @@ public final class CommonMessages {
       }
       /**
        * <code>string uuid = 1;</code>
+       * @param value The uuid to set.
+       * @return This builder for chaining.
        */
       public Builder setUuid(
           java.lang.String value) {
@@ -7170,6 +7384,7 @@ public final class CommonMessages {
       }
       /**
        * <code>string uuid = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearUuid() {
         
@@ -7179,6 +7394,8 @@ public final class CommonMessages {
       }
       /**
        * <code>string uuid = 1;</code>
+       * @param value The bytes for uuid to set.
+       * @return This builder for chaining.
        */
       public Builder setUuidBytes(
           com.google.protobuf.ByteString value) {
@@ -7250,10 +7467,12 @@ public final class CommonMessages {
 
     /**
      * <code>string uuid = 1;</code>
+     * @return The uuid.
      */
     java.lang.String getUuid();
     /**
      * <code>string uuid = 1;</code>
+     * @return The bytes for uuid.
      */
     com.google.protobuf.ByteString
         getUuidBytes();
@@ -7275,6 +7494,13 @@ public final class CommonMessages {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new DataClayInstanceID();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -7287,7 +7513,6 @@ public final class CommonMessages {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -7340,6 +7565,7 @@ public final class CommonMessages {
     private volatile java.lang.Object uuid_;
     /**
      * <code>string uuid = 1;</code>
+     * @return The uuid.
      */
     public java.lang.String getUuid() {
       java.lang.Object ref = uuid_;
@@ -7355,6 +7581,7 @@ public final class CommonMessages {
     }
     /**
      * <code>string uuid = 1;</code>
+     * @return The bytes for uuid.
      */
     public com.google.protobuf.ByteString
         getUuidBytes() {
@@ -7544,7 +7771,7 @@ public final class CommonMessages {
                 es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.DataClayInstanceID.class, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.DataClayInstanceID.Builder.class);
       }
 
-      // Construct using dataclay.communication.grpc.messages.common.CommonMessages.DataClayInstanceID.newBuilder()
+      // Construct using es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.DataClayInstanceID.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -7675,6 +7902,7 @@ public final class CommonMessages {
       private java.lang.Object uuid_ = "";
       /**
        * <code>string uuid = 1;</code>
+       * @return The uuid.
        */
       public java.lang.String getUuid() {
         java.lang.Object ref = uuid_;
@@ -7690,6 +7918,7 @@ public final class CommonMessages {
       }
       /**
        * <code>string uuid = 1;</code>
+       * @return The bytes for uuid.
        */
       public com.google.protobuf.ByteString
           getUuidBytes() {
@@ -7706,6 +7935,8 @@ public final class CommonMessages {
       }
       /**
        * <code>string uuid = 1;</code>
+       * @param value The uuid to set.
+       * @return This builder for chaining.
        */
       public Builder setUuid(
           java.lang.String value) {
@@ -7719,6 +7950,7 @@ public final class CommonMessages {
       }
       /**
        * <code>string uuid = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearUuid() {
         
@@ -7728,6 +7960,8 @@ public final class CommonMessages {
       }
       /**
        * <code>string uuid = 1;</code>
+       * @param value The bytes for uuid to set.
+       * @return This builder for chaining.
        */
       public Builder setUuidBytes(
           com.google.protobuf.ByteString value) {
@@ -7799,10 +8033,12 @@ public final class CommonMessages {
 
     /**
      * <code>string uuid = 1;</code>
+     * @return The uuid.
      */
     java.lang.String getUuid();
     /**
      * <code>string uuid = 1;</code>
+     * @return The bytes for uuid.
      */
     com.google.protobuf.ByteString
         getUuidBytes();
@@ -7824,6 +8060,13 @@ public final class CommonMessages {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ImplementationID();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -7836,7 +8079,6 @@ public final class CommonMessages {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -7889,6 +8131,7 @@ public final class CommonMessages {
     private volatile java.lang.Object uuid_;
     /**
      * <code>string uuid = 1;</code>
+     * @return The uuid.
      */
     public java.lang.String getUuid() {
       java.lang.Object ref = uuid_;
@@ -7904,6 +8147,7 @@ public final class CommonMessages {
     }
     /**
      * <code>string uuid = 1;</code>
+     * @return The bytes for uuid.
      */
     public com.google.protobuf.ByteString
         getUuidBytes() {
@@ -8093,7 +8337,7 @@ public final class CommonMessages {
                 es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ImplementationID.class, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ImplementationID.Builder.class);
       }
 
-      // Construct using dataclay.communication.grpc.messages.common.CommonMessages.ImplementationID.newBuilder()
+      // Construct using es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ImplementationID.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -8224,6 +8468,7 @@ public final class CommonMessages {
       private java.lang.Object uuid_ = "";
       /**
        * <code>string uuid = 1;</code>
+       * @return The uuid.
        */
       public java.lang.String getUuid() {
         java.lang.Object ref = uuid_;
@@ -8239,6 +8484,7 @@ public final class CommonMessages {
       }
       /**
        * <code>string uuid = 1;</code>
+       * @return The bytes for uuid.
        */
       public com.google.protobuf.ByteString
           getUuidBytes() {
@@ -8255,6 +8501,8 @@ public final class CommonMessages {
       }
       /**
        * <code>string uuid = 1;</code>
+       * @param value The uuid to set.
+       * @return This builder for chaining.
        */
       public Builder setUuid(
           java.lang.String value) {
@@ -8268,6 +8516,7 @@ public final class CommonMessages {
       }
       /**
        * <code>string uuid = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearUuid() {
         
@@ -8277,6 +8526,8 @@ public final class CommonMessages {
       }
       /**
        * <code>string uuid = 1;</code>
+       * @param value The bytes for uuid to set.
+       * @return This builder for chaining.
        */
       public Builder setUuidBytes(
           com.google.protobuf.ByteString value) {
@@ -8348,10 +8599,12 @@ public final class CommonMessages {
 
     /**
      * <code>string uuid = 1;</code>
+     * @return The uuid.
      */
     java.lang.String getUuid();
     /**
      * <code>string uuid = 1;</code>
+     * @return The bytes for uuid.
      */
     com.google.protobuf.ByteString
         getUuidBytes();
@@ -8373,6 +8626,13 @@ public final class CommonMessages {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new InterfaceID();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -8385,7 +8645,6 @@ public final class CommonMessages {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -8438,6 +8697,7 @@ public final class CommonMessages {
     private volatile java.lang.Object uuid_;
     /**
      * <code>string uuid = 1;</code>
+     * @return The uuid.
      */
     public java.lang.String getUuid() {
       java.lang.Object ref = uuid_;
@@ -8453,6 +8713,7 @@ public final class CommonMessages {
     }
     /**
      * <code>string uuid = 1;</code>
+     * @return The bytes for uuid.
      */
     public com.google.protobuf.ByteString
         getUuidBytes() {
@@ -8642,7 +8903,7 @@ public final class CommonMessages {
                 es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.InterfaceID.class, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.InterfaceID.Builder.class);
       }
 
-      // Construct using dataclay.communication.grpc.messages.common.CommonMessages.InterfaceID.newBuilder()
+      // Construct using es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.InterfaceID.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -8773,6 +9034,7 @@ public final class CommonMessages {
       private java.lang.Object uuid_ = "";
       /**
        * <code>string uuid = 1;</code>
+       * @return The uuid.
        */
       public java.lang.String getUuid() {
         java.lang.Object ref = uuid_;
@@ -8788,6 +9050,7 @@ public final class CommonMessages {
       }
       /**
        * <code>string uuid = 1;</code>
+       * @return The bytes for uuid.
        */
       public com.google.protobuf.ByteString
           getUuidBytes() {
@@ -8804,6 +9067,8 @@ public final class CommonMessages {
       }
       /**
        * <code>string uuid = 1;</code>
+       * @param value The uuid to set.
+       * @return This builder for chaining.
        */
       public Builder setUuid(
           java.lang.String value) {
@@ -8817,6 +9082,7 @@ public final class CommonMessages {
       }
       /**
        * <code>string uuid = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearUuid() {
         
@@ -8826,6 +9092,8 @@ public final class CommonMessages {
       }
       /**
        * <code>string uuid = 1;</code>
+       * @param value The bytes for uuid to set.
+       * @return This builder for chaining.
        */
       public Builder setUuidBytes(
           com.google.protobuf.ByteString value) {
@@ -8897,10 +9165,12 @@ public final class CommonMessages {
 
     /**
      * <code>string uuid = 1;</code>
+     * @return The uuid.
      */
     java.lang.String getUuid();
     /**
      * <code>string uuid = 1;</code>
+     * @return The bytes for uuid.
      */
     com.google.protobuf.ByteString
         getUuidBytes();
@@ -8922,6 +9192,13 @@ public final class CommonMessages {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new MetaClassID();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -8934,7 +9211,6 @@ public final class CommonMessages {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -8987,6 +9263,7 @@ public final class CommonMessages {
     private volatile java.lang.Object uuid_;
     /**
      * <code>string uuid = 1;</code>
+     * @return The uuid.
      */
     public java.lang.String getUuid() {
       java.lang.Object ref = uuid_;
@@ -9002,6 +9279,7 @@ public final class CommonMessages {
     }
     /**
      * <code>string uuid = 1;</code>
+     * @return The bytes for uuid.
      */
     public com.google.protobuf.ByteString
         getUuidBytes() {
@@ -9191,7 +9469,7 @@ public final class CommonMessages {
                 es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.MetaClassID.class, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.MetaClassID.Builder.class);
       }
 
-      // Construct using dataclay.communication.grpc.messages.common.CommonMessages.MetaClassID.newBuilder()
+      // Construct using es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.MetaClassID.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -9322,6 +9600,7 @@ public final class CommonMessages {
       private java.lang.Object uuid_ = "";
       /**
        * <code>string uuid = 1;</code>
+       * @return The uuid.
        */
       public java.lang.String getUuid() {
         java.lang.Object ref = uuid_;
@@ -9337,6 +9616,7 @@ public final class CommonMessages {
       }
       /**
        * <code>string uuid = 1;</code>
+       * @return The bytes for uuid.
        */
       public com.google.protobuf.ByteString
           getUuidBytes() {
@@ -9353,6 +9633,8 @@ public final class CommonMessages {
       }
       /**
        * <code>string uuid = 1;</code>
+       * @param value The uuid to set.
+       * @return This builder for chaining.
        */
       public Builder setUuid(
           java.lang.String value) {
@@ -9366,6 +9648,7 @@ public final class CommonMessages {
       }
       /**
        * <code>string uuid = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearUuid() {
         
@@ -9375,6 +9658,8 @@ public final class CommonMessages {
       }
       /**
        * <code>string uuid = 1;</code>
+       * @param value The bytes for uuid to set.
+       * @return This builder for chaining.
        */
       public Builder setUuidBytes(
           com.google.protobuf.ByteString value) {
@@ -9446,10 +9731,12 @@ public final class CommonMessages {
 
     /**
      * <code>string uuid = 1;</code>
+     * @return The uuid.
      */
     java.lang.String getUuid();
     /**
      * <code>string uuid = 1;</code>
+     * @return The bytes for uuid.
      */
     com.google.protobuf.ByteString
         getUuidBytes();
@@ -9471,6 +9758,13 @@ public final class CommonMessages {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ObjectID();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -9483,7 +9777,6 @@ public final class CommonMessages {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -9536,6 +9829,7 @@ public final class CommonMessages {
     private volatile java.lang.Object uuid_;
     /**
      * <code>string uuid = 1;</code>
+     * @return The uuid.
      */
     public java.lang.String getUuid() {
       java.lang.Object ref = uuid_;
@@ -9551,6 +9845,7 @@ public final class CommonMessages {
     }
     /**
      * <code>string uuid = 1;</code>
+     * @return The bytes for uuid.
      */
     public com.google.protobuf.ByteString
         getUuidBytes() {
@@ -9740,7 +10035,7 @@ public final class CommonMessages {
                 es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID.class, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID.Builder.class);
       }
 
-      // Construct using dataclay.communication.grpc.messages.common.CommonMessages.ObjectID.newBuilder()
+      // Construct using es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -9871,6 +10166,7 @@ public final class CommonMessages {
       private java.lang.Object uuid_ = "";
       /**
        * <code>string uuid = 1;</code>
+       * @return The uuid.
        */
       public java.lang.String getUuid() {
         java.lang.Object ref = uuid_;
@@ -9886,6 +10182,7 @@ public final class CommonMessages {
       }
       /**
        * <code>string uuid = 1;</code>
+       * @return The bytes for uuid.
        */
       public com.google.protobuf.ByteString
           getUuidBytes() {
@@ -9902,6 +10199,8 @@ public final class CommonMessages {
       }
       /**
        * <code>string uuid = 1;</code>
+       * @param value The uuid to set.
+       * @return This builder for chaining.
        */
       public Builder setUuid(
           java.lang.String value) {
@@ -9915,6 +10214,7 @@ public final class CommonMessages {
       }
       /**
        * <code>string uuid = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearUuid() {
         
@@ -9924,6 +10224,8 @@ public final class CommonMessages {
       }
       /**
        * <code>string uuid = 1;</code>
+       * @param value The bytes for uuid to set.
+       * @return This builder for chaining.
        */
       public Builder setUuidBytes(
           com.google.protobuf.ByteString value) {
@@ -9995,10 +10297,12 @@ public final class CommonMessages {
 
     /**
      * <code>string uuid = 1;</code>
+     * @return The uuid.
      */
     java.lang.String getUuid();
     /**
      * <code>string uuid = 1;</code>
+     * @return The bytes for uuid.
      */
     com.google.protobuf.ByteString
         getUuidBytes();
@@ -10020,6 +10324,13 @@ public final class CommonMessages {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new OperationID();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -10032,7 +10343,6 @@ public final class CommonMessages {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -10085,6 +10395,7 @@ public final class CommonMessages {
     private volatile java.lang.Object uuid_;
     /**
      * <code>string uuid = 1;</code>
+     * @return The uuid.
      */
     public java.lang.String getUuid() {
       java.lang.Object ref = uuid_;
@@ -10100,6 +10411,7 @@ public final class CommonMessages {
     }
     /**
      * <code>string uuid = 1;</code>
+     * @return The bytes for uuid.
      */
     public com.google.protobuf.ByteString
         getUuidBytes() {
@@ -10289,7 +10601,7 @@ public final class CommonMessages {
                 es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.OperationID.class, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.OperationID.Builder.class);
       }
 
-      // Construct using dataclay.communication.grpc.messages.common.CommonMessages.OperationID.newBuilder()
+      // Construct using es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.OperationID.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -10420,6 +10732,7 @@ public final class CommonMessages {
       private java.lang.Object uuid_ = "";
       /**
        * <code>string uuid = 1;</code>
+       * @return The uuid.
        */
       public java.lang.String getUuid() {
         java.lang.Object ref = uuid_;
@@ -10435,6 +10748,7 @@ public final class CommonMessages {
       }
       /**
        * <code>string uuid = 1;</code>
+       * @return The bytes for uuid.
        */
       public com.google.protobuf.ByteString
           getUuidBytes() {
@@ -10451,6 +10765,8 @@ public final class CommonMessages {
       }
       /**
        * <code>string uuid = 1;</code>
+       * @param value The uuid to set.
+       * @return This builder for chaining.
        */
       public Builder setUuid(
           java.lang.String value) {
@@ -10464,6 +10780,7 @@ public final class CommonMessages {
       }
       /**
        * <code>string uuid = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearUuid() {
         
@@ -10473,6 +10790,8 @@ public final class CommonMessages {
       }
       /**
        * <code>string uuid = 1;</code>
+       * @param value The bytes for uuid to set.
+       * @return This builder for chaining.
        */
       public Builder setUuidBytes(
           com.google.protobuf.ByteString value) {
@@ -10544,10 +10863,12 @@ public final class CommonMessages {
 
     /**
      * <code>string uuid = 1;</code>
+     * @return The uuid.
      */
     java.lang.String getUuid();
     /**
      * <code>string uuid = 1;</code>
+     * @return The bytes for uuid.
      */
     com.google.protobuf.ByteString
         getUuidBytes();
@@ -10569,6 +10890,13 @@ public final class CommonMessages {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new PropertyID();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -10581,7 +10909,6 @@ public final class CommonMessages {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -10634,6 +10961,7 @@ public final class CommonMessages {
     private volatile java.lang.Object uuid_;
     /**
      * <code>string uuid = 1;</code>
+     * @return The uuid.
      */
     public java.lang.String getUuid() {
       java.lang.Object ref = uuid_;
@@ -10649,6 +10977,7 @@ public final class CommonMessages {
     }
     /**
      * <code>string uuid = 1;</code>
+     * @return The bytes for uuid.
      */
     public com.google.protobuf.ByteString
         getUuidBytes() {
@@ -10838,7 +11167,7 @@ public final class CommonMessages {
                 es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.PropertyID.class, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.PropertyID.Builder.class);
       }
 
-      // Construct using dataclay.communication.grpc.messages.common.CommonMessages.PropertyID.newBuilder()
+      // Construct using es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.PropertyID.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -10969,6 +11298,7 @@ public final class CommonMessages {
       private java.lang.Object uuid_ = "";
       /**
        * <code>string uuid = 1;</code>
+       * @return The uuid.
        */
       public java.lang.String getUuid() {
         java.lang.Object ref = uuid_;
@@ -10984,6 +11314,7 @@ public final class CommonMessages {
       }
       /**
        * <code>string uuid = 1;</code>
+       * @return The bytes for uuid.
        */
       public com.google.protobuf.ByteString
           getUuidBytes() {
@@ -11000,6 +11331,8 @@ public final class CommonMessages {
       }
       /**
        * <code>string uuid = 1;</code>
+       * @param value The uuid to set.
+       * @return This builder for chaining.
        */
       public Builder setUuid(
           java.lang.String value) {
@@ -11013,6 +11346,7 @@ public final class CommonMessages {
       }
       /**
        * <code>string uuid = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearUuid() {
         
@@ -11022,6 +11356,8 @@ public final class CommonMessages {
       }
       /**
        * <code>string uuid = 1;</code>
+       * @param value The bytes for uuid to set.
+       * @return This builder for chaining.
        */
       public Builder setUuidBytes(
           com.google.protobuf.ByteString value) {
@@ -11093,10 +11429,12 @@ public final class CommonMessages {
 
     /**
      * <code>string uuid = 1;</code>
+     * @return The uuid.
      */
     java.lang.String getUuid();
     /**
      * <code>string uuid = 1;</code>
+     * @return The bytes for uuid.
      */
     com.google.protobuf.ByteString
         getUuidBytes();
@@ -11118,6 +11456,13 @@ public final class CommonMessages {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new QualitativeRegistryID();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -11130,7 +11475,6 @@ public final class CommonMessages {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -11183,6 +11527,7 @@ public final class CommonMessages {
     private volatile java.lang.Object uuid_;
     /**
      * <code>string uuid = 1;</code>
+     * @return The uuid.
      */
     public java.lang.String getUuid() {
       java.lang.Object ref = uuid_;
@@ -11198,6 +11543,7 @@ public final class CommonMessages {
     }
     /**
      * <code>string uuid = 1;</code>
+     * @return The bytes for uuid.
      */
     public com.google.protobuf.ByteString
         getUuidBytes() {
@@ -11387,7 +11733,7 @@ public final class CommonMessages {
                 es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.QualitativeRegistryID.class, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.QualitativeRegistryID.Builder.class);
       }
 
-      // Construct using dataclay.communication.grpc.messages.common.CommonMessages.QualitativeRegistryID.newBuilder()
+      // Construct using es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.QualitativeRegistryID.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -11518,6 +11864,7 @@ public final class CommonMessages {
       private java.lang.Object uuid_ = "";
       /**
        * <code>string uuid = 1;</code>
+       * @return The uuid.
        */
       public java.lang.String getUuid() {
         java.lang.Object ref = uuid_;
@@ -11533,6 +11880,7 @@ public final class CommonMessages {
       }
       /**
        * <code>string uuid = 1;</code>
+       * @return The bytes for uuid.
        */
       public com.google.protobuf.ByteString
           getUuidBytes() {
@@ -11549,6 +11897,8 @@ public final class CommonMessages {
       }
       /**
        * <code>string uuid = 1;</code>
+       * @param value The uuid to set.
+       * @return This builder for chaining.
        */
       public Builder setUuid(
           java.lang.String value) {
@@ -11562,6 +11912,7 @@ public final class CommonMessages {
       }
       /**
        * <code>string uuid = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearUuid() {
         
@@ -11571,6 +11922,8 @@ public final class CommonMessages {
       }
       /**
        * <code>string uuid = 1;</code>
+       * @param value The bytes for uuid to set.
+       * @return This builder for chaining.
        */
       public Builder setUuidBytes(
           com.google.protobuf.ByteString value) {
@@ -11642,10 +11995,12 @@ public final class CommonMessages {
 
     /**
      * <code>string uuid = 1;</code>
+     * @return The uuid.
      */
     java.lang.String getUuid();
     /**
      * <code>string uuid = 1;</code>
+     * @return The bytes for uuid.
      */
     com.google.protobuf.ByteString
         getUuidBytes();
@@ -11667,6 +12022,13 @@ public final class CommonMessages {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ResourceID();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -11679,7 +12041,6 @@ public final class CommonMessages {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -11732,6 +12093,7 @@ public final class CommonMessages {
     private volatile java.lang.Object uuid_;
     /**
      * <code>string uuid = 1;</code>
+     * @return The uuid.
      */
     public java.lang.String getUuid() {
       java.lang.Object ref = uuid_;
@@ -11747,6 +12109,7 @@ public final class CommonMessages {
     }
     /**
      * <code>string uuid = 1;</code>
+     * @return The bytes for uuid.
      */
     public com.google.protobuf.ByteString
         getUuidBytes() {
@@ -11936,7 +12299,7 @@ public final class CommonMessages {
                 es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ResourceID.class, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ResourceID.Builder.class);
       }
 
-      // Construct using dataclay.communication.grpc.messages.common.CommonMessages.ResourceID.newBuilder()
+      // Construct using es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ResourceID.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -12067,6 +12430,7 @@ public final class CommonMessages {
       private java.lang.Object uuid_ = "";
       /**
        * <code>string uuid = 1;</code>
+       * @return The uuid.
        */
       public java.lang.String getUuid() {
         java.lang.Object ref = uuid_;
@@ -12082,6 +12446,7 @@ public final class CommonMessages {
       }
       /**
        * <code>string uuid = 1;</code>
+       * @return The bytes for uuid.
        */
       public com.google.protobuf.ByteString
           getUuidBytes() {
@@ -12098,6 +12463,8 @@ public final class CommonMessages {
       }
       /**
        * <code>string uuid = 1;</code>
+       * @param value The uuid to set.
+       * @return This builder for chaining.
        */
       public Builder setUuid(
           java.lang.String value) {
@@ -12111,6 +12478,7 @@ public final class CommonMessages {
       }
       /**
        * <code>string uuid = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearUuid() {
         
@@ -12120,6 +12488,8 @@ public final class CommonMessages {
       }
       /**
        * <code>string uuid = 1;</code>
+       * @param value The bytes for uuid to set.
+       * @return This builder for chaining.
        */
       public Builder setUuidBytes(
           com.google.protobuf.ByteString value) {
@@ -12191,10 +12561,12 @@ public final class CommonMessages {
 
     /**
      * <code>string uuid = 1;</code>
+     * @return The uuid.
      */
     java.lang.String getUuid();
     /**
      * <code>string uuid = 1;</code>
+     * @return The bytes for uuid.
      */
     com.google.protobuf.ByteString
         getUuidBytes();
@@ -12216,6 +12588,13 @@ public final class CommonMessages {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new SessionID();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -12228,7 +12607,6 @@ public final class CommonMessages {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -12281,6 +12659,7 @@ public final class CommonMessages {
     private volatile java.lang.Object uuid_;
     /**
      * <code>string uuid = 1;</code>
+     * @return The uuid.
      */
     public java.lang.String getUuid() {
       java.lang.Object ref = uuid_;
@@ -12296,6 +12675,7 @@ public final class CommonMessages {
     }
     /**
      * <code>string uuid = 1;</code>
+     * @return The bytes for uuid.
      */
     public com.google.protobuf.ByteString
         getUuidBytes() {
@@ -12485,7 +12865,7 @@ public final class CommonMessages {
                 es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID.class, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID.Builder.class);
       }
 
-      // Construct using dataclay.communication.grpc.messages.common.CommonMessages.SessionID.newBuilder()
+      // Construct using es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -12616,6 +12996,7 @@ public final class CommonMessages {
       private java.lang.Object uuid_ = "";
       /**
        * <code>string uuid = 1;</code>
+       * @return The uuid.
        */
       public java.lang.String getUuid() {
         java.lang.Object ref = uuid_;
@@ -12631,6 +13012,7 @@ public final class CommonMessages {
       }
       /**
        * <code>string uuid = 1;</code>
+       * @return The bytes for uuid.
        */
       public com.google.protobuf.ByteString
           getUuidBytes() {
@@ -12647,6 +13029,8 @@ public final class CommonMessages {
       }
       /**
        * <code>string uuid = 1;</code>
+       * @param value The uuid to set.
+       * @return This builder for chaining.
        */
       public Builder setUuid(
           java.lang.String value) {
@@ -12660,6 +13044,7 @@ public final class CommonMessages {
       }
       /**
        * <code>string uuid = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearUuid() {
         
@@ -12669,6 +13054,8 @@ public final class CommonMessages {
       }
       /**
        * <code>string uuid = 1;</code>
+       * @param value The bytes for uuid to set.
+       * @return This builder for chaining.
        */
       public Builder setUuidBytes(
           com.google.protobuf.ByteString value) {
@@ -12740,10 +13127,12 @@ public final class CommonMessages {
 
     /**
      * <code>string uuid = 1;</code>
+     * @return The uuid.
      */
     java.lang.String getUuid();
     /**
      * <code>string uuid = 1;</code>
+     * @return The bytes for uuid.
      */
     com.google.protobuf.ByteString
         getUuidBytes();
@@ -12765,6 +13154,13 @@ public final class CommonMessages {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new StorageLocationID();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -12777,7 +13173,6 @@ public final class CommonMessages {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -12830,6 +13225,7 @@ public final class CommonMessages {
     private volatile java.lang.Object uuid_;
     /**
      * <code>string uuid = 1;</code>
+     * @return The uuid.
      */
     public java.lang.String getUuid() {
       java.lang.Object ref = uuid_;
@@ -12845,6 +13241,7 @@ public final class CommonMessages {
     }
     /**
      * <code>string uuid = 1;</code>
+     * @return The bytes for uuid.
      */
     public com.google.protobuf.ByteString
         getUuidBytes() {
@@ -13034,7 +13431,7 @@ public final class CommonMessages {
                 es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.StorageLocationID.class, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.StorageLocationID.Builder.class);
       }
 
-      // Construct using dataclay.communication.grpc.messages.common.CommonMessages.StorageLocationID.newBuilder()
+      // Construct using es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.StorageLocationID.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -13165,6 +13562,7 @@ public final class CommonMessages {
       private java.lang.Object uuid_ = "";
       /**
        * <code>string uuid = 1;</code>
+       * @return The uuid.
        */
       public java.lang.String getUuid() {
         java.lang.Object ref = uuid_;
@@ -13180,6 +13578,7 @@ public final class CommonMessages {
       }
       /**
        * <code>string uuid = 1;</code>
+       * @return The bytes for uuid.
        */
       public com.google.protobuf.ByteString
           getUuidBytes() {
@@ -13196,6 +13595,8 @@ public final class CommonMessages {
       }
       /**
        * <code>string uuid = 1;</code>
+       * @param value The uuid to set.
+       * @return This builder for chaining.
        */
       public Builder setUuid(
           java.lang.String value) {
@@ -13209,6 +13610,7 @@ public final class CommonMessages {
       }
       /**
        * <code>string uuid = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearUuid() {
         
@@ -13218,6 +13620,8 @@ public final class CommonMessages {
       }
       /**
        * <code>string uuid = 1;</code>
+       * @param value The bytes for uuid to set.
+       * @return This builder for chaining.
        */
       public Builder setUuidBytes(
           com.google.protobuf.ByteString value) {
@@ -13289,6 +13693,7 @@ public final class CommonMessages {
 
     /**
      * <code>int32 numParams = 1;</code>
+     * @return The numParams.
      */
     int getNumParams();
 
@@ -13444,6 +13849,13 @@ public final class CommonMessages {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new SerializedParametersOrReturn();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -13473,10 +13885,10 @@ public final class CommonMessages {
               break;
             }
             case 18: {
-              if (!((mutable_bitField0_ & 0x00000002) != 0)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 immParams_ = com.google.protobuf.MapField.newMapField(
                     ImmParamsDefaultEntryHolder.defaultEntry);
-                mutable_bitField0_ |= 0x00000002;
+                mutable_bitField0_ |= 0x00000001;
               }
               com.google.protobuf.MapEntry<java.lang.Integer, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ImmutableParamOrReturn>
               immParams__ = input.readMessage(
@@ -13486,10 +13898,10 @@ public final class CommonMessages {
               break;
             }
             case 26: {
-              if (!((mutable_bitField0_ & 0x00000004) != 0)) {
+              if (!((mutable_bitField0_ & 0x00000002) != 0)) {
                 langParams_ = com.google.protobuf.MapField.newMapField(
                     LangParamsDefaultEntryHolder.defaultEntry);
-                mutable_bitField0_ |= 0x00000004;
+                mutable_bitField0_ |= 0x00000002;
               }
               com.google.protobuf.MapEntry<java.lang.Integer, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.LanguageParamOrReturn>
               langParams__ = input.readMessage(
@@ -13499,10 +13911,10 @@ public final class CommonMessages {
               break;
             }
             case 34: {
-              if (!((mutable_bitField0_ & 0x00000008) != 0)) {
+              if (!((mutable_bitField0_ & 0x00000004) != 0)) {
                 volatileParams_ = com.google.protobuf.MapField.newMapField(
                     VolatileParamsDefaultEntryHolder.defaultEntry);
-                mutable_bitField0_ |= 0x00000008;
+                mutable_bitField0_ |= 0x00000004;
               }
               com.google.protobuf.MapEntry<java.lang.Integer, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn>
               volatileParams__ = input.readMessage(
@@ -13512,10 +13924,10 @@ public final class CommonMessages {
               break;
             }
             case 42: {
-              if (!((mutable_bitField0_ & 0x00000010) != 0)) {
+              if (!((mutable_bitField0_ & 0x00000008) != 0)) {
                 persParams_ = com.google.protobuf.MapField.newMapField(
                     PersParamsDefaultEntryHolder.defaultEntry);
-                mutable_bitField0_ |= 0x00000010;
+                mutable_bitField0_ |= 0x00000008;
               }
               com.google.protobuf.MapEntry<java.lang.Integer, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.PersistentParamOrReturn>
               persParams__ = input.readMessage(
@@ -13574,11 +13986,11 @@ public final class CommonMessages {
               es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn.class, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn.Builder.class);
     }
 
-    private int bitField0_;
     public static final int NUMPARAMS_FIELD_NUMBER = 1;
     private int numParams_;
     /**
      * <code>int32 numParams = 1;</code>
+     * @return The numParams.
      */
     public int getNumParams() {
       return numParams_;
@@ -14185,7 +14597,7 @@ public final class CommonMessages {
                 es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn.class, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn.Builder.class);
       }
 
-      // Construct using dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn.newBuilder()
+      // Construct using es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -14236,7 +14648,6 @@ public final class CommonMessages {
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn buildPartial() {
         es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn result = new es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         result.numParams_ = numParams_;
         result.immParams_ = internalGetImmParams();
         result.immParams_.makeImmutable();
@@ -14246,7 +14657,6 @@ public final class CommonMessages {
         result.volatileParams_.makeImmutable();
         result.persParams_ = internalGetPersParams();
         result.persParams_.makeImmutable();
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
@@ -14339,12 +14749,15 @@ public final class CommonMessages {
       private int numParams_ ;
       /**
        * <code>int32 numParams = 1;</code>
+       * @return The numParams.
        */
       public int getNumParams() {
         return numParams_;
       }
       /**
        * <code>int32 numParams = 1;</code>
+       * @param value The numParams to set.
+       * @return This builder for chaining.
        */
       public Builder setNumParams(int value) {
         
@@ -14354,6 +14767,7 @@ public final class CommonMessages {
       }
       /**
        * <code>int32 numParams = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearNumParams() {
         
@@ -14912,6 +15326,7 @@ public final class CommonMessages {
 
     /**
      * <code>bytes objbytes = 1;</code>
+     * @return The objbytes.
      */
     com.google.protobuf.ByteString getObjbytes();
   }
@@ -14932,6 +15347,13 @@ public final class CommonMessages {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ImmutableParamOrReturn();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -14944,7 +15366,6 @@ public final class CommonMessages {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -14996,6 +15417,7 @@ public final class CommonMessages {
     private com.google.protobuf.ByteString objbytes_;
     /**
      * <code>bytes objbytes = 1;</code>
+     * @return The objbytes.
      */
     public com.google.protobuf.ByteString getObjbytes() {
       return objbytes_;
@@ -15176,7 +15598,7 @@ public final class CommonMessages {
                 es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ImmutableParamOrReturn.class, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ImmutableParamOrReturn.Builder.class);
       }
 
-      // Construct using dataclay.communication.grpc.messages.common.CommonMessages.ImmutableParamOrReturn.newBuilder()
+      // Construct using es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ImmutableParamOrReturn.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -15306,12 +15728,15 @@ public final class CommonMessages {
       private com.google.protobuf.ByteString objbytes_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <code>bytes objbytes = 1;</code>
+       * @return The objbytes.
        */
       public com.google.protobuf.ByteString getObjbytes() {
         return objbytes_;
       }
       /**
        * <code>bytes objbytes = 1;</code>
+       * @param value The objbytes to set.
+       * @return This builder for chaining.
        */
       public Builder setObjbytes(com.google.protobuf.ByteString value) {
         if (value == null) {
@@ -15324,6 +15749,7 @@ public final class CommonMessages {
       }
       /**
        * <code>bytes objbytes = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearObjbytes() {
         
@@ -15390,10 +15816,12 @@ public final class CommonMessages {
 
     /**
      * <code>.dataclay.communication.grpc.common.ObjectID oid = 1;</code>
+     * @return Whether the oid field is set.
      */
     boolean hasOid();
     /**
      * <code>.dataclay.communication.grpc.common.ObjectID oid = 1;</code>
+     * @return The oid.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID getOid();
     /**
@@ -15403,10 +15831,12 @@ public final class CommonMessages {
 
     /**
      * <code>.dataclay.communication.grpc.common.ExecutionEnvironmentID hint = 2;</code>
+     * @return Whether the hint field is set.
      */
     boolean hasHint();
     /**
      * <code>.dataclay.communication.grpc.common.ExecutionEnvironmentID hint = 2;</code>
+     * @return The hint.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironmentID getHint();
     /**
@@ -15416,10 +15846,12 @@ public final class CommonMessages {
 
     /**
      * <code>.dataclay.communication.grpc.common.MetaClassID classID = 3;</code>
+     * @return Whether the classID field is set.
      */
     boolean hasClassID();
     /**
      * <code>.dataclay.communication.grpc.common.MetaClassID classID = 3;</code>
+     * @return The classID.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.MetaClassID getClassID();
     /**
@@ -15429,10 +15861,12 @@ public final class CommonMessages {
 
     /**
      * <code>.dataclay.communication.grpc.common.DataClayInstanceID extDataClayID = 4;</code>
+     * @return Whether the extDataClayID field is set.
      */
     boolean hasExtDataClayID();
     /**
      * <code>.dataclay.communication.grpc.common.DataClayInstanceID extDataClayID = 4;</code>
+     * @return The extDataClayID.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.DataClayInstanceID getExtDataClayID();
     /**
@@ -15456,6 +15890,13 @@ public final class CommonMessages {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new PersistentParamOrReturn();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -15468,7 +15909,6 @@ public final class CommonMessages {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -15567,12 +16007,14 @@ public final class CommonMessages {
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID oid_;
     /**
      * <code>.dataclay.communication.grpc.common.ObjectID oid = 1;</code>
+     * @return Whether the oid field is set.
      */
     public boolean hasOid() {
       return oid_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.common.ObjectID oid = 1;</code>
+     * @return The oid.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID getOid() {
       return oid_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID.getDefaultInstance() : oid_;
@@ -15588,12 +16030,14 @@ public final class CommonMessages {
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironmentID hint_;
     /**
      * <code>.dataclay.communication.grpc.common.ExecutionEnvironmentID hint = 2;</code>
+     * @return Whether the hint field is set.
      */
     public boolean hasHint() {
       return hint_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.common.ExecutionEnvironmentID hint = 2;</code>
+     * @return The hint.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironmentID getHint() {
       return hint_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironmentID.getDefaultInstance() : hint_;
@@ -15609,12 +16053,14 @@ public final class CommonMessages {
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.MetaClassID classID_;
     /**
      * <code>.dataclay.communication.grpc.common.MetaClassID classID = 3;</code>
+     * @return Whether the classID field is set.
      */
     public boolean hasClassID() {
       return classID_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.common.MetaClassID classID = 3;</code>
+     * @return The classID.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.MetaClassID getClassID() {
       return classID_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.MetaClassID.getDefaultInstance() : classID_;
@@ -15630,12 +16076,14 @@ public final class CommonMessages {
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.DataClayInstanceID extDataClayID_;
     /**
      * <code>.dataclay.communication.grpc.common.DataClayInstanceID extDataClayID = 4;</code>
+     * @return Whether the extDataClayID field is set.
      */
     public boolean hasExtDataClayID() {
       return extDataClayID_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.common.DataClayInstanceID extDataClayID = 4;</code>
+     * @return The extDataClayID.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.DataClayInstanceID getExtDataClayID() {
       return extDataClayID_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.DataClayInstanceID.getDefaultInstance() : extDataClayID_;
@@ -15875,7 +16323,7 @@ public final class CommonMessages {
                 es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.PersistentParamOrReturn.class, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.PersistentParamOrReturn.Builder.class);
       }
 
-      // Construct using dataclay.communication.grpc.messages.common.CommonMessages.PersistentParamOrReturn.newBuilder()
+      // Construct using es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.PersistentParamOrReturn.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -16057,12 +16505,14 @@ public final class CommonMessages {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectIDOrBuilder> oidBuilder_;
       /**
        * <code>.dataclay.communication.grpc.common.ObjectID oid = 1;</code>
+       * @return Whether the oid field is set.
        */
       public boolean hasOid() {
         return oidBuilder_ != null || oid_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.common.ObjectID oid = 1;</code>
+       * @return The oid.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID getOid() {
         if (oidBuilder_ == null) {
@@ -16174,12 +16624,14 @@ public final class CommonMessages {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironmentID, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironmentID.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironmentIDOrBuilder> hintBuilder_;
       /**
        * <code>.dataclay.communication.grpc.common.ExecutionEnvironmentID hint = 2;</code>
+       * @return Whether the hint field is set.
        */
       public boolean hasHint() {
         return hintBuilder_ != null || hint_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.common.ExecutionEnvironmentID hint = 2;</code>
+       * @return The hint.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironmentID getHint() {
         if (hintBuilder_ == null) {
@@ -16291,12 +16743,14 @@ public final class CommonMessages {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.MetaClassID, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.MetaClassID.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.MetaClassIDOrBuilder> classIDBuilder_;
       /**
        * <code>.dataclay.communication.grpc.common.MetaClassID classID = 3;</code>
+       * @return Whether the classID field is set.
        */
       public boolean hasClassID() {
         return classIDBuilder_ != null || classID_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.common.MetaClassID classID = 3;</code>
+       * @return The classID.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.MetaClassID getClassID() {
         if (classIDBuilder_ == null) {
@@ -16408,12 +16862,14 @@ public final class CommonMessages {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.DataClayInstanceID, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.DataClayInstanceID.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.DataClayInstanceIDOrBuilder> extDataClayIDBuilder_;
       /**
        * <code>.dataclay.communication.grpc.common.DataClayInstanceID extDataClayID = 4;</code>
+       * @return Whether the extDataClayID field is set.
        */
       public boolean hasExtDataClayID() {
         return extDataClayIDBuilder_ != null || extDataClayID_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.common.DataClayInstanceID extDataClayID = 4;</code>
+       * @return The extDataClayID.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.DataClayInstanceID getExtDataClayID() {
         if (extDataClayIDBuilder_ == null) {
@@ -16578,10 +17034,12 @@ public final class CommonMessages {
 
     /**
      * <code>.dataclay.communication.grpc.common.ObjectID oid = 1;</code>
+     * @return Whether the oid field is set.
      */
     boolean hasOid();
     /**
      * <code>.dataclay.communication.grpc.common.ObjectID oid = 1;</code>
+     * @return The oid.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID getOid();
     /**
@@ -16591,10 +17049,12 @@ public final class CommonMessages {
 
     /**
      * <code>.dataclay.communication.grpc.common.MetaClassID classid = 2;</code>
+     * @return Whether the classid field is set.
      */
     boolean hasClassid();
     /**
      * <code>.dataclay.communication.grpc.common.MetaClassID classid = 2;</code>
+     * @return The classid.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.MetaClassID getClassid();
     /**
@@ -16604,10 +17064,12 @@ public final class CommonMessages {
 
     /**
      * <code>.dataclay.communication.grpc.common.DataClayObjectMetaData metadata = 3;</code>
+     * @return Whether the metadata field is set.
      */
     boolean hasMetadata();
     /**
      * <code>.dataclay.communication.grpc.common.DataClayObjectMetaData metadata = 3;</code>
+     * @return The metadata.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.DataClayObjectMetaData getMetadata();
     /**
@@ -16617,6 +17079,7 @@ public final class CommonMessages {
 
     /**
      * <code>bytes objbytes = 4;</code>
+     * @return The objbytes.
      */
     com.google.protobuf.ByteString getObjbytes();
   }
@@ -16637,6 +17100,13 @@ public final class CommonMessages {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ObjectWithDataParamOrReturn();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -16649,7 +17119,6 @@ public final class CommonMessages {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -16740,12 +17209,14 @@ public final class CommonMessages {
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID oid_;
     /**
      * <code>.dataclay.communication.grpc.common.ObjectID oid = 1;</code>
+     * @return Whether the oid field is set.
      */
     public boolean hasOid() {
       return oid_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.common.ObjectID oid = 1;</code>
+     * @return The oid.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID getOid() {
       return oid_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID.getDefaultInstance() : oid_;
@@ -16761,12 +17232,14 @@ public final class CommonMessages {
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.MetaClassID classid_;
     /**
      * <code>.dataclay.communication.grpc.common.MetaClassID classid = 2;</code>
+     * @return Whether the classid field is set.
      */
     public boolean hasClassid() {
       return classid_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.common.MetaClassID classid = 2;</code>
+     * @return The classid.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.MetaClassID getClassid() {
       return classid_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.MetaClassID.getDefaultInstance() : classid_;
@@ -16782,12 +17255,14 @@ public final class CommonMessages {
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.DataClayObjectMetaData metadata_;
     /**
      * <code>.dataclay.communication.grpc.common.DataClayObjectMetaData metadata = 3;</code>
+     * @return Whether the metadata field is set.
      */
     public boolean hasMetadata() {
       return metadata_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.common.DataClayObjectMetaData metadata = 3;</code>
+     * @return The metadata.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.DataClayObjectMetaData getMetadata() {
       return metadata_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.DataClayObjectMetaData.getDefaultInstance() : metadata_;
@@ -16803,6 +17278,7 @@ public final class CommonMessages {
     private com.google.protobuf.ByteString objbytes_;
     /**
      * <code>bytes objbytes = 4;</code>
+     * @return The objbytes.
      */
     public com.google.protobuf.ByteString getObjbytes() {
       return objbytes_;
@@ -17031,7 +17507,7 @@ public final class CommonMessages {
                 es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn.class, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn.Builder.class);
       }
 
-      // Construct using dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn.newBuilder()
+      // Construct using es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -17205,12 +17681,14 @@ public final class CommonMessages {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectIDOrBuilder> oidBuilder_;
       /**
        * <code>.dataclay.communication.grpc.common.ObjectID oid = 1;</code>
+       * @return Whether the oid field is set.
        */
       public boolean hasOid() {
         return oidBuilder_ != null || oid_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.common.ObjectID oid = 1;</code>
+       * @return The oid.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID getOid() {
         if (oidBuilder_ == null) {
@@ -17322,12 +17800,14 @@ public final class CommonMessages {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.MetaClassID, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.MetaClassID.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.MetaClassIDOrBuilder> classidBuilder_;
       /**
        * <code>.dataclay.communication.grpc.common.MetaClassID classid = 2;</code>
+       * @return Whether the classid field is set.
        */
       public boolean hasClassid() {
         return classidBuilder_ != null || classid_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.common.MetaClassID classid = 2;</code>
+       * @return The classid.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.MetaClassID getClassid() {
         if (classidBuilder_ == null) {
@@ -17439,12 +17919,14 @@ public final class CommonMessages {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.DataClayObjectMetaData, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.DataClayObjectMetaData.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.DataClayObjectMetaDataOrBuilder> metadataBuilder_;
       /**
        * <code>.dataclay.communication.grpc.common.DataClayObjectMetaData metadata = 3;</code>
+       * @return Whether the metadata field is set.
        */
       public boolean hasMetadata() {
         return metadataBuilder_ != null || metadata_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.common.DataClayObjectMetaData metadata = 3;</code>
+       * @return The metadata.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.DataClayObjectMetaData getMetadata() {
         if (metadataBuilder_ == null) {
@@ -17554,12 +18036,15 @@ public final class CommonMessages {
       private com.google.protobuf.ByteString objbytes_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <code>bytes objbytes = 4;</code>
+       * @return The objbytes.
        */
       public com.google.protobuf.ByteString getObjbytes() {
         return objbytes_;
       }
       /**
        * <code>bytes objbytes = 4;</code>
+       * @param value The objbytes to set.
+       * @return This builder for chaining.
        */
       public Builder setObjbytes(com.google.protobuf.ByteString value) {
         if (value == null) {
@@ -17572,6 +18057,7 @@ public final class CommonMessages {
       }
       /**
        * <code>bytes objbytes = 4;</code>
+       * @return This builder for chaining.
        */
       public Builder clearObjbytes() {
         
@@ -17638,10 +18124,12 @@ public final class CommonMessages {
 
     /**
      * <code>.dataclay.communication.grpc.common.DataClayObjectMetaData metadata = 1;</code>
+     * @return Whether the metadata field is set.
      */
     boolean hasMetadata();
     /**
      * <code>.dataclay.communication.grpc.common.DataClayObjectMetaData metadata = 1;</code>
+     * @return The metadata.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.DataClayObjectMetaData getMetadata();
     /**
@@ -17651,6 +18139,7 @@ public final class CommonMessages {
 
     /**
      * <code>bytes objbytes = 2;</code>
+     * @return The objbytes.
      */
     com.google.protobuf.ByteString getObjbytes();
   }
@@ -17671,6 +18160,13 @@ public final class CommonMessages {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new LanguageParamOrReturn();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -17683,7 +18179,6 @@ public final class CommonMessages {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -17748,12 +18243,14 @@ public final class CommonMessages {
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.DataClayObjectMetaData metadata_;
     /**
      * <code>.dataclay.communication.grpc.common.DataClayObjectMetaData metadata = 1;</code>
+     * @return Whether the metadata field is set.
      */
     public boolean hasMetadata() {
       return metadata_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.common.DataClayObjectMetaData metadata = 1;</code>
+     * @return The metadata.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.DataClayObjectMetaData getMetadata() {
       return metadata_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.DataClayObjectMetaData.getDefaultInstance() : metadata_;
@@ -17769,6 +18266,7 @@ public final class CommonMessages {
     private com.google.protobuf.ByteString objbytes_;
     /**
      * <code>bytes objbytes = 2;</code>
+     * @return The objbytes.
      */
     public com.google.protobuf.ByteString getObjbytes() {
       return objbytes_;
@@ -17965,7 +18463,7 @@ public final class CommonMessages {
                 es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.LanguageParamOrReturn.class, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.LanguageParamOrReturn.Builder.class);
       }
 
-      // Construct using dataclay.communication.grpc.messages.common.CommonMessages.LanguageParamOrReturn.newBuilder()
+      // Construct using es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.LanguageParamOrReturn.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -18111,12 +18609,14 @@ public final class CommonMessages {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.DataClayObjectMetaData, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.DataClayObjectMetaData.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.DataClayObjectMetaDataOrBuilder> metadataBuilder_;
       /**
        * <code>.dataclay.communication.grpc.common.DataClayObjectMetaData metadata = 1;</code>
+       * @return Whether the metadata field is set.
        */
       public boolean hasMetadata() {
         return metadataBuilder_ != null || metadata_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.common.DataClayObjectMetaData metadata = 1;</code>
+       * @return The metadata.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.DataClayObjectMetaData getMetadata() {
         if (metadataBuilder_ == null) {
@@ -18226,12 +18726,15 @@ public final class CommonMessages {
       private com.google.protobuf.ByteString objbytes_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <code>bytes objbytes = 2;</code>
+       * @return The objbytes.
        */
       public com.google.protobuf.ByteString getObjbytes() {
         return objbytes_;
       }
       /**
        * <code>bytes objbytes = 2;</code>
+       * @param value The objbytes to set.
+       * @return This builder for chaining.
        */
       public Builder setObjbytes(com.google.protobuf.ByteString value) {
         if (value == null) {
@@ -18244,6 +18747,7 @@ public final class CommonMessages {
       }
       /**
        * <code>bytes objbytes = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearObjbytes() {
         
@@ -18446,6 +18950,7 @@ public final class CommonMessages {
 
     /**
      * <code>int32 numRefs = 5;</code>
+     * @return The numRefs.
      */
     int getNumRefs();
   }
@@ -18462,6 +18967,13 @@ public final class CommonMessages {
       super(builder);
     }
     private DataClayObjectMetaData() {
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new DataClayObjectMetaData();
     }
 
     @java.lang.Override
@@ -18595,7 +19107,6 @@ public final class CommonMessages {
               es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.DataClayObjectMetaData.class, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.DataClayObjectMetaData.Builder.class);
     }
 
-    private int bitField0_;
     public static final int OIDS_FIELD_NUMBER = 1;
     private static final class OidsDefaultEntryHolder {
       static final com.google.protobuf.MapEntry<
@@ -18904,6 +19415,7 @@ public final class CommonMessages {
     private int numRefs_;
     /**
      * <code>int32 numRefs = 5;</code>
+     * @return The numRefs.
      */
     public int getNumRefs() {
       return numRefs_;
@@ -19206,7 +19718,7 @@ public final class CommonMessages {
                 es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.DataClayObjectMetaData.class, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.DataClayObjectMetaData.Builder.class);
       }
 
-      // Construct using dataclay.communication.grpc.messages.common.CommonMessages.DataClayObjectMetaData.newBuilder()
+      // Construct using es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.DataClayObjectMetaData.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -19257,7 +19769,6 @@ public final class CommonMessages {
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.DataClayObjectMetaData buildPartial() {
         es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.DataClayObjectMetaData result = new es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.DataClayObjectMetaData(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         result.oids_ = internalGetOids();
         result.oids_.makeImmutable();
         result.classids_ = internalGetClassids();
@@ -19267,7 +19778,6 @@ public final class CommonMessages {
         result.extDataClayIDs_ = internalGetExtDataClayIDs();
         result.extDataClayIDs_.makeImmutable();
         result.numRefs_ = numRefs_;
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
@@ -19852,12 +20362,15 @@ public final class CommonMessages {
       private int numRefs_ ;
       /**
        * <code>int32 numRefs = 5;</code>
+       * @return The numRefs.
        */
       public int getNumRefs() {
         return numRefs_;
       }
       /**
        * <code>int32 numRefs = 5;</code>
+       * @param value The numRefs to set.
+       * @return This builder for chaining.
        */
       public Builder setNumRefs(int value) {
         
@@ -19867,6 +20380,7 @@ public final class CommonMessages {
       }
       /**
        * <code>int32 numRefs = 5;</code>
+       * @return This builder for chaining.
        */
       public Builder clearNumRefs() {
         
@@ -19933,10 +20447,12 @@ public final class CommonMessages {
 
     /**
      * <code>.dataclay.communication.grpc.common.DataClayObjectMetaData metadata = 1;</code>
+     * @return Whether the metadata field is set.
      */
     boolean hasMetadata();
     /**
      * <code>.dataclay.communication.grpc.common.DataClayObjectMetaData metadata = 1;</code>
+     * @return The metadata.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.DataClayObjectMetaData getMetadata();
     /**
@@ -19946,6 +20462,7 @@ public final class CommonMessages {
 
     /**
      * <code>bytes data = 2;</code>
+     * @return The data.
      */
     com.google.protobuf.ByteString getData();
   }
@@ -19966,6 +20483,13 @@ public final class CommonMessages {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new PersistentObjectInDB();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -19978,7 +20502,6 @@ public final class CommonMessages {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -20043,12 +20566,14 @@ public final class CommonMessages {
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.DataClayObjectMetaData metadata_;
     /**
      * <code>.dataclay.communication.grpc.common.DataClayObjectMetaData metadata = 1;</code>
+     * @return Whether the metadata field is set.
      */
     public boolean hasMetadata() {
       return metadata_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.common.DataClayObjectMetaData metadata = 1;</code>
+     * @return The metadata.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.DataClayObjectMetaData getMetadata() {
       return metadata_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.DataClayObjectMetaData.getDefaultInstance() : metadata_;
@@ -20064,6 +20589,7 @@ public final class CommonMessages {
     private com.google.protobuf.ByteString data_;
     /**
      * <code>bytes data = 2;</code>
+     * @return The data.
      */
     public com.google.protobuf.ByteString getData() {
       return data_;
@@ -20260,7 +20786,7 @@ public final class CommonMessages {
                 es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.PersistentObjectInDB.class, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.PersistentObjectInDB.Builder.class);
       }
 
-      // Construct using dataclay.communication.grpc.messages.common.CommonMessages.PersistentObjectInDB.newBuilder()
+      // Construct using es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.PersistentObjectInDB.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -20406,12 +20932,14 @@ public final class CommonMessages {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.DataClayObjectMetaData, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.DataClayObjectMetaData.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.DataClayObjectMetaDataOrBuilder> metadataBuilder_;
       /**
        * <code>.dataclay.communication.grpc.common.DataClayObjectMetaData metadata = 1;</code>
+       * @return Whether the metadata field is set.
        */
       public boolean hasMetadata() {
         return metadataBuilder_ != null || metadata_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.common.DataClayObjectMetaData metadata = 1;</code>
+       * @return The metadata.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.DataClayObjectMetaData getMetadata() {
         if (metadataBuilder_ == null) {
@@ -20521,12 +21049,15 @@ public final class CommonMessages {
       private com.google.protobuf.ByteString data_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <code>bytes data = 2;</code>
+       * @return The data.
        */
       public com.google.protobuf.ByteString getData() {
         return data_;
       }
       /**
        * <code>bytes data = 2;</code>
+       * @param value The data to set.
+       * @return This builder for chaining.
        */
       public Builder setData(com.google.protobuf.ByteString value) {
         if (value == null) {
@@ -20539,6 +21070,7 @@ public final class CommonMessages {
       }
       /**
        * <code>bytes data = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearData() {
         
@@ -20605,10 +21137,12 @@ public final class CommonMessages {
 
     /**
      * <code>.dataclay.communication.grpc.common.ObjectID objectID = 1;</code>
+     * @return Whether the objectID field is set.
      */
     boolean hasObjectID();
     /**
      * <code>.dataclay.communication.grpc.common.ObjectID objectID = 1;</code>
+     * @return The objectID.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID getObjectID();
     /**
@@ -20618,10 +21152,12 @@ public final class CommonMessages {
 
     /**
      * <code>.dataclay.communication.grpc.common.MetaClassID classID = 2;</code>
+     * @return Whether the classID field is set.
      */
     boolean hasClassID();
     /**
      * <code>.dataclay.communication.grpc.common.MetaClassID classID = 2;</code>
+     * @return The classID.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.MetaClassID getClassID();
     /**
@@ -20631,10 +21167,12 @@ public final class CommonMessages {
 
     /**
      * <code>.dataclay.communication.grpc.common.SessionID sessionID = 3;</code>
+     * @return Whether the sessionID field is set.
      */
     boolean hasSessionID();
     /**
      * <code>.dataclay.communication.grpc.common.SessionID sessionID = 3;</code>
+     * @return The sessionID.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID getSessionID();
     /**
@@ -20644,10 +21182,12 @@ public final class CommonMessages {
 
     /**
      * <code>.dataclay.communication.grpc.common.DataSetID dataSetID = 4;</code>
+     * @return Whether the dataSetID field is set.
      */
     boolean hasDataSetID();
     /**
      * <code>.dataclay.communication.grpc.common.DataSetID dataSetID = 4;</code>
+     * @return The dataSetID.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.DataSetID getDataSetID();
     /**
@@ -20671,6 +21211,13 @@ public final class CommonMessages {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new RegistrationInfo();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -20683,7 +21230,6 @@ public final class CommonMessages {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -20782,12 +21328,14 @@ public final class CommonMessages {
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID objectID_;
     /**
      * <code>.dataclay.communication.grpc.common.ObjectID objectID = 1;</code>
+     * @return Whether the objectID field is set.
      */
     public boolean hasObjectID() {
       return objectID_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.common.ObjectID objectID = 1;</code>
+     * @return The objectID.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID getObjectID() {
       return objectID_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID.getDefaultInstance() : objectID_;
@@ -20803,12 +21351,14 @@ public final class CommonMessages {
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.MetaClassID classID_;
     /**
      * <code>.dataclay.communication.grpc.common.MetaClassID classID = 2;</code>
+     * @return Whether the classID field is set.
      */
     public boolean hasClassID() {
       return classID_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.common.MetaClassID classID = 2;</code>
+     * @return The classID.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.MetaClassID getClassID() {
       return classID_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.MetaClassID.getDefaultInstance() : classID_;
@@ -20824,12 +21374,14 @@ public final class CommonMessages {
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID sessionID_;
     /**
      * <code>.dataclay.communication.grpc.common.SessionID sessionID = 3;</code>
+     * @return Whether the sessionID field is set.
      */
     public boolean hasSessionID() {
       return sessionID_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.common.SessionID sessionID = 3;</code>
+     * @return The sessionID.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID getSessionID() {
       return sessionID_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID.getDefaultInstance() : sessionID_;
@@ -20845,12 +21397,14 @@ public final class CommonMessages {
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.DataSetID dataSetID_;
     /**
      * <code>.dataclay.communication.grpc.common.DataSetID dataSetID = 4;</code>
+     * @return Whether the dataSetID field is set.
      */
     public boolean hasDataSetID() {
       return dataSetID_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.common.DataSetID dataSetID = 4;</code>
+     * @return The dataSetID.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.DataSetID getDataSetID() {
       return dataSetID_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.DataSetID.getDefaultInstance() : dataSetID_;
@@ -21090,7 +21644,7 @@ public final class CommonMessages {
                 es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.RegistrationInfo.class, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.RegistrationInfo.Builder.class);
       }
 
-      // Construct using dataclay.communication.grpc.messages.common.CommonMessages.RegistrationInfo.newBuilder()
+      // Construct using es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.RegistrationInfo.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -21272,12 +21826,14 @@ public final class CommonMessages {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectIDOrBuilder> objectIDBuilder_;
       /**
        * <code>.dataclay.communication.grpc.common.ObjectID objectID = 1;</code>
+       * @return Whether the objectID field is set.
        */
       public boolean hasObjectID() {
         return objectIDBuilder_ != null || objectID_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.common.ObjectID objectID = 1;</code>
+       * @return The objectID.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID getObjectID() {
         if (objectIDBuilder_ == null) {
@@ -21389,12 +21945,14 @@ public final class CommonMessages {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.MetaClassID, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.MetaClassID.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.MetaClassIDOrBuilder> classIDBuilder_;
       /**
        * <code>.dataclay.communication.grpc.common.MetaClassID classID = 2;</code>
+       * @return Whether the classID field is set.
        */
       public boolean hasClassID() {
         return classIDBuilder_ != null || classID_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.common.MetaClassID classID = 2;</code>
+       * @return The classID.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.MetaClassID getClassID() {
         if (classIDBuilder_ == null) {
@@ -21506,12 +22064,14 @@ public final class CommonMessages {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionIDOrBuilder> sessionIDBuilder_;
       /**
        * <code>.dataclay.communication.grpc.common.SessionID sessionID = 3;</code>
+       * @return Whether the sessionID field is set.
        */
       public boolean hasSessionID() {
         return sessionIDBuilder_ != null || sessionID_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.common.SessionID sessionID = 3;</code>
+       * @return The sessionID.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID getSessionID() {
         if (sessionIDBuilder_ == null) {
@@ -21623,12 +22183,14 @@ public final class CommonMessages {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.DataSetID, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.DataSetID.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.DataSetIDOrBuilder> dataSetIDBuilder_;
       /**
        * <code>.dataclay.communication.grpc.common.DataSetID dataSetID = 4;</code>
+       * @return Whether the dataSetID field is set.
        */
       public boolean hasDataSetID() {
         return dataSetIDBuilder_ != null || dataSetID_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.common.DataSetID dataSetID = 4;</code>
+       * @return The dataSetID.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.DataSetID getDataSetID() {
         if (dataSetIDBuilder_ == null) {
@@ -21793,10 +22355,12 @@ public final class CommonMessages {
 
     /**
      * <code>.dataclay.communication.grpc.common.ObjectID objectID = 1;</code>
+     * @return Whether the objectID field is set.
      */
     boolean hasObjectID();
     /**
      * <code>.dataclay.communication.grpc.common.ObjectID objectID = 1;</code>
+     * @return The objectID.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID getObjectID();
     /**
@@ -21806,39 +22370,49 @@ public final class CommonMessages {
 
     /**
      * <code>string className = 2;</code>
+     * @return The className.
      */
     java.lang.String getClassName();
     /**
      * <code>string className = 2;</code>
+     * @return The bytes for className.
      */
     com.google.protobuf.ByteString
         getClassNameBytes();
 
     /**
      * <code>string nameSpace = 3;</code>
+     * @return The nameSpace.
      */
     java.lang.String getNameSpace();
     /**
      * <code>string nameSpace = 3;</code>
+     * @return The bytes for nameSpace.
      */
     com.google.protobuf.ByteString
         getNameSpaceBytes();
 
     /**
      * <code>repeated string alias = 4;</code>
+     * @return A list containing the alias.
      */
     java.util.List<java.lang.String>
         getAliasList();
     /**
      * <code>repeated string alias = 4;</code>
+     * @return The count of alias.
      */
     int getAliasCount();
     /**
      * <code>repeated string alias = 4;</code>
+     * @param index The index of the element to return.
+     * @return The alias at the given index.
      */
     java.lang.String getAlias(int index);
     /**
      * <code>repeated string alias = 4;</code>
+     * @param index The index of the value to return.
+     * @return The bytes of the alias at the given index.
      */
     com.google.protobuf.ByteString
         getAliasBytes(int index);
@@ -21859,6 +22433,13 @@ public final class CommonMessages {
       className_ = "";
       nameSpace_ = "";
       alias_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new FederatedObjectInfo();
     }
 
     @java.lang.Override
@@ -21912,9 +22493,9 @@ public final class CommonMessages {
             }
             case 34: {
               java.lang.String s = input.readStringRequireUtf8();
-              if (!((mutable_bitField0_ & 0x00000008) != 0)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 alias_ = new com.google.protobuf.LazyStringArrayList();
-                mutable_bitField0_ |= 0x00000008;
+                mutable_bitField0_ |= 0x00000001;
               }
               alias_.add(s);
               break;
@@ -21934,7 +22515,7 @@ public final class CommonMessages {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000008) != 0)) {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
           alias_ = alias_.getUnmodifiableView();
         }
         this.unknownFields = unknownFields.build();
@@ -21954,17 +22535,18 @@ public final class CommonMessages {
               es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.FederatedObjectInfo.class, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.FederatedObjectInfo.Builder.class);
     }
 
-    private int bitField0_;
     public static final int OBJECTID_FIELD_NUMBER = 1;
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID objectID_;
     /**
      * <code>.dataclay.communication.grpc.common.ObjectID objectID = 1;</code>
+     * @return Whether the objectID field is set.
      */
     public boolean hasObjectID() {
       return objectID_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.common.ObjectID objectID = 1;</code>
+     * @return The objectID.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID getObjectID() {
       return objectID_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID.getDefaultInstance() : objectID_;
@@ -21980,6 +22562,7 @@ public final class CommonMessages {
     private volatile java.lang.Object className_;
     /**
      * <code>string className = 2;</code>
+     * @return The className.
      */
     public java.lang.String getClassName() {
       java.lang.Object ref = className_;
@@ -21995,6 +22578,7 @@ public final class CommonMessages {
     }
     /**
      * <code>string className = 2;</code>
+     * @return The bytes for className.
      */
     public com.google.protobuf.ByteString
         getClassNameBytes() {
@@ -22014,6 +22598,7 @@ public final class CommonMessages {
     private volatile java.lang.Object nameSpace_;
     /**
      * <code>string nameSpace = 3;</code>
+     * @return The nameSpace.
      */
     public java.lang.String getNameSpace() {
       java.lang.Object ref = nameSpace_;
@@ -22029,6 +22614,7 @@ public final class CommonMessages {
     }
     /**
      * <code>string nameSpace = 3;</code>
+     * @return The bytes for nameSpace.
      */
     public com.google.protobuf.ByteString
         getNameSpaceBytes() {
@@ -22048,6 +22634,7 @@ public final class CommonMessages {
     private com.google.protobuf.LazyStringList alias_;
     /**
      * <code>repeated string alias = 4;</code>
+     * @return A list containing the alias.
      */
     public com.google.protobuf.ProtocolStringList
         getAliasList() {
@@ -22055,18 +22642,23 @@ public final class CommonMessages {
     }
     /**
      * <code>repeated string alias = 4;</code>
+     * @return The count of alias.
      */
     public int getAliasCount() {
       return alias_.size();
     }
     /**
      * <code>repeated string alias = 4;</code>
+     * @param index The index of the element to return.
+     * @return The alias at the given index.
      */
     public java.lang.String getAlias(int index) {
       return alias_.get(index);
     }
     /**
      * <code>repeated string alias = 4;</code>
+     * @param index The index of the value to return.
+     * @return The bytes of the alias at the given index.
      */
     public com.google.protobuf.ByteString
         getAliasBytes(int index) {
@@ -22290,7 +22882,7 @@ public final class CommonMessages {
                 es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.FederatedObjectInfo.class, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.FederatedObjectInfo.Builder.class);
       }
 
-      // Construct using dataclay.communication.grpc.messages.common.CommonMessages.FederatedObjectInfo.newBuilder()
+      // Construct using es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.FederatedObjectInfo.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -22319,7 +22911,7 @@ public final class CommonMessages {
         nameSpace_ = "";
 
         alias_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000008);
+        bitField0_ = (bitField0_ & ~0x00000001);
         return this;
       }
 
@@ -22347,7 +22939,6 @@ public final class CommonMessages {
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.FederatedObjectInfo buildPartial() {
         es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.FederatedObjectInfo result = new es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.FederatedObjectInfo(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         if (objectIDBuilder_ == null) {
           result.objectID_ = objectID_;
         } else {
@@ -22355,12 +22946,11 @@ public final class CommonMessages {
         }
         result.className_ = className_;
         result.nameSpace_ = nameSpace_;
-        if (((bitField0_ & 0x00000008) != 0)) {
+        if (((bitField0_ & 0x00000001) != 0)) {
           alias_ = alias_.getUnmodifiableView();
-          bitField0_ = (bitField0_ & ~0x00000008);
+          bitField0_ = (bitField0_ & ~0x00000001);
         }
         result.alias_ = alias_;
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
@@ -22423,7 +23013,7 @@ public final class CommonMessages {
         if (!other.alias_.isEmpty()) {
           if (alias_.isEmpty()) {
             alias_ = other.alias_;
-            bitField0_ = (bitField0_ & ~0x00000008);
+            bitField0_ = (bitField0_ & ~0x00000001);
           } else {
             ensureAliasIsMutable();
             alias_.addAll(other.alias_);
@@ -22465,12 +23055,14 @@ public final class CommonMessages {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectIDOrBuilder> objectIDBuilder_;
       /**
        * <code>.dataclay.communication.grpc.common.ObjectID objectID = 1;</code>
+       * @return Whether the objectID field is set.
        */
       public boolean hasObjectID() {
         return objectIDBuilder_ != null || objectID_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.common.ObjectID objectID = 1;</code>
+       * @return The objectID.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID getObjectID() {
         if (objectIDBuilder_ == null) {
@@ -22580,6 +23172,7 @@ public final class CommonMessages {
       private java.lang.Object className_ = "";
       /**
        * <code>string className = 2;</code>
+       * @return The className.
        */
       public java.lang.String getClassName() {
         java.lang.Object ref = className_;
@@ -22595,6 +23188,7 @@ public final class CommonMessages {
       }
       /**
        * <code>string className = 2;</code>
+       * @return The bytes for className.
        */
       public com.google.protobuf.ByteString
           getClassNameBytes() {
@@ -22611,6 +23205,8 @@ public final class CommonMessages {
       }
       /**
        * <code>string className = 2;</code>
+       * @param value The className to set.
+       * @return This builder for chaining.
        */
       public Builder setClassName(
           java.lang.String value) {
@@ -22624,6 +23220,7 @@ public final class CommonMessages {
       }
       /**
        * <code>string className = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearClassName() {
         
@@ -22633,6 +23230,8 @@ public final class CommonMessages {
       }
       /**
        * <code>string className = 2;</code>
+       * @param value The bytes for className to set.
+       * @return This builder for chaining.
        */
       public Builder setClassNameBytes(
           com.google.protobuf.ByteString value) {
@@ -22649,6 +23248,7 @@ public final class CommonMessages {
       private java.lang.Object nameSpace_ = "";
       /**
        * <code>string nameSpace = 3;</code>
+       * @return The nameSpace.
        */
       public java.lang.String getNameSpace() {
         java.lang.Object ref = nameSpace_;
@@ -22664,6 +23264,7 @@ public final class CommonMessages {
       }
       /**
        * <code>string nameSpace = 3;</code>
+       * @return The bytes for nameSpace.
        */
       public com.google.protobuf.ByteString
           getNameSpaceBytes() {
@@ -22680,6 +23281,8 @@ public final class CommonMessages {
       }
       /**
        * <code>string nameSpace = 3;</code>
+       * @param value The nameSpace to set.
+       * @return This builder for chaining.
        */
       public Builder setNameSpace(
           java.lang.String value) {
@@ -22693,6 +23296,7 @@ public final class CommonMessages {
       }
       /**
        * <code>string nameSpace = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearNameSpace() {
         
@@ -22702,6 +23306,8 @@ public final class CommonMessages {
       }
       /**
        * <code>string nameSpace = 3;</code>
+       * @param value The bytes for nameSpace to set.
+       * @return This builder for chaining.
        */
       public Builder setNameSpaceBytes(
           com.google.protobuf.ByteString value) {
@@ -22717,13 +23323,14 @@ public final class CommonMessages {
 
       private com.google.protobuf.LazyStringList alias_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       private void ensureAliasIsMutable() {
-        if (!((bitField0_ & 0x00000008) != 0)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           alias_ = new com.google.protobuf.LazyStringArrayList(alias_);
-          bitField0_ |= 0x00000008;
+          bitField0_ |= 0x00000001;
          }
       }
       /**
        * <code>repeated string alias = 4;</code>
+       * @return A list containing the alias.
        */
       public com.google.protobuf.ProtocolStringList
           getAliasList() {
@@ -22731,18 +23338,23 @@ public final class CommonMessages {
       }
       /**
        * <code>repeated string alias = 4;</code>
+       * @return The count of alias.
        */
       public int getAliasCount() {
         return alias_.size();
       }
       /**
        * <code>repeated string alias = 4;</code>
+       * @param index The index of the element to return.
+       * @return The alias at the given index.
        */
       public java.lang.String getAlias(int index) {
         return alias_.get(index);
       }
       /**
        * <code>repeated string alias = 4;</code>
+       * @param index The index of the value to return.
+       * @return The bytes of the alias at the given index.
        */
       public com.google.protobuf.ByteString
           getAliasBytes(int index) {
@@ -22750,6 +23362,9 @@ public final class CommonMessages {
       }
       /**
        * <code>repeated string alias = 4;</code>
+       * @param index The index to set the value at.
+       * @param value The alias to set.
+       * @return This builder for chaining.
        */
       public Builder setAlias(
           int index, java.lang.String value) {
@@ -22763,6 +23378,8 @@ public final class CommonMessages {
       }
       /**
        * <code>repeated string alias = 4;</code>
+       * @param value The alias to add.
+       * @return This builder for chaining.
        */
       public Builder addAlias(
           java.lang.String value) {
@@ -22776,6 +23393,8 @@ public final class CommonMessages {
       }
       /**
        * <code>repeated string alias = 4;</code>
+       * @param values The alias to add.
+       * @return This builder for chaining.
        */
       public Builder addAllAlias(
           java.lang.Iterable<java.lang.String> values) {
@@ -22787,15 +23406,18 @@ public final class CommonMessages {
       }
       /**
        * <code>repeated string alias = 4;</code>
+       * @return This builder for chaining.
        */
       public Builder clearAlias() {
         alias_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000008);
+        bitField0_ = (bitField0_ & ~0x00000001);
         onChanged();
         return this;
       }
       /**
        * <code>repeated string alias = 4;</code>
+       * @param value The bytes of the alias to add.
+       * @return This builder for chaining.
        */
       public Builder addAliasBytes(
           com.google.protobuf.ByteString value) {
@@ -22901,10 +23523,12 @@ public final class CommonMessages {
 
     /**
      * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+     * @return Whether the excInfo field is set.
      */
     boolean hasExcInfo();
     /**
      * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+     * @return The excInfo.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo getExcInfo();
     /**
@@ -22925,6 +23549,13 @@ public final class CommonMessages {
       super(builder);
     }
     private GetTracesResponse() {
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new GetTracesResponse();
     }
 
     @java.lang.Override
@@ -23021,7 +23652,6 @@ public final class CommonMessages {
               es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetTracesResponse.class, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetTracesResponse.Builder.class);
     }
 
-    private int bitField0_;
     public static final int TRACES_FIELD_NUMBER = 1;
     private static final class TracesDefaultEntryHolder {
       static final com.google.protobuf.MapEntry<
@@ -23102,12 +23732,14 @@ public final class CommonMessages {
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo excInfo_;
     /**
      * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+     * @return Whether the excInfo field is set.
      */
     public boolean hasExcInfo() {
       return excInfo_ != null;
     }
     /**
      * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+     * @return The excInfo.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo getExcInfo() {
       return excInfo_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.getDefaultInstance() : excInfo_;
@@ -23343,7 +23975,7 @@ public final class CommonMessages {
                 es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetTracesResponse.class, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetTracesResponse.Builder.class);
       }
 
-      // Construct using dataclay.communication.grpc.messages.common.CommonMessages.GetTracesResponse.newBuilder()
+      // Construct using es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetTracesResponse.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -23395,7 +24027,6 @@ public final class CommonMessages {
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetTracesResponse buildPartial() {
         es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetTracesResponse result = new es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetTracesResponse(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         result.traces_ = internalGetTraces();
         result.traces_.makeImmutable();
         if (excInfoBuilder_ == null) {
@@ -23403,7 +24034,6 @@ public final class CommonMessages {
         } else {
           result.excInfo_ = excInfoBuilder_.build();
         }
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
@@ -23615,12 +24245,14 @@ public final class CommonMessages {
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfoOrBuilder> excInfoBuilder_;
       /**
        * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+       * @return Whether the excInfo field is set.
        */
       public boolean hasExcInfo() {
         return excInfoBuilder_ != null || excInfo_ != null;
       }
       /**
        * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+       * @return The excInfo.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo getExcInfo() {
         if (excInfoBuilder_ == null) {
@@ -23785,16 +24417,19 @@ public final class CommonMessages {
 
     /**
      * <code>bool isException = 1;</code>
+     * @return The isException.
      */
     boolean getIsException();
 
     /**
      * <code>bytes serializedException = 2;</code>
+     * @return The serializedException.
      */
     com.google.protobuf.ByteString getSerializedException();
 
     /**
      * <code>bytes exceptionMessage = 3;</code>
+     * @return The exceptionMessage.
      */
     com.google.protobuf.ByteString getExceptionMessage();
   }
@@ -23816,6 +24451,13 @@ public final class CommonMessages {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ExceptionInfo();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -23828,7 +24470,6 @@ public final class CommonMessages {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -23890,6 +24531,7 @@ public final class CommonMessages {
     private boolean isException_;
     /**
      * <code>bool isException = 1;</code>
+     * @return The isException.
      */
     public boolean getIsException() {
       return isException_;
@@ -23899,6 +24541,7 @@ public final class CommonMessages {
     private com.google.protobuf.ByteString serializedException_;
     /**
      * <code>bytes serializedException = 2;</code>
+     * @return The serializedException.
      */
     public com.google.protobuf.ByteString getSerializedException() {
       return serializedException_;
@@ -23908,6 +24551,7 @@ public final class CommonMessages {
     private com.google.protobuf.ByteString exceptionMessage_;
     /**
      * <code>bytes exceptionMessage = 3;</code>
+     * @return The exceptionMessage.
      */
     public com.google.protobuf.ByteString getExceptionMessage() {
       return exceptionMessage_;
@@ -24111,7 +24755,7 @@ public final class CommonMessages {
                 es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.class, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.Builder.class);
       }
 
-      // Construct using dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.newBuilder()
+      // Construct using es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -24253,12 +24897,15 @@ public final class CommonMessages {
       private boolean isException_ ;
       /**
        * <code>bool isException = 1;</code>
+       * @return The isException.
        */
       public boolean getIsException() {
         return isException_;
       }
       /**
        * <code>bool isException = 1;</code>
+       * @param value The isException to set.
+       * @return This builder for chaining.
        */
       public Builder setIsException(boolean value) {
         
@@ -24268,6 +24915,7 @@ public final class CommonMessages {
       }
       /**
        * <code>bool isException = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearIsException() {
         
@@ -24279,12 +24927,15 @@ public final class CommonMessages {
       private com.google.protobuf.ByteString serializedException_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <code>bytes serializedException = 2;</code>
+       * @return The serializedException.
        */
       public com.google.protobuf.ByteString getSerializedException() {
         return serializedException_;
       }
       /**
        * <code>bytes serializedException = 2;</code>
+       * @param value The serializedException to set.
+       * @return This builder for chaining.
        */
       public Builder setSerializedException(com.google.protobuf.ByteString value) {
         if (value == null) {
@@ -24297,6 +24948,7 @@ public final class CommonMessages {
       }
       /**
        * <code>bytes serializedException = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearSerializedException() {
         
@@ -24308,12 +24960,15 @@ public final class CommonMessages {
       private com.google.protobuf.ByteString exceptionMessage_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <code>bytes exceptionMessage = 3;</code>
+       * @return The exceptionMessage.
        */
       public com.google.protobuf.ByteString getExceptionMessage() {
         return exceptionMessage_;
       }
       /**
        * <code>bytes exceptionMessage = 3;</code>
+       * @param value The exceptionMessage to set.
+       * @return This builder for chaining.
        */
       public Builder setExceptionMessage(com.google.protobuf.ByteString value) {
         if (value == null) {
@@ -24326,6 +24981,7 @@ public final class CommonMessages {
       }
       /**
        * <code>bytes exceptionMessage = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearExceptionMessage() {
         
@@ -24721,22 +25377,14 @@ public final class CommonMessages {
       "\014:\0028\001\"[\n\rExceptionInfo\022\023\n\013isException\030\001 " +
       "\001(\010\022\033\n\023serializedException\030\002 \001(\014\022\030\n\020exce" +
       "ptionMessage\030\003 \001(\014*6\n\005Langs\022\r\n\tLANG_NONE" +
-      "\020\000\022\r\n\tLANG_JAVA\020\001\022\017\n\013LANG_PYTHON\020\002B-\n+da" +
-      "taclay.communication.grpc.messages.commo" +
-      "nb\006proto3"
+      "\020\000\022\r\n\tLANG_JAVA\020\001\022\017\n\013LANG_PYTHON\020\002B4\n2es" +
+      ".bsc.dataclay.communication.grpc.message" +
+      "s.commonb\006proto3"
     };
-    com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
-        new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
-          public com.google.protobuf.ExtensionRegistry assignDescriptors(
-              com.google.protobuf.Descriptors.FileDescriptor root) {
-            descriptor = root;
-            return null;
-          }
-        };
-    com.google.protobuf.Descriptors.FileDescriptor
+    descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
-        }, assigner);
+        });
     internal_static_dataclay_communication_grpc_common_Credential_descriptor =
       getDescriptor().getMessageTypes().get(0);
     internal_static_dataclay_communication_grpc_common_Credential_fieldAccessorTable = new

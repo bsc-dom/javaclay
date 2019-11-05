@@ -3,7 +3,6 @@
 
 package es.bsc.dataclay.communication.grpc.generated.dataservice;
 
-@SuppressWarnings("all")
 public final class DataServiceGrpcService {
   private DataServiceGrpcService() {}
   public static void registerAllExtensions(
@@ -183,24 +182,16 @@ public final class DataServiceGrpcService {
       "\n\025getRetainedReferences\0220.dataclay.commu" +
       "nication.grpc.common.EmptyMessage\032F.data" +
       "clay.communication.grpc.dataservice.GetR" +
-      "etainedReferencesResponse\"\000BK\n1dataclay." +
-      "communication.grpc.generated.dataservice" +
-      "B\026DataServiceGrpcServiceb\006proto3"
+      "etainedReferencesResponse\"\000BR\n8es.bsc.da" +
+      "taclay.communication.grpc.generated.data" +
+      "serviceB\026DataServiceGrpcServiceb\006proto3"
     };
-    com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
-        new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
-          public com.google.protobuf.ExtensionRegistry assignDescriptors(
-              com.google.protobuf.Descriptors.FileDescriptor root) {
-            descriptor = root;
-            return null;
-          }
-        };
-    com.google.protobuf.Descriptors.FileDescriptor
+    descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.getDescriptor(),
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.getDescriptor(),
-        }, assigner);
+        });
     es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.getDescriptor();
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.getDescriptor();
   }
