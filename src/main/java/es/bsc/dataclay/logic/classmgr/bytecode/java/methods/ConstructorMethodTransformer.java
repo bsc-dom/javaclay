@@ -13,7 +13,6 @@ import es.bsc.dataclay.DataClayObject;
 import es.bsc.dataclay.logic.classmgr.bytecode.java.ByteCodeConstants;
 import es.bsc.dataclay.logic.classmgr.bytecode.java.constants.ByteCodeMethods;
 import es.bsc.dataclay.logic.classmgr.bytecode.java.constants.ByteCodeTypes;
-import es.bsc.dataclay.paraver.ParaverEventType;
 import es.bsc.dataclay.util.Configuration;
 import es.bsc.dataclay.util.reflection.Reflector;
 import storage.StorageObject;
@@ -103,24 +102,11 @@ public final class ConstructorMethodTransformer extends AdviceAdapter {
 		 * this.invokeVirtual(ByteCodeTypes.DCOBJ, ByteCodeMethods.DC_INIT_METHOD); }
 		 */
 
-		// PARAVER
-		if (Configuration.Flags.PARAVER_INTERCEPTOR_BYTECODE.getBooleanValue()) {
-			this.getStatic(ByteCodeTypes.PARAVER_EVENT_TYPE, ParaverEventType.ENTER_LOCAL_METHOD.name(),
-					ByteCodeTypes.PARAVER_EVENT_TYPE);
-			this.visitLdcInsn(classDesc + "." + methodDesc);
-			this.invokeStatic(ByteCodeTypes.PARAVER, ByteCodeMethods.PARAVER_TRACE);
-		}
 	}
 
 	@Override
 	protected void onMethodExit(final int opcode) {
-		// PARAVER
-		if (Configuration.Flags.PARAVER_INTERCEPTOR_BYTECODE.getBooleanValue()) {
-			this.getStatic(ByteCodeTypes.PARAVER_EVENT_TYPE, ParaverEventType.EXIT_LOCAL_METHOD.name(),
-					ByteCodeTypes.PARAVER_EVENT_TYPE);
-			this.visitLdcInsn(classDesc + "." + methodDesc);
-			this.invokeStatic(ByteCodeTypes.PARAVER, ByteCodeMethods.PARAVER_TRACE);
-		}
+
 	}
 
 	@Override

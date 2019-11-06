@@ -225,11 +225,6 @@ public final class ByteCodeMethods {
 	public static final Method OBJDATA_PARAM_RETURN_CONSTRUCTOR = new Method(ByteCodeMethodsNames.INIT_MTHD,
 			Type.VOID_TYPE, new Type[] { ByteCodeTypes.DCOBJ });
 
-	/** Trace method. */
-	public static final Method PARAVER_TRACE = new Method("trace",
-			Type.VOID_TYPE, new Type[] { ByteCodeTypes.PARAVER_EVENT_TYPE,
-					ByteCodeTypes.STRING });
-
 	/** Persistent param or return constructor. */
 	public static final Method PERS_PARAM_RETURN_CONSTRUCTOR = new Method(ByteCodeMethodsNames.INIT_MTHD,
 			Type.VOID_TYPE, new Type[] { ByteCodeTypes.DCOBJ });

@@ -30,11 +30,11 @@ import es.bsc.dataclay.exceptions.DataClayRuntimeException;
 import es.bsc.dataclay.exceptions.ErrorDefs.ERRORCODE;
 import es.bsc.dataclay.exceptions.metadataservice.AliasAlreadyInUseException;
 import es.bsc.dataclay.exceptions.metadataservice.ObjectNotRegisteredException;
+import es.bsc.dataclay.extrae.DataClayExtrae;
 import es.bsc.dataclay.heap.HeapManager;
 import es.bsc.dataclay.heap.LockerPool;
 import es.bsc.dataclay.loader.DataClayObjectLoader;
 import es.bsc.dataclay.logic.api.LogicModuleAPI;
-import es.bsc.dataclay.paraver.Paraver;
 import es.bsc.dataclay.serialization.DataClaySerializable;
 import es.bsc.dataclay.serialization.lib.DataClayDeserializationLib;
 import es.bsc.dataclay.serialization.lib.DataClaySerializationLib;
@@ -1943,8 +1943,8 @@ public abstract class DataClayRuntime {
 	 * 
 	 */
 	public final void activateTracingInDataClayServices() {
-		if (Paraver.extraeTracingIsEnabled()) { //sanity check, only activate if extrae was properly initialized
-			this.logicModule.activateTracing(Paraver.getCurrentAvailableTaskID());
+		if (DataClayExtrae.extraeTracingIsEnabled()) { //sanity check, only activate if extrae was properly initialized
+			this.logicModule.activateTracing(DataClayExtrae.getCurrentAvailableTaskID());
 		}
 	}
 
@@ -1952,7 +1952,7 @@ public abstract class DataClayRuntime {
 	 * Dectivate tracing
 	 */
 	public final void deactivateTracingInDataClayServices() {
-		if (Paraver.extraeTracingIsEnabled()) { //sanity check, only activate if extrae was properly initialized
+		if (DataClayExtrae.extraeTracingIsEnabled()) { //sanity check, only activate if extrae was properly initialized
 			this.logicModule.deactivateTracing();
 		}
 	}
@@ -1961,14 +1961,14 @@ public abstract class DataClayRuntime {
 	 * Activate tracing
 	 */
 	public final void activateTracing() {
-		Paraver.initializeExtrae(false);
+		DataClayExtrae.initializeExtrae(false);
 	}
 
 	/**
 	 * Deactivate tracing
 	 */
 	public final void deactivateTracing() {
-		Paraver.finishTracing();
+		DataClayExtrae.finishTracing();
 	}
 
 	/**

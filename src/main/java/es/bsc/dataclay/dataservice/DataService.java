@@ -46,8 +46,8 @@ import es.bsc.dataclay.exceptions.dataservice.ClassDeploymentException;
 import es.bsc.dataclay.exceptions.dataservice.CleanExecutionClassesDirException;
 import es.bsc.dataclay.exceptions.dbhandler.DbObjectNotExistException;
 import es.bsc.dataclay.exceptions.metadataservice.ObjectNotRegisteredException;
+import es.bsc.dataclay.extrae.DataClayExtrae;
 import es.bsc.dataclay.logic.api.LogicModuleAPI;
-import es.bsc.dataclay.paraver.Paraver;
 import es.bsc.dataclay.serialization.DataClaySerializable;
 import es.bsc.dataclay.serialization.java.util.CollectionWrapper;
 import es.bsc.dataclay.serialization.lib.DataClayDeserializationLib;
@@ -2309,19 +2309,19 @@ public final class DataService implements DataServiceAPI {
 
 	@Override
 	public void activateTracing(final int currentAvailableTaskID) {
-		Paraver.setCurrentAvailableTaskID(currentAvailableTaskID);
-		Paraver.initializeExtrae(true);
+		DataClayExtrae.setCurrentAvailableTaskID(currentAvailableTaskID);
+		DataClayExtrae.initializeExtrae(true);
 
 	}
 
 	@Override
 	public void deactivateTracing() {
-		Paraver.finishTracing();
+		DataClayExtrae.finishTracing();
 	}
 
 	@Override
 	public Map<String, byte[]> getTraces() { 
-		return Paraver.getTraces();
+		return DataClayExtrae.getTraces();
 	}
 	
 	/**

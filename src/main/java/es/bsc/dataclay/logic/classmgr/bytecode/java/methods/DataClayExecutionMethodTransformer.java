@@ -16,7 +16,6 @@ import es.bsc.dataclay.logic.classmgr.bytecode.java.constants.ByteCodeFieldNames
 import es.bsc.dataclay.logic.classmgr.bytecode.java.constants.ByteCodeMethods;
 import es.bsc.dataclay.logic.classmgr.bytecode.java.constants.ByteCodeMethodsNames;
 import es.bsc.dataclay.logic.classmgr.bytecode.java.constants.ByteCodeTypes;
-import es.bsc.dataclay.paraver.ParaverEventType;
 import es.bsc.dataclay.util.Configuration;
 import es.bsc.dataclay.util.ids.ImplementationID;
 import es.bsc.dataclay.util.ids.MetaClassID;
@@ -116,15 +115,6 @@ public class DataClayExecutionMethodTransformer extends DataClayMethodTransforme
 		final Label execLocalLabel = genAd.newLabel(); // Stack: Z
 		genAd.ifZCmp(opCode, execLocalLabel); // Stack:
 
-		// PARAVER
-		if (Configuration.Flags.PARAVER_INTERCEPTOR_BYTECODE.getBooleanValue()) {
-			genAd.getStatic(ByteCodeTypes.PARAVER_EVENT_TYPE, ParaverEventType.EXIT_LOCAL_METHOD.name(),
-					ByteCodeTypes.PARAVER_EVENT_TYPE);
-
-			genAd.visitLdcInsn(thisclassDesc + "." + setterOpNameAndDesc);
-			genAd.invokeStatic(ByteCodeTypes.PARAVER, ByteCodeMethods.PARAVER_TRACE);
-		}
-
 		// Call executeRemote
 		genAd.loadThis(); // Stack: <This>
 		// this.checkCast(ByteCodeTypes.DCOBJ);
@@ -214,15 +204,6 @@ public class DataClayExecutionMethodTransformer extends DataClayMethodTransforme
 		final Label execLocal = genAd.newLabel(); // Stack: Z
 		genAd.ifZCmp(opCode, execLocal); // Stack:
 
-		// PARAVER
-		if (Configuration.Flags.PARAVER_INTERCEPTOR_BYTECODE.getBooleanValue()) {
-			genAd.getStatic(ByteCodeTypes.PARAVER_EVENT_TYPE, ParaverEventType.EXIT_LOCAL_METHOD.name(),
-					ByteCodeTypes.PARAVER_EVENT_TYPE);
-
-			genAd.visitLdcInsn(thisclassDesc + "." + setterOpNameAndDesc);
-			genAd.invokeStatic(ByteCodeTypes.PARAVER, ByteCodeMethods.PARAVER_TRACE);
-		}
-
 		// Call executeRemote
 		genAd.loadThis(); // Stack: <This>
 		// this.checkCast(ByteCodeTypes.DCOBJ);
@@ -254,16 +235,6 @@ public class DataClayExecutionMethodTransformer extends DataClayMethodTransforme
 			final String updateImplIDAsStr,
 			final List<Annotation> annotations) {
 		final String setterOpNameAndDesc = "$$set" + opNameAndDesc;
-
-		// PARAVER
-		if (Configuration.Flags.PARAVER_INTERCEPTOR_BYTECODE.getBooleanValue()) {
-			if (!opNameAndDesc.matches(".*\\$.*")) {
-				genAd.getStatic(ByteCodeTypes.PARAVER_EVENT_TYPE, ParaverEventType.EXIT_LOCAL_METHOD.name(),
-						ByteCodeTypes.PARAVER_EVENT_TYPE);
-				genAd.visitLdcInsn(thisclassDesc + "." + opNameAndDesc);
-				genAd.invokeStatic(ByteCodeTypes.PARAVER, ByteCodeMethods.PARAVER_TRACE);
-			}
-		}
 
 		final Type classType = Type.getType(thisclassDesc);
 		final String desc = opNameAndDesc.split("\\(")[1];
@@ -335,16 +306,6 @@ public class DataClayExecutionMethodTransformer extends DataClayMethodTransforme
 		/**
 		 * if (isPersistent) { Object[] params = ... super.executeRemote(signature, params); }
 		 */
-
-		// PARAVER
-		if (Configuration.Flags.PARAVER_INTERCEPTOR_BYTECODE.getBooleanValue()) {
-			if (!opNameAndDesc.matches(".*\\$.*")) {
-				genAd.getStatic(ByteCodeTypes.PARAVER_EVENT_TYPE, ParaverEventType.ENTER_LOCAL_METHOD.name(),
-						ByteCodeTypes.PARAVER_EVENT_TYPE);
-				genAd.visitLdcInsn(thisclassDesc + "." + opNameAndDesc);
-				genAd.invokeStatic(ByteCodeTypes.PARAVER, ByteCodeMethods.PARAVER_TRACE);
-			}
-		}
 
 		final Type returnType = Type.getReturnType(methodDescriptor);
 		final Type classType = Type.getType(thisclassDesc);
@@ -420,15 +381,6 @@ public class DataClayExecutionMethodTransformer extends DataClayMethodTransforme
 		genAd.invokeVirtual(classType, methodToCall);
 		final Label execLocalLabel = genAd.newLabel(); // Stack: Z
 		genAd.ifZCmp(opCode, execLocalLabel); // Stack:
-
-		// PARAVER
-		if (Configuration.Flags.PARAVER_INTERCEPTOR_BYTECODE.getBooleanValue()) {
-			genAd.getStatic(ByteCodeTypes.PARAVER_EVENT_TYPE, ParaverEventType.EXIT_LOCAL_METHOD.name(),
-					ByteCodeTypes.PARAVER_EVENT_TYPE);
-
-			genAd.visitLdcInsn(thisclassDesc + "." + opNameAndDesc);
-			genAd.invokeStatic(ByteCodeTypes.PARAVER, ByteCodeMethods.PARAVER_TRACE);
-		}
 
 		// Call executeRemote
 		genAd.loadThis(); // Stack: <This>

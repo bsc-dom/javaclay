@@ -19,7 +19,6 @@ import es.bsc.dataclay.logic.classmgr.bytecode.java.constants.ByteCodeFieldNames
 import es.bsc.dataclay.logic.classmgr.bytecode.java.constants.ByteCodeMethods;
 import es.bsc.dataclay.logic.classmgr.bytecode.java.constants.ByteCodeMethodsNames;
 import es.bsc.dataclay.logic.classmgr.bytecode.java.constants.ByteCodeTypes;
-import es.bsc.dataclay.paraver.ParaverEventType;
 import es.bsc.dataclay.util.Configuration;
 import es.bsc.dataclay.util.ids.ImplementationID;
 import es.bsc.dataclay.util.ids.MetaClassID;
@@ -181,15 +180,7 @@ public abstract class DataClayMethodTransformer extends AdviceAdapter {
 			final String thisclassDesc, final String opNameAndDesc,
 			final String implIDAsStr) {
 
-		// PARAVER
-		if (Configuration.Flags.PARAVER_INTERCEPTOR_BYTECODE.getBooleanValue()) {
-			if (!opNameAndDesc.matches(".*\\$.*")) {
-				genAd.getStatic(ByteCodeTypes.PARAVER_EVENT_TYPE, ParaverEventType.EXIT_LOCAL_METHOD.name(),
-						ByteCodeTypes.PARAVER_EVENT_TYPE);
-				genAd.visitLdcInsn(thisclassDesc + "." + opNameAndDesc);
-				genAd.invokeStatic(ByteCodeTypes.PARAVER, ByteCodeMethods.PARAVER_TRACE);
-			}
-		}
+
 		final Type classType = Type.getType(thisclassDesc);
 
 		if (Configuration.Flags.ADD_DEBUG_INFO_ON_METHODS.getBooleanValue()) {

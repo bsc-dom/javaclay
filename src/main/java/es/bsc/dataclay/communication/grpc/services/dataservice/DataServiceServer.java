@@ -7,7 +7,6 @@ import java.util.concurrent.Executors;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import es.bsc.dataclay.communication.grpc.paraver.ParaverServerInterceptor;
 import es.bsc.dataclay.dataservice.DataService;
 import es.bsc.dataclay.util.Configuration;
 import es.bsc.dataclay.util.ThreadFactoryWithNamePrefix;
@@ -41,14 +40,7 @@ public final class DataServiceServer {
 		serverBuilder.executor(Executors.newCachedThreadPool(factory));
 
 		final DataServiceService dss = new DataServiceService(ds);
-		if (Configuration.Flags.PARAVER_INTERCEPTOR_ACTIVE.getBooleanValue()) {
-			LOGGER.info("DataService for Paraver interception < " + ds.dsName + ":" + port + " >");
-			final ParaverServerInterceptor interceptor = new ParaverServerInterceptor(ds.dsName, port);
-			serverBuilder.addService(interceptor.intercept(dss));
-		} else {
-			serverBuilder.addService(dss);
-		}
-
+		serverBuilder.addService(dss);
 		server = serverBuilder.build();
 	}
 

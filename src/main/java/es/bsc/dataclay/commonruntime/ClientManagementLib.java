@@ -21,7 +21,6 @@ import org.apache.logging.log4j.Logger;
 import es.bsc.dataclay.DataClayMockObject;
 import es.bsc.dataclay.DataClayObject;
 import es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.Langs;
-import es.bsc.dataclay.paraver.HostType;
 import es.bsc.dataclay.util.Configuration;
 import es.bsc.dataclay.util.FileAndAspectsUtils;
 import es.bsc.dataclay.util.ProcessEnvironment;
@@ -161,7 +160,7 @@ public final class ClientManagementLib {
 				clientLib.finishConnections();
 			}
 			clientLib = new ClientRuntime();
-			clientLib.initialize(host, port, HostType.CL.name());
+			clientLib.initialize(host, port, "CL");
 
 			if (Configuration.mockTesting) {
 				DataClayMockObject.setCurrentThreadLib(clientLib);

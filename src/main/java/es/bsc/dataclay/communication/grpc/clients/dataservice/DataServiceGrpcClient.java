@@ -78,7 +78,6 @@ import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessag
 import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.UpdateObjectRequest;
 import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.UpdateToDBRequest;
 import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.UpsertObjectsRequest;
-import es.bsc.dataclay.communication.grpc.paraver.ParaverClientInterceptor;
 import es.bsc.dataclay.dataservice.api.DataServiceAPI;
 import es.bsc.dataclay.serialization.lib.ObjectWithDataParamOrReturn;
 import es.bsc.dataclay.serialization.lib.SerializedParametersOrReturn;
@@ -147,11 +146,6 @@ public final class DataServiceGrpcClient implements DataServiceAPI {
 
 		ManagedChannelBuilder<?> chBuilder = NettyChannelBuilder.forAddress(host, port).usePlaintext(true)
 				.maxInboundMessageSize(Integer.MAX_VALUE).maxHeaderListSize(Integer.MAX_VALUE);
-		if (Configuration.Flags.PARAVER_INTERCEPTOR_ACTIVE.getBooleanValue()) {
-			final ParaverClientInterceptor paraverInterceptor = new ParaverClientInterceptor(originHostName, host,
-					port);
-			chBuilder = chBuilder.intercept(paraverInterceptor);
-		}
 		channel = chBuilder.build();
 		blockingStub = DataServiceGrpc.newBlockingStub(channel);
 	}

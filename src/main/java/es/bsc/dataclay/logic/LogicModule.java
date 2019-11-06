@@ -59,6 +59,7 @@ import es.bsc.dataclay.exceptions.metadataservice.ExternalDataClayNotRegisteredE
 import es.bsc.dataclay.exceptions.metadataservice.ObjectAlreadyRegisteredException;
 import es.bsc.dataclay.exceptions.metadataservice.ObjectNotRegisteredException;
 import es.bsc.dataclay.exceptions.metadataservice.StorageLocationAlreadyExistsException;
+import es.bsc.dataclay.extrae.DataClayExtrae;
 import es.bsc.dataclay.logic.accountmgr.AccountManager;
 import es.bsc.dataclay.logic.accountmgr.AccountManagerDB;
 import es.bsc.dataclay.logic.api.LogicModuleAPI;
@@ -82,7 +83,6 @@ import es.bsc.dataclay.logic.sessionmgr.SessionManager;
 import es.bsc.dataclay.logic.sessionmgr.SessionManagerDB;
 import es.bsc.dataclay.metadataservice.MetaDataService;
 import es.bsc.dataclay.metadataservice.MetaDataServiceDB;
-import es.bsc.dataclay.paraver.Paraver;
 import es.bsc.dataclay.serialization.lib.DataClayDeserializationLib;
 import es.bsc.dataclay.serialization.lib.ObjectWithDataParamOrReturn;
 import es.bsc.dataclay.serialization.lib.SerializedParametersOrReturn;
@@ -6686,8 +6686,8 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
 	public void activateTracing(final int currentAvailableTaskID) {
 		LOGGER.info("Extrae activating trace with task ID {}", currentAvailableTaskID);
 		
-		synchronized (Paraver.class) { //All workers could try to do it
-			if (Paraver.extraeTracingIsEnabled()) { 
+		synchronized (DataClayExtrae.class) { //All workers could try to do it
+			if (DataClayExtrae.extraeTracingIsEnabled()) { 
 				LOGGER.info("Extrae already enabled");
 				return; 
 			}
@@ -6700,19 +6700,19 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
 				}
 
 				LOGGER.info("Initializing extrae with next available task id {}", nextTaskID);
-				Paraver.setCurrentAvailableTaskID(nextTaskID);
-				Paraver.initializeExtrae(true);
+				DataClayExtrae.setCurrentAvailableTaskID(nextTaskID);
+				DataClayExtrae.initializeExtrae(true);
 
 				// DataServices Paraver traces
 				for (final Tuple<DataServiceAPI, ExecutionEnvironment> curApi : this.getExecutionEnvironments(Langs.LANG_JAVA)
 						.values()) {
 					LOGGER.info("Activating Extrae in node {}", curApi.getSecond());
-					curApi.getFirst().activateTracing(Paraver.getAndIncrementCurrentAvailableTaskID());
+					curApi.getFirst().activateTracing(DataClayExtrae.getAndIncrementCurrentAvailableTaskID());
 				}
 				for (final Tuple<DataServiceAPI, ExecutionEnvironment> curApi : this.getExecutionEnvironments(Langs.LANG_PYTHON)
 						.values()) {
 					LOGGER.info("Activating Extrae in node {}", curApi.getSecond());
-					curApi.getFirst().activateTracing(Paraver.getAndIncrementCurrentAvailableTaskID());
+					curApi.getFirst().activateTracing(DataClayExtrae.getAndIncrementCurrentAvailableTaskID());
 
 				}
 			} catch (final Exception ex) {
@@ -6728,8 +6728,8 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
 			LOGGER.debug("** DEACTIVATING EXTRAE TRACING **");
 		}
 		// DataServices Paraver traces
-		synchronized (Paraver.class) { //All workers could try to do it
-			if (Paraver.extraeTracingIsEnabled()) { //sanity check
+		synchronized (DataClayExtrae.class) { //All workers could try to do it
+			if (DataClayExtrae.extraeTracingIsEnabled()) { //sanity check
 				LOGGER.debug("Starting deactivation of traces");
 				for (final Tuple<DataServiceAPI, ExecutionEnvironment> curApi : this.getExecutionEnvironments(Langs.LANG_JAVA)
 						.values()) {
@@ -6741,7 +6741,7 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
 					LOGGER.debug("Calling deactivate tracing to EE: " + curApi.getSecond());
 					curApi.getFirst().deactivateTracing();
 				}
-				Paraver.finishTracing();
+				DataClayExtrae.finishTracing();
 			}
 		}
 	}
@@ -6754,9 +6754,9 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
 	@Override
 	public Map<String, byte[]> getTraces() { 
 		LOGGER.info("Getting Extrae traces");
-		synchronized (Paraver.class) { //All workers could try to do it
+		synchronized (DataClayExtrae.class) { //All workers could try to do it
 			final Map<String, byte[]> allTraces = new HashMap<>();
-			if (Paraver.isGeneratedTraces()) {
+			if (DataClayExtrae.isGeneratedTraces()) {
 				// Call DSs 
 				for (final Tuple<DataServiceAPI, ExecutionEnvironment> curApi : this.getExecutionEnvironments(Langs.LANG_JAVA)
 						.values()) {
@@ -6768,7 +6768,7 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
 					LOGGER.debug("Calling get traces to DS: " + curApi.getSecond());
 					allTraces.putAll(curApi.getFirst().getTraces());
 				}
-				allTraces.putAll(Paraver.getTraces());
+				allTraces.putAll(DataClayExtrae.getTraces());
 			}
 			return allTraces;
 		}

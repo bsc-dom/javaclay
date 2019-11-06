@@ -1,5 +1,5 @@
 
-package es.bsc.dataclay.paraver;
+package es.bsc.dataclay.extrae;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,15 +13,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import es.bsc.cepbatools.extrae.Wrapper;
-import es.bsc.dataclay.util.Configuration;
 
 /**
- * This utility class contains functions for Paraver tracing.
+ * This utility class contains functions for Extrae tracing.
  */
-public final class Paraver {
-
-	/** Indicates if debug is enabled. */
-	private static final boolean DEBUG_ENABLED = Configuration.isDebugEnabled();
+public final class DataClayExtrae {
 
 	/** Logger. */
 	private static final Logger logger = LogManager.getLogger("Paraver");
@@ -74,20 +70,16 @@ public final class Paraver {
 			Wrapper.Init();
 			//Paraver.enablePThreads();
 			extraeTracing = true;
-			if (DEBUG_ENABLED) {
-				logger.debug("** INITIALIZED Extrae TRACING FOR task ID " + taskID + ". Extrae has " 
+			
+			logger.debug("** INITIALIZED Extrae TRACING FOR task ID " + taskID + ". Extrae has " 
 						+ Wrapper.GetNumTasks() + " tasks, in process with PID " + Wrapper.GetPID()
 						+ ". \n WARNING: Application will NOT be traced if no " + 
 						" initialization was done (COMPSs initializes it) or Paraver aspects injection was not applied");
-			}
+			
 		} catch (final Exception e) { 
-			if (DEBUG_ENABLED) {
-				logger.debug("** Exception while initializing Extrae", e);
-			}
+			logger.debug("** Exception while initializing Extrae", e);
 		} catch (final Error e) { 
-			if (DEBUG_ENABLED) {
-				logger.debug("** Error while initializing Extrae", e);
-			}
+			logger.debug("** Error while initializing Extrae", e);
 		}
 	}
 
@@ -96,12 +88,11 @@ public final class Paraver {
 	 */
 	public static synchronized void enableExtraeTracing() {
 		extraeTracing = true;
-		if (DEBUG_ENABLED) {
-				logger.debug("** ENABLED Extrae TRACING FOR task ID " + taskID + ". Extrae has " 
+		logger.debug("** ENABLED Extrae TRACING FOR task ID " + taskID + ". Extrae has " 
 						+ Wrapper.GetNumTasks() + " tasks, in process with PID " + Wrapper.GetPID()
 						+ ". \n WARNING: Trace with Extrae if enabled. Application will NOT be traced if no " + 
 						" initialization was done (COMPSs initializes it) or Paraver aspects injection was not applied");
-		}
+		
 	}
 	
 	/**
@@ -109,12 +100,11 @@ public final class Paraver {
 	 */
 	public static synchronized void disableExtraeTracing() {
 		extraeTracing = false;
-		if (DEBUG_ENABLED) {
-				logger.debug("** DISABLED Extrae TRACING FOR task ID " + taskID + ". Extrae has " 
+		logger.debug("** DISABLED Extrae TRACING FOR task ID " + taskID + ". Extrae has " 
 						+ Wrapper.GetNumTasks() + " tasks, in process with PID " + Wrapper.GetPID()
 						+ ". \n WARNING: Trace with Extrae if enabled. Application will NOT be traced if no " + 
 						" initialization was done (COMPSs initializes it) or Paraver aspects injection was not applied");
-		}
+		
 	}
 
 	/**
@@ -128,9 +118,8 @@ public final class Paraver {
 			//Wrapper.SetOptions(Wrapper.EXTRAE_DISABLE_ALL_OPTIONS);
 			extraeTracing = false;
 			generatedTraces = true;
-			if (DEBUG_ENABLED) {
-					logger.debug("** FINISHED Extrae TRACING FOR " + taskID + " with task ID " + Wrapper.GetTaskID());
-			}		
+			logger.debug("** FINISHED Extrae TRACING FOR " + taskID + " with task ID " + Wrapper.GetTaskID());
+				
 		}
 	}
 	
@@ -144,9 +133,6 @@ public final class Paraver {
 	 */
 	public static synchronized void emitEvent(final boolean enter, final String methodSignature) {
 		if (!extraeTracing) {		
-			if (DEBUG_ENABLED) {
-				logger.debug("Waiting for Extrae to be initialized. Not tracing " + methodSignature);
-			}
 			return;
 		}
 		final Long methodID = ALL_METHOD_VALUES.get(methodSignature);
@@ -157,9 +143,7 @@ public final class Paraver {
 			} else { 
 				Wrapper.Event(EVENT_TYPE, 0);
 			}
-			if (DEBUG_ENABLED) {
-				logger.debug("Traced event (enter =" + enter + ") : " + methodSignature + " with value : " + methodID);
-			}
+			//logger.debug("Traced event (enter =" + enter + ") : " + methodSignature + " with value : " + methodID);
 		}
 	}
 	
@@ -168,7 +152,7 @@ public final class Paraver {
      * from here onwards. To deactivate it use disablePThreads().
      */
     public static void enablePThreads() {
-        synchronized (Paraver.class) {
+        synchronized (DataClayExtrae.class) {
             Wrapper.SetOptions(Wrapper.EXTRAE_ENABLE_ALL_OPTIONS);
         }
     }
@@ -178,7 +162,7 @@ public final class Paraver {
      * from here onwards. To reactivate it use enablePThreads()
      */
     public static void disablePThreads() {
-        synchronized (Paraver.class) {
+        synchronized (DataClayExtrae.class) {
             Wrapper.SetOptions(Wrapper.EXTRAE_ENABLE_ALL_OPTIONS & ~Wrapper.EXTRAE_PTHREAD_OPTION);
         }
     }
@@ -191,9 +175,8 @@ public final class Paraver {
 		if (!extraeTracing) {
 			return;
 		}
-		if (DEBUG_ENABLED) {
-			logger.debug("** DEFINING EVENT TYPES AND VALUES");
-		}
+		logger.debug("** DEFINING EVENT TYPES AND VALUES");
+		
 		final long[] methodValues = new long[tracedMethods.size() + 1];
 		final String[] descriptors = new String[tracedMethods.size() + 1];
 		int i = 1;
@@ -204,9 +187,6 @@ public final class Paraver {
 			final Long methodValue = currentTracedMethod.getValue();
 			descriptors[i] = methodDesc;
 			methodValues[i] = methodValue;
-			if (DEBUG_ENABLED) {
-				System.out.println( methodValues[i] + "     " + descriptors[i]);
-			}
 			i++;
 		}
 		
@@ -220,84 +200,6 @@ public final class Paraver {
 	 */
 	public static synchronized boolean extraeTracingIsEnabled() {
 		return extraeTracing;
-	}
-
-	/**
-	 * Indicates if tracing is active for interceptors
-	 * 
-	 * @return True if it is active.
-	 */
-	public static synchronized boolean traceIsActiveInterceptor() {
-		return Configuration.Flags.PARAVER_INTERCEPTOR_ACTIVE.getBooleanValue();
-	}
-
-	/**
-	 * Add a send communication event
-	 * 
-	 * @param traceType
-	 *            Type of the trace (send request or send response)
-	 * @param senderHostName
-	 *            Name of the sending host
-	 * @param senderPort
-	 *            Port of the sending host
-	 * @param requestID
-	 *            Request ID
-	 * @param destHostAddr
-	 *            Address of the destination host
-	 * @param destPort
-	 *            Port of the destination host
-	 * @param msgSize
-	 *            Message size
-	 */
-	public static synchronized void traceSendCommunicationGrpc(final TraceType traceType, final String senderHostName,
-			final int senderPort, final int requestID, final String destHostAddr, final int destPort,
-			final int msgSize) {
-		if (!extraeTracing) {
-			//logger.debug("NOT traced SEND COMM " + senderHostName + ":" + senderPort + " [ " + traceType.ordinal()
-			//		+ " ] -> " + requestID + ":" + destHostAddr + ":" + destPort + ":" + msgSize + "\n");
-			return;
-		}
-
-		//Wrapper.Comm(true, senderPort, msgSize, Wrapper.GetTaskID(), requestID);
-
-		if (DEBUG_ENABLED) {
-			logger.debug("Traced SEND COMM " + senderHostName + ":" + senderPort + " [ " + traceType.ordinal()
-			+ " ] -> " + requestID + ":" + destHostAddr + ":" + destPort + ":" + msgSize + "\n");
-		}
-	}
-
-	/**
-	 * Add receive communication event
-	 * 
-	 * @param receiverHostName
-	 *            Name of the host receiving message
-	 * @param receiverPort
-	 *            Port where the message is received
-	 * @param remoteHostAddr
-	 *            Address of the host sending message
-	 * @param remotePort
-	 *            Port of the host sending message
-	 * @param requestID
-	 *            Request ID
-	 * @param msgSize
-	 *            Message size
-	 */
-	public static synchronized void traceReceiveCommunicationGrpc(final String receiverHostName, final int receiverPort,
-			final String remoteHostAddr, final int remotePort, final int requestID, final int msgSize) {
-		if (!extraeTracing) {
-			if (DEBUG_ENABLED) {
-				//logger.debug("Not traced REC COMM " + receiverHostName + ":" + receiverPort + " <- " + remoteHostAddr
-					//	+ ":" + remotePort + ":" + requestID + "\n");
-			}
-			return;
-		}
-
-		//Wrapper.Comm(false, remotePort, msgSize, remoteHostAddr.hashCode(), requestID);
-
-		if (DEBUG_ENABLED) {
-			logger.debug("Traced REC COMM " + receiverHostName + ":" + receiverPort + " <- " + remoteHostAddr + ":"
-					+ remotePort + ":" + requestID + "\n");
-		}
 	}
 
 	/**
@@ -340,7 +242,7 @@ public final class Paraver {
 	 * @param thecurrentAvailableTaskID Current available task ID
 	 */
 	public static void setCurrentAvailableTaskID(final int thecurrentAvailableTaskID) {
-		Paraver.currentAvailableTaskID = thecurrentAvailableTaskID;
+		DataClayExtrae.currentAvailableTaskID = thecurrentAvailableTaskID;
 	}
 	
 	/**
@@ -357,9 +259,8 @@ public final class Paraver {
 				final String folderPath = System.getProperty("user.dir") + File.separator + "set-0";
 	
 				final File folder = new File(folderPath); //TODO: only set-0?
-				if (DEBUG_ENABLED) {
-					logger.debug(" READING FROM FOLDER " + folderPath);
-				}
+				logger.debug(" READING FROM FOLDER " + folderPath);
+				
 				 // retrieve file listing
 			    final File[] fileList = folder.listFiles();
 			    if (fileList != null) {
@@ -368,22 +269,19 @@ public final class Paraver {
 						traces.put(file.getName(), bArray);
 					}
 			    }
-				if (DEBUG_ENABLED) {
-					logger.debug("Sending files: " + traces.keySet());
-				}
+				logger.debug("Sending files: " + traces.keySet());
+				
 				
 			} catch (final IOException e) {
-				if (DEBUG_ENABLED) {
-					logger.debug("Exception while getting traces", e);
-				}
+				logger.debug("Exception while getting traces", e);
+				
 			} finally { 
 				if (b != null) { 
 					try {
 						b.close();
 					} catch (final IOException e) {
-						if (DEBUG_ENABLED) {
-							logger.debug("Exception while getting traces", e);
-						}
+						logger.debug("Exception while getting traces", e);
+						
 					}
 				}
 			}

@@ -1,8 +1,5 @@
 <aspectj>
     <aspects>
-        <aspect name="es.bsc.dataclay.paraver.aspects.ParaverAspects"/>
-        <weaver options="-verbose -showWeaveInfo">
-            <include within="es.bsc.dataclay.*"/>
-        </weaver>
+        <aspect name="es.bsc.dataclay.extrae.ExtraeAspects"/>
     </aspects>
 </aspectj>

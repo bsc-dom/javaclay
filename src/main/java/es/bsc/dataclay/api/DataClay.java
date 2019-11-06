@@ -25,7 +25,7 @@ import es.bsc.dataclay.commonruntime.ClientRuntime;
 import es.bsc.dataclay.commonruntime.DataClayRuntime;
 import es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.Langs;
 import es.bsc.dataclay.exceptions.metadataservice.ObjectNotRegisteredException;
-import es.bsc.dataclay.paraver.Paraver;
+import es.bsc.dataclay.extrae.DataClayExtrae;
 import es.bsc.dataclay.tool.GetBackends;
 import es.bsc.dataclay.util.Configuration;
 import es.bsc.dataclay.util.ProcessEnvironment;
@@ -131,9 +131,9 @@ public final class DataClay {
 	public static void finish() throws DataClayException {
 		try {
 
-			if (Paraver.extraeTracingIsEnabled()) { 
+			if (DataClayExtrae.extraeTracingIsEnabled()) { 
 				LOGGER.info("Extrae is active, deactivating it...");
-				if (Paraver.getWrapperTaskID() == 0) { // only in master node (app client withou compss) 
+				if (DataClayExtrae.getWrapperTaskID() == 0) { // only in master node (app client withou compss) 
 					LOGGER.info("Calling deactivate extrae in dataclay services");
 					DataClay.deactivateTracingInDataClayServices();
 					deactivateTracing();
@@ -340,15 +340,15 @@ public final class DataClay {
 				final String strStartingTaskID = prop.getProperty(EXTRAE_STARTING_TASK_ID);
 				if (strStartingTaskID != null) {
 					LOGGER.info("Found Extrae tracing Task ID specified: {}", strStartingTaskID);
-					Paraver.setCurrentAvailableTaskID(Integer.valueOf(strStartingTaskID));
+					DataClayExtrae.setCurrentAvailableTaskID(Integer.valueOf(strStartingTaskID));
 				}
 				// Trace with Extrae if enabled. Application will NOT be traced if no 
 				// initialization was done (COMPSs initializes it for us) 
 				// or Paraver aspects injection were NOT applied.
-				final int currentTaskID = Paraver.getWrapperTaskID();
+				final int currentTaskID = DataClayExtrae.getWrapperTaskID();
 				LOGGER.info("Extrae tracing Task ID is {}", currentTaskID);
 				DataClay.activateTracing();
-				LOGGER.info("Extrae tracing active: {}", Paraver.extraeTracingIsEnabled());
+				LOGGER.info("Extrae tracing active: {}", DataClayExtrae.extraeTracingIsEnabled());
 				if (currentTaskID == 0) { // only in master node (app client withou compss)
 					LOGGER.info("Activating extrae in all nodes");
 					DataClay.activateTracingInDataClayServices();

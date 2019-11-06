@@ -31,8 +31,6 @@ import es.bsc.dataclay.api.BackendID;
 import es.bsc.dataclay.commonruntime.DataClayRuntime;
 import es.bsc.dataclay.dataservice.DataService;
 import es.bsc.dataclay.dataservice.api.DataServiceAPI;
-import es.bsc.dataclay.paraver.Paraver;
-import es.bsc.dataclay.paraver.ParaverEventType;
 import es.bsc.dataclay.serialization.DataClaySerializable;
 import es.bsc.dataclay.serialization.buffer.DataClayByteBuffer;
 import es.bsc.dataclay.serialization.java.DataClayJavaWrapper;
@@ -270,12 +268,6 @@ public final class ByteCodeTypes {
 
 	/** Illegal argument exception. */
 	public static final Type ILLEGAL_ARGUMENT_EXCEPTION = Type.getType(IllegalArgumentException.class);
-
-	/** Paraver type. */
-	public static final Type PARAVER = Type.getType(Paraver.class);
-
-	/** Paraver Event type. */
-	public static final Type PARAVER_EVENT_TYPE = Type.getType(ParaverEventType.class);
 
 	/** Immutable parameter or return class. */
 	public static final Type IMM_PARAM_RETURN = Type.getType(ImmutableParamOrReturn.class);
