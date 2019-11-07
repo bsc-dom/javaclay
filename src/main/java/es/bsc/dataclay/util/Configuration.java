@@ -156,7 +156,7 @@ public final class Configuration {
 		 * GRPC default is 4 MiB, dataClay default is unlimited while we do not have a
 		 * message chunking mechanism
 		 */
-		MAX_MESSAGE_SIZE(Integer.MAX_VALUE, ConfType.INTEGER),
+		MAX_MESSAGE_SIZE(Short.MAX_VALUE, ConfType.INTEGER),
 
 		/** Path to Trusted certificates for verifying the remote endpoint's certificate. */
 		SSL_CLIENT_TRUSTED_CERTIFICATES(null, ConfType.STRING),

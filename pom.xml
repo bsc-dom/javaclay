@@ -19,12 +19,17 @@
 		<aspectj.version>1.9.2</aspectj.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<exec.mainClass> property from commandline </exec.mainClass>
+		<protoc.version>3.10.0</protoc.version>
+		<grpc.version>1.25.0</grpc.version>
+		<install.plugin.version>2.4</install.plugin.version>
+		<downloadSources>false</downloadSources>
+  		<downloadJavadocs>false</downloadJavadocs>
 	</properties>
 
 	<!-- Repository -->
 	<scm>
-		<connection>https://github.com/bsc-dom/javaclay</connection>
-		<url>https://github.com/bsc-dom/javaclay.git</url>
+		<connection>scm:git:https://github.com/bsc-dom/javaclay</connection>
+		<url>scm:git:https://github.com/bsc-dom/javaclay.git</url>
 	</scm>
 
 	<!-- BSD license -->
@@ -50,11 +55,11 @@
 			<plugin>
 				<groupId>org.xolstice.maven.plugins</groupId>
 				<artifactId>protobuf-maven-plugin</artifactId>
-				<version>0.6.1</version>
+				<version>0.5.1</version>
 				<configuration>
-					<protocArtifact>com.google.protobuf:protoc:3.10.0:exe:${os.detected.classifier}</protocArtifact>
+					<protocArtifact>com.google.protobuf:protoc:${protoc.version}:exe:${os.detected.classifier}</protocArtifact>
 					<pluginId>grpc-java</pluginId>
-					<pluginArtifact>io.grpc:protoc-gen-grpc-java:1.22.0:exe:${os.detected.classifier}</pluginArtifact>
+					<pluginArtifact>io.grpc:protoc-gen-grpc-java:${grpc.version}:exe:${os.detected.classifier}</pluginArtifact>
 					<protoSourceRoot>dataclay-common/protos</protoSourceRoot>
 					<outputDirectory>src/main/java</outputDirectory>
 					<clearOutputDirectory>false</clearOutputDirectory>
@@ -390,7 +395,7 @@
 			<artifactId>protobuf-java</artifactId>
 			<version>3.10.0</version>
 		</dependency>
-		<!--  maven exec plugin dependencies -->
+		<!-- maven cached dependencies -->
 		<dependency>
 			<groupId>org.codehaus.mojo</groupId>
 			<artifactId>exec-maven-plugin</artifactId>
@@ -400,6 +405,22 @@
 			<groupId>org.codehaus.plexus</groupId>
 			<artifactId>plexus-component-annotations</artifactId>
 			<version>1.5.4</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-install-plugin</artifactId>
+			<version>${install.plugin.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.protobuf</groupId>
+			<artifactId>protobuf-java</artifactId>
+			<version>${protoc.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.grpc</groupId>
+			<artifactId>protoc-gen-grpc-java</artifactId>
+			<version>${grpc.version}</version>
+    		<type>pom</type>
 		</dependency>
 	</dependencies>
 </project>

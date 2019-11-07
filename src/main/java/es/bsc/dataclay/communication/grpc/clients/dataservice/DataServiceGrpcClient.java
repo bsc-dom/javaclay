@@ -144,8 +144,9 @@ public final class DataServiceGrpcClient implements DataServiceAPI {
 		// Logger.getLogger("io.grpc").setLevel(Level.OFF);
 		logger = LogManager.getLogger("grpc.client.dataservice." + originHostName);
 
-		ManagedChannelBuilder<?> chBuilder = NettyChannelBuilder.forAddress(host, port).usePlaintext(true)
-				.maxInboundMessageSize(Integer.MAX_VALUE).maxHeaderListSize(Integer.MAX_VALUE);
+		ManagedChannelBuilder<?> chBuilder = NettyChannelBuilder.forAddress(host, port)
+				.maxInboundMessageSize(Short.MAX_VALUE).maxHeaderListSize(Short.MAX_VALUE);
+		chBuilder.usePlaintext();
 		channel = chBuilder.build();
 		blockingStub = DataServiceGrpc.newBlockingStub(channel);
 	}

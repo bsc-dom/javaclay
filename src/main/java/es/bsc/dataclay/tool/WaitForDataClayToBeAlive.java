@@ -1,6 +1,8 @@
 
 package es.bsc.dataclay.tool;
 
+import java.util.Arrays;
+
 import es.bsc.dataclay.commonruntime.ClientManagementLib;
 import es.bsc.dataclay.tool.Util.ERRCODE;
 

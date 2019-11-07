@@ -35,6 +35,7 @@ public final class LogicModuleServer {
 	 *            LM impl.
 	 */
 	public LogicModuleServer(final String srvName, final int port, final LogicModule lm) {
+		final int maxMessageSize = Configuration.Flags.MAX_MESSAGE_SIZE.getIntValue();
 
 		// Logger.getLogger("io.grpc").setLevel(Level.OFF);
 		// final int maxMessageSize =
@@ -42,11 +43,11 @@ public final class LogicModuleServer {
 		final ThreadFactoryWithNamePrefix factory = new ThreadFactoryWithNamePrefix(srvName);
 
 		final NettyServerBuilder serverBuilder = NettyServerBuilder.forPort(port);
+		serverBuilder.maxInboundMessageSize(maxMessageSize);
+		serverBuilder.maxInboundMetadataSize(maxMessageSize);
 		// serverBuilder.maxConcurrentCallsPerConnection(Integer.MAX_VALUE);
-		serverBuilder.maxHeaderListSize(Integer.MAX_VALUE);
 		// serverBuilder.keepAliveTime(10, TimeUnit.SECONDS);
 		// serverBuilder.keepAliveTimeout(10, TimeUnit.SECONDS);
-		serverBuilder.maxMessageSize(Integer.MAX_VALUE);
 		serverBuilder.executor(Executors.newCachedThreadPool(factory));
 
 		final LogicModuleService lms = new LogicModuleService(lm);

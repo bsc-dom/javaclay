@@ -146,7 +146,7 @@ public final class LogicModuleGrpcClient implements LogicModuleAPI {
 		 * actualAddress.getSecond();
 		 */
 		final NettyChannelBuilder chBuilder = NettyChannelBuilder.forAddress(host, port)
-				.maxInboundMessageSize(Integer.MAX_VALUE);
+				.maxInboundMessageSize(Short.MAX_VALUE);
 		
 		// Check if paths to certificates are defined 
 		if (Configuration.Flags.SSL_CLIENT_TRUSTED_CERTIFICATES.getStringValue() != null

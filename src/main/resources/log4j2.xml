@@ -8,9 +8,9 @@
 
  <Loggers>
         <!--  Runtime -->
-        <Logger name="ClientRuntime" level="info" />
-        <Logger name="ClientManagementLib" level="info"/>
-        <Logger name="DataClayRuntime" level="info"/>
+        <Logger name="ClientRuntime" level="off" />
+        <Logger name="ClientManagementLib" level="off"/>
+        <Logger name="DataClayRuntime" level="off"/>
         <Logger name="DataServiceRuntime" level="off"/>
         
         <Logger name="DataClayObjectLoader" level="off"/>
@@ -53,13 +53,10 @@
         <Logger name="org.apache.commons.dbcp2" level="off"/>
         <Logger name="PostgresHandler" level="off"/>
         <Logger name="SQLHandler" level="off"/>
-         
-        <!--  Tests -->
-        <Logger name="mock.MockDataClay" level="info"/>
-        
+
         <!--  Misc -->
-        <Logger name="util" level="info" />
-        <Logger name="exceptions" level="info"/>
+        <Logger name="util" level="off" />
+        <Logger name="exceptions" level="off"/>
         <Logger name="Paraver" level="info"/>        
         
         <!--  ROOT LOGGER -->

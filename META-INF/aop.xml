@@ -1,0 +1,8 @@
+<aspectj>
+    <aspects>
+        <aspect name="es.bsc.dataclay.extrae.ExtraeAspects"/>
+    </aspects>
+	<weaver options="-verbose">
+             <exclude within="es.bsc.dataclay.logic.*"/>
+     </weaver>
+</aspectj>

@@ -1,3 +1,8 @@
 target
 bin
 dbfiles
+.classpath
+.settings
+.project
+state.txt
+.git
