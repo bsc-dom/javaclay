@@ -21,7 +21,7 @@ import static io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall;
  * </pre>
  */
 @javax.annotation.Generated(
-    value = "by gRPC proto compiler (version 1.22.0)",
+    value = "by gRPC proto compiler (version 1.25.0)",
     comments = "Source: dataclay/communication/grpc/generated/logicmodule/logicmodule.proto")
 public final class LogicModuleGrpc {
 
@@ -44,22 +44,21 @@ public final class LogicModuleGrpc {
     if ((getAutoregisterSLMethod = LogicModuleGrpc.getAutoregisterSLMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getAutoregisterSLMethod = LogicModuleGrpc.getAutoregisterSLMethod) == null) {
-          LogicModuleGrpc.getAutoregisterSLMethod = getAutoregisterSLMethod = 
+          LogicModuleGrpc.getAutoregisterSLMethod = getAutoregisterSLMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.AutoRegisterSLRequest, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "autoregisterSL"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "autoregisterSL"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.AutoRegisterSLRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("autoregisterSL"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("autoregisterSL"))
+              .build();
         }
-     }
-     return getAutoregisterSLMethod;
+      }
+    }
+    return getAutoregisterSLMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.AutoRegisterEERequest,
@@ -76,22 +75,21 @@ public final class LogicModuleGrpc {
     if ((getAutoregisterEEMethod = LogicModuleGrpc.getAutoregisterEEMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getAutoregisterEEMethod = LogicModuleGrpc.getAutoregisterEEMethod) == null) {
-          LogicModuleGrpc.getAutoregisterEEMethod = getAutoregisterEEMethod = 
+          LogicModuleGrpc.getAutoregisterEEMethod = getAutoregisterEEMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.AutoRegisterEERequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.AutoRegisterEEResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "autoregisterEE"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "autoregisterEE"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.AutoRegisterEERequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.AutoRegisterEEResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("autoregisterEE"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("autoregisterEE"))
+              .build();
         }
-     }
-     return getAutoregisterEEMethod;
+      }
+    }
+    return getAutoregisterEEMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.UnregisterStorageLocationRequest,
@@ -108,22 +106,21 @@ public final class LogicModuleGrpc {
     if ((getUnregisterStorageLocationMethod = LogicModuleGrpc.getUnregisterStorageLocationMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getUnregisterStorageLocationMethod = LogicModuleGrpc.getUnregisterStorageLocationMethod) == null) {
-          LogicModuleGrpc.getUnregisterStorageLocationMethod = getUnregisterStorageLocationMethod = 
+          LogicModuleGrpc.getUnregisterStorageLocationMethod = getUnregisterStorageLocationMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.UnregisterStorageLocationRequest, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "unregisterStorageLocation"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "unregisterStorageLocation"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.UnregisterStorageLocationRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("unregisterStorageLocation"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("unregisterStorageLocation"))
+              .build();
         }
-     }
-     return getUnregisterStorageLocationMethod;
+      }
+    }
+    return getUnregisterStorageLocationMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.UnregisterExecutionEnvironmentRequest,
@@ -140,22 +137,21 @@ public final class LogicModuleGrpc {
     if ((getUnregisterExecutionEnvironmentMethod = LogicModuleGrpc.getUnregisterExecutionEnvironmentMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getUnregisterExecutionEnvironmentMethod = LogicModuleGrpc.getUnregisterExecutionEnvironmentMethod) == null) {
-          LogicModuleGrpc.getUnregisterExecutionEnvironmentMethod = getUnregisterExecutionEnvironmentMethod = 
+          LogicModuleGrpc.getUnregisterExecutionEnvironmentMethod = getUnregisterExecutionEnvironmentMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.UnregisterExecutionEnvironmentRequest, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "unregisterExecutionEnvironment"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "unregisterExecutionEnvironment"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.UnregisterExecutionEnvironmentRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("unregisterExecutionEnvironment"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("unregisterExecutionEnvironment"))
+              .build();
         }
-     }
-     return getUnregisterExecutionEnvironmentMethod;
+      }
+    }
+    return getUnregisterExecutionEnvironmentMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage,
@@ -172,22 +168,21 @@ public final class LogicModuleGrpc {
     if ((getCheckAliveMethod = LogicModuleGrpc.getCheckAliveMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getCheckAliveMethod = LogicModuleGrpc.getCheckAliveMethod) == null) {
-          LogicModuleGrpc.getCheckAliveMethod = getCheckAliveMethod = 
+          LogicModuleGrpc.getCheckAliveMethod = getCheckAliveMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "checkAlive"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "checkAlive"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("checkAlive"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("checkAlive"))
+              .build();
         }
-     }
-     return getCheckAliveMethod;
+      }
+    }
+    return getCheckAliveMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.PerformSetAccountsRequest,
@@ -204,22 +199,21 @@ public final class LogicModuleGrpc {
     if ((getPerformSetOfNewAccountsMethod = LogicModuleGrpc.getPerformSetOfNewAccountsMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getPerformSetOfNewAccountsMethod = LogicModuleGrpc.getPerformSetOfNewAccountsMethod) == null) {
-          LogicModuleGrpc.getPerformSetOfNewAccountsMethod = getPerformSetOfNewAccountsMethod = 
+          LogicModuleGrpc.getPerformSetOfNewAccountsMethod = getPerformSetOfNewAccountsMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.PerformSetAccountsRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.PerformSetAccountsResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "performSetOfNewAccounts"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "performSetOfNewAccounts"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.PerformSetAccountsRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.PerformSetAccountsResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("performSetOfNewAccounts"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("performSetOfNewAccounts"))
+              .build();
         }
-     }
-     return getPerformSetOfNewAccountsMethod;
+      }
+    }
+    return getPerformSetOfNewAccountsMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.PerformSetOperationsRequest,
@@ -236,22 +230,21 @@ public final class LogicModuleGrpc {
     if ((getPerformSetOfOperationsMethod = LogicModuleGrpc.getPerformSetOfOperationsMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getPerformSetOfOperationsMethod = LogicModuleGrpc.getPerformSetOfOperationsMethod) == null) {
-          LogicModuleGrpc.getPerformSetOfOperationsMethod = getPerformSetOfOperationsMethod = 
+          LogicModuleGrpc.getPerformSetOfOperationsMethod = getPerformSetOfOperationsMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.PerformSetOperationsRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.PerformSetOperationsResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "performSetOfOperations"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "performSetOfOperations"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.PerformSetOperationsRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.PerformSetOperationsResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("performSetOfOperations"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("performSetOfOperations"))
+              .build();
         }
-     }
-     return getPerformSetOfOperationsMethod;
+      }
+    }
+    return getPerformSetOfOperationsMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.PublishAddressRequest,
@@ -268,22 +261,21 @@ public final class LogicModuleGrpc {
     if ((getPublishAddressMethod = LogicModuleGrpc.getPublishAddressMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getPublishAddressMethod = LogicModuleGrpc.getPublishAddressMethod) == null) {
-          LogicModuleGrpc.getPublishAddressMethod = getPublishAddressMethod = 
+          LogicModuleGrpc.getPublishAddressMethod = getPublishAddressMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.PublishAddressRequest, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "publishAddress"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "publishAddress"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.PublishAddressRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("publishAddress"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("publishAddress"))
+              .build();
         }
-     }
-     return getPublishAddressMethod;
+      }
+    }
+    return getPublishAddressMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewAccountNoAdminRequest,
@@ -300,22 +292,21 @@ public final class LogicModuleGrpc {
     if ((getNewAccountNoAdminMethod = LogicModuleGrpc.getNewAccountNoAdminMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getNewAccountNoAdminMethod = LogicModuleGrpc.getNewAccountNoAdminMethod) == null) {
-          LogicModuleGrpc.getNewAccountNoAdminMethod = getNewAccountNoAdminMethod = 
+          LogicModuleGrpc.getNewAccountNoAdminMethod = getNewAccountNoAdminMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewAccountNoAdminRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewAccountResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "newAccountNoAdmin"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "newAccountNoAdmin"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewAccountNoAdminRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewAccountResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("newAccountNoAdmin"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("newAccountNoAdmin"))
+              .build();
         }
-     }
-     return getNewAccountNoAdminMethod;
+      }
+    }
+    return getNewAccountNoAdminMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewAccountRequest,
@@ -332,22 +323,21 @@ public final class LogicModuleGrpc {
     if ((getNewAccountMethod = LogicModuleGrpc.getNewAccountMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getNewAccountMethod = LogicModuleGrpc.getNewAccountMethod) == null) {
-          LogicModuleGrpc.getNewAccountMethod = getNewAccountMethod = 
+          LogicModuleGrpc.getNewAccountMethod = getNewAccountMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewAccountRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewAccountResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "newAccount"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "newAccount"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewAccountRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewAccountResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("newAccount"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("newAccount"))
+              .build();
         }
-     }
-     return getNewAccountMethod;
+      }
+    }
+    return getNewAccountMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetAccountIDRequest,
@@ -364,22 +354,21 @@ public final class LogicModuleGrpc {
     if ((getGetAccountIDMethod = LogicModuleGrpc.getGetAccountIDMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getGetAccountIDMethod = LogicModuleGrpc.getGetAccountIDMethod) == null) {
-          LogicModuleGrpc.getGetAccountIDMethod = getGetAccountIDMethod = 
+          LogicModuleGrpc.getGetAccountIDMethod = getGetAccountIDMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetAccountIDRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetAccountIDResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "getAccountID"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "getAccountID"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetAccountIDRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetAccountIDResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getAccountID"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getAccountID"))
+              .build();
         }
-     }
-     return getGetAccountIDMethod;
+      }
+    }
+    return getGetAccountIDMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetAccountListRequest,
@@ -396,22 +385,21 @@ public final class LogicModuleGrpc {
     if ((getGetAccountListMethod = LogicModuleGrpc.getGetAccountListMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getGetAccountListMethod = LogicModuleGrpc.getGetAccountListMethod) == null) {
-          LogicModuleGrpc.getGetAccountListMethod = getGetAccountListMethod = 
+          LogicModuleGrpc.getGetAccountListMethod = getGetAccountListMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetAccountListRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetAccountListResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "getAccountList"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "getAccountList"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetAccountListRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetAccountListResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getAccountList"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getAccountList"))
+              .build();
         }
-     }
-     return getGetAccountListMethod;
+      }
+    }
+    return getGetAccountListMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewSessionRequest,
@@ -428,22 +416,21 @@ public final class LogicModuleGrpc {
     if ((getNewSessionMethod = LogicModuleGrpc.getNewSessionMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getNewSessionMethod = LogicModuleGrpc.getNewSessionMethod) == null) {
-          LogicModuleGrpc.getNewSessionMethod = getNewSessionMethod = 
+          LogicModuleGrpc.getNewSessionMethod = getNewSessionMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewSessionRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewSessionResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "newSession"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "newSession"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewSessionRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewSessionResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("newSession"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("newSession"))
+              .build();
         }
-     }
-     return getNewSessionMethod;
+      }
+    }
+    return getNewSessionMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetInfoOfSessionForDSRequest,
@@ -460,22 +447,21 @@ public final class LogicModuleGrpc {
     if ((getGetInfoOfSessionForDSMethod = LogicModuleGrpc.getGetInfoOfSessionForDSMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getGetInfoOfSessionForDSMethod = LogicModuleGrpc.getGetInfoOfSessionForDSMethod) == null) {
-          LogicModuleGrpc.getGetInfoOfSessionForDSMethod = getGetInfoOfSessionForDSMethod = 
+          LogicModuleGrpc.getGetInfoOfSessionForDSMethod = getGetInfoOfSessionForDSMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetInfoOfSessionForDSRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetInfoOfSessionForDSResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "getInfoOfSessionForDS"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "getInfoOfSessionForDS"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetInfoOfSessionForDSRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetInfoOfSessionForDSResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getInfoOfSessionForDS"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getInfoOfSessionForDS"))
+              .build();
         }
-     }
-     return getGetInfoOfSessionForDSMethod;
+      }
+    }
+    return getGetInfoOfSessionForDSMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewNamespaceRequest,
@@ -492,22 +478,21 @@ public final class LogicModuleGrpc {
     if ((getNewNamespaceMethod = LogicModuleGrpc.getNewNamespaceMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getNewNamespaceMethod = LogicModuleGrpc.getNewNamespaceMethod) == null) {
-          LogicModuleGrpc.getNewNamespaceMethod = getNewNamespaceMethod = 
+          LogicModuleGrpc.getNewNamespaceMethod = getNewNamespaceMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewNamespaceRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewNamespaceResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "newNamespace"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "newNamespace"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewNamespaceRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewNamespaceResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("newNamespace"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("newNamespace"))
+              .build();
         }
-     }
-     return getNewNamespaceMethod;
+      }
+    }
+    return getNewNamespaceMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RemoveNamespaceRequest,
@@ -524,22 +509,21 @@ public final class LogicModuleGrpc {
     if ((getRemoveNamespaceMethod = LogicModuleGrpc.getRemoveNamespaceMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getRemoveNamespaceMethod = LogicModuleGrpc.getRemoveNamespaceMethod) == null) {
-          LogicModuleGrpc.getRemoveNamespaceMethod = getRemoveNamespaceMethod = 
+          LogicModuleGrpc.getRemoveNamespaceMethod = getRemoveNamespaceMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RemoveNamespaceRequest, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "removeNamespace"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "removeNamespace"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RemoveNamespaceRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("removeNamespace"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("removeNamespace"))
+              .build();
         }
-     }
-     return getRemoveNamespaceMethod;
+      }
+    }
+    return getRemoveNamespaceMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetNamespaceIDRequest,
@@ -556,22 +540,21 @@ public final class LogicModuleGrpc {
     if ((getGetNamespaceIDMethod = LogicModuleGrpc.getGetNamespaceIDMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getGetNamespaceIDMethod = LogicModuleGrpc.getGetNamespaceIDMethod) == null) {
-          LogicModuleGrpc.getGetNamespaceIDMethod = getGetNamespaceIDMethod = 
+          LogicModuleGrpc.getGetNamespaceIDMethod = getGetNamespaceIDMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetNamespaceIDRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetNamespaceIDResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "getNamespaceID"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "getNamespaceID"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetNamespaceIDRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetNamespaceIDResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getNamespaceID"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getNamespaceID"))
+              .build();
         }
-     }
-     return getGetNamespaceIDMethod;
+      }
+    }
+    return getGetNamespaceIDMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetNamespaceLangRequest,
@@ -588,22 +571,21 @@ public final class LogicModuleGrpc {
     if ((getGetNamespaceLangMethod = LogicModuleGrpc.getGetNamespaceLangMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getGetNamespaceLangMethod = LogicModuleGrpc.getGetNamespaceLangMethod) == null) {
-          LogicModuleGrpc.getGetNamespaceLangMethod = getGetNamespaceLangMethod = 
+          LogicModuleGrpc.getGetNamespaceLangMethod = getGetNamespaceLangMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetNamespaceLangRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetNamespaceLangResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "getNamespaceLang"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "getNamespaceLang"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetNamespaceLangRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetNamespaceLangResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getNamespaceLang"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getNamespaceLang"))
+              .build();
         }
-     }
-     return getGetNamespaceLangMethod;
+      }
+    }
+    return getGetNamespaceLangMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetObjectDataSetIDRequest,
@@ -620,22 +602,21 @@ public final class LogicModuleGrpc {
     if ((getGetObjectDataSetIDMethod = LogicModuleGrpc.getGetObjectDataSetIDMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getGetObjectDataSetIDMethod = LogicModuleGrpc.getGetObjectDataSetIDMethod) == null) {
-          LogicModuleGrpc.getGetObjectDataSetIDMethod = getGetObjectDataSetIDMethod = 
+          LogicModuleGrpc.getGetObjectDataSetIDMethod = getGetObjectDataSetIDMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetObjectDataSetIDRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetObjectDataSetIDResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "getObjectDataSetID"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "getObjectDataSetID"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetObjectDataSetIDRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetObjectDataSetIDResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getObjectDataSetID"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getObjectDataSetID"))
+              .build();
         }
-     }
-     return getGetObjectDataSetIDMethod;
+      }
+    }
+    return getGetObjectDataSetIDMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ImportInterfaceRequest,
@@ -652,22 +633,21 @@ public final class LogicModuleGrpc {
     if ((getImportInterfaceMethod = LogicModuleGrpc.getImportInterfaceMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getImportInterfaceMethod = LogicModuleGrpc.getImportInterfaceMethod) == null) {
-          LogicModuleGrpc.getImportInterfaceMethod = getImportInterfaceMethod = 
+          LogicModuleGrpc.getImportInterfaceMethod = getImportInterfaceMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ImportInterfaceRequest, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "importInterface"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "importInterface"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ImportInterfaceRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("importInterface"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("importInterface"))
+              .build();
         }
-     }
-     return getImportInterfaceMethod;
+      }
+    }
+    return getImportInterfaceMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ImportContractRequest,
@@ -684,22 +664,21 @@ public final class LogicModuleGrpc {
     if ((getImportContractMethod = LogicModuleGrpc.getImportContractMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getImportContractMethod = LogicModuleGrpc.getImportContractMethod) == null) {
-          LogicModuleGrpc.getImportContractMethod = getImportContractMethod = 
+          LogicModuleGrpc.getImportContractMethod = getImportContractMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ImportContractRequest, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "importContract"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "importContract"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ImportContractRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("importContract"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("importContract"))
+              .build();
         }
-     }
-     return getImportContractMethod;
+      }
+    }
+    return getImportContractMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetInfoOfClassesInNamespaceRequest,
@@ -716,22 +695,21 @@ public final class LogicModuleGrpc {
     if ((getGetInfoOfClassesInNamespaceMethod = LogicModuleGrpc.getGetInfoOfClassesInNamespaceMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getGetInfoOfClassesInNamespaceMethod = LogicModuleGrpc.getGetInfoOfClassesInNamespaceMethod) == null) {
-          LogicModuleGrpc.getGetInfoOfClassesInNamespaceMethod = getGetInfoOfClassesInNamespaceMethod = 
+          LogicModuleGrpc.getGetInfoOfClassesInNamespaceMethod = getGetInfoOfClassesInNamespaceMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetInfoOfClassesInNamespaceRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetInfoOfClassesInNamespaceResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "getInfoOfClassesInNamespace"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "getInfoOfClassesInNamespace"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetInfoOfClassesInNamespaceRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetInfoOfClassesInNamespaceResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getInfoOfClassesInNamespace"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getInfoOfClassesInNamespace"))
+              .build();
         }
-     }
-     return getGetInfoOfClassesInNamespaceMethod;
+      }
+    }
+    return getGetInfoOfClassesInNamespaceMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetImportedClassesInfoInNamespaceRequest,
@@ -748,22 +726,21 @@ public final class LogicModuleGrpc {
     if ((getGetImportedClassesInfoInNamespaceMethod = LogicModuleGrpc.getGetImportedClassesInfoInNamespaceMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getGetImportedClassesInfoInNamespaceMethod = LogicModuleGrpc.getGetImportedClassesInfoInNamespaceMethod) == null) {
-          LogicModuleGrpc.getGetImportedClassesInfoInNamespaceMethod = getGetImportedClassesInfoInNamespaceMethod = 
+          LogicModuleGrpc.getGetImportedClassesInfoInNamespaceMethod = getGetImportedClassesInfoInNamespaceMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetImportedClassesInfoInNamespaceRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetImportedClassesInfoInNamespaceResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "getImportedClassesInfoInNamespace"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "getImportedClassesInfoInNamespace"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetImportedClassesInfoInNamespaceRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetImportedClassesInfoInNamespaceResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getImportedClassesInfoInNamespace"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getImportedClassesInfoInNamespace"))
+              .build();
         }
-     }
-     return getGetImportedClassesInfoInNamespaceMethod;
+      }
+    }
+    return getGetImportedClassesInfoInNamespaceMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassIDFromImportRequest,
@@ -780,22 +757,21 @@ public final class LogicModuleGrpc {
     if ((getGetClassIDfromImportMethod = LogicModuleGrpc.getGetClassIDfromImportMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getGetClassIDfromImportMethod = LogicModuleGrpc.getGetClassIDfromImportMethod) == null) {
-          LogicModuleGrpc.getGetClassIDfromImportMethod = getGetClassIDfromImportMethod = 
+          LogicModuleGrpc.getGetClassIDfromImportMethod = getGetClassIDfromImportMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassIDFromImportRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassIDFromImportResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "getClassIDfromImport"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "getClassIDfromImport"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassIDFromImportRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassIDFromImportResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getClassIDfromImport"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getClassIDfromImport"))
+              .build();
         }
-     }
-     return getGetClassIDfromImportMethod;
+      }
+    }
+    return getGetClassIDfromImportMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetNamespacesRequest,
@@ -812,22 +788,21 @@ public final class LogicModuleGrpc {
     if ((getGetNamespacesMethod = LogicModuleGrpc.getGetNamespacesMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getGetNamespacesMethod = LogicModuleGrpc.getGetNamespacesMethod) == null) {
-          LogicModuleGrpc.getGetNamespacesMethod = getGetNamespacesMethod = 
+          LogicModuleGrpc.getGetNamespacesMethod = getGetNamespacesMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetNamespacesRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetNamespacesResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "getNamespaces"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "getNamespaces"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetNamespacesRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetNamespacesResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getNamespaces"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getNamespaces"))
+              .build();
         }
-     }
-     return getGetNamespacesMethod;
+      }
+    }
+    return getGetNamespacesMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewDataSetRequest,
@@ -844,22 +819,21 @@ public final class LogicModuleGrpc {
     if ((getNewDataSetMethod = LogicModuleGrpc.getNewDataSetMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getNewDataSetMethod = LogicModuleGrpc.getNewDataSetMethod) == null) {
-          LogicModuleGrpc.getNewDataSetMethod = getNewDataSetMethod = 
+          LogicModuleGrpc.getNewDataSetMethod = getNewDataSetMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewDataSetRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewDataSetResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "newDataSet"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "newDataSet"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewDataSetRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewDataSetResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("newDataSet"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("newDataSet"))
+              .build();
         }
-     }
-     return getNewDataSetMethod;
+      }
+    }
+    return getNewDataSetMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RemoveDataSetRequest,
@@ -876,22 +850,21 @@ public final class LogicModuleGrpc {
     if ((getRemoveDataSetMethod = LogicModuleGrpc.getRemoveDataSetMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getRemoveDataSetMethod = LogicModuleGrpc.getRemoveDataSetMethod) == null) {
-          LogicModuleGrpc.getRemoveDataSetMethod = getRemoveDataSetMethod = 
+          LogicModuleGrpc.getRemoveDataSetMethod = getRemoveDataSetMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RemoveDataSetRequest, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "removeDataSet"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "removeDataSet"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RemoveDataSetRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("removeDataSet"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("removeDataSet"))
+              .build();
         }
-     }
-     return getRemoveDataSetMethod;
+      }
+    }
+    return getRemoveDataSetMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetDataSetIDRequest,
@@ -908,22 +881,21 @@ public final class LogicModuleGrpc {
     if ((getGetDataSetIDMethod = LogicModuleGrpc.getGetDataSetIDMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getGetDataSetIDMethod = LogicModuleGrpc.getGetDataSetIDMethod) == null) {
-          LogicModuleGrpc.getGetDataSetIDMethod = getGetDataSetIDMethod = 
+          LogicModuleGrpc.getGetDataSetIDMethod = getGetDataSetIDMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetDataSetIDRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetDataSetIDResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "getDataSetID"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "getDataSetID"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetDataSetIDRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetDataSetIDResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getDataSetID"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getDataSetID"))
+              .build();
         }
-     }
-     return getGetDataSetIDMethod;
+      }
+    }
+    return getGetDataSetIDMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.CheckDataSetIsPublicRequest,
@@ -940,22 +912,21 @@ public final class LogicModuleGrpc {
     if ((getCheckDataSetIsPublicMethod = LogicModuleGrpc.getCheckDataSetIsPublicMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getCheckDataSetIsPublicMethod = LogicModuleGrpc.getCheckDataSetIsPublicMethod) == null) {
-          LogicModuleGrpc.getCheckDataSetIsPublicMethod = getCheckDataSetIsPublicMethod = 
+          LogicModuleGrpc.getCheckDataSetIsPublicMethod = getCheckDataSetIsPublicMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.CheckDataSetIsPublicRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.CheckDataSetIsPublicResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "checkDataSetIsPublic"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "checkDataSetIsPublic"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.CheckDataSetIsPublicRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.CheckDataSetIsPublicResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("checkDataSetIsPublic"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("checkDataSetIsPublic"))
+              .build();
         }
-     }
-     return getCheckDataSetIsPublicMethod;
+      }
+    }
+    return getCheckDataSetIsPublicMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetPublicDataSetsRequest,
@@ -972,22 +943,21 @@ public final class LogicModuleGrpc {
     if ((getGetPublicDataSetsMethod = LogicModuleGrpc.getGetPublicDataSetsMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getGetPublicDataSetsMethod = LogicModuleGrpc.getGetPublicDataSetsMethod) == null) {
-          LogicModuleGrpc.getGetPublicDataSetsMethod = getGetPublicDataSetsMethod = 
+          LogicModuleGrpc.getGetPublicDataSetsMethod = getGetPublicDataSetsMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetPublicDataSetsRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetPublicDataSetsResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "getPublicDataSets"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "getPublicDataSets"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetPublicDataSetsRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetPublicDataSetsResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getPublicDataSets"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getPublicDataSets"))
+              .build();
         }
-     }
-     return getGetPublicDataSetsMethod;
+      }
+    }
+    return getGetPublicDataSetsMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetAccountDataSetsRequest,
@@ -1004,22 +974,21 @@ public final class LogicModuleGrpc {
     if ((getGetAccountDataSetsMethod = LogicModuleGrpc.getGetAccountDataSetsMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getGetAccountDataSetsMethod = LogicModuleGrpc.getGetAccountDataSetsMethod) == null) {
-          LogicModuleGrpc.getGetAccountDataSetsMethod = getGetAccountDataSetsMethod = 
+          LogicModuleGrpc.getGetAccountDataSetsMethod = getGetAccountDataSetsMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetAccountDataSetsRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetAccountDataSetsResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "getAccountDataSets"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "getAccountDataSets"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetAccountDataSetsRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetAccountDataSetsResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getAccountDataSets"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getAccountDataSets"))
+              .build();
         }
-     }
-     return getGetAccountDataSetsMethod;
+      }
+    }
+    return getGetAccountDataSetsMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewClassRequest,
@@ -1036,22 +1005,21 @@ public final class LogicModuleGrpc {
     if ((getNewClassMethod = LogicModuleGrpc.getNewClassMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getNewClassMethod = LogicModuleGrpc.getNewClassMethod) == null) {
-          LogicModuleGrpc.getNewClassMethod = getNewClassMethod = 
+          LogicModuleGrpc.getNewClassMethod = getNewClassMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewClassRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewClassResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "newClass"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "newClass"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewClassRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewClassResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("newClass"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("newClass"))
+              .build();
         }
-     }
-     return getNewClassMethod;
+      }
+    }
+    return getNewClassMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewClassIDRequest,
@@ -1068,22 +1036,21 @@ public final class LogicModuleGrpc {
     if ((getNewClassIDMethod = LogicModuleGrpc.getNewClassIDMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getNewClassIDMethod = LogicModuleGrpc.getNewClassIDMethod) == null) {
-          LogicModuleGrpc.getNewClassIDMethod = getNewClassIDMethod = 
+          LogicModuleGrpc.getNewClassIDMethod = getNewClassIDMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewClassIDRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewClassIDResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "newClassID"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "newClassID"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewClassIDRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewClassIDResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("newClassID"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("newClassID"))
+              .build();
         }
-     }
-     return getNewClassIDMethod;
+      }
+    }
+    return getNewClassIDMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RemoveClassRequest,
@@ -1100,22 +1067,21 @@ public final class LogicModuleGrpc {
     if ((getRemoveClassMethod = LogicModuleGrpc.getRemoveClassMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getRemoveClassMethod = LogicModuleGrpc.getRemoveClassMethod) == null) {
-          LogicModuleGrpc.getRemoveClassMethod = getRemoveClassMethod = 
+          LogicModuleGrpc.getRemoveClassMethod = getRemoveClassMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RemoveClassRequest, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "removeClass"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "removeClass"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RemoveClassRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("removeClass"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("removeClass"))
+              .build();
         }
-     }
-     return getRemoveClassMethod;
+      }
+    }
+    return getRemoveClassMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RemoveOperationRequest,
@@ -1132,22 +1098,21 @@ public final class LogicModuleGrpc {
     if ((getRemoveOperationMethod = LogicModuleGrpc.getRemoveOperationMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getRemoveOperationMethod = LogicModuleGrpc.getRemoveOperationMethod) == null) {
-          LogicModuleGrpc.getRemoveOperationMethod = getRemoveOperationMethod = 
+          LogicModuleGrpc.getRemoveOperationMethod = getRemoveOperationMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RemoveOperationRequest, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "removeOperation"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "removeOperation"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RemoveOperationRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("removeOperation"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("removeOperation"))
+              .build();
         }
-     }
-     return getRemoveOperationMethod;
+      }
+    }
+    return getRemoveOperationMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RemoveImplementationRequest,
@@ -1164,22 +1129,21 @@ public final class LogicModuleGrpc {
     if ((getRemoveImplementationMethod = LogicModuleGrpc.getRemoveImplementationMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getRemoveImplementationMethod = LogicModuleGrpc.getRemoveImplementationMethod) == null) {
-          LogicModuleGrpc.getRemoveImplementationMethod = getRemoveImplementationMethod = 
+          LogicModuleGrpc.getRemoveImplementationMethod = getRemoveImplementationMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RemoveImplementationRequest, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "removeImplementation"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "removeImplementation"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RemoveImplementationRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("removeImplementation"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("removeImplementation"))
+              .build();
         }
-     }
-     return getRemoveImplementationMethod;
+      }
+    }
+    return getRemoveImplementationMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetOperationIDRequest,
@@ -1196,22 +1160,21 @@ public final class LogicModuleGrpc {
     if ((getGetOperationIDMethod = LogicModuleGrpc.getGetOperationIDMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getGetOperationIDMethod = LogicModuleGrpc.getGetOperationIDMethod) == null) {
-          LogicModuleGrpc.getGetOperationIDMethod = getGetOperationIDMethod = 
+          LogicModuleGrpc.getGetOperationIDMethod = getGetOperationIDMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetOperationIDRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetOperationIDResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "getOperationID"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "getOperationID"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetOperationIDRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetOperationIDResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getOperationID"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getOperationID"))
+              .build();
         }
-     }
-     return getGetOperationIDMethod;
+      }
+    }
+    return getGetOperationIDMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetPropertyIDRequest,
@@ -1228,22 +1191,21 @@ public final class LogicModuleGrpc {
     if ((getGetPropertyIDMethod = LogicModuleGrpc.getGetPropertyIDMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getGetPropertyIDMethod = LogicModuleGrpc.getGetPropertyIDMethod) == null) {
-          LogicModuleGrpc.getGetPropertyIDMethod = getGetPropertyIDMethod = 
+          LogicModuleGrpc.getGetPropertyIDMethod = getGetPropertyIDMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetPropertyIDRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetPropertyIDResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "getPropertyID"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "getPropertyID"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetPropertyIDRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetPropertyIDResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getPropertyID"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getPropertyID"))
+              .build();
         }
-     }
-     return getGetPropertyIDMethod;
+      }
+    }
+    return getGetPropertyIDMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassIDRequest,
@@ -1260,22 +1222,21 @@ public final class LogicModuleGrpc {
     if ((getGetClassIDMethod = LogicModuleGrpc.getGetClassIDMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getGetClassIDMethod = LogicModuleGrpc.getGetClassIDMethod) == null) {
-          LogicModuleGrpc.getGetClassIDMethod = getGetClassIDMethod = 
+          LogicModuleGrpc.getGetClassIDMethod = getGetClassIDMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassIDRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassIDResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "getClassID"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "getClassID"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassIDRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassIDResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getClassID"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getClassID"))
+              .build();
         }
-     }
-     return getGetClassIDMethod;
+      }
+    }
+    return getGetClassIDMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassInfoRequest,
@@ -1292,22 +1253,21 @@ public final class LogicModuleGrpc {
     if ((getGetClassInfoMethod = LogicModuleGrpc.getGetClassInfoMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getGetClassInfoMethod = LogicModuleGrpc.getGetClassInfoMethod) == null) {
-          LogicModuleGrpc.getGetClassInfoMethod = getGetClassInfoMethod = 
+          LogicModuleGrpc.getGetClassInfoMethod = getGetClassInfoMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassInfoRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassInfoResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "getClassInfo"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "getClassInfo"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassInfoRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassInfoResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getClassInfo"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getClassInfo"))
+              .build();
         }
-     }
-     return getGetClassInfoMethod;
+      }
+    }
+    return getGetClassInfoMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewContractRequest,
@@ -1324,22 +1284,21 @@ public final class LogicModuleGrpc {
     if ((getNewContractMethod = LogicModuleGrpc.getNewContractMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getNewContractMethod = LogicModuleGrpc.getNewContractMethod) == null) {
-          LogicModuleGrpc.getNewContractMethod = getNewContractMethod = 
+          LogicModuleGrpc.getNewContractMethod = getNewContractMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewContractRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewContractResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "newContract"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "newContract"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewContractRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewContractResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("newContract"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("newContract"))
+              .build();
         }
-     }
-     return getNewContractMethod;
+      }
+    }
+    return getNewContractMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterToPublicContractRequest,
@@ -1356,22 +1315,21 @@ public final class LogicModuleGrpc {
     if ((getRegisterToPublicContractMethod = LogicModuleGrpc.getRegisterToPublicContractMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getRegisterToPublicContractMethod = LogicModuleGrpc.getRegisterToPublicContractMethod) == null) {
-          LogicModuleGrpc.getRegisterToPublicContractMethod = getRegisterToPublicContractMethod = 
+          LogicModuleGrpc.getRegisterToPublicContractMethod = getRegisterToPublicContractMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterToPublicContractRequest, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "registerToPublicContract"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "registerToPublicContract"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterToPublicContractRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("registerToPublicContract"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("registerToPublicContract"))
+              .build();
         }
-     }
-     return getRegisterToPublicContractMethod;
+      }
+    }
+    return getRegisterToPublicContractMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterToPublicContractOfNamespaceRequest,
@@ -1388,22 +1346,21 @@ public final class LogicModuleGrpc {
     if ((getRegisterToPublicContractOfNamespaceMethod = LogicModuleGrpc.getRegisterToPublicContractOfNamespaceMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getRegisterToPublicContractOfNamespaceMethod = LogicModuleGrpc.getRegisterToPublicContractOfNamespaceMethod) == null) {
-          LogicModuleGrpc.getRegisterToPublicContractOfNamespaceMethod = getRegisterToPublicContractOfNamespaceMethod = 
+          LogicModuleGrpc.getRegisterToPublicContractOfNamespaceMethod = getRegisterToPublicContractOfNamespaceMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterToPublicContractOfNamespaceRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterToPublicContractOfNamespaceResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "registerToPublicContractOfNamespace"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "registerToPublicContractOfNamespace"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterToPublicContractOfNamespaceRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterToPublicContractOfNamespaceResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("registerToPublicContractOfNamespace"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("registerToPublicContractOfNamespace"))
+              .build();
         }
-     }
-     return getRegisterToPublicContractOfNamespaceMethod;
+      }
+    }
+    return getRegisterToPublicContractOfNamespaceMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetContractIDsOfApplicantRequest,
@@ -1420,22 +1377,21 @@ public final class LogicModuleGrpc {
     if ((getGetContractIDsOfApplicantMethod = LogicModuleGrpc.getGetContractIDsOfApplicantMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getGetContractIDsOfApplicantMethod = LogicModuleGrpc.getGetContractIDsOfApplicantMethod) == null) {
-          LogicModuleGrpc.getGetContractIDsOfApplicantMethod = getGetContractIDsOfApplicantMethod = 
+          LogicModuleGrpc.getGetContractIDsOfApplicantMethod = getGetContractIDsOfApplicantMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetContractIDsOfApplicantRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetContractIDsOfApplicantResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "getContractIDsOfApplicant"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "getContractIDsOfApplicant"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetContractIDsOfApplicantRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetContractIDsOfApplicantResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getContractIDsOfApplicant"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getContractIDsOfApplicant"))
+              .build();
         }
-     }
-     return getGetContractIDsOfApplicantMethod;
+      }
+    }
+    return getGetContractIDsOfApplicantMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetContractIDsOfProviderRequest,
@@ -1452,22 +1408,21 @@ public final class LogicModuleGrpc {
     if ((getGetContractIDsOfProviderMethod = LogicModuleGrpc.getGetContractIDsOfProviderMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getGetContractIDsOfProviderMethod = LogicModuleGrpc.getGetContractIDsOfProviderMethod) == null) {
-          LogicModuleGrpc.getGetContractIDsOfProviderMethod = getGetContractIDsOfProviderMethod = 
+          LogicModuleGrpc.getGetContractIDsOfProviderMethod = getGetContractIDsOfProviderMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetContractIDsOfProviderRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetContractIDsOfProviderResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "getContractIDsOfProvider"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "getContractIDsOfProvider"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetContractIDsOfProviderRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetContractIDsOfProviderResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getContractIDsOfProvider"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getContractIDsOfProvider"))
+              .build();
         }
-     }
-     return getGetContractIDsOfProviderMethod;
+      }
+    }
+    return getGetContractIDsOfProviderMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetContractsOfApplicantWithProvRequest,
@@ -1484,22 +1439,21 @@ public final class LogicModuleGrpc {
     if ((getGetContractIDsOfApplicantWithProviderMethod = LogicModuleGrpc.getGetContractIDsOfApplicantWithProviderMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getGetContractIDsOfApplicantWithProviderMethod = LogicModuleGrpc.getGetContractIDsOfApplicantWithProviderMethod) == null) {
-          LogicModuleGrpc.getGetContractIDsOfApplicantWithProviderMethod = getGetContractIDsOfApplicantWithProviderMethod = 
+          LogicModuleGrpc.getGetContractIDsOfApplicantWithProviderMethod = getGetContractIDsOfApplicantWithProviderMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetContractsOfApplicantWithProvRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetContractsOfApplicantWithProvResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "getContractIDsOfApplicantWithProvider"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "getContractIDsOfApplicantWithProvider"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetContractsOfApplicantWithProvRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetContractsOfApplicantWithProvResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getContractIDsOfApplicantWithProvider"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getContractIDsOfApplicantWithProvider"))
+              .build();
         }
-     }
-     return getGetContractIDsOfApplicantWithProviderMethod;
+      }
+    }
+    return getGetContractIDsOfApplicantWithProviderMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewDataContractRequest,
@@ -1516,22 +1470,21 @@ public final class LogicModuleGrpc {
     if ((getNewDataContractMethod = LogicModuleGrpc.getNewDataContractMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getNewDataContractMethod = LogicModuleGrpc.getNewDataContractMethod) == null) {
-          LogicModuleGrpc.getNewDataContractMethod = getNewDataContractMethod = 
+          LogicModuleGrpc.getNewDataContractMethod = getNewDataContractMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewDataContractRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewDataContractResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "newDataContract"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "newDataContract"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewDataContractRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewDataContractResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("newDataContract"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("newDataContract"))
+              .build();
         }
-     }
-     return getNewDataContractMethod;
+      }
+    }
+    return getNewDataContractMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterToPublicDataContractRequest,
@@ -1548,22 +1501,21 @@ public final class LogicModuleGrpc {
     if ((getRegisterToPublicDataContractMethod = LogicModuleGrpc.getRegisterToPublicDataContractMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getRegisterToPublicDataContractMethod = LogicModuleGrpc.getRegisterToPublicDataContractMethod) == null) {
-          LogicModuleGrpc.getRegisterToPublicDataContractMethod = getRegisterToPublicDataContractMethod = 
+          LogicModuleGrpc.getRegisterToPublicDataContractMethod = getRegisterToPublicDataContractMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterToPublicDataContractRequest, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "registerToPublicDataContract"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "registerToPublicDataContract"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterToPublicDataContractRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("registerToPublicDataContract"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("registerToPublicDataContract"))
+              .build();
         }
-     }
-     return getRegisterToPublicDataContractMethod;
+      }
+    }
+    return getRegisterToPublicDataContractMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetDataContractIDsOfApplicantRequest,
@@ -1580,22 +1532,21 @@ public final class LogicModuleGrpc {
     if ((getGetDataContractIDsOfApplicantMethod = LogicModuleGrpc.getGetDataContractIDsOfApplicantMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getGetDataContractIDsOfApplicantMethod = LogicModuleGrpc.getGetDataContractIDsOfApplicantMethod) == null) {
-          LogicModuleGrpc.getGetDataContractIDsOfApplicantMethod = getGetDataContractIDsOfApplicantMethod = 
+          LogicModuleGrpc.getGetDataContractIDsOfApplicantMethod = getGetDataContractIDsOfApplicantMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetDataContractIDsOfApplicantRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetDataContractIDsOfApplicantResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "getDataContractIDsOfApplicant"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "getDataContractIDsOfApplicant"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetDataContractIDsOfApplicantRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetDataContractIDsOfApplicantResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getDataContractIDsOfApplicant"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getDataContractIDsOfApplicant"))
+              .build();
         }
-     }
-     return getGetDataContractIDsOfApplicantMethod;
+      }
+    }
+    return getGetDataContractIDsOfApplicantMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetDataContractIDsOfProviderRequest,
@@ -1612,22 +1563,21 @@ public final class LogicModuleGrpc {
     if ((getGetDataContractIDsOfProviderMethod = LogicModuleGrpc.getGetDataContractIDsOfProviderMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getGetDataContractIDsOfProviderMethod = LogicModuleGrpc.getGetDataContractIDsOfProviderMethod) == null) {
-          LogicModuleGrpc.getGetDataContractIDsOfProviderMethod = getGetDataContractIDsOfProviderMethod = 
+          LogicModuleGrpc.getGetDataContractIDsOfProviderMethod = getGetDataContractIDsOfProviderMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetDataContractIDsOfProviderRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetDataContractIDsOfProviderResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "getDataContractIDsOfProvider"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "getDataContractIDsOfProvider"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetDataContractIDsOfProviderRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetDataContractIDsOfProviderResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getDataContractIDsOfProvider"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getDataContractIDsOfProvider"))
+              .build();
         }
-     }
-     return getGetDataContractIDsOfProviderMethod;
+      }
+    }
+    return getGetDataContractIDsOfProviderMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetDataContractInfoOfApplicantWithProvRequest,
@@ -1644,22 +1594,21 @@ public final class LogicModuleGrpc {
     if ((getGetDataContractInfoOfApplicantWithProviderMethod = LogicModuleGrpc.getGetDataContractInfoOfApplicantWithProviderMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getGetDataContractInfoOfApplicantWithProviderMethod = LogicModuleGrpc.getGetDataContractInfoOfApplicantWithProviderMethod) == null) {
-          LogicModuleGrpc.getGetDataContractInfoOfApplicantWithProviderMethod = getGetDataContractInfoOfApplicantWithProviderMethod = 
+          LogicModuleGrpc.getGetDataContractInfoOfApplicantWithProviderMethod = getGetDataContractInfoOfApplicantWithProviderMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetDataContractInfoOfApplicantWithProvRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetDataContractInfoOfApplicantWithProvResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "getDataContractInfoOfApplicantWithProvider"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "getDataContractInfoOfApplicantWithProvider"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetDataContractInfoOfApplicantWithProvRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetDataContractInfoOfApplicantWithProvResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getDataContractInfoOfApplicantWithProvider"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getDataContractInfoOfApplicantWithProvider"))
+              .build();
         }
-     }
-     return getGetDataContractInfoOfApplicantWithProviderMethod;
+      }
+    }
+    return getGetDataContractInfoOfApplicantWithProviderMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewInterfaceRequest,
@@ -1676,22 +1625,21 @@ public final class LogicModuleGrpc {
     if ((getNewInterfaceMethod = LogicModuleGrpc.getNewInterfaceMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getNewInterfaceMethod = LogicModuleGrpc.getNewInterfaceMethod) == null) {
-          LogicModuleGrpc.getNewInterfaceMethod = getNewInterfaceMethod = 
+          LogicModuleGrpc.getNewInterfaceMethod = getNewInterfaceMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewInterfaceRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewInterfaceResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "newInterface"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "newInterface"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewInterfaceRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewInterfaceResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("newInterface"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("newInterface"))
+              .build();
         }
-     }
-     return getNewInterfaceMethod;
+      }
+    }
+    return getNewInterfaceMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetInterfaceInfoRequest,
@@ -1708,22 +1656,21 @@ public final class LogicModuleGrpc {
     if ((getGetInterfaceInfoMethod = LogicModuleGrpc.getGetInterfaceInfoMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getGetInterfaceInfoMethod = LogicModuleGrpc.getGetInterfaceInfoMethod) == null) {
-          LogicModuleGrpc.getGetInterfaceInfoMethod = getGetInterfaceInfoMethod = 
+          LogicModuleGrpc.getGetInterfaceInfoMethod = getGetInterfaceInfoMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetInterfaceInfoRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetInterfaceInfoResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "getInterfaceInfo"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "getInterfaceInfo"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetInterfaceInfoRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetInterfaceInfoResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getInterfaceInfo"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getInterfaceInfo"))
+              .build();
         }
-     }
-     return getGetInterfaceInfoMethod;
+      }
+    }
+    return getGetInterfaceInfoMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RemoveInterfaceRequest,
@@ -1740,22 +1687,21 @@ public final class LogicModuleGrpc {
     if ((getRemoveInterfaceMethod = LogicModuleGrpc.getRemoveInterfaceMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getRemoveInterfaceMethod = LogicModuleGrpc.getRemoveInterfaceMethod) == null) {
-          LogicModuleGrpc.getRemoveInterfaceMethod = getRemoveInterfaceMethod = 
+          LogicModuleGrpc.getRemoveInterfaceMethod = getRemoveInterfaceMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RemoveInterfaceRequest, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "removeInterface"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "removeInterface"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RemoveInterfaceRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("removeInterface"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("removeInterface"))
+              .build();
         }
-     }
-     return getRemoveInterfaceMethod;
+      }
+    }
+    return getRemoveInterfaceMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentsInfoRequest,
@@ -1772,22 +1718,21 @@ public final class LogicModuleGrpc {
     if ((getGetExecutionEnvironmentsInfoMethod = LogicModuleGrpc.getGetExecutionEnvironmentsInfoMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getGetExecutionEnvironmentsInfoMethod = LogicModuleGrpc.getGetExecutionEnvironmentsInfoMethod) == null) {
-          LogicModuleGrpc.getGetExecutionEnvironmentsInfoMethod = getGetExecutionEnvironmentsInfoMethod = 
+          LogicModuleGrpc.getGetExecutionEnvironmentsInfoMethod = getGetExecutionEnvironmentsInfoMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentsInfoRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentsInfoResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "getExecutionEnvironmentsInfo"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "getExecutionEnvironmentsInfo"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentsInfoRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentsInfoResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getExecutionEnvironmentsInfo"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getExecutionEnvironmentsInfo"))
+              .build();
         }
-     }
-     return getGetExecutionEnvironmentsInfoMethod;
+      }
+    }
+    return getGetExecutionEnvironmentsInfoMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentsNamesRequest,
@@ -1804,22 +1749,21 @@ public final class LogicModuleGrpc {
     if ((getGetExecutionEnvironmentsNamesMethod = LogicModuleGrpc.getGetExecutionEnvironmentsNamesMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getGetExecutionEnvironmentsNamesMethod = LogicModuleGrpc.getGetExecutionEnvironmentsNamesMethod) == null) {
-          LogicModuleGrpc.getGetExecutionEnvironmentsNamesMethod = getGetExecutionEnvironmentsNamesMethod = 
+          LogicModuleGrpc.getGetExecutionEnvironmentsNamesMethod = getGetExecutionEnvironmentsNamesMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentsNamesRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentsNamesResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "getExecutionEnvironmentsNames"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "getExecutionEnvironmentsNames"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentsNamesRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentsNamesResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getExecutionEnvironmentsNames"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getExecutionEnvironmentsNames"))
+              .build();
         }
-     }
-     return getGetExecutionEnvironmentsNamesMethod;
+      }
+    }
+    return getGetExecutionEnvironmentsNamesMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentForDSRequest,
@@ -1836,22 +1780,21 @@ public final class LogicModuleGrpc {
     if ((getGetExecutionEnvironmentForDSMethod = LogicModuleGrpc.getGetExecutionEnvironmentForDSMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getGetExecutionEnvironmentForDSMethod = LogicModuleGrpc.getGetExecutionEnvironmentForDSMethod) == null) {
-          LogicModuleGrpc.getGetExecutionEnvironmentForDSMethod = getGetExecutionEnvironmentForDSMethod = 
+          LogicModuleGrpc.getGetExecutionEnvironmentForDSMethod = getGetExecutionEnvironmentForDSMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentForDSRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentForDSResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "getExecutionEnvironmentForDS"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "getExecutionEnvironmentForDS"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentForDSRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentForDSResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getExecutionEnvironmentForDS"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getExecutionEnvironmentForDS"))
+              .build();
         }
-     }
-     return getGetExecutionEnvironmentForDSMethod;
+      }
+    }
+    return getGetExecutionEnvironmentForDSMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationForDSRequest,
@@ -1868,22 +1811,21 @@ public final class LogicModuleGrpc {
     if ((getGetStorageLocationForDSMethod = LogicModuleGrpc.getGetStorageLocationForDSMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getGetStorageLocationForDSMethod = LogicModuleGrpc.getGetStorageLocationForDSMethod) == null) {
-          LogicModuleGrpc.getGetStorageLocationForDSMethod = getGetStorageLocationForDSMethod = 
+          LogicModuleGrpc.getGetStorageLocationForDSMethod = getGetStorageLocationForDSMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationForDSRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationForDSResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "getStorageLocationForDS"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "getStorageLocationForDS"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationForDSRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationForDSResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getStorageLocationForDS"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getStorageLocationForDS"))
+              .build();
         }
-     }
-     return getGetStorageLocationForDSMethod;
+      }
+    }
+    return getGetStorageLocationForDSMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetObjectInfoRequest,
@@ -1900,22 +1842,21 @@ public final class LogicModuleGrpc {
     if ((getGetObjectInfoMethod = LogicModuleGrpc.getGetObjectInfoMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getGetObjectInfoMethod = LogicModuleGrpc.getGetObjectInfoMethod) == null) {
-          LogicModuleGrpc.getGetObjectInfoMethod = getGetObjectInfoMethod = 
+          LogicModuleGrpc.getGetObjectInfoMethod = getGetObjectInfoMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetObjectInfoRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetObjectInfoResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "getObjectInfo"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "getObjectInfo"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetObjectInfoRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetObjectInfoResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getObjectInfo"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getObjectInfo"))
+              .build();
         }
-     }
-     return getGetObjectInfoMethod;
+      }
+    }
+    return getGetObjectInfoMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetObjectFromAliasRequest,
@@ -1932,22 +1873,21 @@ public final class LogicModuleGrpc {
     if ((getGetObjectFromAliasMethod = LogicModuleGrpc.getGetObjectFromAliasMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getGetObjectFromAliasMethod = LogicModuleGrpc.getGetObjectFromAliasMethod) == null) {
-          LogicModuleGrpc.getGetObjectFromAliasMethod = getGetObjectFromAliasMethod = 
+          LogicModuleGrpc.getGetObjectFromAliasMethod = getGetObjectFromAliasMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetObjectFromAliasRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetObjectFromAliasResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "getObjectFromAlias"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "getObjectFromAlias"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetObjectFromAliasRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetObjectFromAliasResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getObjectFromAlias"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getObjectFromAlias"))
+              .build();
         }
-     }
-     return getGetObjectFromAliasMethod;
+      }
+    }
+    return getGetObjectFromAliasMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.DeleteAliasRequest,
@@ -1964,22 +1904,21 @@ public final class LogicModuleGrpc {
     if ((getDeleteAliasMethod = LogicModuleGrpc.getDeleteAliasMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getDeleteAliasMethod = LogicModuleGrpc.getDeleteAliasMethod) == null) {
-          LogicModuleGrpc.getDeleteAliasMethod = getDeleteAliasMethod = 
+          LogicModuleGrpc.getDeleteAliasMethod = getDeleteAliasMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.DeleteAliasRequest, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "deleteAlias"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "deleteAlias"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.DeleteAliasRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("deleteAlias"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("deleteAlias"))
+              .build();
         }
-     }
-     return getDeleteAliasMethod;
+      }
+    }
+    return getDeleteAliasMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetObjectsMetaDataInfoOfClassForNMRequest,
@@ -1996,22 +1935,21 @@ public final class LogicModuleGrpc {
     if ((getGetObjectsMetaDataInfoOfClassForNMMethod = LogicModuleGrpc.getGetObjectsMetaDataInfoOfClassForNMMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getGetObjectsMetaDataInfoOfClassForNMMethod = LogicModuleGrpc.getGetObjectsMetaDataInfoOfClassForNMMethod) == null) {
-          LogicModuleGrpc.getGetObjectsMetaDataInfoOfClassForNMMethod = getGetObjectsMetaDataInfoOfClassForNMMethod = 
+          LogicModuleGrpc.getGetObjectsMetaDataInfoOfClassForNMMethod = getGetObjectsMetaDataInfoOfClassForNMMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetObjectsMetaDataInfoOfClassForNMRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetObjectsMetaDataInfoOfClassForNMResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "getObjectsMetaDataInfoOfClassForNM"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "getObjectsMetaDataInfoOfClassForNM"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetObjectsMetaDataInfoOfClassForNMRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetObjectsMetaDataInfoOfClassForNMResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getObjectsMetaDataInfoOfClassForNM"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getObjectsMetaDataInfoOfClassForNM"))
+              .build();
         }
-     }
-     return getGetObjectsMetaDataInfoOfClassForNMMethod;
+      }
+    }
+    return getGetObjectsMetaDataInfoOfClassForNMMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.AddAliasRequest,
@@ -2028,22 +1966,21 @@ public final class LogicModuleGrpc {
     if ((getAddAliasMethod = LogicModuleGrpc.getAddAliasMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getAddAliasMethod = LogicModuleGrpc.getAddAliasMethod) == null) {
-          LogicModuleGrpc.getAddAliasMethod = getAddAliasMethod = 
+          LogicModuleGrpc.getAddAliasMethod = getAddAliasMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.AddAliasRequest, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "addAlias"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "addAlias"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.AddAliasRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("addAlias"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("addAlias"))
+              .build();
         }
-     }
-     return getAddAliasMethod;
+      }
+    }
+    return getAddAliasMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectForGCRequest,
@@ -2060,22 +1997,21 @@ public final class LogicModuleGrpc {
     if ((getRegisterObjectFromGCMethod = LogicModuleGrpc.getRegisterObjectFromGCMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getRegisterObjectFromGCMethod = LogicModuleGrpc.getRegisterObjectFromGCMethod) == null) {
-          LogicModuleGrpc.getRegisterObjectFromGCMethod = getRegisterObjectFromGCMethod = 
+          LogicModuleGrpc.getRegisterObjectFromGCMethod = getRegisterObjectFromGCMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectForGCRequest, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "registerObjectFromGC"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "registerObjectFromGC"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectForGCRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("registerObjectFromGC"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("registerObjectFromGC"))
+              .build();
         }
-     }
-     return getRegisterObjectFromGCMethod;
+      }
+    }
+    return getRegisterObjectFromGCMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.UnregisterObjectsRequest,
@@ -2092,22 +2028,21 @@ public final class LogicModuleGrpc {
     if ((getUnregisterObjectsMethod = LogicModuleGrpc.getUnregisterObjectsMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getUnregisterObjectsMethod = LogicModuleGrpc.getUnregisterObjectsMethod) == null) {
-          LogicModuleGrpc.getUnregisterObjectsMethod = getUnregisterObjectsMethod = 
+          LogicModuleGrpc.getUnregisterObjectsMethod = getUnregisterObjectsMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.UnregisterObjectsRequest, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "unregisterObjects"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "unregisterObjects"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.UnregisterObjectsRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("unregisterObjects"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("unregisterObjects"))
+              .build();
         }
-     }
-     return getUnregisterObjectsMethod;
+      }
+    }
+    return getUnregisterObjectsMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectRequest,
@@ -2124,22 +2059,21 @@ public final class LogicModuleGrpc {
     if ((getRegisterObjectMethod = LogicModuleGrpc.getRegisterObjectMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getRegisterObjectMethod = LogicModuleGrpc.getRegisterObjectMethod) == null) {
-          LogicModuleGrpc.getRegisterObjectMethod = getRegisterObjectMethod = 
+          LogicModuleGrpc.getRegisterObjectMethod = getRegisterObjectMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectRequest, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "registerObject"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "registerObject"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("registerObject"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("registerObject"))
+              .build();
         }
-     }
-     return getRegisterObjectMethod;
+      }
+    }
+    return getRegisterObjectMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.SetDataSetIDFromGarbageCollectorRequest,
@@ -2156,22 +2090,21 @@ public final class LogicModuleGrpc {
     if ((getSetDataSetIDFromGarbageCollectorMethod = LogicModuleGrpc.getSetDataSetIDFromGarbageCollectorMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getSetDataSetIDFromGarbageCollectorMethod = LogicModuleGrpc.getSetDataSetIDFromGarbageCollectorMethod) == null) {
-          LogicModuleGrpc.getSetDataSetIDFromGarbageCollectorMethod = getSetDataSetIDFromGarbageCollectorMethod = 
+          LogicModuleGrpc.getSetDataSetIDFromGarbageCollectorMethod = getSetDataSetIDFromGarbageCollectorMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.SetDataSetIDFromGarbageCollectorRequest, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "setDataSetIDFromGarbageCollector"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "setDataSetIDFromGarbageCollector"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.SetDataSetIDFromGarbageCollectorRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("setDataSetIDFromGarbageCollector"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("setDataSetIDFromGarbageCollector"))
+              .build();
         }
-     }
-     return getSetDataSetIDFromGarbageCollectorMethod;
+      }
+    }
+    return getSetDataSetIDFromGarbageCollectorMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.SetDataSetIDRequest,
@@ -2188,22 +2121,21 @@ public final class LogicModuleGrpc {
     if ((getSetDataSetIDMethod = LogicModuleGrpc.getSetDataSetIDMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getSetDataSetIDMethod = LogicModuleGrpc.getSetDataSetIDMethod) == null) {
-          LogicModuleGrpc.getSetDataSetIDMethod = getSetDataSetIDMethod = 
+          LogicModuleGrpc.getSetDataSetIDMethod = getSetDataSetIDMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.SetDataSetIDRequest, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "setDataSetID"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "setDataSetID"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.SetDataSetIDRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("setDataSetID"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("setDataSetID"))
+              .build();
         }
-     }
-     return getSetDataSetIDMethod;
+      }
+    }
+    return getSetDataSetIDMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewVersionRequest,
@@ -2220,22 +2152,21 @@ public final class LogicModuleGrpc {
     if ((getNewVersionMethod = LogicModuleGrpc.getNewVersionMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getNewVersionMethod = LogicModuleGrpc.getNewVersionMethod) == null) {
-          LogicModuleGrpc.getNewVersionMethod = getNewVersionMethod = 
+          LogicModuleGrpc.getNewVersionMethod = getNewVersionMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewVersionRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewVersionResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "newVersion"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "newVersion"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewVersionRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewVersionResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("newVersion"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("newVersion"))
+              .build();
         }
-     }
-     return getNewVersionMethod;
+      }
+    }
+    return getNewVersionMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ConsolidateVersionRequest,
@@ -2252,22 +2183,21 @@ public final class LogicModuleGrpc {
     if ((getConsolidateVersionMethod = LogicModuleGrpc.getConsolidateVersionMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getConsolidateVersionMethod = LogicModuleGrpc.getConsolidateVersionMethod) == null) {
-          LogicModuleGrpc.getConsolidateVersionMethod = getConsolidateVersionMethod = 
+          LogicModuleGrpc.getConsolidateVersionMethod = getConsolidateVersionMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ConsolidateVersionRequest, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "consolidateVersion"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "consolidateVersion"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ConsolidateVersionRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("consolidateVersion"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("consolidateVersion"))
+              .build();
         }
-     }
-     return getConsolidateVersionMethod;
+      }
+    }
+    return getConsolidateVersionMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewReplicaRequest,
@@ -2284,22 +2214,21 @@ public final class LogicModuleGrpc {
     if ((getNewReplicaMethod = LogicModuleGrpc.getNewReplicaMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getNewReplicaMethod = LogicModuleGrpc.getNewReplicaMethod) == null) {
-          LogicModuleGrpc.getNewReplicaMethod = getNewReplicaMethod = 
+          LogicModuleGrpc.getNewReplicaMethod = getNewReplicaMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewReplicaRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewReplicaResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "newReplica"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "newReplica"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewReplicaRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewReplicaResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("newReplica"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("newReplica"))
+              .build();
         }
-     }
-     return getNewReplicaMethod;
+      }
+    }
+    return getNewReplicaMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.MoveObjectRequest,
@@ -2316,22 +2245,21 @@ public final class LogicModuleGrpc {
     if ((getMoveObjectMethod = LogicModuleGrpc.getMoveObjectMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getMoveObjectMethod = LogicModuleGrpc.getMoveObjectMethod) == null) {
-          LogicModuleGrpc.getMoveObjectMethod = getMoveObjectMethod = 
+          LogicModuleGrpc.getMoveObjectMethod = getMoveObjectMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.MoveObjectRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.MoveObjectResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "moveObject"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "moveObject"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.MoveObjectRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.MoveObjectResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("moveObject"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("moveObject"))
+              .build();
         }
-     }
-     return getMoveObjectMethod;
+      }
+    }
+    return getMoveObjectMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.SetObjectReadOnlyRequest,
@@ -2348,22 +2276,21 @@ public final class LogicModuleGrpc {
     if ((getSetObjectReadOnlyMethod = LogicModuleGrpc.getSetObjectReadOnlyMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getSetObjectReadOnlyMethod = LogicModuleGrpc.getSetObjectReadOnlyMethod) == null) {
-          LogicModuleGrpc.getSetObjectReadOnlyMethod = getSetObjectReadOnlyMethod = 
+          LogicModuleGrpc.getSetObjectReadOnlyMethod = getSetObjectReadOnlyMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.SetObjectReadOnlyRequest, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "setObjectReadOnly"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "setObjectReadOnly"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.SetObjectReadOnlyRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("setObjectReadOnly"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("setObjectReadOnly"))
+              .build();
         }
-     }
-     return getSetObjectReadOnlyMethod;
+      }
+    }
+    return getSetObjectReadOnlyMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.SetObjectReadWriteRequest,
@@ -2380,22 +2307,21 @@ public final class LogicModuleGrpc {
     if ((getSetObjectReadWriteMethod = LogicModuleGrpc.getSetObjectReadWriteMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getSetObjectReadWriteMethod = LogicModuleGrpc.getSetObjectReadWriteMethod) == null) {
-          LogicModuleGrpc.getSetObjectReadWriteMethod = getSetObjectReadWriteMethod = 
+          LogicModuleGrpc.getSetObjectReadWriteMethod = getSetObjectReadWriteMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.SetObjectReadWriteRequest, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "setObjectReadWrite"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "setObjectReadWrite"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.SetObjectReadWriteRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("setObjectReadWrite"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("setObjectReadWrite"))
+              .build();
         }
-     }
-     return getSetObjectReadWriteMethod;
+      }
+    }
+    return getSetObjectReadWriteMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetMetadataByOIDRequest,
@@ -2412,22 +2338,21 @@ public final class LogicModuleGrpc {
     if ((getGetMetadataByOIDMethod = LogicModuleGrpc.getGetMetadataByOIDMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getGetMetadataByOIDMethod = LogicModuleGrpc.getGetMetadataByOIDMethod) == null) {
-          LogicModuleGrpc.getGetMetadataByOIDMethod = getGetMetadataByOIDMethod = 
+          LogicModuleGrpc.getGetMetadataByOIDMethod = getGetMetadataByOIDMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetMetadataByOIDRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetMetadataByOIDResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "getMetadataByOID"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "getMetadataByOID"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetMetadataByOIDRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetMetadataByOIDResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getMetadataByOID"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getMetadataByOID"))
+              .build();
         }
-     }
-     return getGetMetadataByOIDMethod;
+      }
+    }
+    return getGetMetadataByOIDMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ExecuteImplementationRequest,
@@ -2444,22 +2369,21 @@ public final class LogicModuleGrpc {
     if ((getExecuteImplementationMethod = LogicModuleGrpc.getExecuteImplementationMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getExecuteImplementationMethod = LogicModuleGrpc.getExecuteImplementationMethod) == null) {
-          LogicModuleGrpc.getExecuteImplementationMethod = getExecuteImplementationMethod = 
+          LogicModuleGrpc.getExecuteImplementationMethod = getExecuteImplementationMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ExecuteImplementationRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ExecuteImplementationResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "executeImplementation"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "executeImplementation"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ExecuteImplementationRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ExecuteImplementationResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("executeImplementation"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("executeImplementation"))
+              .build();
         }
-     }
-     return getExecuteImplementationMethod;
+      }
+    }
+    return getExecuteImplementationMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ExecuteMethodOnTargetRequest,
@@ -2476,22 +2400,21 @@ public final class LogicModuleGrpc {
     if ((getExecuteMethodOnTargetMethod = LogicModuleGrpc.getExecuteMethodOnTargetMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getExecuteMethodOnTargetMethod = LogicModuleGrpc.getExecuteMethodOnTargetMethod) == null) {
-          LogicModuleGrpc.getExecuteMethodOnTargetMethod = getExecuteMethodOnTargetMethod = 
+          LogicModuleGrpc.getExecuteMethodOnTargetMethod = getExecuteMethodOnTargetMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ExecuteMethodOnTargetRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ExecuteMethodOnTargetResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "executeMethodOnTarget"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "executeMethodOnTarget"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ExecuteMethodOnTargetRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ExecuteMethodOnTargetResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("executeMethodOnTarget"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("executeMethodOnTarget"))
+              .build();
         }
-     }
-     return getExecuteMethodOnTargetMethod;
+      }
+    }
+    return getExecuteMethodOnTargetMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.SynchronizeFederatedObjectRequest,
@@ -2508,22 +2431,21 @@ public final class LogicModuleGrpc {
     if ((getSynchronizeFederatedObjectMethod = LogicModuleGrpc.getSynchronizeFederatedObjectMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getSynchronizeFederatedObjectMethod = LogicModuleGrpc.getSynchronizeFederatedObjectMethod) == null) {
-          LogicModuleGrpc.getSynchronizeFederatedObjectMethod = getSynchronizeFederatedObjectMethod = 
+          LogicModuleGrpc.getSynchronizeFederatedObjectMethod = getSynchronizeFederatedObjectMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.SynchronizeFederatedObjectRequest, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "synchronizeFederatedObject"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "synchronizeFederatedObject"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.SynchronizeFederatedObjectRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("synchronizeFederatedObject"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("synchronizeFederatedObject"))
+              .build();
         }
-     }
-     return getSynchronizeFederatedObjectMethod;
+      }
+    }
+    return getSynchronizeFederatedObjectMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage,
@@ -2540,22 +2462,21 @@ public final class LogicModuleGrpc {
     if ((getGetDataClayIDMethod = LogicModuleGrpc.getGetDataClayIDMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getGetDataClayIDMethod = LogicModuleGrpc.getGetDataClayIDMethod) == null) {
-          LogicModuleGrpc.getGetDataClayIDMethod = getGetDataClayIDMethod = 
+          LogicModuleGrpc.getGetDataClayIDMethod = getGetDataClayIDMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetDataClayIDResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "getDataClayID"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "getDataClayID"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetDataClayIDResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getDataClayID"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getDataClayID"))
+              .build();
         }
-     }
-     return getGetDataClayIDMethod;
+      }
+    }
+    return getGetDataClayIDMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterExternalDataClayRequest,
@@ -2572,22 +2493,21 @@ public final class LogicModuleGrpc {
     if ((getRegisterExternalDataClayMethod = LogicModuleGrpc.getRegisterExternalDataClayMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getRegisterExternalDataClayMethod = LogicModuleGrpc.getRegisterExternalDataClayMethod) == null) {
-          LogicModuleGrpc.getRegisterExternalDataClayMethod = getRegisterExternalDataClayMethod = 
+          LogicModuleGrpc.getRegisterExternalDataClayMethod = getRegisterExternalDataClayMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterExternalDataClayRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterExternalDataClayResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "registerExternalDataClay"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "registerExternalDataClay"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterExternalDataClayRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterExternalDataClayResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("registerExternalDataClay"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("registerExternalDataClay"))
+              .build();
         }
-     }
-     return getRegisterExternalDataClayMethod;
+      }
+    }
+    return getRegisterExternalDataClayMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterExternalDataClayOverrideAuthorityRequest,
@@ -2604,22 +2524,21 @@ public final class LogicModuleGrpc {
     if ((getRegisterExternalDataClayOverrideAuthorityMethod = LogicModuleGrpc.getRegisterExternalDataClayOverrideAuthorityMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getRegisterExternalDataClayOverrideAuthorityMethod = LogicModuleGrpc.getRegisterExternalDataClayOverrideAuthorityMethod) == null) {
-          LogicModuleGrpc.getRegisterExternalDataClayOverrideAuthorityMethod = getRegisterExternalDataClayOverrideAuthorityMethod = 
+          LogicModuleGrpc.getRegisterExternalDataClayOverrideAuthorityMethod = getRegisterExternalDataClayOverrideAuthorityMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterExternalDataClayOverrideAuthorityRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterExternalDataClayResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "registerExternalDataClayOverrideAuthority"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "registerExternalDataClayOverrideAuthority"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterExternalDataClayOverrideAuthorityRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterExternalDataClayResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("registerExternalDataClayOverrideAuthority"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("registerExternalDataClayOverrideAuthority"))
+              .build();
         }
-     }
-     return getRegisterExternalDataClayOverrideAuthorityMethod;
+      }
+    }
+    return getRegisterExternalDataClayOverrideAuthorityMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NotifyRegistrationOfExternalDataClayRequest,
@@ -2636,22 +2555,21 @@ public final class LogicModuleGrpc {
     if ((getNotifyRegistrationOfExternalDataClayMethod = LogicModuleGrpc.getNotifyRegistrationOfExternalDataClayMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getNotifyRegistrationOfExternalDataClayMethod = LogicModuleGrpc.getNotifyRegistrationOfExternalDataClayMethod) == null) {
-          LogicModuleGrpc.getNotifyRegistrationOfExternalDataClayMethod = getNotifyRegistrationOfExternalDataClayMethod = 
+          LogicModuleGrpc.getNotifyRegistrationOfExternalDataClayMethod = getNotifyRegistrationOfExternalDataClayMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NotifyRegistrationOfExternalDataClayRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NotifyRegistrationOfExternalDataClayResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "notifyRegistrationOfExternalDataClay"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "notifyRegistrationOfExternalDataClay"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NotifyRegistrationOfExternalDataClayRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NotifyRegistrationOfExternalDataClayResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("notifyRegistrationOfExternalDataClay"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("notifyRegistrationOfExternalDataClay"))
+              .build();
         }
-     }
-     return getNotifyRegistrationOfExternalDataClayMethod;
+      }
+    }
+    return getNotifyRegistrationOfExternalDataClayMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExtDataClayInfoRequest,
@@ -2668,22 +2586,21 @@ public final class LogicModuleGrpc {
     if ((getGetExternalDataClayInfoMethod = LogicModuleGrpc.getGetExternalDataClayInfoMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getGetExternalDataClayInfoMethod = LogicModuleGrpc.getGetExternalDataClayInfoMethod) == null) {
-          LogicModuleGrpc.getGetExternalDataClayInfoMethod = getGetExternalDataClayInfoMethod = 
+          LogicModuleGrpc.getGetExternalDataClayInfoMethod = getGetExternalDataClayInfoMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExtDataClayInfoRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExtDataClayInfoResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "getExternalDataClayInfo"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "getExternalDataClayInfo"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExtDataClayInfoRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExtDataClayInfoResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getExternalDataClayInfo"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getExternalDataClayInfo"))
+              .build();
         }
-     }
-     return getGetExternalDataClayInfoMethod;
+      }
+    }
+    return getGetExternalDataClayInfoMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExternalDataclayIDRequest,
@@ -2700,22 +2617,21 @@ public final class LogicModuleGrpc {
     if ((getGetExternalDataclayIdMethod = LogicModuleGrpc.getGetExternalDataclayIdMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getGetExternalDataclayIdMethod = LogicModuleGrpc.getGetExternalDataclayIdMethod) == null) {
-          LogicModuleGrpc.getGetExternalDataclayIdMethod = getGetExternalDataclayIdMethod = 
+          LogicModuleGrpc.getGetExternalDataclayIdMethod = getGetExternalDataclayIdMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExternalDataclayIDRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExternalDataclayIDResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "getExternalDataclayId"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "getExternalDataclayId"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExternalDataclayIDRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExternalDataclayIDResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getExternalDataclayId"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getExternalDataclayId"))
+              .build();
         }
-     }
-     return getGetExternalDataclayIdMethod;
+      }
+    }
+    return getGetExternalDataclayIdMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.FederateObjectRequest,
@@ -2732,22 +2648,21 @@ public final class LogicModuleGrpc {
     if ((getFederateObjectMethod = LogicModuleGrpc.getFederateObjectMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getFederateObjectMethod = LogicModuleGrpc.getFederateObjectMethod) == null) {
-          LogicModuleGrpc.getFederateObjectMethod = getFederateObjectMethod = 
+          LogicModuleGrpc.getFederateObjectMethod = getFederateObjectMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.FederateObjectRequest, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "federateObject"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "federateObject"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.FederateObjectRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("federateObject"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("federateObject"))
+              .build();
         }
-     }
-     return getFederateObjectMethod;
+      }
+    }
+    return getFederateObjectMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.UnfederateObjectRequest,
@@ -2764,22 +2679,21 @@ public final class LogicModuleGrpc {
     if ((getUnfederateObjectMethod = LogicModuleGrpc.getUnfederateObjectMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getUnfederateObjectMethod = LogicModuleGrpc.getUnfederateObjectMethod) == null) {
-          LogicModuleGrpc.getUnfederateObjectMethod = getUnfederateObjectMethod = 
+          LogicModuleGrpc.getUnfederateObjectMethod = getUnfederateObjectMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.UnfederateObjectRequest, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "unfederateObject"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "unfederateObject"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.UnfederateObjectRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("unfederateObject"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("unfederateObject"))
+              .build();
         }
-     }
-     return getUnfederateObjectMethod;
+      }
+    }
+    return getUnfederateObjectMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NotifyUnfederatedObjectsRequest,
@@ -2796,22 +2710,21 @@ public final class LogicModuleGrpc {
     if ((getNotifyUnfederatedObjectsMethod = LogicModuleGrpc.getNotifyUnfederatedObjectsMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getNotifyUnfederatedObjectsMethod = LogicModuleGrpc.getNotifyUnfederatedObjectsMethod) == null) {
-          LogicModuleGrpc.getNotifyUnfederatedObjectsMethod = getNotifyUnfederatedObjectsMethod = 
+          LogicModuleGrpc.getNotifyUnfederatedObjectsMethod = getNotifyUnfederatedObjectsMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NotifyUnfederatedObjectsRequest, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "notifyUnfederatedObjects"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "notifyUnfederatedObjects"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NotifyUnfederatedObjectsRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("notifyUnfederatedObjects"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("notifyUnfederatedObjects"))
+              .build();
         }
-     }
-     return getNotifyUnfederatedObjectsMethod;
+      }
+    }
+    return getNotifyUnfederatedObjectsMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NotifyFederatedObjectsRequest,
@@ -2828,22 +2741,21 @@ public final class LogicModuleGrpc {
     if ((getNotifyFederatedObjectsMethod = LogicModuleGrpc.getNotifyFederatedObjectsMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getNotifyFederatedObjectsMethod = LogicModuleGrpc.getNotifyFederatedObjectsMethod) == null) {
-          LogicModuleGrpc.getNotifyFederatedObjectsMethod = getNotifyFederatedObjectsMethod = 
+          LogicModuleGrpc.getNotifyFederatedObjectsMethod = getNotifyFederatedObjectsMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NotifyFederatedObjectsRequest, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "notifyFederatedObjects"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "notifyFederatedObjects"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NotifyFederatedObjectsRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("notifyFederatedObjects"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("notifyFederatedObjects"))
+              .build();
         }
-     }
-     return getNotifyFederatedObjectsMethod;
+      }
+    }
+    return getNotifyFederatedObjectsMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.CheckObjectFederatedWithDataClayInstanceRequest,
@@ -2860,22 +2772,21 @@ public final class LogicModuleGrpc {
     if ((getCheckObjectIsFederatedWithDataClayInstanceMethod = LogicModuleGrpc.getCheckObjectIsFederatedWithDataClayInstanceMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getCheckObjectIsFederatedWithDataClayInstanceMethod = LogicModuleGrpc.getCheckObjectIsFederatedWithDataClayInstanceMethod) == null) {
-          LogicModuleGrpc.getCheckObjectIsFederatedWithDataClayInstanceMethod = getCheckObjectIsFederatedWithDataClayInstanceMethod = 
+          LogicModuleGrpc.getCheckObjectIsFederatedWithDataClayInstanceMethod = getCheckObjectIsFederatedWithDataClayInstanceMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.CheckObjectFederatedWithDataClayInstanceRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.CheckObjectFederatedWithDataClayInstanceResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "checkObjectIsFederatedWithDataClayInstance"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "checkObjectIsFederatedWithDataClayInstance"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.CheckObjectFederatedWithDataClayInstanceRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.CheckObjectFederatedWithDataClayInstanceResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("checkObjectIsFederatedWithDataClayInstance"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("checkObjectIsFederatedWithDataClayInstance"))
+              .build();
         }
-     }
-     return getCheckObjectIsFederatedWithDataClayInstanceMethod;
+      }
+    }
+    return getCheckObjectIsFederatedWithDataClayInstanceMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetDataClaysObjectIsFederatedWithRequest,
@@ -2892,22 +2803,21 @@ public final class LogicModuleGrpc {
     if ((getGetDataClaysObjectIsFederatedWithMethod = LogicModuleGrpc.getGetDataClaysObjectIsFederatedWithMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getGetDataClaysObjectIsFederatedWithMethod = LogicModuleGrpc.getGetDataClaysObjectIsFederatedWithMethod) == null) {
-          LogicModuleGrpc.getGetDataClaysObjectIsFederatedWithMethod = getGetDataClaysObjectIsFederatedWithMethod = 
+          LogicModuleGrpc.getGetDataClaysObjectIsFederatedWithMethod = getGetDataClaysObjectIsFederatedWithMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetDataClaysObjectIsFederatedWithRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetDataClaysObjectIsFederatedWithResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "getDataClaysObjectIsFederatedWith"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "getDataClaysObjectIsFederatedWith"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetDataClaysObjectIsFederatedWithRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetDataClaysObjectIsFederatedWithResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getDataClaysObjectIsFederatedWith"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getDataClaysObjectIsFederatedWith"))
+              .build();
         }
-     }
-     return getGetDataClaysObjectIsFederatedWithMethod;
+      }
+    }
+    return getGetDataClaysObjectIsFederatedWithMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExternalSourceDataClayOfObjectRequest,
@@ -2924,22 +2834,21 @@ public final class LogicModuleGrpc {
     if ((getGetExternalSourceDataClayOfObjectMethod = LogicModuleGrpc.getGetExternalSourceDataClayOfObjectMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getGetExternalSourceDataClayOfObjectMethod = LogicModuleGrpc.getGetExternalSourceDataClayOfObjectMethod) == null) {
-          LogicModuleGrpc.getGetExternalSourceDataClayOfObjectMethod = getGetExternalSourceDataClayOfObjectMethod = 
+          LogicModuleGrpc.getGetExternalSourceDataClayOfObjectMethod = getGetExternalSourceDataClayOfObjectMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExternalSourceDataClayOfObjectRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExternalSourceDataClayOfObjectResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "getExternalSourceDataClayOfObject"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "getExternalSourceDataClayOfObject"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExternalSourceDataClayOfObjectRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExternalSourceDataClayOfObjectResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getExternalSourceDataClayOfObject"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getExternalSourceDataClayOfObject"))
+              .build();
         }
-     }
-     return getGetExternalSourceDataClayOfObjectMethod;
+      }
+    }
+    return getGetExternalSourceDataClayOfObjectMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.UnfederateAllObjectsRequest,
@@ -2956,22 +2865,21 @@ public final class LogicModuleGrpc {
     if ((getUnfederateAllObjectsMethod = LogicModuleGrpc.getUnfederateAllObjectsMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getUnfederateAllObjectsMethod = LogicModuleGrpc.getUnfederateAllObjectsMethod) == null) {
-          LogicModuleGrpc.getUnfederateAllObjectsMethod = getUnfederateAllObjectsMethod = 
+          LogicModuleGrpc.getUnfederateAllObjectsMethod = getUnfederateAllObjectsMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.UnfederateAllObjectsRequest, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "unfederateAllObjects"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "unfederateAllObjects"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.UnfederateAllObjectsRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("unfederateAllObjects"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("unfederateAllObjects"))
+              .build();
         }
-     }
-     return getUnfederateAllObjectsMethod;
+      }
+    }
+    return getUnfederateAllObjectsMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.UnfederateAllObjectsWithAllDCsRequest,
@@ -2988,22 +2896,21 @@ public final class LogicModuleGrpc {
     if ((getUnfederateAllObjectsWithAllDCsMethod = LogicModuleGrpc.getUnfederateAllObjectsWithAllDCsMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getUnfederateAllObjectsWithAllDCsMethod = LogicModuleGrpc.getUnfederateAllObjectsWithAllDCsMethod) == null) {
-          LogicModuleGrpc.getUnfederateAllObjectsWithAllDCsMethod = getUnfederateAllObjectsWithAllDCsMethod = 
+          LogicModuleGrpc.getUnfederateAllObjectsWithAllDCsMethod = getUnfederateAllObjectsWithAllDCsMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.UnfederateAllObjectsWithAllDCsRequest, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "unfederateAllObjectsWithAllDCs"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "unfederateAllObjectsWithAllDCs"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.UnfederateAllObjectsWithAllDCsRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("unfederateAllObjectsWithAllDCs"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("unfederateAllObjectsWithAllDCs"))
+              .build();
         }
-     }
-     return getUnfederateAllObjectsWithAllDCsMethod;
+      }
+    }
+    return getUnfederateAllObjectsWithAllDCsMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.UnfederateObjectWithAllDCsRequest,
@@ -3020,22 +2927,21 @@ public final class LogicModuleGrpc {
     if ((getUnfederateObjectWithAllDCsMethod = LogicModuleGrpc.getUnfederateObjectWithAllDCsMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getUnfederateObjectWithAllDCsMethod = LogicModuleGrpc.getUnfederateObjectWithAllDCsMethod) == null) {
-          LogicModuleGrpc.getUnfederateObjectWithAllDCsMethod = getUnfederateObjectWithAllDCsMethod = 
+          LogicModuleGrpc.getUnfederateObjectWithAllDCsMethod = getUnfederateObjectWithAllDCsMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.UnfederateObjectWithAllDCsRequest, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "unfederateObjectWithAllDCs"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "unfederateObjectWithAllDCs"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.UnfederateObjectWithAllDCsRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("unfederateObjectWithAllDCs"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("unfederateObjectWithAllDCs"))
+              .build();
         }
-     }
-     return getUnfederateObjectWithAllDCsMethod;
+      }
+    }
+    return getUnfederateObjectWithAllDCsMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.MigrateFederatedObjectsRequest,
@@ -3052,22 +2958,21 @@ public final class LogicModuleGrpc {
     if ((getMigrateFederatedObjectsMethod = LogicModuleGrpc.getMigrateFederatedObjectsMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getMigrateFederatedObjectsMethod = LogicModuleGrpc.getMigrateFederatedObjectsMethod) == null) {
-          LogicModuleGrpc.getMigrateFederatedObjectsMethod = getMigrateFederatedObjectsMethod = 
+          LogicModuleGrpc.getMigrateFederatedObjectsMethod = getMigrateFederatedObjectsMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.MigrateFederatedObjectsRequest, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "migrateFederatedObjects"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "migrateFederatedObjects"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.MigrateFederatedObjectsRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("migrateFederatedObjects"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("migrateFederatedObjects"))
+              .build();
         }
-     }
-     return getMigrateFederatedObjectsMethod;
+      }
+    }
+    return getMigrateFederatedObjectsMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.FederateAllObjectsRequest,
@@ -3084,22 +2989,21 @@ public final class LogicModuleGrpc {
     if ((getFederateAllObjectsMethod = LogicModuleGrpc.getFederateAllObjectsMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getFederateAllObjectsMethod = LogicModuleGrpc.getFederateAllObjectsMethod) == null) {
-          LogicModuleGrpc.getFederateAllObjectsMethod = getFederateAllObjectsMethod = 
+          LogicModuleGrpc.getFederateAllObjectsMethod = getFederateAllObjectsMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.FederateAllObjectsRequest, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "federateAllObjects"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "federateAllObjects"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.FederateAllObjectsRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("federateAllObjects"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("federateAllObjects"))
+              .build();
         }
-     }
-     return getFederateAllObjectsMethod;
+      }
+    }
+    return getFederateAllObjectsMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStubsRequest,
@@ -3116,22 +3020,21 @@ public final class LogicModuleGrpc {
     if ((getGetStubsMethod = LogicModuleGrpc.getGetStubsMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getGetStubsMethod = LogicModuleGrpc.getGetStubsMethod) == null) {
-          LogicModuleGrpc.getGetStubsMethod = getGetStubsMethod = 
+          LogicModuleGrpc.getGetStubsMethod = getGetStubsMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStubsRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStubsResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "getStubs"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "getStubs"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStubsRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStubsResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getStubs"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getStubs"))
+              .build();
         }
-     }
-     return getGetStubsMethod;
+      }
+    }
+    return getGetStubsMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetBabelStubsRequest,
@@ -3148,22 +3051,21 @@ public final class LogicModuleGrpc {
     if ((getGetBabelStubsMethod = LogicModuleGrpc.getGetBabelStubsMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getGetBabelStubsMethod = LogicModuleGrpc.getGetBabelStubsMethod) == null) {
-          LogicModuleGrpc.getGetBabelStubsMethod = getGetBabelStubsMethod = 
+          LogicModuleGrpc.getGetBabelStubsMethod = getGetBabelStubsMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetBabelStubsRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetBabelStubsResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "getBabelStubs"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "getBabelStubs"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetBabelStubsRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetBabelStubsResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getBabelStubs"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getBabelStubs"))
+              .build();
         }
-     }
-     return getGetBabelStubsMethod;
+      }
+    }
+    return getGetBabelStubsMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterECARequest,
@@ -3180,22 +3082,21 @@ public final class LogicModuleGrpc {
     if ((getRegisterECAMethod = LogicModuleGrpc.getRegisterECAMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getRegisterECAMethod = LogicModuleGrpc.getRegisterECAMethod) == null) {
-          LogicModuleGrpc.getRegisterECAMethod = getRegisterECAMethod = 
+          LogicModuleGrpc.getRegisterECAMethod = getRegisterECAMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterECARequest, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "registerECA"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "registerECA"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterECARequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("registerECA"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("registerECA"))
+              .build();
         }
-     }
-     return getRegisterECAMethod;
+      }
+    }
+    return getRegisterECAMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.AdviseEventRequest,
@@ -3212,22 +3113,21 @@ public final class LogicModuleGrpc {
     if ((getAdviseEventMethod = LogicModuleGrpc.getAdviseEventMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getAdviseEventMethod = LogicModuleGrpc.getAdviseEventMethod) == null) {
-          LogicModuleGrpc.getAdviseEventMethod = getAdviseEventMethod = 
+          LogicModuleGrpc.getAdviseEventMethod = getAdviseEventMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.AdviseEventRequest, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "adviseEvent"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "adviseEvent"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.AdviseEventRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("adviseEvent"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("adviseEvent"))
+              .build();
         }
-     }
-     return getAdviseEventMethod;
+      }
+    }
+    return getAdviseEventMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage,
@@ -3244,22 +3144,21 @@ public final class LogicModuleGrpc {
     if ((getIsPrefetchingEnabledMethod = LogicModuleGrpc.getIsPrefetchingEnabledMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getIsPrefetchingEnabledMethod = LogicModuleGrpc.getIsPrefetchingEnabledMethod) == null) {
-          LogicModuleGrpc.getIsPrefetchingEnabledMethod = getIsPrefetchingEnabledMethod = 
+          LogicModuleGrpc.getIsPrefetchingEnabledMethod = getIsPrefetchingEnabledMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.IsPrefetchingEnabledResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "isPrefetchingEnabled"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "isPrefetchingEnabled"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.IsPrefetchingEnabledResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("isPrefetchingEnabled"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("isPrefetchingEnabled"))
+              .build();
         }
-     }
-     return getIsPrefetchingEnabledMethod;
+      }
+    }
+    return getIsPrefetchingEnabledMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassNameForDSRequest,
@@ -3276,22 +3175,21 @@ public final class LogicModuleGrpc {
     if ((getGetClassNameForDSMethod = LogicModuleGrpc.getGetClassNameForDSMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getGetClassNameForDSMethod = LogicModuleGrpc.getGetClassNameForDSMethod) == null) {
-          LogicModuleGrpc.getGetClassNameForDSMethod = getGetClassNameForDSMethod = 
+          LogicModuleGrpc.getGetClassNameForDSMethod = getGetClassNameForDSMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassNameForDSRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassNameForDSResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "getClassNameForDS"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "getClassNameForDS"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassNameForDSRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassNameForDSResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getClassNameForDS"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getClassNameForDS"))
+              .build();
         }
-     }
-     return getGetClassNameForDSMethod;
+      }
+    }
+    return getGetClassNameForDSMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassNameAndNamespaceForDSRequest,
@@ -3308,22 +3206,21 @@ public final class LogicModuleGrpc {
     if ((getGetClassNameAndNamespaceForDSMethod = LogicModuleGrpc.getGetClassNameAndNamespaceForDSMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getGetClassNameAndNamespaceForDSMethod = LogicModuleGrpc.getGetClassNameAndNamespaceForDSMethod) == null) {
-          LogicModuleGrpc.getGetClassNameAndNamespaceForDSMethod = getGetClassNameAndNamespaceForDSMethod = 
+          LogicModuleGrpc.getGetClassNameAndNamespaceForDSMethod = getGetClassNameAndNamespaceForDSMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassNameAndNamespaceForDSRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassNameAndNamespaceForDSResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "getClassNameAndNamespaceForDS"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "getClassNameAndNamespaceForDS"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassNameAndNamespaceForDSRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassNameAndNamespaceForDSResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getClassNameAndNamespaceForDS"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getClassNameAndNamespaceForDS"))
+              .build();
         }
-     }
-     return getGetClassNameAndNamespaceForDSMethod;
+      }
+    }
+    return getGetClassNameAndNamespaceForDSMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetContractIDOfDataClayProviderRequest,
@@ -3340,22 +3237,21 @@ public final class LogicModuleGrpc {
     if ((getGetContractIDOfDataClayProviderMethod = LogicModuleGrpc.getGetContractIDOfDataClayProviderMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getGetContractIDOfDataClayProviderMethod = LogicModuleGrpc.getGetContractIDOfDataClayProviderMethod) == null) {
-          LogicModuleGrpc.getGetContractIDOfDataClayProviderMethod = getGetContractIDOfDataClayProviderMethod = 
+          LogicModuleGrpc.getGetContractIDOfDataClayProviderMethod = getGetContractIDOfDataClayProviderMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetContractIDOfDataClayProviderRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetContractIDOfDataClayProviderResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "getContractIDOfDataClayProvider"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "getContractIDOfDataClayProvider"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetContractIDOfDataClayProviderRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetContractIDOfDataClayProviderResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getContractIDOfDataClayProvider"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getContractIDOfDataClayProvider"))
+              .build();
         }
-     }
-     return getGetContractIDOfDataClayProviderMethod;
+      }
+    }
+    return getGetContractIDOfDataClayProviderMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ObjectExistsInDataClayRequest,
@@ -3372,22 +3268,21 @@ public final class LogicModuleGrpc {
     if ((getObjectExistsInDataClayMethod = LogicModuleGrpc.getObjectExistsInDataClayMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getObjectExistsInDataClayMethod = LogicModuleGrpc.getObjectExistsInDataClayMethod) == null) {
-          LogicModuleGrpc.getObjectExistsInDataClayMethod = getObjectExistsInDataClayMethod = 
+          LogicModuleGrpc.getObjectExistsInDataClayMethod = getObjectExistsInDataClayMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ObjectExistsInDataClayRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ObjectExistsInDataClayResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "objectExistsInDataClay"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "objectExistsInDataClay"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ObjectExistsInDataClayRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ObjectExistsInDataClayResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("objectExistsInDataClay"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("objectExistsInDataClay"))
+              .build();
         }
-     }
-     return getObjectExistsInDataClayMethod;
+      }
+    }
+    return getObjectExistsInDataClayMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.CloseSessionRequest,
@@ -3404,22 +3299,21 @@ public final class LogicModuleGrpc {
     if ((getCloseSessionMethod = LogicModuleGrpc.getCloseSessionMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getCloseSessionMethod = LogicModuleGrpc.getCloseSessionMethod) == null) {
-          LogicModuleGrpc.getCloseSessionMethod = getCloseSessionMethod = 
+          LogicModuleGrpc.getCloseSessionMethod = getCloseSessionMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.CloseSessionRequest, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "closeSession"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "closeSession"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.CloseSessionRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("closeSession"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("closeSession"))
+              .build();
         }
-     }
-     return getCloseSessionMethod;
+      }
+    }
+    return getCloseSessionMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetMetadataByOIDForDSRequest,
@@ -3436,22 +3330,21 @@ public final class LogicModuleGrpc {
     if ((getGetMetadataByOIDForDSMethod = LogicModuleGrpc.getGetMetadataByOIDForDSMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getGetMetadataByOIDForDSMethod = LogicModuleGrpc.getGetMetadataByOIDForDSMethod) == null) {
-          LogicModuleGrpc.getGetMetadataByOIDForDSMethod = getGetMetadataByOIDForDSMethod = 
+          LogicModuleGrpc.getGetMetadataByOIDForDSMethod = getGetMetadataByOIDForDSMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetMetadataByOIDForDSRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetMetadataByOIDForDSResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "getMetadataByOIDForDS"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "getMetadataByOIDForDS"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetMetadataByOIDForDSRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetMetadataByOIDForDSResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getMetadataByOIDForDS"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getMetadataByOIDForDS"))
+              .build();
         }
-     }
-     return getGetMetadataByOIDForDSMethod;
+      }
+    }
+    return getGetMetadataByOIDForDSMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ActivateTracingRequest,
@@ -3468,22 +3361,21 @@ public final class LogicModuleGrpc {
     if ((getActivateTracingMethod = LogicModuleGrpc.getActivateTracingMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getActivateTracingMethod = LogicModuleGrpc.getActivateTracingMethod) == null) {
-          LogicModuleGrpc.getActivateTracingMethod = getActivateTracingMethod = 
+          LogicModuleGrpc.getActivateTracingMethod = getActivateTracingMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ActivateTracingRequest, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "activateTracing"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "activateTracing"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ActivateTracingRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("activateTracing"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("activateTracing"))
+              .build();
         }
-     }
-     return getActivateTracingMethod;
+      }
+    }
+    return getActivateTracingMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage,
@@ -3500,22 +3392,21 @@ public final class LogicModuleGrpc {
     if ((getDeactivateTracingMethod = LogicModuleGrpc.getDeactivateTracingMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getDeactivateTracingMethod = LogicModuleGrpc.getDeactivateTracingMethod) == null) {
-          LogicModuleGrpc.getDeactivateTracingMethod = getDeactivateTracingMethod = 
+          LogicModuleGrpc.getDeactivateTracingMethod = getDeactivateTracingMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "deactivateTracing"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "deactivateTracing"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("deactivateTracing"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("deactivateTracing"))
+              .build();
         }
-     }
-     return getDeactivateTracingMethod;
+      }
+    }
+    return getDeactivateTracingMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage,
@@ -3532,22 +3423,21 @@ public final class LogicModuleGrpc {
     if ((getGetTracesMethod = LogicModuleGrpc.getGetTracesMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getGetTracesMethod = LogicModuleGrpc.getGetTracesMethod) == null) {
-          LogicModuleGrpc.getGetTracesMethod = getGetTracesMethod = 
+          LogicModuleGrpc.getGetTracesMethod = getGetTracesMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetTracesResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "getTraces"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "getTraces"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetTracesResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getTraces"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getTraces"))
+              .build();
         }
-     }
-     return getGetTracesMethod;
+      }
+    }
+    return getGetTracesMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage,
@@ -3564,22 +3454,21 @@ public final class LogicModuleGrpc {
     if ((getCleanMetaDataCachesMethod = LogicModuleGrpc.getCleanMetaDataCachesMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getCleanMetaDataCachesMethod = LogicModuleGrpc.getCleanMetaDataCachesMethod) == null) {
-          LogicModuleGrpc.getCleanMetaDataCachesMethod = getCleanMetaDataCachesMethod = 
+          LogicModuleGrpc.getCleanMetaDataCachesMethod = getCleanMetaDataCachesMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "cleanMetaDataCaches"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "cleanMetaDataCaches"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("cleanMetaDataCaches"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("cleanMetaDataCaches"))
+              .build();
         }
-     }
-     return getCleanMetaDataCachesMethod;
+      }
+    }
+    return getCleanMetaDataCachesMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage,
@@ -3596,22 +3485,21 @@ public final class LogicModuleGrpc {
     if ((getCloseManagerDbMethod = LogicModuleGrpc.getCloseManagerDbMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getCloseManagerDbMethod = LogicModuleGrpc.getCloseManagerDbMethod) == null) {
-          LogicModuleGrpc.getCloseManagerDbMethod = getCloseManagerDbMethod = 
+          LogicModuleGrpc.getCloseManagerDbMethod = getCloseManagerDbMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "closeManagerDb"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "closeManagerDb"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("closeManagerDb"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("closeManagerDb"))
+              .build();
         }
-     }
-     return getCloseManagerDbMethod;
+      }
+    }
+    return getCloseManagerDbMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage,
@@ -3628,22 +3516,21 @@ public final class LogicModuleGrpc {
     if ((getCloseDbMethod = LogicModuleGrpc.getCloseDbMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getCloseDbMethod = LogicModuleGrpc.getCloseDbMethod) == null) {
-          LogicModuleGrpc.getCloseDbMethod = getCloseDbMethod = 
+          LogicModuleGrpc.getCloseDbMethod = getCloseDbMethod =
               io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "dataclay.communication.grpc.logicmodule.LogicModule", "closeDb"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "closeDb"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.getDefaultInstance()))
-                  .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("closeDb"))
-                  .build();
-          }
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("closeDb"))
+              .build();
         }
-     }
-     return getCloseDbMethod;
+      }
+    }
+    return getCloseDbMethod;
   }
 
   /**

@@ -30,7 +30,7 @@ public final class CfgDataServiceEnvLoader {
 	private static final Logger LOGGER = LogManager.getLogger("CfgDataService");
 	
 	/** Name of the DBHandlerConf for NVRAM (external JAR, dynamically loaded when needed). */
-	private static final String NVRAM_HANDLER_CONF_CLASS_NAME = "dataclay.dbhandler.nvram.NVRAMHandlerConf";
+	private static final String NVRAM_HANDLER_CONF_CLASS_NAME = "es.bsc.dataclay.dbhandler.nvram.NVRAMHandlerConf";
 
 	/**
 	 * Constructor

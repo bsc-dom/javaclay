@@ -8,10 +8,14 @@ import java.util.ListIterator;
 import java.util.Map;
 
 import es.bsc.dataclay.DataClayObject;
+import es.bsc.dataclay.commonruntime.DataClayRuntime;
 import es.bsc.dataclay.serialization.buffer.DataClayByteBuffer;
 import es.bsc.dataclay.serialization.java.DataClayJavaWrapper;
 import es.bsc.dataclay.serialization.java.LanguageTypes;
 import es.bsc.dataclay.serialization.java.lang.ObjectWrapper;
+import es.bsc.dataclay.serialization.lib.DataClayDeserializationLib;
+import es.bsc.dataclay.serialization.lib.DataClaySerializationLib;
+import es.bsc.dataclay.util.Configuration;
 import es.bsc.dataclay.util.DataClayObjectMetaData;
 import es.bsc.dataclay.util.ReferenceCounting;
 import es.bsc.dataclay.util.classloaders.DataClayClassLoader;
@@ -128,17 +132,32 @@ public final class CollectionWrapper extends DataClayJavaWrapper {
 		// Indicate if Java collection or not
 		if (collection instanceof DataClayObject) {
 			dcBuffer.writeByte((byte) LanguageTypes.DATACLAYOBJ.ordinal());
+			if (DataClaySerializationLib.DEBUG_ENABLED) { 
+				DataClaySerializationLib.LOGGER.debug("[Serialization] --> Collection type serialized: data=" + LanguageTypes.DATACLAYOBJ.ordinal() + ", writerIndex=" + dcBuffer.writerIndex());
+			}
 			final DataClayObject dcColl = (DataClayObject) collection;
 			dcColl.getMetaClassID().serialize(dcBuffer, ignoreUserTypes,
 					ifaceBitMaps, curSerializedObjs, pendingObjs, referenceCounting);
+			if (DataClaySerializationLib.DEBUG_ENABLED) { 
+				DataClaySerializationLib.LOGGER.debug("[Serialization] --> Collection class id serialized: data=" + dcColl.getMetaClassID() + ", writerIndex=" + dcBuffer.writerIndex());
+			}
 		} else {
 			dcBuffer.writeByte((byte) LanguageTypes.JAVA_COLLECTION.ordinal());
+			if (DataClaySerializationLib.DEBUG_ENABLED) { 
+				DataClaySerializationLib.LOGGER.debug("[Serialization] --> Collection type serialized: data=" + LanguageTypes.JAVA_COLLECTION.ordinal() + ", writerIndex=" + dcBuffer.writerIndex());
+			}
 			dcBuffer.writeString(collection.getClass().getName());
+			if (DataClaySerializationLib.DEBUG_ENABLED) { 
+				DataClaySerializationLib.LOGGER.debug("[Serialization] --> Collection name serialized: data=" + collection.getClass().getName() + ", writerIndex=" + dcBuffer.writerIndex());
+			}
 		}
 
 		final int collSize = collection.size();
 
 		dcBuffer.writeVLQInt(collSize);
+		if (DataClaySerializationLib.DEBUG_ENABLED) { 
+			DataClaySerializationLib.LOGGER.debug("[Serialization] --> Collection size serialized: data=" + collSize + ", writerIndex=" + dcBuffer.writerIndex());
+		}
 		if (collSize > 0) {
 
 			// === NULLS BITMAP === //
@@ -151,9 +170,15 @@ public final class CollectionWrapper extends DataClayJavaWrapper {
 			}
 			// CHECKSTYLE:ON
 			dcBuffer.writeVLQInt(numBytes);
+			if (DataClaySerializationLib.DEBUG_ENABLED) { 
+				DataClaySerializationLib.LOGGER.debug("[Serialization] --> Collection bitmap size serialized: data=" + numBytes + ", writerIndex=" + dcBuffer.writerIndex());
+			}
 			final int bitSetIndex = dcBuffer.writerIndex();
 			dcBuffer.writeBytes(new byte[numBytes]);
 			final BitSet nullsBitSet = new BitSet(collSize);
+			if (DataClaySerializationLib.DEBUG_ENABLED) { 
+				DataClaySerializationLib.LOGGER.debug("[Serialization] --> Collection bitmap serialized: data=" + nullsBitSet + ", writerIndex=" + dcBuffer.writerIndex());
+			}
 			// ===================== //
 
 			int i = 0;
@@ -173,8 +198,17 @@ public final class CollectionWrapper extends DataClayJavaWrapper {
 			// === UPDATE NULLS BITMAP === //
 			final int j = dcBuffer.writerIndex();
 			dcBuffer.setWriterIndex(bitSetIndex);
+			if (DataClaySerializationLib.DEBUG_ENABLED) { 
+				DataClaySerializationLib.LOGGER.debug("[Serialization] --> Modified writerIndex=" + dcBuffer.writerIndex());
+			}
 			dcBuffer.writeBytes(nullsBitSet.toByteArray());
+			if (DataClaySerializationLib.DEBUG_ENABLED) { 
+				DataClaySerializationLib.LOGGER.debug("[Serialization] --> Collection bitmap serialized: data=" + nullsBitSet + ", writerIndex=" + dcBuffer.writerIndex());
+			}
 			dcBuffer.setWriterIndex(j);
+			if (DataClaySerializationLib.DEBUG_ENABLED) { 
+				DataClaySerializationLib.LOGGER.debug("[Serialization] --> Modified writerIndex=" + dcBuffer.writerIndex());
+			}
 
 		}
 	}
@@ -186,8 +220,15 @@ public final class CollectionWrapper extends DataClayJavaWrapper {
 			final DataClayObjectMetaData metadata,
 			final Map<Integer, Object> curDeserializedJavaObjs) {
 		final byte collType = dcBuffer.readByte();
+		if (DataClayDeserializationLib.DEBUG_ENABLED) { 
+			DataClayDeserializationLib.LOGGER.debug("[Deserialization] --> Collection type deserialized: data="+  collType + ", readerindex=" + dcBuffer.readerIndex());
+		}
 		if (collType == LanguageTypes.JAVA_COLLECTION.ordinal()) {
 			final String collName = dcBuffer.readString();
+			if (DataClayDeserializationLib.DEBUG_ENABLED) { 
+				DataClayDeserializationLib.LOGGER.debug("[Deserialization] --> Collection name deserialized: data="+  collName + ", readerindex=" + dcBuffer.readerIndex());
+			}
+
 			// Instantiate collection
 			try {
 				final Class<?> collClass = loadClass(collName);
@@ -199,6 +240,9 @@ public final class CollectionWrapper extends DataClayJavaWrapper {
 		} else {
 			final MetaClassID classID = new MetaClassID();
 			classID.deserialize(dcBuffer, ifaceBitMaps, metadata, curDeserializedJavaObjs);
+			if (DataClayDeserializationLib.DEBUG_ENABLED) { 
+				DataClayDeserializationLib.LOGGER.debug("[Deserialization] --> Collection class id deserialized: data="+  classID + ", readerindex=" + dcBuffer.readerIndex());
+			}
 			try {
 				final Class<?> collClass = loadClass(classID);
 				collection = (Collection) collClass.getConstructor(ObjectID.class).newInstance(new ObjectID());
@@ -209,12 +253,21 @@ public final class CollectionWrapper extends DataClayJavaWrapper {
 		}
 
 		final int collSize = dcBuffer.readVLQInt();
+		if (DataClayDeserializationLib.DEBUG_ENABLED) { 
+			DataClayDeserializationLib.LOGGER.debug("[Deserialization] --> Collection size deserialized: data="+  collSize + ", readerindex=" + dcBuffer.readerIndex());
+		}
 		if (collSize > 0) {
 
 			// === NULLS BITMAP === //
 			final int bitMapSize = dcBuffer.readVLQInt();
+			if (DataClayDeserializationLib.DEBUG_ENABLED) { 
+				DataClayDeserializationLib.LOGGER.debug("[Deserialization] --> Collection bitmap size deserialized: data="+  bitMapSize + ", readerindex=" + dcBuffer.readerIndex());
+			}
 			final byte[] bytes = dcBuffer.readBytes(bitMapSize);
 			final BitSet nullsBitMap = BitSet.valueOf(bytes);
+			if (DataClayDeserializationLib.DEBUG_ENABLED) { 
+				DataClayDeserializationLib.LOGGER.debug("[Deserialization] --> Collection bitmap deserialized: data="+  nullsBitMap + ", readerindex=" + dcBuffer.readerIndex());
+			}
 			// ===================== //
 
 			// Fill collection

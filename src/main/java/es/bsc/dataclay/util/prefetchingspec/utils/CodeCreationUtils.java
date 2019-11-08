@@ -276,18 +276,18 @@ public class CodeCreationUtils {
 	}
 	
 	private static String setPrefetchingAccessInstr(boolean value) {
-		return "dataclay.DataClayObject.setPrefetchingAccess(" + value + ")";
+		return "es.bsc.dataclay.DataClayObject.setPrefetchingAccess(" + value + ")";
 	}
 	
 	private static String getStartTimeInstr(String methodSignature, String indentStr) {
 		return "long startTime = System.currentTimeMillis()" + INSTR_DELIM
-				+ indentStr + "dataclay.DataClayObject.logger.debug(\"[==PREFETCHING==] Prefetching method '" + methodSignature + METHOD_NAME_SUFFIX 
+				+ indentStr + "es.bsc.dataclay.DataClayObject.logger.debug(\"[==PREFETCHING==] Prefetching method '" + methodSignature + METHOD_NAME_SUFFIX 
 				+ " started at: \" + new Date(startTime).toString())";
 	}
 	
 	private static String getEndTimeInstr(String methodSignature, String indentStr) {
 		return "long estimatedTime = System.currentTimeMillis() - startTime" + INSTR_DELIM
-				+ indentStr + "dataclay.DataClayObject.logger.debug(\"[==PREFETCHING==] Prefetching method '" + methodSignature + METHOD_NAME_SUFFIX
+				+ indentStr + "es.bsc.dataclay.DataClayObject.logger.debug(\"[==PREFETCHING==] Prefetching method '" + methodSignature + METHOD_NAME_SUFFIX
 				+ " ended: \" + estimatedTime + \" millis.\")";
 	}
 

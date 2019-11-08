@@ -157,5 +157,14 @@ public final class PersistentParamOrReturn {
 	public void setExtDataClayID(DataClayInstanceID newextDataClayID) {
 		this.extDataClayID = newextDataClayID;
 	}
+	
+	public String toString() { 
+		StringBuilder strb = new StringBuilder();
+		strb.append("OBJECTID = " + objectID + "\n");
+		strb.append("CLASSID = " + classID + "\n");
+		strb.append("HINT = " + hint + "\n");
+		strb.append("EXTDATACLAYID = " + this.extDataClayID + "\n");
+		return strb.toString();
+	}
 
 }

@@ -52,7 +52,7 @@ public final class ClassHeaderTransformer extends ClassVisitor {
 		String actualSuperName = superName;
 		String actualSignature = signature;
 		if (superName.equals("java/lang/Object") || superName.equals("storage/StorageObject")
-				|| superName.equals("dataclay/DataClayObject")) {
+				|| superName.equals("es/bsc/dataclay/DataClayObject")) {
 			if (isExecClass) {
 				actualSuperName = Reflector.getInternalNameFromTypeName(DataClayExecutionObject.class.getName());
 			} else {

@@ -13,7 +13,7 @@ import es.bsc.dataclay.util.configs.CfgPostgresConnEnvLoader;
  * Factory to return instances of specific DBHandlers, according to the provided type.
  */
 public class DBHandlerFactory {
-	private static final String NVRAM_HANDLER_CLASS_NAME = "dataclay.dbhandler.nvram.NVRAMHandler";
+	private static final String NVRAM_HANDLER_CLASS_NAME = "es.bsc.dataclay.dbhandler.nvram.NVRAMHandler";
 	
 	/**	All the supported DBHandler subtypes. */
 	public enum DBHandlerType {

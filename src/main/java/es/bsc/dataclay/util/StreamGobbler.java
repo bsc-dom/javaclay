@@ -35,7 +35,6 @@ public final class StreamGobbler extends Thread {
 		this.printOutput = theprintOutput;
 		this.setDaemon(true);
 		this.builder = thebuilder;
-		this.setDaemon(true);
 	}
 
 	@Override

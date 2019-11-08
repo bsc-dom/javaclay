@@ -44,8 +44,8 @@ public final class SerializationCodeGenerator {
 			ByteCodeTypes.MAP);
 
 	/** Partial deserialize signature. Extracted from ASMifier. */
-	public static final String DESERIALIZE_SIGNATURE = "(Ldataclay/serialization/buffer/DataClayByteBuffer;Ljava/util/Map<Ldataclay/util/ids/MetaClassID;[B>;"
-			+ "Ldataclay/util/DataClayObjectMetaData;Ljava/util/Map<Ljava/lang/Integer;Ljava/lang/Object;>;"
+	public static final String DESERIALIZE_SIGNATURE = "(Les/bsc/dataclay/serialization/buffer/DataClayByteBuffer;Ljava/util/Map<Les/bsc/dataclay/util/ids/MetaClassID;[B>;"
+			+ "Les/bsc/dataclay/util/DataClayObjectMetaData;Ljava/util/Map<Ljava/lang/Integer;Ljava/lang/Object;>;"
 			+ ")V";
 
 	/** Partial deserialize descriptor. */
@@ -55,8 +55,8 @@ public final class SerializationCodeGenerator {
 			ByteCodeTypes.MAP);
 
 	/** Partial deserialize signature. Extracted from ASMifier. */
-	public static final String PARTIAL_DESERIALIZE_SIGNATURE = "(Ldataclay/serialization/buffer/DataClayByteBuffer;Ljava/util/Map<Ldataclay/util/ids/MetaClassID;[B>;"
-			+ "Ldataclay/util/DataClayObjectMetaData;Ljava/util/BitSet;Ljava/util/BitSet;"
+	public static final String PARTIAL_DESERIALIZE_SIGNATURE = "(Les/bsc/dataclay/serialization/buffer/DataClayByteBuffer;Ljava/util/Map<Les/bsc/dataclay/util/ids/MetaClassID;[B>;"
+			+ "Les/bsc/dataclay/util/DataClayObjectMetaData;Ljava/util/BitSet;Ljava/util/BitSet;"
 			+ "Ljava/util/Map<Ljava/lang/Integer;Ljava/lang/Object;>;)V";
 
 	/** Serialize name. */
@@ -68,9 +68,9 @@ public final class SerializationCodeGenerator {
 			ByteCodeTypes.LISTITERATOR, ByteCodeTypes.REFERENCE_COUNTING);
 
 	/** Serialize signature. Extracted from ASMifier. */
-	public static final String SERIALIZE_SIGNATURE = "(Ldataclay/serialization/buffer/DataClayByteBuffer;ZLjava/util/Map<Ldataclay/util/ids/MetaClassID;[B>;"
+	public static final String SERIALIZE_SIGNATURE = "(Les/bsc/dataclay/serialization/buffer/DataClayByteBuffer;ZLjava/util/Map<Les/bsc/dataclay/util/ids/MetaClassID;[B>;"
 			+ "Ljava/util/IdentityHashMap<Ljava/lang/Object;Ljava/lang/Integer;>;"
-			+ "Ljava/util/ListIterator<Ldataclay/DataClayObject;>;Ldataclay/util/ReferenceCounting;)V";
+			+ "Ljava/util/ListIterator<Les/bsc/dataclay/DataClayObject;>;Les/bsc/dataclay/util/ReferenceCounting;)V";
 
 	/** Partial serialize descriptor. */
 	public static final String PARTIAL_SERIALIZE_DESCRIPTOR = Type.getMethodDescriptor(Type.VOID_TYPE,
@@ -81,9 +81,9 @@ public final class SerializationCodeGenerator {
 			ByteCodeTypes.LISTITERATOR);
 
 	/** Partial serialize signature. Extracted from ASMifier. */
-	public static final String PARTIAL_SERIALIZE_SIGNATURE = "(Ldataclay/serialization/buffer/DataClayByteBuffer;ZLjava/util/Map<Ldataclay/util/ids/MetaClassID;[B>;"
+	public static final String PARTIAL_SERIALIZE_SIGNATURE = "(Les/bsc/dataclay/serialization/buffer/DataClayByteBuffer;ZLjava/util/Map<Les/bsc/dataclay/util/ids/MetaClassID;[B>;"
 			+ "Ljava/util/IdentityHashMap<Ljava/lang/Object;Ljava/lang/Integer;>;Ljava/util/BitSet;"
-			+ "Ljava/util/BitSet;Ljava/util/ListIterator<Ldataclay/DataClayObject;>;)V";
+			+ "Ljava/util/BitSet;Ljava/util/ListIterator<Les/bsc/dataclay/DataClayObject;>;)V";
 
 	/**
 	 * Utility classes should have a private constructor.
@@ -908,7 +908,7 @@ public final class SerializationCodeGenerator {
 			}
 
 		}
-		final String typePreffix = "dataclay.serialization.";
+		final String typePreffix = "es.bsc.dataclay.serialization.";
 		String wrapperTypeName = typePreffix + actualTypeName + "Wrapper";
 
 		// Check if wrapper exists

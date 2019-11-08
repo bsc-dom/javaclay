@@ -345,9 +345,14 @@ public final class ArrayWrapper extends DataClayJavaWrapper {
 
 		// Get size
 		final int arrLength = dcBuffer.readVLQInt();
+		if (DataClayDeserializationLib.DEBUG_ENABLED) { 
+			DataClayDeserializationLib.LOGGER.debug("[Deserialization] --> Array length deserialized: data="+  arrLength + ", readerindex=" + dcBuffer.readerIndex());
+		}
 		// Get component type
 		final byte compTypeByte = dcBuffer.readByte();
-
+		if (DataClayDeserializationLib.DEBUG_ENABLED) { 
+			DataClayDeserializationLib.LOGGER.debug("[Deserialization] --> Array type deserialized: data="+  compTypeByte + ", readerindex=" + dcBuffer.readerIndex());
+		}
 		// Get component type class
 		Class<?> compType = null;
 		if (compTypeByte == (byte) LanguageTypes.JAVA_PRIMITIVE_ARRAY.ordinal()
@@ -396,6 +401,9 @@ public final class ArrayWrapper extends DataClayJavaWrapper {
 			compType = Object.class;
 		} else if (compTypeByte == (byte) LanguageTypes.JAVA_COLLECTION.ordinal()) {
 			final String specificCollName = dcBuffer.readString();
+			if (DataClayDeserializationLib.DEBUG_ENABLED) { 
+				DataClayDeserializationLib.LOGGER.debug("[Deserialization] --> Array type name deserialized: data="+  specificCollName + ", readerindex=" + dcBuffer.readerIndex());
+			}
 			try {
 				compType = ClassLoader.getSystemClassLoader().loadClass(specificCollName);
 			} catch (final Exception e) {
@@ -403,6 +411,9 @@ public final class ArrayWrapper extends DataClayJavaWrapper {
 			}
 		} else if (compTypeByte == (byte) LanguageTypes.JAVA_MAP.ordinal()) {
 			final String specificMapName = dcBuffer.readString();
+			if (DataClayDeserializationLib.DEBUG_ENABLED) { 
+				DataClayDeserializationLib.LOGGER.debug("[Deserialization] --> Array type name deserialized: data="+  specificMapName + ", readerindex=" + dcBuffer.readerIndex());
+			}
 			try {
 				compType = ClassLoader.getSystemClassLoader().loadClass(specificMapName);
 			} catch (final Exception e) {
@@ -412,6 +423,9 @@ public final class ArrayWrapper extends DataClayJavaWrapper {
 			final byte isJava = dcBuffer.readByte();
 			if (isJava == (byte) 0) {
 				final String arraySignature = dcBuffer.readString();
+				if (DataClayDeserializationLib.DEBUG_ENABLED) { 
+					DataClayDeserializationLib.LOGGER.debug("[Deserialization] --> Array signature deserialized: data="+  arraySignature + ", readerindex=" + dcBuffer.readerIndex());
+				}
 				if (DataClayObject.getLib().isDSLib()) {
 					compType = Reflector.getClassFromSignatureAndArray(arraySignature,
 							DataClayClassLoaderSrv.execEnvironmentClassLoader);
@@ -423,8 +437,14 @@ public final class ArrayWrapper extends DataClayJavaWrapper {
 				}
 			} else {
 				final int arrayDimension = dcBuffer.readVLQInt();
+				if (DataClayDeserializationLib.DEBUG_ENABLED) { 
+					DataClayDeserializationLib.LOGGER.debug("[Deserialization] --> Array dimension deserialized: data="+  arrayDimension + ", readerindex=" + dcBuffer.readerIndex());
+				}
 				final MetaClassID classID = new MetaClassID();
 				classID.deserialize(dcBuffer, ifaceBitMaps, metadata, curDeserializedObjs);
+				if (DataClayDeserializationLib.DEBUG_ENABLED) { 
+					DataClayDeserializationLib.LOGGER.debug("[Deserialization] --> Array class id deserialized: data="+  classID + ", readerindex=" + dcBuffer.readerIndex());
+				}
 				compType = this.getClass(classID);
 				if (arrayDimension > 0) {
 					final int[] dimensions = new int[arrayDimension];
@@ -435,6 +455,9 @@ public final class ArrayWrapper extends DataClayJavaWrapper {
 		} else if (compTypeByte == (byte) LanguageTypes.DATACLAYOBJ.ordinal()) {
 			final MetaClassID classID = new MetaClassID();
 			classID.deserialize(dcBuffer, ifaceBitMaps, metadata, curDeserializedObjs);
+			if (DataClayDeserializationLib.DEBUG_ENABLED) { 
+				DataClayDeserializationLib.LOGGER.debug("[Deserialization] --> Array class id deserialized: data="+  classID + ", readerindex=" + dcBuffer.readerIndex());
+			}
 			compType = this.getClass(classID);
 		}
 		// Create new array
@@ -445,8 +468,14 @@ public final class ArrayWrapper extends DataClayJavaWrapper {
 			if (!isPrimitiveArray) {
 				// Read nulls bit set
 				final int bitMapSize = dcBuffer.readVLQInt();
+				if (DataClayDeserializationLib.DEBUG_ENABLED) { 
+					DataClayDeserializationLib.LOGGER.debug("[Deserialization] --> Array bitmap size deserialized: data="+  bitMapSize + ", readerindex=" + dcBuffer.readerIndex());
+				}
 				final byte[] bytes = dcBuffer.readBytes(bitMapSize);
 				nullsBitMap = BitSet.valueOf(bytes);
+				if (DataClayDeserializationLib.DEBUG_ENABLED) { 
+					DataClayDeserializationLib.LOGGER.debug("[Deserialization] --> Array bitmap deserialized: data="+  nullsBitMap + ", readerindex=" + dcBuffer.readerIndex());
+				}
 			}
 
 			for (int i = 0; i < arrLength; ++i) {

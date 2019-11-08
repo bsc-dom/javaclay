@@ -43,9 +43,11 @@ public final class LogicModuleServer {
 		final ThreadFactoryWithNamePrefix factory = new ThreadFactoryWithNamePrefix(srvName);
 
 		final NettyServerBuilder serverBuilder = NettyServerBuilder.forPort(port);
-		serverBuilder.maxInboundMessageSize(maxMessageSize);
-		serverBuilder.maxInboundMetadataSize(maxMessageSize);
+		serverBuilder.maxMessageSize(Integer.MAX_VALUE);
+		serverBuilder.maxInboundMessageSize(Integer.MAX_VALUE);
+		serverBuilder.maxInboundMetadataSize(Integer.MAX_VALUE);
 		// serverBuilder.maxConcurrentCallsPerConnection(Integer.MAX_VALUE);
+		serverBuilder.maxHeaderListSize(Integer.MAX_VALUE);
 		// serverBuilder.keepAliveTime(10, TimeUnit.SECONDS);
 		// serverBuilder.keepAliveTimeout(10, TimeUnit.SECONDS);
 		serverBuilder.executor(Executors.newCachedThreadPool(factory));

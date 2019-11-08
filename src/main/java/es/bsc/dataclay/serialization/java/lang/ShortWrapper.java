@@ -8,6 +8,8 @@ import java.util.Map;
 import es.bsc.dataclay.DataClayObject;
 import es.bsc.dataclay.serialization.buffer.DataClayByteBuffer;
 import es.bsc.dataclay.serialization.java.DataClayJavaWrapper;
+import es.bsc.dataclay.serialization.lib.DataClayDeserializationLib;
+import es.bsc.dataclay.serialization.lib.DataClaySerializationLib;
 import es.bsc.dataclay.util.DataClayObjectMetaData;
 import es.bsc.dataclay.util.ReferenceCounting;
 import es.bsc.dataclay.util.ids.MetaClassID;
@@ -56,6 +58,9 @@ public final class ShortWrapper extends DataClayJavaWrapper {
 			final IdentityHashMap<Object, Integer> curSerializedObjs,
 			final ListIterator<DataClayObject> pendingObjs, ReferenceCounting referenceCounting) {
 		dcBuffer.writeShort(this.shortObject);
+		if (DataClaySerializationLib.DEBUG_ENABLED) { 
+			DataClaySerializationLib.LOGGER.debug("[Serialization] --> Serialized Short: data=" + shortObject + ", writerIndex=" + dcBuffer.writerIndex());
+		}
 	}
 
 	@Override
@@ -64,6 +69,9 @@ public final class ShortWrapper extends DataClayJavaWrapper {
 			final DataClayObjectMetaData metadata,
 			final Map<Integer, Object> curDeserializedObjs) {
 		this.shortObject = dcBuffer.readShort();
+		if (DataClayDeserializationLib.DEBUG_ENABLED) { 
+			DataClayDeserializationLib.LOGGER.debug("[Deserialization] --> Short deserialized: data="+  shortObject + ", readerindex=" + dcBuffer.readerIndex());
+		}
 	}
 
 	@Override

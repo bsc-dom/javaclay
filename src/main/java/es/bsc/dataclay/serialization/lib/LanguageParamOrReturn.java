@@ -122,5 +122,12 @@ public final class LanguageParamOrReturn implements DataClaySerializable {
 	public void setWrapper(final DataClayJavaWrapper thewrapper) {
 		this.wrapper = thewrapper;
 	}
+	
+	public String toString() { 
+		StringBuilder strb = new StringBuilder();
+		strb.append("METADATA = " + metaData + "\n");
+		strb.append("DATA = " + serializedBytes + "\n");
+		return strb.toString();
+	}
 
 }

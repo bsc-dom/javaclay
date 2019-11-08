@@ -13,6 +13,7 @@ import es.bsc.dataclay.DataClayObject;
 import es.bsc.dataclay.serialization.buffer.DataClayByteBuffer;
 import es.bsc.dataclay.serialization.java.DataClayJavaWrapper;
 import es.bsc.dataclay.serialization.java.LanguageTypes;
+import es.bsc.dataclay.serialization.lib.DataClayDeserializationLib;
 import es.bsc.dataclay.util.DataClayObjectMetaData;
 import es.bsc.dataclay.util.ReferenceCounting;
 import es.bsc.dataclay.util.classloaders.DataClayClassLoader;
@@ -161,8 +162,14 @@ public final class MapWrapper extends DataClayJavaWrapper {
 			final Map<Integer, Object> curDeserializedJavaObjs) {
 
 		final byte collType = dcBuffer.readByte();
+		if (DataClayDeserializationLib.DEBUG_ENABLED) { 
+			DataClayDeserializationLib.LOGGER.debug("[Deserialization] --> Collection type deserialized: data="+  collType + ", readerindex=" + dcBuffer.readerIndex());
+		}
 		if (collType == LanguageTypes.JAVA_MAP.ordinal()) {
 			final String collName = dcBuffer.readString();
+			if (DataClayDeserializationLib.DEBUG_ENABLED) { 
+				DataClayDeserializationLib.LOGGER.debug("[Deserialization] --> Collection name deserialized: data="+  collName + ", readerindex=" + dcBuffer.readerIndex());
+			}
 			// Instantiate map
 			try {
 				final Class<?> mapClass = loadClass(collName);
@@ -174,6 +181,9 @@ public final class MapWrapper extends DataClayJavaWrapper {
 		} else {
 			final MetaClassID classID = new MetaClassID();
 			classID.deserialize(dcBuffer, ifaceBitMaps, metadata, curDeserializedJavaObjs);
+			if (DataClayDeserializationLib.DEBUG_ENABLED) { 
+				DataClayDeserializationLib.LOGGER.debug("[Deserialization] --> Collection class id deserialized: data="+  classID + ", readerindex=" + dcBuffer.readerIndex());
+			}
 			try {
 				final Class<?> mapClass = loadClass(classID);
 				map = (Map) mapClass.newInstance();

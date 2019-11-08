@@ -1120,14 +1120,29 @@ public class DataClayObject extends StorageObject implements DataClaySerializabl
 		// TODO: use padding instead once new serialization is implemented (dgasull
 		// pierlauro 2018)
 		dcBuffer.writeInt(0); // index is updated in the end
-
+		if (DataClaySerializationLib.DEBUG_ENABLED) { 
+			DataClaySerializationLib.LOGGER.debug("[Serialization] --> Serialized first 4 bytes: writerindex=" + dcBuffer.writerIndex());
+		}
+		
 		// === master location ==
 		if (masterLocation != null) {
 			dcBuffer.writeLong(masterLocation.getId().getLeastSignificantBits());
+			if (DataClaySerializationLib.DEBUG_ENABLED) { 
+				DataClaySerializationLib.LOGGER.debug("[Serialization] --> Serialized master location least: data="+  masterLocation.getId().getLeastSignificantBits() + ", writerIndex=" + dcBuffer.writerIndex());
+			}
 			dcBuffer.writeLong(masterLocation.getId().getMostSignificantBits());
+			if (DataClaySerializationLib.DEBUG_ENABLED) { 
+				DataClaySerializationLib.LOGGER.debug("[Serialization] --> Serialized master location most: data="+  masterLocation.getId().getMostSignificantBits() + ", writerIndex=" + dcBuffer.writerIndex());
+			}
 		} else {
 			dcBuffer.writeLong(0L);
+			if (DataClaySerializationLib.DEBUG_ENABLED) { 
+				DataClaySerializationLib.LOGGER.debug("[Serialization] --> Serialized master location least: data=0, writerIndex=" + dcBuffer.writerIndex());
+			}
 			dcBuffer.writeLong(0L);
+			if (DataClaySerializationLib.DEBUG_ENABLED) { 
+				DataClaySerializationLib.LOGGER.debug("[Serialization] --> Serialized master location most: data=0, writerIndex=" + dcBuffer.writerIndex());
+			}
 		}
 
 		final List<DataClaySerializable> wrapFields = new ArrayList<>();
@@ -1137,10 +1152,15 @@ public class DataClayObject extends StorageObject implements DataClaySerializabl
 		final int numBytes = (int) Math.ceil(wrapFields.size() / 8.0F);
 		final BitSet notNullsBitSet = new BitSet(numBytes);
 		dcBuffer.writeVLQInt(numBytes);
-
+		if (DataClaySerializationLib.DEBUG_ENABLED) { 
+			DataClaySerializationLib.LOGGER.debug("[Serialization] --> Serialized bitmap size: data=" + numBytes + ", writerIndex=" + dcBuffer.writerIndex());
+		}
+		
 		final int curWriterIndx = dcBuffer.writerIndex();
 		dcBuffer.writeBytes(new byte[numBytes]);
-
+		if (DataClaySerializationLib.DEBUG_ENABLED) { 
+			DataClaySerializationLib.LOGGER.debug("[Serialization] --> Serialized empty bitmap: data=" + notNullsBitSet + ", writerIndex=" + dcBuffer.writerIndex());
+		}
 		BitSet ifaceBitSet = null;
 		if (ifaceBitMaps != null) {
 			ifaceBitSet = BitSet.valueOf(ifaceBitMaps.get(getMetaClassID()));
@@ -1178,17 +1198,34 @@ public class DataClayObject extends StorageObject implements DataClaySerializabl
 
 		int curIdx = dcBuffer.writerIndex();
 		dcBuffer.setWriterIndex(curWriterIndx);
+		if (DataClaySerializationLib.DEBUG_ENABLED) { 
+			DataClaySerializationLib.LOGGER.debug("[Serialization] --> Modified writerIndex=" + dcBuffer.writerIndex());
+		}
 		dcBuffer.writeBytes(notNullsBitSet.toByteArray());
+		if (DataClaySerializationLib.DEBUG_ENABLED) { 
+			DataClaySerializationLib.LOGGER.debug("[Serialization] --> Serialized bitmap: data=" + notNullsBitSet + ", writerIndex=" + dcBuffer.writerIndex());
+		}
 		dcBuffer.setWriterIndex(curIdx);
-
+		if (DataClaySerializationLib.DEBUG_ENABLED) { 
+			DataClaySerializationLib.LOGGER.debug("[Serialization] --> Modified writerIndex=" + dcBuffer.writerIndex());
+		}
 		// == reference counting == //
 		// TODO: IMPORTANT: this should be removed in new serialization by using
 		// paddings to directly access reference counters inside metadata.
 
 		curIdx = dcBuffer.writerIndex();
 		dcBuffer.setWriterIndex(0);
+		if (DataClaySerializationLib.DEBUG_ENABLED) { 
+			DataClaySerializationLib.LOGGER.debug("[Serialization] --> Modified writerIndex=" + dcBuffer.writerIndex());
+		}
 		dcBuffer.writeInt(curIdx);
+		if (DataClaySerializationLib.DEBUG_ENABLED) { 
+			DataClaySerializationLib.LOGGER.debug("[Serialization] --> Serialized curIdx: data=" + curIdx + ", writerIndex=" + dcBuffer.writerIndex());
+		}
 		dcBuffer.setWriterIndex(curIdx);
+		if (DataClaySerializationLib.DEBUG_ENABLED) { 
+			DataClaySerializationLib.LOGGER.debug("[Serialization] --> Modified writerIndex=" + dcBuffer.writerIndex());
+		}
 		DataClaySerializationLib.serializeReferenceCounting(dcBuffer, referenceCounting);
 
 	}
@@ -1200,10 +1237,18 @@ public class DataClayObject extends StorageObject implements DataClaySerializabl
 		// == reference counting == //
 		// see serialize function to understand why we "ignore" first 4 bytes
 		dcBuffer.readInt();
-
+		if (DataClayDeserializationLib.DEBUG_ENABLED) { 
+			DataClayDeserializationLib.LOGGER.debug("[Deserialization] --> Ignored 4 first bytes deserialized: readerindex=" + dcBuffer.readerIndex());
+		}
 		// === master location ==
 		final long masterLocationLeast = dcBuffer.readLong();
+		if (DataClayDeserializationLib.DEBUG_ENABLED) { 
+			DataClayDeserializationLib.LOGGER.debug("[Deserialization] --> Master location least bytes deserialized: data="+  masterLocationLeast + ", readerindex=" + dcBuffer.readerIndex());
+		}
 		final long masterLocationMost = dcBuffer.readLong();
+		if (DataClayDeserializationLib.DEBUG_ENABLED) { 
+			DataClayDeserializationLib.LOGGER.debug("[Deserialization] --> Master location most bytes deserialized: data="+  masterLocationMost + ", readerindex=" + dcBuffer.readerIndex());
+		}
 		if (masterLocationLeast == 0L && masterLocationMost == 0L) {
 			masterLocation = null;
 		} else {
@@ -1217,8 +1262,14 @@ public class DataClayObject extends StorageObject implements DataClaySerializabl
 		BitSet notNullsBitSet = null;
 		BitSet ifaceBitSet = null;
 		final int notNullsBitSetLength = dcBuffer.readVLQInt();
+		if (DataClayDeserializationLib.DEBUG_ENABLED) { 
+			DataClayDeserializationLib.LOGGER.debug("[Deserialization] --> Bitmap size deserialized: data="+  notNullsBitSetLength + ", readerindex=" + dcBuffer.readerIndex());
+		}
 		if (notNullsBitSetLength > 0) {
 			notNullsBitSet = BitSet.valueOf(dcBuffer.readBytes(notNullsBitSetLength));
+			if (DataClayDeserializationLib.DEBUG_ENABLED) { 
+				DataClayDeserializationLib.LOGGER.debug("[Deserialization] --> Bitmap deserialized: data="+  notNullsBitSet + ", readerindex=" + dcBuffer.readerIndex());
+			}
 		}
 		if (ifaceBitMaps != null) {
 			ifaceBitSet = BitSet.valueOf(ifaceBitMaps.get(getMetaClassID()));

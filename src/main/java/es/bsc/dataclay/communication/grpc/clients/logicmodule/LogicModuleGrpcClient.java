@@ -77,6 +77,7 @@ import io.grpc.ManagedChannel;
 import io.grpc.Metadata;
 import io.grpc.StatusRuntimeException;
 import io.grpc.netty.shaded.io.grpc.netty.GrpcSslContexts;
+import io.grpc.netty.shaded.io.grpc.netty.NegotiationType;
 import io.grpc.netty.shaded.io.grpc.netty.NettyChannelBuilder;
 import io.grpc.netty.shaded.io.netty.handler.ssl.SslContext;
 import io.grpc.netty.shaded.io.netty.handler.ssl.SslContextBuilder;
@@ -146,7 +147,7 @@ public final class LogicModuleGrpcClient implements LogicModuleAPI {
 		 * actualAddress.getSecond();
 		 */
 		final NettyChannelBuilder chBuilder = NettyChannelBuilder.forAddress(host, port)
-				.maxInboundMessageSize(Short.MAX_VALUE);
+				.maxInboundMessageSize(Integer.MAX_VALUE).maxInboundMetadataSize(Integer.MAX_VALUE);
 		
 		// Check if paths to certificates are defined 
 		if (Configuration.Flags.SSL_CLIENT_TRUSTED_CERTIFICATES.getStringValue() != null
@@ -174,7 +175,8 @@ public final class LogicModuleGrpcClient implements LogicModuleAPI {
 			logger.info("SSL configured: using SSL_CLIENT_KEY located at " + Configuration.Flags.SSL_CLIENT_KEY.getStringValue());
 
 		} else { 
-			chBuilder.usePlaintext(); 
+			chBuilder.usePlaintext();
+			//chBuilder.negotiationType(NegotiationType.PLAINTEXT); 
 			logger.info("Not using SSL");
 
 		}
@@ -184,6 +186,10 @@ public final class LogicModuleGrpcClient implements LogicModuleAPI {
 		fixedHeaders.put(CommonGrpcClient.SERVICE_ALIAS_HEADER_KEY, Configuration.Flags.LM_SERVICE_ALIAS_HEADERMSG.getStringValue());
 		blockingStub = MetadataUtils.attachHeaders(LogicModuleGrpc.newBlockingStub(channel), fixedHeaders);
 		asyncStub = MetadataUtils.attachHeaders(LogicModuleGrpc.newStub(channel), fixedHeaders);
+		
+		//blockingStub.getCallOptions().withMaxOutboundMessageSize(Integer.MAX_VALUE);
+		//asyncStub.getCallOptions().withMaxOutboundMessageSize(Integer.MAX_VALUE);
+
 		
 	}
 

@@ -176,4 +176,13 @@ public final class ObjectWithDataParamOrReturn implements DataClaySerializable {
 	public void setClassID(final MetaClassID newclassID) {
 		this.classID = newclassID;
 	}
+	
+	public String toString() { 
+		StringBuilder strb = new StringBuilder();
+		strb.append("OBJECTID = " + objectID + "\n");
+		strb.append("CLASSID = " + classID + "\n");
+		strb.append("METADATA = " + metaData + "\n");
+		strb.append("DATA = " + serializedBytes + "\n");
+		return strb.toString();
+	}
 }

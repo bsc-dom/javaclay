@@ -36,8 +36,9 @@ public final class DataServiceServer {
 		final int maxMessageSize = Configuration.Flags.MAX_MESSAGE_SIZE.getIntValue();
 		final ThreadFactoryWithNamePrefix factory = new ThreadFactoryWithNamePrefix(ds.dsName);
 		final NettyServerBuilder serverBuilder = NettyServerBuilder.forPort(port);
-		serverBuilder.maxInboundMessageSize(maxMessageSize);
-		serverBuilder.maxInboundMetadataSize(maxMessageSize);
+		serverBuilder.maxMessageSize(maxMessageSize);
+		serverBuilder.maxInboundMessageSize(Integer.MAX_VALUE);
+		serverBuilder.maxInboundMetadataSize(Integer.MAX_VALUE);
 		serverBuilder.executor(Executors.newCachedThreadPool(factory));
 
 		final DataServiceService dss = new DataServiceService(ds);

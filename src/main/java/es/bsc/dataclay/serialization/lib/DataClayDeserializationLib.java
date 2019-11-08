@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
 
@@ -34,8 +37,11 @@ import es.bsc.dataclay.util.ids.SessionID;
 public final class DataClayDeserializationLib {
 
 	/** Indicates if debug is enabled. */
-	protected static final boolean DEBUG_ENABLED = Configuration.isDebugEnabled();
+	public static final boolean DEBUG_ENABLED = Configuration.isDebugEnabled();
 
+	/** Logger. */
+	public static final Logger LOGGER = LogManager.getLogger("DataClayDeserializationLib");
+	
 	/**
 	 * Constructor
 	 */
@@ -65,6 +71,9 @@ public final class DataClayDeserializationLib {
 		// Serialize object values
 		try {
 			instance.deserialize(dcBuffer, ifaceBitMaps, metadata, curDeserializedJavaObjs);
+			if (DataClayDeserializationLib.DEBUG_ENABLED) { 
+				DataClayDeserializationLib.LOGGER.debug("[Deserialization] --> Deserialization FINISHED: readerIndex=" + dcBuffer.readerIndex());
+			}
 		} finally {
 			dcBuffer.release();
 		}
@@ -502,10 +511,17 @@ public final class DataClayDeserializationLib {
 		// ====== LANGUAGE PARAMETERS ===== //
 
 		final Integer tag = dcBuffer.readVLQInt();
+		if (DataClayDeserializationLib.DEBUG_ENABLED) { 
+			DataClayDeserializationLib.LOGGER.debug("[Deserialization] --> Association tag deserialized: data="+  tag + ", readerindex=" + dcBuffer.readerIndex());
+		}
 		Object javaObject = curDeserializedObjs.get(tag);
 		if (javaObject == null) {
 			wrapper.deserialize(dcBuffer, ifaceBitMaps, metadata, curDeserializedObjs);
 			javaObject = wrapper.getJavaObject();
+		} else { 
+			if (DataClayDeserializationLib.DEBUG_ENABLED) { 
+				DataClayDeserializationLib.LOGGER.debug("[Deserialization] --> Found obj with identity =" + System.identityHashCode(javaObject));
+			}
 		}
 		return javaObject;
 	}
@@ -528,16 +544,13 @@ public final class DataClayDeserializationLib {
 			final Map<MetaClassID, byte[]> ifaceBitMaps, final DataClayObjectMetaData metadata,
 			final Map<Integer, Object> curDeserializedObjs, final DataClayRuntime theLib) {
 		final Integer tag = new Integer(dcBuffer.readVLQInt());
+		if (DataClayDeserializationLib.DEBUG_ENABLED) { 
+			DataClayDeserializationLib.LOGGER.debug("[Deserialization] --> Association tag deserialized: data="+  tag + ", readerindex=" + dcBuffer.readerIndex());
+		}
 		final ObjectID theObjectID = metadata.getObjectID(tag);
 		final MetaClassID localMetaClassID = metadata.getMetaClassID(tag);
 		final ExecutionEnvironmentID hint = metadata.getHint(tag);
 		DataClayObject obj = null;
-
-		if (DEBUG_ENABLED) {
-			DataClayObject.getLib();
-			DataClayRuntime.LOGGER.debug(
-					"[##Deserialization##] " + " Deserializing association to " + theObjectID + " with tag " + tag);
-		}
 
 		// GET INSTANCE
 		if (DEBUG_ENABLED) {
@@ -553,6 +566,9 @@ public final class DataClayDeserializationLib {
 		 * obj.setHint(hint); }
 		 */
 		curDeserializedObjs.put(tag, obj);
+		if (DataClayDeserializationLib.DEBUG_ENABLED) { 
+			DataClayDeserializationLib.LOGGER.debug("[Deserialization] --> Added obj with identity =" + System.identityHashCode(obj));
+		}
 		return obj;
 	}
 

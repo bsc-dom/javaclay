@@ -237,4 +237,16 @@ public final class DataClayObjectMetaData {
 		this.numRefs = thenumRefs;
 	}
 
+	public String toString() { 
+		StringBuilder strb = new StringBuilder();
+		strb.append("{\n");
+		strb.append("numRefs = " + this.numRefs + "\n");
+		strb.append("oids = " + this.oids + "\n");
+		strb.append("classIDs = " + this.classIDs + "\n");
+		strb.append("hints = " + this.hints + "\n");
+		strb.append("extDataClayIDs = " + this.extDataClayIDs + "\n");
+		strb.append("}\n");
+		return strb.toString();
+	}
+
 }

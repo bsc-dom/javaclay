@@ -335,6 +335,11 @@ public final class ClientRuntime extends DataClayRuntime {
 		// IfaceBitMaps = null. From client stub is controlling it.
 		final SerializedParametersOrReturn serObject = DataClaySerializationLib.serializeParamsOrReturn(wrapList,
 				ifaceBitMaps, this, false, location, !recursive); // no hint volatiles since volatiles are not going to
+		
+		if (DEBUG_ENABLED) {
+			LOGGER.debug("[==Serialization==] Serialized " + serObject);
+		}
+
 		// client
 		return serObject;
 	}

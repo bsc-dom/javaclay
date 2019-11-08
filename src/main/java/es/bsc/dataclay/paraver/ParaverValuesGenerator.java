@@ -28,7 +28,7 @@ public class ParaverValuesGenerator {
 	private static final int STARTING_VALUE = 1000; 
 	
 	/** Ignored packages. */
-	private static final String[] IGNORED_PACKAGES = new String[] { "dataclay.communication" };
+	private static final String[] IGNORED_PACKAGES = new String[] { "es.bsc.dataclay.communication" };
 	
 	/**
 	 * Main method.
@@ -46,7 +46,7 @@ public class ParaverValuesGenerator {
 		    .setScanners(new SubTypesScanner(false /* don't exclude Object.class */), new ResourcesScanner())
 		    .setUrls(ClasspathHelper.forClassLoader(classLoadersList.toArray(new ClassLoader[0])))
 		    .filterInputsBy(new FilterBuilder()
-    				.includePackage("dataclay").includePackage("storage"))
+    				.includePackage("es.bsc.dataclay").includePackage("storage"))
 				);
 		final Set<Class<?>> allClasses = reflections.getSubTypesOf(Object.class);
 		final Map<String, Integer> allMethods = new HashMap<>(); //avoid repeated

@@ -199,5 +199,19 @@ public final class SerializedParametersOrReturn {
 	public boolean needWrappers() {
 		return this.immObjs.size() > 0 || this.langObjs.size() > 0;
 	}
+	
+	@Override
+	public String toString() { 
+		StringBuilder strb = new StringBuilder();
+		strb.append("{\n");
+		strb.append("Num params = " + this.numParams + "\n");
+		strb.append("-- immutable params = " + this.immObjs.values() + "\n");
+		strb.append("-- language params = " + this.langObjs.values() + "\n");
+		strb.append("-- volatile params = " + this.volatileObjs.values() + "\n");
+		strb.append("-- persistent params = " + this.persistentRefs.values() + "\n");
+		strb.append("{\n");
+
+		return strb.toString();
+	}
 
 }

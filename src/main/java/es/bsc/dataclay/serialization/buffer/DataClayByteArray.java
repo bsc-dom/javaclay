@@ -50,5 +50,11 @@ public final class DataClayByteArray {
 	public void setByteString(final ByteString thebyteString) {
 		this.byteString = thebyteString;
 	}
+	
+	public String toString() { 
+		StringBuilder strb = new StringBuilder();
+		strb.append("[ lenght = " + this.byteString.size() + ", values = " + this.byteString.toStringUtf8() + "]");
+		return strb.toString();
+	}
 
 }

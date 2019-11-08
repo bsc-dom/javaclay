@@ -98,6 +98,7 @@ import es.bsc.dataclay.util.yaml.CommonYAML;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.StatusRuntimeException;
+import io.grpc.netty.shaded.io.grpc.netty.NegotiationType;
 import io.grpc.netty.shaded.io.grpc.netty.NettyChannelBuilder;
 
 /**
@@ -145,10 +146,14 @@ public final class DataServiceGrpcClient implements DataServiceAPI {
 		logger = LogManager.getLogger("grpc.client.dataservice." + originHostName);
 
 		ManagedChannelBuilder<?> chBuilder = NettyChannelBuilder.forAddress(host, port)
-				.maxInboundMessageSize(Short.MAX_VALUE).maxHeaderListSize(Short.MAX_VALUE);
-		chBuilder.usePlaintext();
+				.maxHeaderListSize(Integer.MAX_VALUE)
+				.usePlaintext()
+				.maxInboundMessageSize(Integer.MAX_VALUE)//.negotiationType(NegotiationType.PLAINTEXT)
+				.maxInboundMetadataSize(Integer.MAX_VALUE);
 		channel = chBuilder.build();
 		blockingStub = DataServiceGrpc.newBlockingStub(channel);
+		//blockingStub.getCallOptions().withMaxOutboundMessageSize(Integer.MAX_VALUE);
+
 	}
 
 	/**
@@ -183,7 +188,6 @@ public final class DataServiceGrpcClient implements DataServiceAPI {
 		try {
 
 			response = blockingStub.registerPendingObjects(EmptyMessage.newBuilder().build());
-
 		} catch (final StatusRuntimeException e) {
 			throw new RuntimeException(e.getMessage());
 		}

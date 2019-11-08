@@ -10,6 +10,9 @@ import java.util.ListIterator;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import es.bsc.dataclay.DataClayExecutionObject;
 import es.bsc.dataclay.DataClayObject;
 import es.bsc.dataclay.api.BackendID;
@@ -20,6 +23,7 @@ import es.bsc.dataclay.serialization.DataClaySerializable;
 import es.bsc.dataclay.serialization.buffer.DataClayByteArray;
 import es.bsc.dataclay.serialization.buffer.DataClayByteBuffer;
 import es.bsc.dataclay.serialization.java.DataClayJavaWrapper;
+import es.bsc.dataclay.serialization.java.LanguageTypes;
 import es.bsc.dataclay.util.Configuration;
 import es.bsc.dataclay.util.DataClayObjectMetaData;
 import es.bsc.dataclay.util.ReferenceCounting;
@@ -33,9 +37,13 @@ import es.bsc.dataclay.util.ids.ObjectID;
  */
 public final class DataClaySerializationLib {
 
-	/** Indicates if debug is enabled. */
-	protected static final boolean DEBUG_ENABLED = Configuration.isDebugEnabled();
 
+	/** Indicates if debug is enabled. */
+	public static final boolean DEBUG_ENABLED = Configuration.isDebugEnabled();
+
+	/** Logger. */
+	public static final Logger LOGGER = LogManager.getLogger("DataClaySerializationLib");
+	
 	/**
 	 * Constructor
 	 */
@@ -82,6 +90,9 @@ public final class DataClaySerializationLib {
 					return null;
 				}
 			}
+			if (DataClaySerializationLib.DEBUG_ENABLED) { 
+				DataClaySerializationLib.LOGGER.debug("[Serialization] --> Serialization FINISHED: writerIndex=" + dcBuffer.writerIndex());
+			}
 			final byte[] serializeObj = dcBuffer.getArray();
 			byteArray = new DataClayByteArray(serializeObj);
 		} catch (final Exception e) {
@@ -106,6 +117,9 @@ public final class DataClaySerializationLib {
 		final IdentityHashMap<Object, Integer> curSerializedObjs = new IdentityHashMap<>();
 
 		curSerializedObjs.put(paramReturn, 0); // Add "this"
+		if (DataClaySerializationLib.DEBUG_ENABLED) { 
+			DataClaySerializationLib.LOGGER.debug("[Serialization] --> Added obj with identity =" + System.identityHashCode(paramReturn));
+		}
 		final DataClayByteArray byteArray = createBufferAndSerialize(paramReturn, false, null, curSerializedObjs, it,
 				false);
 
@@ -148,6 +162,9 @@ public final class DataClaySerializationLib {
 			volatileParamReturn = new ObjectWithDataParamOrReturn(dcObject);
 			final IdentityHashMap<Object, Integer> curSerializedObjs = new IdentityHashMap<>();
 			curSerializedObjs.put(dcObject, 0); // Add "this"
+			if (DataClaySerializationLib.DEBUG_ENABLED) { 
+				DataClaySerializationLib.LOGGER.debug("[Serialization] --> Added obj with identity =" + System.identityHashCode(dcObject));
+			}
 			final DataClayByteArray byteArray = createBufferAndSerialize(volatileParamReturn, false, null,
 					curSerializedObjs, curIt, false);
 
@@ -319,6 +336,9 @@ public final class DataClaySerializationLib {
 					continue;
 				}
 				// ====== LANGUAGE/IMMUTABLE/GENERIC PARAMETERS ===== //
+				if (DataClaySerializationLib.DEBUG_ENABLED) { 
+					DataClaySerializationLib.LOGGER.debug("[Serialization] --> Serializing language or immutable object with identity " +  System.identityHashCode(javaWrapper));
+				}
 				serializeLangParameterOrReturn(javaWrapper, runtime, langParams, immParams, volatileParams, persParams,
 						alreadySerializedParams, it, curIdx, forUpdate, hint, ifaceBitMaps);
 			} else {
@@ -347,20 +367,15 @@ public final class DataClaySerializationLib {
 				runtime.addSessionReference(dcObject.getObjectID());
 
 				if (dcObject.isPersistent()) {
-					if (DEBUG_ENABLED) {
-						DataClayRuntime.LOGGER
-								.debug("[##Serialization##] Serializing PERSISTENT DataClayObject param idx = " + curIdx
-										+ " oid = " + dcObject.getObjectID() + " with hint "
-										+ runtime.getDSNameOfHint(dcObject.getHint()));
+					if (DataClaySerializationLib.DEBUG_ENABLED) { 
+						DataClaySerializationLib.LOGGER.debug("[Serialization] --> Serializing persistent object with identity " +  System.identityHashCode(dcObject));
 					}
 					// ======= PERSISTENT PARAMETERS ===== //
 					final PersistentParamOrReturn persParamOrReturn = new PersistentParamOrReturn(dcObject);
 					persParams.put(curIdx, persParamOrReturn);
 				} else {
-					if (DEBUG_ENABLED) {
-						DataClayRuntime.LOGGER
-								.debug("[##Serialization##] Serializing VOLATILE DataClayObject param idx = " + curIdx
-										+ " oid = " + dcObject.getObjectID());
+					if (DataClaySerializationLib.DEBUG_ENABLED) { 
+						DataClaySerializationLib.LOGGER.debug("[Serialization] --> Serializing volatile object with identity " +  System.identityHashCode(dcObject));
 					}
 					final ObjectWithDataParamOrReturn volatileParamReturn = serializeDataClayObjectWithData(dcObject,
 							runtime, false, ifaceBitMaps, it, forUpdate, hint, true);
@@ -376,12 +391,18 @@ public final class DataClaySerializationLib {
 		// "serializeAssociation".
 		// Verify they were not already serialized
 		if (!ignoreSubObjects) {
+			if (DataClaySerializationLib.DEBUG_ENABLED) { 
+				DataClaySerializationLib.LOGGER.debug("[Serialization] --> Serializing sub-objects, size = " + pendingObjs.size());
+			}
 			while (it.hasPrevious()) {
 				final DataClayObject pendingObj = it.previous();
 				it.remove();
 
 				// Avoid serializing same object many times.
 				if (alreadySerializedParams.contains(pendingObj.getObjectID())) {
+					if (DataClaySerializationLib.DEBUG_ENABLED) { 
+						DataClaySerializationLib.LOGGER.debug("[Serialization] --> Found sub-object already serialized with identity " + System.identityHashCode(pendingObj));
+					}
 					continue;
 				}
 
@@ -389,10 +410,16 @@ public final class DataClaySerializationLib {
 				runtime.addSessionReference(pendingObj.getObjectID());
 
 				if (pendingObj.isPersistent()) {
+					if (DataClaySerializationLib.DEBUG_ENABLED) { 
+						DataClaySerializationLib.LOGGER.debug("[Serialization] --> Object already persistent with id = " + System.identityHashCode(pendingObj));
+					}
 					// ======= PERSISTENT PARAMETERS ===== //
 					final PersistentParamOrReturn persParamOrReturn = new PersistentParamOrReturn(pendingObj);
 					persParams.put(curIdx, persParamOrReturn);
 				} else {
+					if (DataClaySerializationLib.DEBUG_ENABLED) { 
+						DataClaySerializationLib.LOGGER.debug("[Serialization] --> Serializing volatile sub-object with id = " + System.identityHashCode(pendingObj));
+					}
 					final ObjectWithDataParamOrReturn volatileParamReturn = serializeDataClayObjectWithData(pendingObj,
 							runtime, false, ifaceBitMaps, it, forUpdate, hint, true);
 					volatileParams.put(curIdx, volatileParamReturn);
@@ -407,6 +434,13 @@ public final class DataClaySerializationLib {
 				}
 				curIdx++;
 			}
+		} else { 
+			if (DataClaySerializationLib.DEBUG_ENABLED) { 
+				DataClaySerializationLib.LOGGER.debug("[Serialization] --> NOT serializing sub-objects, size = " + pendingObjs.size());
+			}
+		}
+		if (DataClaySerializationLib.DEBUG_ENABLED) { 
+			DataClaySerializationLib.LOGGER.debug("[Serialization] --> Serialization finished");
 		}
 
 		return new SerializedParametersOrReturn(wrappedParamsOrRet.size(), immParams, langParams, volatileParams,
@@ -462,6 +496,9 @@ public final class DataClaySerializationLib {
 		final ListIterator<DataClayObject> curIt = curPendingObjs.listIterator();
 
 		curSerializedObjs.put(instance, 0); // Add "this"
+		if (DataClaySerializationLib.DEBUG_ENABLED) { 
+			DataClaySerializationLib.LOGGER.debug("[Serialization] --> Added obj with identity =" + System.identityHashCode(instance));
+		}
 		final DataClayByteArray byteArray = createBufferAndSerialize(instance, ignoreUserTypes, ifaceBitMaps,
 				curSerializedObjs, curIt, returnNullIfNoRefCounting);
 		if (returnNullIfNoRefCounting && byteArray == null) {
@@ -519,9 +556,18 @@ public final class DataClaySerializationLib {
 			pendingObjs.add(element);
 			tag = new Integer(curSerializedObjs.size());
 			curSerializedObjs.put(element, tag);
+			if (DataClaySerializationLib.DEBUG_ENABLED) { 
+				DataClaySerializationLib.LOGGER.debug("[Serialization] --> Added obj with identity =" + System.identityHashCode(element));
+			}
+		} else { 
+			if (DataClaySerializationLib.DEBUG_ENABLED) { 
+				DataClaySerializationLib.LOGGER.debug("[Serialization] --> Found obj with identity =" + System.identityHashCode(element));
+			}
 		}
 		dcBuffer.writeVLQInt(tag.intValue());
-
+		if (DataClaySerializationLib.DEBUG_ENABLED) { 
+			DataClaySerializationLib.LOGGER.debug("[Serialization] --> Serialized association tag: data=" + tag + ", writerIndex=" + dcBuffer.writerIndex());
+		}
 		// update reference counting
 		final ObjectID associationObjectID = element.getObjectID();
 		final ExecutionEnvironmentID hint = (ExecutionEnvironmentID) element.getHint();
@@ -571,11 +617,23 @@ public final class DataClaySerializationLib {
 		if (tag == null) {
 			tag = new Integer(curSerializedObjs.size());
 			dcBuffer.writeVLQInt(tag.intValue());
+			if (DataClaySerializationLib.DEBUG_ENABLED) { 
+				DataClaySerializationLib.LOGGER.debug("[Serialization] --> Serialized NEW association tag: data=" + tag + ", writerIndex=" + dcBuffer.writerIndex());
+			}
 			curSerializedObjs.put(javaObject, tag);
+			if (DataClaySerializationLib.DEBUG_ENABLED) { 
+				DataClaySerializationLib.LOGGER.debug("[Serialization] --> Added obj with identity =" + System.identityHashCode(javaObject));
+			}
 			wrapper.serialize(dcBuffer, ignoreUserTypes, ifaceBitMaps, curSerializedObjs, pendingObjs,
 					referenceCounting);
 		} else {
+			if (DataClaySerializationLib.DEBUG_ENABLED) { 
+				DataClaySerializationLib.LOGGER.debug("[Serialization] --> Found obj with identity =" + System.identityHashCode(javaObject));
+			}
 			dcBuffer.writeVLQInt(tag.intValue());
+			if (DataClaySerializationLib.DEBUG_ENABLED) { 
+				DataClaySerializationLib.LOGGER.debug("[Serialization] --> Serialized association tag: data=" + tag + ", writerIndex=" + dcBuffer.writerIndex());
+			}
 		}
 
 	}

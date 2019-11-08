@@ -587,6 +587,11 @@ public final class DataService implements DataServiceAPI {
 	@Override
 	public void makePersistent(final SessionID sessionID, final SerializedParametersOrReturn objectsToPersist) {
 		try {
+			
+			if (DEBUG_ENABLED) {
+				LOGGER.debug("[==Serialization==] Received serialized objects: " + objectsToPersist);
+			}
+
 			// create lots of objects here and stash them somewhere
 			runtime.setCurrentThreadSessionID(sessionID);
 

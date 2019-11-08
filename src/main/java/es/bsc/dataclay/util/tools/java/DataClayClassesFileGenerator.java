@@ -36,7 +36,7 @@ public class DataClayClassesFileGenerator {
 		    .setScanners(new SubTypesScanner(false /* don't exclude Object.class */), new ResourcesScanner())
 		    .setUrls(ClasspathHelper.forClassLoader(classLoadersList.toArray(new ClassLoader[0])))
 		    .filterInputsBy(new FilterBuilder()
-    				.includePackage("dataclay").includePackage("storage"))
+    				.includePackage("es.bsc.dataclay").includePackage("storage"))
 				);
 		final Set<Class<?>> allClasses = reflections.getSubTypesOf(Object.class);
 		final Properties prop = new Properties();

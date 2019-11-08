@@ -74,7 +74,7 @@ public abstract class DataClayRuntime {
 	public static final Logger LOGGER = LogManager.getLogger("DataClayRuntime");
 
 	/** Indicates if debug is enabled. */
-	protected static final boolean DEBUG_ENABLED = Configuration.isDebugEnabled();
+	public static final boolean DEBUG_ENABLED = Configuration.isDebugEnabled();
 
 	/** Indicates if runtime was initialized. */
 	private boolean initialized = false;

@@ -6,8 +6,11 @@ import java.util.ListIterator;
 import java.util.Map;
 
 import es.bsc.dataclay.DataClayObject;
+import es.bsc.dataclay.commonruntime.DataClayRuntime;
 import es.bsc.dataclay.serialization.buffer.DataClayByteBuffer;
 import es.bsc.dataclay.serialization.java.DataClayJavaWrapper;
+import es.bsc.dataclay.serialization.lib.DataClayDeserializationLib;
+import es.bsc.dataclay.serialization.lib.DataClaySerializationLib;
 import es.bsc.dataclay.util.DataClayObjectMetaData;
 import es.bsc.dataclay.util.ReferenceCounting;
 import es.bsc.dataclay.util.ids.MetaClassID;
@@ -56,6 +59,9 @@ public final class ByteWrapper extends DataClayJavaWrapper {
 			final IdentityHashMap<Object, Integer> curSerializedObjs,
 			final ListIterator<DataClayObject> pendingObjs, ReferenceCounting referenceCounting) {
 		dcBuffer.writeByte(this.byteObject);
+		if (DataClaySerializationLib.DEBUG_ENABLED) { 
+			DataClaySerializationLib.LOGGER.debug("[Serialization] --> Serialized Byte: data=" + byteObject + ", writerIndex=" + dcBuffer.writerIndex());
+		}
 	}
 
 	@Override
@@ -64,6 +70,9 @@ public final class ByteWrapper extends DataClayJavaWrapper {
 			final DataClayObjectMetaData metadata,
 			final Map<Integer, Object> curDeserializedObjs) {
 		this.byteObject = dcBuffer.readByte();
+		if (DataClayDeserializationLib.DEBUG_ENABLED) { 
+			DataClayDeserializationLib.LOGGER.debug("[Deserialization] --> Byte deserialized: data="+  byteObject + ", readerindex=" + dcBuffer.readerIndex());
+		}
 	}
 
 	@Override

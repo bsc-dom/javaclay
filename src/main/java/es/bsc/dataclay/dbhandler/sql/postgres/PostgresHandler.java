@@ -206,7 +206,7 @@ public class PostgresHandler extends SQLHandler<PostgresHandlerConf> {
 		ds.setUsername(user);
 		ds.setPassword(password);
 		// ds.setValidationQueryTimeout(5);
-		ds.setDriverClassName("dataclay.dbhandler.sql.postgres.ExtendedPostgresDriver");
+		ds.setDriverClassName("es.bsc.dataclay.dbhandler.sql.postgres.ExtendedPostgresDriver");
 
 		ds.setMaxTotal(-1);
 		ds.setMaxIdle(-1);
