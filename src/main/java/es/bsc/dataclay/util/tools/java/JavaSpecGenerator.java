@@ -81,7 +81,7 @@ public final class JavaSpecGenerator {
 			}
 		}
 
-		regClassLoader = new URLClassLoader(classUrls);
+		regClassLoader = new URLClassLoader(classUrls, Thread.currentThread().getContextClassLoader());
 		
 
 		// Add all JAR classes

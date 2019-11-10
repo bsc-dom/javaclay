@@ -385,6 +385,7 @@ public final class DataClayDeserializationLib {
 			final DataClayByteArray bytes = langObj.getSerializedBytes();
 
 			final Map<Integer, Object> curDeserializedJavaObjs = new HashMap<>();
+
 			DataClayDeserializationLib.createBufferAndDeserialize(bytes, langObj, ifaceBitMaps, langObj.getMetaData(),
 					curDeserializedJavaObjs);
 			if (paramIdx < numParams) {

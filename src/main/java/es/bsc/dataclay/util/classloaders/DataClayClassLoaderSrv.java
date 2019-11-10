@@ -46,14 +46,13 @@ public final class DataClayClassLoaderSrv {
 		if (!clDir.exists()) {
 			clDir.mkdir();
 		}
-		// TODO: jars folders
 		final URL[] urls = new URL[1];
 		try {
 			urls[0] = clDir.toURI().toURL();
 		} catch (final Exception e) {
 			throw new RuntimeException(e);
 		}
-		execEnvironmentClassLoader = new URLClassLoader(urls);
+		execEnvironmentClassLoader = new URLClassLoader(urls, Thread.currentThread().getContextClassLoader());
 	}
 
 	/**
@@ -89,10 +88,10 @@ public final class DataClayClassLoaderSrv {
 		try {
 			final Constructor<?> cons = clazz.getConstructor(ObjectID.class);
 			cons.setAccessible(true);
+
 			final DataClayObject obj = (DataClayObject) cons.newInstance(objectID);
 			return obj;
 		} catch (final Exception e) {
-			e.printStackTrace();
 			throw new DataClayClassNotFoundException(e.getMessage(), e.getCause(), true, true);
 		}
 	}
@@ -109,7 +108,6 @@ public final class DataClayClassLoaderSrv {
 		try {
 			return execEnvironmentClassLoader.loadClass(fullClassName);
 		} catch (final ClassNotFoundException e) {
-			e.printStackTrace();
 			throw new DataClayClassNotFoundException(e.getMessage(), e.getCause(), true, true);
 		}
 	}
@@ -140,11 +138,20 @@ public final class DataClayClassLoaderSrv {
 					final String namespaceToUse = classNameAndNamespace.getSecond();
 
 					resultClass = execEnvironmentClassLoader.loadClass(namespaceToUse + "." + classname);
+
+
 				} catch (final ClassNotFoundException e) {
 					throw new DataClayClassNotFoundException(e.getMessage(), e.getCause(), true, true);
+				
+				} catch (final Exception ex) { 
+					ex.printStackTrace();
+				} catch (final Error err) { 
+					err.printStackTrace();
 				}
 				CLASS_CACHE.put(classID, resultClass);
 			}
+		} catch (Exception e) { 
+			throw e;
 		} finally {
 			clazz.unlock();
 		}

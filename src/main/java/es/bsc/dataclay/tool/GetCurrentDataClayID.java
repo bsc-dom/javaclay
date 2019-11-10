@@ -17,5 +17,7 @@ public class GetCurrentDataClayID {
 			ex.printStackTrace();
 			Util.finishErr("Exception caught: " + ex.getLocalizedMessage() + ".", ERRCODE.ERROR);
 		}
+		System.exit(0); // Call this to finish logging threads
+
 	}
 }

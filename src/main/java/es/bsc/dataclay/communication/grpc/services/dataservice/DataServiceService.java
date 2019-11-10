@@ -658,19 +658,22 @@ public final class DataServiceService extends DataServiceGrpc.DataServiceImplBas
 	@Override
 	public void makePersistent(final MakePersistentRequest request,
 			final io.grpc.stub.StreamObserver<CommonMessages.ExceptionInfo> responseObserver) {
+		LOGGER.debug("[==Serialization==] Received request for make persistent ");
 		try {
-
 			SerializedParametersOrReturn params = null;
 			if (request.hasParams()) {
 				params = Utils.getParamsOrReturn(request.getParams());
 			}
-
+			if (DEBUG_ENABLED) {
+				LOGGER.debug("[==Serialization==] Received request for make persistent with params:" + params);
+			}
 			dataService.makePersistent(Utils.getID(request.getSessionID()), params);
 
 			Utils.returnExceptionInfoMessage(responseObserver);
 			responseObserver.onCompleted();
 
 		} catch (final Exception e) {
+			e.printStackTrace();
 			final ExceptionInfo resp = Utils.serializeException(e);
 			responseObserver.onNext(resp);
 			responseObserver.onCompleted();

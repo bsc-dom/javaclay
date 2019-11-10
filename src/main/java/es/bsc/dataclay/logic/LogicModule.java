@@ -5693,7 +5693,11 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
 
 	@Override
 	public Tuple<String, String> getClassNameAndNamespaceForDS(final MetaClassID classID) {
-		return classMgrApi.getClassNameAndNamespace(classID);
+		try {
+			return classMgrApi.getClassNameAndNamespace(classID);
+		} catch (Exception e) { 
+			throw e;
+		}
 	}
 
 	@Override

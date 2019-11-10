@@ -12,15 +12,15 @@ public class ExtraeAspects {
 	
 	private static final String EXTRAE_POINTCUT = "(execution(* es.bsc.dataclay.commonruntime.ClientRuntime.*(..)) "
 			+ "|| execution(* es.bsc.dataclay.commonruntime.DataClayRuntime.*(..)) "
-			+ "|| 	execution(* es.bsc.dataclay.commonruntime.DataServiceRuntime.*(..)) " 
-			+ "|| 	execution(* es.bsc.dataclay.api.DataClay.*(..)) " //WARNING: this class must be always intervened
+			+ "|| execution(* es.bsc.dataclay.commonruntime.DataServiceRuntime.*(..)) " 
+			+ "|| 	execution(* es.bsc.dataclay.api.DataClay.*(..)) " // this class must be always intervened ?
 			+ "|| 	execution(* es.bsc.dataclay.dataservice.DataService.*(..)) "
 			+ "|| 	execution(* es.bsc.dataclay.logic.LogicModule.*(..)) "
 			+ "|| 	execution(* es.bsc.dataclay.storagelocation..*(..)) "
 			+ "|| 	execution(* es.bsc.dataclay.logic.accountmgr..*(..)) "
 			+ "|| 	execution(* storage.StorageItf.*(..)) " 
 			+ ") "
-			+ "&& !execution(* es.bsc.dataclay.paraver..*(..)) "
+			+ "&& !execution(* es.bsc.dataclay.extrae..*(..)) "
 			+ "&& !execution(* *.activateTracing(..)) "
 			+ "&& !execution(* *.deactivateTracing(..)) "
 			+ "&& !execution(* *.activateTracingInDataClayServices(..)) "
@@ -37,8 +37,8 @@ public class ExtraeAspects {
 			+ "&& !execution(* *.getTraces(..)) "
 			+ "&& !execution(* *.init(..)) "
 			+ "&& !execution(* *.finish(..)) "
-			+ "&& !execution(* es.bsc.dataclay.DataClayObject.*(..)) "
-			+ "&& !execution(* es.bsc.dataclay.serialization.DataClaySerializable.*(..)) "
+			+ "&& !execution(* es.bsc.dataclay.DataClayObject.*(..)) " // injection not working properly?
+			+ "&& !execution(* es.bsc.dataclay.serialization.DataClaySerializable.*(..)) " // injection not working properly?
 			+ "&& !execution(* storage.StubItf.*(..)) "
 			+ "&& !execution(* storage.StorageObject.*(..)) ";
 	

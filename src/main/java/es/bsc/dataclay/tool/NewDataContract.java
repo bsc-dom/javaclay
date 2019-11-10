@@ -73,5 +73,7 @@ public class NewDataContract {
 		} catch (final Exception ex) {
 			Util.finishErr("Exception caught. Check your account and credentials.", ERRCODE.ERROR);
 		}
+		System.exit(0); // Call this to finish logging threads
+
 	}
 }

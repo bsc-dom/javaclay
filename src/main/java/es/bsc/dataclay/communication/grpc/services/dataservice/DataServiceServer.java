@@ -3,6 +3,7 @@ package es.bsc.dataclay.communication.grpc.services.dataservice;
 
 import java.io.IOException;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -36,9 +37,14 @@ public final class DataServiceServer {
 		final int maxMessageSize = Configuration.Flags.MAX_MESSAGE_SIZE.getIntValue();
 		final ThreadFactoryWithNamePrefix factory = new ThreadFactoryWithNamePrefix(ds.dsName);
 		final NettyServerBuilder serverBuilder = NettyServerBuilder.forPort(port);
-		serverBuilder.maxMessageSize(maxMessageSize);
-		serverBuilder.maxInboundMessageSize(Integer.MAX_VALUE);
-		serverBuilder.maxInboundMetadataSize(Integer.MAX_VALUE);
+		// serverBuilder.maxMessageSize(maxMessageSize);
+		serverBuilder.maxInboundMessageSize(maxMessageSize);
+		serverBuilder.maxInboundMetadataSize(maxMessageSize);
+		// serverBuilder.maxConcurrentCallsPerConnection(Integer.MAX_VALUE);
+		// serverBuilder.keepAliveTimeout(Integer.MAX_VALUE, TimeUnit.SECONDS);
+		// serverBuilder.flowControlWindow(Integer.MAX_VALUE);
+		// serverBuilder.permitKeepAliveWithoutCalls(true);
+
 		serverBuilder.executor(Executors.newCachedThreadPool(factory));
 
 		final DataServiceService dss = new DataServiceService(ds);

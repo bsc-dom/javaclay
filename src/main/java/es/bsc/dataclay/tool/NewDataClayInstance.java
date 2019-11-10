@@ -24,5 +24,6 @@ public class NewDataClayInstance {
 		} catch (final Exception ex) {
 			Util.finishErr("Exception caught. Check dataClay info is valid.", ERRCODE.ERROR);
 		}
+		System.exit(0); // Call this to finish logging threads
 	}
 }

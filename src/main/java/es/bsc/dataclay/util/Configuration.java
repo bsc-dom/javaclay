@@ -357,7 +357,7 @@ public final class Configuration {
 				System.getProperty("user.dir") + File.separatorChar + "install_classes" + File.separatorChar + "bin",
 				ConfType.STRING),
 		/** Default value for path in which execution classes are stored. */
-		EXECUTION_CLASSES_PATH(System.getProperty("user.dir") + File.separatorChar + "execClasses", ConfType.STRING),
+		EXECUTION_CLASSES_PATH(System.getProperty("user.dir") + File.separatorChar + "execClasses/", ConfType.STRING),
 		/** Defines the file where dependencies is located. */
 		INCLUDE_THIS_PROJECT(System.getProperty("user.dir") + File.separatorChar + "target/classes", ConfType.STRING),
 		
@@ -404,16 +404,20 @@ public final class Configuration {
 				File globalFile = null;
 				LOGGER.debug("Looking for environment variable {}", Configuration.GLOBALPROPS_ENV);
 				String globalPropsPath = ProcessEnvironment.getInstance().get(Configuration.GLOBALPROPS_ENV);
-				boolean fileExists = false;
-
-				if (globalPropsPath != null && !globalPropsPath.isEmpty()) {
+				boolean fileExists = true;
+				LOGGER.debug("Found {} defined at {}. Trying to read.",
+						Configuration.GLOBALPROPS_ENV, globalPropsPath);
+				/*if (globalPropsPath != null && !globalPropsPath.isEmpty()) {
 					globalFile = new File(globalPropsPath);
 					fileExists = globalFile.isFile() && globalFile.exists();
-				}
+				}*/
 
 				if (fileExists) {
 					LOGGER.debug("Found {}. Initializing global properties with properties located at {}",
 							Configuration.GLOBALPROPS_ENV, globalPropsPath);
+					final Path path = Paths.get(GLOBALPROPS_PATH).normalize();
+					globalPropsPath = path.toAbsolutePath().toString();
+					globalFile = new File(globalPropsPath);
 				} else {
 					final Path path = Paths.get(GLOBALPROPS_PATH).normalize();
 					LOGGER.debug("Cannot find environment variable {}. Trying default location {}",

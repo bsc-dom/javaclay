@@ -2318,6 +2318,7 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 			responseObserver.onCompleted();
 
 		} catch (final Exception ex) {
+			ex.printStackTrace();
 			logger.debug("getClassNameAndNamespaceForDS error", ex);
 
 			final GetClassNameAndNamespaceForDSResponse.Builder builder = GetClassNameAndNamespaceForDSResponse

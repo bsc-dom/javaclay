@@ -3,6 +3,7 @@ package es.bsc.dataclay.communication.grpc.services.logicmodule;
 
 import java.io.IOException;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -43,13 +44,13 @@ public final class LogicModuleServer {
 		final ThreadFactoryWithNamePrefix factory = new ThreadFactoryWithNamePrefix(srvName);
 
 		final NettyServerBuilder serverBuilder = NettyServerBuilder.forPort(port);
-		serverBuilder.maxMessageSize(Integer.MAX_VALUE);
-		serverBuilder.maxInboundMessageSize(Integer.MAX_VALUE);
-		serverBuilder.maxInboundMetadataSize(Integer.MAX_VALUE);
-		// serverBuilder.maxConcurrentCallsPerConnection(Integer.MAX_VALUE);
-		serverBuilder.maxHeaderListSize(Integer.MAX_VALUE);
-		// serverBuilder.keepAliveTime(10, TimeUnit.SECONDS);
-		// serverBuilder.keepAliveTimeout(10, TimeUnit.SECONDS);
+	//	serverBuilder.maxMessageSize(Integer.MAX_VALUE);
+		serverBuilder.maxInboundMessageSize(maxMessageSize);
+		serverBuilder.maxInboundMetadataSize(maxMessageSize);
+	//	serverBuilder.maxHeaderListSize(Integer.MAX_VALUE);
+		serverBuilder.maxConcurrentCallsPerConnection(Integer.MAX_VALUE);
+	//	serverBuilder.keepAliveTime(10, TimeUnit.SECONDS);
+	//	serverBuilder.keepAliveTimeout(10, TimeUnit.SECONDS);
 		serverBuilder.executor(Executors.newCachedThreadPool(factory));
 
 		final LogicModuleService lms = new LogicModuleService(lm);

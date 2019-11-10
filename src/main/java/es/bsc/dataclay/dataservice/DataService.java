@@ -12,6 +12,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -29,6 +31,10 @@ import java.util.stream.Collectors;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.objectweb.asm.util.CheckClassAdapter;
+
+import org.objectweb.asm.ClassReader;
+import org.objectweb.asm.ClassWriter;
 
 import es.bsc.dataclay.DataClayExecutionObject;
 import es.bsc.dataclay.DataClayMockObject;
@@ -158,9 +164,9 @@ public final class DataService implements DataServiceAPI {
 		this.runtime = new DataServiceRuntime(this);
 		initEEInfo();
 
-		
+
 	}
-	
+
 	/**
 	 * Initialize caches from persistent files
 	 * 
@@ -186,7 +192,7 @@ public final class DataService implements DataServiceAPI {
 			LOGGER.debug("init EE information error", ex);
 			return;
 		}
-		
+
 	}
 
 	/**
@@ -194,18 +200,18 @@ public final class DataService implements DataServiceAPI {
 	 */
 	public void persistEEInfo() {
 		try {
-				final FileOutputStream fos = new FileOutputStream(Configuration.Flags.EE_PERSISTENT_INFO_PATH.getStringValue()
-						+ "ee" + this.dsName + ".info");
-				final ObjectOutputStream oos = new ObjectOutputStream(fos);
-				final ExecutionEnvironmentPersistentInfo eeInfo = new ExecutionEnvironmentPersistentInfo(
-						this.executionEnvironmentID, this.storageLocationID);
-				oos.writeObject(eeInfo);
-				oos.close();
-				fos.close();
-			} catch (final IOException ioe) {
-				LOGGER.debug("persist EE info IO error", ioe);
+			final FileOutputStream fos = new FileOutputStream(Configuration.Flags.EE_PERSISTENT_INFO_PATH.getStringValue()
+					+ "ee" + this.dsName + ".info");
+			final ObjectOutputStream oos = new ObjectOutputStream(fos);
+			final ExecutionEnvironmentPersistentInfo eeInfo = new ExecutionEnvironmentPersistentInfo(
+					this.executionEnvironmentID, this.storageLocationID);
+			oos.writeObject(eeInfo);
+			oos.close();
+			fos.close();
+		} catch (final IOException ioe) {
+			LOGGER.debug("persist EE info IO error", ioe);
 		}
-		
+
 	}
 
 	/**
@@ -227,7 +233,6 @@ public final class DataService implements DataServiceAPI {
 		this.runtime.initialize(logicModuleHost, tcpLogicModulePort, dataServiceName);
 		DataClayObject.setLib(runtime);
 		if (Configuration.Flags.PREFETCHING_ENABLED.getBooleanValue()) {
-			System.out.println("*** DATASERVICE INITIALIZED WITH PREFETCHING ***");
 			lazyTasksRunner = new LazyTasksRunner(this);
 			lazyTasksTimer = new Timer();
 			lazyTasksTimer.schedule(lazyTasksRunner, 0, Configuration.Flags.PREFETCHING_TASKS_INTERVAL.getLongValue());
@@ -287,9 +292,37 @@ public final class DataService implements DataServiceAPI {
 		throw new UnsupportedOperationException("Deploy MetaClass not supported for Java DataService");
 	}
 
+	public static byte[] checkGeneratedClass(byte[] classBytes) {
+		ClassReader cr = new ClassReader(classBytes);
+		StringWriter sw = new StringWriter();
+		PrintWriter pw = new PrintWriter(sw);		   
+		CheckClassAdapter.verify(cr, true, pw);
+
+		return classBytes;
+	}
+
+	public static void validateClass(ClassReader reader, ClassLoader loader) {
+		StringWriter writer = new StringWriter();
+		PrintWriter printWriter = new PrintWriter(writer);
+
+		Exception error = null;
+		try {
+			CheckClassAdapter.verify(reader, loader, true, printWriter);
+		} catch (Exception e) {
+			error = e;
+		}
+
+		String contents = writer.toString();
+		if (error != null || contents.length() > 0) {
+			throw new IllegalStateException(writer.toString(), error);
+		}
+	}
+
+
 	@Override
 	public void deployClasses(final String namespaceName, final Map<Tuple<String, MetaClassID>, byte[]> classesToDeploy,
 			final Map<String, byte[]> classesAspects, final Map<String, byte[]> stubYamls) {
+		runtime.setCurrentThreadSessionID(new SessionID());
 
 		// Create temporary directories
 		final String namespaceDir = Configuration.Flags.EXECUTION_CLASSES_PATH.getStringValue();
@@ -303,14 +336,21 @@ public final class DataService implements DataServiceAPI {
 			final byte[] classToDeploy = curEntry.getValue();
 			try {
 				FileAndAspectsUtils.storeClass(namespaceDir, finalClassName + ".class", classToDeploy);
-				
-				// TODO: Verify class 
-				
+
 			} catch (final Exception ex) {
 				ex.printStackTrace();
 				LOGGER.debug("deployClasses error (while storing .class files)", ex);
 				throw new ClassDeploymentException(namespaceName, className, ex.getMessage());
 			}
+		}
+
+		for (final Entry<Tuple<String, MetaClassID>, byte[]> curEntry : classesToDeploy.entrySet()) {
+			final String className = curEntry.getKey().getFirst();
+			final String finalClassName = namespaceName + "." + className;
+			final byte[] classToDeploy = curEntry.getValue();
+			//  Verify class 
+			checkGeneratedClass(classToDeploy);
+			DataClayClassLoaderSrv.getClass(finalClassName);
 		}
 
 		// Store yamls into final path
@@ -587,7 +627,7 @@ public final class DataService implements DataServiceAPI {
 	@Override
 	public void makePersistent(final SessionID sessionID, final SerializedParametersOrReturn objectsToPersist) {
 		try {
-			
+
 			if (DEBUG_ENABLED) {
 				LOGGER.debug("[==Serialization==] Received serialized objects: " + objectsToPersist);
 			}
@@ -607,6 +647,7 @@ public final class DataService implements DataServiceAPI {
 				LOGGER.debug("[==Make Persistent==] ** End of make persistent **");
 			}
 		} catch (final Exception ex) {
+			ex.printStackTrace();
 			LOGGER.debug(" Make persistent got exception", ex);
 			throw ex;
 		} finally {
@@ -616,6 +657,7 @@ public final class DataService implements DataServiceAPI {
 			runtime.removeCurrentThreadSessionID();
 
 		}
+
 	}
 
 	@Override
@@ -1501,7 +1543,7 @@ public final class DataService implements DataServiceAPI {
 
 			if (recursive) {
 				removedObjs
-						.putAll(removeObjectsInOtherBackend(sessionID, objectsInOtherBackend, true, moving, newHint));
+				.putAll(removeObjectsInOtherBackend(sessionID, objectsInOtherBackend, true, moving, newHint));
 			}
 
 		} finally {
@@ -1574,8 +1616,8 @@ public final class DataService implements DataServiceAPI {
 				instance.setNewObjectID();
 				if (DEBUG_ENABLED) {
 					LOGGER.debug("[==Cache==] Added to objectsMap due to remove " + instance.getObjectID()
-							+ " of class " + instance.getClass().getName() + ". System.id = "
-							+ System.identityHashCode(instance));
+					+ " of class " + instance.getClass().getName() + ". System.id = "
+					+ System.identityHashCode(instance));
 				}
 				runtime.addToHeap(instance);
 			}
@@ -1863,8 +1905,8 @@ public final class DataService implements DataServiceAPI {
 				if (objLocation.equals(destLocation)) {
 					if (DEBUG_ENABLED) {
 						LOGGER.debug("[==MOVE==] Ignoring move of object  " + objFound.getObjectID()
-								+ " since it is already where it should be. ObjLoc = " + objLocation + " and DestLoc = "
-								+ destLocation);
+						+ " since it is already where it should be. ObjLoc = " + objLocation + " and DestLoc = "
+						+ destLocation);
 					}
 					// object already in dest
 					continue;
@@ -1872,14 +1914,14 @@ public final class DataService implements DataServiceAPI {
 					if (this.executionEnvironmentID.equals(destLocation)) {
 						if (DEBUG_ENABLED) {
 							LOGGER.debug("[==MOVE==] Ignoring move of object  " + objFound.getObjectID()
-									+ " since it is already where it should be" + " ObjLoc = " + objLocation
-									+ " and DestLoc = " + destLocation);
+							+ " since it is already where it should be" + " ObjLoc = " + objLocation
+							+ " and DestLoc = " + destLocation);
 						}
 					} else {
 						if (DEBUG_ENABLED) {
 							LOGGER.debug("[==MOVE==] Moving object  " + objFound.getObjectID()
-									+ " since dest.location is different to src.location and object is not in dest.location "
-									+ " ObjLoc = " + objLocation + " and DestLoc = " + destLocation);
+							+ " since dest.location is different to src.location and object is not in dest.location "
+							+ " ObjLoc = " + objLocation + " and DestLoc = " + destLocation);
 						}
 						// THE DESTINATION IS ANOTHER NODE: move.
 						objectsToMove.add(objFound);
@@ -1918,7 +1960,7 @@ public final class DataService implements DataServiceAPI {
 
 		} catch (
 
-		final Exception ex) {
+				final Exception ex) {
 			LOGGER.debug("moveObjects error", ex);
 
 		} finally {
@@ -2328,7 +2370,7 @@ public final class DataService implements DataServiceAPI {
 	public Map<String, byte[]> getTraces() { 
 		return DataClayExtrae.getTraces();
 	}
-	
+
 	/**
 	 * Finish cache threads.
 	 * 

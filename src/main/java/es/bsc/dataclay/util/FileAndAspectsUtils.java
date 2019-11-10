@@ -60,6 +60,7 @@ public final class FileAndAspectsUtils {
 			// Create one directory
 			(new File(targetDirectoryPath)).mkdirs();
 		} catch (final Exception e) {
+			e.printStackTrace();
 			logger.error("Exception in createDirectory", e);
 		}
 	}
@@ -133,13 +134,16 @@ public final class FileAndAspectsUtils {
 			final Path inputPath = Paths.get(filePath).normalize();
 			final Path fullPath = inputPath.toAbsolutePath();
 			final FileOutputStream fos = new FileOutputStream(fullPath.toString());
+
 			fos.write(bs);
 			fos.flush();
 			fos.close();
 			return filePath;
 		} catch (final FileNotFoundException e) {
+			e.printStackTrace();
 			logger.error("FileNotFoundException in storeClass", e);
 		} catch (final IOException e) {
+			e.printStackTrace();
 			logger.error("IOException in storeClass", e);
 		}
 		return null;

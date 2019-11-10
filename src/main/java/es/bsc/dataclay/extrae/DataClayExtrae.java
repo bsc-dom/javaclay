@@ -187,6 +187,7 @@ public final class DataClayExtrae {
 			final Long methodValue = currentTracedMethod.getValue();
 			descriptors[i] = methodDesc;
 			methodValues[i] = methodValue;
+			logger.debug("-- EVENT " + methodDesc);
 			i++;
 		}
 		

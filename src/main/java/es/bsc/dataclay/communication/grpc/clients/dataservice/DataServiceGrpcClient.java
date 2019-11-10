@@ -21,6 +21,7 @@ import org.apache.logging.log4j.Logger;
 import com.google.protobuf.ByteString;
 
 import es.bsc.dataclay.communication.grpc.Utils;
+import es.bsc.dataclay.communication.grpc.clients.CommonGrpcClient;
 import es.bsc.dataclay.communication.grpc.generated.dataservice.DataServiceGrpc;
 import es.bsc.dataclay.communication.grpc.generated.dataservice.DataServiceGrpc.DataServiceBlockingStub;
 import es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage;
@@ -97,9 +98,11 @@ import es.bsc.dataclay.util.structs.Tuple;
 import es.bsc.dataclay.util.yaml.CommonYAML;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
+import io.grpc.Metadata;
 import io.grpc.StatusRuntimeException;
 import io.grpc.netty.shaded.io.grpc.netty.NegotiationType;
 import io.grpc.netty.shaded.io.grpc.netty.NettyChannelBuilder;
+import io.grpc.stub.MetadataUtils;
 
 /**
  * Client code that makes gRPC calls to the server.
@@ -123,7 +126,7 @@ public final class DataServiceGrpcClient implements DataServiceAPI {
 	private final ManagedChannel channel;
 
 	/** Blocking stub. */
-	private final DataServiceBlockingStub blockingStub;
+	private DataServiceBlockingStub blockingStub;
 
 	/** Number of asynchronous requests send. */
 	private final AtomicInteger asyncReqSend = new AtomicInteger(0);
@@ -148,11 +151,14 @@ public final class DataServiceGrpcClient implements DataServiceAPI {
 		ManagedChannelBuilder<?> chBuilder = NettyChannelBuilder.forAddress(host, port)
 				.maxHeaderListSize(Integer.MAX_VALUE)
 				.usePlaintext()
+				//.keepAliveTimeout(Integer.MAX_VALUE, TimeUnit.SECONDS)
+				//.keepAliveWithoutCalls(true)
 				.maxInboundMessageSize(Integer.MAX_VALUE)//.negotiationType(NegotiationType.PLAINTEXT)
 				.maxInboundMetadataSize(Integer.MAX_VALUE);
 		channel = chBuilder.build();
-		blockingStub = DataServiceGrpc.newBlockingStub(channel);
-		//blockingStub.getCallOptions().withMaxOutboundMessageSize(Integer.MAX_VALUE);
+		blockingStub = DataServiceGrpc.newBlockingStub(channel).withMaxOutboundMessageSize(Integer.MAX_VALUE)
+				.withMaxInboundMessageSize(Integer.MAX_VALUE); 
+
 
 	}
 
@@ -565,13 +571,12 @@ public final class DataServiceGrpcClient implements DataServiceAPI {
 		final MakePersistentRequest request = builder.build();
 		ExceptionInfo response;
 		try {
-			response = blockingStub.withMaxInboundMessageSize(Integer.MAX_VALUE)
-					.withMaxOutboundMessageSize(Integer.MAX_VALUE).makePersistent(request);
+			response = blockingStub.makePersistent(request);
 			if (Configuration.Flags.PRETTY_PRINT_MESSAGES.getBooleanValue()) {
 				Utils.printMsg(response);
 			}
 		} catch (final StatusRuntimeException ex) {
-			logger.debug("** CAUGHT EXCEPTION **", ex);
+			logger.debug("** CAUGHT EXCEPTION **", ex.getStatus());
 			throw ex;
 		} catch (final Exception ex) {
 			logger.debug("executeImplementation error", ex);

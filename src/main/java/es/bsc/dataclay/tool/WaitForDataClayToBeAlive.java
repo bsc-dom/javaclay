@@ -36,5 +36,6 @@ public class WaitForDataClayToBeAlive {
 		} catch (final Exception ex) {
 			Util.finishErr("Exception caught.", ERRCODE.ERROR);
 		}
+		System.exit(0); // Call this to finish logging threads
 	}
 }
