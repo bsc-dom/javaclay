@@ -38,7 +38,7 @@ public class GetNamespaceLang {
 			}
 
 			// TODO Notice that break line is needed for the global tool to "tail" the language
-			Util.finishOut("Language of namespace " + namespace + " is \n" + language.name());
+			System.out.println("Language of namespace " + namespace + " is \n" + language.name());
 		} catch (final Exception ex) {
 			Util.finishErr("Exception caught. Check your account and credentials.", ERRCODE.ERROR);
 		}

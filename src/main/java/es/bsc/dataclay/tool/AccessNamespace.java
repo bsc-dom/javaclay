@@ -121,7 +121,7 @@ public class AccessNamespace {
 			}
 
 			// TODO Notice that break line is needed for the global tool to "tail" the contract ID
-			Util.finishOut("User " + applicantName + " registered in data model of namespace: " + namespace
+			System.out.println("User " + applicantName + " registered in data model of namespace: " + namespace
 					+ " with contract ID: \n" + contractID.toString());
 		} catch (final Exception ex) {
 			Util.finishErr("Exception caught. Check your account and credentials.", ERRCODE.ERROR);
