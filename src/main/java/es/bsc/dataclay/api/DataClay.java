@@ -999,7 +999,7 @@ public final class DataClay {
 	 *            port where the external dataClay is listening.
 	 * @return id of the external dataClay
 	 */
-	public static DataClayInstanceID getExternalDataClayID(final String dcHost, final int dcPort) {
+	public static DataClayInstanceID getDataClayID(final String dcHost, final int dcPort) {
 		return ClientManagementLib.getExternalDataClayID(dcHost, dcPort);
 	}
 
@@ -1013,7 +1013,7 @@ public final class DataClay {
 	 *            port where the external dataClay is listening.
 	 * @return id of the external dataClay
 	 */
-	public static DataClayInstanceID registerExternalDataClayID(final String dcHost, final int dcPort) {
+	public static DataClayInstanceID registerDataClay(final String dcHost, final int dcPort) {
 		return ClientManagementLib.registerExternalDataClay(dcHost, dcPort);
 	}
 	
@@ -1064,7 +1064,7 @@ public final class DataClay {
 	/**
 	 * Unfederate all objects belonging/federated with ANY external dataClay 
 	 */
-	public static void unfederateAllObjectsWithAllDCs() {
+	public static void unfederateAllObjects() {
 		ClientManagementLib.unfederateAllObjectsWithAllDCs();
 	}
 	

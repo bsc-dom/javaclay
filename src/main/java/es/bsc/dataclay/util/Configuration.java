@@ -132,13 +132,13 @@ public final class Configuration {
 		 * not.
 		 */
 		CHECK_READ_ONLY(false, ConfType.BOOLEAN),
-		
+
 		/** Indicates path to persistent information of EE. */
 		EE_PERSISTENT_INFO_PATH(System.getProperty("user.dir") + File.separatorChar, ConfType.STRING),
 
 		/** State file for healthcheck. */
 		STATE_FILE("state.txt", ConfType.STRING),
-		
+
 		// =============== PREFETCHING_FLAGS ========= //
 
 		/** Indicates if prefetching is enabled. */
@@ -149,7 +149,7 @@ public final class Configuration {
 		PREFETCHING_ROP_ENABLED(false, ConfType.BOOLEAN),
 		/** Indicates fetch depth of ROP prefetching (ignored if ROP is disabled) */
 		PREFETCHING_ROP_DEPTH(1, ConfType.INTEGER),
-		
+
 		// =============== GRPC ========= //
 
 		/**
@@ -166,13 +166,13 @@ public final class Configuration {
 
 		/** Path to identifying certificate for this host. */
 		SSL_CLIENT_KEY(null, ConfType.STRING),
-		
+
 		/** Custom header of service alias for calls to Logic module. Used in Traefik. **/
 		LM_SERVICE_ALIAS_HEADERMSG("logicmodule1", ConfType.STRING),
-		
+
 		/** Override authority hostname in SSL calls. */
 		SSL_TARGET_AUTHORITY("proxy", ConfType.STRING),
-		
+
 		// =============== PARAVER ============ //
 
 		/** Indicates if paraver interceptor is active or not. */
@@ -192,9 +192,9 @@ public final class Configuration {
 
 		/** Default read-write. */
 		READONLY_BY_DEFAULT(false, ConfType.BOOLEAN),
-		
+
 		// ============== DB ============== //
-		
+
 		/** Maximum retries to connect to the database. */
 		MAX_RETRY_DATABASE_CONN(30, ConfType.SHORT),
 		/** Millis to wait to retry connection to the database. */
@@ -256,27 +256,27 @@ public final class Configuration {
 
 		// ===================== RETRIES AND TIME OUTS ===================== //
 
-		
+
 		// NEW DATA-SERVICE OR EXECUTION ENVIRONMENT: WARNING: for each retry there is max_retries_logicmodule
 		/** Maximum autoregistration retries of a node. */
 		MAX_RETRY_AUTOREGISTER(10, ConfType.SHORT), 
 		/** Millis to wait to retry autoregistration of a node. */
 		RETRY_AUTOREGISTER_TIME(3000L, ConfType.LONG),
-		
+
 		// ANY CALL TO LOGICMODULE 
 		/** Default value for number of retries in connection to LogicModule. 
 		 * NOTE: Clients can wait at init waitForBackends*/
 		MAX_RETRIES_LOGICMODULE(1, ConfType.SHORT),
 		/** Default value for sleeping before retrying in LM in millis. */
 		SLEEP_RETRIES_LOGICMODULE(100, ConfType.SHORT),
-		
+
 		// EXECUTION RETRIES
-		
+
 		/**
 		 * Default value for number of retries IN EXECUTION
 		 */
 		MAX_EXECUTION_RETRIES(5, ConfType.SHORT),
-		
+
 		// WAIT FOR OBJECTS TO BE REGISTERED BY GC
 		/** Number of millis of time to wait for object to be registered. Default: NO WAIT */
 		TIMEOUT_WAIT_REGISTERED(0L, ConfType.LONG),
@@ -324,7 +324,7 @@ public final class Configuration {
 		 * infinite cleaning thread.
 		 */
 		GLOBALGC_MAX_OBJECTS_TO_COLLECT_PERTASK(1000, ConfType.INTEGER),
-		
+
 		/**
 		 * Initial delay for collector thread to start working in hours
 		 */
@@ -360,7 +360,7 @@ public final class Configuration {
 		EXECUTION_CLASSES_PATH(System.getProperty("user.dir") + File.separatorChar + "execClasses/", ConfType.STRING),
 		/** Defines the file where dependencies is located. */
 		INCLUDE_THIS_PROJECT(System.getProperty("user.dir") + File.separatorChar + "target/classes", ConfType.STRING),
-		
+
 		// =========== DEBUG ================ //
 
 		/** Whether AspectJ info should be printed. */
@@ -393,7 +393,7 @@ public final class Configuration {
 			value = defaultValue;
 			valueType = defaultValType;
 		}
-		
+
 		/**
 		 * @throws Exception
 		 *             if some exception occurs Init properties.
@@ -404,20 +404,21 @@ public final class Configuration {
 				File globalFile = null;
 				LOGGER.debug("Looking for environment variable {}", Configuration.GLOBALPROPS_ENV);
 				String globalPropsPath = ProcessEnvironment.getInstance().get(Configuration.GLOBALPROPS_ENV);
-				boolean fileExists = true;
+				boolean fileExists = false;
 				LOGGER.debug("Found {} defined at {}. Trying to read.",
 						Configuration.GLOBALPROPS_ENV, globalPropsPath);
-				/*if (globalPropsPath != null && !globalPropsPath.isEmpty()) {
+				if (globalPropsPath != null && !globalPropsPath.isEmpty()) {
 					globalFile = new File(globalPropsPath);
 					fileExists = globalFile.isFile() && globalFile.exists();
-				}*/
+				}
 
 				if (fileExists) {
 					LOGGER.debug("Found {}. Initializing global properties with properties located at {}",
 							Configuration.GLOBALPROPS_ENV, globalPropsPath);
-					final Path path = Paths.get(GLOBALPROPS_PATH).normalize();
+					final Path path = Paths.get(globalPropsPath).normalize();
 					globalPropsPath = path.toAbsolutePath().toString();
 					globalFile = new File(globalPropsPath);
+
 				} else {
 					final Path path = Paths.get(GLOBALPROPS_PATH).normalize();
 					LOGGER.debug("Cannot find environment variable {}. Trying default location {}",
@@ -426,62 +427,65 @@ public final class Configuration {
 					globalFile = new File(globalPropsPath);
 
 				}
-				
+
 				initializeGlobalProperties(globalFile);
 			}
-				if (valueType == null) {
-					if (value == null) {
-						throw new Exception("Missing default value for configuration without Value type");
-					}
-				} else {
-					final String strVal = testFlagsProps.getProperty(this.name());
-					if (strVal != null) {
-						LOGGER.debug("Found environment variable set in global.properties: {}={}", this.name(), strVal);
-						switch (valueType) {
-						case BOOLEAN:
-							value = Boolean.valueOf(strVal);
-							break;
-						case FLOAT:
-							value = Float.valueOf(strVal);
-							break;
-						case INTEGER:
-							value = Integer.valueOf(strVal);
-							break;
-						case SHORT:
-							value = Short.valueOf(strVal);
-							break;
-						case LONG:
-							value = Long.valueOf(strVal);
-							break;
-						case STRING:
-							value = strVal;
-							break;
-						case DBHANDLER:
-							if (strVal.equals("POSTGRES")) {
-								value = DBHandlerType.POSTGRES;
-							} else if (strVal.equals("SQLITE")) {
-								value = DBHandlerType.SQLITE;
-							} else if (strVal.equals("NVRAM")) {
-								value = DBHandlerType.NVRAM;
-							}
-							break;
-						case DATE:
-							value = DATE_FORMAT.parse(strVal);
-							break;
-						default:
-							throw new Exception("Wrong value Type: " + valueType);
-						}
-					}
+			if (valueType == null) {
+				if (value == null) {
+					throw new Exception("Missing default value for configuration without Value type");
 				}
+			} else {
+				LOGGER.debug("Looking for env variable set in global.properties: {}", this.name());
+				final String strVal = testFlagsProps.getProperty(this.name());
+				if (strVal != null) {
+					LOGGER.debug("Found environment variable set in global.properties: {}={}", this.name(), strVal);
+					switch (valueType) {
+					case BOOLEAN:
+						value = Boolean.valueOf(strVal);
+						break;
+					case FLOAT:
+						value = Float.valueOf(strVal);
+						break;
+					case INTEGER:
+						value = Integer.valueOf(strVal);
+						break;
+					case SHORT:
+						value = Short.valueOf(strVal);
+						break;
+					case LONG:
+						value = Long.valueOf(strVal);
+						break;
+					case STRING:
+						value = strVal;
+						break;
+					case DBHANDLER:
+						if (strVal.equals("POSTGRES")) {
+							value = DBHandlerType.POSTGRES;
+						} else if (strVal.equals("SQLITE")) {
+							value = DBHandlerType.SQLITE;
+						} else if (strVal.equals("NVRAM")) {
+							value = DBHandlerType.NVRAM;
+						}
+						break;
+					case DATE:
+						value = DATE_FORMAT.parse(strVal);
+						break;
+					default:
+						throw new Exception("Wrong value Type: " + valueType);
+					}
+				} else { 
+					LOGGER.debug("Not found environment variable set in global.properties, using default: {}={}", this.name(), strVal);
+				}
+			}
 
-				loaded = true;
+			loaded = true;
 
-			
-				
-			
-			
+
+
+
+
 		}
-		
+
 		/**
 		 * Reload global properties
 		 * @param globalConfig Global properties file path
@@ -507,32 +511,32 @@ public final class Configuration {
 		 * @param globalFile global properties file
 		 */
 		public static void initializeGlobalProperties(final File globalFile) {
-				FileInputStream input = null;
-				try {
+			FileInputStream input = null;
+			try {
 
-					input = new FileInputStream(globalFile);
+				input = new FileInputStream(globalFile);
 
-					// load a properties file
-					testFlagsProps.load(input);
+				// load a properties file
+				testFlagsProps.load(input);
 
-					LOGGER.info("Using global.properties file found at {}", globalFile.getAbsolutePath());
+				LOGGER.info("Using global.properties file found at {}", globalFile.getAbsolutePath());
 
-				} catch (final IOException ex) {
-					// No global properties file, exit initialization
-					LOGGER.warn("No global.properties file found at {}. Using default values",
-							globalFile.getAbsolutePath());
-					return;
-				} finally {
-					if (input != null) {
-						try {
-							input.close();
-						} catch (final IOException e) {
-							LOGGER.warn("No global.properties file found at {}. Using default values",
-									globalFile.getAbsolutePath());
-							return;
-						}
+			} catch (final IOException ex) {
+				// No global properties file, exit initialization
+				LOGGER.warn("No global.properties file found at {}. Using default values",
+						globalFile.getAbsolutePath());
+				return;
+			} finally {
+				if (input != null) {
+					try {
+						input.close();
+					} catch (final IOException e) {
+						LOGGER.warn("No global.properties file found at {}. Using default values",
+								globalFile.getAbsolutePath());
+						return;
 					}
 				}
+			}
 		}
 
 		/**

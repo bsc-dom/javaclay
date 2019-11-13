@@ -16,7 +16,7 @@
 		<maven.compiler.target>8</maven.compiler.target>
 		<maven.compiler.source>8</maven.compiler.source>
 		<maven.compiler.release>8</maven.compiler.release>
-		<aspectj.version>1.9.2</aspectj.version>
+		<aspectj.version>1.9.4</aspectj.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<exec.mainClass> property from commandline </exec.mainClass>
 		<protoc.version>3.10.0</protoc.version>
@@ -24,7 +24,7 @@
 		<asm.version>7.2</asm.version>
 		<install.plugin.version>2.4</install.plugin.version>
 		<downloadSources>false</downloadSources>
-  		<downloadJavadocs>false</downloadJavadocs>
+		<downloadJavadocs>false</downloadJavadocs>
 	</properties>
 
 	<!-- Repository -->
@@ -44,7 +44,7 @@
 
 	<!-- Build section including properties and proto files -->
 	<build>
-	  
+
 		<extensions>
 			<extension>
 				<groupId>kr.motd.maven</groupId>
@@ -52,11 +52,11 @@
 				<version>1.6.2</version>
 			</extension>
 		</extensions>
-		
-		
+
+
 		<plugins>
-		
-		  	<plugin>
+
+			<plugin>
 				<groupId>org.xolstice.maven.plugins</groupId>
 				<artifactId>protobuf-maven-plugin</artifactId>
 				<version>0.6.1</version>
@@ -296,7 +296,7 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.11</version>
+			<version>4.12</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -320,6 +320,7 @@
 			<artifactId>extrae</artifactId>
 			<version>3.6.1</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>org.reflections</groupId>
 			<artifactId>reflections</artifactId>
@@ -393,38 +394,6 @@
 					<artifactId>org.eclipse.text</artifactId>
 				</exclusion>
 			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>com.google.protobuf</groupId>
-			<artifactId>protobuf-java</artifactId>
-			<version>3.10.0</version>
-		</dependency>
-		<!-- maven cached dependencies -->
-		<dependency>
-			<groupId>org.codehaus.mojo</groupId>
-			<artifactId>exec-maven-plugin</artifactId>
-			<version>1.6.0</version>
-		</dependency>
-		<dependency>
-			<groupId>org.codehaus.plexus</groupId>
-			<artifactId>plexus-component-annotations</artifactId>
-			<version>1.5.4</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.maven.plugins</groupId>
-			<artifactId>maven-install-plugin</artifactId>
-			<version>${install.plugin.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.google.protobuf</groupId>
-			<artifactId>protobuf-java</artifactId>
-			<version>${protoc.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>io.grpc</groupId>
-			<artifactId>protoc-gen-grpc-java</artifactId>
-			<version>${grpc.version}</version>
-    		<type>pom</type>
 		</dependency>
 	</dependencies>
 </project>

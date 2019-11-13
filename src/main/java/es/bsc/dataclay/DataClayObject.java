@@ -916,7 +916,7 @@ public class DataClayObject extends StorageObject implements DataClaySerializabl
 	 * @param recursive
 	 *            whether to unfederate recursively or not
 	 */
-	public void unfederateWithAllDCs(final boolean recursive) { 
+	public void unfederate(final boolean recursive) { 
 		DataClayObject.getLib().unfederateObjectWithAllDCs(this.objectID, recursive);
 	}
 	
@@ -944,7 +944,7 @@ public class DataClayObject extends StorageObject implements DataClaySerializabl
 	 * 
 	 * @return set of dataClay instances id
 	 */
-	public final Set<DataClayInstanceID> getDataClaysObjectIsFederatedWith() {
+	public final Set<DataClayInstanceID> getFederationTargets() {
 		return getLib().getLogicModuleAPI().getDataClaysObjectIsFederatedWith(this.getObjectID());
 	}
 	
@@ -953,7 +953,7 @@ public class DataClayObject extends StorageObject implements DataClaySerializabl
 	 * 
 	 * @return id of origin dataclay of the object or null
 	 */
-	public final DataClayInstanceID getExternalSourceDataClayOfObject() {
+	public final DataClayInstanceID getFederationSource() {
 		return getLib().getLogicModuleAPI().getExternalSourceDataClayOfObject(this.getObjectID());
 	}
 	
