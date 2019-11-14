@@ -396,7 +396,7 @@ public class DataClayObject extends StorageObject implements DataClaySerializabl
 	 *            Parameters of the method
 	 * @return Result of the method
 	 */
-	public Object runRemote(final BackendID location, final String implID, final Object[] params) {
+	public Object setInBackend(final BackendID location, final String implID, final Object[] params) {
 		return getLib().callExecuteToDS(this, params, new ImplementationID(implID), location, false);
 	}
 
@@ -411,7 +411,7 @@ public class DataClayObject extends StorageObject implements DataClaySerializabl
 	 * @param params
 	 *            Parameters of the method
 	 */
-	public void synchronizeFederated(final DataClayInstanceID dcID, final ImplementationID implID, final Object[] params) {
+	public void setInDataClayInstance(final DataClayInstanceID dcID, final ImplementationID implID, final Object[] params) {
 		getLib().synchronizeFederated(this, params, implID, dcID, true);
 	}
 

@@ -16,7 +16,7 @@ public abstract class SequentialConsistency {
 		for (final BackendID replicaLocation : dataClayObject.getAllLocations()) {
 			if (!replicaLocation.equals(masterLocation)) {
 				try {
-					dataClayObject.runRemote(replicaLocation, setterID, args);
+					dataClayObject.setInBackend(replicaLocation, setterID, args);
 				} catch (final Exception e) {
 					e.printStackTrace();
 				}
@@ -32,7 +32,7 @@ public abstract class SequentialConsistency {
 		if (isFederated) {
 			for (final DataClayInstanceID dcID : externalDcs) {
 					try {
-						dataClayObject.synchronizeFederated(dcID, new ImplementationID(setterID), args);
+						dataClayObject.setInDataClayInstance(dcID, new ImplementationID(setterID), args);
 					} catch (final Exception e) {
 						e.printStackTrace();
 					}
@@ -41,7 +41,7 @@ public abstract class SequentialConsistency {
 		// send to original one
 		final DataClayInstanceID originalDc = dataClayObject.getFederationSource();
 		if (originalDc != null) {
-			dataClayObject.synchronizeFederated(originalDc, new ImplementationID(setUpdateID), 
+			dataClayObject.setInDataClayInstance(originalDc, new ImplementationID(setUpdateID), 
 					new Object[] {args[0], true});
 		}
 		return;
