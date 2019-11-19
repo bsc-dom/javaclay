@@ -348,6 +348,8 @@ public final class Configuration {
 		ASPECTS_PATH(System.getProperty("user.dir") + File.separatorChar + "execAspects", ConfType.STRING),
 		/** Aspects Home dir. */
 		ASPECTS_HOME("", ConfType.STRING),
+		/** DB storage path. */
+		STORAGE_PATH("/tmp/dataclay", ConfType.STRING),
 		/** Default path in which classes to install are stored. */
 		DATACLAY_INSTALLED_CLASSES_SRC_PATH(
 				System.getProperty("user.dir") + File.separatorChar + "install_classes" + File.separatorChar + "src",
