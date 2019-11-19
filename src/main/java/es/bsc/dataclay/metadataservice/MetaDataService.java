@@ -130,9 +130,8 @@ public final class MetaDataService extends AbstractManager {
 					logger.debug("Updating cache of metadatas: {} -> {}", objectID, objectMD);
 				}
 				objectMDCache.put(objectID, objectMD);
-				for (final String alias : objectMD.getAliases()) {
-					objectMDCacheByAlias.put(alias, objectMD);
-				}
+				final String alias = objectMD.getAlias();
+				objectMDCacheByAlias.put(alias, objectMD);
 			}
 		}
 		return (objectMD != null);
@@ -246,10 +245,8 @@ public final class MetaDataService extends AbstractManager {
 	public ObjectID deleteAlias(final String alias) {
 		ObjectMetaData objectMD = objectMDCacheByAlias.remove(alias);
 		if (objectMD != null) {
-			final Set<String> curAliases = objectMD.getAliases();
-			curAliases.remove(alias);
 			try {
-				metadataDB.updateAliasesByID(objectMD.getDataClayID(), curAliases);
+				metadataDB.updateAliasByID(objectMD.getDataClayID(), alias);
 			} catch (final DbObjectNotExistException e) {
 				// Ignore exception, maybe the object has been garbage collected
 			}
@@ -267,10 +264,8 @@ public final class MetaDataService extends AbstractManager {
 		if (objectMD == null) {
 			throw new ObjectNotRegisteredException(alias);
 		}
-		final Set<String> curAliases = objectMD.getAliases();
-		curAliases.remove(alias);
 		try {
-			metadataDB.updateAliasesByID(objectMD.getDataClayID(), curAliases);
+			metadataDB.updateAliasByID(objectMD.getDataClayID(), alias);
 		} catch (final DbObjectNotExistException e) {
 			// Ignore exception, maybe the object has been garbage collected
 		}
@@ -322,26 +317,24 @@ public final class MetaDataService extends AbstractManager {
 	 */
 	public MetaDataInfo registerObject(final ObjectID objectID, final MetaClassID metaClassID,
 			final DataSetID datasetIDofProvider, final Set<ExecutionEnvironmentID> backendIDs, final boolean isReadOnly,
-			final Set<String> aliases, final Langs lang, final AccountID ownerID)
+			final String alias, final Langs lang, final AccountID ownerID)
 					throws ObjectAlreadyRegisteredException, AliasAlreadyInUseException {
 
-		if (aliases != null) {
-			for (final String alias : aliases) {
-				// Check there is no other object with same class and alias
-				try {
-					this.getObjectInfoFromAlias(alias);
-					throw new AliasAlreadyInUseException(alias);
-				} catch (final ObjectNotRegisteredException e) {
-					// it's ok, object not registered
-				}
+		if (alias != null) {
+			// Check there is no other object with same class and alias
+			try {
+				this.getObjectInfoFromAlias(alias);
+				throw new AliasAlreadyInUseException(alias);
+			} catch (final ObjectNotRegisteredException e) {
+				// it's ok, object not registered
 			}
 		}
 
 		final ObjectMetaData objectMD = new ObjectMetaData(objectID, metaClassID, datasetIDofProvider, backendIDs,
-				isReadOnly, aliases, lang, ownerID);
+				isReadOnly, alias, lang, ownerID);
 
 		if (DEBUG_ENABLED) {
-			logger.debug("Registering object " + objectID + " with alias: " + aliases + " and language " + lang + ".");
+			logger.debug("Registering object " + objectID + " with alias: " + alias + " and language " + lang + ".");
 		}
 
 		try {
@@ -360,9 +353,7 @@ public final class MetaDataService extends AbstractManager {
 			logger.debug("[==Register object==] Updating cache of metadatas: {} -> {}", objectID, objectMD);
 		}
 		objectMDCache.put(result, objectMD);
-		for (final String curAlias : objectMD.getAliases()) {
-			objectMDCacheByAlias.put(curAlias, objectMD);
-		}
+		objectMDCacheByAlias.put(alias, objectMD);
 		return buildMetaDataInfo(objectMD);
 	}
 
@@ -415,9 +406,8 @@ public final class MetaDataService extends AbstractManager {
 		objectMDCache.put(newObjectID, objectMD);
 
 		// Since objectID is not Key for Alias cache, just update it
-		for (final String alias : objectMD.getAliases()) {
-			objectMDCacheByAlias.put(alias, objectMD);
-		}
+		final String alias = objectMD.getAlias();
+		objectMDCacheByAlias.put(alias, objectMD);
 	}
 
 	/**
@@ -452,9 +442,8 @@ public final class MetaDataService extends AbstractManager {
 		// Update cache if necessary
 		if (objectMDCache.containsKey(objectID)) {
 			objectMDCache.get(objectID).setDataSetID(newDataSetID);
-			for (final String alias : objectMD.getAliases()) {
-				objectMDCacheByAlias.put(alias, objectMDCache.get(objectID));
-			}
+			final String alias = objectMD.getAlias();
+			objectMDCacheByAlias.put(alias, objectMDCache.get(objectID));
 		}
 	}
 
@@ -487,7 +476,7 @@ public final class MetaDataService extends AbstractManager {
 			final Set<ExecutionEnvironmentID> backends = new HashSet<>();
 			backends.add(backendID);
 			final ObjectMetaData versionMD = new ObjectMetaData(versionID, originalMD.getMetaclassID(),
-					originalMD.getDatasetID(), backends, false, new HashSet<String>(), lang, originalMD.getOwnerID());
+					originalMD.getDatasetID(), backends, false, null, lang, originalMD.getOwnerID());
 
 			metadataDB.store(versionMD);
 
@@ -496,9 +485,8 @@ public final class MetaDataService extends AbstractManager {
 				logger.debug("[==New version==] Adding version to cache of metadatas: {} -> {}", versionID, versionMD);
 			}
 			objectMDCache.put(versionID, versionMD);
-			for (final String alias : versionMD.getAliases()) {
-				objectMDCacheByAlias.put(alias, versionMD);
-			}
+			final String alias = versionMD.getAlias();
+			objectMDCacheByAlias.put(alias, versionMD);
 		}
 		return result;
 	}
@@ -555,9 +543,8 @@ public final class MetaDataService extends AbstractManager {
 			if (objectMDCache.containsKey(objectID)) {
 				objectMDCache.get(objectID).getExecutionEnvironmentIDs().add(newBackendID);
 				objectMDCache.get(objectID).setReadOnly(true);
-				for (final String alias : objectMD.getAliases()) {
-					objectMDCacheByAlias.put(alias, objectMDCache.get(objectID));
-				}
+				final String alias = objectMD.getAlias();
+				objectMDCacheByAlias.put(alias, objectMDCache.get(objectID));
 			}
 		}
 
@@ -591,10 +578,8 @@ public final class MetaDataService extends AbstractManager {
 
 		// Update cache if necessary
 		objectMDCache.remove(objectID);
-		for (final String alias : objectMD.getAliases()) {
-			objectMDCacheByAlias.remove(alias);
-		}
-
+		final String alias = objectMD.getAlias();
+		objectMDCacheByAlias.remove(alias);
 	}
 
 	/**
@@ -809,9 +794,8 @@ public final class MetaDataService extends AbstractManager {
 		// Update cache if necessary
 		if (objectMDCache.containsKey(objectID)) {
 			objectMDCache.get(objectID).setReadOnly(true);
-			for (final String alias : objectMD.getAliases()) {
-				objectMDCacheByAlias.put(alias, objectMDCache.get(objectID));
-			}
+			final String alias = objectMD.getAlias();
+			objectMDCacheByAlias.put(alias, objectMDCache.get(objectID));
 		}
 
 	}
@@ -854,9 +838,8 @@ public final class MetaDataService extends AbstractManager {
 		// Update cache if necessary
 		if (objectMDCache.containsKey(objectID)) {
 			objectMDCache.get(objectID).setReadOnly(false);
-			for (final String alias : objectMD.getAliases()) {
-				objectMDCacheByAlias.put(alias, objectMDCache.get(objectID));
-			}
+			final String alias = objectMD.getAlias();
+			objectMDCacheByAlias.put(alias, objectMDCache.get(objectID));
 		}
 	}
 
@@ -1468,7 +1451,7 @@ public final class MetaDataService extends AbstractManager {
 			objectMDlocations.put(curLocID, loc);
 		}
 		final MetaDataInfo result = new MetaDataInfo(objectMD.getDataClayID(), objectMD.getDataSetID(),
-				objectMD.getMetaClassID(), objectMD.isReadOnly(), objectMDlocations, objectMD.getAliases(),
+				objectMD.getMetaClassID(), objectMD.isReadOnly(), objectMDlocations, objectMD.getAlias(),
 				objectMD.getOwnerID());
 
 		return result;
@@ -1498,9 +1481,8 @@ public final class MetaDataService extends AbstractManager {
 					logger.debug("[==Get metadata==] Adding version to cache of metadatas: {} -> {}", objectID, objectMD);
 				}
 				objectMDCache.put(objectID, objectMD);
-				for (final String alias : objectMD.getAliases()) {
-					objectMDCacheByAlias.put(alias, objectMD);
-				}
+				final String alias = objectMD.getAlias();
+				objectMDCacheByAlias.put(alias, objectMD);
 			} else {
 				return null; // do not send exception to avoid serializing it, critical path.
 			}
@@ -1621,11 +1603,9 @@ public final class MetaDataService extends AbstractManager {
 		if (objectMDCache.containsKey(theobjectID)) {
 			objectMDCache.get(theobjectID).getExecutionEnvironmentIDs().remove(srcBackendID);
 			objectMDCache.get(theobjectID).getExecutionEnvironmentIDs().add(destBackendID);
-			for (final String alias : objectMD.getAliases()) {
-				objectMDCacheByAlias.put(alias, objectMDCache.get(theobjectID));
-			}
+			String alias = objectMD.getAlias();
+			objectMDCacheByAlias.put(alias, objectMDCache.get(theobjectID));
 		}
-
 	}
 
 	// ====== Getters for testing purposes ====== //
@@ -1688,14 +1668,14 @@ public final class MetaDataService extends AbstractManager {
 	 *             if object is not registered.
 	 * 
 	 */
-	public int addAlias(final ObjectID objectID, final String alias) throws ObjectNotRegisteredException,
+	public boolean addAlias(final ObjectID objectID, final String newAlias) throws ObjectNotRegisteredException,
 		AliasAlreadyInUseException {
 
 		// Precondition: all objects must be registered at this point.
 
 		// Null or empty aliases are not allowed
-		if (alias == null || alias.isEmpty()) {
-			return -1;
+		if (newAlias == null || newAlias.isEmpty()) {
+			return false;
 		}
 
 		ObjectMetaData objectMD = null;
@@ -1712,26 +1692,26 @@ public final class MetaDataService extends AbstractManager {
 
 		// Check there is no other object with same class and alias
 		try {
-			this.getObjectInfoFromAlias(alias);
+			this.getObjectInfoFromAlias(newAlias);
 			if (DEBUG_ENABLED) {
-				logger.debug("[==Add alias==] Alias {} already in use. Cannot add to object {}.", alias, objectID);
+				logger.debug("[==Add alias==] Alias {} already in use. Cannot add to object {}.", newAlias, objectID);
 			}
-			throw new AliasAlreadyInUseException(alias);
+			throw new AliasAlreadyInUseException(newAlias);
 		} catch (final ObjectNotRegisteredException e) {
 			// it's ok, object not registered
 		}
 
 		// If is already a registered object, update aliases
-		aliases = objectMD.getAliases();
-		if (!aliases.contains(alias)) {
+		final String alias = objectMD.getAlias();
+		if (alias != null) {
 			if (DEBUG_ENABLED) {
 				logger.debug("[==Add alias==] Adding alias {} to object {}", alias, objectID);
 			}
-			aliases.add(alias);
+			throw new AliasAlreadyInUseException("Cannot assign alias '" + newAlias + "' to object that already has an alias ('" + alias + "')");
 		}
 		// TODO: check repeated aliases (dgasull September 2018)
 
-		metadataDB.updateAliasesByID(objectID, aliases);
+		metadataDB.updateAliasByID(objectID, alias);
 
 		// Update Object Metadata alias cache
 		objectMDCacheByAlias.put(alias, objectMD);
@@ -1741,6 +1721,6 @@ public final class MetaDataService extends AbstractManager {
 
 		objectMDCache.put(objectID, objectMD);
 
-		return objectMD.getAliases().size();
+		return true;
 	}
 }

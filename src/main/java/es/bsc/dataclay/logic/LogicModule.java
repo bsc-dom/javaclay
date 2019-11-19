@@ -3463,14 +3463,10 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
 			datasetIDforStore = regInfo.getDataSetID();
 		}
 
-		final Set<String> aliases = new HashSet<>();
-		if (alias != null && !alias.isEmpty()) {
-			aliases.add(alias);
-		}
 		try {
 			// If object is not registered, we register it with new alias included.
 			metaDataSrvApi.registerObject(objectIDofNewObject, metaClassID, datasetIDforStore, backendIDs,
-					Configuration.Flags.READONLY_BY_DEFAULT.getBooleanValue(), aliases, lang, ownerAccountID);
+					Configuration.Flags.READONLY_BY_DEFAULT.getBooleanValue(), alias, lang, ownerAccountID);
 			if (alias != null && !alias.isEmpty()) {
 				// notify alias reference since it is the first alias (with registration)
 				// first makePeristent(alias)
@@ -3499,10 +3495,10 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
 		// Add the alias and get the storage location of all replicas of the object
 		// remote makePersistent(alias), second makePersistent(alias) after a
 		// makePersistent() ...
-		final int numAliases = metaDataSrvApi.addAlias(objectIDofNewObject, alias);
+		final boolean hasAlias = metaDataSrvApi.addAlias(objectIDofNewObject, alias);
 
 		// notify alias reference if it is the first alias added
-		if (numAliases == 1) {
+		if (hasAlias) {
 			final Map<ObjectID, Integer> referenceCounting = new HashMap<>();
 			referenceCounting.put(objectIDofNewObject, 1);
 			notifyGarbageCollectors(referenceCounting);
@@ -4115,12 +4111,12 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
 					hints.put(tag, execEnvID);
 					origMetaData.setHints(hints);
 					final MetaDataInfo metadataInfo = providedobjectsInfo.get(oid);
-					final Set<String> objAliases = metadataInfo.getAliases();
+					final String alias = metadataInfo.getAlias();
 					final MetaClassID classID = metadataInfo.getMetaclassID();
 
 					// === OBJECTS WITH ALIAS ALREADY PRESENT ARE IGNORED ==== //
 					boolean aliasExists = false;
-					for (final String alias : objAliases) {
+					if(alias != null) {
 						try {
 							if (this.metaDataSrvApi.getObjectInfoFromAlias(alias) != null) {
 								aliasExists = true;
@@ -4128,14 +4124,13 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
 						} catch (final ObjectNotRegisteredException oe) {
 							// ignore
 						}
-
 					}
+
 					if (aliasExists) { 
 						// IMPORTANT NOTE: race-condition unfederation + federation we will find that alias is not 
 						// registered but the object exists, so if the alias is registered it means that the object 
 						// cannot actually be federated, it is not a race-condition. 
-						LOGGER.debug("[==Federation==] Ignoring federated object {} because alias {} already exists", 
-								oid, objAliases);
+						LOGGER.debug("[==Federation==] Ignoring federated object {} because alias {} already exists", oid, alias);
 						it.remove();
 						continue; //next
 					}
@@ -4163,7 +4158,7 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
 					// object must be send
 					oidsSend.add(oid);
 					gcObjectsToNotifyFedRef.add(oid);
-					if (objAliases.size() > 0) {
+					if (alias != null) {
 						gcObjectsToNotifyAliasRef.add(oid);
 					}
 					// === REGISTER OBJECT AS EXTERNAL ===
@@ -4177,12 +4172,11 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
 
 					// === REGISTER METADATA ===
 					if (DEBUG_ENABLED) {
-						LOGGER.debug("[==Federation==] Registering federated object with aliases: " + objAliases
-								+ " and class: " + classID);
+						LOGGER.debug("[==Federation==] Registering federated object with alias: " + alias + " and class: " + classID);
 					}
 					try {
 						metaDataSrvApi.registerObject(oid, classID, dsID, initBackends,
-								false, objAliases, language, new AccountID(srcDataClayID.getId()));
+								false, alias, language, new AccountID(srcDataClayID.getId()));
 					} catch (ObjectAlreadyRegisteredException | AliasAlreadyInUseException oar) {
 						// TODO: registerObject checks first if there is an object with alias provided,
 						// therefore
@@ -4193,18 +4187,16 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
 						}
 
 						// checking if has the alias, if not, add it
-						for (final String alias: objAliases) { 
-							try {
-								metaDataSrvApi.addAlias(oid, alias);
-								if (DEBUG_ENABLED) {
-									LOGGER.debug("[==Federation==] Object already registered, added alias {}.", alias);
-								}
-							} catch (final AliasAlreadyInUseException ar) { 
-								if (DEBUG_ENABLED) {
-									LOGGER.debug("[==Federation==] Object already registered, and already with alias {}.", alias);
-								}
-								gcObjectsToNotifyAliasRef.remove(oid);
+						try {
+							metaDataSrvApi.addAlias(oid, alias);
+							if (DEBUG_ENABLED) {
+								LOGGER.debug("[==Federation==] Object already registered, added alias {}.", alias);
 							}
+						} catch (final AliasAlreadyInUseException ar) {
+							if (DEBUG_ENABLED) {
+								LOGGER.debug("[==Federation==] Object already registered, and already with alias {}.", alias);
+							}
+							gcObjectsToNotifyAliasRef.remove(oid);
 						}
 					}
 				}
@@ -4666,13 +4658,12 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
 				}
 				// Call deleteAlias
 				int decrementRef = -1;
-				for (final String alias : metadataInfo.getAliases()) {
-					if (DEBUG_ENABLED) {
-						LOGGER.debug("[==Unfederation==] Calling delete alias {}", alias);
-					}
-					metaDataSrvApi.deleteAlias(alias);
-					decrementRef--;
+				final String alias = metadataInfo.getAlias();
+				if (DEBUG_ENABLED) {
+					LOGGER.debug("[==Unfederation==] Calling delete alias {}", alias);
 				}
+				metaDataSrvApi.deleteAlias(alias);
+				decrementRef--;
 				// Notify federation reference references
 				referenceCounting.put(oid, decrementRef); // -1 federation ref. -1 alias 
 

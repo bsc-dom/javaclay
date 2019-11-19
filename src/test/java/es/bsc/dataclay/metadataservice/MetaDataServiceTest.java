@@ -167,7 +167,7 @@ public class MetaDataServiceTest extends AbstractManagerTest {
 		final AccountID ownerID = new AccountID();
 
 		// Register object with MetaDataService
-		mdservice.registerObject(objectID, metaClassID, datasetID, backendIDs, false, new HashSet<String>(),
+		mdservice.registerObject(objectID, metaClassID, datasetID, backendIDs, false, null,
 				Langs.LANG_JAVA, ownerID);
 
 		final ObjectMetaData result = metadataDB.getByID(objectID);
@@ -293,7 +293,7 @@ public class MetaDataServiceTest extends AbstractManagerTest {
 			final AccountID ownerID = new AccountID();
 
 			final ObjectMetaData objectMDspec = new ObjectMetaData(objectID, metaClassID, datasetID, backendIDs,
-					false, new HashSet<String>(), Langs.LANG_JAVA, ownerID);
+					false, null, Langs.LANG_JAVA, ownerID);
 			objMDspecs.add(objectMDspec);
 			objects.add(objectID);
 
@@ -480,13 +480,13 @@ public class MetaDataServiceTest extends AbstractManagerTest {
 		final AccountID ownerID = new AccountID();
 
 		// Register object with MetaDataService
-		mdservice.registerObject(objectID, metaClassID, datasetID, backendIDs, false, new HashSet<String>(),
+		mdservice.registerObject(objectID, metaClassID, datasetID, backendIDs, false, null,
 				Langs.LANG_JAVA, ownerID);
 		final ObjectMetaData result = metadataDB.getByID(objectID);
 		assertTrue(result != null && result.getMetaClassID().equals(metaClassID) && result.getDataSetID().equals(datasetID)
 				&& result.getExecutionEnvironmentIDs().contains(backendID) && !result.isReadOnly());
 		// Register object with MetaDataService
-		mdservice.registerObject(objectID, metaClassID, datasetID, backendIDs, false, new HashSet<String>(),
+		mdservice.registerObject(objectID, metaClassID, datasetID, backendIDs, false, null,
 				Langs.LANG_JAVA, ownerID);
 	}
 
@@ -600,7 +600,7 @@ public class MetaDataServiceTest extends AbstractManagerTest {
 		final HashSet<ExecutionEnvironmentID> backendIDs = new HashSet<>();
 		backendIDs.add(newBackendID);
 		final ObjectMetaData objectMd = new ObjectMetaData(objectID, metaClassID, datasetID, backendIDs,
-				isReadOnly, new HashSet<String>(), Langs.LANG_JAVA, new AccountID());
+				isReadOnly, null, Langs.LANG_JAVA, new AccountID());
 
 		metadataDB.store(objectMd);
 
@@ -613,7 +613,7 @@ public class MetaDataServiceTest extends AbstractManagerTest {
 	private ObjectMetaData registerObjectWithReplicas(final ObjectID objectID, final MetaClassID metaClassID,
 			final DataSetID datasetID, final HashSet<ExecutionEnvironmentID> backendIDs) {
 		final ObjectMetaData objectMd = new ObjectMetaData(objectID, metaClassID, datasetID, backendIDs, true,
-				new HashSet<String>(), Langs.LANG_JAVA, new AccountID());
+				null, Langs.LANG_JAVA, new AccountID());
 
 		metadataDB.store(objectMd);
 
