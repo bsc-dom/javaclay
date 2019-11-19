@@ -25,6 +25,7 @@ import es.bsc.dataclay.exceptions.metadataservice.AliasAlreadyInUseException;
 import es.bsc.dataclay.exceptions.metadataservice.ExecutionEnvironmentAlreadyExistsException;
 import es.bsc.dataclay.exceptions.metadataservice.ExecutionEnvironmentNotExistException;
 import es.bsc.dataclay.exceptions.metadataservice.ExternalDataClayNotRegisteredException;
+import es.bsc.dataclay.exceptions.metadataservice.MultipleAliasesException;
 import es.bsc.dataclay.exceptions.metadataservice.ObjectAlreadyRegisteredException;
 import es.bsc.dataclay.exceptions.metadataservice.ObjectHasReplicas;
 import es.bsc.dataclay.exceptions.metadataservice.ObjectNotRegisteredException;
@@ -1707,7 +1708,7 @@ public final class MetaDataService extends AbstractManager {
 			if (DEBUG_ENABLED) {
 				logger.debug("[==Add alias==] Adding alias {} to object {}", alias, objectID);
 			}
-			throw new AliasAlreadyInUseException("Cannot assign alias '" + newAlias + "' to object that already has an alias ('" + alias + "')");
+			throw new MultipleAliasesException(alias, newAlias);
 		}
 		// TODO: check repeated aliases (dgasull September 2018)
 
