@@ -30,7 +30,7 @@ public final class ObjectMetaData extends MgrObject<ObjectID> {
 	/** Indicates if the object is read only. */
 	private boolean isReadOnly;
 	/** User Aliases for the object. */
-	private Set<String> aliases;
+	private String alias;
 	/** Language of the object (important prior to starting an execution). */
 	private Langs lang;
 	/** Owner account ID. */
@@ -50,14 +50,14 @@ public final class ObjectMetaData extends MgrObject<ObjectID> {
 	 *            Indicates if the object is read only
 	 * @param newaliases
 	 *            Aliases for the object
-	 * @param newlang
+	 * @param newLang
 	 *            Object language
 	 * @param newownerID
 	 *            New owner account ID
 	 */
 	public ObjectMetaData(final ObjectID newobjectID, final MetaClassID newmetaClassID,
 			final DataSetID newdatasetID, final Set<ExecutionEnvironmentID> newLocIDs,
-			final boolean newisReadOnly, final Set<String> newaliases, final Langs newlang,
+			final boolean newisReadOnly, final String newAlias, final Langs newLang,
 			final AccountID newownerID) {
 		this.setDataClayID(newobjectID);
 		if (newdatasetID == null) {
@@ -67,12 +67,8 @@ public final class ObjectMetaData extends MgrObject<ObjectID> {
 		this.setDataSetID(newdatasetID);
 		this.setExecutionEnvironmentIDs(new HashSet<>(newLocIDs));
 		this.setReadOnly(newisReadOnly);
-		this.setLang(newlang);
-		if (newaliases == null) {
-			this.setAliases(new HashSet<String>());
-		} else {
-			this.setAliases(new HashSet<>(newaliases));
-		}
+		this.setLang(newLang);
+		this.setAlias(newAlias);
 		this.setOwnerID(newownerID);
 	}
 
@@ -164,8 +160,8 @@ public final class ObjectMetaData extends MgrObject<ObjectID> {
 	 * Get the ObjectMetaData::aliases
 	 * @return the aliases
 	 */
-	public Set<String> getAliases() {
-		return aliases;
+	public String getAlias() {
+		return alias;
 	}
 
 	/**
@@ -173,15 +169,8 @@ public final class ObjectMetaData extends MgrObject<ObjectID> {
 	 * @param newaliases
 	 *            the aliases to set
 	 */
-	public void setAliases(final Set<String> newaliases) {
-		Set<String> thealiases = newaliases;
-		if (newaliases == null) {
-			thealiases = new HashSet<>();
-		}
-		if (thealiases.contains(null)) {
-			throw new IllegalArgumentException("An alias cannot be null");
-		}
-		this.aliases = thealiases;
+	public void setAlias(final String newAlias) {
+		this.alias = newAlias;
 	}
 
 	/**
@@ -236,7 +225,7 @@ public final class ObjectMetaData extends MgrObject<ObjectID> {
 	public String toString() { 
 		return "[objectID = " + this.getDataClayID() + ", classID = " + this.getMetaClassID() 
 			+ ", dataSetID = " + this.getDataSetID() + ", locations = " + this.getExecutionEnvironmentIDs().toString()
-			+ ", isReadOnly = " + this.isReadOnly() + ", aliases = " + this.getAliases() 
+			+ ", isReadOnly = " + this.isReadOnly() + ", aliases = " + this.getAlias() 
 			+ ", language = " + this.getLang() + ", owner = " + this.getOwnerID() + "]";
 	}
 }

@@ -2,7 +2,6 @@
 package es.bsc.dataclay.util.management.metadataservice;
 
 import java.util.Map;
-import java.util.Set;
 
 import es.bsc.dataclay.util.MgrObject;
 import es.bsc.dataclay.util.ids.AccountID;
@@ -30,7 +29,7 @@ public final class MetaDataInfo
 	private Map<ExecutionEnvironmentID, ExecutionEnvironment> locations;
 
 	/** User Aliases for the object. */
-	private Set<String> aliases;
+	private String alias;
 
 	/** Owner account ID. */
 	private AccountID ownerID;
@@ -60,13 +59,13 @@ public final class MetaDataInfo
 	 *            New owner id
 	 */
 	public MetaDataInfo(final ObjectID newdataClayID, final DataSetID newdatasetID, final MetaClassID newmetaClassID, final boolean readOnly,
-			final Map<ExecutionEnvironmentID, ExecutionEnvironment> newlocations, final Set<String> newAliases, final AccountID newownerID) {
+			final Map<ExecutionEnvironmentID, ExecutionEnvironment> newlocations, final String newAlias, final AccountID newownerID) {
 		this.setDataClayID(newdataClayID);
 		this.setDatasetID(newdatasetID);
 		this.setMetaclassID(newmetaClassID);
 		this.setIsReadOnly(readOnly);
 		this.setLocations(newlocations);
-		this.setAliases(newAliases);
+		this.setAlias(newAlias);
 		this.setOwnerID(newownerID);
 	}
 
@@ -142,8 +141,8 @@ public final class MetaDataInfo
 	 * Get the MetaDataInfo::aliases
 	 * @return the aliases
 	 */
-	public Set<String> getAliases() {
-		return aliases;
+	public String getAlias() {
+		return alias;
 	}
 
 	/**
@@ -151,8 +150,8 @@ public final class MetaDataInfo
 	 * @param newaliases
 	 *            the aliases to set
 	 */
-	public void setAliases(final Set<String> newaliases) {
-		this.aliases = newaliases;
+	public void setAlias(final String newAlias) {
+		this.alias = newAlias;
 	}
 
 	/**

@@ -191,6 +191,8 @@ public final class ErrorDefs {
 		OBJECT_ALREADY_REGISTERED,
 		/** Alias already exists. */
 		ALIAS_ALREADY_EXISTS,
+		/** Multiple aliases on one object. */
+		MULTIPLE_ALIASES,
 		/** Object has replicas. */
 		OBJECT_HAS_REPLICAS, 
 		/** Object is not readonly. */

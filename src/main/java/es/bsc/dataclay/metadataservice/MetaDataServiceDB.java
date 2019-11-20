@@ -115,9 +115,8 @@ public final class MetaDataServiceDB {
 			Array sqlArray = ps.getConnection().createArrayOf("uuid", theArray);
 			ps.setArray(4, sqlArray);
 			ps.setBoolean(5, objectMD.isReadOnly());
-			if (objectMD.getAliases() != null) {
-				sqlArray = ps.getConnection().createArrayOf("varchar", objectMD.getAliases().toArray());
-				ps.setArray(6, sqlArray);
+			if (objectMD.getAlias() != null) {
+				ps.setString(6, objectMD.getAlias());
 			}
 			ps.setInt(7, objectMD.getLang().getNumber());
 			ps.setObject(8, objectMD.getOwnerID().getId());
@@ -457,18 +456,16 @@ public final class MetaDataServiceDB {
 	 * 
 	 * @param objectID
 	 *            ID of the object to update
-	 * @param newaliases
-	 *            Aliases
+	 * @param newAlias
+	 *            new alias of the object
 	 * @throws DbObjectNotExistException
 	 *             if object does not exist
 	 */
-	public void updateAliasesByID(final ObjectID objectID, final Set<String> newaliases)
+	public void updateAliasByID(final ObjectID objectID, final String newAlias)
 			throws DbObjectNotExistException {
 		final Connection conn = getConnection();
-		try (PreparedStatement ps = conn.prepareStatement(SqlStatements.UPDATE_ALIASES_METADATA.getSqlStatement())) {
-
-			final Array sqlArray = ps.getConnection().createArrayOf("varchar", newaliases.toArray());
-			ps.setArray(1, sqlArray);
+		try (PreparedStatement ps = conn.prepareStatement(SqlStatements.UPDATE_ALIAS_METADATA.getSqlStatement())) {
+			ps.setString(1, newAlias);
 			ps.setObject(2, objectID.getId());
 			final int count = ps.executeUpdate();
 			if (count == 0) {
@@ -719,13 +716,12 @@ public final class MetaDataServiceDB {
 	 * Get anb object by class - alias (null if it does not exist)
 	 * 
 	 * @param alias
-	 *            one of the aliases of the object
+	 *            alias of the object
 	 * @return object instancing specified class and aliased with given alias. null if there is none.
 	 */
 	public ObjectMetaData getByAlias(final String alias) {
 		final Connection conn = getConnection();
 		try (PreparedStatement ps = conn.prepareStatement(SqlStatements.SELECT_METADATA_BY_ALIAS.getSqlStatement())) {
-
 			ps.setString(1, alias);
 			try (ResultSet rs = ps.executeQuery()) {
 				if (rs.next()) {
@@ -1549,9 +1545,7 @@ public final class MetaDataServiceDB {
 				backendIDs.add(backendID);
 			}
 			final boolean isReadOnly = rs.getBoolean("isreadonly");
-			sqlArray = rs.getArray("aliases");
-			final String[] strArray = (String[]) sqlArray.getArray();
-			final HashSet<String> aliases = new HashSet<>(Arrays.asList(strArray));
+			final String alias = rs.getString("alias");
 			final int langCode = rs.getInt("language");
 			final Langs lang;
 
@@ -1566,7 +1560,7 @@ public final class MetaDataServiceDB {
 
 			final AccountID ownerID = new AccountID((UUID) rs.getObject("accountid"));
 
-			objectMD = new ObjectMetaData(objectID, classID, dataSetID, backendIDs, isReadOnly, aliases, lang, ownerID);
+			objectMD = new ObjectMetaData(objectID, classID, dataSetID, backendIDs, isReadOnly, alias, lang, ownerID);
 
 			return objectMD;
 		} catch (final Exception e) {

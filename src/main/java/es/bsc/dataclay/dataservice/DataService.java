@@ -1775,7 +1775,7 @@ public final class DataService implements DataServiceAPI {
 		environments.put(executionEnvironmentID, runtime.getExecutionEnvironmentInfo(executionEnvironmentID));
 
 		final MetaDataInfo versionMD = new MetaDataInfo(metadataInfo.getDataClayID(), metadataInfo.getDatasetID(),
-				metadataInfo.getMetaclassID(), false, environments, new HashSet<String>(), metadataInfo.getOwnerID());
+				metadataInfo.getMetaclassID(), false, environments, null, metadataInfo.getOwnerID());
 		if (DEBUG_ENABLED) {
 			LOGGER.debug("[==Version==] Added metadata info to MetaData Cache: " + versionID + " : "
 					+ versionMD.getLocations().values());

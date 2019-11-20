@@ -84,7 +84,7 @@ public final class MetaDataServiceSQLStatements {
 		DELETE_EXECUTION_ENVIRONMENT,
 
 		/** Update aliases. */
-		UPDATE_ALIASES_METADATA,
+		UPDATE_ALIAS_METADATA,
 		/** Update dataset id. */
 		UPDATE_DATASETID_METADATA,
 		/** Update read only metadata. */
