@@ -135,28 +135,10 @@
 			</plugin>
 
 			<plugin>
-				<artifactId>maven-deploy-plugin</artifactId>
-				<configuration>
-					<skip>true</skip>
-				</configuration>
-			</plugin>
-			<plugin>
 				<artifactId>maven-source-plugin</artifactId>
 				<executions>
 					<execution>
 						<id>package-sources</id>
-						<goals>
-							<goal>jar</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>package-javadoc</id>
-						<phase>package</phase>
 						<goals>
 							<goal>jar</goal>
 						</goals>
@@ -185,6 +167,12 @@
 				</executions>
 			</plugin>
 
+			<plugin>
+				<artifactId>maven-deploy-plugin</artifactId>
+				<configuration>
+					<skip>true</skip>
+				</configuration>
+			</plugin>
 		</plugins>
 		<!--</pluginManagement> -->
 	</build>
