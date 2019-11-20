@@ -245,32 +245,29 @@ public final class MetaDataService extends AbstractManager {
 	 */
 	public ObjectID deleteAlias(final String alias) {
 		ObjectMetaData objectMD = objectMDCacheByAlias.remove(alias);
-		if (objectMD != null) {
-			try {
-				metadataDB.updateAliasByID(objectMD.getDataClayID(), alias);
-			} catch (final DbObjectNotExistException e) {
-				// Ignore exception, maybe the object has been garbage collected
-			}
-			if (DEBUG_ENABLED) {
-				logger.debug("Delete Alias: removed alias " + alias + " in object " + objectMD.getDataClayID());
-			}
-			return objectMD.getDataClayID();
-		} else {
+		if (objectMD == null) {
 			if (DEBUG_ENABLED) {
 				logger.debug("Alias " + alias + " not found in cache.");
 			}
+
+			objectMD = metadataDB.getByAlias(alias);
+
+			if (objectMD == null) {
+				throw new ObjectNotRegisteredException(alias);
+			}
 		}
 
-		objectMD = metadataDB.getByAlias(alias);
-		if (objectMD == null) {
-			throw new ObjectNotRegisteredException(alias);
-		}
+		objectMD.setAlias(null);
+
 		try {
-			metadataDB.updateAliasByID(objectMD.getDataClayID(), alias);
+			metadataDB.updateAliasByID(objectMD.getDataClayID(), null);
 		} catch (final DbObjectNotExistException e) {
 			// Ignore exception, maybe the object has been garbage collected
 		}
 
+		if (DEBUG_ENABLED) {
+			logger.debug("Delete Alias: removed alias " + alias + " in object " + objectMD.getDataClayID());
+		}
 		return objectMD.getDataClayID();
 	}
 
@@ -1704,7 +1701,7 @@ public final class MetaDataService extends AbstractManager {
 
 		// If is already a registered object, update aliases
 		final String alias = objectMD.getAlias();
-		if (alias != null) {
+		if (alias != null && !alias.isEmpty()) {
 			if (DEBUG_ENABLED) {
 				logger.debug("[==Add alias==] Adding alias {} to object {}", alias, objectID);
 			}
