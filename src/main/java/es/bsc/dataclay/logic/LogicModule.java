@@ -3434,7 +3434,7 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
 	public void registerObject(final RegistrationInfo regInfo, final ExecutionEnvironmentID backendID,
 			final String alias, final Langs lang) {
 		if (DEBUG_ENABLED) {
-			LOGGER.debug("Registering object explicit call: " + regInfo);
+			LOGGER.debug("Registering object explicit call: " + regInfo + " and alias " + alias);
 		}
 		// Register the object in the metadataservice
 		final HashSet<ExecutionEnvironmentID> backendIDs = new HashSet<>();

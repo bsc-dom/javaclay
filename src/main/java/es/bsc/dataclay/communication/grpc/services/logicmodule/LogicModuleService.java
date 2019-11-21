@@ -1745,7 +1745,11 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 					Utils.getID(regInfoMsg.getClassID()), Utils.getID(regInfoMsg.getSessionID()),
 					Utils.getID(regInfoMsg.getDataSetID()));
 
-			final String alias = request.getAlias();
+			String alias = null; 
+			
+			if (request.getAlias() != null && !request.getAlias().isEmpty()) { 
+				alias = request.getAlias();
+			}
 			logicModule.registerObject(regInfo, Utils.getID(request.getBackendID()), alias, request.getLang());
 
 			Utils.returnExceptionInfoMessage(responseObserver);

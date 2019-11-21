@@ -7,6 +7,7 @@
   </Appenders>
 
  <Loggers>
+  		<Logger name="DataClay.api" level="off" />
         <!--  Runtime -->
         <Logger name="ClientRuntime" level="off" />
         <Logger name="ClientManagementLib" level="off"/>
@@ -57,10 +58,10 @@
         <!--  Misc -->
         <Logger name="util" level="off" />
         <Logger name="exceptions" level="off"/>
-        <Logger name="Paraver" level="info"/>        
+        <Logger name="Paraver" level="off"/>        
         
         <!--  ROOT LOGGER -->
-    <Root level="info">
+    <Root level="off">
       <AppenderRef ref="ConsoleAppender" />
     </Root>
   </Loggers>
