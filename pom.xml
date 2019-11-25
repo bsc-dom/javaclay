@@ -9,6 +9,7 @@
 	<version>2.0</version>
 	<name>dataclay</name>
 	<description>Next generation object storage</description>
+	<url>https://dataclay.bsc.es</url>
 	<packaging>jar</packaging>
 
 	<!-- Properties -->
@@ -108,7 +109,6 @@
 			<id>publish</id>
 			<build>
 				<plugins>
-
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-surefire-report-plugin</artifactId>
@@ -158,6 +158,19 @@
 							<additionalJOption>-Xdoclint:none</additionalJOption>
 							<source>8</source>
 						</configuration>
+					</plugin>
+					<plugin>
+						<artifactId>maven-gpg-plugin</artifactId>
+						<version>1.5</version>
+						<executions>
+							<execution>
+								<id>sign-artifacts</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+							</execution>
+						</executions>
 					</plugin>
 					<plugin>
 						<groupId>org.sonatype.plugins</groupId>
