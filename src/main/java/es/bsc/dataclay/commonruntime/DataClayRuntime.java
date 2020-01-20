@@ -1976,8 +1976,8 @@ public abstract class DataClayRuntime {
 	 */
 	public final void getTracesInDataClayServices() {
 		final Map<String, byte[]> traces = logicModule.getTraces();
-		final String setPath = System.getProperty("user.dir") + File.separator + "set-0";
-		final String traceMpitsPath = System.getProperty("user.dir") + File.separator + "TRACE.mpits";
+		final String setPath = Configuration.Flags.TRACES_DEST_PATH.getStringValue() + File.separator + "set-0";
+		final String traceMpitsPath = Configuration.Flags.TRACES_DEST_PATH.getStringValue() + File.separator + "TRACE.mpits";
 		try {
 			for (final Entry<String, byte[]> traceFile : traces.entrySet()) { 
 				final String fileName = traceFile.getKey();

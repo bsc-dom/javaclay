@@ -113,7 +113,7 @@ public final class LogicModuleSrv {
 		grpcServer.start();
 		running = true;
 		final String content = "READY";
-		Files.write(Paths.get(Configuration.Flags.STATE_FILE.getStringValue()), content.getBytes());
+		Files.write(Paths.get(Configuration.Flags.STATE_FILE_PATH.getStringValue()), content.getBytes());
 		grpcServer.blockUntilShutdown();
 
 	}

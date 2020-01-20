@@ -127,6 +127,9 @@ public final class Configuration {
 		MEMORY_GC_ENABLED(true, ConfType.BOOLEAN),
 		/** Indicates whether to enable global gc or not. */
 		GLOBAL_GC_ENABLED(true, ConfType.BOOLEAN),
+		/** Traces destination directory. */
+		TRACES_DEST_PATH(System.getProperty("user.dir"), ConfType.STRING)
+		,
 		/**
 		 * Indicates whether to check if object is read-only to accept replication or
 		 * not.
@@ -137,7 +140,7 @@ public final class Configuration {
 		EE_PERSISTENT_INFO_PATH(System.getProperty("user.dir") + File.separatorChar, ConfType.STRING),
 
 		/** State file for healthcheck. */
-		STATE_FILE("state.txt", ConfType.STRING),
+		STATE_FILE_PATH("state.txt", ConfType.STRING),
 
 		// =============== PREFETCHING_FLAGS ========= //
 
