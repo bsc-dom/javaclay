@@ -106,9 +106,13 @@ public final class ByteCodeMethods {
 	public static final Method DCOBJ_GET_MASTER_LOCATION = new Method(ByteCodeMethodsNames.DCOBJ_GET_MASTER_LOCATION,
 			ByteCodeTypes.BackendID, new Type[] {});
 
-	/** getByAlias ASM Method. */
-	public static final Method DCOBJ_GET_BY_ALIAS = new Method(ByteCodeMethodsNames.GETOBJ_BY_ALIAS,
-			ByteCodeTypes.DCOBJ, new Type[] { ByteCodeTypes.STRING, ByteCodeTypes.STRING });
+	/** getByAlias safe ASM Method. */
+	public static final Method DCOBJ_GET_BY_ALIAS_SAFE = new Method(ByteCodeMethodsNames.GETOBJ_BY_ALIAS,
+			ByteCodeTypes.DCOBJ, new Type[] { ByteCodeTypes.STRING });
+	
+	/** getByAlias unsafe ASM Method. */
+	public static final Method DCOBJ_GET_BY_ALIAS_UNSAFE = new Method(ByteCodeMethodsNames.GETOBJ_BY_ALIAS,
+			ByteCodeTypes.DCOBJ, new Type[] { ByteCodeTypes.MCLASSID, ByteCodeTypes.STRING, ByteCodeTypes.BOOLEAN });
 	
 	/** deleteAlias ASM Method. */
 	public static final Method DCOBJ_DELETE_ALIAS = new Method(ByteCodeMethodsNames.DELETE_ALIAS,

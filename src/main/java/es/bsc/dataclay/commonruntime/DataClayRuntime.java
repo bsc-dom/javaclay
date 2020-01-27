@@ -604,13 +604,46 @@ public abstract class DataClayRuntime {
 	 * @return The object identified by alias provided
 	 */
 	public final DataClayObject getObjectByAlias(final String alias) {
+		final ObjectID oid;
+		final MetaClassID mid;
+		final BackendID bid;
+
 		final Triple<ObjectID, MetaClassID, BackendID> objInfo = getObjectInfoByAlias(alias);
+		oid = objInfo.getFirst();
+		mid = objInfo.getSecond();
+		bid = objInfo.getThird();
+
 		if (DEBUG_ENABLED) {
-			LOGGER.debug("[==GetByAlias==] Creating instance from alias " + objInfo.getFirst());
+			LOGGER.debug("[==GetByAlias==] Creating instance from alias " + oid);
 		}
-		final DataClayObject instance = this.getPersistedObjectByOID(objInfo.getFirst(), objInfo.getSecond(),
-				objInfo.getThird());
-		return instance;
+
+		return this.getPersistedObjectByOID(oid, mid, bid);
+	}
+
+	/**
+	 * Method that gets an object given its alias and metaclass id.
+	 * 
+	 * @param alias
+	 *            alias of the object
+	 * @param metaClassID
+	 *            if of the object's metaclass
+	 * @param safe
+	 *            if true, check that alias exists
+	 * @return The object identified by the proved alias and metaclass.
+	 */
+	public final DataClayObject getObjectByAlias(final String alias, MetaClassID metaClassID, boolean safe) {
+		if(safe) {
+			return this.getObjectByAlias(alias);
+		}
+
+		final ObjectID oid = getObjectIDByAlias(alias);
+		final BackendID bid = this.getExecutionLocationIDFromHash(oid);
+
+		if (DEBUG_ENABLED) {
+			LOGGER.debug("[==GetByAlias==] Creating instance from alias " + oid);
+		}
+
+		return this.getPersistedObjectByOID(oid, metaClassID, bid);
 	}
 
 	/**
@@ -2108,5 +2141,13 @@ public abstract class DataClayRuntime {
 	 */
 	public void setInitialized(final boolean theinitialized) {
 		this.initialized = theinitialized;
+	}
+
+	protected static ObjectID getObjectIDByAlias(String alias) {
+		return new ObjectID(UUID.nameUUIDFromBytes(alias.getBytes()));
+	}
+
+	protected ExecutionEnvironmentID getObjectLocationByAlias(String alias) {
+		return this.getExecutionLocationIDFromHash(getObjectIDByAlias(alias));
 	}
 }

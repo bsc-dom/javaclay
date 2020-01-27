@@ -53,7 +53,6 @@ import es.bsc.dataclay.util.ids.ImplementationID;
 import es.bsc.dataclay.util.ids.MetaClassID;
 import es.bsc.dataclay.util.ids.ObjectID;
 import es.bsc.dataclay.util.management.stubs.StubInfo;
-import es.bsc.dataclay.util.structs.Triple;
 import es.bsc.dataclay.util.yaml.CommonYAML;
 import storage.StorageObject;
 import storage.StubItf;
@@ -146,7 +145,7 @@ public class DataClayObject extends StorageObject implements DataClaySerializabl
 	 */
 	private void init(final ObjectID theobjectID) {
 		final ObjectID oid = theobjectID;
-		this.setObjectID(oid);
+		this.setObjectIDUnsafe(oid);
 		// Add object to dataClay's heap
 		getLib().addToHeap(this);
 	}
@@ -186,23 +185,12 @@ public class DataClayObject extends StorageObject implements DataClaySerializabl
 	 *            real class of the instance
 	 * @param alias
 	 *            alias of the instance
+	 * @param safe
+	 *            if true, checks that an object with the provided alias exists
 	 * @return the reference to persistent object of given class with given alias
 	 */
-	public static DataClayObject getByAlias(final String className, final String alias) {
-		if (DEBUG_ENABLED) {
-			logger.debug("Request on object of class " + className + " by alias " + alias);
-		}
-
-		final Triple<ObjectID, MetaClassID, BackendID> objInfo = getLib().getObjectInfoByAlias(alias);
-		final ObjectID newobjectID = objInfo.getFirst();
-		if (DEBUG_ENABLED) {
-			getLib();
-			logger.debug("Creating instance from alias " + newobjectID);
-		}
-		final DataClayObject result = getLib().getPersistedObjectByOID(newobjectID, objInfo.getSecond(),
-				objInfo.getThird());
-
-		return result;
+	protected static DataClayObject getByAlias(final MetaClassID classID, final String alias, boolean safe) {
+		return getLib().getObjectByAlias(alias, classID, safe);
 	}
 
 	
@@ -214,10 +202,25 @@ public class DataClayObject extends StorageObject implements DataClaySerializabl
 	 * @param alias
 	 *            alias of object to be requested
 	 * @param <E> type of the object requested
-	 * @return Object with alias provided
-	 * 
+	 * @return The object identified by the provided alias
 	 */
 	public static <E> E getByAliasExt(final String alias) {
+		throw new UnsupportedOperationException("DataClayObject must be specialized");
+	}
+
+	/**
+	 * This method can be used from registered methods to access objects by alias, this method
+	 * is parameterized in order to provide to the users a way to implement and compile an application using 
+	 * a model to be registered (extending DataClayObject).
+	 *
+	 * @param alias
+	 *            alias of object to be requested
+	 * @param safe
+	 *            if true, checks that an object with the provided alias exists
+	 * @param <E> type of the object requested
+	 * @return The object identified by the provided alias
+	 */
+	public static <E> E getByAliasExt(final String alias, boolean safe) {
 		throw new UnsupportedOperationException("DataClayObject must be specialized");
 	}
 	
@@ -247,12 +250,18 @@ public class DataClayObject extends StorageObject implements DataClaySerializabl
 	}
 
 	/**
-	 * Set the DataClayStub::ObjectID field
-	 * 
+	 * Set the object's id
+	 *
+	 * This method is labeled as unsafe as the user should be aware
+	 * it is just possible to change ids of non-persistent objects.
+	 *
+	 * There no warranty that, once persisted, an object will keep
+	 * the same id.
+	 *
 	 * @param newObjectID
-	 *            The ObjectID to set
+	 *        The ObjectID to set
 	 */
-	private void setObjectID(final ObjectID newObjectID) {
+	public void setObjectIDUnsafe(final ObjectID newObjectID) {
 		this.objectID = newObjectID;
 	}
 
