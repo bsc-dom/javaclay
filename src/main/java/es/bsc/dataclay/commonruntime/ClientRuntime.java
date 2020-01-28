@@ -157,29 +157,24 @@ public final class ClientRuntime extends DataClayRuntime {
 	 * @return Location choosen.
 	 */
 	private BackendID chooseLocation(final DataClayObject dcObject, final String alias) {
-		BackendID location = null;
-
-		try {
-			this.updateObjectID(dcObject, getObjectIDByAlias(alias));
-		}catch(DataClayException e) {
-			// This catch body should never be reached. Good luck if it does.
-			LOGGER.info("[==Execution==] Unexpected exception on updateObjectID: " + e);
-			throw new RuntimeException(e);
+		if(alias != null) {
+			try {
+				this.updateObjectID(dcObject, getObjectIDByAlias(alias));
+			}catch(DataClayException e) {
+				// This catch body should never be reached. Exception throws if object already persistent.
+				LOGGER.info("[==Execution==] Unexpected exception on updateObjectID: " + e);
+				throw new RuntimeException(e);
+			}
 		}
 
 		// === HASHCODE EXECUTION LOCATION === //
-		if (location == null) {
-			// Get execution location
-			if (DEBUG_ENABLED) {
-				LOGGER.debug("[==Execution==] Using Hash execution location for " + dcObject.getObjectID());
-			}
-			location = getExecutionLocationIDFromHash(dcObject.getObjectID());
+		if (DEBUG_ENABLED) {
+			LOGGER.debug("[==Execution==] Using Hash execution location for " + dcObject.getObjectID());
 		}
 
+		BackendID location = getExecutionLocationIDFromHash(dcObject.getObjectID());
 		dcObject.setHint(location);
-
 		return location;
-
 	}
 
 	private void updateObjectID(DataClayObject dco, ObjectID newObjectID) throws DataClayException{

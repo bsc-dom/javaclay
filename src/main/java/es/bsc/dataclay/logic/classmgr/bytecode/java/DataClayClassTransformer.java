@@ -599,7 +599,7 @@ public final class DataClayClassTransformer extends ClassVisitor {
 
 		gn.newInstance(ByteCodeTypes.UUID);
 		gn.dup();
-		final UUID classID = stubInfo.getClassID().getId();
+		final UUID classID = metaClass.getDataClayID().getId();
 		gn.visitLdcInsn(classID.getMostSignificantBits());
 		gn.visitLdcInsn(classID.getLeastSignificantBits());
 		gn.visitMethodInsn(Opcodes.INVOKESPECIAL, ByteCodeTypes.UUID.getInternalName(),
@@ -610,15 +610,12 @@ public final class DataClayClassTransformer extends ClassVisitor {
 				ByteCodeMethods.MCLASSID_INIT_METHOD.getDescriptor(), false);
 
 
-		gn.loadArg(0); // Stack: <This> <ClassName> <Alias>
+		gn.loadArg(0); // Stack: <This> <ClassID> <Alias>
 
-		gn.push(true);
-		gn.box(org.objectweb.asm.Type.BOOLEAN_TYPE);
-		gn.storeLocal(1);
-		gn.loadLocal(1);
+		gn.push(true); // Stack: <This> <ClassID> <Alias> <true>
 
 		mv.visitMethodInsn(Opcodes.INVOKESTATIC, ByteCodeTypes.DCOBJ.getInternalName(),
-				ByteCodeMethods.DCOBJ_GET_BY_ALIAS_SAFE.getName(), ByteCodeMethods.DCOBJ_GET_BY_ALIAS_SAFE.getDescriptor(),
+				ByteCodeMethods.DCOBJ_GET_BY_ALIAS.getName(), ByteCodeMethods.DCOBJ_GET_BY_ALIAS.getDescriptor(),
 				false);
 		gn.checkCast(org.objectweb.asm.Type.getType(classDesc));
 		gn.returnValue();
@@ -660,7 +657,7 @@ public final class DataClayClassTransformer extends ClassVisitor {
 
 		gn.newInstance(ByteCodeTypes.UUID);
 		gn.dup();
-		final UUID classID = stubInfo.getClassID().getId();
+		final UUID classID = metaClass.getDataClayID().getId();
 		gn.visitLdcInsn(classID.getMostSignificantBits());
 		gn.visitLdcInsn(classID.getLeastSignificantBits());
 		gn.visitMethodInsn(Opcodes.INVOKESPECIAL, ByteCodeTypes.UUID.getInternalName(),
@@ -671,11 +668,11 @@ public final class DataClayClassTransformer extends ClassVisitor {
 				ByteCodeMethods.MCLASSID_INIT_METHOD.getDescriptor(), false);
 
 
-		gn.loadArg(0); // Stack: <This> <ClassName> <Alias>
-		gn.loadArg(1);
+		gn.loadArg(0); // Stack: <This> <ClassID> <Alias>
+		gn.loadArg(1); // Stack: <This> <ClassID> <Alias> <Safe>
 
 		mv.visitMethodInsn(Opcodes.INVOKESTATIC, ByteCodeTypes.DCOBJ.getInternalName(),
-				ByteCodeMethods.DCOBJ_GET_BY_ALIAS_UNSAFE.getName(), ByteCodeMethods.DCOBJ_GET_BY_ALIAS_UNSAFE.getDescriptor(),
+				ByteCodeMethods.DCOBJ_GET_BY_ALIAS.getName(), ByteCodeMethods.DCOBJ_GET_BY_ALIAS.getDescriptor(),
 				false);
 		gn.checkCast(org.objectweb.asm.Type.getType(classDesc));
 		gn.returnValue();
