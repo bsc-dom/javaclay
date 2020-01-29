@@ -1806,17 +1806,6 @@ public final class ClientManagementLib {
 	}
 
 	/**
-	 * Set backendin which to run methods for executions done by current thread.
-	 * 
-	 * @param backendID
-	 *            location in which to execute
-	 */
-	public static void setDefaultExecLocation(final ExecutionEnvironmentID backendID) {
-		clientLib.checkConnectionAndParams(new String[] { "ExecutionEnvironmentID" }, new Object[] { backendID });
-		clientLib.setDefaultExecLocationPerThread(Thread.currentThread().getId(), backendID);
-	}
-
-	/**
 	 * Register Event listener implementation i.e. method that must be executed
 	 * every time a certain event (and its conditions) occurs.
 	 * 

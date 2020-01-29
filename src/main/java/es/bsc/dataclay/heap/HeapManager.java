@@ -158,4 +158,15 @@ public abstract class HeapManager extends TimerTask {
 	 */
 	public abstract void flushAll();
 
+	/**
+	 * Update an objectID.
+	 * 
+	 * @param oldObjectID
+	 *            ID of the object to be updated.
+	 * @param newObjectID
+	 *            new ID of the object.
+	 */
+	public void updateObjectID(final ObjectID oldObjectID, final ObjectID newObjectID) {
+		inmemoryObjects.put(newObjectID, inmemoryObjects.remove(oldObjectID));
+	}
 }
