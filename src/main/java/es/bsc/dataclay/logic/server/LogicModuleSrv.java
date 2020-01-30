@@ -101,7 +101,7 @@ public final class LogicModuleSrv {
 				try {
 					if (running) {
 						stopService();
-						logger.info("LOGICMODULE STOPPED BY SHUTDOWNHOOK.");
+						System.err.println("LOGICMODULE GRACEFULLY STOPPED :)");
 					}
 				} catch (final Exception e) {
 					logger.error("Exception while stopping LogicModuleSrv service", e);
