@@ -124,11 +124,11 @@ public final class DataServiceSrv {
 				try {
 					if (runningServer) {
 						stopService();
-						logger.warn("ShutdownHook stopped {}", serviceName);
 					}
 				} catch (final Exception e) {
-					logger.debug("Execution error (in run method)", e);
+					e.printStackTrace();
 				}
+				System.err.println("DATASERVICE GRACEFULLY STOPPED :)");
 			}
 		};
 		shutdownHook.setName(srvName + "-ShutdownHook");

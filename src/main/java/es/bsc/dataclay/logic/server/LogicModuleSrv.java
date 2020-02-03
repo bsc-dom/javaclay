@@ -101,12 +101,13 @@ public final class LogicModuleSrv {
 				try {
 					if (running) {
 						stopService();
-						logger.info("LOGICMODULE STOPPED BY SHUTDOWNHOOK.");
 					}
 				} catch (final Exception e) {
-					logger.error("Exception while stopping LogicModuleSrv service", e);
+					e.printStackTrace();
 				}
+				System.err.println("LOGICMODULE GRACEFULLY STOPPED :)");
 			}
+			
 		};
 		shutdownHook.setName(srvName + "-ShutdownHook");
 		Runtime.getRuntime().addShutdownHook(shutdownHook);

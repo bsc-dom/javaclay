@@ -369,7 +369,6 @@ public abstract class DataClayRuntime {
 			activatePrvTimer.cancel();
 		}
 
-		LoggerContext.getContext().stop();
 		this.setInitialized(false);
 	}
 
