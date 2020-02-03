@@ -5,6 +5,7 @@
  */
 package es.bsc.dataclay.dataservice.server;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
@@ -136,7 +137,12 @@ public final class DataServiceSrv {
 		runningServer = true;
 		dSconnectedToLM = true;
 		final String content = "READY";
-		Files.write(Paths.get(Configuration.Flags.STATE_FILE_PATH.getStringValue()), content.getBytes());
+		try {
+			Files.write(Paths.get(Configuration.Flags.STATE_FILE_PATH.getStringValue()), content.getBytes());
+		}
+		catch(IOException e) {
+			logger.error(Configuration.Flags.STATE_FILE_PATH + " not writable. Skipping file creation.");
+		}
 		grpcServer.blockUntilShutdown();
 	}
 
