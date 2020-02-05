@@ -105,7 +105,7 @@ public final class LogicModuleSrv {
 				} catch (final Exception e) {
 					e.printStackTrace();
 				}
-				System.err.println("LOGICMODULE GRACEFULLY STOPPED :)");
+				System.err.println("LOGICMODULE GRACEFULLY STOPPED");
 			}
 			
 		};

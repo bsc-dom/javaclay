@@ -479,7 +479,7 @@ public final class Configuration {
 						throw new Exception("Wrong value Type: " + valueType);
 					}
 				} else { 
-					LOGGER.debug("Not found environment variable set in global.properties, using default: {}={}", this.name(), strVal);
+					LOGGER.debug("Not found environment variable set in global.properties, using default: {}={}", this.name(), value);
 				}
 			}
 

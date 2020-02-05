@@ -2,6 +2,7 @@ package es.bsc.dataclay.commonruntime;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -2008,9 +2009,10 @@ public abstract class DataClayRuntime {
 	 */
 	public final void getTracesInDataClayServices() {
 		final Map<String, byte[]> traces = logicModule.getTraces();
-		final String setPath = Configuration.Flags.TRACES_DEST_PATH.getStringValue() + File.separator + "set-0";
-		final String traceMpitsPath = Configuration.Flags.TRACES_DEST_PATH.getStringValue() + File.separator + "TRACE.mpits";
+		final String setPath = Configuration.Flags.TRACES_DEST_PATH.getStringValue() + File.separatorChar + "set-0";
+		final String traceMpitsPath = Configuration.Flags.TRACES_DEST_PATH.getStringValue() + File.separatorChar + "TRACE.mpits";
 		try {
+			FileUtils.forceMkdir(new File(setPath));
 			for (final Entry<String, byte[]> traceFile : traces.entrySet()) { 
 				final String fileName = traceFile.getKey();
 				final byte[] fileBytes = traceFile.getValue();
@@ -2025,9 +2027,9 @@ public abstract class DataClayRuntime {
 					if (fileName.endsWith(".mpit")) {
 						final String newFilePointer = path + " named\n";
 						if (DEBUG_ENABLED) { 
-							LOGGER.debug("Adding line to TRACE.mpits " + newFilePointer);
+							LOGGER.debug("Adding line to " + traceMpitsPath + " file: " + newFilePointer);
 						}
-						FileUtils.writeStringToFile(new File(traceMpitsPath), newFilePointer, true);
+						FileUtils.writeStringToFile(new File(traceMpitsPath), newFilePointer,Charset.defaultCharset(), true);
 					}
 					
 			}
@@ -2036,6 +2038,10 @@ public abstract class DataClayRuntime {
 				LOGGER.debug("Exception produced while storing file ", e);
 			}
 		}
+		
+		
+		
+		
 	}
 
 	/**

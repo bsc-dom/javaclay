@@ -129,7 +129,7 @@ public final class DataServiceSrv {
 				} catch (final Exception e) {
 					e.printStackTrace();
 				}
-				System.err.println("DATASERVICE GRACEFULLY STOPPED :)");
+				System.err.println("DATASERVICE GRACEFULLY STOPPED");
 			}
 		};
 		shutdownHook.setName(srvName + "-ShutdownHook");
