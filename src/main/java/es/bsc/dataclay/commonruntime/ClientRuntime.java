@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 
 import es.bsc.dataclay.DataClayObject;
 import es.bsc.dataclay.api.BackendID;
+import es.bsc.dataclay.api.DataClayException;
 import es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.Langs;
 import es.bsc.dataclay.dataservice.api.DataServiceAPI;
 import es.bsc.dataclay.exceptions.metadataservice.ObjectNotRegisteredException;
@@ -41,9 +41,6 @@ public final class ClientRuntime extends DataClayRuntime {
 
 	/** Client session. */
 	private SessionInfo clientSession;
-
-	/** Default backend per thread. */
-	private final Map<Long, BackendID> defaultExecLocation = new ConcurrentHashMap<>();
 
 	/** User-defined 'LOCAL' backend */
 	private BackendID localBackend = null;
@@ -143,18 +140,6 @@ public final class ClientRuntime extends DataClayRuntime {
 	}
 
 	/**
-	 * Set Default execution location per thread
-	 * 
-	 * @param threadID
-	 *            ID of thread
-	 * @param backendID
-	 *            Backend in which to execute.
-	 */
-	public void setDefaultExecLocationPerThread(final long threadID, final BackendID backendID) {
-		this.defaultExecLocation.put(threadID, backendID);
-	}
-
-	/**
 	 * Get Heap Manager
 	 * 
 	 * @return Heap Manager
@@ -171,31 +156,35 @@ public final class ClientRuntime extends DataClayRuntime {
 	 *            DataClay object.
 	 * @return Location choosen.
 	 */
-	private BackendID chooseLocation(final DataClayObject dcObject) {
-		BackendID location = null;
-		// === DEFAULT EXECUTION LOCATION === //
-		long threadID = 0L;
-		if (location == null) {
-			threadID = Thread.currentThread().getId();
-			location = defaultExecLocation.get(threadID);
-			if (location != null) {
-				if (DEBUG_ENABLED) {
-					LOGGER.debug("[==Execution==] Using Default execution Location for thread for "
-							+ dcObject.getObjectID());
-				}
+	private BackendID chooseLocation(final DataClayObject dcObject, final String alias) {
+		if(alias != null) {
+			try {
+				this.updateObjectID(dcObject, getObjectIDByAlias(alias));
+			}catch(DataClayException e) {
+				// This catch body should never be reached. Exception throws if object already persistent.
+				LOGGER.info("[==Execution==] Unexpected exception on updateObjectID: " + e);
+				throw new RuntimeException(e);
 			}
 		}
 
 		// === HASHCODE EXECUTION LOCATION === //
-		if (location == null) {
-			// Get execution location
-			if (DEBUG_ENABLED) {
-				LOGGER.debug("[==Execution==] Using Hash execution location for " + dcObject.getObjectID());
-			}
-			location = getExecutionLocationIDFromHash(dcObject.getObjectID());
+		if (DEBUG_ENABLED) {
+			LOGGER.debug("[==Execution==] Using Hash execution location for " + dcObject.getObjectID());
 		}
-		return location;
 
+		BackendID location = getExecutionLocationIDFromHash(dcObject.getObjectID());
+		dcObject.setHint(location);
+		return location;
+	}
+
+	private void updateObjectID(DataClayObject dco, ObjectID newObjectID) throws DataClayException{
+		if(dco.isPersistent()) {
+			throw new DataClayException("Cannot change the id of a persistent object");
+		}
+
+		final ObjectID oldObjectID = dco.getObjectID();
+		dco.setObjectIDUnsafe(newObjectID);
+		dataClayHeapManager.updateObjectID(oldObjectID, newObjectID);
 	}
 
 	@Override
@@ -224,7 +213,7 @@ public final class ClientRuntime extends DataClayRuntime {
 			execLocationID = objectInWhichToExec.getHint();
 			usingHint = true;
 		} else {
-			execLocationID = chooseLocation(objectInWhichToExec);
+			execLocationID = chooseLocation(objectInWhichToExec, null);
 		}
 
 		try {
@@ -252,7 +241,7 @@ public final class ClientRuntime extends DataClayRuntime {
 			// random, hash...).
 			location = optionalDestBackendID;
 			if (location == null) {
-				location = chooseLocation(dcObject);
+				location = chooseLocation(dcObject, alias);
 			}
 		}
 

@@ -239,6 +239,9 @@ public final class ByteCodeTypes {
 	/** Java Boolean Object Type. */
 	public static final Type BOOLEAN = Type.getType(Boolean.class);
 
+	/** Java boolean primitive Type. */
+	public static final Type BOOLEAN_PRIMITIVE = Type.getType(boolean.class);
+
 	/** Java Short Object Type. */
 	public static final Type SHORT = Type.getType(Short.class);
 

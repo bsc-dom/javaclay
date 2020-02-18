@@ -2,6 +2,7 @@ package es.bsc.dataclay.commonruntime;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -369,7 +370,6 @@ public abstract class DataClayRuntime {
 			activatePrvTimer.cancel();
 		}
 
-		LoggerContext.getContext().stop();
 		this.setInitialized(false);
 	}
 
@@ -604,13 +604,46 @@ public abstract class DataClayRuntime {
 	 * @return The object identified by alias provided
 	 */
 	public final DataClayObject getObjectByAlias(final String alias) {
+		final ObjectID oid;
+		final MetaClassID mid;
+		final BackendID bid;
+
 		final Triple<ObjectID, MetaClassID, BackendID> objInfo = getObjectInfoByAlias(alias);
+		oid = objInfo.getFirst();
+		mid = objInfo.getSecond();
+		bid = objInfo.getThird();
+
 		if (DEBUG_ENABLED) {
-			LOGGER.debug("[==GetByAlias==] Creating instance from alias " + objInfo.getFirst());
+			LOGGER.debug("[==GetByAlias==] Creating instance from alias " + oid);
 		}
-		final DataClayObject instance = this.getPersistedObjectByOID(objInfo.getFirst(), objInfo.getSecond(),
-				objInfo.getThird());
-		return instance;
+
+		return this.getPersistedObjectByOID(oid, mid, bid);
+	}
+
+	/**
+	 * Method that gets an object given its alias and metaclass id.
+	 * 
+	 * @param alias
+	 *            alias of the object
+	 * @param metaClassID
+	 *            if of the object's metaclass
+	 * @param safe
+	 *            if true, check that alias exists
+	 * @return The object identified by the proved alias and metaclass.
+	 */
+	public final DataClayObject getObjectByAlias(final String alias, MetaClassID metaClassID, boolean safe) {
+		if(safe) {
+			return this.getObjectByAlias(alias);
+		}
+
+		final ObjectID oid = getObjectIDByAlias(alias);
+		final BackendID bid = this.getExecutionLocationIDFromHash(oid);
+
+		if (DEBUG_ENABLED) {
+			LOGGER.debug("[==GetByAlias==] Creating instance from alias " + oid);
+		}
+
+		return this.getPersistedObjectByOID(oid, metaClassID, bid);
 	}
 
 	/**
@@ -1976,9 +2009,10 @@ public abstract class DataClayRuntime {
 	 */
 	public final void getTracesInDataClayServices() {
 		final Map<String, byte[]> traces = logicModule.getTraces();
-		final String setPath = Configuration.Flags.TRACES_DEST_PATH.getStringValue() + File.separator + "set-0";
-		final String traceMpitsPath = Configuration.Flags.TRACES_DEST_PATH.getStringValue() + File.separator + "TRACE.mpits";
+		final String setPath = Configuration.Flags.TRACES_DEST_PATH.getStringValue() + File.separatorChar + "set-0";
+		final String traceMpitsPath = Configuration.Flags.TRACES_DEST_PATH.getStringValue() + File.separatorChar + "TRACE.mpits";
 		try {
+			FileUtils.forceMkdir(new File(setPath));
 			for (final Entry<String, byte[]> traceFile : traces.entrySet()) { 
 				final String fileName = traceFile.getKey();
 				final byte[] fileBytes = traceFile.getValue();
@@ -1993,9 +2027,9 @@ public abstract class DataClayRuntime {
 					if (fileName.endsWith(".mpit")) {
 						final String newFilePointer = path + " named\n";
 						if (DEBUG_ENABLED) { 
-							LOGGER.debug("Adding line to TRACE.mpits " + newFilePointer);
+							LOGGER.debug("Adding line to " + traceMpitsPath + " file: " + newFilePointer);
 						}
-						FileUtils.writeStringToFile(new File(traceMpitsPath), newFilePointer, true);
+						FileUtils.writeStringToFile(new File(traceMpitsPath), newFilePointer,Charset.defaultCharset(), true);
 					}
 					
 			}
@@ -2004,6 +2038,10 @@ public abstract class DataClayRuntime {
 				LOGGER.debug("Exception produced while storing file ", e);
 			}
 		}
+		
+		
+		
+		
 	}
 
 	/**
@@ -2108,5 +2146,13 @@ public abstract class DataClayRuntime {
 	 */
 	public void setInitialized(final boolean theinitialized) {
 		this.initialized = theinitialized;
+	}
+
+	protected static ObjectID getObjectIDByAlias(String alias) {
+		return new ObjectID(UUID.nameUUIDFromBytes(alias.getBytes()));
+	}
+
+	protected ExecutionEnvironmentID getObjectLocationByAlias(String alias) {
+		return this.getExecutionLocationIDFromHash(getObjectIDByAlias(alias));
 	}
 }

@@ -108,7 +108,7 @@ public final class ByteCodeMethods {
 
 	/** getByAlias ASM Method. */
 	public static final Method DCOBJ_GET_BY_ALIAS = new Method(ByteCodeMethodsNames.GETOBJ_BY_ALIAS,
-			ByteCodeTypes.DCOBJ, new Type[] { ByteCodeTypes.STRING, ByteCodeTypes.STRING });
+			ByteCodeTypes.DCOBJ, new Type[] { ByteCodeTypes.MCLASSID, ByteCodeTypes.STRING, ByteCodeTypes.BOOLEAN_PRIMITIVE});
 	
 	/** deleteAlias ASM Method. */
 	public static final Method DCOBJ_DELETE_ALIAS = new Method(ByteCodeMethodsNames.DELETE_ALIAS,

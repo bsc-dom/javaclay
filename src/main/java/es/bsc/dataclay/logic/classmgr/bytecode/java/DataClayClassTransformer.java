@@ -3,6 +3,7 @@ package es.bsc.dataclay.logic.classmgr.bytecode.java;
 
 import java.lang.reflect.Modifier;
 import java.util.List;
+import java.util.UUID;
 
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.FieldVisitor;
@@ -58,7 +59,7 @@ public final class DataClayClassTransformer extends ClassVisitor {
 
 	/** Indicates if we are generating an execution class. */
 	private final boolean isExecClass;
-	
+
 
 	/**
 	 * Constructor
@@ -92,9 +93,9 @@ public final class DataClayClassTransformer extends ClassVisitor {
 	@Override
 	public FieldVisitor visitField(final int access, final String name, final String desc, final String signature,
 			final Object value) {
-		
+
 		int actualFieldAccess = access & (~Opcodes.ACC_FINAL);
-		
+
 		if (Modifier.isInterface(metaClass.getJavaClassInfo().getModifier())) {
 			// if interface, do not modify code
 			return super.visitField(actualFieldAccess, name, desc, signature, value);
@@ -209,10 +210,10 @@ public final class DataClayClassTransformer extends ClassVisitor {
 					? new DataClayExecutionMethodTransformer(mv, access, actualMethodName, actualMethodDesc,
 							Reflector.getDescriptorFromTypeName(metaClass.getName()), operation, implToAdd,
 							metaClass.getProperties())
-					: new DataClayStubMethodTransformer(mv, access, actualMethodName, actualMethodDesc,
-							Reflector.getDescriptorFromTypeName(metaClass.getName()), operation, implToAdd,
-							metaClass.getProperties());
-			return mVisitor;
+							: new DataClayStubMethodTransformer(mv, access, actualMethodName, actualMethodDesc,
+									Reflector.getDescriptorFromTypeName(metaClass.getName()), operation, implToAdd,
+									metaClass.getProperties());
+					return mVisitor;
 		}
 
 		return null;
@@ -551,12 +552,19 @@ public final class DataClayClassTransformer extends ClassVisitor {
 		if (this.isExecClass) {
 			fullClassName = metaClass.getNamespace() + "." + metaClass.getName();
 		}
-		generateInternalGetByAlias(ByteCodeMethodsNames.GETOBJ_BY_ALIAS, 
-					Reflector.getDescriptorFromTypeName(fullClassName),
-					fullClassName);
-		generateInternalGetByAlias(ByteCodeMethodsNames.GETOBJ_BY_ALIAS_EXT, 
-					Reflector.getDescriptorFromTypeName(ByteCodeTypes.OBJECT.getInternalName()),
-					fullClassName);
+		generateInternalGetByAliasSafe(ByteCodeMethodsNames.GETOBJ_BY_ALIAS, 
+				Reflector.getDescriptorFromTypeName(fullClassName),
+				fullClassName);
+		generateInternalGetByAliasSafe(ByteCodeMethodsNames.GETOBJ_BY_ALIAS_EXT, 
+				Reflector.getDescriptorFromTypeName(ByteCodeTypes.OBJECT.getInternalName()),
+				fullClassName);
+
+		generateInternalGetByAliasUnsafe(ByteCodeMethodsNames.GETOBJ_BY_ALIAS, 
+				Reflector.getDescriptorFromTypeName(fullClassName),
+				fullClassName);
+		generateInternalGetByAliasUnsafe(ByteCodeMethodsNames.GETOBJ_BY_ALIAS_EXT, 
+				Reflector.getDescriptorFromTypeName(ByteCodeTypes.OBJECT.getInternalName()),
+				fullClassName);
 	}
 
 	/**
@@ -569,7 +577,7 @@ public final class DataClayClassTransformer extends ClassVisitor {
 	 *            name of the class of the object
 	 * 
 	 */
-	private void generateInternalGetByAlias(final String methodName, 
+	private void generateInternalGetByAliasSafe(final String methodName, 
 			final String classDesc, final String className) {
 		final String signature = Reflector.getSignatureFromTypeName(String.class.getName());
 
@@ -585,8 +593,27 @@ public final class DataClayClassTransformer extends ClassVisitor {
 		// Code
 		gn.visitCode(); // Start code
 
-		gn.push(className); // Stack: <This> <ClassName>
-		gn.loadArg(0); // Stack: <This> <ClassName> <Alias>
+		// ==== CLASSID === /
+		gn.newInstance(ByteCodeTypes.MCLASSID); // Stack: <This> <ClassID>
+		gn.dup();
+
+		gn.newInstance(ByteCodeTypes.UUID);
+		gn.dup();
+		final UUID classID = metaClass.getDataClayID().getId();
+		gn.visitLdcInsn(classID.getMostSignificantBits());
+		gn.visitLdcInsn(classID.getLeastSignificantBits());
+		gn.visitMethodInsn(Opcodes.INVOKESPECIAL, ByteCodeTypes.UUID.getInternalName(),
+				ByteCodeMethods.UUID_INIT_METHOD.getName(), ByteCodeMethods.UUID_INIT_METHOD.getDescriptor(),
+				false);
+		gn.visitMethodInsn(Opcodes.INVOKESPECIAL, ByteCodeTypes.MCLASSID.getInternalName(),
+				ByteCodeMethods.MCLASSID_INIT_METHOD.getName(),
+				ByteCodeMethods.MCLASSID_INIT_METHOD.getDescriptor(), false);
+
+
+		gn.loadArg(0); // Stack: <This> <ClassID> <Alias>
+
+		gn.push(true); // Stack: <This> <ClassID> <Alias> <true>
+
 		mv.visitMethodInsn(Opcodes.INVOKESTATIC, ByteCodeTypes.DCOBJ.getInternalName(),
 				ByteCodeMethods.DCOBJ_GET_BY_ALIAS.getName(), ByteCodeMethods.DCOBJ_GET_BY_ALIAS.getDescriptor(),
 				false);
@@ -596,6 +623,64 @@ public final class DataClayClassTransformer extends ClassVisitor {
 		gn.visitMaxs(-1, -1); // Calculate it automatically
 		gn.visitEnd();
 	}
+
+	/**
+	 * Generate internal getByAlias method.
+	 * 
+	 * @param methodName Name of the getByAlias method to generate
+	 * @param classDesc
+	 *            Return type
+	 * @param className
+	 *            name of the class of the object
+	 * 
+	 */
+	private void generateInternalGetByAliasUnsafe(final String methodName, 
+			final String classDesc, final String className) {
+		final String signature = Reflector.getSignatureFromTypeName(String.class.getName())
+				+ Reflector.getSignatureFromTypeName("boolean");
+
+		final String opDesc = "(" + signature + ")" + classDesc;
+		final MethodVisitor mv = cv.visitMethod(Opcodes.ACC_PUBLIC + Opcodes.ACC_STATIC,
+				methodName, opDesc, null, null);
+		final GeneratorAdapter gn = new GeneratorAdapter(mv, Opcodes.ACC_PUBLIC + Opcodes.ACC_STATIC,
+				methodName, opDesc);
+
+		// Parameters
+		gn.visitParameter("alias", Opcodes.ACC_FINAL);
+
+		// Code
+		gn.visitCode(); // Start code
+
+		// ==== CLASSID === /
+		gn.newInstance(ByteCodeTypes.MCLASSID); // Stack: <This> <ClassID>
+		gn.dup();
+
+		gn.newInstance(ByteCodeTypes.UUID);
+		gn.dup();
+		final UUID classID = metaClass.getDataClayID().getId();
+		gn.visitLdcInsn(classID.getMostSignificantBits());
+		gn.visitLdcInsn(classID.getLeastSignificantBits());
+		gn.visitMethodInsn(Opcodes.INVOKESPECIAL, ByteCodeTypes.UUID.getInternalName(),
+				ByteCodeMethods.UUID_INIT_METHOD.getName(), ByteCodeMethods.UUID_INIT_METHOD.getDescriptor(),
+				false);
+		gn.visitMethodInsn(Opcodes.INVOKESPECIAL, ByteCodeTypes.MCLASSID.getInternalName(),
+				ByteCodeMethods.MCLASSID_INIT_METHOD.getName(),
+				ByteCodeMethods.MCLASSID_INIT_METHOD.getDescriptor(), false);
+
+
+		gn.loadArg(0); // Stack: <This> <ClassID> <Alias>
+		gn.loadArg(1); // Stack: <This> <ClassID> <Alias> <Safe>
+
+		mv.visitMethodInsn(Opcodes.INVOKESTATIC, ByteCodeTypes.DCOBJ.getInternalName(),
+				ByteCodeMethods.DCOBJ_GET_BY_ALIAS.getName(), ByteCodeMethods.DCOBJ_GET_BY_ALIAS.getDescriptor(),
+				false);
+		gn.checkCast(org.objectweb.asm.Type.getType(classDesc));
+		gn.returnValue();
+
+		gn.visitMaxs(-1, -1); // Calculate it automatically
+		gn.visitEnd();
+	}
+
 
 	/**
 	 * Generates static deleteAlias method
