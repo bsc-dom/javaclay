@@ -1709,10 +1709,10 @@ public final class MetaDataService extends AbstractManager {
 		}
 		// TODO: check repeated aliases (dgasull September 2018)
 
-		metadataDB.updateAliasByID(objectID, alias);
+		metadataDB.updateAliasByID(objectID, newAlias);
 
 		// Update Object Metadata alias cache
-		objectMDCacheByAlias.put(alias, objectMD);
+		objectMDCacheByAlias.put(newAlias, objectMD);
 		if (DEBUG_ENABLED) {
 			logger.debug("[==Add alias==] Updating cache of metadatas: {} -> {}", objectID, objectMD);
 		}
