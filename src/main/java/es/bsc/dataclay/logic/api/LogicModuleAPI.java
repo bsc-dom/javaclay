@@ -776,7 +776,7 @@ public interface LogicModuleAPI {
 	 * @param lang
 	 *            Language
 	 */
-	void registerObject(final RegistrationInfo regInfo, final ExecutionEnvironmentID backendID, final String alias,
+	ObjectID registerObject(final RegistrationInfo regInfo, final ExecutionEnvironmentID backendID, final String alias,
 			final Langs lang);
 
 	/**

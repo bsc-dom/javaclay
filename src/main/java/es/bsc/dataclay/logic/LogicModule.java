@@ -3431,7 +3431,7 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
 	// ============== Metadata Service ==============//
 
 	@Override
-	public void registerObject(final RegistrationInfo regInfo, final ExecutionEnvironmentID backendID,
+	public ObjectID registerObject(final RegistrationInfo regInfo, final ExecutionEnvironmentID backendID,
 			final String alias, final Langs lang) {
 		if (DEBUG_ENABLED) {
 			LOGGER.debug("Registering object explicit call: " + regInfo + " and alias " + alias);
@@ -3487,7 +3487,7 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
 				addAlias(objectIDofNewObject, alias);
 			}
 		}
-
+		return regInfo.getObjectID();
 	}
 
 	@Override

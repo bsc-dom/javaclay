@@ -1744,7 +1744,7 @@ public final class LogicModuleGrpcClient implements LogicModuleAPI {
 	}
 
 	@Override
-	public void registerObject(final RegistrationInfo regInfo, final ExecutionEnvironmentID backendID,
+	public ObjectID registerObject(final RegistrationInfo regInfo, final ExecutionEnvironmentID backendID,
 			final String alias, final Langs lang) {
 
 		final RegisterObjectRequest.Builder builder = RegisterObjectRequest.newBuilder();
@@ -1768,6 +1768,8 @@ public final class LogicModuleGrpcClient implements LogicModuleAPI {
 		final Function<RegisterObjectRequest, ExceptionInfo> f = req -> getBlockingStub().registerObject(req);
 		response = this.<RegisterObjectRequest, ExceptionInfo>callLogicModule(request, f);
 		Utils.checkIsExc(response);
+
+		return regInfo.getObjectID();
 	}
 
 	@Override

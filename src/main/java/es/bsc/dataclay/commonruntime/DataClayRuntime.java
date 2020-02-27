@@ -2148,7 +2148,7 @@ public abstract class DataClayRuntime {
 		this.initialized = theinitialized;
 	}
 
-	protected static ObjectID getObjectIDByAlias(String alias) {
+	public static ObjectID getObjectIDByAlias(String alias) {
 		return new ObjectID(UUID.nameUUIDFromBytes(alias.getBytes()));
 	}
 
