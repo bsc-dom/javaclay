@@ -18,7 +18,6 @@ import java.util.concurrent.ScheduledExecutorService;
 import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.core.LoggerContext;
 
 import es.bsc.dataclay.DataClayObject;
 import es.bsc.dataclay.api.BackendID;
@@ -214,7 +213,7 @@ public abstract class DataClayRuntime {
 	 *            ID of the object connected.
 	 * @return ExecutionEnvironmentID by hash
 	 */
-	public final ExecutionEnvironmentID getExecutionLocationIDFromHash(final ObjectID objectID) {
+	public final ExecutionEnvironmentID getBackendIDFromObjectID(final ObjectID objectID) {
 
 		if (execLocationsPerHash.isEmpty()) {
 			prepareExecuteLocations();
@@ -636,8 +635,8 @@ public abstract class DataClayRuntime {
 			return this.getObjectByAlias(alias);
 		}
 
-		final ObjectID oid = getObjectIDByAlias(alias);
-		final BackendID bid = this.getExecutionLocationIDFromHash(oid);
+		final ObjectID oid = getObjectIDFromAlias(alias);
+		final BackendID bid = this.getBackendIDFromObjectID(oid);
 
 		if (DEBUG_ENABLED) {
 			LOGGER.debug("[==GetByAlias==] Creating instance from alias " + oid);
@@ -2148,12 +2147,12 @@ public abstract class DataClayRuntime {
 		this.initialized = theinitialized;
 	}
 
-	public static ObjectID getObjectIDByAlias(String alias) {
+	public static ObjectID getObjectIDFromAlias(String alias) {
 		return new ObjectID(UUID.nameUUIDFromBytes(alias.getBytes()));
 	}
 
-	protected ExecutionEnvironmentID getObjectLocationByAlias(String alias) {
-		return this.getExecutionLocationIDFromHash(getObjectIDByAlias(alias));
+	protected ExecutionEnvironmentID getBackendIDFromAlias(String alias) {
+		return this.getBackendIDFromObjectID(getObjectIDFromAlias(alias));
 	}
 
 	/**
@@ -2171,10 +2170,9 @@ public abstract class DataClayRuntime {
 		final BackendID location;
 
 		if(alias != null) {
-			ObjectID oid = getObjectIDByAlias(alias);
-			location = getExecutionLocationIDFromHash(oid);
+			location = getBackendIDFromAlias(alias);
 		}else {
-			location = getExecutionLocationIDFromHash(dcObject.getObjectID());
+			location = getBackendIDFromObjectID(dcObject.getObjectID());
 		}
 
 		dcObject.setHint(location);

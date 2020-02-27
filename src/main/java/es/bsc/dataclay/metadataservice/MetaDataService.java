@@ -330,7 +330,7 @@ public final class MetaDataService extends AbstractManager {
 				// it's ok, object not registered
 			}
 
-			newObjectID = DataClayRuntime.getObjectIDByAlias(alias);
+			newObjectID = DataClayRuntime.getObjectIDFromAlias(alias);
 		}
 
 
