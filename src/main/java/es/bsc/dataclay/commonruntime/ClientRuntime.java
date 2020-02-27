@@ -149,37 +149,6 @@ public final class ClientRuntime extends DataClayRuntime {
 		return this.dataClayHeapManager;
 	}
 
-	/**
-	 * Choose execution/make persistent location.
-	 * 
-	 * @param dcObject
-	 *            DataClay object.
-	 * @return Location choosen.
-	 */
-	private BackendID chooseLocation(final DataClayObject dcObject, final String alias) {
-		if (DEBUG_ENABLED) {
-			LOGGER.debug("[==Execution==] Using Hash execution location for " + dcObject.getObjectID());
-		}
-
-		final BackendID location;
-
-		if(alias != null) {
-			ObjectID oid = getObjectIDByAlias(alias);
-			location = getExecutionLocationIDFromHash(oid);
-		}else {
-			location = getExecutionLocationIDFromHash(dcObject.getObjectID());
-		}
-
-		dcObject.setHint(location);
-		return location;
-	}
-
-	private void updateObjectID(DataClayObject dco, ObjectID newObjectID) {
-		final ObjectID oldObjectID = dco.getObjectID();
-		dco.setObjectIDUnsafe(newObjectID);
-		dataClayHeapManager.updateObjectID(oldObjectID, newObjectID);
-	}
-
 	@Override
 	protected Object executeRemoteImplementationInternal(final DataClayObject objectInWhichToExec,
 			final ImplementationID implID, final Object[] params) {

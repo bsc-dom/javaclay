@@ -411,6 +411,19 @@ public final class DataServiceRuntime extends DataClayRuntime {
 		}
 		final SessionID sessionID = checkAndGetSession(new String[] {}, new Object[] {});
 		final DataClayExecutionObject execObject = (DataClayExecutionObject) dcObject;
+
+		BackendID location = execObject.getHint();
+		if (location == null) {
+			// Choose location if needed
+			// If object is already persistent -> it must have a Hint (location = hint here)
+			// If object is not persistent -> location is choosen (provided backend id or
+			// random, hash...).
+			location = optionalDestBackendID;
+			if (location == null) {
+				location = chooseLocation(dcObject, alias);
+			}
+		}
+
 		if (alias != null) {
 			// Register object or add a new alias
 			// Add a new alias to a persistent object.
@@ -427,8 +440,9 @@ public final class DataServiceRuntime extends DataClayRuntime {
 						execObject.getMetaClassID(), sessionID, execObject.getDataSetID());
 				// Location of object is 'this' EE.
 				// TODO: Review if we use hint of the object or the hint of the runtime.
-				logicModule.registerObject(regInfo, (ExecutionEnvironmentID) dcObject.getHint(), alias,
+				final ObjectID newID = logicModule.registerObject(regInfo, (ExecutionEnvironmentID) dcObject.getHint(), alias,
 						Langs.LANG_JAVA);
+				this.updateObjectID(dcObject, newID);
 				execObject.setPendingToRegister(false);
 			} else {
 				// Use cases 2 and 3 - add a new alias
@@ -436,7 +450,8 @@ public final class DataServiceRuntime extends DataClayRuntime {
 				logicModule.addAlias(dcObject.getObjectID(), alias);
 			}
 		}
-		return dcObject.getLocation();
+
+		return location;
 	}
 
 	@Override

@@ -2155,4 +2155,43 @@ public abstract class DataClayRuntime {
 	protected ExecutionEnvironmentID getObjectLocationByAlias(String alias) {
 		return this.getExecutionLocationIDFromHash(getObjectIDByAlias(alias));
 	}
+
+	/**
+	 * Choose execution/make persistent location.
+	 *
+	 * @param dcObject
+	 *            DataClay object.
+	 * @return Chosen location.
+	 */
+	protected BackendID chooseLocation(final DataClayObject dcObject, final String alias) {
+		if (DEBUG_ENABLED) {
+			LOGGER.debug("[==Execution==] Using Hash execution location for " + dcObject.getObjectID());
+		}
+
+		final BackendID location;
+
+		if(alias != null) {
+			ObjectID oid = getObjectIDByAlias(alias);
+			location = getExecutionLocationIDFromHash(oid);
+		}else {
+			location = getExecutionLocationIDFromHash(dcObject.getObjectID());
+		}
+
+		dcObject.setHint(location);
+		return location;
+	}
+
+	/**
+	 * Update the object id in both DataClayObject and HeapManager
+	 *
+	 * @param dcObject
+	 *            DataClay object.
+	 * @param newObjectID
+	 *            the new object id.
+	 */
+	protected void updateObjectID(DataClayObject dcObject, ObjectID newObjectID) {
+		final ObjectID oldObjectID = dcObject.getObjectID();
+		dcObject.setObjectIDUnsafe(newObjectID);
+		dataClayHeapManager.updateObjectID(oldObjectID, newObjectID);
+	}
 }
