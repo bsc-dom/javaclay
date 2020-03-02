@@ -208,31 +208,6 @@ public final class ClientRuntime extends DataClayRuntime {
 			}
 		}
 
-		// ==== Make persistent === //
-		if (!dcObject.isPersistent()) {
-			// Serialize objects
-			dcObject.setMasterLocation(location);
-			final SerializedParametersOrReturn objectsToPersist = this.serializeMakePersistent(location, dcObject, null,
-					recursive);
-
-			// Avoid some race-conditions in communication (make persistent + execute where
-			// execute arrives before).
-			for (final Entry<Integer, ObjectWithDataParamOrReturn> param : objectsToPersist.getVolatileObjs().entrySet()) {
-				super.volatileParametersBeingSend.add(param.getValue().getObjectID());
-			}
-
-			// Call EE
-			final DataServiceAPI dsAPI = getRemoteExecutionEnvironment(location);
-			dsAPI.makePersistent(sessionID, objectsToPersist);
-
-			// Avoid some race-conditions in communication (make persistent + execute where
-			// execute arrives before).
-			for (final Entry<Integer, ObjectWithDataParamOrReturn> param : objectsToPersist.getVolatileObjs().entrySet()) {
-				super.volatileParametersBeingSend.remove(param.getValue().getObjectID());
-			}
-			// =========================== //
-		}
-
 		// Force registration due to alias
 		if (alias != null) {
 			// Add a new alias to an object.
@@ -254,9 +229,36 @@ public final class ClientRuntime extends DataClayRuntime {
 
 			// Warning: logicModule.registerObject function checks if the object was already registered or not,
 			// in case it was, it adds a new alias
-			final ObjectID newId = logicModule.registerObject(regInfo, (ExecutionEnvironmentID) location, alias, Langs.LANG_JAVA);
-			this.updateObjectID(dcObject, newId);
+			final ObjectID newID = logicModule.registerObject(regInfo, (ExecutionEnvironmentID) location, alias, Langs.LANG_JAVA);
+			this.updateObjectID(dcObject, newID);
 		}
+
+		// ==== Make persistent === //
+		if (!dcObject.isPersistent()) {
+			// Serialize objects
+			dcObject.setMasterLocation(location);
+
+			final SerializedParametersOrReturn objectsToPersist = this.serializeMakePersistent(location, dcObject, null,
+					recursive);
+
+			// Avoid some race-conditions in communication (make persistent + execute where
+			// execute arrives before).
+			for (final Entry<Integer, ObjectWithDataParamOrReturn> param : objectsToPersist.getVolatileObjs().entrySet()) {
+				super.volatileParametersBeingSend.add(param.getValue().getObjectID());
+			}
+
+			// Call EE
+			final DataServiceAPI dsAPI = getRemoteExecutionEnvironment(location);
+			dsAPI.makePersistent(sessionID, objectsToPersist);
+
+			// Avoid some race-conditions in communication (make persistent + execute where
+			// execute arrives before).
+			for (final Entry<Integer, ObjectWithDataParamOrReturn> param : objectsToPersist.getVolatileObjs().entrySet()) {
+				super.volatileParametersBeingSend.remove(param.getValue().getObjectID());
+			}
+			// =========================== //
+		}
+
 		return location;
 	}
 

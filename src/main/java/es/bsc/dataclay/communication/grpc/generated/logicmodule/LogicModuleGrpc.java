@@ -2046,28 +2046,28 @@ public final class LogicModuleGrpc {
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectRequest,
-      es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> getRegisterObjectMethod;
+      es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectResponse> getRegisterObjectMethod;
 
   @io.grpc.stub.annotations.RpcMethod(
       fullMethodName = SERVICE_NAME + '/' + "registerObject",
       requestType = es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectRequest.class,
-      responseType = es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.class,
+      responseType = es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectResponse.class,
       methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
   public static io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectRequest,
-      es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> getRegisterObjectMethod() {
-    io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectRequest, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> getRegisterObjectMethod;
+      es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectResponse> getRegisterObjectMethod() {
+    io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectResponse> getRegisterObjectMethod;
     if ((getRegisterObjectMethod = LogicModuleGrpc.getRegisterObjectMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getRegisterObjectMethod = LogicModuleGrpc.getRegisterObjectMethod) == null) {
           LogicModuleGrpc.getRegisterObjectMethod = getRegisterObjectMethod =
-              io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectRequest, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>newBuilder()
+              io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
               .setFullMethodName(generateFullMethodName(SERVICE_NAME, "registerObject"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.getDefaultInstance()))
+                  es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectResponse.getDefaultInstance()))
               .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("registerObject"))
               .build();
         }
@@ -4054,7 +4054,7 @@ public final class LogicModuleGrpc {
     /**
      */
     public void registerObject(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectRequest request,
-        io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
+        io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectResponse> responseObserver) {
       asyncUnimplementedUnaryCall(getRegisterObjectMethod(), responseObserver);
     }
 
@@ -4879,7 +4879,7 @@ public final class LogicModuleGrpc {
             asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectRequest,
-                es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>(
+                es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectResponse>(
                   this, METHODID_REGISTER_OBJECT)))
           .addMethod(
             getSetDataSetIDFromGarbageCollectorMethod(),
@@ -5791,7 +5791,7 @@ public final class LogicModuleGrpc {
     /**
      */
     public void registerObject(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectRequest request,
-        io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
+        io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectResponse> responseObserver) {
       asyncUnaryCall(
           getChannel().newCall(getRegisterObjectMethod(), getCallOptions()), request, responseObserver);
     }
@@ -6714,7 +6714,7 @@ public final class LogicModuleGrpc {
 
     /**
      */
-    public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo registerObject(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectRequest request) {
+    public es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectResponse registerObject(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectRequest request) {
       return blockingUnaryCall(
           getChannel(), getRegisterObjectMethod(), getCallOptions(), request);
     }
@@ -7655,7 +7655,7 @@ public final class LogicModuleGrpc {
 
     /**
      */
-    public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> registerObject(
+    public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectResponse> registerObject(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectRequest request) {
       return futureUnaryCall(
           getChannel().newCall(getRegisterObjectMethod(), getCallOptions()), request);
@@ -8461,7 +8461,7 @@ public final class LogicModuleGrpc {
           break;
         case METHODID_REGISTER_OBJECT:
           serviceImpl.registerObject((es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectRequest) request,
-              (io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>) responseObserver);
+              (io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectResponse>) responseObserver);
           break;
         case METHODID_SET_DATA_SET_IDFROM_GARBAGE_COLLECTOR:
           serviceImpl.setDataSetIDFromGarbageCollector((es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.SetDataSetIDFromGarbageCollectorRequest) request,

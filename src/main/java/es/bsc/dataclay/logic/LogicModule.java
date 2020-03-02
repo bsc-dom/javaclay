@@ -3439,7 +3439,7 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
 		// Register the object in the metadataservice
 		final HashSet<ExecutionEnvironmentID> backendIDs = new HashSet<>();
 		backendIDs.add(backendID);
-		final ObjectID objectIDofNewObject = regInfo.getObjectID();
+		ObjectID objectIDofNewObject = regInfo.getObjectID();
 		final SessionID ownerSessionID = regInfo.getStoreSessionID();
 		final MetaClassID metaClassID = regInfo.getClassID();
 		DataSetID datasetIDforStore = null;
@@ -3465,8 +3465,9 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
 
 		try {
 			// If object is not registered, we register it with new alias included.
-			metaDataSrvApi.registerObject(objectIDofNewObject, metaClassID, datasetIDforStore, backendIDs,
-					Configuration.Flags.READONLY_BY_DEFAULT.getBooleanValue(), alias, lang, ownerAccountID);
+			final MetaDataInfo info = metaDataSrvApi.registerObject(objectIDofNewObject, metaClassID, datasetIDforStore,
+					backendIDs, Configuration.Flags.READONLY_BY_DEFAULT.getBooleanValue(), alias, lang, ownerAccountID);
+			objectIDofNewObject = info.getDataClayID();
 			if (alias != null && !alias.isEmpty()) {
 				// notify alias reference since it is the first alias (with registration)
 				// first makePeristent(alias)
@@ -3487,7 +3488,7 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
 				addAlias(objectIDofNewObject, alias);
 			}
 		}
-		return regInfo.getObjectID();
+		return objectIDofNewObject;
 	}
 
 	@Override

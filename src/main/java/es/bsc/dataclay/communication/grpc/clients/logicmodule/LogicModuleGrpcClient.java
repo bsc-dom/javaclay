@@ -1764,12 +1764,12 @@ public final class LogicModuleGrpcClient implements LogicModuleAPI {
 		builder.setLang(lang);
 
 		final RegisterObjectRequest request = builder.build();
-		final ExceptionInfo response;
-		final Function<RegisterObjectRequest, ExceptionInfo> f = req -> getBlockingStub().registerObject(req);
-		response = this.<RegisterObjectRequest, ExceptionInfo>callLogicModule(request, f);
-		Utils.checkIsExc(response);
+		final RegisterObjectResponse response;
+		final Function<RegisterObjectRequest, RegisterObjectResponse > f = req -> getBlockingStub().registerObject(req);
+		response = this.<RegisterObjectRequest, RegisterObjectResponse>callLogicModule(request, f);
+		Utils.checkIsExc(response.getExcInfo());
 
-		return regInfo.getObjectID();
+		return Utils.getID(response.getObjectID());
 	}
 
 	@Override

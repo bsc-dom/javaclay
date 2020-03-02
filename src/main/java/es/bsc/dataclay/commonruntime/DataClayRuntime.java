@@ -2190,6 +2190,7 @@ public abstract class DataClayRuntime {
 	protected void updateObjectID(DataClayObject dcObject, ObjectID newObjectID) {
 		final ObjectID oldObjectID = dcObject.getObjectID();
 		dcObject.setObjectIDUnsafe(newObjectID);
-		dataClayHeapManager.updateObjectID(oldObjectID, newObjectID);
+		dataClayHeapManager.removeFromHeap(oldObjectID);
+		dataClayHeapManager.addToHeap(dcObject);;
 	}
 }
