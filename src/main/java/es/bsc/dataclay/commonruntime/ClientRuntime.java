@@ -198,48 +198,27 @@ public final class ClientRuntime extends DataClayRuntime {
 		final SessionID sessionID = checkAndGetSession(new String[] {}, new Object[] {});
 		BackendID location = dcObject.getHint();
 		if (location == null) {
-			// Choose location if needed
-			// If object is already persistent -> it must have a Hint (location = hint here)
-			// If object is not persistent -> location is choosen (provided backend id or
-			// random, hash...).
 			location = optionalDestBackendID;
 			if (location == null) {
 				location = chooseLocation(dcObject, alias);
 			}
 		}
 
-		// Force registration due to alias
-		if (alias != null) {
-			// Add a new alias to an object.
-			// Use cases:
-			// 1 - object was persisted without alias and not yet registered -> we need to
-			// register it with new alias.
-			// 2 - object was persisted and it is already registered -> we only add a new
-			// alias
-			// 3 - object was persisted with an alias and it must be already registered ->
-			// we add a new alias.
-
-			// From client side, we cannot check if object is REGISTERED or not (we do not
-			// have isPendingToRegister like EE)
-			// Therefore, we call LogicModule with all information for registration.
-			final RegistrationInfo regInfo = new RegistrationInfo(dcObject.getObjectID(), dcObject.getMetaClassID(),
-					sessionID, dcObject.getDataSetID());
-
-			// it is important to register the object once we are sure it is in EE.
-
-			// Warning: logicModule.registerObject function checks if the object was already registered or not,
-			// in case it was, it adds a new alias
-			final ObjectID newID = logicModule.registerObject(regInfo, (ExecutionEnvironmentID) location, alias, Langs.LANG_JAVA);
-			this.updateObjectID(dcObject, newID);
-		}
-
-		// ==== Make persistent === //
 		if (!dcObject.isPersistent()) {
+			// Force registration due to alias
+			if (alias != null) {
+				final RegistrationInfo regInfo = new RegistrationInfo(dcObject.getObjectID(), dcObject.getMetaClassID(),
+						sessionID, dcObject.getDataSetID());
+				// TODO ask DANI
+				// it is important to register the object once we are sure it is in EE.
+				final ObjectID newID = logicModule.registerObject(regInfo, (ExecutionEnvironmentID) location, alias, Langs.LANG_JAVA);
+				this.updateObjectID(dcObject, newID);
+			}
+
 			// Serialize objects
 			dcObject.setMasterLocation(location);
 
-			final SerializedParametersOrReturn objectsToPersist = this.serializeMakePersistent(location, dcObject, null,
-					recursive);
+			final SerializedParametersOrReturn objectsToPersist = this.serializeMakePersistent(location, dcObject, null, recursive);
 
 			// Avoid some race-conditions in communication (make persistent + execute where
 			// execute arrives before).

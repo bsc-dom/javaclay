@@ -1859,22 +1859,6 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 	}
 
 	@Override
-	public void addAlias(final AddAliasRequest request, final StreamObserver<ExceptionInfo> responseObserver) {
-		try {
-
-			logicModule.addAlias(Utils.getID(request.getObjectIDToHaveAlias()), request.getAlias());
-
-			Utils.returnExceptionInfoMessage(responseObserver);
-			responseObserver.onCompleted();
-
-		} catch (final Exception e) {
-			final ExceptionInfo resp = Utils.serializeException(e);
-			responseObserver.onNext(resp);
-			responseObserver.onCompleted();
-		}
-	}
-
-	@Override
 	public void deleteAlias(final DeleteAliasRequest request, final StreamObserver<ExceptionInfo> responseObserver) {
 		try {
 			logicModule.deleteAlias(Utils.getID(request.getSessionID()), request.getAlias());

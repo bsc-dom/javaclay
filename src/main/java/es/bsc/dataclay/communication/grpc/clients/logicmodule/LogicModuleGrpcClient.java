@@ -77,7 +77,6 @@ import io.grpc.ManagedChannel;
 import io.grpc.Metadata;
 import io.grpc.StatusRuntimeException;
 import io.grpc.netty.shaded.io.grpc.netty.GrpcSslContexts;
-import io.grpc.netty.shaded.io.grpc.netty.NegotiationType;
 import io.grpc.netty.shaded.io.grpc.netty.NettyChannelBuilder;
 import io.grpc.netty.shaded.io.netty.handler.ssl.SslContext;
 import io.grpc.netty.shaded.io.netty.handler.ssl.SslContextBuilder;
@@ -2462,16 +2461,6 @@ public final class LogicModuleGrpcClient implements LogicModuleAPI {
 				logger.debug("waitAndProcessAllAsyncRequests was interrupted while sleeping", ex);
 			}
 		}
-	}
-
-	@Override
-	public void addAlias(final ObjectID objectToHaveAlias, final String alias) {
-		final AddAliasRequest request = AddAliasRequest.newBuilder()
-				.setObjectIDToHaveAlias(Utils.getMsgID(objectToHaveAlias)).setAlias(alias).build();
-		final ExceptionInfo response;
-		final Function<AddAliasRequest, ExceptionInfo> f = req -> getBlockingStub().addAlias(req);
-		response = this.<AddAliasRequest, ExceptionInfo>callLogicModule(request, f);
-		Utils.checkIsExc(response);
 	}
 
 	@Override

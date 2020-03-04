@@ -1413,15 +1413,6 @@ public interface LogicModuleAPI {
 	ContractID getContractIDOfDataClayProvider(AccountID accountID, PasswordCredential credential);
 
 	/**
-	 * Add alias.
-	 * 
-	 * @param objectToHaveAlias
-	 *            ID of object to have alias
-	 * @param alias
-	 *            Alias of the object
-	 */
-	void addAlias(final ObjectID objectToHaveAlias, final String alias);
-	/**
 	 * Unregister objects (called from GlobalGC)
 	 * 
 	 * @param objectsToUnregister
