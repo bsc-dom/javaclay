@@ -31,8 +31,8 @@
 		<connection>scm:git:git://github.com/bsc-dom/javaclay.git</connection>
 		<developerConnection>scm:git:ssh://github.com/bsc-dom/javaclay.git</developerConnection>
 		<url>http://github.com/bsc-dom/javaclay/</url>
-	  <tag>dataclay-2.4</tag>
-  </scm>
+		<tag>2.4</tag>
+	</scm>
 
 	<!--License -->
 	<licenses>
@@ -196,6 +196,18 @@
 							<serverId>ossrh</serverId>
 							<nexusUrl>https://oss.sonatype.org/</nexusUrl>
 							<autoReleaseAfterClose>true</autoReleaseAfterClose>
+						</configuration>
+					</plugin>
+					<plugin>
+						<artifactId>maven-release-plugin</artifactId>
+						<version>2.5.3</version>
+						<configuration>
+							<checkModificationExcludes>
+								<checkModificationExclude>pom.xml</checkModificationExclude>
+							</checkModificationExcludes>
+							<autoVersionSubmodules>true</autoVersionSubmodules>
+							<tagNameFormat>@{project.version}</tagNameFormat>
+							<releaseProfiles>release</releaseProfiles>
 						</configuration>
 					</plugin>
 				</plugins>
