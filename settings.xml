@@ -1,9 +1,0 @@
-<settings>
-	<servers>
-		<server>
-			<id>ossrh</id>
-			<username>dataclay</username>
-			<password>HERE_GOES_THE_SONATYPE_PASSWORD</password>
-		</server>
-	</servers>
-</settings>

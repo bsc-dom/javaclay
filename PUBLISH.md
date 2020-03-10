@@ -18,6 +18,18 @@ Execute `gpg --keyserver hkp://keyserver.ubuntu.com --recv-keys PUBLIC_KEY_DIGES
 
 #### Publish to Maven Central 
 
-Replace the placeholder in `settings.xml` with Sonatype account's password.
+Create and replace the placeholder in `settings.xml` with Sonatype account's password: 
+
+```
+<settings>
+	<servers>
+		<server>
+			<id>ossrh</id>
+			<username>dataclay</username>
+			<password>HERE_GOES_THE_SONATYPE_PASSWORD</password>
+		</server>
+	</servers>
+</settings>
+```
 
 Execute `mvn -P publish deploy -s settings.xml` in order to publish a new version.
