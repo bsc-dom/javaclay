@@ -30,7 +30,7 @@
 	<scm>
 		<connection>scm:git:ssh://github.com/bsc-dom/javaclay.git</connection>
 		<developerConnection>scm:git:ssh://github.com/bsc-dom/javaclay.git</developerConnection>
-		<url>http://github.com/bsc-dom/javaclay/tree/master</url>
+		<url>https://github.com/bsc-dom/javaclay/tree/master</url>
     <tag>1.4</tag>
   </scm>
 
