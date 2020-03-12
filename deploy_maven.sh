@@ -5,7 +5,7 @@ blu=$'\e[1;34m'
 red=$'\e[1;91m'
 end=$'\e[0m'
 function printMsg { 
-  echo "${blu}[dataClay release] $1 ${end}"
+  echo "${blu}[dataClay deploy] $1 ${end}"
 }
 function printError { 
   echo "${red}======== $1 ========${end}"
@@ -31,8 +31,13 @@ do
     shift
 done
 
-################################## VERSIONING #############################################
-
+if [ "$DEV" = false ] ; then
+	GIT_BRANCH=$(git name-rev --name-only HEAD)
+	if [[ "$GIT_BRANCH" != "master" ]]; then
+	  echo 'Aborting deployment, only master branch can deploy a release';
+	  exit 1;
+	fi
+fi
 
 ################################## FUNCTIONS #############################################
 
@@ -78,8 +83,6 @@ fi
 
 printMsg " ==== Pushing dataclay to maven ===== "
 
-pushd $SCRIPTDIR/logicmodule/javaclay
-
 if [ ! -f "settings.xml" ]; then
 	echo "ERROR: settings.xml file does not exist. Please create settings.xml file:
 	More information at https://github.com/bsc-dom/javaclay/blob/master/PUBLISH.md 
@@ -95,6 +98,5 @@ if [ $? -ne 0 ]; then
 	echo "ERROR: error pushing dataclay to maven "
 	exit -1
 fi 	
-popd
 
 printMsg " ===== Done! ====="
