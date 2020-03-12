@@ -32,6 +32,7 @@ Create and replace the placeholder in `settings.xml` with Sonatype account's pas
 </settings>
 ```
 
+Execute `mvn -P publish deploy -s settings.xml` in order to publish an SNAPSHOT version.
 
+Execute `mvn -P publish release:clean release:prepare release:perform -s settings.xml` to create a Release
 
-Execute `mvn -P publish deploy -s settings.xml` in order to publish a new version.
