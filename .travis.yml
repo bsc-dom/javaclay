@@ -1,13 +1,11 @@
 language: java
 deploy:
   - provider: script
-      script:
-        - mvn -P publish deploy -s settings.xml 
+      script: mvn -P publish deploy -s settings.xml 
       on:
         branch: develop
   - provider: script
-      script:
-        - mvn -P publish -B release:clean release:prepare release:perform -s settings.xml
+      script: mvn -P publish -B release:clean release:prepare release:perform -s settings.xml
       on:
         branch: master
 env:
