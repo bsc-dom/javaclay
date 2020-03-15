@@ -1,7 +1,5 @@
 language: java
 before_install:
-   - echo "Using secret keys: $GPG_SECRET_KEYS"
-   - echo "Using gpg executable: $GPG_EXECUTABLE"
    - echo $GPG_SECRET_KEYS | base64 --decode | $GPG_EXECUTABLE --import
    - echo $GPG_OWNERTRUST | base64 --decode | $GPG_EXECUTABLE --import-ownertrust
 deploy:
