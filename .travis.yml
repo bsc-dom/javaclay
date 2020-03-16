@@ -1,7 +1,6 @@
 language: java
-before_script:
-- .travis/check_branch.sh
 before_install:
+- .travis/check_branch.sh
 - echo "$GPG_SECRET_KEYS" | base64 --decode | $GPG_EXECUTABLE --import
 - echo "$GPG_OWNERTRUST" | base64 --decode | $GPG_EXECUTABLE --import-ownertrust
 - .travis/set_ssh.sh
