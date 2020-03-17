@@ -20,6 +20,8 @@ env:
   - secure: iY5t9EbZ+3B2Nfw5LwGn9NBqOL60/eKZW1zss5Ba/CqaHQl0tiigp7Sll4Ybh5TX+RCICjN9SelcDdj372sFtq/9Zm24NI/0WHaZhsPeIZNimSgjzTm/24Vv2LhQ1FjOk+uXeZuJ7LQOH2ldB7RwxtlYAD67SiRPMncl0Njp9CMRHyUKqOZuTNrUe6bL7uvA0MFGFHVdkjVmUwNVjEquhoEdJ2l3kKS7sv6DemNg51rpxfHFouU+t+A+K4L5yn0GNTIrMcrQqc3EN0iy9k+5gc1cZ7XaDItvX6PVSjShAmBKleAf19IHYevE6s0Bjiyh7CeuwRoMlXQ4xs8duT5c/1pz36XM00v+Mlav6iEXDwlggB0qRDENCS40uuCapfhsumimHrqkBa4FcPVkU5VbBYYdSAkqdh06C3An5CpUkSw9z5Z6dMaJjmODtrQGwbULGQL4NBxA+Dm+Z5UoZBL52OJlatfFSbZ5bYh401ZkQdcQmXuXYj3UPEZ9Jw9ERNYN6Q+2whQ57hEOai3pFGp44ZrgGfaMBgB77dfoxe/IDUQR/6nswnR3+CHstzLcTan7X8TpzfKKE751KqZGkb+K0QXvygUHzWfqxKyeJazKB5F4FQ0L36AAPSg7GsipookOQ5yEM57ZEIirVDhxdYwWRZ/e9jOYFUUnzFtPW+ooi/Y=
 jobs:
   include:
+    - jdk: oraclejdk8
+    - jdk: oraclejdk11
     - stage: deploy_dev
       deploy:
           provider: script
