@@ -21,7 +21,6 @@ env:
 jobs:
   include:
     - jdk: openjdk8
-      arch: arm64
     - jdk: openjdk11
     - stage: deploy_dev
       deploy:
