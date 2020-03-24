@@ -1737,7 +1737,7 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 
 	@Override
 	public void registerObject(final RegisterObjectRequest request,
-			final StreamObserver<ExceptionInfo> responseObserver) {
+			final StreamObserver<RegisterObjectResponse> responseObserver) {
 		try {
 
 			final CommonMessages.RegistrationInfo regInfoMsg = request.getRegInfo();
@@ -1746,17 +1746,22 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 					Utils.getID(regInfoMsg.getDataSetID()));
 
 			String alias = null; 
-			
+
 			if (request.getAlias() != null && !request.getAlias().isEmpty()) { 
 				alias = request.getAlias();
 			}
-			logicModule.registerObject(regInfo, Utils.getID(request.getBackendID()), alias, request.getLang());
+			final ObjectID oid = logicModule.registerObject(regInfo, Utils.getID(request.getBackendID()), alias, request.getLang());
 
-			Utils.returnExceptionInfoMessage(responseObserver);
+			final RegisterObjectResponse.Builder builder = RegisterObjectResponse.newBuilder();
+			builder.setObjectID(Utils.getMsgID(oid));
+			final RegisterObjectResponse resp = builder.build();
+			responseObserver.onNext(resp);
 			responseObserver.onCompleted();
 
 		} catch (final Exception e) {
-			final ExceptionInfo resp = Utils.serializeException(e);
+			final RegisterObjectResponse.Builder builder = RegisterObjectResponse.newBuilder();
+			builder.setExcInfo(Utils.serializeException(e));
+			final RegisterObjectResponse resp = builder.build();
 			responseObserver.onNext(resp);
 			responseObserver.onCompleted();
 		}
@@ -1848,22 +1853,6 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 			final GetObjectFromAliasResponse.Builder builder = GetObjectFromAliasResponse.newBuilder();
 			builder.setExcInfo(Utils.serializeException(e));
 			final GetObjectFromAliasResponse resp = builder.build();
-			responseObserver.onNext(resp);
-			responseObserver.onCompleted();
-		}
-	}
-
-	@Override
-	public void addAlias(final AddAliasRequest request, final StreamObserver<ExceptionInfo> responseObserver) {
-		try {
-
-			logicModule.addAlias(Utils.getID(request.getObjectIDToHaveAlias()), request.getAlias());
-
-			Utils.returnExceptionInfoMessage(responseObserver);
-			responseObserver.onCompleted();
-
-		} catch (final Exception e) {
-			final ExceptionInfo resp = Utils.serializeException(e);
 			responseObserver.onNext(resp);
 			responseObserver.onCompleted();
 		}

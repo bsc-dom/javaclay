@@ -77,7 +77,6 @@ import io.grpc.ManagedChannel;
 import io.grpc.Metadata;
 import io.grpc.StatusRuntimeException;
 import io.grpc.netty.shaded.io.grpc.netty.GrpcSslContexts;
-import io.grpc.netty.shaded.io.grpc.netty.NegotiationType;
 import io.grpc.netty.shaded.io.grpc.netty.NettyChannelBuilder;
 import io.grpc.netty.shaded.io.netty.handler.ssl.SslContext;
 import io.grpc.netty.shaded.io.netty.handler.ssl.SslContextBuilder;
@@ -1744,7 +1743,7 @@ public final class LogicModuleGrpcClient implements LogicModuleAPI {
 	}
 
 	@Override
-	public void registerObject(final RegistrationInfo regInfo, final ExecutionEnvironmentID backendID,
+	public ObjectID registerObject(final RegistrationInfo regInfo, final ExecutionEnvironmentID backendID,
 			final String alias, final Langs lang) {
 
 		final RegisterObjectRequest.Builder builder = RegisterObjectRequest.newBuilder();
@@ -1764,10 +1763,12 @@ public final class LogicModuleGrpcClient implements LogicModuleAPI {
 		builder.setLang(lang);
 
 		final RegisterObjectRequest request = builder.build();
-		final ExceptionInfo response;
-		final Function<RegisterObjectRequest, ExceptionInfo> f = req -> getBlockingStub().registerObject(req);
-		response = this.<RegisterObjectRequest, ExceptionInfo>callLogicModule(request, f);
-		Utils.checkIsExc(response);
+		final RegisterObjectResponse response;
+		final Function<RegisterObjectRequest, RegisterObjectResponse > f = req -> getBlockingStub().registerObject(req);
+		response = this.<RegisterObjectRequest, RegisterObjectResponse>callLogicModule(request, f);
+		Utils.checkIsExc(response.getExcInfo());
+
+		return Utils.getID(response.getObjectID());
 	}
 
 	@Override
@@ -2460,16 +2461,6 @@ public final class LogicModuleGrpcClient implements LogicModuleAPI {
 				logger.debug("waitAndProcessAllAsyncRequests was interrupted while sleeping", ex);
 			}
 		}
-	}
-
-	@Override
-	public void addAlias(final ObjectID objectToHaveAlias, final String alias) {
-		final AddAliasRequest request = AddAliasRequest.newBuilder()
-				.setObjectIDToHaveAlias(Utils.getMsgID(objectToHaveAlias)).setAlias(alias).build();
-		final ExceptionInfo response;
-		final Function<AddAliasRequest, ExceptionInfo> f = req -> getBlockingStub().addAlias(req);
-		response = this.<AddAliasRequest, ExceptionInfo>callLogicModule(request, f);
-		Utils.checkIsExc(response);
 	}
 
 	@Override

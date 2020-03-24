@@ -3431,7 +3431,7 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
 	// ============== Metadata Service ==============//
 
 	@Override
-	public void registerObject(final RegistrationInfo regInfo, final ExecutionEnvironmentID backendID,
+	public ObjectID registerObject(final RegistrationInfo regInfo, final ExecutionEnvironmentID backendID,
 			final String alias, final Langs lang) {
 		if (DEBUG_ENABLED) {
 			LOGGER.debug("Registering object explicit call: " + regInfo + " and alias " + alias);
@@ -3439,7 +3439,7 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
 		// Register the object in the metadataservice
 		final HashSet<ExecutionEnvironmentID> backendIDs = new HashSet<>();
 		backendIDs.add(backendID);
-		final ObjectID objectIDofNewObject = regInfo.getObjectID();
+		ObjectID objectIDofNewObject = regInfo.getObjectID();
 		final SessionID ownerSessionID = regInfo.getStoreSessionID();
 		final MetaClassID metaClassID = regInfo.getClassID();
 		DataSetID datasetIDforStore = null;
@@ -3463,47 +3463,19 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
 			datasetIDforStore = regInfo.getDataSetID();
 		}
 
-		try {
-			// If object is not registered, we register it with new alias included.
-			metaDataSrvApi.registerObject(objectIDofNewObject, metaClassID, datasetIDforStore, backendIDs,
-					Configuration.Flags.READONLY_BY_DEFAULT.getBooleanValue(), alias, lang, ownerAccountID);
-			if (alias != null && !alias.isEmpty()) {
-				// notify alias reference since it is the first alias (with registration)
-				// first makePeristent(alias)
-				final Map<ObjectID, Integer> referenceCounting = new HashMap<>();
-				referenceCounting.put(objectIDofNewObject, 1);
-				notifyGarbageCollectors(referenceCounting);
-			}
-
-		} catch (final ObjectAlreadyRegisteredException e) {
-			// if the object was already registered, add alias.
-			// NOTE THAT THIS FUNCTION IS ONLY CALLED FROM CLIENT-SIDE OR EE PENDING TO
-			// REGISTER OBJECT
-			// (see ClientRuntime.makePersisent() and DataServiceRuntime.makePersistent().
-			// Therefore, this is the correct behavior in case object is already registered
-			// and alias
-			// is provided.
-			if (alias != null) {
-				addAlias(objectIDofNewObject, alias);
-			}
-		}
-
-	}
-
-	@Override
-	public void addAlias(final ObjectID objectIDofNewObject, final String alias) {
-		// Add the alias and get the storage location of all replicas of the object
-		// remote makePersistent(alias), second makePersistent(alias) after a
-		// makePersistent() ...
-		final boolean hasAlias = metaDataSrvApi.addAlias(objectIDofNewObject, alias);
-
-		// notify alias reference if it is the first alias added
-		if (hasAlias) {
+		// If object is not registered, we register it with new alias included.
+		final MetaDataInfo info = metaDataSrvApi.registerObject(objectIDofNewObject, metaClassID, datasetIDforStore,
+				backendIDs, Configuration.Flags.READONLY_BY_DEFAULT.getBooleanValue(), alias, lang, ownerAccountID);
+		objectIDofNewObject = info.getDataClayID();
+		if (alias != null && !alias.isEmpty()) {
+			// notify alias reference since it is the first alias (with registration)
+			// first makePeristent(alias)
 			final Map<ObjectID, Integer> referenceCounting = new HashMap<>();
 			referenceCounting.put(objectIDofNewObject, 1);
 			notifyGarbageCollectors(referenceCounting);
 		}
 
+		return objectIDofNewObject;
 	}
 
 	/**
@@ -4174,31 +4146,7 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
 					if (DEBUG_ENABLED) {
 						LOGGER.debug("[==Federation==] Registering federated object with alias: " + alias + " and class: " + classID);
 					}
-					try {
-						metaDataSrvApi.registerObject(oid, classID, dsID, initBackends,
-								false, alias, language, new AccountID(srcDataClayID.getId()));
-					} catch (ObjectAlreadyRegisteredException | AliasAlreadyInUseException oar) {
-						// TODO: registerObject checks first if there is an object with alias provided,
-						// therefore
-						// first exception is aliasAlreadyInUSe instead of object already registered.
-						// Check this.
-						if (DEBUG_ENABLED) {
-							LOGGER.debug("[==Federation==] Object already registered, ignoring exception.");
-						}
-
-						// checking if has the alias, if not, add it
-						try {
-							metaDataSrvApi.addAlias(oid, alias);
-							if (DEBUG_ENABLED) {
-								LOGGER.debug("[==Federation==] Object already registered, added alias {}.", alias);
-							}
-						} catch (final AliasAlreadyInUseException ar) {
-							if (DEBUG_ENABLED) {
-								LOGGER.debug("[==Federation==] Object already registered, and already with alias {}.", alias);
-							}
-							gcObjectsToNotifyAliasRef.remove(oid);
-						}
-					}
+					metaDataSrvApi.registerObject(oid, classID, dsID, initBackends, false, alias, language, new AccountID(srcDataClayID.getId()));
 				}
 
 				if (DEBUG_ENABLED) {

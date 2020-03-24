@@ -776,7 +776,7 @@ public interface LogicModuleAPI {
 	 * @param lang
 	 *            Language
 	 */
-	void registerObject(final RegistrationInfo regInfo, final ExecutionEnvironmentID backendID, final String alias,
+	ObjectID registerObject(final RegistrationInfo regInfo, final ExecutionEnvironmentID backendID, final String alias,
 			final Langs lang);
 
 	/**
@@ -1412,15 +1412,6 @@ public interface LogicModuleAPI {
 	 */
 	ContractID getContractIDOfDataClayProvider(AccountID accountID, PasswordCredential credential);
 
-	/**
-	 * Add alias.
-	 * 
-	 * @param objectToHaveAlias
-	 *            ID of object to have alias
-	 * @param alias
-	 *            Alias of the object
-	 */
-	void addAlias(final ObjectID objectToHaveAlias, final String alias);
 	/**
 	 * Unregister objects (called from GlobalGC)
 	 * 
