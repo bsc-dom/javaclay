@@ -31,11 +31,10 @@ jobs:
           on:
                branch: master
 notifications:
-  email:
-    - commiter:
+  - email:
       on_success: always
       on_failure: always
-    - cron:
+  - email:
       if: type = cron
       recipients:
         - support-dataclay@bsc.es
