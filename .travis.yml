@@ -1,10 +1,4 @@
 language: java
-stages:
-- test
-- name: deploy_dev
-  if: type = cron
-- name: deploy_release
-  if: branch = master
 before_install:
 - .travis/check_branch.sh
 - echo "$GPG_SECRET_KEYS" | base64 --decode | $GPG_EXECUTABLE --import
@@ -23,12 +17,14 @@ jobs:
     - jdk: openjdk8
     - jdk: openjdk11
     - stage: deploy_dev
+      if: branch = develop AND type = cron
       deploy:
           provider: script
           script: mvn -P publish deploy -s settings.xml
           on:
                branch: develop
     - stage: deploy_release 
+      if: branch = master AND type = cron
       deploy:
           provider: script
           script: mvn -P publish -B release:clean release:prepare release:perform -s settings.xml
