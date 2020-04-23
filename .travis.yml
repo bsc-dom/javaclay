@@ -1,16 +1,6 @@
 language: java
-stages:
-- test
-- name: deploy_dev
-  if: type = cron
-- name: deploy_release
-  if: branch = master
 before_install:
 - .travis/check_branch.sh
-- echo "$GPG_SECRET_KEYS" | base64 --decode | $GPG_EXECUTABLE --import
-- echo "$GPG_OWNERTRUST" | base64 --decode | $GPG_EXECUTABLE --import-ownertrust
-- .travis/set_ssh.sh
-- git remote set-url origin git@github.com:bsc-dom/javaclay.git
 env:
   global:
   - secure: FOCi/L0glQHZbWt6tkRHZaYj6I32CQtHm9/abQpYNBQlusol6NQLtfO5/YcOR0kHYM9kQUKCGcHbFXEN8YGMtO+R+ob4Hz5VuGZgtAa6wcAUCL7+jaBRDmEEnLNRX991MmEKAxX2Ect0LAGtLzYytjTuZt4R7XTkeILRG6dRNjWdkXW+MdkxKtEGIknrRlC5kPGXW6fMZVyTB4EYHXSaCrH2CrExQu9yavWLxBTNGteT6rKwAExzrr74yUxxYY/DkTfsRLjb4FIkM++ulN/gwmytjxv1Wx3qPSgvv/ja0j8E3qxQwIs6jBTdUX6I5ibnL9VrlEpFC4R/zsQ82ow8Wv+cB8vK4fYUBrJKjnAdguWrYWBqrLj2dQcRbtLS8DubeDLGGF+9Yc8VarGrCjR0j49XSY25PDkletxztPdHDtYPAClou2orSc7BlxVYFoKHa+1SUgwEUUwYpfyRpRxoryDR3a/cylDFfXpGVZONbyTZzxbronvUcRos17uJ34GMKlJU4DtBsML98/9bBEwNThroeuPfbrXEpSZstQRfm378QjWhkFrzJYzwJLp0nVhqLskiQx1VGhcrKrefcNQaCA0tcTIlYeCy8mZGKwhp4vAgxKsbE8aUuUM02qjnOAd3L+IY4NAww9SSWoxUCgiOVe2L+nImJKy39ZvGsZ1nhVE=
@@ -23,14 +13,37 @@ jobs:
     - jdk: openjdk8
     - jdk: openjdk11
     - stage: deploy_dev
+      if: branch = develop AND type = cron
+      before_install:
+        - echo "$GPG_SECRET_KEYS" | base64 --decode | $GPG_EXECUTABLE --import
+        - echo "$GPG_OWNERTRUST" | base64 --decode | $GPG_EXECUTABLE --import-ownertrust
+        - .travis/set_ssh.sh
+        - git remote set-url origin git@github.com:bsc-dom/javaclay.git
       deploy:
           provider: script
           script: mvn -P publish deploy -s settings.xml
           on:
                branch: develop
     - stage: deploy_release 
+      if: branch = master AND type = cron
+      before_install:
+        - echo "$GPG_SECRET_KEYS" | base64 --decode | $GPG_EXECUTABLE --import
+        - echo "$GPG_OWNERTRUST" | base64 --decode | $GPG_EXECUTABLE --import-ownertrust
+        - .travis/set_ssh.sh
+        - git remote set-url origin git@github.com:bsc-dom/javaclay.git
       deploy:
           provider: script
           script: mvn -P publish -B release:clean release:prepare release:perform -s settings.xml
           on:
                branch: master
+notifications:
+  email:
+    - commiter:
+      on_success: change
+      on_failure: always
+    - cron:
+      if: type = cron
+      recipients:
+        - support-dataclay@bsc.es
+      on_success: change
+      on_failure: always
