@@ -32,8 +32,12 @@ jobs:
                branch: master
 notifications:
   email:
-    if: type = cron
-    recipients:
-      - support-dataclay@bsc.es
-    on_success: change
-    on_failure: always
+    - commiter:
+      on_success: always
+      on_failure: always
+    - cron:
+      if: type = cron
+      recipients:
+        - support-dataclay@bsc.es
+      on_success: change
+      on_failure: always
