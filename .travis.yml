@@ -34,3 +34,10 @@ jobs:
           script: mvn -P publish -B release:clean release:prepare release:perform -s settings.xml
           on:
                branch: master
+notifications:
+  email:
+    if: type = cron
+    recipients:
+      - support-dataclay@bsc.es
+    on_success: change
+    on_failure: always
