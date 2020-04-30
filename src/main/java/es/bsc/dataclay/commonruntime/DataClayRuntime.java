@@ -3,12 +3,14 @@ package es.bsc.dataclay.commonruntime;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Scanner;
 import java.util.Set;
 import java.util.Timer;
 import java.util.UUID;
@@ -29,6 +31,7 @@ import es.bsc.dataclay.exceptions.DataClayException;
 import es.bsc.dataclay.exceptions.DataClayRuntimeException;
 import es.bsc.dataclay.exceptions.ErrorDefs.ERRORCODE;
 import es.bsc.dataclay.exceptions.metadataservice.AliasAlreadyInUseException;
+import es.bsc.dataclay.exceptions.metadataservice.ObjectAlreadyRegisteredException;
 import es.bsc.dataclay.exceptions.metadataservice.ObjectNotRegisteredException;
 import es.bsc.dataclay.extrae.DataClayExtrae;
 import es.bsc.dataclay.heap.HeapManager;
@@ -912,7 +915,11 @@ public abstract class DataClayRuntime {
 		// we must change the algorithms to not depend on metadata.
 		// Also, location in which to register the object is the hint (in case it is not
 		// registered yet).
-		logicModule.registerObject(regInfo, (ExecutionEnvironmentID) hint, null, Langs.LANG_JAVA);
+		try {
+			logicModule.registerObject(regInfo, (ExecutionEnvironmentID) hint, null, Langs.LANG_JAVA);
+		} catch (Exception e) { 
+			//ignore
+		}
 	}
 
 	/**
@@ -2008,30 +2015,40 @@ public abstract class DataClayRuntime {
 	 */
 	public final void getTracesInDataClayServices() {
 		final Map<String, byte[]> traces = logicModule.getTraces();
-		final String setPath = Configuration.Flags.TRACES_DEST_PATH.getStringValue() + File.separatorChar + "set-0";
-		final String traceMpitsPath = Configuration.Flags.TRACES_DEST_PATH.getStringValue() + File.separatorChar + "TRACE.mpits";
+		final String setPath = "set-0";
+		final String traceMpitsPath = "TRACE.mpits";
 		try {
 			FileUtils.forceMkdir(new File(setPath));
+			File traceMpitsFile = new File(traceMpitsPath);
+
 			for (final Entry<String, byte[]> traceFile : traces.entrySet()) { 
 				final String fileName = traceFile.getKey();
 				final byte[] fileBytes = traceFile.getValue();
 
-					final String path = setPath + File.separator + fileName;
-					if (DEBUG_ENABLED) { 
-						LOGGER.debug("Storing file " + path);
-					}
+					File tmpTraceFile = new File(setPath + File.separator + fileName);
+					final String path = tmpTraceFile.getAbsolutePath();
+					LOGGER.info("Storing file " + path);
+					
 					// Store Extrae temporary files
-					FileUtils.writeByteArrayToFile(new File(path), fileBytes);
+					FileUtils.writeByteArrayToFile(tmpTraceFile, fileBytes);
 					
 					if (fileName.endsWith(".mpit")) {
 						final String newFilePointer = path + " named\n";
-						if (DEBUG_ENABLED) { 
-							LOGGER.debug("Adding line to " + traceMpitsPath + " file: " + newFilePointer);
-						}
-						FileUtils.writeStringToFile(new File(traceMpitsPath), newFilePointer,Charset.defaultCharset(), true);
+						LOGGER.info("Adding line to " + traceMpitsFile.getAbsolutePath() + " file: " + newFilePointer);
+						FileUtils.writeStringToFile(traceMpitsFile, newFilePointer,Charset.defaultCharset(), true);
 					}
 					
 			}
+			
+			// cat trace.mpits
+			Scanner input = new Scanner(traceMpitsFile);
+
+			while (input.hasNextLine())
+			{
+			   System.out.println(input.nextLine());
+			}
+			input.close();
+			
 		} catch (final IOException e) {
 			if (DEBUG_ENABLED) { 
 				LOGGER.debug("Exception produced while storing file ", e);

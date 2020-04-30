@@ -4658,6 +4658,9 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
 	@Override
 	public VersionInfo newVersion(final SessionID sessionID, final ObjectID objectID,
 			final ExecutionEnvironmentID optionalDestBackendID) {
+		
+		LOGGER.info("Starting new version for object " + objectID);
+
 		final VersionInfo result = new VersionInfo();
 
 		// Get object info
@@ -4701,6 +4704,7 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
 		// Could not store version in the indicated backend, try another one
 		destBackend = metaDataSrvApi.getRandomExecutionEnvironmentInfo(sessionInfo.getLanguage());
 
+		LOGGER.info("Finished new replica for object " + objectID);
 
 		return result;
 	}
@@ -4708,6 +4712,8 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
 	@Override
 	public void consolidateVersion(final SessionID sessionID, final VersionInfo version) {
 		// Get object md
+		LOGGER.info("Starting consolidate version for object " + version);
+
 		final MetaDataInfo versionMD = getObjectMetadata(version.getVersionOID());
 
 		if (versionMD == null) {
@@ -4746,11 +4752,17 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
 				}
 			}
 		}
+		
+		LOGGER.info("Finished consolidate version for object " + version);
+
 	}
 
 	@Override
 	public ExecutionEnvironmentID newReplica(final SessionID sessionID, final ObjectID objectID,
 			final ExecutionEnvironmentID optionalDestBackendID, final boolean recursive) {
+		
+		LOGGER.info("Starting new replica for object " + objectID);
+		
 		ExecutionEnvironmentID result = null;
 
 		// Get object info
@@ -4820,6 +4832,9 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
 		}
 
 		result = destBackend.getFirst();
+		
+		LOGGER.info("Finished new replica for object " + objectID);
+
 		return result;
 
 	}

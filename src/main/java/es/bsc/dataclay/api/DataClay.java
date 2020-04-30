@@ -347,7 +347,14 @@ public final class DataClay {
 				// or Paraver aspects injection were NOT applied.
 				final int currentTaskID = DataClayExtrae.getWrapperTaskID();
 				LOGGER.info("Extrae tracing Task ID is {}", currentTaskID);
-				DataClay.activateTracing();
+
+				if (strStartingTaskID != null) {
+					// Starting task ID specified, Extrae is supposed to be previously initialized
+					DataClayExtrae.enableExtraeTracing();
+				} else {
+					DataClay.activateTracing();
+				}
+				
 				LOGGER.info("Extrae tracing active: {}", DataClayExtrae.extraeTracingIsEnabled());
 				if (currentTaskID == 0) { // only in master node (app client withou compss)
 					LOGGER.info("Activating extrae in all nodes");

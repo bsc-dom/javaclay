@@ -5,4 +5,7 @@ dbfiles
 .settings
 .project
 state.txt
-.git
+.travis*
+.project
+.pydevproject
+.git*

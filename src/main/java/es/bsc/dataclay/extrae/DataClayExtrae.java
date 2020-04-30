@@ -64,7 +64,7 @@ public final class DataClayExtrae {
 			taskID = currentAvailableTaskID;
 			if (incrementAvailableTaskID) {
 				currentAvailableTaskID++;
-			}
+			}			
 			Wrapper.SetTaskID(taskID);
 			Wrapper.SetNumTasks(taskID + 1);
 			Wrapper.Init();
@@ -88,6 +88,8 @@ public final class DataClayExtrae {
 	 */
 	public static synchronized void enableExtraeTracing() {
 		extraeTracing = true;
+		taskID = currentAvailableTaskID;
+		Wrapper.SetNumTasks(taskID + 1);
 		logger.debug("** ENABLED Extrae TRACING FOR task ID " + taskID + ". Extrae has " 
 						+ Wrapper.GetNumTasks() + " tasks, in process with PID " + Wrapper.GetPID()
 						+ ". \n WARNING: Trace with Extrae if enabled. Application will NOT be traced if no " + 
@@ -99,7 +101,13 @@ public final class DataClayExtrae {
 	 * Disable Extrae tracing
 	 */
 	public static synchronized void disableExtraeTracing() {
-		extraeTracing = false;
+		if (extraeTracing) {
+			defineEventTypes();
+			extraeTracing = false;
+			generatedTraces = true;
+			logger.debug("** FINISHED Extrae TRACING FOR " + taskID + " with task ID " + Wrapper.GetTaskID());
+				
+		}
 		logger.debug("** DISABLED Extrae TRACING FOR task ID " + taskID + ". Extrae has " 
 						+ Wrapper.GetNumTasks() + " tasks, in process with PID " + Wrapper.GetPID()
 						+ ". \n WARNING: Trace with Extrae if enabled. Application will NOT be traced if no " + 

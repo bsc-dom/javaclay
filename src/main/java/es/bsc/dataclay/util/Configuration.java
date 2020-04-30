@@ -127,9 +127,7 @@ public final class Configuration {
 		MEMORY_GC_ENABLED(true, ConfType.BOOLEAN),
 		/** Indicates whether to enable global gc or not. */
 		GLOBAL_GC_ENABLED(true, ConfType.BOOLEAN),
-		/** Traces destination directory. */
-		TRACES_DEST_PATH(System.getProperty("user.dir"), ConfType.STRING)
-		,
+		
 		/**
 		 * Indicates whether to check if object is read-only to accept replication or
 		 * not.
