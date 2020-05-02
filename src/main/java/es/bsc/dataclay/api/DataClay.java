@@ -86,6 +86,9 @@ public final class DataClay {
 	/** Separator token for datasets. */
 	public static final String DATASET_SEPARATOR_TOKEN = ":";
 
+	/** Indicates Extrae was initialized by dataClay. */
+	private static boolean EXTRAE_INITIALIZED_BY_DATACLAY = false;
+	
 	/**
 	 * UserClientLib for the session. WARNING: CURRENTLY IS PUBLIC IN ORDER TO ALLOW
 	 * THREADS CREATED IN CLIENT TO USE THE COMMONLIB. Check design.
@@ -136,15 +139,22 @@ public final class DataClay {
 				if (DataClayExtrae.getWrapperTaskID() == 0) { // only in master node (app client withou compss) 
 					LOGGER.info("Calling deactivate extrae in dataclay services");
 					DataClay.deactivateTracingInDataClayServices();
-					deactivateTracing();
+					
+					
+					deactivateTracing(true); 
+										
 					// Get traces to current workspace app
 					LOGGER.info("Getting traces in dataclay services");
 					getTracesInDataClayServices();
 				} else { 
-					deactivateTracing();
+					deactivateTracing(EXTRAE_INITIALIZED_BY_DATACLAY);
 				}
 			}
+		} catch (final Exception e) {
+			e.printStackTrace();
+		}
 			
+		try {
 			ClientManagementLib.finishConnections();
 		} catch (final Exception e) {
 			throw new DataClayException(e);
@@ -350,9 +360,10 @@ public final class DataClay {
 
 				if (strStartingTaskID != null) {
 					// Starting task ID specified, Extrae is supposed to be previously initialized
-					DataClayExtrae.enableExtraeTracing();
+					DataClay.activateTracing(false, false);
 				} else {
-					DataClay.activateTracing();
+					EXTRAE_INITIALIZED_BY_DATACLAY = true;
+					DataClay.activateTracing(false, true);
 				}
 				
 				LOGGER.info("Extrae tracing active: {}", DataClayExtrae.extraeTracingIsEnabled());
@@ -1042,15 +1053,16 @@ public final class DataClay {
 	/**
 	 * Activate tracing
 	 */
-	public static void activateTracing() {
-		ClientManagementLib.activateTracing();
+	public static void activateTracing(final boolean incrementAvailableTaskID, 
+			final boolean initializeWrapper) {
+		ClientManagementLib.activateTracing(incrementAvailableTaskID, initializeWrapper);
 	}
 
 	/**
 	 * Dectivate tracing
 	 */
-	public static void deactivateTracing() {
-		ClientManagementLib.deactivateTracing();
+	public static void deactivateTracing(final boolean finalizeWrapper) {
+		ClientManagementLib.deactivateTracing(finalizeWrapper);
 	}
 	
 	/**

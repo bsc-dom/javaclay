@@ -130,9 +130,6 @@ public abstract class DataClayRuntime {
 	 */
 	protected final Set<ObjectID> volatileParametersBeingSend = new HashSet<>();
 
-	/** Timer for paraver thread. */
-	private Timer activatePrvTimer;
-
 	public int misses = 0;
 	public int hits = 0;
 
@@ -367,11 +364,29 @@ public abstract class DataClayRuntime {
 		this.grpcClient.finishClientConnections();
 		LOGGER.debug("Stopping thread pool");
 		this.threadPool.shutdown();
-		if (activatePrvTimer != null) {
-			LOGGER.debug("Shutdown paraver");
-			activatePrvTimer.cancel();
-		}
 
+		for (int i = 0; i < 5; i++) { //maximum retries
+			boolean found = false;
+			String threadName = null;
+			for (Thread t : Thread.getAllStackTraces().keySet()) {
+				threadName = t.getName();
+				if (threadName.startsWith("grpc-")) {
+					found = true;
+					break;
+				}
+			}
+			if (found) { 
+				LOGGER.debug("WARNING: Waiting for " + threadName + " thread to finish");
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			} else { 
+				break; 
+			}
+		}
+		
 		this.setInitialized(false);
 	}
 
@@ -1999,21 +2014,23 @@ public abstract class DataClayRuntime {
 	/**
 	 * Activate tracing
 	 */
-	public final void activateTracing() {
-		DataClayExtrae.initializeExtrae(false);
+	public final void activateTracing(final boolean incrementAvailableTaskID, 
+			final boolean initializeWrapper) {
+		DataClayExtrae.initializeExtrae(incrementAvailableTaskID, initializeWrapper);
 	}
 
 	/**
 	 * Deactivate tracing
 	 */
-	public final void deactivateTracing() {
-		DataClayExtrae.finishTracing();
+	public final void deactivateTracing(final boolean finalizeWrapper) {
+		DataClayExtrae.finishTracing(finalizeWrapper);
 	}
 
 	/**
 	 * Get traces in dataClay services and store it in current workspace
 	 */
 	public final void getTracesInDataClayServices() {
+		
 		final Map<String, byte[]> traces = logicModule.getTraces();
 		final String setPath = "set-0";
 		final String traceMpitsPath = "TRACE.mpits";
@@ -2049,10 +2066,8 @@ public abstract class DataClayRuntime {
 			}
 			input.close();
 			
-		} catch (final IOException e) {
-			if (DEBUG_ENABLED) { 
-				LOGGER.debug("Exception produced while storing file ", e);
-			}
+		} catch (final Exception e) {
+			e.printStackTrace();
 		}
 		
 		

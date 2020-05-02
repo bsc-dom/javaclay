@@ -2357,13 +2357,13 @@ public final class DataService implements DataServiceAPI {
 	@Override
 	public void activateTracing(final int currentAvailableTaskID) {
 		DataClayExtrae.setCurrentAvailableTaskID(currentAvailableTaskID);
-		DataClayExtrae.initializeExtrae(true);
+		DataClayExtrae.initializeExtrae(true, true);
 
 	}
 
 	@Override
 	public void deactivateTracing() {
-		DataClayExtrae.finishTracing();
+		DataClayExtrae.finishTracing(true);
 	}
 
 	@Override

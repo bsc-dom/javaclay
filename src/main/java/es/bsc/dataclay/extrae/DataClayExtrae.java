@@ -58,19 +58,24 @@ public final class DataClayExtrae {
 	 * Prepare Extrae tracing
 	 * 
 	 */
-	public static synchronized void initializeExtrae(final boolean incrementAvailableTaskID) {
+	public static synchronized void initializeExtrae(final boolean incrementAvailableTaskID, 
+			final boolean initializeWrapper) {
 		try {
 			
 			taskID = currentAvailableTaskID;
 			if (incrementAvailableTaskID) {
 				currentAvailableTaskID++;
 			}			
-			Wrapper.SetTaskID(taskID);
+			if (initializeWrapper) {
+				Wrapper.SetTaskID(taskID);
+				logger.debug("** Calling Extrae Wrapper.Init()");
+				Wrapper.Init();
+			}  else {
+				logger.debug("** WARNING: NOT calling Extrae Wrapper.Init()");
+			}
 			Wrapper.SetNumTasks(taskID + 1);
-			Wrapper.Init();
 			//Paraver.enablePThreads();
 			extraeTracing = true;
-			
 			logger.debug("** INITIALIZED Extrae TRACING FOR task ID " + taskID + ". Extrae has " 
 						+ Wrapper.GetNumTasks() + " tasks, in process with PID " + Wrapper.GetPID()
 						+ ". \n WARNING: Application will NOT be traced if no " + 
@@ -118,11 +123,16 @@ public final class DataClayExtrae {
 	/**
 	 * Finish tracing
 	 */
-	public static synchronized void finishTracing() {
+	public static synchronized void finishTracing(final boolean finalizeWrapper) {
 		if (extraeTracing) {
 			defineEventTypes();
 			//Wrapper.SetOptions(Wrapper.EXTRAE_ENABLE_ALL_OPTIONS & ~Wrapper.EXTRAE_PTHREAD_OPTION);
-			Wrapper.Fini();
+			if (finalizeWrapper) {
+				logger.debug("** Calling Extrae Wrapper.Fini()");
+				Wrapper.Fini();
+			} else {
+				logger.debug("** WARNING: NOT calling Extrae Wrapper.Fini()");
+			}
 			//Wrapper.SetOptions(Wrapper.EXTRAE_DISABLE_ALL_OPTIONS);
 			extraeTracing = false;
 			generatedTraces = true;

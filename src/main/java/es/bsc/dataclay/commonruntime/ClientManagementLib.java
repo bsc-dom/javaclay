@@ -1972,15 +1972,16 @@ public final class ClientManagementLib {
 	/**
 	 * Activate tracing
 	 */
-	public final static void activateTracing() {
-		clientLib.activateTracing();
+	public final static void activateTracing(final boolean incrementAvailableTaskID, 
+			final boolean initializeWrapper) {
+		clientLib.activateTracing(incrementAvailableTaskID, initializeWrapper);
 	}
 
 	/**
 	 * Deactivate tracing
 	 */
-	public final static void deactivateTracing() {
-		clientLib.deactivateTracing();
+	public final static void deactivateTracing(final boolean finalizeWrapper) {
+		clientLib.deactivateTracing(finalizeWrapper);
 	}
 	
 	/**

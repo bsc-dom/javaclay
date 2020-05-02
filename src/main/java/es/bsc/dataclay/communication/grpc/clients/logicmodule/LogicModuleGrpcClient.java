@@ -223,6 +223,7 @@ public final class LogicModuleGrpcClient implements LogicModuleAPI {
 		while (!channel.awaitTermination(SECONDS_SHUTDOWN, TimeUnit.SECONDS)) { 
 			System.out.println("[grpc] Waiting for channel to close...");
 		}
+		channel = null;
 	}
 
 	/**
