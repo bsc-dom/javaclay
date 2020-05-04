@@ -364,27 +364,34 @@ public abstract class DataClayRuntime {
 		this.grpcClient.finishClientConnections();
 		LOGGER.debug("Stopping thread pool");
 		this.threadPool.shutdown();
-
-		for (int i = 0; i < 5; i++) { //maximum retries
-			boolean found = false;
+		this.threadPool = null; 
+		this.grpcClient = null;
+		boolean aliveThreads = true;
+		for (int i = 0; i < 10; i++) { //maximum retries
+			boolean foundAliveThread = false;
 			String threadName = null;
 			for (Thread t : Thread.getAllStackTraces().keySet()) {
 				threadName = t.getName();
 				if (threadName.startsWith("grpc-")) {
-					found = true;
+					foundAliveThread = true;
 					break;
 				}
 			}
-			if (found) { 
-				LOGGER.debug("WARNING: Waiting for " + threadName + " thread to finish");
+			if (foundAliveThread) { 
+				LOGGER.warn("WARNING: Waiting for " + threadName + " thread to finish. Sleeping for 2s");
 				try {
-					Thread.sleep(1000);
+					Thread.sleep(2000);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
 			} else { 
+				aliveThreads = false;
 				break; 
 			}
+		}
+		
+		if (aliveThreads) { 
+			LOGGER.warn("WARNING: Some threads still alive while exiting application.");
 		}
 		
 		this.setInitialized(false);
@@ -2014,9 +2021,9 @@ public abstract class DataClayRuntime {
 	/**
 	 * Activate tracing
 	 */
-	public final void activateTracing(final boolean incrementAvailableTaskID, 
+	public final void activateTracing(
 			final boolean initializeWrapper) {
-		DataClayExtrae.initializeExtrae(incrementAvailableTaskID, initializeWrapper);
+		DataClayExtrae.initializeExtrae(initializeWrapper);
 	}
 
 	/**
@@ -2032,13 +2039,24 @@ public abstract class DataClayRuntime {
 	public final void getTracesInDataClayServices() {
 		
 		final Map<String, byte[]> traces = logicModule.getTraces();
+		
+		/*
+		final Map<String, Map<String, byte[]>> filesPerHost = new HashMap<>();
+		
+		for (final Entry<String, byte[]> traceFile : traces.entrySet()) { 
+
+		}*/
+		
+		int curTask = 0;
 		final String setPath = "set-0";
 		final String traceMpitsPath = "TRACE.mpits";
 		try {
+			
 			FileUtils.forceMkdir(new File(setPath));
 			File traceMpitsFile = new File(traceMpitsPath);
 
 			for (final Entry<String, byte[]> traceFile : traces.entrySet()) { 
+
 				final String fileName = traceFile.getKey();
 				final byte[] fileBytes = traceFile.getValue();
 
@@ -2054,7 +2072,7 @@ public abstract class DataClayRuntime {
 						LOGGER.info("Adding line to " + traceMpitsFile.getAbsolutePath() + " file: " + newFilePointer);
 						FileUtils.writeStringToFile(traceMpitsFile, newFilePointer,Charset.defaultCharset(), true);
 					}
-					
+					curTask++;	
 			}
 			
 			// cat trace.mpits
@@ -2062,7 +2080,7 @@ public abstract class DataClayRuntime {
 
 			while (input.hasNextLine())
 			{
-			   System.out.println(input.nextLine());
+				LOGGER.info(input.nextLine());
 			}
 			input.close();
 			

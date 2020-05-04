@@ -6659,7 +6659,7 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
 
 				LOGGER.info("Initializing extrae with next available task id {}", nextTaskID);
 				DataClayExtrae.setCurrentAvailableTaskID(nextTaskID);
-				DataClayExtrae.initializeExtrae(true, true);
+				DataClayExtrae.initializeExtrae(true);
 
 				// DataServices Paraver traces
 				for (final Tuple<DataServiceAPI, ExecutionEnvironment> curApi : this.getExecutionEnvironments(Langs.LANG_JAVA)

@@ -364,6 +364,12 @@ public final class Configuration {
 		/** Defines the file where dependencies is located. */
 		INCLUDE_THIS_PROJECT(System.getProperty("user.dir") + File.separatorChar + "target/classes", ConfType.STRING),
 
+		/** Indicates path to extrae wrapper library. */
+		JAVACLAY_EXTRAE_WRAPPER_LIB(ProcessEnvironment.getInstance().get("JAVACLAY_EXTRAE_WRAPPER_LIB"), ConfType.STRING),
+		
+		/** Indicates if finish extrae must be called. */ 
+		FINISH_EXTRAE_TRACING(true, ConfType.BOOLEAN),
+		
 		// =========== DEBUG ================ //
 
 		/** Whether AspectJ info should be printed. */

@@ -12,6 +12,7 @@ import java.util.ResourceBundle;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import es.bsc.dataclay.util.Configuration;
 import es.bsc.cepbatools.extrae.Wrapper;
 
 /**
@@ -58,26 +59,33 @@ public final class DataClayExtrae {
 	 * Prepare Extrae tracing
 	 * 
 	 */
-	public static synchronized void initializeExtrae(final boolean incrementAvailableTaskID, 
+	public static synchronized void initializeExtrae(
 			final boolean initializeWrapper) {
 		try {
 			
-			taskID = currentAvailableTaskID;
-			if (incrementAvailableTaskID) {
-				currentAvailableTaskID++;
-			}			
 			if (initializeWrapper) {
+				
+				taskID = currentAvailableTaskID;
+				currentAvailableTaskID++;
 				Wrapper.SetTaskID(taskID);
+				Wrapper.SetNumTasks(taskID + 1);
 				logger.debug("** Calling Extrae Wrapper.Init()");
 				Wrapper.Init();
 			}  else {
+				// if we have starting task ID = 2, then 1 master and 1 worker are set 
+				// so we will have: 
+				// 1 ds java x 
+				
+				//Wrapper.SetNumTasks(currentAvailableTaskID * 2 + 1); //COMPSs only
 				logger.debug("** WARNING: NOT calling Extrae Wrapper.Init()");
+				//Wrapper.Init();
+			//	Wrapper.SetNumTasks(taskID + 1);
 			}
-			Wrapper.SetNumTasks(taskID + 1);
+			
 			//Paraver.enablePThreads();
 			extraeTracing = true;
 			logger.debug("** INITIALIZED Extrae TRACING FOR task ID " + taskID + ". Extrae has " 
-						+ Wrapper.GetNumTasks() + " tasks, in process with PID " + Wrapper.GetPID()
+						+ Wrapper.GetNumTasks() + " tasks "
 						+ ". \n WARNING: Application will NOT be traced if no " + 
 						" initialization was done (COMPSs initializes it) or Paraver aspects injection was not applied");
 			
@@ -96,7 +104,7 @@ public final class DataClayExtrae {
 		taskID = currentAvailableTaskID;
 		Wrapper.SetNumTasks(taskID + 1);
 		logger.debug("** ENABLED Extrae TRACING FOR task ID " + taskID + ". Extrae has " 
-						+ Wrapper.GetNumTasks() + " tasks, in process with PID " + Wrapper.GetPID()
+						+ Wrapper.GetNumTasks() + " tasks "
 						+ ". \n WARNING: Trace with Extrae if enabled. Application will NOT be traced if no " + 
 						" initialization was done (COMPSs initializes it) or Paraver aspects injection was not applied");
 		
@@ -114,7 +122,7 @@ public final class DataClayExtrae {
 				
 		}
 		logger.debug("** DISABLED Extrae TRACING FOR task ID " + taskID + ". Extrae has " 
-						+ Wrapper.GetNumTasks() + " tasks, in process with PID " + Wrapper.GetPID()
+						+ Wrapper.GetNumTasks() + " tasks "
 						+ ". \n WARNING: Trace with Extrae if enabled. Application will NOT be traced if no " + 
 						" initialization was done (COMPSs initializes it) or Paraver aspects injection was not applied");
 		
@@ -132,6 +140,13 @@ public final class DataClayExtrae {
 				Wrapper.Fini();
 			} else {
 				logger.debug("** WARNING: NOT calling Extrae Wrapper.Fini()");
+				try {
+					DataClayExtraeWrapper.Flush();
+				} catch (Error err) { 
+					err.printStackTrace();
+				} catch (Exception e) { 
+					e.printStackTrace();
+				}
 			}
 			//Wrapper.SetOptions(Wrapper.EXTRAE_DISABLE_ALL_OPTIONS);
 			extraeTracing = false;
