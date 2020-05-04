@@ -138,7 +138,8 @@ public final class DataClayExtrae {
 			if (finalizeWrapper) {
 				logger.debug("** Calling Extrae Wrapper.Fini()");
 				Wrapper.Fini();
-			} else {
+			} 
+			/* else {
 				logger.debug("** WARNING: NOT calling Extrae Wrapper.Fini()");
 				try {
 					DataClayExtraeWrapper.Flush();
@@ -147,7 +148,7 @@ public final class DataClayExtrae {
 				} catch (Exception e) { 
 					e.printStackTrace();
 				}
-			}
+			} */
 			//Wrapper.SetOptions(Wrapper.EXTRAE_DISABLE_ALL_OPTIONS);
 			extraeTracing = false;
 			generatedTraces = true;
