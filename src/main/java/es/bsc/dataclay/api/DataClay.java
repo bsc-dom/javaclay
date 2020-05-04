@@ -75,6 +75,8 @@ public final class DataClay {
 	private static final String TRACING_ENABLED = "Tracing";
 	/** Prop name for defining first available Extrae task ID. */
 	private static final String EXTRAE_STARTING_TASK_ID = "ExtraeStartingTaskID";
+	/** Indicates path to extrae wrapper library. */
+	private static final String JAVACLAY_EXTRAE_WRAPPER_LIB_PROP = "javaClayExtraeWrapperLib";
 	/** Prop name for the contracts (optional, used under Python). */
 	private static final String CONTRACTS_PROP = "Contracts";
 	/** Prop name to specify the "local" backend */
@@ -86,6 +88,9 @@ public final class DataClay {
 	/** Separator token for datasets. */
 	public static final String DATASET_SEPARATOR_TOKEN = ":";
 
+	/** Indicates Extrae was initialized by COMPSs. */
+	private static boolean EXTRAE_COMPSS = false;
+	
 	/**
 	 * UserClientLib for the session. WARNING: CURRENTLY IS PUBLIC IN ORDER TO ALLOW
 	 * THREADS CREATED IN CLIENT TO USE THE COMMONLIB. Check design.
@@ -133,18 +138,37 @@ public final class DataClay {
 
 			if (DataClayExtrae.extraeTracingIsEnabled()) { 
 				LOGGER.info("Extrae is active, deactivating it...");
-				if (DataClayExtrae.getWrapperTaskID() == 0) { // only in master node (app client withou compss) 
-					LOGGER.info("Calling deactivate extrae in dataclay services");
-					DataClay.deactivateTracingInDataClayServices();
-					deactivateTracing();
-					// Get traces to current workspace app
-					LOGGER.info("Getting traces in dataclay services");
-					getTracesInDataClayServices();
+				if (EXTRAE_COMPSS) { 
+					if (DataClayExtrae.getWrapperTaskID() == 0) { 
+						LOGGER.info("Calling deactivate extrae in dataclay services");
+						DataClay.deactivateTracingInDataClayServices();
+						LOGGER.info("Getting traces in dataclay services");
+						
+						deactivateTracing(true);
+						getTracesInDataClayServices();
+					}  else { 
+						deactivateTracing(false); 
+					}
+					
 				} else { 
-					deactivateTracing();
+
+					if (DataClayExtrae.getWrapperTaskID() == 0) { 
+						LOGGER.info("Calling deactivate extrae in dataclay services");
+						DataClay.deactivateTracingInDataClayServices();
+						LOGGER.info("Getting traces in dataclay services");
+						deactivateTracing(true); 
+						getTracesInDataClayServices();
+					} else { 
+						deactivateTracing(true);
+					}
 				}
+				
 			}
+		} catch (final Exception e) {
+			e.printStackTrace();
+		}
 			
+		try {
 			ClientManagementLib.finishConnections();
 		} catch (final Exception e) {
 			throw new DataClayException(e);
@@ -315,6 +339,10 @@ public final class DataClay {
 			}
 
 			
+			String javaClayExtraeWrapperLib = prop.getProperty(JAVACLAY_EXTRAE_WRAPPER_LIB_PROP);
+			if (javaClayExtraeWrapperLib!= null) { 
+				Configuration.Flags.JAVACLAY_EXTRAE_WRAPPER_LIB.setValue(javaClayExtraeWrapperLib);
+			} 
 			/***************************** TRACING **********************************/
 			/** 
 			 * ### READ #### 
@@ -338,20 +366,29 @@ public final class DataClay {
 			if (tracingEnabled) { 
 				LOGGER.info("Extrae tracing requested");
 				final String strStartingTaskID = prop.getProperty(EXTRAE_STARTING_TASK_ID);
-				if (strStartingTaskID != null) {
-					LOGGER.info("Found Extrae tracing Task ID specified: {}", strStartingTaskID);
-					DataClayExtrae.setCurrentAvailableTaskID(Integer.valueOf(strStartingTaskID));
-				}
 				// Trace with Extrae if enabled. Application will NOT be traced if no 
 				// initialization was done (COMPSs initializes it for us) 
 				// or Paraver aspects injection were NOT applied.
-				final int currentTaskID = DataClayExtrae.getWrapperTaskID();
-				LOGGER.info("Extrae tracing Task ID is {}", currentTaskID);
-				DataClay.activateTracing();
-				LOGGER.info("Extrae tracing active: {}", DataClayExtrae.extraeTracingIsEnabled());
-				if (currentTaskID == 0) { // only in master node (app client withou compss)
-					LOGGER.info("Activating extrae in all nodes");
-					DataClay.activateTracingInDataClayServices();
+				LOGGER.info("Found Starting task id = " + strStartingTaskID);
+				if (strStartingTaskID == null || strStartingTaskID.equals("0")) {
+					DataClay.activateTracing(true);
+					if (DataClayExtrae.getWrapperTaskID() == 0) {
+						LOGGER.info("Activating extrae in all nodes");
+						DataClay.activateTracingInDataClayServices();
+					}
+					
+				} else {
+					EXTRAE_COMPSS = true; 
+
+					DataClayExtrae.setCurrentAvailableTaskID(Integer.valueOf(strStartingTaskID));
+
+					// Starting task ID specified, Extrae is supposed to be previously initialized
+					DataClay.activateTracing(false);
+					LOGGER.info("Found Extrae tracing Task ID specified: {}", strStartingTaskID);
+					if (DataClayExtrae.getWrapperTaskID() == 0) { // only in master node (app client withou compss)
+						LOGGER.info("Activating extrae in all nodes");
+						DataClay.activateTracingInDataClayServices();
+					}
 				}
 
 			}
@@ -1035,15 +1072,16 @@ public final class DataClay {
 	/**
 	 * Activate tracing
 	 */
-	public static void activateTracing() {
-		ClientManagementLib.activateTracing();
+	public static void activateTracing(
+			final boolean initializeWrapper) {
+		ClientManagementLib.activateTracing(initializeWrapper);
 	}
 
 	/**
 	 * Dectivate tracing
 	 */
-	public static void deactivateTracing() {
-		ClientManagementLib.deactivateTracing();
+	public static void deactivateTracing(final boolean finalizeWrapper) {
+		ClientManagementLib.deactivateTracing(finalizeWrapper);
 	}
 	
 	/**

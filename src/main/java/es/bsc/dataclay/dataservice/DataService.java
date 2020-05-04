@@ -2363,7 +2363,7 @@ public final class DataService implements DataServiceAPI {
 
 	@Override
 	public void deactivateTracing() {
-		DataClayExtrae.finishTracing();
+		DataClayExtrae.finishTracing(true);
 	}
 
 	@Override
