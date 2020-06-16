@@ -25,7 +25,7 @@ jobs:
           on:
                branch: develop
     - stage: deploy_release 
-      if: branch = master
+      if: branch = master AND type != pull_request
       before_install:
         - echo "$GPG_SECRET_KEYS" | base64 --decode | $GPG_EXECUTABLE --import
         - echo "$GPG_OWNERTRUST" | base64 --decode | $GPG_EXECUTABLE --import-ownertrust
