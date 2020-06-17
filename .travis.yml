@@ -31,9 +31,11 @@ jobs:
         - echo "$GPG_OWNERTRUST" | base64 --decode | $GPG_EXECUTABLE --import-ownertrust
         - .travis/set_ssh.sh
         - git remote set-url origin git@github.com:bsc-dom/javaclay.git
+        - git fetch
+        - git checkout master
       deploy:
           provider: script
-          script: mvn -q -P publish -B release:clean release:prepare release:perform -s settings.xml
+          script: mvn -P publish -B release:clean release:prepare release:perform -s settings.xml
           on:
                branch: master
       after_deploy:
