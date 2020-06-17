@@ -33,7 +33,7 @@ jobs:
         - git remote set-url origin git@github.com:bsc-dom/javaclay.git
       deploy:
           provider: script
-          script: mvn -P publish -B release:clean release:prepare release:perform -s settings.xml
+          script: mvn -q -P publish -B release:clean release:prepare release:perform -s settings.xml
           on:
                branch: master
       after_deploy:
