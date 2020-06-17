@@ -171,6 +171,7 @@ public final class ClientManagementLib {
 					try {
 						if (clientLib != null) {
 							clientLib.finishConnections();
+							clientLib = null;
 							LOGGER.info("Client Library closed by SHUTDOWN HOOK ");
 						}
 					} catch (final Exception e) {
@@ -1972,15 +1973,16 @@ public final class ClientManagementLib {
 	/**
 	 * Activate tracing
 	 */
-	public final static void activateTracing() {
-		clientLib.activateTracing();
+	public final static void activateTracing(
+			final boolean initializeWrapper) {
+		clientLib.activateTracing(initializeWrapper);
 	}
 
 	/**
 	 * Deactivate tracing
 	 */
-	public final static void deactivateTracing() {
-		clientLib.deactivateTracing();
+	public final static void deactivateTracing(final boolean finalizeWrapper) {
+		clientLib.deactivateTracing(finalizeWrapper);
 	}
 	
 	/**

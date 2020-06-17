@@ -127,9 +127,7 @@ public final class Configuration {
 		MEMORY_GC_ENABLED(true, ConfType.BOOLEAN),
 		/** Indicates whether to enable global gc or not. */
 		GLOBAL_GC_ENABLED(true, ConfType.BOOLEAN),
-		/** Traces destination directory. */
-		TRACES_DEST_PATH(System.getProperty("user.dir"), ConfType.STRING)
-		,
+		
 		/**
 		 * Indicates whether to check if object is read-only to accept replication or
 		 * not.
@@ -366,6 +364,12 @@ public final class Configuration {
 		/** Defines the file where dependencies is located. */
 		INCLUDE_THIS_PROJECT(System.getProperty("user.dir") + File.separatorChar + "target/classes", ConfType.STRING),
 
+		/** Indicates path to extrae wrapper library. */
+		JAVACLAY_EXTRAE_WRAPPER_LIB(ProcessEnvironment.getInstance().get("JAVACLAY_EXTRAE_WRAPPER_LIB"), ConfType.STRING),
+		
+		/** Indicates if finish extrae must be called. */ 
+		FINISH_EXTRAE_TRACING(true, ConfType.BOOLEAN),
+		
 		// =========== DEBUG ================ //
 
 		/** Whether AspectJ info should be printed. */

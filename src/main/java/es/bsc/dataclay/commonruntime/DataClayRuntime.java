@@ -3,12 +3,14 @@ package es.bsc.dataclay.commonruntime;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Scanner;
 import java.util.Set;
 import java.util.Timer;
 import java.util.UUID;
@@ -18,7 +20,6 @@ import java.util.concurrent.ScheduledExecutorService;
 import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.core.LoggerContext;
 
 import es.bsc.dataclay.DataClayObject;
 import es.bsc.dataclay.api.BackendID;
@@ -30,6 +31,7 @@ import es.bsc.dataclay.exceptions.DataClayException;
 import es.bsc.dataclay.exceptions.DataClayRuntimeException;
 import es.bsc.dataclay.exceptions.ErrorDefs.ERRORCODE;
 import es.bsc.dataclay.exceptions.metadataservice.AliasAlreadyInUseException;
+import es.bsc.dataclay.exceptions.metadataservice.ObjectAlreadyRegisteredException;
 import es.bsc.dataclay.exceptions.metadataservice.ObjectNotRegisteredException;
 import es.bsc.dataclay.extrae.DataClayExtrae;
 import es.bsc.dataclay.heap.HeapManager;
@@ -128,9 +130,6 @@ public abstract class DataClayRuntime {
 	 */
 	protected final Set<ObjectID> volatileParametersBeingSend = new HashSet<>();
 
-	/** Timer for paraver thread. */
-	private Timer activatePrvTimer;
-
 	public int misses = 0;
 	public int hits = 0;
 
@@ -214,7 +213,7 @@ public abstract class DataClayRuntime {
 	 *            ID of the object connected.
 	 * @return ExecutionEnvironmentID by hash
 	 */
-	public final ExecutionEnvironmentID getExecutionLocationIDFromHash(final ObjectID objectID) {
+	public final ExecutionEnvironmentID getBackendIDFromObjectID(final ObjectID objectID) {
 
 		if (execLocationsPerHash.isEmpty()) {
 			prepareExecuteLocations();
@@ -365,11 +364,36 @@ public abstract class DataClayRuntime {
 		this.grpcClient.finishClientConnections();
 		LOGGER.debug("Stopping thread pool");
 		this.threadPool.shutdown();
-		if (activatePrvTimer != null) {
-			LOGGER.debug("Shutdown paraver");
-			activatePrvTimer.cancel();
+		this.threadPool = null; 
+		this.grpcClient = null;
+		boolean aliveThreads = true;
+		for (int i = 0; i < 10; i++) { //maximum retries
+			boolean foundAliveThread = false;
+			String threadName = null;
+			for (Thread t : Thread.getAllStackTraces().keySet()) {
+				threadName = t.getName();
+				if (threadName.startsWith("grpc-")) {
+					foundAliveThread = true;
+					break;
+				}
+			}
+			if (foundAliveThread) { 
+				LOGGER.warn("WARNING: Waiting for " + threadName + " thread to finish. Sleeping for 2s");
+				try {
+					Thread.sleep(2000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			} else { 
+				aliveThreads = false;
+				break; 
+			}
 		}
-
+		
+		if (aliveThreads) { 
+			LOGGER.warn("WARNING: Some threads still alive while exiting application.");
+		}
+		
 		this.setInitialized(false);
 	}
 
@@ -636,8 +660,8 @@ public abstract class DataClayRuntime {
 			return this.getObjectByAlias(alias);
 		}
 
-		final ObjectID oid = getObjectIDByAlias(alias);
-		final BackendID bid = this.getExecutionLocationIDFromHash(oid);
+		final ObjectID oid = getObjectIDFromAlias(alias);
+		final BackendID bid = this.getBackendIDFromObjectID(oid);
 
 		if (DEBUG_ENABLED) {
 			LOGGER.debug("[==GetByAlias==] Creating instance from alias " + oid);
@@ -913,7 +937,11 @@ public abstract class DataClayRuntime {
 		// we must change the algorithms to not depend on metadata.
 		// Also, location in which to register the object is the hint (in case it is not
 		// registered yet).
-		logicModule.registerObject(regInfo, (ExecutionEnvironmentID) hint, null, Langs.LANG_JAVA);
+		try {
+			logicModule.registerObject(regInfo, (ExecutionEnvironmentID) hint, null, Langs.LANG_JAVA);
+		} catch (Exception e) { 
+			//ignore
+		}
 	}
 
 	/**
@@ -1993,50 +2021,71 @@ public abstract class DataClayRuntime {
 	/**
 	 * Activate tracing
 	 */
-	public final void activateTracing() {
-		DataClayExtrae.initializeExtrae(false);
+	public final void activateTracing(
+			final boolean initializeWrapper) {
+		DataClayExtrae.initializeExtrae(initializeWrapper);
 	}
 
 	/**
 	 * Deactivate tracing
 	 */
-	public final void deactivateTracing() {
-		DataClayExtrae.finishTracing();
+	public final void deactivateTracing(final boolean finalizeWrapper) {
+		DataClayExtrae.finishTracing(finalizeWrapper);
 	}
 
 	/**
 	 * Get traces in dataClay services and store it in current workspace
 	 */
 	public final void getTracesInDataClayServices() {
+		
 		final Map<String, byte[]> traces = logicModule.getTraces();
-		final String setPath = Configuration.Flags.TRACES_DEST_PATH.getStringValue() + File.separatorChar + "set-0";
-		final String traceMpitsPath = Configuration.Flags.TRACES_DEST_PATH.getStringValue() + File.separatorChar + "TRACE.mpits";
+		
+		/*
+		final Map<String, Map<String, byte[]>> filesPerHost = new HashMap<>();
+		
+		for (final Entry<String, byte[]> traceFile : traces.entrySet()) { 
+
+		}*/
+		
+		int curTask = 0;
+		final String setPath = "set-0";
+		final String traceMpitsPath = "TRACE.mpits";
 		try {
+			
 			FileUtils.forceMkdir(new File(setPath));
+			File traceMpitsFile = new File(traceMpitsPath);
+
 			for (final Entry<String, byte[]> traceFile : traces.entrySet()) { 
+
 				final String fileName = traceFile.getKey();
 				final byte[] fileBytes = traceFile.getValue();
 
-					final String path = setPath + File.separator + fileName;
-					if (DEBUG_ENABLED) { 
-						LOGGER.debug("Storing file " + path);
-					}
+					File tmpTraceFile = new File(setPath + File.separator + fileName);
+					final String path = tmpTraceFile.getAbsolutePath();
+					LOGGER.info("Storing file " + path);
+					
 					// Store Extrae temporary files
-					FileUtils.writeByteArrayToFile(new File(path), fileBytes);
+					FileUtils.writeByteArrayToFile(tmpTraceFile, fileBytes);
 					
 					if (fileName.endsWith(".mpit")) {
 						final String newFilePointer = path + " named\n";
-						if (DEBUG_ENABLED) { 
-							LOGGER.debug("Adding line to " + traceMpitsPath + " file: " + newFilePointer);
-						}
-						FileUtils.writeStringToFile(new File(traceMpitsPath), newFilePointer,Charset.defaultCharset(), true);
+						LOGGER.info("Adding line to " + traceMpitsFile.getAbsolutePath() + " file: " + newFilePointer);
+						FileUtils.writeStringToFile(traceMpitsFile, newFilePointer,Charset.defaultCharset(), true);
 					}
-					
+					curTask++;	
 			}
-		} catch (final IOException e) {
-			if (DEBUG_ENABLED) { 
-				LOGGER.debug("Exception produced while storing file ", e);
+			
+			// cat trace.mpits
+			Scanner input = new Scanner(traceMpitsFile);
+
+			while (input.hasNextLine())
+			{
+				LOGGER.info(input.nextLine());
 			}
+			input.close();
+			
+		} catch (final Exception e) {
+			e.printStackTrace();
 		}
 		
 		
@@ -2148,11 +2197,50 @@ public abstract class DataClayRuntime {
 		this.initialized = theinitialized;
 	}
 
-	protected static ObjectID getObjectIDByAlias(String alias) {
+	public static ObjectID getObjectIDFromAlias(String alias) {
 		return new ObjectID(UUID.nameUUIDFromBytes(alias.getBytes()));
 	}
 
-	protected ExecutionEnvironmentID getObjectLocationByAlias(String alias) {
-		return this.getExecutionLocationIDFromHash(getObjectIDByAlias(alias));
+	protected ExecutionEnvironmentID getBackendIDFromAlias(String alias) {
+		return this.getBackendIDFromObjectID(getObjectIDFromAlias(alias));
+	}
+
+	/**
+	 * Choose execution/make persistent location.
+	 *
+	 * @param dcObject
+	 *            DataClay object.
+	 * @return Chosen location.
+	 */
+	protected BackendID chooseLocation(final DataClayObject dcObject, final String alias) {
+		if (DEBUG_ENABLED) {
+			LOGGER.debug("[==Execution==] Using Hash execution location for " + dcObject.getObjectID());
+		}
+
+		final BackendID location;
+
+		if(alias != null) {
+			location = getBackendIDFromAlias(alias);
+		}else {
+			location = getBackendIDFromObjectID(dcObject.getObjectID());
+		}
+
+		dcObject.setHint(location);
+		return location;
+	}
+
+	/**
+	 * Update the object id in both DataClayObject and HeapManager
+	 *
+	 * @param dcObject
+	 *            DataClay object.
+	 * @param newObjectID
+	 *            the new object id.
+	 */
+	protected void updateObjectID(DataClayObject dcObject, ObjectID newObjectID) {
+		final ObjectID oldObjectID = dcObject.getObjectID();
+		dcObject.setObjectIDUnsafe(newObjectID);
+		dataClayHeapManager.removeFromHeap(oldObjectID);
+		dataClayHeapManager.addToHeap(dcObject);;
 	}
 }

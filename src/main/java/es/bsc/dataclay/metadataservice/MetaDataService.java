@@ -18,6 +18,7 @@ import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import es.bsc.dataclay.commonruntime.DataClayRuntime;
 import es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.Langs;
 import es.bsc.dataclay.exceptions.dbhandler.DbObjectAlreadyExistException;
 import es.bsc.dataclay.exceptions.dbhandler.DbObjectNotExistException;
@@ -187,7 +188,7 @@ public final class MetaDataService extends AbstractManager {
 		final MetaDataInfo result = buildMetaDataInfo(objectMD);
 		return result;
 	}
-	
+
 	/**
 	 * Get all objects registered in system
 	 * @return ids of all registered objects
@@ -225,7 +226,7 @@ public final class MetaDataService extends AbstractManager {
 		if (objectMD == null) {
 			throw new ObjectNotRegisteredException(alias);
 		}
-		
+
 		final MetaDataInfo metadataInfo = buildMetaDataInfo(objectMD);
 		if (DEBUG_ENABLED) {
 			logger.debug("Get by alias: Obtained object " + objectMD.getDataClayID() + " from alias: " + alias);
@@ -318,6 +319,8 @@ public final class MetaDataService extends AbstractManager {
 			final String alias, final Langs lang, final AccountID ownerID)
 					throws ObjectAlreadyRegisteredException, AliasAlreadyInUseException {
 
+		ObjectID newObjectID = objectID;
+
 		if (alias != null) {
 			// Check there is no other object with same class and alias
 			try {
@@ -326,9 +329,13 @@ public final class MetaDataService extends AbstractManager {
 			} catch (final ObjectNotRegisteredException e) {
 				// it's ok, object not registered
 			}
+
+			newObjectID = DataClayRuntime.getObjectIDFromAlias(alias);
 		}
 
-		final ObjectMetaData objectMD = new ObjectMetaData(objectID, metaClassID, datasetIDofProvider, backendIDs,
+
+
+		final ObjectMetaData objectMD = new ObjectMetaData(newObjectID, metaClassID, datasetIDofProvider, backendIDs,
 				isReadOnly, alias, lang, ownerID);
 
 		if (DEBUG_ENABLED) {
@@ -882,7 +889,7 @@ public final class MetaDataService extends AbstractManager {
 	public void unregisterStorageLocation(final StorageLocationID stLocID) {
 		metadataDB.deleteByID(stLocID);
 	}
-	
+
 	/**
 	 * Updates host and port of a storage location
 	 * 
@@ -1109,11 +1116,11 @@ public final class MetaDataService extends AbstractManager {
 		try {
 
 			metadataDB.insertDataClayInstance(dataClay);
-			
+
 			// update cache 
 			final DataClayInstance dClayInfo = metadataDB.getDataClayInfo(dataClay.getDcID());
 			externalDataClaysCache.put(dataClay.getDcID(), dClayInfo);
-			
+
 			for (int i = 0; i < dClayInfo.getHosts().length; ++i) { 
 				final String host = dClayInfo.getHosts()[i];
 				final Integer port = dClayInfo.getPorts()[i];
@@ -1130,7 +1137,7 @@ public final class MetaDataService extends AbstractManager {
 			return;
 		}
 	}
-	
+
 	/**
 	 * Unregister external dataClay address
 	 * @param host Host
@@ -1344,7 +1351,7 @@ public final class MetaDataService extends AbstractManager {
 	public void unregisterExternalObject(final ObjectID objectID) {
 		metadataDB.deleteExternalObject(objectID);
 	}
-	
+
 	/**
 	 * Checks if the object is actually a federated object
 	 * 
@@ -1367,7 +1374,7 @@ public final class MetaDataService extends AbstractManager {
 	public boolean externalObjectIsRegistered(final ObjectID objectID) {
 		return metadataDB.existsExternalObject(objectID, false);
 	}
-	
+
 	/**
 	 * Checks if the object is actually a federated object with unregistered flag = true
 	 * 
@@ -1378,7 +1385,7 @@ public final class MetaDataService extends AbstractManager {
 	public boolean externalObjectIsUnregistered(final ObjectID objectID) {
 		return metadataDB.existsExternalObject(objectID, true);
 	}
-	
+
 	/**
 	 * Update external object to be marked as unregistered 
 	 * 
@@ -1390,7 +1397,7 @@ public final class MetaDataService extends AbstractManager {
 	public void markExternalObjectAsUnregistered(final ObjectID objectID) { 
 		this.metadataDB.updateUnregisteredFlagExternalObject(objectID, true);
 	}
-	
+
 	/**
 	 * Update external object to be marked as registered 
 	 * 
@@ -1410,7 +1417,7 @@ public final class MetaDataService extends AbstractManager {
 	public Set<ObjectID> getUnregisteredExternalObjects() {
 		return metadataDB.getUnregisteredExternalObjects();
 	}
-	
+
 	/**
 	 * Method that retrieves the info of external source dataClay of this object
 	 * 
@@ -1652,73 +1659,5 @@ public final class MetaDataService extends AbstractManager {
 		currentExecutionEnvironments.clear();
 		currentJavaExecutionEnvironments.clear();
 		currentPythonExecutionEnvironments.clear();
-	}
-
-	/**
-	 * Update alias for objectToHaveAlias.
-	 * 
-	 * @param objectID
-	 *            ObjectID to set alias
-	 * @param alias
-	 *            Alias of the object
-	 * @return number of aliases of the object
-	 * @throws ObjectNotRegisteredException
-	 *             if object is not registered.
-	 * 
-	 */
-	public boolean addAlias(final ObjectID objectID, final String newAlias) throws ObjectNotRegisteredException,
-		AliasAlreadyInUseException {
-
-		// Precondition: all objects must be registered at this point.
-
-		// Null or empty aliases are not allowed
-		if (newAlias == null || newAlias.isEmpty()) {
-			return false;
-		}
-
-		ObjectMetaData objectMD = null;
-		final Set<String> aliases;
-
-		// Check if object is already registered
-		objectMD = this.getObjectBasicMetaData(objectID);
-		if (objectMD == null) {
-			if (DEBUG_ENABLED) {
-				logger.debug("[==Add alias==] Object {} is not registered, cannot add alias.", objectID);
-			}
-			throw new ObjectNotRegisteredException(objectID);
-		}
-
-		// Check there is no other object with same class and alias
-		try {
-			this.getObjectInfoFromAlias(newAlias);
-			if (DEBUG_ENABLED) {
-				logger.debug("[==Add alias==] Alias {} already in use. Cannot add to object {}.", newAlias, objectID);
-			}
-			throw new AliasAlreadyInUseException(newAlias);
-		} catch (final ObjectNotRegisteredException e) {
-			// it's ok, object not registered
-		}
-
-		// If is already a registered object, update aliases
-		final String alias = objectMD.getAlias();
-		if (alias != null && !alias.isEmpty()) {
-			if (DEBUG_ENABLED) {
-				logger.debug("[==Add alias==] Adding alias {} to object {}", alias, objectID);
-			}
-			throw new MultipleAliasesException(alias, newAlias);
-		}
-		// TODO: check repeated aliases (dgasull September 2018)
-
-		metadataDB.updateAliasByID(objectID, alias);
-
-		// Update Object Metadata alias cache
-		objectMDCacheByAlias.put(alias, objectMD);
-		if (DEBUG_ENABLED) {
-			logger.debug("[==Add alias==] Updating cache of metadatas: {} -> {}", objectID, objectMD);
-		}
-
-		objectMDCache.put(objectID, objectMD);
-
-		return true;
 	}
 }

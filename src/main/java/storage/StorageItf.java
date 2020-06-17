@@ -149,11 +149,11 @@ public final class StorageItf {
 			final ObjectID previousVersionOID = versionInfo.getVersionsMapping().get(versionOID);
 			boolean alreadyVersioned = false;
 			if (!versions.containsKey(previousVersionOID)) {
-				alreadyVersioned = true;
 				// No previous version of the same original object exists, add it to the versions list
 				versions.put(versionOID, versionInfo);
 			} else {
 				// Update the version info to map from the last version to the original object
+				alreadyVersioned = true;
 				final Map<ObjectID, ObjectID> oldVersionToOriginal = versions.get(previousVersionOID).getVersionsMapping();
 				final LinkedHashMap<ObjectID, ObjectID> newVersionToOriginal = new LinkedHashMap<>();
 				for (final Entry<ObjectID, ObjectID> newToPrevious : versionInfo.getVersionsMapping().entrySet()) {

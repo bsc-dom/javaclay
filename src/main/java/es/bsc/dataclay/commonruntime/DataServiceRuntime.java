@@ -411,32 +411,27 @@ public final class DataServiceRuntime extends DataClayRuntime {
 		}
 		final SessionID sessionID = checkAndGetSession(new String[] {}, new Object[] {});
 		final DataClayExecutionObject execObject = (DataClayExecutionObject) dcObject;
-		if (alias != null) {
-			// Register object or add a new alias
-			// Add a new alias to a persistent object.
-			// Use cases:
-			// 1 - object was persisted without alias and not yet registered -> we need to
-			// register it with new alias.
-			// 2 - object was persisted and it is already registered -> we only add a new
-			// alias
-			// 3 - object was persisted with an alias and it must be already registered ->
-			// we add a new alias.
-			if (execObject.isPendingToRegister()) {
-				// Use case 1 - register with new alias
-				final RegistrationInfo regInfo = new RegistrationInfo(execObject.getObjectID(),
-						execObject.getMetaClassID(), sessionID, execObject.getDataSetID());
-				// Location of object is 'this' EE.
-				// TODO: Review if we use hint of the object or the hint of the runtime.
-				logicModule.registerObject(regInfo, (ExecutionEnvironmentID) dcObject.getHint(), alias,
-						Langs.LANG_JAVA);
-				execObject.setPendingToRegister(false);
-			} else {
-				// Use cases 2 and 3 - add a new alias
-				// Add new alias.
-				logicModule.addAlias(dcObject.getObjectID(), alias);
+
+		BackendID location = execObject.getHint();
+		if (location == null) {
+			location = optionalDestBackendID;
+			if (location == null) {
+				location = chooseLocation(dcObject, alias);
 			}
 		}
-		return dcObject.getLocation();
+
+		if (alias != null && execObject.isPendingToRegister()) {
+			final RegistrationInfo regInfo = new RegistrationInfo(execObject.getObjectID(),
+					execObject.getMetaClassID(), sessionID, execObject.getDataSetID());
+			// Location of object is 'this' EE.
+			// TODO: Review if we use hint of the object or the hint of the runtime.
+			final ObjectID newID = logicModule.registerObject(regInfo, (ExecutionEnvironmentID) dcObject.getHint(), alias,
+					Langs.LANG_JAVA);
+			this.updateObjectID(dcObject, newID);
+			execObject.setPendingToRegister(false);
+		}
+
+		return location;
 	}
 
 	@Override

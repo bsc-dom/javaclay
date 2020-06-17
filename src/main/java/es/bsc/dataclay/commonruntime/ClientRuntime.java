@@ -83,7 +83,7 @@ public final class ClientRuntime extends DataClayRuntime {
 		}
 
 	}
-	
+
 	@Override
 	public DataClayObject getOrNewPersistentInstance(final MetaClassID classID, final ObjectID objectID,
 			final BackendID hint) {
@@ -149,44 +149,6 @@ public final class ClientRuntime extends DataClayRuntime {
 		return this.dataClayHeapManager;
 	}
 
-	/**
-	 * Choose execution/make persistent location.
-	 * 
-	 * @param dcObject
-	 *            DataClay object.
-	 * @return Location choosen.
-	 */
-	private BackendID chooseLocation(final DataClayObject dcObject, final String alias) {
-		if(alias != null) {
-			try {
-				this.updateObjectID(dcObject, getObjectIDByAlias(alias));
-			}catch(DataClayException e) {
-				// This catch body should never be reached. Exception throws if object already persistent.
-				LOGGER.info("[==Execution==] Unexpected exception on updateObjectID: " + e);
-				throw new RuntimeException(e);
-			}
-		}
-
-		// === HASHCODE EXECUTION LOCATION === //
-		if (DEBUG_ENABLED) {
-			LOGGER.debug("[==Execution==] Using Hash execution location for " + dcObject.getObjectID());
-		}
-
-		BackendID location = getExecutionLocationIDFromHash(dcObject.getObjectID());
-		dcObject.setHint(location);
-		return location;
-	}
-
-	private void updateObjectID(DataClayObject dco, ObjectID newObjectID) throws DataClayException{
-		if(dco.isPersistent()) {
-			throw new DataClayException("Cannot change the id of a persistent object");
-		}
-
-		final ObjectID oldObjectID = dco.getObjectID();
-		dco.setObjectIDUnsafe(newObjectID);
-		dataClayHeapManager.updateObjectID(oldObjectID, newObjectID);
-	}
-
 	@Override
 	protected Object executeRemoteImplementationInternal(final DataClayObject objectInWhichToExec,
 			final ImplementationID implID, final Object[] params) {
@@ -221,7 +183,7 @@ public final class ClientRuntime extends DataClayRuntime {
 		} finally {
 			if (DEBUG_ENABLED) {
 				LOGGER.debug("[==Execution==] ** Finished execution ** For object " + objectInWhichToExec.getObjectID()
-						+ " and implementation " + implID);
+				+ " and implementation " + implID);
 			}
 		}
 	}
@@ -232,25 +194,31 @@ public final class ClientRuntime extends DataClayRuntime {
 		if (DEBUG_ENABLED) {
 			LOGGER.debug("[==MakePersistent==] Starting make persistent of object " + dcObject.getObjectID());
 		}
+
 		final SessionID sessionID = checkAndGetSession(new String[] {}, new Object[] {});
 		BackendID location = dcObject.getHint();
 		if (location == null) {
-			// Choose location if needed
-			// If object is already persistent -> it must have a Hint (location = hint here)
-			// If object is not persistent -> location is choosen (provided backend id or
-			// random, hash...).
 			location = optionalDestBackendID;
 			if (location == null) {
 				location = chooseLocation(dcObject, alias);
 			}
 		}
 
-		// ==== Make persistent === //
 		if (!dcObject.isPersistent()) {
+			// Force registration due to alias
+			if (alias != null) {
+				final RegistrationInfo regInfo = new RegistrationInfo(dcObject.getObjectID(), dcObject.getMetaClassID(),
+						sessionID, dcObject.getDataSetID());
+				// TODO ask DANI
+				// it is important to register the object once we are sure it is in EE.
+				final ObjectID newID = logicModule.registerObject(regInfo, (ExecutionEnvironmentID) location, alias, Langs.LANG_JAVA);
+				this.updateObjectID(dcObject, newID);
+			}
+
 			// Serialize objects
 			dcObject.setMasterLocation(location);
-			final SerializedParametersOrReturn objectsToPersist = this.serializeMakePersistent(location, dcObject, null,
-					recursive);
+
+			final SerializedParametersOrReturn objectsToPersist = this.serializeMakePersistent(location, dcObject, null, recursive);
 
 			// Avoid some race-conditions in communication (make persistent + execute where
 			// execute arrives before).
@@ -270,30 +238,6 @@ public final class ClientRuntime extends DataClayRuntime {
 			// =========================== //
 		}
 
-		// Force registration due to alias
-		if (alias != null) {
-			// Add a new alias to an object.
-			// Use cases:
-			// 1 - object was persisted without alias and not yet registered -> we need to
-			// register it with new alias.
-			// 2 - object was persisted and it is already registered -> we only add a new
-			// alias
-			// 3 - object was persisted with an alias and it must be already registered ->
-			// we add a new alias.
-
-			// From client side, we cannot check if object is REGISTERED or not (we do not
-			// have isPendingToRegister like EE)
-			// Therefore, we call LogicModule with all information for registration.
-			final RegistrationInfo regInfo = new RegistrationInfo(dcObject.getObjectID(), dcObject.getMetaClassID(),
-					sessionID, dcObject.getDataSetID());
-
-			// it is important to register the object once we are sure it is in EE.
-
-			// Warning: logicModule.registerObject function checks if the object was already registered or not,
-			// in case it was, it adds a new alias
-			logicModule.registerObject(regInfo, (ExecutionEnvironmentID) location, alias, Langs.LANG_JAVA);
-
-		}
 		return location;
 	}
 
@@ -324,7 +268,7 @@ public final class ClientRuntime extends DataClayRuntime {
 		// IfaceBitMaps = null. From client stub is controlling it.
 		final SerializedParametersOrReturn serObject = DataClaySerializationLib.serializeParamsOrReturn(wrapList,
 				ifaceBitMaps, this, false, location, !recursive); // no hint volatiles since volatiles are not going to
-		
+
 		if (DEBUG_ENABLED) {
 			LOGGER.debug("[==Serialization==] Serialized " + serObject);
 		}
