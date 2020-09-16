@@ -152,8 +152,6 @@ public final class CfgDataServiceEnvLoader {
 	 */
 	private static DBHandlerConf parseConfiguration(final DBHandlerType dbHandlerType, final String name) {
 		switch(dbHandlerType) {
-		case POSTGRES:
-			return CfgPostgresConnEnvLoader.parsePostgresConn();
 		case SQLITE:
 			return new SQLiteHandlerConfig(name);
 		case NVRAM:

@@ -50,7 +50,6 @@ import es.bsc.dataclay.util.management.namespacemgr.Namespace;
 import es.bsc.dataclay.util.management.sessionmgr.SessionInfo;
 import es.bsc.dataclay.util.management.stubs.StubClassLoader;
 import es.bsc.dataclay.util.management.stubs.StubInfo;
-import es.bsc.dataclay.util.prefetchingspec.PrefetchingSpecGenerator;
 import es.bsc.dataclay.util.tools.java.JavaSpecGenerator;
 
 /**
@@ -915,9 +914,9 @@ public final class ClientManagementLib {
 			final String srcPath, final String libPath) {
 
 		/******** RT: Generate Prefetching Info ********/
-		if (Configuration.Flags.PREFETCHING_ENABLED.getBooleanValue()) {
-			PrefetchingSpecGenerator.generateAndStorePrefetchingSpec(newClasses, classPath, srcPath, libPath);
-		}
+		//if (Configuration.Flags.PREFETCHING_ENABLED.getBooleanValue()) {
+		//	PrefetchingSpecGenerator.generateAndStorePrefetchingSpec(newClasses, classPath, srcPath, libPath);
+		//}
 		/***********************************************/
 
 		final Map<String, MetaClass> result = clientLib.getLogicModuleAPI().newClass(accountID, credentials,

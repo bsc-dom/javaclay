@@ -16,8 +16,6 @@ import org.junit.experimental.categories.Category;
 
 import es.bsc.dataclay.dbhandler.DBHandlerFactory.DBHandlerType;
 import es.bsc.dataclay.dbhandler.sql.SQLHandler;
-import es.bsc.dataclay.dbhandler.sql.postgres.PostgresHandler;
-import es.bsc.dataclay.dbhandler.sql.postgres.PostgresHandlerConf;
 import es.bsc.dataclay.dbhandler.sql.sqlite.SQLiteHandlerConfig;
 import es.bsc.dataclay.util.Configuration.Flags;
 
@@ -39,8 +37,6 @@ public final class SQLHandlerTest {
 
 	private SQLHandler<?> initDBHandler() {
 		switch (dbHandlerType) {
-		case POSTGRES:
-			return new PostgresHandler(new PostgresHandlerConf(HOSTIP, 5432, "postgres", "postgres", "postgres"));
 		case SQLITE:
 			return (SQLHandler<?>) new SQLiteHandlerConfig("test", true).getDBHandler();
 		default:

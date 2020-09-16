@@ -18,7 +18,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.Langs;
-import es.bsc.dataclay.dbhandler.sql.postgres.PostgresHandlerConf;
 import es.bsc.dataclay.exceptions.dbhandler.DbHandlerException;
 import es.bsc.dataclay.exceptions.dbhandler.DbObjectAlreadyExistException;
 import es.bsc.dataclay.exceptions.dbhandler.DbObjectNotExistException;
@@ -1044,7 +1043,7 @@ public final class MetaDataServiceDB {
 				}
 			} catch (final SQLException e) {
 				logger.debug("Exception during insertion of dataClay instance", e);
-				if (e.getMessage().startsWith(PostgresHandlerConf.DUPLICATE_ERROR_PREFIX_MSG)) {
+				if (e.getMessage().startsWith("ERROR: duplicate key value")) {
 					throw new DbObjectAlreadyExistException(dataClayInstance.getDcID());
 				}
 			}
@@ -1180,7 +1179,7 @@ public final class MetaDataServiceDB {
 			try {
 				ps.executeUpdate();
 			} catch (final SQLException e) {
-				if (e.getMessage().startsWith(PostgresHandlerConf.DUPLICATE_ERROR_PREFIX_MSG)) {
+				if (e.getMessage().startsWith("ERROR: duplicate key value")) {
 					return false;
 				}
 			}

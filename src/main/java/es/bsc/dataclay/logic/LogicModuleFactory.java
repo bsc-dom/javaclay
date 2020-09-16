@@ -26,8 +26,6 @@ public class LogicModuleFactory {
 			final String theexposedIPForClient) throws InterruptedException {
 		final DBHandlerType type = (DBHandlerType)Configuration.Flags.DB_HANDLER_TYPE_FOR_LOGICMODULE.getValue();
 		switch(type) {
-		case POSTGRES:
-			return new PostgresLogicModule(name, hostName, port, theexposedIPForClient);
 		case SQLITE:
 			return new SQLiteLogicModule(name, hostName, port, true, theexposedIPForClient);
 		default:

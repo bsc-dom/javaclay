@@ -4,10 +4,8 @@ package es.bsc.dataclay.dbhandler;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
-import es.bsc.dataclay.dbhandler.sql.postgres.PostgresHandler;
 import es.bsc.dataclay.dbhandler.sql.sqlite.SQLiteHandler;
 import es.bsc.dataclay.dbhandler.sql.sqlite.SQLiteHandlerConfig;
-import es.bsc.dataclay.util.configs.CfgPostgresConnEnvLoader;
 
 /**
  * Factory to return instances of specific DBHandlers, according to the provided type.
@@ -30,8 +28,6 @@ public class DBHandlerFactory {
 	 */
 	public static DBHandler getDBHandler(DBHandlerType type) {
 		switch(type){
-			case POSTGRES:
-				return new PostgresHandler(CfgPostgresConnEnvLoader.parsePostgresConn());
 			case SQLITE:
 				return new SQLiteHandler(new SQLiteHandlerConfig("test.db"));
 			case NVRAM:

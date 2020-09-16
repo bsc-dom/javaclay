@@ -5,7 +5,6 @@ import org.apache.commons.dbcp2.BasicDataSource;
 
 import es.bsc.dataclay.dbhandler.DBHandlerFactory.DBHandlerType;
 import es.bsc.dataclay.dbhandler.sql.SQLHandler;
-import es.bsc.dataclay.dbhandler.sql.postgres.PostgresHandlerConf;
 import es.bsc.dataclay.dbhandler.sql.sqlite.SQLiteHandlerConfig;
 import es.bsc.dataclay.util.Configuration.Flags;
 
@@ -29,8 +28,6 @@ public class AbstractManagerTest {
 
 	private SQLHandler<?> initDBHandler() {
 		switch (dbHandlerType) {
-		case POSTGRES:
-			return (SQLHandler<?>) new PostgresHandlerConf(POSTGRES_HOST, POSTGRES_PORT, POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_DBNAME).getDBHandler();
 		case SQLITE:
 			return (SQLHandler<?>) new SQLiteHandlerConfig("test", true).getDBHandler();
 		default:
