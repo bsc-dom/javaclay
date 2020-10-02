@@ -81,7 +81,7 @@ public final class ExecutionByteCodeManager {
 			final DataClayClassTransformer execClassVisitor = new DataClayClassTransformer(remapper,
 					metaclass, null, true);
 			final ClassHeaderTransformer headerTransformer = new ClassHeaderTransformer(execClassVisitor,
-					classDesc, true, parentIsObject);
+					classDesc, true, parentIsObject, renaming);
 			final ClassReader classReader = new ClassReader(metaclass.getJavaClassInfo().getClassByteCode());
 			classReader.accept(headerTransformer, ClassReader.EXPAND_FRAMES);
 		}

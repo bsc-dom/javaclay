@@ -14,15 +14,15 @@ public final class SignatureHeaderTransformer extends SignatureVisitor {
 	/** Indicates it is a super type. */
 	private boolean isSuperType = false;
 
-	/** Signature writer. */
-	private final SignatureWriter sw;
+	/** Signature next. */
+	private final SignatureVisitor sw;
 
 	/**
 	 * DataClaySignatureVisitor constructor.
 	 * @param nextVs
 	 *            Next visitor
 	 */
-	public SignatureHeaderTransformer(final SignatureWriter nextVs) {
+	public SignatureHeaderTransformer(final SignatureVisitor nextVs) {
 		super(Opcodes.ASM7);
 		sw = nextVs;
 	}

@@ -2671,6 +2671,25 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
 			}
 		}
 
+		if (metaClass.getJavaClassInfo() != null) { 
+			for (final Type ifaceInclude : metaClass.getJavaClassInfo().getIncludes()) {  
+				if (ifaceInclude instanceof UserType) {
+					final UserType uType = (UserType) ifaceInclude;
+					if (uType.getClassID() == null) {
+						final String typename = uType.getTypeName();
+						final String typenamespace = uType.getNamespace();
+						if (newClassIDs.get(typenamespace + "$" + typename) == null) {
+							LOGGER.error(
+									"Unable to found implementation subinclude type {}${} in class ids structure",
+									typenamespace, typename);
+						}
+						uType.setClassID(newClassIDs.get(typenamespace + "$" + typename));
+					}
+				}
+			}
+		}
+		
+		
 		// Update parent
 		final UserType parentType = metaClass.getParentType();
 		if (parentType != null) {

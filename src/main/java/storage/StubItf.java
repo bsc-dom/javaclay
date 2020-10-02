@@ -27,4 +27,9 @@ public interface StubItf {
 	 *            alias for the persistent object
 	 */
 	void makePersistent(final String alias);
+	
+	/**
+	 * @brief Make persistent from stub.
+	 */
+	void makePersistent();
 }

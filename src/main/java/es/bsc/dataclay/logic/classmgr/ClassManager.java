@@ -2006,6 +2006,15 @@ public final class ClassManager extends AbstractManager {
 				curMetaClass = this.getClassInfo(curMetaClass.getParentType().getClassID());
 			}
 		}
+		
+		if (metaClass.getJavaClassInfo() != null) {
+			for (final Type ifaceInclude : metaClass.getJavaClassInfo().getIncludes()) {  
+				if (ifaceInclude instanceof UserType) {
+					final UserType utype = (UserType) ifaceInclude;
+					accClass.add(utype.getClassID());
+				}
+			}
+		}
 
 		for (final Operation op : metaClass.getOperations()) {
 			if (op.getReturnType() instanceof UserType) {

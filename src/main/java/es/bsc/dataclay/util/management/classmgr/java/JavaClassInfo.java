@@ -1,13 +1,16 @@
 
 package es.bsc.dataclay.util.management.classmgr.java;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
 import org.yaml.snakeyaml.Yaml;
 
 import es.bsc.dataclay.util.management.classmgr.LanguageDependantClassInfo;
+import es.bsc.dataclay.util.management.classmgr.Type;
 import es.bsc.dataclay.util.yaml.CommonYAML;
 
 /**
@@ -26,6 +29,8 @@ public final class JavaClassInfo implements LanguageDependantClassInfo {
 	private byte[] classByteCode;
 	/** Class modifier. */
 	private int modifier;
+	/** List of sub-types of the type (like arrays, collections...). */
+	private List<Type> includes;
 	
 	/**
 	 * Creates an empty JavaClassInfo
@@ -45,6 +50,7 @@ public final class JavaClassInfo implements LanguageDependantClassInfo {
 		this.setSignature(newsignature);
 		this.setJavaParentInterfaces(new String[] {});
 		this.setClassByteCode(newclassByteCode);
+		this.setIncludes(new ArrayList<Type>());
 	}
 
 	/**
@@ -169,6 +175,23 @@ public final class JavaClassInfo implements LanguageDependantClassInfo {
 	 */
 	public void setModifier(final int themodifier) {
 		this.modifier = themodifier;
+	}
+
+	/**
+	 * Get includes
+	 * @return the includes
+	 */
+	public final List<Type> getIncludes() {
+		return includes;
+	}
+
+	/**
+	 * Set includes
+	 * @param newincludes
+	 *            the includes to set
+	 */
+	public final void setIncludes(final List<Type> newincludes) {
+		this.includes = newincludes;
 	}
 
 }

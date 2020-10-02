@@ -254,14 +254,27 @@ public final class DataClayClassVisitor extends ClassVisitor {
 
 		// == JAVA INTEFACES == //
 		final List<String> javaIfaces = new ArrayList<>();
+		final List<Type> ifaceIncludes = new ArrayList<>();
 		for (final String ifaceName : interfaces) {
 			if (Reflector.isJavaTypeName(ifaceName)) {
 				javaIfaces.add(ifaceName);
+			} else { 
+				final String ifaceTypeName = Reflector.getTypeNameFromInternalName(ifaceName);
+				if (!JavaSpecGenerator.DC_CLASSES.contains(ifaceTypeName)) { 
+					final String ifaceNamespace = this.getClassNamespace(ifaceTypeName);
+					final String ifaceSignature = Reflector.getSignatureFromTypeName(ifaceTypeName);
+					final UserType ifaceSpec = new UserType(ifaceNamespace, ifaceTypeName,
+							ifaceSignature, ifaceSignature, null);
+					ifaceIncludes.add(ifaceSpec);
+
+				}
+				
 			}
 		}
 		final String[] finalJavaIfaces = javaIfaces.toArray(new String[] {});
 		metaClass.getJavaClassInfo().setJavaParentInterfaces(finalJavaIfaces);
 		metaClass.getJavaClassInfo().setModifier(access);
+		metaClass.getJavaClassInfo().setIncludes(ifaceIncludes);
 
 		
 		// Save java interface methods so they cannot be enriched

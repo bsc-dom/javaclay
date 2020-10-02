@@ -72,7 +72,7 @@ public final class StubByteCodeManager {
 			final DataClayClassTransformer stubClassVisitor = new DataClayClassTransformer(classWriter,
 					metaclass, mClassStubInfo, false);
 			final ClassHeaderTransformer headerTransformer = new ClassHeaderTransformer(stubClassVisitor, 
-					classDesc, false, parentIsObject);
+					classDesc, false, parentIsObject, new HashMap<String, String>());
 			final ClassReader classReader = new ClassReader(metaclass.getJavaClassInfo().getClassByteCode());
 			classReader.accept(headerTransformer, ClassReader.EXPAND_FRAMES);		
 		}

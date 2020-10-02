@@ -230,7 +230,7 @@ public class ClassManagerByteCodeTest {
 		final ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_FRAMES);
 		final ClassRemapper classRemapper = new ClassRemapper(classWriter, remapper);
 		final ClassHeaderTransformer headerTransformer = new ClassHeaderTransformer(
-				classRemapper, originalClassName, false, true);
+				classRemapper, originalClassName, false, true, renaming);
 		final ClassReader classReader = new ClassReader(classInputStream);
 		classReader.accept(headerTransformer, 0);
 
@@ -258,7 +258,7 @@ public class ClassManagerByteCodeTest {
 		final InputStream classInputStream = clazz.getResourceAsStream(resourceName);
 		final ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_FRAMES);
 		final ClassHeaderTransformer headerTransformer = new ClassHeaderTransformer(classWriter,
-				originalClassName, false, true);
+				originalClassName, false, true, new HashMap<String, String>());
 		final ClassReader classReader = new ClassReader(classInputStream);
 		classReader.accept(headerTransformer, 0);
 		final byte[] origByteCode = classWriter.toByteArray();
@@ -437,7 +437,7 @@ public class ClassManagerByteCodeTest {
 			final String classDesc = Reflector.getDescriptorFromTypeName(mClass.getName());
 
 			final ClassHeaderTransformer headerTransformer = new ClassHeaderTransformer(stubClassVisitor,
-					classDesc, isExec, mClass.getParentType() == null);
+					classDesc, isExec, mClass.getParentType() == null, renaming);
 			final ClassReader classReader = new ClassReader(mClass.getJavaClassInfo().getClassByteCode());
 			classReader.accept(headerTransformer, ClassReader.EXPAND_FRAMES);
 			final byte[] newByteCode = classWriter.toByteArray();
