@@ -6,3 +6,4 @@
 /state.txt
 .pydevproject
 /.idea/
+*.iml
