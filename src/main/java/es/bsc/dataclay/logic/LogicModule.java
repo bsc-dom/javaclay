@@ -1404,7 +1404,11 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
 		newNamespace.setProviderAccountID(accountID);
 
 		// Create the new namespace
-		return namespaceMgrApi.newNamespace(newNamespace);
+		NamespaceID newNamespaceID = namespaceMgrApi.newNamespace(newNamespace);
+		LOGGER.info("[LOGICMODULE] Created new namespace called " + namespaceName);
+
+		return newNamespaceID;
+
 
 	}
 
