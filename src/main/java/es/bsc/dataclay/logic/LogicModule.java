@@ -11,22 +11,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.rmi.RemoteException;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.BitSet;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Random;
-import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
-import java.util.UUID;
 
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.logging.log4j.LogManager;
@@ -711,10 +697,10 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
 		final StorageLocation storageLoc;
 		try {
 			storageLoc = initRemoteTCPStorageLocation(id, dsName, dsHostname, dsPort);
-		} catch (final InterruptedException ex) {
+		} catch (final Exception ex) {
 			LOGGER.debug("autoregisterDataService error while creating DataService", ex);
 			throw new DataClayRuntimeException(ERRORCODE.DATASERVICE_INIT_ERROR,
-					"Could not create the DataService model in the LogicModule", true);
+					"Could not connect to DataService in the LogicModule", true);
 		}
 		if (storageLoc == null) {
 			throw new DataClayRuntimeException(ERRORCODE.DATASERVICE_INIT_ERROR,
@@ -730,14 +716,17 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
 					+ id.getId());
 		}
 	}
+	
+	@Override
+	public StorageLocationID getStorageLocationID(final String slName) { 
+		return metaDataSrvApi.getStorageLocationID(slName);
+	}
 
 	@Override
 	public StorageLocationID autoregisterEE(final ExecutionEnvironmentID id, final String eeName, 
-			final String eeHostname, final Integer eePort, final Langs language) { 
-
-
-		// Get associated SL 
-		final StorageLocationID slID = metaDataSrvApi.getStorageLocationID(eeName); //produces exception if no SL with name provided.
+			final String eeHostname, final Integer eePort, final Langs language) {
+		
+		final StorageLocationID slID = getStorageLocationID(eeName);
 
 		// ===================== TRY CONNECTION ======================= //
 		// Obtain or Register the Execution Environment
@@ -745,10 +734,10 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
 		try {
 			LOGGER.debug("autoregisterDataService initializing with hostname " + eeHostname + " and port " + eePort);
 			executionEnv = initRemoteTCPExecutionEnvironment(id, eeName, eeHostname, eePort, language);
-		} catch (final InterruptedException ex) {
+		} catch (final Exception ex) {
 			LOGGER.debug("autoregisterDataService interrupted while initializing remote ExecutionEnvironment", ex);
 			throw new DataClayRuntimeException(ERRORCODE.DATASERVICE_INIT_ERROR,
-					"Could not create the DataService ExecutionEnvironment model in the LogicModule", true);
+					"Could not create the DataService ExecutionEnvironment in the LogicModule", true);
 		}
 		// ========== REGISTER ========== //
 		boolean newRegistration = false;
@@ -3904,6 +3893,53 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
 				LOGGER.debug("Exception produced during registration of external dataClay", ex);
 			}
 			return null;
+		}
+	}
+
+	@Override
+	public Tuple<Namespace, Set<MetaClass>> getClassesInNamespace(final String namespaceName)  {
+		NamespaceID namespaceID = this.namespaceMgrApi.getNamespaceID(namespaceName);
+		final Map<MetaClassID, MetaClass> classesToFederate = this.classMgrApi.getInfoOfClassesInNamespace(namespaceID);
+		final Namespace namespaceToFederate = namespaceMgrApi.getNamespaceInfo(namespaceID);
+		Set<MetaClass> metaClassesToFederate = new HashSet<MetaClass>(classesToFederate.values());
+		return new Tuple<Namespace, Set<MetaClass>>(namespaceToFederate, metaClassesToFederate);
+
+	}
+
+	@Override
+	public void registerClassesInNamespaceFromExternalDataClay(final String extNamespaceName, final DataClayInstanceID extDataClayID) {
+
+		// Get all information needed from external dataClay instance
+		LogicModuleAPI externalLogicModule = null;
+		try {
+			externalLogicModule = this.getExternalLogicModule(this.getExternalDataClayInfo(extDataClayID));
+		} catch (InterruptedException e) {
+			throw new RuntimeException(e);
+		}
+		Tuple<Namespace, Set<MetaClass>> toRegister = externalLogicModule.getClassesInNamespace(extNamespaceName);
+		Namespace namespace = toRegister.getFirst();
+		Set<MetaClass> classesToRegister = toRegister.getSecond();
+
+		// Register namespace
+		this.namespaceMgrApi.getDbHandler().store(namespace);
+
+		// Register metaClasses
+		ClassManagerDB classMgrDbHandler = this.classMgrApi.getDbHandler();
+		Set<String> metaClassesToInstall = new HashSet<>();
+		Map<NamespaceID, Namespace> namespaceInfos = new HashMap<>();
+		namespaceInfos.put(namespace.getDataClayID(), namespace);
+		for (MetaClass metaClass : classesToRegister) {
+			classMgrDbHandler.storeMetaClass(metaClass);
+			metaClassesToInstall.add(metaClass.getName());
+		}
+		// Outsource classes to dataservices
+		Langs language = namespace.getLanguage();
+		if (language == Langs.LANG_JAVA) {
+			outsourceClassesDeploymentJava(classesToRegister, metaClassesToInstall, namespaceInfos,
+					null, null);
+		} else if (language == Langs.LANG_PYTHON) {
+			outsourceClassesDeploymentPython(classesToRegister, metaClassesToInstall, namespaceInfos,
+					null, null);
 		}
 	}
 

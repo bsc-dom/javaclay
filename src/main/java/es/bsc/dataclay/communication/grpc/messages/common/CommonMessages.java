@@ -23378,6 +23378,21 @@ public final class CommonMessages {
       }
       /**
        * <code>repeated string alias = 4;</code>
+       * @param value The alias to add.
+       * @return This builder for chaining.
+       */
+      public Builder addAlias(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureAliasIsMutable();
+        alias_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string alias = 4;</code>
        * @param values The alias to add.
        * @return This builder for chaining.
        */
@@ -23396,6 +23411,22 @@ public final class CommonMessages {
       public Builder clearAlias() {
         alias_ = com.google.protobuf.LazyStringArrayList.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000001);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string alias = 4;</code>
+       * @param value The bytes of the alias to add.
+       * @return This builder for chaining.
+       */
+      public Builder addAliasBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        ensureAliasIsMutable();
+        alias_.add(value);
         onChanged();
         return this;
       }

@@ -1953,6 +1953,16 @@ public final class ClientManagementLib {
 			final DataClayInstanceID destinationDataClayID) {
 		clientLib.federateAllObjects(destinationDataClayID);
 	}
+
+	/**
+	 * Get namespace and classes from another dataClay instance and register it into current dataClay
+	 * @param externalNamespace External namespace to get
+	 * @param extDataClayID External dataClay ID
+	 */
+	public static void registerClassesInNamespaceFromExternalDataClay(final String externalNamespace,
+															 final DataClayInstanceID extDataClayID) {
+		clientLib.registerClassesInNamespaceFromExternalDataClay(externalNamespace, extDataClayID);
+	}
 	
 	/**
 	 * Activate tracing in dataClay services

@@ -2489,4 +2489,52 @@ public final class LogicModuleGrpcClient implements LogicModuleAPI {
 		response = this.<PublishAddressRequest, ExceptionInfo>callLogicModule(request, f);
 		Utils.checkIsExc(response);
 	}
+
+	@Override
+	public Tuple<Namespace, Set<MetaClass>> getClassesInNamespace(final String namespaceName) {
+		final GetClassesInNamespaceRequest.Builder requestBuilder = GetClassesInNamespaceRequest.newBuilder();
+		requestBuilder.setNamespaceName(namespaceName);
+		final GetClassesInNamespaceRequest request = requestBuilder.build();
+		final GetClassesInNamespaceResponse response;
+		final Function<GetClassesInNamespaceRequest, GetClassesInNamespaceResponse> f = req -> getBlockingStub()
+				.getClassesInNamespace(req);
+		response = this.<GetClassesInNamespaceRequest, GetClassesInNamespaceResponse>callLogicModule(
+				request, f);
+		Utils.checkIsExc(response.getExcInfo());
+		final Namespace namespace = (Namespace) CommonYAML.getYamlObject().load(response.getNamespaceYaml());
+		final Set<MetaClass> metaClasses = new HashSet<>();
+		for (final String metaClassYaml : response.getMetaClassYamlList()) {
+			metaClasses.add((MetaClass) CommonYAML.getYamlObject().load(metaClassYaml));
+		}
+		return new Tuple<>(namespace, metaClasses);
+	}
+
+	@Override
+	public void registerClassesInNamespaceFromExternalDataClay(final String extNamespaceName, final DataClayInstanceID extDataClayID) {
+		final RegisterClassesInNamespaceFromExternalDataClayRequest.Builder requestBuilder = RegisterClassesInNamespaceFromExternalDataClayRequest.newBuilder();
+		requestBuilder.setNamespaceName(extNamespaceName);
+		requestBuilder.setDataClayID(Utils.getMsgID(extDataClayID));
+		final RegisterClassesInNamespaceFromExternalDataClayRequest request = requestBuilder.build();
+		final ExceptionInfo response;
+		final Function<RegisterClassesInNamespaceFromExternalDataClayRequest, ExceptionInfo> f = req -> getBlockingStub()
+				.registerClassesInNamespaceFromExternalDataClay(req);
+		response = this.<RegisterClassesInNamespaceFromExternalDataClayRequest, ExceptionInfo>callLogicModule(
+				request, f);
+		Utils.checkIsExc(response);
+	}
+
+	@Override
+	public StorageLocationID getStorageLocationID(final String slName) {
+		final GetStorageLocationIDRequest.Builder requestBuilder = GetStorageLocationIDRequest.newBuilder();
+		requestBuilder.setSlName(slName);
+		final GetStorageLocationIDRequest request = requestBuilder.build();
+		final GetStorageLocationIDResponse response;
+		final Function<GetStorageLocationIDRequest, GetStorageLocationIDResponse> f = req -> getBlockingStub()
+				.getStorageLocationID(req);
+		response = this.<GetStorageLocationIDRequest, GetStorageLocationIDResponse>callLogicModule(
+				request, f);
+		Utils.checkIsExc(response.getExcInfo());
+		return Utils.getID(response.getStorageLocationID());
+	}
+
 }

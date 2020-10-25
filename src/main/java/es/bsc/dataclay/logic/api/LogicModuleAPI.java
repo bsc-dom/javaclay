@@ -5,10 +5,7 @@
  */
 package es.bsc.dataclay.logic.api;
 
-import java.util.Calendar;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import es.bsc.dataclay.commonruntime.DataServiceRuntime;
 import es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.Langs;
@@ -63,6 +60,14 @@ public interface LogicModuleAPI {
 	 */
 	void autoregisterSL(final StorageLocationID id, final String dsName, 
 			final String dsHostname, final Integer dsPort);
+
+
+	/**
+	 * Get ID of storage location with name provided
+	 * @param slName Storage Location name
+	 * @return ID of the storage location
+	 */
+	StorageLocationID getStorageLocationID(final String slName);
 	
 	/**
 	 * Register execution environment
@@ -899,6 +904,24 @@ public interface LogicModuleAPI {
 	 * @return info of dataClay instance identified by specified ID. null if it is not registered in the system.
 	 */
 	DataClayInstance getExternalDataClayInfo(final DataClayInstanceID extDataClayID);
+
+	/**
+	 * Get all classes from namespace with name provided in current dataClay.
+	 * @param namespaceName Name of the namespace to get data from
+	 * @return Namespace information, information of all classes registered in namespace and code of classes
+	 * to deploy
+	 */
+	Tuple<Namespace, Set<MetaClass>> getClassesInNamespace(final String namespaceName);
+
+	/**
+	 * Get namespace information, classes to register and code to deploy from another dataClay instance and
+	 * register it into current dataClay
+	 * @param extNamespaceName Name of the external namespace to get
+	 * @param extDataClayID External dataClay ID to get namespace/classes from
+	 * @throws Exception If registration fails
+	 */
+	void registerClassesInNamespaceFromExternalDataClay(final String extNamespaceName, final DataClayInstanceID extDataClayID);
+
 
 	/**
 	 * Method that federates an object with an external dataClay instance

@@ -1772,6 +1772,16 @@ public abstract class DataClayRuntime {
 		final SessionID sessionID = checkAndGetSession(new String[] {}, new Object[] {});
 		logicModule.federateAllObjects(sessionID, destinationDataClayID);
 		// FIXME: ALIAS CACHE SHOULD BE UPDATED FOR OBJECTS WITH ALIAS REMOVED?
+	}
+
+	/**
+	 * Get namespace and classes from another dataClay instance and register it into current dataClay
+	 * @param externalNamespace External namespace to get
+	 * @param extDataClayID External dataClay ID
+	 */
+	public void registerClassesInNamespaceFromExternalDataClay(final String externalNamespace,
+															 final DataClayInstanceID extDataClayID) {
+		logicModule.registerClassesInNamespaceFromExternalDataClay(externalNamespace, extDataClayID);
 
 	}
 	

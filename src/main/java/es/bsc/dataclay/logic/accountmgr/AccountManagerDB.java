@@ -31,10 +31,10 @@ public final class AccountManagerDB {
 	private final BasicDataSource dataSource;
 
 	/**
-	 * MetaDataServiceDB constructor.
+	 * Constructor.
 	 * 
-	 * @param managerName
-	 *            Name of the LM service managing.
+	 * @param dataSource
+	 *            Data base source.
 	 */
 	public AccountManagerDB(final BasicDataSource dataSource) {
 		this.dataSource = dataSource;

@@ -13,6 +13,7 @@ import java.util.HashSet;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
@@ -27,15 +28,21 @@ import es.bsc.dataclay.util.ids.CredentialID;
 import es.bsc.dataclay.util.management.accountmgr.Account;
 import es.bsc.dataclay.util.management.accountmgr.AccountRole;
 import es.bsc.dataclay.util.management.accountmgr.PasswordCredential;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnit;
+import org.mockito.junit.MockitoRule;
 
 /**
  * This class tests the functions of the Accountmanager.
  */
-public final class AccountManagerTest extends AbstractManagerTest{
+public final class AccountManagerTest extends AbstractManagerTest {
+
 	/** Account Manager instance tested. */
 	private AccountManager aman;
+
 	/** A normal Account used in the tests. */
 	private Account newAccount;
+
 	/** A normal Credential used in the tests. */
 	private PasswordCredential newCredential;
 	/** An admin Account used in the tests. */
@@ -43,12 +50,12 @@ public final class AccountManagerTest extends AbstractManagerTest{
 	/** Account specifications used in the tests. */
 	private PasswordCredential adminCredential;
 	/** DbHandler used in tests. */
+	@Mock
 	private AccountManagerDB testdb;
 
-	/**
-	 * @brief This method is executed before each test. It is used create the test database.
-	 * @author dgasull
-	 */
+	@Rule
+	public MockitoRule mockitoRule = MockitoJUnit.rule();
+
 	@Override
 	@Before
 	public void before() {
@@ -70,12 +77,6 @@ public final class AccountManagerTest extends AbstractManagerTest{
 		adminAccount.setDataClayID(new AccountID());
 	}
 
-	/**
-	 * @brief This method is executed after each test. It is used to delete the test database since we are testing the creation of
-	 *        Accounts on it, it is necessary to empty the database before.
-	 * @author dgasull
-	 * @throws Exception
-	 */
 	@Override
 	@After
 	public void after() throws Exception {
@@ -86,8 +87,7 @@ public final class AccountManagerTest extends AbstractManagerTest{
 	}
 
 	/**
-	 * @brief Test method for AccountManager::newAccount(AccountID, Credential, String, AccountRole, Credential)
-	 * @author dgasull
+	 * Test method for AccountManager::newAccount(AccountID, Credential, String, AccountRole, Credential)
 	 * @pre The functions DbHandler::existsObjectByID(java.lang.Object) and DbHandler::store(java.lang.Object) must be tested and
 	 *      correct.
 	 * @post Test the creation and storage of a new Account. \n If the function throws an error the test fails. \n If after the

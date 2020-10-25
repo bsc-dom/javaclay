@@ -92,6 +92,37 @@ public final class LogicModuleGrpc {
     return getAutoregisterEEMethod;
   }
 
+  private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationIDRequest,
+      es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationIDResponse> getGetStorageLocationIDMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "getStorageLocationID",
+      requestType = es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationIDRequest.class,
+      responseType = es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationIDResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationIDRequest,
+      es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationIDResponse> getGetStorageLocationIDMethod() {
+    io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationIDRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationIDResponse> getGetStorageLocationIDMethod;
+    if ((getGetStorageLocationIDMethod = LogicModuleGrpc.getGetStorageLocationIDMethod) == null) {
+      synchronized (LogicModuleGrpc.class) {
+        if ((getGetStorageLocationIDMethod = LogicModuleGrpc.getGetStorageLocationIDMethod) == null) {
+          LogicModuleGrpc.getGetStorageLocationIDMethod = getGetStorageLocationIDMethod =
+              io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationIDRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationIDResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "getStorageLocationID"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationIDRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationIDResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getStorageLocationID"))
+              .build();
+        }
+      }
+    }
+    return getGetStorageLocationIDMethod;
+  }
+
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.UnregisterStorageLocationRequest,
       es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> getUnregisterStorageLocationMethod;
 
@@ -1952,6 +1983,37 @@ public final class LogicModuleGrpc {
     return getGetObjectsMetaDataInfoOfClassForNMMethod;
   }
 
+  private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.AddAliasRequest,
+      es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> getAddAliasMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "addAlias",
+      requestType = es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.AddAliasRequest.class,
+      responseType = es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.AddAliasRequest,
+      es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> getAddAliasMethod() {
+    io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.AddAliasRequest, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> getAddAliasMethod;
+    if ((getAddAliasMethod = LogicModuleGrpc.getAddAliasMethod) == null) {
+      synchronized (LogicModuleGrpc.class) {
+        if ((getAddAliasMethod = LogicModuleGrpc.getAddAliasMethod) == null) {
+          LogicModuleGrpc.getAddAliasMethod = getAddAliasMethod =
+              io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.AddAliasRequest, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "addAlias"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.AddAliasRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.getDefaultInstance()))
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("addAlias"))
+              .build();
+        }
+      }
+    }
+    return getAddAliasMethod;
+  }
+
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectForGCRequest,
       es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> getRegisterObjectFromGCMethod;
 
@@ -2975,6 +3037,68 @@ public final class LogicModuleGrpc {
     return getFederateAllObjectsMethod;
   }
 
+  private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassesInNamespaceRequest,
+      es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassesInNamespaceResponse> getGetClassesInNamespaceMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "getClassesInNamespace",
+      requestType = es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassesInNamespaceRequest.class,
+      responseType = es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassesInNamespaceResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassesInNamespaceRequest,
+      es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassesInNamespaceResponse> getGetClassesInNamespaceMethod() {
+    io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassesInNamespaceRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassesInNamespaceResponse> getGetClassesInNamespaceMethod;
+    if ((getGetClassesInNamespaceMethod = LogicModuleGrpc.getGetClassesInNamespaceMethod) == null) {
+      synchronized (LogicModuleGrpc.class) {
+        if ((getGetClassesInNamespaceMethod = LogicModuleGrpc.getGetClassesInNamespaceMethod) == null) {
+          LogicModuleGrpc.getGetClassesInNamespaceMethod = getGetClassesInNamespaceMethod =
+              io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassesInNamespaceRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassesInNamespaceResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "getClassesInNamespace"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassesInNamespaceRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassesInNamespaceResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getClassesInNamespace"))
+              .build();
+        }
+      }
+    }
+    return getGetClassesInNamespaceMethod;
+  }
+
+  private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterClassesInNamespaceFromExternalDataClayRequest,
+      es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> getRegisterClassesInNamespaceFromExternalDataClayMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "registerClassesInNamespaceFromExternalDataClay",
+      requestType = es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterClassesInNamespaceFromExternalDataClayRequest.class,
+      responseType = es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterClassesInNamespaceFromExternalDataClayRequest,
+      es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> getRegisterClassesInNamespaceFromExternalDataClayMethod() {
+    io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterClassesInNamespaceFromExternalDataClayRequest, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> getRegisterClassesInNamespaceFromExternalDataClayMethod;
+    if ((getRegisterClassesInNamespaceFromExternalDataClayMethod = LogicModuleGrpc.getRegisterClassesInNamespaceFromExternalDataClayMethod) == null) {
+      synchronized (LogicModuleGrpc.class) {
+        if ((getRegisterClassesInNamespaceFromExternalDataClayMethod = LogicModuleGrpc.getRegisterClassesInNamespaceFromExternalDataClayMethod) == null) {
+          LogicModuleGrpc.getRegisterClassesInNamespaceFromExternalDataClayMethod = getRegisterClassesInNamespaceFromExternalDataClayMethod =
+              io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterClassesInNamespaceFromExternalDataClayRequest, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "registerClassesInNamespaceFromExternalDataClay"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterClassesInNamespaceFromExternalDataClayRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.getDefaultInstance()))
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("registerClassesInNamespaceFromExternalDataClay"))
+              .build();
+        }
+      }
+    }
+    return getRegisterClassesInNamespaceFromExternalDataClayMethod;
+  }
+
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStubsRequest,
       es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStubsResponse> getGetStubsMethod;
 
@@ -3548,6 +3672,13 @@ public final class LogicModuleGrpc {
 
     /**
      */
+    public void getStorageLocationID(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationIDRequest request,
+        io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationIDResponse> responseObserver) {
+      asyncUnimplementedUnaryCall(getGetStorageLocationIDMethod(), responseObserver);
+    }
+
+    /**
+     */
     public void unregisterStorageLocation(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.UnregisterStorageLocationRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
       asyncUnimplementedUnaryCall(getUnregisterStorageLocationMethod(), responseObserver);
@@ -4001,6 +4132,13 @@ public final class LogicModuleGrpc {
 
     /**
      */
+    public void addAlias(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.AddAliasRequest request,
+        io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
+      asyncUnimplementedUnaryCall(getAddAliasMethod(), responseObserver);
+    }
+
+    /**
+     */
     public void registerObjectFromGC(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectForGCRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
       asyncUnimplementedUnaryCall(getRegisterObjectFromGCMethod(), responseObserver);
@@ -4240,6 +4378,20 @@ public final class LogicModuleGrpc {
     }
 
     /**
+     */
+    public void getClassesInNamespace(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassesInNamespaceRequest request,
+        io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassesInNamespaceResponse> responseObserver) {
+      asyncUnimplementedUnaryCall(getGetClassesInNamespaceMethod(), responseObserver);
+    }
+
+    /**
+     */
+    public void registerClassesInNamespaceFromExternalDataClay(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterClassesInNamespaceFromExternalDataClayRequest request,
+        io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
+      asyncUnimplementedUnaryCall(getRegisterClassesInNamespaceFromExternalDataClayMethod(), responseObserver);
+    }
+
+    /**
      * <pre>
      * Stubs
      * </pre>
@@ -4395,6 +4547,13 @@ public final class LogicModuleGrpc {
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.AutoRegisterEERequest,
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.AutoRegisterEEResponse>(
                   this, METHODID_AUTOREGISTER_EE)))
+          .addMethod(
+            getGetStorageLocationIDMethod(),
+            asyncUnaryCall(
+              new MethodHandlers<
+                es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationIDRequest,
+                es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationIDResponse>(
+                  this, METHODID_GET_STORAGE_LOCATION_ID)))
           .addMethod(
             getUnregisterStorageLocationMethod(),
             asyncUnaryCall(
@@ -4816,6 +4975,13 @@ public final class LogicModuleGrpc {
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetObjectsMetaDataInfoOfClassForNMResponse>(
                   this, METHODID_GET_OBJECTS_META_DATA_INFO_OF_CLASS_FOR_NM)))
           .addMethod(
+            getAddAliasMethod(),
+            asyncUnaryCall(
+              new MethodHandlers<
+                es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.AddAliasRequest,
+                es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>(
+                  this, METHODID_ADD_ALIAS)))
+          .addMethod(
             getRegisterObjectFromGCMethod(),
             asyncUnaryCall(
               new MethodHandlers<
@@ -5047,6 +5213,20 @@ public final class LogicModuleGrpc {
                 es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>(
                   this, METHODID_FEDERATE_ALL_OBJECTS)))
           .addMethod(
+            getGetClassesInNamespaceMethod(),
+            asyncUnaryCall(
+              new MethodHandlers<
+                es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassesInNamespaceRequest,
+                es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassesInNamespaceResponse>(
+                  this, METHODID_GET_CLASSES_IN_NAMESPACE)))
+          .addMethod(
+            getRegisterClassesInNamespaceFromExternalDataClayMethod(),
+            asyncUnaryCall(
+              new MethodHandlers<
+                es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterClassesInNamespaceFromExternalDataClayRequest,
+                es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>(
+                  this, METHODID_REGISTER_CLASSES_IN_NAMESPACE_FROM_EXTERNAL_DATA_CLAY)))
+          .addMethod(
             getGetStubsMethod(),
             asyncUnaryCall(
               new MethodHandlers<
@@ -5204,6 +5384,14 @@ public final class LogicModuleGrpc {
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.AutoRegisterEEResponse> responseObserver) {
       asyncUnaryCall(
           getChannel().newCall(getAutoregisterEEMethod(), getCallOptions()), request, responseObserver);
+    }
+
+    /**
+     */
+    public void getStorageLocationID(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationIDRequest request,
+        io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationIDResponse> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(getGetStorageLocationIDMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
@@ -5721,6 +5909,14 @@ public final class LogicModuleGrpc {
 
     /**
      */
+    public void addAlias(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.AddAliasRequest request,
+        io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(getAddAliasMethod(), getCallOptions()), request, responseObserver);
+    }
+
+    /**
+     */
     public void registerObjectFromGC(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectForGCRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
       asyncUnaryCall(
@@ -5993,6 +6189,22 @@ public final class LogicModuleGrpc {
     }
 
     /**
+     */
+    public void getClassesInNamespace(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassesInNamespaceRequest request,
+        io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassesInNamespaceResponse> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(getGetClassesInNamespaceMethod(), getCallOptions()), request, responseObserver);
+    }
+
+    /**
+     */
+    public void registerClassesInNamespaceFromExternalDataClay(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterClassesInNamespaceFromExternalDataClayRequest request,
+        io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(getRegisterClassesInNamespaceFromExternalDataClayMethod(), getCallOptions()), request, responseObserver);
+    }
+
+    /**
      * <pre>
      * Stubs
      * </pre>
@@ -6183,6 +6395,13 @@ public final class LogicModuleGrpc {
     public es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.AutoRegisterEEResponse autoregisterEE(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.AutoRegisterEERequest request) {
       return blockingUnaryCall(
           getChannel(), getAutoregisterEEMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
+    public es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationIDResponse getStorageLocationID(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationIDRequest request) {
+      return blockingUnaryCall(
+          getChannel(), getGetStorageLocationIDMethod(), getCallOptions(), request);
     }
 
     /**
@@ -6640,6 +6859,13 @@ public final class LogicModuleGrpc {
 
     /**
      */
+    public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo addAlias(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.AddAliasRequest request) {
+      return blockingUnaryCall(
+          getChannel(), getAddAliasMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo registerObjectFromGC(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectForGCRequest request) {
       return blockingUnaryCall(
           getChannel(), getRegisterObjectFromGCMethod(), getCallOptions(), request);
@@ -6879,6 +7105,20 @@ public final class LogicModuleGrpc {
     }
 
     /**
+     */
+    public es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassesInNamespaceResponse getClassesInNamespace(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassesInNamespaceRequest request) {
+      return blockingUnaryCall(
+          getChannel(), getGetClassesInNamespaceMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
+    public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo registerClassesInNamespaceFromExternalDataClay(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterClassesInNamespaceFromExternalDataClayRequest request) {
+      return blockingUnaryCall(
+          getChannel(), getRegisterClassesInNamespaceFromExternalDataClayMethod(), getCallOptions(), request);
+    }
+
+    /**
      * <pre>
      * Stubs
      * </pre>
@@ -7054,6 +7294,14 @@ public final class LogicModuleGrpc {
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.AutoRegisterEERequest request) {
       return futureUnaryCall(
           getChannel().newCall(getAutoregisterEEMethod(), getCallOptions()), request);
+    }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationIDResponse> getStorageLocationID(
+        es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationIDRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(getGetStorageLocationIDMethod(), getCallOptions()), request);
     }
 
     /**
@@ -7571,6 +7819,14 @@ public final class LogicModuleGrpc {
 
     /**
      */
+    public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> addAlias(
+        es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.AddAliasRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(getAddAliasMethod(), getCallOptions()), request);
+    }
+
+    /**
+     */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> registerObjectFromGC(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectForGCRequest request) {
       return futureUnaryCall(
@@ -7843,6 +8099,22 @@ public final class LogicModuleGrpc {
     }
 
     /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassesInNamespaceResponse> getClassesInNamespace(
+        es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassesInNamespaceRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(getGetClassesInNamespaceMethod(), getCallOptions()), request);
+    }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> registerClassesInNamespaceFromExternalDataClay(
+        es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterClassesInNamespaceFromExternalDataClayRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(getRegisterClassesInNamespaceFromExternalDataClayMethod(), getCallOptions()), request);
+    }
+
+    /**
      * <pre>
      * Stubs
      * </pre>
@@ -8002,116 +8274,120 @@ public final class LogicModuleGrpc {
 
   private static final int METHODID_AUTOREGISTER_SL = 0;
   private static final int METHODID_AUTOREGISTER_EE = 1;
-  private static final int METHODID_UNREGISTER_STORAGE_LOCATION = 2;
-  private static final int METHODID_UNREGISTER_EXECUTION_ENVIRONMENT = 3;
-  private static final int METHODID_CHECK_ALIVE = 4;
-  private static final int METHODID_PERFORM_SET_OF_NEW_ACCOUNTS = 5;
-  private static final int METHODID_PERFORM_SET_OF_OPERATIONS = 6;
-  private static final int METHODID_PUBLISH_ADDRESS = 7;
-  private static final int METHODID_NEW_ACCOUNT_NO_ADMIN = 8;
-  private static final int METHODID_NEW_ACCOUNT = 9;
-  private static final int METHODID_GET_ACCOUNT_ID = 10;
-  private static final int METHODID_GET_ACCOUNT_LIST = 11;
-  private static final int METHODID_NEW_SESSION = 12;
-  private static final int METHODID_GET_INFO_OF_SESSION_FOR_DS = 13;
-  private static final int METHODID_NEW_NAMESPACE = 14;
-  private static final int METHODID_REMOVE_NAMESPACE = 15;
-  private static final int METHODID_GET_NAMESPACE_ID = 16;
-  private static final int METHODID_GET_NAMESPACE_LANG = 17;
-  private static final int METHODID_GET_OBJECT_DATA_SET_ID = 18;
-  private static final int METHODID_IMPORT_INTERFACE = 19;
-  private static final int METHODID_IMPORT_CONTRACT = 20;
-  private static final int METHODID_GET_INFO_OF_CLASSES_IN_NAMESPACE = 21;
-  private static final int METHODID_GET_IMPORTED_CLASSES_INFO_IN_NAMESPACE = 22;
-  private static final int METHODID_GET_CLASS_IDFROM_IMPORT = 23;
-  private static final int METHODID_GET_NAMESPACES = 24;
-  private static final int METHODID_NEW_DATA_SET = 25;
-  private static final int METHODID_REMOVE_DATA_SET = 26;
-  private static final int METHODID_GET_DATA_SET_ID = 27;
-  private static final int METHODID_CHECK_DATA_SET_IS_PUBLIC = 28;
-  private static final int METHODID_GET_PUBLIC_DATA_SETS = 29;
-  private static final int METHODID_GET_ACCOUNT_DATA_SETS = 30;
-  private static final int METHODID_NEW_CLASS = 31;
-  private static final int METHODID_NEW_CLASS_ID = 32;
-  private static final int METHODID_REMOVE_CLASS = 33;
-  private static final int METHODID_REMOVE_OPERATION = 34;
-  private static final int METHODID_REMOVE_IMPLEMENTATION = 35;
-  private static final int METHODID_GET_OPERATION_ID = 36;
-  private static final int METHODID_GET_PROPERTY_ID = 37;
-  private static final int METHODID_GET_CLASS_ID = 38;
-  private static final int METHODID_GET_CLASS_INFO = 39;
-  private static final int METHODID_NEW_CONTRACT = 40;
-  private static final int METHODID_REGISTER_TO_PUBLIC_CONTRACT = 41;
-  private static final int METHODID_REGISTER_TO_PUBLIC_CONTRACT_OF_NAMESPACE = 42;
-  private static final int METHODID_GET_CONTRACT_IDS_OF_APPLICANT = 43;
-  private static final int METHODID_GET_CONTRACT_IDS_OF_PROVIDER = 44;
-  private static final int METHODID_GET_CONTRACT_IDS_OF_APPLICANT_WITH_PROVIDER = 45;
-  private static final int METHODID_NEW_DATA_CONTRACT = 46;
-  private static final int METHODID_REGISTER_TO_PUBLIC_DATA_CONTRACT = 47;
-  private static final int METHODID_GET_DATA_CONTRACT_IDS_OF_APPLICANT = 48;
-  private static final int METHODID_GET_DATA_CONTRACT_IDS_OF_PROVIDER = 49;
-  private static final int METHODID_GET_DATA_CONTRACT_INFO_OF_APPLICANT_WITH_PROVIDER = 50;
-  private static final int METHODID_NEW_INTERFACE = 51;
-  private static final int METHODID_GET_INTERFACE_INFO = 52;
-  private static final int METHODID_REMOVE_INTERFACE = 53;
-  private static final int METHODID_GET_EXECUTION_ENVIRONMENTS_INFO = 54;
-  private static final int METHODID_GET_EXECUTION_ENVIRONMENTS_NAMES = 55;
-  private static final int METHODID_GET_EXECUTION_ENVIRONMENT_FOR_DS = 56;
-  private static final int METHODID_GET_STORAGE_LOCATION_FOR_DS = 57;
-  private static final int METHODID_GET_OBJECT_INFO = 58;
-  private static final int METHODID_GET_OBJECT_FROM_ALIAS = 59;
-  private static final int METHODID_DELETE_ALIAS = 60;
-  private static final int METHODID_GET_OBJECTS_META_DATA_INFO_OF_CLASS_FOR_NM = 61;
-  private static final int METHODID_REGISTER_OBJECT_FROM_GC = 62;
-  private static final int METHODID_UNREGISTER_OBJECTS = 63;
-  private static final int METHODID_REGISTER_OBJECT = 64;
-  private static final int METHODID_SET_DATA_SET_IDFROM_GARBAGE_COLLECTOR = 65;
-  private static final int METHODID_SET_DATA_SET_ID = 66;
-  private static final int METHODID_NEW_VERSION = 67;
-  private static final int METHODID_CONSOLIDATE_VERSION = 68;
-  private static final int METHODID_NEW_REPLICA = 69;
-  private static final int METHODID_MOVE_OBJECT = 70;
-  private static final int METHODID_SET_OBJECT_READ_ONLY = 71;
-  private static final int METHODID_SET_OBJECT_READ_WRITE = 72;
-  private static final int METHODID_GET_METADATA_BY_OID = 73;
-  private static final int METHODID_EXECUTE_IMPLEMENTATION = 74;
-  private static final int METHODID_EXECUTE_METHOD_ON_TARGET = 75;
-  private static final int METHODID_SYNCHRONIZE_FEDERATED_OBJECT = 76;
-  private static final int METHODID_GET_DATA_CLAY_ID = 77;
-  private static final int METHODID_REGISTER_EXTERNAL_DATA_CLAY = 78;
-  private static final int METHODID_REGISTER_EXTERNAL_DATA_CLAY_OVERRIDE_AUTHORITY = 79;
-  private static final int METHODID_NOTIFY_REGISTRATION_OF_EXTERNAL_DATA_CLAY = 80;
-  private static final int METHODID_GET_EXTERNAL_DATA_CLAY_INFO = 81;
-  private static final int METHODID_GET_EXTERNAL_DATACLAY_ID = 82;
-  private static final int METHODID_FEDERATE_OBJECT = 83;
-  private static final int METHODID_UNFEDERATE_OBJECT = 84;
-  private static final int METHODID_NOTIFY_UNFEDERATED_OBJECTS = 85;
-  private static final int METHODID_NOTIFY_FEDERATED_OBJECTS = 86;
-  private static final int METHODID_CHECK_OBJECT_IS_FEDERATED_WITH_DATA_CLAY_INSTANCE = 87;
-  private static final int METHODID_GET_DATA_CLAYS_OBJECT_IS_FEDERATED_WITH = 88;
-  private static final int METHODID_GET_EXTERNAL_SOURCE_DATA_CLAY_OF_OBJECT = 89;
-  private static final int METHODID_UNFEDERATE_ALL_OBJECTS = 90;
-  private static final int METHODID_UNFEDERATE_ALL_OBJECTS_WITH_ALL_DCS = 91;
-  private static final int METHODID_UNFEDERATE_OBJECT_WITH_ALL_DCS = 92;
-  private static final int METHODID_MIGRATE_FEDERATED_OBJECTS = 93;
-  private static final int METHODID_FEDERATE_ALL_OBJECTS = 94;
-  private static final int METHODID_GET_STUBS = 95;
-  private static final int METHODID_GET_BABEL_STUBS = 96;
-  private static final int METHODID_REGISTER_ECA = 97;
-  private static final int METHODID_ADVISE_EVENT = 98;
-  private static final int METHODID_IS_PREFETCHING_ENABLED = 99;
-  private static final int METHODID_GET_CLASS_NAME_FOR_DS = 100;
-  private static final int METHODID_GET_CLASS_NAME_AND_NAMESPACE_FOR_DS = 101;
-  private static final int METHODID_GET_CONTRACT_IDOF_DATA_CLAY_PROVIDER = 102;
-  private static final int METHODID_OBJECT_EXISTS_IN_DATA_CLAY = 103;
-  private static final int METHODID_CLOSE_SESSION = 104;
-  private static final int METHODID_GET_METADATA_BY_OIDFOR_DS = 105;
-  private static final int METHODID_ACTIVATE_TRACING = 106;
-  private static final int METHODID_DEACTIVATE_TRACING = 107;
-  private static final int METHODID_GET_TRACES = 108;
-  private static final int METHODID_CLEAN_META_DATA_CACHES = 109;
-  private static final int METHODID_CLOSE_MANAGER_DB = 110;
-  private static final int METHODID_CLOSE_DB = 111;
+  private static final int METHODID_GET_STORAGE_LOCATION_ID = 2;
+  private static final int METHODID_UNREGISTER_STORAGE_LOCATION = 3;
+  private static final int METHODID_UNREGISTER_EXECUTION_ENVIRONMENT = 4;
+  private static final int METHODID_CHECK_ALIVE = 5;
+  private static final int METHODID_PERFORM_SET_OF_NEW_ACCOUNTS = 6;
+  private static final int METHODID_PERFORM_SET_OF_OPERATIONS = 7;
+  private static final int METHODID_PUBLISH_ADDRESS = 8;
+  private static final int METHODID_NEW_ACCOUNT_NO_ADMIN = 9;
+  private static final int METHODID_NEW_ACCOUNT = 10;
+  private static final int METHODID_GET_ACCOUNT_ID = 11;
+  private static final int METHODID_GET_ACCOUNT_LIST = 12;
+  private static final int METHODID_NEW_SESSION = 13;
+  private static final int METHODID_GET_INFO_OF_SESSION_FOR_DS = 14;
+  private static final int METHODID_NEW_NAMESPACE = 15;
+  private static final int METHODID_REMOVE_NAMESPACE = 16;
+  private static final int METHODID_GET_NAMESPACE_ID = 17;
+  private static final int METHODID_GET_NAMESPACE_LANG = 18;
+  private static final int METHODID_GET_OBJECT_DATA_SET_ID = 19;
+  private static final int METHODID_IMPORT_INTERFACE = 20;
+  private static final int METHODID_IMPORT_CONTRACT = 21;
+  private static final int METHODID_GET_INFO_OF_CLASSES_IN_NAMESPACE = 22;
+  private static final int METHODID_GET_IMPORTED_CLASSES_INFO_IN_NAMESPACE = 23;
+  private static final int METHODID_GET_CLASS_IDFROM_IMPORT = 24;
+  private static final int METHODID_GET_NAMESPACES = 25;
+  private static final int METHODID_NEW_DATA_SET = 26;
+  private static final int METHODID_REMOVE_DATA_SET = 27;
+  private static final int METHODID_GET_DATA_SET_ID = 28;
+  private static final int METHODID_CHECK_DATA_SET_IS_PUBLIC = 29;
+  private static final int METHODID_GET_PUBLIC_DATA_SETS = 30;
+  private static final int METHODID_GET_ACCOUNT_DATA_SETS = 31;
+  private static final int METHODID_NEW_CLASS = 32;
+  private static final int METHODID_NEW_CLASS_ID = 33;
+  private static final int METHODID_REMOVE_CLASS = 34;
+  private static final int METHODID_REMOVE_OPERATION = 35;
+  private static final int METHODID_REMOVE_IMPLEMENTATION = 36;
+  private static final int METHODID_GET_OPERATION_ID = 37;
+  private static final int METHODID_GET_PROPERTY_ID = 38;
+  private static final int METHODID_GET_CLASS_ID = 39;
+  private static final int METHODID_GET_CLASS_INFO = 40;
+  private static final int METHODID_NEW_CONTRACT = 41;
+  private static final int METHODID_REGISTER_TO_PUBLIC_CONTRACT = 42;
+  private static final int METHODID_REGISTER_TO_PUBLIC_CONTRACT_OF_NAMESPACE = 43;
+  private static final int METHODID_GET_CONTRACT_IDS_OF_APPLICANT = 44;
+  private static final int METHODID_GET_CONTRACT_IDS_OF_PROVIDER = 45;
+  private static final int METHODID_GET_CONTRACT_IDS_OF_APPLICANT_WITH_PROVIDER = 46;
+  private static final int METHODID_NEW_DATA_CONTRACT = 47;
+  private static final int METHODID_REGISTER_TO_PUBLIC_DATA_CONTRACT = 48;
+  private static final int METHODID_GET_DATA_CONTRACT_IDS_OF_APPLICANT = 49;
+  private static final int METHODID_GET_DATA_CONTRACT_IDS_OF_PROVIDER = 50;
+  private static final int METHODID_GET_DATA_CONTRACT_INFO_OF_APPLICANT_WITH_PROVIDER = 51;
+  private static final int METHODID_NEW_INTERFACE = 52;
+  private static final int METHODID_GET_INTERFACE_INFO = 53;
+  private static final int METHODID_REMOVE_INTERFACE = 54;
+  private static final int METHODID_GET_EXECUTION_ENVIRONMENTS_INFO = 55;
+  private static final int METHODID_GET_EXECUTION_ENVIRONMENTS_NAMES = 56;
+  private static final int METHODID_GET_EXECUTION_ENVIRONMENT_FOR_DS = 57;
+  private static final int METHODID_GET_STORAGE_LOCATION_FOR_DS = 58;
+  private static final int METHODID_GET_OBJECT_INFO = 59;
+  private static final int METHODID_GET_OBJECT_FROM_ALIAS = 60;
+  private static final int METHODID_DELETE_ALIAS = 61;
+  private static final int METHODID_GET_OBJECTS_META_DATA_INFO_OF_CLASS_FOR_NM = 62;
+  private static final int METHODID_ADD_ALIAS = 63;
+  private static final int METHODID_REGISTER_OBJECT_FROM_GC = 64;
+  private static final int METHODID_UNREGISTER_OBJECTS = 65;
+  private static final int METHODID_REGISTER_OBJECT = 66;
+  private static final int METHODID_SET_DATA_SET_IDFROM_GARBAGE_COLLECTOR = 67;
+  private static final int METHODID_SET_DATA_SET_ID = 68;
+  private static final int METHODID_NEW_VERSION = 69;
+  private static final int METHODID_CONSOLIDATE_VERSION = 70;
+  private static final int METHODID_NEW_REPLICA = 71;
+  private static final int METHODID_MOVE_OBJECT = 72;
+  private static final int METHODID_SET_OBJECT_READ_ONLY = 73;
+  private static final int METHODID_SET_OBJECT_READ_WRITE = 74;
+  private static final int METHODID_GET_METADATA_BY_OID = 75;
+  private static final int METHODID_EXECUTE_IMPLEMENTATION = 76;
+  private static final int METHODID_EXECUTE_METHOD_ON_TARGET = 77;
+  private static final int METHODID_SYNCHRONIZE_FEDERATED_OBJECT = 78;
+  private static final int METHODID_GET_DATA_CLAY_ID = 79;
+  private static final int METHODID_REGISTER_EXTERNAL_DATA_CLAY = 80;
+  private static final int METHODID_REGISTER_EXTERNAL_DATA_CLAY_OVERRIDE_AUTHORITY = 81;
+  private static final int METHODID_NOTIFY_REGISTRATION_OF_EXTERNAL_DATA_CLAY = 82;
+  private static final int METHODID_GET_EXTERNAL_DATA_CLAY_INFO = 83;
+  private static final int METHODID_GET_EXTERNAL_DATACLAY_ID = 84;
+  private static final int METHODID_FEDERATE_OBJECT = 85;
+  private static final int METHODID_UNFEDERATE_OBJECT = 86;
+  private static final int METHODID_NOTIFY_UNFEDERATED_OBJECTS = 87;
+  private static final int METHODID_NOTIFY_FEDERATED_OBJECTS = 88;
+  private static final int METHODID_CHECK_OBJECT_IS_FEDERATED_WITH_DATA_CLAY_INSTANCE = 89;
+  private static final int METHODID_GET_DATA_CLAYS_OBJECT_IS_FEDERATED_WITH = 90;
+  private static final int METHODID_GET_EXTERNAL_SOURCE_DATA_CLAY_OF_OBJECT = 91;
+  private static final int METHODID_UNFEDERATE_ALL_OBJECTS = 92;
+  private static final int METHODID_UNFEDERATE_ALL_OBJECTS_WITH_ALL_DCS = 93;
+  private static final int METHODID_UNFEDERATE_OBJECT_WITH_ALL_DCS = 94;
+  private static final int METHODID_MIGRATE_FEDERATED_OBJECTS = 95;
+  private static final int METHODID_FEDERATE_ALL_OBJECTS = 96;
+  private static final int METHODID_GET_CLASSES_IN_NAMESPACE = 97;
+  private static final int METHODID_REGISTER_CLASSES_IN_NAMESPACE_FROM_EXTERNAL_DATA_CLAY = 98;
+  private static final int METHODID_GET_STUBS = 99;
+  private static final int METHODID_GET_BABEL_STUBS = 100;
+  private static final int METHODID_REGISTER_ECA = 101;
+  private static final int METHODID_ADVISE_EVENT = 102;
+  private static final int METHODID_IS_PREFETCHING_ENABLED = 103;
+  private static final int METHODID_GET_CLASS_NAME_FOR_DS = 104;
+  private static final int METHODID_GET_CLASS_NAME_AND_NAMESPACE_FOR_DS = 105;
+  private static final int METHODID_GET_CONTRACT_IDOF_DATA_CLAY_PROVIDER = 106;
+  private static final int METHODID_OBJECT_EXISTS_IN_DATA_CLAY = 107;
+  private static final int METHODID_CLOSE_SESSION = 108;
+  private static final int METHODID_GET_METADATA_BY_OIDFOR_DS = 109;
+  private static final int METHODID_ACTIVATE_TRACING = 110;
+  private static final int METHODID_DEACTIVATE_TRACING = 111;
+  private static final int METHODID_GET_TRACES = 112;
+  private static final int METHODID_CLEAN_META_DATA_CACHES = 113;
+  private static final int METHODID_CLOSE_MANAGER_DB = 114;
+  private static final int METHODID_CLOSE_DB = 115;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -8137,6 +8413,10 @@ public final class LogicModuleGrpc {
         case METHODID_AUTOREGISTER_EE:
           serviceImpl.autoregisterEE((es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.AutoRegisterEERequest) request,
               (io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.AutoRegisterEEResponse>) responseObserver);
+          break;
+        case METHODID_GET_STORAGE_LOCATION_ID:
+          serviceImpl.getStorageLocationID((es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationIDRequest) request,
+              (io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationIDResponse>) responseObserver);
           break;
         case METHODID_UNREGISTER_STORAGE_LOCATION:
           serviceImpl.unregisterStorageLocation((es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.UnregisterStorageLocationRequest) request,
@@ -8378,6 +8658,10 @@ public final class LogicModuleGrpc {
           serviceImpl.getObjectsMetaDataInfoOfClassForNM((es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetObjectsMetaDataInfoOfClassForNMRequest) request,
               (io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetObjectsMetaDataInfoOfClassForNMResponse>) responseObserver);
           break;
+        case METHODID_ADD_ALIAS:
+          serviceImpl.addAlias((es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.AddAliasRequest) request,
+              (io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>) responseObserver);
+          break;
         case METHODID_REGISTER_OBJECT_FROM_GC:
           serviceImpl.registerObjectFromGC((es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectForGCRequest) request,
               (io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>) responseObserver);
@@ -8508,6 +8792,14 @@ public final class LogicModuleGrpc {
           break;
         case METHODID_FEDERATE_ALL_OBJECTS:
           serviceImpl.federateAllObjects((es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.FederateAllObjectsRequest) request,
+              (io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>) responseObserver);
+          break;
+        case METHODID_GET_CLASSES_IN_NAMESPACE:
+          serviceImpl.getClassesInNamespace((es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassesInNamespaceRequest) request,
+              (io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassesInNamespaceResponse>) responseObserver);
+          break;
+        case METHODID_REGISTER_CLASSES_IN_NAMESPACE_FROM_EXTERNAL_DATA_CLAY:
+          serviceImpl.registerClassesInNamespaceFromExternalDataClay((es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterClassesInNamespaceFromExternalDataClayRequest) request,
               (io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>) responseObserver);
           break;
         case METHODID_GET_STUBS:
@@ -8641,6 +8933,7 @@ public final class LogicModuleGrpc {
               .setSchemaDescriptor(new LogicModuleFileDescriptorSupplier())
               .addMethod(getAutoregisterSLMethod())
               .addMethod(getAutoregisterEEMethod())
+              .addMethod(getGetStorageLocationIDMethod())
               .addMethod(getUnregisterStorageLocationMethod())
               .addMethod(getUnregisterExecutionEnvironmentMethod())
               .addMethod(getCheckAliveMethod())
@@ -8701,6 +8994,7 @@ public final class LogicModuleGrpc {
               .addMethod(getGetObjectFromAliasMethod())
               .addMethod(getDeleteAliasMethod())
               .addMethod(getGetObjectsMetaDataInfoOfClassForNMMethod())
+              .addMethod(getAddAliasMethod())
               .addMethod(getRegisterObjectFromGCMethod())
               .addMethod(getUnregisterObjectsMethod())
               .addMethod(getRegisterObjectMethod())
@@ -8734,6 +9028,8 @@ public final class LogicModuleGrpc {
               .addMethod(getUnfederateObjectWithAllDCsMethod())
               .addMethod(getMigrateFederatedObjectsMethod())
               .addMethod(getFederateAllObjectsMethod())
+              .addMethod(getGetClassesInNamespaceMethod())
+              .addMethod(getRegisterClassesInNamespaceFromExternalDataClayMethod())
               .addMethod(getGetStubsMethod())
               .addMethod(getGetBabelStubsMethod())
               .addMethod(getRegisterECAMethod())

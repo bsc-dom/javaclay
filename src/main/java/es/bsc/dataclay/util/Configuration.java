@@ -445,9 +445,15 @@ public final class Configuration {
 				}
 			} else {
 				LOGGER.debug("Looking for env variable set in global.properties: {}", this.name());
-				final String strVal = testFlagsProps.getProperty(this.name());
+				String strVal = testFlagsProps.getProperty(this.name());
 				if (strVal != null) {
 					LOGGER.debug("Found environment variable set in global.properties: {}={}", this.name(), strVal);
+				} else {
+					strVal = ProcessEnvironment.getInstance().get(this.name());
+					LOGGER.debug("Found environment variable defined: {}={}", this.name(), strVal);
+				}
+				
+				if (strVal != null) {
 					switch (valueType) {
 					case BOOLEAN:
 						value = Boolean.valueOf(strVal);
@@ -482,7 +488,7 @@ public final class Configuration {
 					default:
 						throw new Exception("Wrong value Type: " + valueType);
 					}
-				} else { 
+				} else {
 					LOGGER.debug("Not found environment variable set in global.properties, using default: {}={}", this.name(), value);
 				}
 			}

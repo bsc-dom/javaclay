@@ -2494,4 +2494,69 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 			responseObserver.onCompleted();
 		}
 	}
+
+	@Override
+	public void getClassesInNamespace(final GetClassesInNamespaceRequest request,
+								  final StreamObserver<GetClassesInNamespaceResponse> responseObserver) {
+		try {
+
+			Tuple<Namespace, Set<MetaClass>> result = logicModule.getClassesInNamespace(request.getNamespaceName());
+			Namespace namespace = result.getFirst();
+			Set<MetaClass> metaClasses = result.getSecond();
+			final GetClassesInNamespaceResponse.Builder builder = GetClassesInNamespaceResponse.newBuilder();
+			builder.setNamespaceYaml(CommonYAML.getYamlObject().dump(namespace));
+			for (final MetaClass mClass : metaClasses) {
+				builder.addMetaClassYaml(CommonYAML.getYamlObject().dump(mClass));
+			}
+
+			final GetClassesInNamespaceResponse resp = builder.build();
+			responseObserver.onNext(resp);
+			responseObserver.onCompleted();
+
+		} catch (final Exception e) {
+			final GetClassesInNamespaceResponse.Builder builder = GetClassesInNamespaceResponse.newBuilder();
+			builder.setExcInfo(Utils.serializeException(e));
+			final GetClassesInNamespaceResponse resp = builder.build();
+			responseObserver.onNext(resp);
+			responseObserver.onCompleted();
+		}
+	}
+
+	@Override
+	public void registerClassesInNamespaceFromExternalDataClay(final RegisterClassesInNamespaceFromExternalDataClayRequest request,
+									   final StreamObserver<ExceptionInfo> responseObserver) {
+		try {
+			logicModule.registerClassesInNamespaceFromExternalDataClay(request.getNamespaceName(),
+					Utils.getID(request.getDataClayID()));
+			Utils.returnExceptionInfoMessage(responseObserver);
+			responseObserver.onCompleted();
+
+		} catch (final Exception e) {
+			final ExceptionInfo resp = Utils.serializeException(e);
+			responseObserver.onNext(resp);
+			responseObserver.onCompleted();
+		}
+	}
+
+
+	@Override
+	public void getStorageLocationID(final GetStorageLocationIDRequest request,
+									  final StreamObserver<GetStorageLocationIDResponse> responseObserver) {
+		try {
+
+			StorageLocationID result = logicModule.getStorageLocationID(request.getSlName());
+			final GetStorageLocationIDResponse resp = GetStorageLocationIDResponse.newBuilder()
+					.setStorageLocationID(Utils.getMsgID(result)).build();
+			responseObserver.onNext(resp);
+			responseObserver.onCompleted();
+
+		} catch (final Exception e) {
+			final GetStorageLocationIDResponse.Builder builder = GetStorageLocationIDResponse.newBuilder();
+			builder.setExcInfo(Utils.serializeException(e));
+			final GetStorageLocationIDResponse resp = builder.build();
+			responseObserver.onNext(resp);
+			responseObserver.onCompleted();
+		}
+	}
+
 }
