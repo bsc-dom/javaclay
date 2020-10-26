@@ -1128,13 +1128,13 @@ public final class DataClay {
 	}
 
 	/**
-	 * Get namespace and classes from another dataClay instance and register it into current dataClay
+	 * Import classes in namespace specified from an external dataClay
 	 * @param externalNamespace External namespace to get
 	 * @param extDataClayID External dataClay ID
 	 */
-	public static void registerClassesInNamespaceFromExternalDataClay(final String externalNamespace,
+	public static void importModelsFromExternalDataClay(final String externalNamespace,
 															 final DataClayInstanceID extDataClayID) {
-		ClientManagementLib.registerClassesInNamespaceFromExternalDataClay(externalNamespace, extDataClayID);
+		ClientManagementLib.importModelsFromExternalDataClay(externalNamespace, extDataClayID);
 	}
 
 }

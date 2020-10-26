@@ -2523,10 +2523,10 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 	}
 
 	@Override
-	public void registerClassesInNamespaceFromExternalDataClay(final RegisterClassesInNamespaceFromExternalDataClayRequest request,
+	public void importModelsFromExternalDataClay(final ImportModelsFromExternalDataClayRequest request,
 									   final StreamObserver<ExceptionInfo> responseObserver) {
 		try {
-			logicModule.registerClassesInNamespaceFromExternalDataClay(request.getNamespaceName(),
+			logicModule.importModelsFromExternalDataClay(request.getNamespaceName(),
 					Utils.getID(request.getDataClayID()));
 			Utils.returnExceptionInfoMessage(responseObserver);
 			responseObserver.onCompleted();
@@ -2554,6 +2554,58 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 			final GetStorageLocationIDResponse.Builder builder = GetStorageLocationIDResponse.newBuilder();
 			builder.setExcInfo(Utils.serializeException(e));
 			final GetStorageLocationIDResponse resp = builder.build();
+			responseObserver.onNext(resp);
+			responseObserver.onCompleted();
+		}
+	}
+
+	@Override
+	public void notifyExecutionEnvironmentShutdown(final NotifyExecutionEnvironmentShutdownRequest request,
+												 final StreamObserver<ExceptionInfo> responseObserver) {
+		try {
+			logicModule.notifyExecutionEnvironmentShutdown(
+					Utils.getID(request.getExecutionEnvironmentID()));
+			Utils.returnExceptionInfoMessage(responseObserver);
+			responseObserver.onCompleted();
+
+		} catch (final Exception e) {
+			final ExceptionInfo resp = Utils.serializeException(e);
+			responseObserver.onNext(resp);
+			responseObserver.onCompleted();
+		}
+	}
+
+	@Override
+	public void notifyStorageLocationShutdown(final NotifyStorageLocationShutdownRequest request,
+												   final StreamObserver<ExceptionInfo> responseObserver) {
+		try {
+			logicModule.notifyStorageLocationShutdown(
+					Utils.getID(request.getStorageLocationID()));
+			Utils.returnExceptionInfoMessage(responseObserver);
+			responseObserver.onCompleted();
+
+		} catch (final Exception e) {
+			final ExceptionInfo resp = Utils.serializeException(e);
+			responseObserver.onNext(resp);
+			responseObserver.onCompleted();
+		}
+	}
+
+	@Override
+	public void existsActiveEnvironmentsForSL(final ExistsActiveEnvironmentsForSLRequest request,
+									 final StreamObserver<ExistsActiveEnvironmentsForSLResponse> responseObserver) {
+		try {
+
+			boolean result = logicModule.existsActiveEnvironmentsForSL(Utils.getID(request.getStorageLocationID()));
+			final ExistsActiveEnvironmentsForSLResponse resp = ExistsActiveEnvironmentsForSLResponse.newBuilder()
+					.setExists(result).build();
+			responseObserver.onNext(resp);
+			responseObserver.onCompleted();
+
+		} catch (final Exception e) {
+			final ExistsActiveEnvironmentsForSLResponse.Builder builder = ExistsActiveEnvironmentsForSLResponse.newBuilder();
+			builder.setExcInfo(Utils.serializeException(e));
+			final ExistsActiveEnvironmentsForSLResponse resp = builder.build();
 			responseObserver.onNext(resp);
 			responseObserver.onCompleted();
 		}

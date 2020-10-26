@@ -154,17 +154,24 @@ public final class DataServiceSrv {
 
 			// ==== Ask and Notify LM === //
 			runningServer = false;
-
+			logger.info("[{}] Notifying LM current EE shut down...", srvName);
+			dataService.notifyExecutionEnvironmentShutdown();
+			logger.info("[{}] Waiting for associated execution environments to shut down...", srvName);
+			dataService.waitForExecutionEnvironmentsToFinish();
+			
 			// ==== Store metaData cache === //
-			logger.debug("[{}] Updating all objects in memory...", srvName);
+			logger.info("[{}] Updating all objects in memory...", srvName);
 			dataService.shutdownUpdate();
-			logger.debug("[{}] Persisting EE static information...", srvName);
+			logger.info("[{}] Persisting EE static information...", srvName);
 			dataService.persistEEInfo();
-			logger.debug("[{}] Finishing cached threads...", srvName);
+			logger.info("[{}] Finishing cached threads...", srvName);
 			dataService.finishCacheThreads();
 
+			logger.info("[{}] Notifying LM current EE shut down...", srvName);
+			dataService.notifyStorageLocationShutdown();
+			
 			disconnectFromOthers();
-			logger.debug("[{}] Finishing server connections...", srvName);
+			logger.info("[{}] Finishing server connections...", srvName);
 			grpcClient.finishClientConnections();
 			grpcServer.stop();
 

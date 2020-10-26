@@ -34,7 +34,6 @@ import org.apache.logging.log4j.Logger;
 import org.objectweb.asm.util.CheckClassAdapter;
 
 import org.objectweb.asm.ClassReader;
-import org.objectweb.asm.ClassWriter;
 
 import es.bsc.dataclay.DataClayExecutionObject;
 import es.bsc.dataclay.DataClayMockObject;
@@ -2308,7 +2307,7 @@ public final class DataService implements DataServiceAPI {
 		return runtime.getRetainedReferences();
 	}
 
-	// ============= PRIVATE METHODS ================//
+
 
 	// ============= OTHER =========== //
 
@@ -2431,4 +2430,41 @@ public final class DataService implements DataServiceAPI {
 	public StorageLocationService getStorageLocationService() {
 		return this.storageLocation;
 	}
+
+	/**
+	 * Notify LM current execution environment left
+	 */
+	public void notifyExecutionEnvironmentShutdown() {
+		final LogicModuleAPI lmAPI = this.runtime.getLogicModuleAPI();
+		lmAPI.notifyExecutionEnvironmentShutdown(this.executionEnvironmentID);
+	}
+
+	/**
+	 * Notify LM current storage location left
+	 */
+	public void notifyStorageLocationShutdown() {
+		final LogicModuleAPI lmAPI = this.runtime.getLogicModuleAPI();
+		lmAPI.notifyStorageLocationShutdown(this.storageLocationID);
+	}
+
+	
+	/**
+	 * Wait for all execution environments associated to current data service to finish and return
+	 */
+	public void waitForExecutionEnvironmentsToFinish() {
+		final LogicModuleAPI lmAPI = this.runtime.getLogicModuleAPI();
+		while (true) {
+			if (!lmAPI.existsActiveEnvironmentsForSL(this.storageLocationID)) {
+				break;
+			}
+			try {
+				LOGGER.info("Waiting for EEs associated to current SL to finish ...");
+				Thread.sleep(Configuration.Flags.SLEEP_WAIT_SHUTDOWN.getLongValue());
+			} catch (final InterruptedException ie) {
+				LOGGER.warn("Connection to LM interrupted. Shutting down DS");
+				break;
+			}
+		}
+	}
+	
 }

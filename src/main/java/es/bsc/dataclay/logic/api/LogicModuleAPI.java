@@ -94,6 +94,27 @@ public interface LogicModuleAPI {
 	void unregisterExecutionEnvironment(final ExecutionEnvironmentID execEnvID);
 
 	/**
+	 * Notify that Execution Environment with ID provided has been shut down. 
+	 * @param execEnvID ID of the execution environment shutted down.
+	 */
+	void notifyExecutionEnvironmentShutdown(final ExecutionEnvironmentID execEnvID);
+
+	/**
+	 * Notify that Storage Location with ID provided has been shut down. 
+	 * @param stLocID ID of the storage location shutted down.
+	 */
+	void notifyStorageLocationShutdown(final StorageLocationID stLocID);
+
+	/**
+	 * Check if there is an active Execution Environment associated to SL with ID provided. 
+	 * @param stLocID ID of the storage location to check 
+	 * @return TRUE if there is an active Execution Environment associated to SL with ID provided. 
+	 * FALSE, otherwise. 
+	 */
+	boolean existsActiveEnvironmentsForSL(final StorageLocationID stLocID);
+	
+
+	/**
 	 * Check logic module is alive.
 	 */
 	void checkAlive();
@@ -914,13 +935,12 @@ public interface LogicModuleAPI {
 	Tuple<Namespace, Set<MetaClass>> getClassesInNamespace(final String namespaceName);
 
 	/**
-	 * Get namespace information, classes to register and code to deploy from another dataClay instance and
-	 * register it into current dataClay
+	 * Import classes in namespace from external dataClay provided
 	 * @param extNamespaceName Name of the external namespace to get
 	 * @param extDataClayID External dataClay ID to get namespace/classes from
 	 * @throws Exception If registration fails
 	 */
-	void registerClassesInNamespaceFromExternalDataClay(final String extNamespaceName, final DataClayInstanceID extDataClayID);
+	void importModelsFromExternalDataClay(final String extNamespaceName, final DataClayInstanceID extDataClayID);
 
 
 	/**

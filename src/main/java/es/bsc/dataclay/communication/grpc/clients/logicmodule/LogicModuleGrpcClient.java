@@ -2510,15 +2510,15 @@ public final class LogicModuleGrpcClient implements LogicModuleAPI {
 	}
 
 	@Override
-	public void registerClassesInNamespaceFromExternalDataClay(final String extNamespaceName, final DataClayInstanceID extDataClayID) {
-		final RegisterClassesInNamespaceFromExternalDataClayRequest.Builder requestBuilder = RegisterClassesInNamespaceFromExternalDataClayRequest.newBuilder();
+	public void importModelsFromExternalDataClay(final String extNamespaceName, final DataClayInstanceID extDataClayID) {
+		final ImportModelsFromExternalDataClayRequest.Builder requestBuilder = ImportModelsFromExternalDataClayRequest.newBuilder();
 		requestBuilder.setNamespaceName(extNamespaceName);
 		requestBuilder.setDataClayID(Utils.getMsgID(extDataClayID));
-		final RegisterClassesInNamespaceFromExternalDataClayRequest request = requestBuilder.build();
+		final ImportModelsFromExternalDataClayRequest request = requestBuilder.build();
 		final ExceptionInfo response;
-		final Function<RegisterClassesInNamespaceFromExternalDataClayRequest, ExceptionInfo> f = req -> getBlockingStub()
-				.registerClassesInNamespaceFromExternalDataClay(req);
-		response = this.<RegisterClassesInNamespaceFromExternalDataClayRequest, ExceptionInfo>callLogicModule(
+		final Function<ImportModelsFromExternalDataClayRequest, ExceptionInfo> f = req -> getBlockingStub()
+				.importModelsFromExternalDataClay(req);
+		response = this.<ImportModelsFromExternalDataClayRequest, ExceptionInfo>callLogicModule(
 				request, f);
 		Utils.checkIsExc(response);
 	}
@@ -2535,6 +2535,45 @@ public final class LogicModuleGrpcClient implements LogicModuleAPI {
 				request, f);
 		Utils.checkIsExc(response.getExcInfo());
 		return Utils.getID(response.getStorageLocationID());
+	}
+
+	@Override
+	public void notifyExecutionEnvironmentShutdown(final ExecutionEnvironmentID execEnvID) {
+		final NotifyExecutionEnvironmentShutdownRequest.Builder requestBuilder = NotifyExecutionEnvironmentShutdownRequest.newBuilder();
+		requestBuilder.setExecutionEnvironmentID(Utils.getMsgID(execEnvID));
+		final NotifyExecutionEnvironmentShutdownRequest request = requestBuilder.build();
+		final ExceptionInfo response;
+		final Function<NotifyExecutionEnvironmentShutdownRequest, ExceptionInfo> f = req -> getBlockingStub()
+				.notifyExecutionEnvironmentShutdown(req);
+		response = this.<NotifyExecutionEnvironmentShutdownRequest, ExceptionInfo>callLogicModule(
+				request, f);
+		Utils.checkIsExc(response);
+	}
+
+	@Override
+	public void notifyStorageLocationShutdown(final StorageLocationID stLocID) {
+		final NotifyStorageLocationShutdownRequest.Builder requestBuilder = NotifyStorageLocationShutdownRequest.newBuilder();
+		requestBuilder.setStorageLocationID(Utils.getMsgID(stLocID));
+		final NotifyStorageLocationShutdownRequest request = requestBuilder.build();
+		final ExceptionInfo response;
+		final Function<NotifyStorageLocationShutdownRequest, ExceptionInfo> f = req -> getBlockingStub()
+				.notifyStorageLocationShutdown(req);
+		response = this.<NotifyStorageLocationShutdownRequest, ExceptionInfo>callLogicModule(
+				request, f);
+		Utils.checkIsExc(response);
+	}
+
+	@Override
+	public boolean existsActiveEnvironmentsForSL(final StorageLocationID stLocID) {
+		final ExistsActiveEnvironmentsForSLRequest.Builder requestBuilder = ExistsActiveEnvironmentsForSLRequest.newBuilder();
+		requestBuilder.setStorageLocationID(Utils.getMsgID(stLocID));
+		final ExistsActiveEnvironmentsForSLRequest request = requestBuilder.build();
+		final ExistsActiveEnvironmentsForSLResponse response;
+		final Function<ExistsActiveEnvironmentsForSLRequest, ExistsActiveEnvironmentsForSLResponse> f = req -> getBlockingStub()
+				.existsActiveEnvironmentsForSL(req);
+		response = this.<ExistsActiveEnvironmentsForSLRequest, ExistsActiveEnvironmentsForSLResponse>callLogicModule(request, f);
+		Utils.checkIsExc(response.getExcInfo());
+		return response.getExists();
 	}
 
 }

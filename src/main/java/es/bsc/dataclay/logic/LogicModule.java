@@ -165,6 +165,9 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
 	 */
 	private final Map<Langs, Map<ExecutionEnvironmentID, Tuple<DataServiceAPI, ExecutionEnvironment>>> execEnvironments = new HashMap<>();
 
+	/** Active Backends splitted in execution environments per storage Locations. */
+	private final Map<StorageLocationID, Set<ExecutionEnvironmentID>> activeBackends = new HashMap<>();
+	
 	/** Name of public namespace DataClay (for DataClay classes). */
 	public static final String DC_PUBLIC_NAMESPACE = "DataClayNamespace";
 	/** Name of DataClay registrator (for DataClay classes). */
@@ -715,6 +718,10 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
 			LOGGER.info("[LOGICMODULE] Found already registered StorageLocation " + storageLoc + " as "
 					+ id.getId());
 		}
+
+		// Activate storage location (execution environments cannot be activated before SL is ready)
+		this.activeBackends.put(id, new HashSet<ExecutionEnvironmentID>());
+		
 	}
 	
 	@Override
@@ -752,6 +759,9 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
 					+ id.getId());
 		}
 
+		// Activate storage location (execution environments cannot be activated before SL is ready)
+		this.activeBackends.get(slID).add(id);
+		
 		// ========== DEPLOY INSTALLED CLASSES ========== //
 		if (newRegistration && Configuration.Flags.REGISTER_DATACLAY_CLASSES.getBooleanValue()) {
 			LOGGER.info("[LOGICMODULE] Going to deploy dataClay classes");
@@ -795,6 +805,47 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
 	public void unregisterExecutionEnvironment(final ExecutionEnvironmentID execEnvID) {
 		metaDataSrvApi.unregisterExecutionEnvironment(execEnvID);
 		//TODO: remove from any cache in LM
+	}
+
+	@Override
+	public void notifyExecutionEnvironmentShutdown(final ExecutionEnvironmentID execEnvID) {
+		// TODO: check if metadata service should be the one with information about active EEs and SLs
+		LOGGER.info("Notified shutdown of execution environment " + execEnvID);
+		ExecutionEnvironment eeInfo = metaDataSrvApi.getExecutionEnvironmentInfo(execEnvID);
+		StorageLocationID slID = this.getStorageLocationID(eeInfo.getName());
+		this.activeBackends.get(slID).remove(execEnvID);
+	}
+
+	@Override
+	public void notifyStorageLocationShutdown(final StorageLocationID stLocID) {
+		LOGGER.info("Notified shutdown of storage location " + stLocID);
+		this.activeBackends.remove(stLocID);
+	}
+
+	@Override
+	public boolean existsActiveEnvironmentsForSL(final StorageLocationID stLocID) {
+		int numEEs = this.activeBackends.get(stLocID).size();
+		LOGGER.info("Found " + numEEs + " active execution environments for SL " + stLocID);
+		return numEEs != 0;
+	}
+
+	/**
+	 * Wait for all registered Storage locations and Execution environments to shut down. 
+	 */
+	public void waitForAllNodesShutdown() {
+		while (true) {
+			int numBackends = this.activeBackends.size();
+			if (numBackends == 0) {
+				break;
+			}
+			try {
+				LOGGER.info("Waiting for backends to shutdown. Active backends: " + numBackends);
+				Thread.sleep(Configuration.Flags.SLEEP_WAIT_SHUTDOWN.getLongValue());
+			} catch (final InterruptedException ie) {
+				LOGGER.warn("Checking interrupted. Shutting down LM without waiting for backends.");
+				break;
+			}
+		}
 	}
 
 	// ========== Generic batch operations ==========//
@@ -3907,7 +3958,7 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
 	}
 
 	@Override
-	public void registerClassesInNamespaceFromExternalDataClay(final String extNamespaceName, final DataClayInstanceID extDataClayID) {
+	public void importModelsFromExternalDataClay(final String extNamespaceName, final DataClayInstanceID extDataClayID) {
 
 		// Get all information needed from external dataClay instance
 		LogicModuleAPI externalLogicModule = null;

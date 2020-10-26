@@ -5,10 +5,10 @@ import es.bsc.dataclay.commonruntime.ClientManagementLib;
 import es.bsc.dataclay.tool.Util.ERRCODE;
 import es.bsc.dataclay.util.ids.DataClayInstanceID;
 
-public class RegisterModelsInNamespaceFromExternalDataClay {
+public class ImportModelsFromExternalDataClay {
 	public static void main(final String[] args) throws Exception {
 		if (args.length != 3) {
-			Util.finishErr("Bad arguments. Usage: \n\n " + RegisterModelsInNamespaceFromExternalDataClay.class.getSimpleName()
+			Util.finishErr("Bad arguments. Usage: \n\n " + ImportModelsFromExternalDataClay.class.getSimpleName()
 					+ " <host> <port> <namespace> \n", ERRCODE.ERROR);
 			return;
 		}
@@ -20,7 +20,7 @@ public class RegisterModelsInNamespaceFromExternalDataClay {
 			String namespace = args[2];
 
 			final DataClayInstanceID dcID = ClientManagementLib.registerExternalDataClay(dcHost, dcPort);
-			ClientManagementLib.registerClassesInNamespaceFromExternalDataClay(namespace, dcID);
+			ClientManagementLib.importModelsFromExternalDataClay(namespace, dcID);
 			Util.finishOut("Registered models in namespace " + namespace
 					+ " from external dataClay with id " + dcID);
 

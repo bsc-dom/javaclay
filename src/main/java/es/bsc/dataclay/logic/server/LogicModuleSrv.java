@@ -128,6 +128,10 @@ public final class LogicModuleSrv {
 	public void stopService() throws Exception {
 		logicModule.setShuttingDown(true);
 		running = false;
+		
+		// Wait for all nodes to notify
+		logger.debug("Waiting for all backends to shut down first...");
+		logicModule.waitForAllNodesShutdown();
 
 		// CHECKSTYLE:ON
 		logicModule.finishCacheThreads();

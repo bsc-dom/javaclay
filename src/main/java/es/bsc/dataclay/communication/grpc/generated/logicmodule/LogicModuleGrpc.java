@@ -216,6 +216,99 @@ public final class LogicModuleGrpc {
     return getCheckAliveMethod;
   }
 
+  private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NotifyExecutionEnvironmentShutdownRequest,
+      es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> getNotifyExecutionEnvironmentShutdownMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "notifyExecutionEnvironmentShutdown",
+      requestType = es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NotifyExecutionEnvironmentShutdownRequest.class,
+      responseType = es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NotifyExecutionEnvironmentShutdownRequest,
+      es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> getNotifyExecutionEnvironmentShutdownMethod() {
+    io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NotifyExecutionEnvironmentShutdownRequest, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> getNotifyExecutionEnvironmentShutdownMethod;
+    if ((getNotifyExecutionEnvironmentShutdownMethod = LogicModuleGrpc.getNotifyExecutionEnvironmentShutdownMethod) == null) {
+      synchronized (LogicModuleGrpc.class) {
+        if ((getNotifyExecutionEnvironmentShutdownMethod = LogicModuleGrpc.getNotifyExecutionEnvironmentShutdownMethod) == null) {
+          LogicModuleGrpc.getNotifyExecutionEnvironmentShutdownMethod = getNotifyExecutionEnvironmentShutdownMethod =
+              io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NotifyExecutionEnvironmentShutdownRequest, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "notifyExecutionEnvironmentShutdown"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NotifyExecutionEnvironmentShutdownRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.getDefaultInstance()))
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("notifyExecutionEnvironmentShutdown"))
+              .build();
+        }
+      }
+    }
+    return getNotifyExecutionEnvironmentShutdownMethod;
+  }
+
+  private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NotifyStorageLocationShutdownRequest,
+      es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> getNotifyStorageLocationShutdownMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "notifyStorageLocationShutdown",
+      requestType = es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NotifyStorageLocationShutdownRequest.class,
+      responseType = es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NotifyStorageLocationShutdownRequest,
+      es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> getNotifyStorageLocationShutdownMethod() {
+    io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NotifyStorageLocationShutdownRequest, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> getNotifyStorageLocationShutdownMethod;
+    if ((getNotifyStorageLocationShutdownMethod = LogicModuleGrpc.getNotifyStorageLocationShutdownMethod) == null) {
+      synchronized (LogicModuleGrpc.class) {
+        if ((getNotifyStorageLocationShutdownMethod = LogicModuleGrpc.getNotifyStorageLocationShutdownMethod) == null) {
+          LogicModuleGrpc.getNotifyStorageLocationShutdownMethod = getNotifyStorageLocationShutdownMethod =
+              io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NotifyStorageLocationShutdownRequest, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "notifyStorageLocationShutdown"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NotifyStorageLocationShutdownRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.getDefaultInstance()))
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("notifyStorageLocationShutdown"))
+              .build();
+        }
+      }
+    }
+    return getNotifyStorageLocationShutdownMethod;
+  }
+
+  private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ExistsActiveEnvironmentsForSLRequest,
+      es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ExistsActiveEnvironmentsForSLResponse> getExistsActiveEnvironmentsForSLMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "existsActiveEnvironmentsForSL",
+      requestType = es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ExistsActiveEnvironmentsForSLRequest.class,
+      responseType = es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ExistsActiveEnvironmentsForSLResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ExistsActiveEnvironmentsForSLRequest,
+      es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ExistsActiveEnvironmentsForSLResponse> getExistsActiveEnvironmentsForSLMethod() {
+    io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ExistsActiveEnvironmentsForSLRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ExistsActiveEnvironmentsForSLResponse> getExistsActiveEnvironmentsForSLMethod;
+    if ((getExistsActiveEnvironmentsForSLMethod = LogicModuleGrpc.getExistsActiveEnvironmentsForSLMethod) == null) {
+      synchronized (LogicModuleGrpc.class) {
+        if ((getExistsActiveEnvironmentsForSLMethod = LogicModuleGrpc.getExistsActiveEnvironmentsForSLMethod) == null) {
+          LogicModuleGrpc.getExistsActiveEnvironmentsForSLMethod = getExistsActiveEnvironmentsForSLMethod =
+              io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ExistsActiveEnvironmentsForSLRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ExistsActiveEnvironmentsForSLResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "existsActiveEnvironmentsForSL"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ExistsActiveEnvironmentsForSLRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ExistsActiveEnvironmentsForSLResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("existsActiveEnvironmentsForSL"))
+              .build();
+        }
+      }
+    }
+    return getExistsActiveEnvironmentsForSLMethod;
+  }
+
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.PerformSetAccountsRequest,
       es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.PerformSetAccountsResponse> getPerformSetOfNewAccountsMethod;
 
@@ -3068,35 +3161,35 @@ public final class LogicModuleGrpc {
     return getGetClassesInNamespaceMethod;
   }
 
-  private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterClassesInNamespaceFromExternalDataClayRequest,
-      es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> getRegisterClassesInNamespaceFromExternalDataClayMethod;
+  private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ImportModelsFromExternalDataClayRequest,
+      es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> getImportModelsFromExternalDataClayMethod;
 
   @io.grpc.stub.annotations.RpcMethod(
-      fullMethodName = SERVICE_NAME + '/' + "registerClassesInNamespaceFromExternalDataClay",
-      requestType = es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterClassesInNamespaceFromExternalDataClayRequest.class,
+      fullMethodName = SERVICE_NAME + '/' + "importModelsFromExternalDataClay",
+      requestType = es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ImportModelsFromExternalDataClayRequest.class,
       responseType = es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.class,
       methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
-  public static io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterClassesInNamespaceFromExternalDataClayRequest,
-      es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> getRegisterClassesInNamespaceFromExternalDataClayMethod() {
-    io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterClassesInNamespaceFromExternalDataClayRequest, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> getRegisterClassesInNamespaceFromExternalDataClayMethod;
-    if ((getRegisterClassesInNamespaceFromExternalDataClayMethod = LogicModuleGrpc.getRegisterClassesInNamespaceFromExternalDataClayMethod) == null) {
+  public static io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ImportModelsFromExternalDataClayRequest,
+      es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> getImportModelsFromExternalDataClayMethod() {
+    io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ImportModelsFromExternalDataClayRequest, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> getImportModelsFromExternalDataClayMethod;
+    if ((getImportModelsFromExternalDataClayMethod = LogicModuleGrpc.getImportModelsFromExternalDataClayMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
-        if ((getRegisterClassesInNamespaceFromExternalDataClayMethod = LogicModuleGrpc.getRegisterClassesInNamespaceFromExternalDataClayMethod) == null) {
-          LogicModuleGrpc.getRegisterClassesInNamespaceFromExternalDataClayMethod = getRegisterClassesInNamespaceFromExternalDataClayMethod =
-              io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterClassesInNamespaceFromExternalDataClayRequest, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>newBuilder()
+        if ((getImportModelsFromExternalDataClayMethod = LogicModuleGrpc.getImportModelsFromExternalDataClayMethod) == null) {
+          LogicModuleGrpc.getImportModelsFromExternalDataClayMethod = getImportModelsFromExternalDataClayMethod =
+              io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ImportModelsFromExternalDataClayRequest, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "registerClassesInNamespaceFromExternalDataClay"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "importModelsFromExternalDataClay"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterClassesInNamespaceFromExternalDataClayRequest.getDefaultInstance()))
+                  es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ImportModelsFromExternalDataClayRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.getDefaultInstance()))
-              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("registerClassesInNamespaceFromExternalDataClay"))
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("importModelsFromExternalDataClay"))
               .build();
         }
       }
     }
-    return getRegisterClassesInNamespaceFromExternalDataClayMethod;
+    return getImportModelsFromExternalDataClayMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStubsRequest,
@@ -3696,6 +3789,27 @@ public final class LogicModuleGrpc {
     public void checkAlive(es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
       asyncUnimplementedUnaryCall(getCheckAliveMethod(), responseObserver);
+    }
+
+    /**
+     */
+    public void notifyExecutionEnvironmentShutdown(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NotifyExecutionEnvironmentShutdownRequest request,
+        io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
+      asyncUnimplementedUnaryCall(getNotifyExecutionEnvironmentShutdownMethod(), responseObserver);
+    }
+
+    /**
+     */
+    public void notifyStorageLocationShutdown(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NotifyStorageLocationShutdownRequest request,
+        io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
+      asyncUnimplementedUnaryCall(getNotifyStorageLocationShutdownMethod(), responseObserver);
+    }
+
+    /**
+     */
+    public void existsActiveEnvironmentsForSL(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ExistsActiveEnvironmentsForSLRequest request,
+        io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ExistsActiveEnvironmentsForSLResponse> responseObserver) {
+      asyncUnimplementedUnaryCall(getExistsActiveEnvironmentsForSLMethod(), responseObserver);
     }
 
     /**
@@ -4386,9 +4500,9 @@ public final class LogicModuleGrpc {
 
     /**
      */
-    public void registerClassesInNamespaceFromExternalDataClay(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterClassesInNamespaceFromExternalDataClayRequest request,
+    public void importModelsFromExternalDataClay(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ImportModelsFromExternalDataClayRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
-      asyncUnimplementedUnaryCall(getRegisterClassesInNamespaceFromExternalDataClayMethod(), responseObserver);
+      asyncUnimplementedUnaryCall(getImportModelsFromExternalDataClayMethod(), responseObserver);
     }
 
     /**
@@ -4575,6 +4689,27 @@ public final class LogicModuleGrpc {
                 es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage,
                 es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>(
                   this, METHODID_CHECK_ALIVE)))
+          .addMethod(
+            getNotifyExecutionEnvironmentShutdownMethod(),
+            asyncUnaryCall(
+              new MethodHandlers<
+                es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NotifyExecutionEnvironmentShutdownRequest,
+                es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>(
+                  this, METHODID_NOTIFY_EXECUTION_ENVIRONMENT_SHUTDOWN)))
+          .addMethod(
+            getNotifyStorageLocationShutdownMethod(),
+            asyncUnaryCall(
+              new MethodHandlers<
+                es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NotifyStorageLocationShutdownRequest,
+                es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>(
+                  this, METHODID_NOTIFY_STORAGE_LOCATION_SHUTDOWN)))
+          .addMethod(
+            getExistsActiveEnvironmentsForSLMethod(),
+            asyncUnaryCall(
+              new MethodHandlers<
+                es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ExistsActiveEnvironmentsForSLRequest,
+                es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ExistsActiveEnvironmentsForSLResponse>(
+                  this, METHODID_EXISTS_ACTIVE_ENVIRONMENTS_FOR_SL)))
           .addMethod(
             getPerformSetOfNewAccountsMethod(),
             asyncUnaryCall(
@@ -5220,12 +5355,12 @@ public final class LogicModuleGrpc {
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassesInNamespaceResponse>(
                   this, METHODID_GET_CLASSES_IN_NAMESPACE)))
           .addMethod(
-            getRegisterClassesInNamespaceFromExternalDataClayMethod(),
+            getImportModelsFromExternalDataClayMethod(),
             asyncUnaryCall(
               new MethodHandlers<
-                es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterClassesInNamespaceFromExternalDataClayRequest,
+                es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ImportModelsFromExternalDataClayRequest,
                 es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>(
-                  this, METHODID_REGISTER_CLASSES_IN_NAMESPACE_FROM_EXTERNAL_DATA_CLAY)))
+                  this, METHODID_IMPORT_MODELS_FROM_EXTERNAL_DATA_CLAY)))
           .addMethod(
             getGetStubsMethod(),
             asyncUnaryCall(
@@ -5416,6 +5551,30 @@ public final class LogicModuleGrpc {
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
       asyncUnaryCall(
           getChannel().newCall(getCheckAliveMethod(), getCallOptions()), request, responseObserver);
+    }
+
+    /**
+     */
+    public void notifyExecutionEnvironmentShutdown(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NotifyExecutionEnvironmentShutdownRequest request,
+        io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(getNotifyExecutionEnvironmentShutdownMethod(), getCallOptions()), request, responseObserver);
+    }
+
+    /**
+     */
+    public void notifyStorageLocationShutdown(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NotifyStorageLocationShutdownRequest request,
+        io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(getNotifyStorageLocationShutdownMethod(), getCallOptions()), request, responseObserver);
+    }
+
+    /**
+     */
+    public void existsActiveEnvironmentsForSL(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ExistsActiveEnvironmentsForSLRequest request,
+        io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ExistsActiveEnvironmentsForSLResponse> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(getExistsActiveEnvironmentsForSLMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
@@ -6198,10 +6357,10 @@ public final class LogicModuleGrpc {
 
     /**
      */
-    public void registerClassesInNamespaceFromExternalDataClay(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterClassesInNamespaceFromExternalDataClayRequest request,
+    public void importModelsFromExternalDataClay(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ImportModelsFromExternalDataClayRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
       asyncUnaryCall(
-          getChannel().newCall(getRegisterClassesInNamespaceFromExternalDataClayMethod(), getCallOptions()), request, responseObserver);
+          getChannel().newCall(getImportModelsFromExternalDataClayMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
@@ -6423,6 +6582,27 @@ public final class LogicModuleGrpc {
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo checkAlive(es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage request) {
       return blockingUnaryCall(
           getChannel(), getCheckAliveMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
+    public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo notifyExecutionEnvironmentShutdown(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NotifyExecutionEnvironmentShutdownRequest request) {
+      return blockingUnaryCall(
+          getChannel(), getNotifyExecutionEnvironmentShutdownMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
+    public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo notifyStorageLocationShutdown(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NotifyStorageLocationShutdownRequest request) {
+      return blockingUnaryCall(
+          getChannel(), getNotifyStorageLocationShutdownMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
+    public es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ExistsActiveEnvironmentsForSLResponse existsActiveEnvironmentsForSL(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ExistsActiveEnvironmentsForSLRequest request) {
+      return blockingUnaryCall(
+          getChannel(), getExistsActiveEnvironmentsForSLMethod(), getCallOptions(), request);
     }
 
     /**
@@ -7113,9 +7293,9 @@ public final class LogicModuleGrpc {
 
     /**
      */
-    public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo registerClassesInNamespaceFromExternalDataClay(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterClassesInNamespaceFromExternalDataClayRequest request) {
+    public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo importModelsFromExternalDataClay(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ImportModelsFromExternalDataClayRequest request) {
       return blockingUnaryCall(
-          getChannel(), getRegisterClassesInNamespaceFromExternalDataClayMethod(), getCallOptions(), request);
+          getChannel(), getImportModelsFromExternalDataClayMethod(), getCallOptions(), request);
     }
 
     /**
@@ -7326,6 +7506,30 @@ public final class LogicModuleGrpc {
         es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage request) {
       return futureUnaryCall(
           getChannel().newCall(getCheckAliveMethod(), getCallOptions()), request);
+    }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> notifyExecutionEnvironmentShutdown(
+        es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NotifyExecutionEnvironmentShutdownRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(getNotifyExecutionEnvironmentShutdownMethod(), getCallOptions()), request);
+    }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> notifyStorageLocationShutdown(
+        es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NotifyStorageLocationShutdownRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(getNotifyStorageLocationShutdownMethod(), getCallOptions()), request);
+    }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ExistsActiveEnvironmentsForSLResponse> existsActiveEnvironmentsForSL(
+        es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ExistsActiveEnvironmentsForSLRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(getExistsActiveEnvironmentsForSLMethod(), getCallOptions()), request);
     }
 
     /**
@@ -8108,10 +8312,10 @@ public final class LogicModuleGrpc {
 
     /**
      */
-    public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> registerClassesInNamespaceFromExternalDataClay(
-        es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterClassesInNamespaceFromExternalDataClayRequest request) {
+    public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> importModelsFromExternalDataClay(
+        es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ImportModelsFromExternalDataClayRequest request) {
       return futureUnaryCall(
-          getChannel().newCall(getRegisterClassesInNamespaceFromExternalDataClayMethod(), getCallOptions()), request);
+          getChannel().newCall(getImportModelsFromExternalDataClayMethod(), getCallOptions()), request);
     }
 
     /**
@@ -8278,116 +8482,119 @@ public final class LogicModuleGrpc {
   private static final int METHODID_UNREGISTER_STORAGE_LOCATION = 3;
   private static final int METHODID_UNREGISTER_EXECUTION_ENVIRONMENT = 4;
   private static final int METHODID_CHECK_ALIVE = 5;
-  private static final int METHODID_PERFORM_SET_OF_NEW_ACCOUNTS = 6;
-  private static final int METHODID_PERFORM_SET_OF_OPERATIONS = 7;
-  private static final int METHODID_PUBLISH_ADDRESS = 8;
-  private static final int METHODID_NEW_ACCOUNT_NO_ADMIN = 9;
-  private static final int METHODID_NEW_ACCOUNT = 10;
-  private static final int METHODID_GET_ACCOUNT_ID = 11;
-  private static final int METHODID_GET_ACCOUNT_LIST = 12;
-  private static final int METHODID_NEW_SESSION = 13;
-  private static final int METHODID_GET_INFO_OF_SESSION_FOR_DS = 14;
-  private static final int METHODID_NEW_NAMESPACE = 15;
-  private static final int METHODID_REMOVE_NAMESPACE = 16;
-  private static final int METHODID_GET_NAMESPACE_ID = 17;
-  private static final int METHODID_GET_NAMESPACE_LANG = 18;
-  private static final int METHODID_GET_OBJECT_DATA_SET_ID = 19;
-  private static final int METHODID_IMPORT_INTERFACE = 20;
-  private static final int METHODID_IMPORT_CONTRACT = 21;
-  private static final int METHODID_GET_INFO_OF_CLASSES_IN_NAMESPACE = 22;
-  private static final int METHODID_GET_IMPORTED_CLASSES_INFO_IN_NAMESPACE = 23;
-  private static final int METHODID_GET_CLASS_IDFROM_IMPORT = 24;
-  private static final int METHODID_GET_NAMESPACES = 25;
-  private static final int METHODID_NEW_DATA_SET = 26;
-  private static final int METHODID_REMOVE_DATA_SET = 27;
-  private static final int METHODID_GET_DATA_SET_ID = 28;
-  private static final int METHODID_CHECK_DATA_SET_IS_PUBLIC = 29;
-  private static final int METHODID_GET_PUBLIC_DATA_SETS = 30;
-  private static final int METHODID_GET_ACCOUNT_DATA_SETS = 31;
-  private static final int METHODID_NEW_CLASS = 32;
-  private static final int METHODID_NEW_CLASS_ID = 33;
-  private static final int METHODID_REMOVE_CLASS = 34;
-  private static final int METHODID_REMOVE_OPERATION = 35;
-  private static final int METHODID_REMOVE_IMPLEMENTATION = 36;
-  private static final int METHODID_GET_OPERATION_ID = 37;
-  private static final int METHODID_GET_PROPERTY_ID = 38;
-  private static final int METHODID_GET_CLASS_ID = 39;
-  private static final int METHODID_GET_CLASS_INFO = 40;
-  private static final int METHODID_NEW_CONTRACT = 41;
-  private static final int METHODID_REGISTER_TO_PUBLIC_CONTRACT = 42;
-  private static final int METHODID_REGISTER_TO_PUBLIC_CONTRACT_OF_NAMESPACE = 43;
-  private static final int METHODID_GET_CONTRACT_IDS_OF_APPLICANT = 44;
-  private static final int METHODID_GET_CONTRACT_IDS_OF_PROVIDER = 45;
-  private static final int METHODID_GET_CONTRACT_IDS_OF_APPLICANT_WITH_PROVIDER = 46;
-  private static final int METHODID_NEW_DATA_CONTRACT = 47;
-  private static final int METHODID_REGISTER_TO_PUBLIC_DATA_CONTRACT = 48;
-  private static final int METHODID_GET_DATA_CONTRACT_IDS_OF_APPLICANT = 49;
-  private static final int METHODID_GET_DATA_CONTRACT_IDS_OF_PROVIDER = 50;
-  private static final int METHODID_GET_DATA_CONTRACT_INFO_OF_APPLICANT_WITH_PROVIDER = 51;
-  private static final int METHODID_NEW_INTERFACE = 52;
-  private static final int METHODID_GET_INTERFACE_INFO = 53;
-  private static final int METHODID_REMOVE_INTERFACE = 54;
-  private static final int METHODID_GET_EXECUTION_ENVIRONMENTS_INFO = 55;
-  private static final int METHODID_GET_EXECUTION_ENVIRONMENTS_NAMES = 56;
-  private static final int METHODID_GET_EXECUTION_ENVIRONMENT_FOR_DS = 57;
-  private static final int METHODID_GET_STORAGE_LOCATION_FOR_DS = 58;
-  private static final int METHODID_GET_OBJECT_INFO = 59;
-  private static final int METHODID_GET_OBJECT_FROM_ALIAS = 60;
-  private static final int METHODID_DELETE_ALIAS = 61;
-  private static final int METHODID_GET_OBJECTS_META_DATA_INFO_OF_CLASS_FOR_NM = 62;
-  private static final int METHODID_ADD_ALIAS = 63;
-  private static final int METHODID_REGISTER_OBJECT_FROM_GC = 64;
-  private static final int METHODID_UNREGISTER_OBJECTS = 65;
-  private static final int METHODID_REGISTER_OBJECT = 66;
-  private static final int METHODID_SET_DATA_SET_IDFROM_GARBAGE_COLLECTOR = 67;
-  private static final int METHODID_SET_DATA_SET_ID = 68;
-  private static final int METHODID_NEW_VERSION = 69;
-  private static final int METHODID_CONSOLIDATE_VERSION = 70;
-  private static final int METHODID_NEW_REPLICA = 71;
-  private static final int METHODID_MOVE_OBJECT = 72;
-  private static final int METHODID_SET_OBJECT_READ_ONLY = 73;
-  private static final int METHODID_SET_OBJECT_READ_WRITE = 74;
-  private static final int METHODID_GET_METADATA_BY_OID = 75;
-  private static final int METHODID_EXECUTE_IMPLEMENTATION = 76;
-  private static final int METHODID_EXECUTE_METHOD_ON_TARGET = 77;
-  private static final int METHODID_SYNCHRONIZE_FEDERATED_OBJECT = 78;
-  private static final int METHODID_GET_DATA_CLAY_ID = 79;
-  private static final int METHODID_REGISTER_EXTERNAL_DATA_CLAY = 80;
-  private static final int METHODID_REGISTER_EXTERNAL_DATA_CLAY_OVERRIDE_AUTHORITY = 81;
-  private static final int METHODID_NOTIFY_REGISTRATION_OF_EXTERNAL_DATA_CLAY = 82;
-  private static final int METHODID_GET_EXTERNAL_DATA_CLAY_INFO = 83;
-  private static final int METHODID_GET_EXTERNAL_DATACLAY_ID = 84;
-  private static final int METHODID_FEDERATE_OBJECT = 85;
-  private static final int METHODID_UNFEDERATE_OBJECT = 86;
-  private static final int METHODID_NOTIFY_UNFEDERATED_OBJECTS = 87;
-  private static final int METHODID_NOTIFY_FEDERATED_OBJECTS = 88;
-  private static final int METHODID_CHECK_OBJECT_IS_FEDERATED_WITH_DATA_CLAY_INSTANCE = 89;
-  private static final int METHODID_GET_DATA_CLAYS_OBJECT_IS_FEDERATED_WITH = 90;
-  private static final int METHODID_GET_EXTERNAL_SOURCE_DATA_CLAY_OF_OBJECT = 91;
-  private static final int METHODID_UNFEDERATE_ALL_OBJECTS = 92;
-  private static final int METHODID_UNFEDERATE_ALL_OBJECTS_WITH_ALL_DCS = 93;
-  private static final int METHODID_UNFEDERATE_OBJECT_WITH_ALL_DCS = 94;
-  private static final int METHODID_MIGRATE_FEDERATED_OBJECTS = 95;
-  private static final int METHODID_FEDERATE_ALL_OBJECTS = 96;
-  private static final int METHODID_GET_CLASSES_IN_NAMESPACE = 97;
-  private static final int METHODID_REGISTER_CLASSES_IN_NAMESPACE_FROM_EXTERNAL_DATA_CLAY = 98;
-  private static final int METHODID_GET_STUBS = 99;
-  private static final int METHODID_GET_BABEL_STUBS = 100;
-  private static final int METHODID_REGISTER_ECA = 101;
-  private static final int METHODID_ADVISE_EVENT = 102;
-  private static final int METHODID_IS_PREFETCHING_ENABLED = 103;
-  private static final int METHODID_GET_CLASS_NAME_FOR_DS = 104;
-  private static final int METHODID_GET_CLASS_NAME_AND_NAMESPACE_FOR_DS = 105;
-  private static final int METHODID_GET_CONTRACT_IDOF_DATA_CLAY_PROVIDER = 106;
-  private static final int METHODID_OBJECT_EXISTS_IN_DATA_CLAY = 107;
-  private static final int METHODID_CLOSE_SESSION = 108;
-  private static final int METHODID_GET_METADATA_BY_OIDFOR_DS = 109;
-  private static final int METHODID_ACTIVATE_TRACING = 110;
-  private static final int METHODID_DEACTIVATE_TRACING = 111;
-  private static final int METHODID_GET_TRACES = 112;
-  private static final int METHODID_CLEAN_META_DATA_CACHES = 113;
-  private static final int METHODID_CLOSE_MANAGER_DB = 114;
-  private static final int METHODID_CLOSE_DB = 115;
+  private static final int METHODID_NOTIFY_EXECUTION_ENVIRONMENT_SHUTDOWN = 6;
+  private static final int METHODID_NOTIFY_STORAGE_LOCATION_SHUTDOWN = 7;
+  private static final int METHODID_EXISTS_ACTIVE_ENVIRONMENTS_FOR_SL = 8;
+  private static final int METHODID_PERFORM_SET_OF_NEW_ACCOUNTS = 9;
+  private static final int METHODID_PERFORM_SET_OF_OPERATIONS = 10;
+  private static final int METHODID_PUBLISH_ADDRESS = 11;
+  private static final int METHODID_NEW_ACCOUNT_NO_ADMIN = 12;
+  private static final int METHODID_NEW_ACCOUNT = 13;
+  private static final int METHODID_GET_ACCOUNT_ID = 14;
+  private static final int METHODID_GET_ACCOUNT_LIST = 15;
+  private static final int METHODID_NEW_SESSION = 16;
+  private static final int METHODID_GET_INFO_OF_SESSION_FOR_DS = 17;
+  private static final int METHODID_NEW_NAMESPACE = 18;
+  private static final int METHODID_REMOVE_NAMESPACE = 19;
+  private static final int METHODID_GET_NAMESPACE_ID = 20;
+  private static final int METHODID_GET_NAMESPACE_LANG = 21;
+  private static final int METHODID_GET_OBJECT_DATA_SET_ID = 22;
+  private static final int METHODID_IMPORT_INTERFACE = 23;
+  private static final int METHODID_IMPORT_CONTRACT = 24;
+  private static final int METHODID_GET_INFO_OF_CLASSES_IN_NAMESPACE = 25;
+  private static final int METHODID_GET_IMPORTED_CLASSES_INFO_IN_NAMESPACE = 26;
+  private static final int METHODID_GET_CLASS_IDFROM_IMPORT = 27;
+  private static final int METHODID_GET_NAMESPACES = 28;
+  private static final int METHODID_NEW_DATA_SET = 29;
+  private static final int METHODID_REMOVE_DATA_SET = 30;
+  private static final int METHODID_GET_DATA_SET_ID = 31;
+  private static final int METHODID_CHECK_DATA_SET_IS_PUBLIC = 32;
+  private static final int METHODID_GET_PUBLIC_DATA_SETS = 33;
+  private static final int METHODID_GET_ACCOUNT_DATA_SETS = 34;
+  private static final int METHODID_NEW_CLASS = 35;
+  private static final int METHODID_NEW_CLASS_ID = 36;
+  private static final int METHODID_REMOVE_CLASS = 37;
+  private static final int METHODID_REMOVE_OPERATION = 38;
+  private static final int METHODID_REMOVE_IMPLEMENTATION = 39;
+  private static final int METHODID_GET_OPERATION_ID = 40;
+  private static final int METHODID_GET_PROPERTY_ID = 41;
+  private static final int METHODID_GET_CLASS_ID = 42;
+  private static final int METHODID_GET_CLASS_INFO = 43;
+  private static final int METHODID_NEW_CONTRACT = 44;
+  private static final int METHODID_REGISTER_TO_PUBLIC_CONTRACT = 45;
+  private static final int METHODID_REGISTER_TO_PUBLIC_CONTRACT_OF_NAMESPACE = 46;
+  private static final int METHODID_GET_CONTRACT_IDS_OF_APPLICANT = 47;
+  private static final int METHODID_GET_CONTRACT_IDS_OF_PROVIDER = 48;
+  private static final int METHODID_GET_CONTRACT_IDS_OF_APPLICANT_WITH_PROVIDER = 49;
+  private static final int METHODID_NEW_DATA_CONTRACT = 50;
+  private static final int METHODID_REGISTER_TO_PUBLIC_DATA_CONTRACT = 51;
+  private static final int METHODID_GET_DATA_CONTRACT_IDS_OF_APPLICANT = 52;
+  private static final int METHODID_GET_DATA_CONTRACT_IDS_OF_PROVIDER = 53;
+  private static final int METHODID_GET_DATA_CONTRACT_INFO_OF_APPLICANT_WITH_PROVIDER = 54;
+  private static final int METHODID_NEW_INTERFACE = 55;
+  private static final int METHODID_GET_INTERFACE_INFO = 56;
+  private static final int METHODID_REMOVE_INTERFACE = 57;
+  private static final int METHODID_GET_EXECUTION_ENVIRONMENTS_INFO = 58;
+  private static final int METHODID_GET_EXECUTION_ENVIRONMENTS_NAMES = 59;
+  private static final int METHODID_GET_EXECUTION_ENVIRONMENT_FOR_DS = 60;
+  private static final int METHODID_GET_STORAGE_LOCATION_FOR_DS = 61;
+  private static final int METHODID_GET_OBJECT_INFO = 62;
+  private static final int METHODID_GET_OBJECT_FROM_ALIAS = 63;
+  private static final int METHODID_DELETE_ALIAS = 64;
+  private static final int METHODID_GET_OBJECTS_META_DATA_INFO_OF_CLASS_FOR_NM = 65;
+  private static final int METHODID_ADD_ALIAS = 66;
+  private static final int METHODID_REGISTER_OBJECT_FROM_GC = 67;
+  private static final int METHODID_UNREGISTER_OBJECTS = 68;
+  private static final int METHODID_REGISTER_OBJECT = 69;
+  private static final int METHODID_SET_DATA_SET_IDFROM_GARBAGE_COLLECTOR = 70;
+  private static final int METHODID_SET_DATA_SET_ID = 71;
+  private static final int METHODID_NEW_VERSION = 72;
+  private static final int METHODID_CONSOLIDATE_VERSION = 73;
+  private static final int METHODID_NEW_REPLICA = 74;
+  private static final int METHODID_MOVE_OBJECT = 75;
+  private static final int METHODID_SET_OBJECT_READ_ONLY = 76;
+  private static final int METHODID_SET_OBJECT_READ_WRITE = 77;
+  private static final int METHODID_GET_METADATA_BY_OID = 78;
+  private static final int METHODID_EXECUTE_IMPLEMENTATION = 79;
+  private static final int METHODID_EXECUTE_METHOD_ON_TARGET = 80;
+  private static final int METHODID_SYNCHRONIZE_FEDERATED_OBJECT = 81;
+  private static final int METHODID_GET_DATA_CLAY_ID = 82;
+  private static final int METHODID_REGISTER_EXTERNAL_DATA_CLAY = 83;
+  private static final int METHODID_REGISTER_EXTERNAL_DATA_CLAY_OVERRIDE_AUTHORITY = 84;
+  private static final int METHODID_NOTIFY_REGISTRATION_OF_EXTERNAL_DATA_CLAY = 85;
+  private static final int METHODID_GET_EXTERNAL_DATA_CLAY_INFO = 86;
+  private static final int METHODID_GET_EXTERNAL_DATACLAY_ID = 87;
+  private static final int METHODID_FEDERATE_OBJECT = 88;
+  private static final int METHODID_UNFEDERATE_OBJECT = 89;
+  private static final int METHODID_NOTIFY_UNFEDERATED_OBJECTS = 90;
+  private static final int METHODID_NOTIFY_FEDERATED_OBJECTS = 91;
+  private static final int METHODID_CHECK_OBJECT_IS_FEDERATED_WITH_DATA_CLAY_INSTANCE = 92;
+  private static final int METHODID_GET_DATA_CLAYS_OBJECT_IS_FEDERATED_WITH = 93;
+  private static final int METHODID_GET_EXTERNAL_SOURCE_DATA_CLAY_OF_OBJECT = 94;
+  private static final int METHODID_UNFEDERATE_ALL_OBJECTS = 95;
+  private static final int METHODID_UNFEDERATE_ALL_OBJECTS_WITH_ALL_DCS = 96;
+  private static final int METHODID_UNFEDERATE_OBJECT_WITH_ALL_DCS = 97;
+  private static final int METHODID_MIGRATE_FEDERATED_OBJECTS = 98;
+  private static final int METHODID_FEDERATE_ALL_OBJECTS = 99;
+  private static final int METHODID_GET_CLASSES_IN_NAMESPACE = 100;
+  private static final int METHODID_IMPORT_MODELS_FROM_EXTERNAL_DATA_CLAY = 101;
+  private static final int METHODID_GET_STUBS = 102;
+  private static final int METHODID_GET_BABEL_STUBS = 103;
+  private static final int METHODID_REGISTER_ECA = 104;
+  private static final int METHODID_ADVISE_EVENT = 105;
+  private static final int METHODID_IS_PREFETCHING_ENABLED = 106;
+  private static final int METHODID_GET_CLASS_NAME_FOR_DS = 107;
+  private static final int METHODID_GET_CLASS_NAME_AND_NAMESPACE_FOR_DS = 108;
+  private static final int METHODID_GET_CONTRACT_IDOF_DATA_CLAY_PROVIDER = 109;
+  private static final int METHODID_OBJECT_EXISTS_IN_DATA_CLAY = 110;
+  private static final int METHODID_CLOSE_SESSION = 111;
+  private static final int METHODID_GET_METADATA_BY_OIDFOR_DS = 112;
+  private static final int METHODID_ACTIVATE_TRACING = 113;
+  private static final int METHODID_DEACTIVATE_TRACING = 114;
+  private static final int METHODID_GET_TRACES = 115;
+  private static final int METHODID_CLEAN_META_DATA_CACHES = 116;
+  private static final int METHODID_CLOSE_MANAGER_DB = 117;
+  private static final int METHODID_CLOSE_DB = 118;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -8429,6 +8636,18 @@ public final class LogicModuleGrpc {
         case METHODID_CHECK_ALIVE:
           serviceImpl.checkAlive((es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage) request,
               (io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>) responseObserver);
+          break;
+        case METHODID_NOTIFY_EXECUTION_ENVIRONMENT_SHUTDOWN:
+          serviceImpl.notifyExecutionEnvironmentShutdown((es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NotifyExecutionEnvironmentShutdownRequest) request,
+              (io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>) responseObserver);
+          break;
+        case METHODID_NOTIFY_STORAGE_LOCATION_SHUTDOWN:
+          serviceImpl.notifyStorageLocationShutdown((es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NotifyStorageLocationShutdownRequest) request,
+              (io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>) responseObserver);
+          break;
+        case METHODID_EXISTS_ACTIVE_ENVIRONMENTS_FOR_SL:
+          serviceImpl.existsActiveEnvironmentsForSL((es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ExistsActiveEnvironmentsForSLRequest) request,
+              (io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ExistsActiveEnvironmentsForSLResponse>) responseObserver);
           break;
         case METHODID_PERFORM_SET_OF_NEW_ACCOUNTS:
           serviceImpl.performSetOfNewAccounts((es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.PerformSetAccountsRequest) request,
@@ -8798,8 +9017,8 @@ public final class LogicModuleGrpc {
           serviceImpl.getClassesInNamespace((es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassesInNamespaceRequest) request,
               (io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassesInNamespaceResponse>) responseObserver);
           break;
-        case METHODID_REGISTER_CLASSES_IN_NAMESPACE_FROM_EXTERNAL_DATA_CLAY:
-          serviceImpl.registerClassesInNamespaceFromExternalDataClay((es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterClassesInNamespaceFromExternalDataClayRequest) request,
+        case METHODID_IMPORT_MODELS_FROM_EXTERNAL_DATA_CLAY:
+          serviceImpl.importModelsFromExternalDataClay((es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ImportModelsFromExternalDataClayRequest) request,
               (io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>) responseObserver);
           break;
         case METHODID_GET_STUBS:
@@ -8937,6 +9156,9 @@ public final class LogicModuleGrpc {
               .addMethod(getUnregisterStorageLocationMethod())
               .addMethod(getUnregisterExecutionEnvironmentMethod())
               .addMethod(getCheckAliveMethod())
+              .addMethod(getNotifyExecutionEnvironmentShutdownMethod())
+              .addMethod(getNotifyStorageLocationShutdownMethod())
+              .addMethod(getExistsActiveEnvironmentsForSLMethod())
               .addMethod(getPerformSetOfNewAccountsMethod())
               .addMethod(getPerformSetOfOperationsMethod())
               .addMethod(getPublishAddressMethod())
@@ -9029,7 +9251,7 @@ public final class LogicModuleGrpc {
               .addMethod(getMigrateFederatedObjectsMethod())
               .addMethod(getFederateAllObjectsMethod())
               .addMethod(getGetClassesInNamespaceMethod())
-              .addMethod(getRegisterClassesInNamespaceFromExternalDataClayMethod())
+              .addMethod(getImportModelsFromExternalDataClayMethod())
               .addMethod(getGetStubsMethod())
               .addMethod(getGetBabelStubsMethod())
               .addMethod(getRegisterECAMethod())

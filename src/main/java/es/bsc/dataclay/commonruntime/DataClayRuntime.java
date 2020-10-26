@@ -1775,13 +1775,13 @@ public abstract class DataClayRuntime {
 	}
 
 	/**
-	 * Get namespace and classes from another dataClay instance and register it into current dataClay
+	 * Import classes in namespace specified from an external dataClay
 	 * @param externalNamespace External namespace to get
 	 * @param extDataClayID External dataClay ID
 	 */
-	public void registerClassesInNamespaceFromExternalDataClay(final String externalNamespace,
+	public void importModelsFromExternalDataClay(final String externalNamespace,
 															 final DataClayInstanceID extDataClayID) {
-		logicModule.registerClassesInNamespaceFromExternalDataClay(externalNamespace, extDataClayID);
+		logicModule.importModelsFromExternalDataClay(externalNamespace, extDataClayID);
 
 	}
 	

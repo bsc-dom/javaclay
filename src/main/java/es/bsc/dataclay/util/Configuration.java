@@ -284,6 +284,9 @@ public final class Configuration {
 		/** Waiting milliseconds to check if object to be registered. */
 		SLEEP_WAIT_REGISTERED(50L, ConfType.LONG),
 
+		/** Waiting milliseconds to check if backends where shutted down. */
+		SLEEP_WAIT_SHUTDOWN(500L, ConfType.LONG),
+		
 		// ============== MEMORY MANAGEMENT =================== //
 
 		/** Minimum life time for an object to be flushed. */
