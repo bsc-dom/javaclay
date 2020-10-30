@@ -4717,11 +4717,13 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
 				// Call deleteAlias
 				int decrementRef = -1;
 				final String alias = metadataInfo.getAlias();
-				if (DEBUG_ENABLED) {
-					LOGGER.debug("[==Unfederation==] Calling delete alias {}", alias);
+				if (alias != null) {
+					if (DEBUG_ENABLED) {
+						LOGGER.debug("[==Unfederation==] Calling delete alias {}", alias);
+					}
+					metaDataSrvApi.deleteAlias(alias);
+					decrementRef--;
 				}
-				metaDataSrvApi.deleteAlias(alias);
-				decrementRef--;
 				// Notify federation reference references
 				referenceCounting.put(oid, decrementRef); // -1 federation ref. -1 alias 
 
