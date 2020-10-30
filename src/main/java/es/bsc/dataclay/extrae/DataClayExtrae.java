@@ -19,7 +19,7 @@ import es.bsc.dataclay.util.Configuration;
  */
 public final class DataClayExtrae {
 
-	public static final boolean COMPILE_EXTRAE = false;
+	public static final boolean COMPILE_EXTRAE = true;
 
 	/** Logger. */
 	private static final Logger logger = LogManager.getLogger("Paraver");
