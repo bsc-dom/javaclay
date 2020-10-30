@@ -4,8 +4,14 @@ dbfiles
 .classpath
 .settings
 .project
-state.txt
 .travis*
 .project
 .pydevproject
 .git*
+.idea
+*.iml
+*.md
+LICENSE.txt
+dataclay-common
+checkstyle
+state.txt

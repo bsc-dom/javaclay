@@ -450,10 +450,12 @@ public final class Configuration {
 				LOGGER.debug("Looking for env variable set in global.properties: {}", this.name());
 				String strVal = testFlagsProps.getProperty(this.name());
 				if (strVal != null) {
-					LOGGER.debug("Found environment variable set in global.properties: {}={}", this.name(), strVal);
+					LOGGER.info("Found environment variable set in global.properties: {}={}", this.name(), strVal);
 				} else {
 					strVal = ProcessEnvironment.getInstance().get(this.name());
-					LOGGER.debug("Found environment variable defined: {}={}", this.name(), strVal);
+					if (strVal != null) {
+						LOGGER.info("Found environment variable defined: {}={}", this.name(), strVal);
+					}
 				}
 				
 				if (strVal != null) {
