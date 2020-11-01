@@ -285,7 +285,7 @@ public final class Configuration {
 		SLEEP_WAIT_REGISTERED(50L, ConfType.LONG),
 
 		/** Waiting milliseconds to check if backends where shutted down. */
-		SLEEP_WAIT_SHUTDOWN(500L, ConfType.LONG),
+		SLEEP_WAIT_SHUTDOWN(200L, ConfType.LONG),
 		
 		// ============== MEMORY MANAGEMENT =================== //
 

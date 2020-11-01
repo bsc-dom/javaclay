@@ -162,6 +162,8 @@ public final class DataClayExtrae {
 				generatedTraces = true;
 				logger.debug("** FINISHED Extrae TRACING FOR " + taskID + " with task ID " + es.bsc.cepbatools.extrae.Wrapper.GetTaskID());
 
+
+
 			}
 		}
 	}
