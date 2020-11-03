@@ -1,6 +1,11 @@
 ## Intructions for publishing the artifact to Maven Central
 
-Prerequisite: knowing `e-mail` and `password` of dataClay's Sonatype account.
+Prerequisite: knowing `e-mail` and `password` of dataClay's Sonatype account 
+or obtain access token from https://oss.sonatype.org/
+
+#### Generate your GPG signature
+
+https://central.sonatype.org/pages/working-with-pgp-signatures.html
 
 #### Publish to Maven Central 
 

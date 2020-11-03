@@ -14,6 +14,7 @@ import java.text.ParseException;
 import java.util.*;
 import java.util.Map.Entry;
 
+import es.bsc.dataclay.exceptions.metadataservice.*;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -39,12 +40,6 @@ import es.bsc.dataclay.exceptions.logicmodule.namespacemgr.AccountNotResponsible
 import es.bsc.dataclay.exceptions.logicmodule.namespacemgr.NamespaceDoesNotExistException;
 import es.bsc.dataclay.exceptions.logicmodule.namespacemgr.NamespaceExistsException;
 import es.bsc.dataclay.exceptions.logicmodule.sessionmgr.SessionNotExistException;
-import es.bsc.dataclay.exceptions.metadataservice.AliasAlreadyInUseException;
-import es.bsc.dataclay.exceptions.metadataservice.ExecutionEnvironmentAlreadyExistsException;
-import es.bsc.dataclay.exceptions.metadataservice.ExternalDataClayNotRegisteredException;
-import es.bsc.dataclay.exceptions.metadataservice.ObjectAlreadyRegisteredException;
-import es.bsc.dataclay.exceptions.metadataservice.ObjectNotRegisteredException;
-import es.bsc.dataclay.exceptions.metadataservice.StorageLocationAlreadyExistsException;
 import es.bsc.dataclay.extrae.DataClayExtrae;
 import es.bsc.dataclay.logic.accountmgr.AccountManager;
 import es.bsc.dataclay.logic.accountmgr.AccountManagerDB;
@@ -734,6 +729,10 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
 			final String eeHostname, final Integer eePort, final Langs language) {
 		
 		final StorageLocationID slID = getStorageLocationID(eeName);
+		if (!this.activeBackends.containsKey(slID)) {
+			// Still not active
+			throw new StorageLocationNotExistException(eeName);
+		}
 
 		// ===================== TRY CONNECTION ======================= //
 		// Obtain or Register the Execution Environment
