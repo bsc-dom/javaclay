@@ -91,14 +91,14 @@ else
 
   ## update develop branch also ##
   #git fetch --all
-  #git checkout develop
-  #git merge master
-  #git add pom.xml
-  #git commit -m "Modified pom.xml"
-  #git push origin HEAD:develop
+  git checkout develop
+  git merge master
+  git add pom.xml
+  git commit -m "Modified pom.xml"
+  git push origin develop
 
   # back to master
-  #git checkout master
+  git checkout master
 fi
 
 printMsg "  ==  Everything seems to be ok! Bye"
