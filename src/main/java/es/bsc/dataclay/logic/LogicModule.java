@@ -720,8 +720,13 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
 	}
 	
 	@Override
-	public StorageLocationID getStorageLocationID(final String slName) { 
-		return metaDataSrvApi.getStorageLocationID(slName);
+	public StorageLocationID getStorageLocationID(final String slName) {
+		final StorageLocationID slID = metaDataSrvApi.getStorageLocationID(slName);
+		if (!this.activeBackends.containsKey(slID)) {
+			// Still not active
+			throw new StorageLocationNotExistException(slName);
+		}
+		return slID;
 	}
 
 	@Override
@@ -729,10 +734,6 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
 			final String eeHostname, final Integer eePort, final Langs language) {
 		
 		final StorageLocationID slID = getStorageLocationID(eeName);
-		if (!this.activeBackends.containsKey(slID)) {
-			// Still not active
-			throw new StorageLocationNotExistException(eeName);
-		}
 
 		// ===================== TRY CONNECTION ======================= //
 		// Obtain or Register the Execution Environment
