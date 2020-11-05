@@ -88,6 +88,7 @@ else
   git checkout develop
   git merge master
   mv develop.pom.xml pom.xml
+  git add pom.xml
   git commit -m "New development version"
   git push
 
