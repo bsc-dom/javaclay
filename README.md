@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.com/bsc-dom/javaclay.svg?branch=develop)](https://travis-ci.com/bsc-dom/javaclay)
-[![Maven Central](https://img.shields.io/maven-central/v/es.bsc.dataclay/dataclay/2.6)](https://search.maven.org/artifact/es.bsc.dataclay/dataclay/2.6/jar)
+[![Maven Central](https://img.shields.io/maven-central/v/es.bsc.dataclay/dataclay/2.4)](https://search.maven.org/artifact/es.bsc.dataclay/dataclay/2.4/jar)
 [![License](https://img.shields.io/github/license/bsc-dom/javaclay)](https://github.com/bsc-dom/javaclay/blob/develop/LICENSE.txt)
 
 [![Nexus](https://img.shields.io/nexus/s/es.bsc.dataclay/dataclay?server=https%3A%2F%2Foss.sonatype.org%2F
