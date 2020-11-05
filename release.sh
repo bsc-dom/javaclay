@@ -70,6 +70,7 @@ else
   sed -i "s/$VERSION/$NEW_VERSION/g" README.md
   sed -i "s/$PREV_VERSION/$VERSION/g" README.md
   git add README.md
+  git commit -m "Modified README.md"
   git push
 
   # NOTE: maven will tag Git repository
