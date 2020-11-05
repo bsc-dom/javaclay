@@ -36,7 +36,7 @@ done
 
 VERSION=$(grep version pom.xml | grep -v -e '<?xml|~'| head -n 1 | sed 's/[[:space:]]//g' | sed -E 's/<.{0,1}version>//g' | awk '{print $1}')
 printMsg "Welcome to javaClay release script"
-GIT_BRANCH=$(git name-rev --name-only HEAD)
+GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
 if [[ "$GIT_BRANCH" != "$BRANCH_TO_CHECK" ]]; then
   printError "Branch is not $BRANCH_TO_CHECK. Aborting script"
 fi
@@ -73,6 +73,8 @@ else
 
   # NOTE: maven will tag Git repository
   mvn -P publish release:clean release:prepare release:perform -s settings.xml
+
+  exit 0
 
   #git add README.md
   #git commit -m "Release ${GIT_TAG}"
