@@ -76,30 +76,14 @@ else
   # NOTE: maven will tag Git repository
   mvn -P publish release:clean release:prepare release:perform -s settings.xml
 
-  exit 0
-
-  #git add README.md
-  #git commit -m "Release ${GIT_TAG}"
-  #git push origin master
-
-  #printMsg "Tagging new release in Git"
-  #git tag -a ${GIT_TAG} -m "Release ${GIT_TAG}"
-  #git push origin ${GIT_TAG}
+  # WARNING: once released maven push pom.xml with SNAPSHOT tag (this is in master branch) should be fixed?
 
   printMsg "Preparing develop branch"
-  #git fetch
-  #git checkout master
-  #git add pom.xml
-  #git commit -m "Modified pom.xml"
-  #git push origin HEAD:$TRAVIS_BRANCH
-
   ## update develop branch also ##
-  #git fetch --all
   git checkout develop
   git merge master
-  git add pom.xml
-  git commit -m "Modified pom.xml"
-  git push origin develop
+  git commit -m "New development version"
+  git push
 
   # back to master
   git checkout master
