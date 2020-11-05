@@ -34,7 +34,7 @@ do
     shift
 done
 
-VERSION=$(grep version pom.xml | grep -v -e '<?xml|~'| head -n 1 | sed 's/[[:space:]]//g' | sed -E 's/<.{0,1}version>//g' | awk '{print $1}')
+POM_VERSION=$(grep version pom.xml | grep -v -e '<?xml|~'| head -n 1 | sed 's/[[:space:]]//g' | sed -E 's/<.{0,1}version>//g' | awk '{print $1}')
 printMsg "Welcome to javaClay release script"
 GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
 if [[ "$GIT_BRANCH" != "$BRANCH_TO_CHECK" ]]; then
@@ -60,7 +60,7 @@ if [ "$DEV" = true ] ; then
 else
 
   printMsg "Pre-processing files in master"
-  VERSION="${VERSION//-SNAPSHOT/}"
+  VERSION="${POM_VERSION//-SNAPSHOT/}"
   VERSION=$(echo "$VERSION" | cut -d '.' -f1,2)
   PREV_VERSION=$(echo "$VERSION - 0.1" | bc)
   NEW_VERSION=$(echo "$VERSION + 0.1" | bc)
@@ -76,12 +76,18 @@ else
   # NOTE: maven will tag Git repository
   mvn -P publish release:clean release:prepare release:perform -s settings.xml
 
-  # WARNING: once released maven push pom.xml with SNAPSHOT tag (this is in master branch) should be fixed?
+  # once released maven push pom.xml without SNAPSHOT tag in master
+  cp pom.xml develop.pom.xml
+  sed -i "s/$VERSION-SNAPSHOT/$VERSION/g" pom.xml
+  git add pom.xml
+  git commit -m "Released $VERSION"
+  git push
 
   printMsg "Preparing develop branch"
   ## update develop branch also ##
   git checkout develop
   git merge master
+  mv develop.pom.xml pom.xml
   git commit -m "New development version"
   git push
 
