@@ -9,7 +9,7 @@ printMsg() {
 }
 printError() {
   printf "${CONSOLE_RED}${1}${CONSOLE_NORMAL}\n"
-  exit 1
+  exit 0
 }
 #-----------------------------------------------------------------------
 # MAIN
