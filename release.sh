@@ -36,9 +36,8 @@ done
 
 POM_VERSION=$(grep version pom.xml | grep -v -e '<?xml|~'| head -n 1 | sed 's/[[:space:]]//g' | sed -E 's/<.{0,1}version>//g' | awk '{print $1}')
 printMsg "Welcome to javaClay release script"
-GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
-git branch
-git rev-parse --abbrev-ref HEAD
+GIT_BRANCH=$(git for-each-ref --format='%(objectname) %(refname:short)' refs/heads | awk "/^$(git rev-parse HEAD)/ {print \$2}")
+git for-each-ref --format='%(objectname) %(refname:short)' refs/heads | awk "/^$(git rev-parse HEAD)/ {print \$2}"
 git ls-remote .
 if [[ "$GIT_BRANCH" != "$BRANCH_TO_CHECK" ]]; then
   printError "Branch is not $BRANCH_TO_CHECK. Found $GIT_BRANCH. Aborting script"
