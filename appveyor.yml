@@ -1,0 +1,60 @@
+
+
+
+environment:
+  GPG_SECRET_KEYS:
+    secure:
+  GPG_EXECUTABLE:
+    secure:
+  GPG_OWNERTRUST:
+    secure:
+  SONATYPE_USER:
+    secure:
+  SONATYPE_PASSWORD:
+    secure:
+
+build_script:
+
+jobs:
+  include:
+    - jdk: openjdk8
+    - jdk: openjdk11
+    - stage: deploy_dev
+      if: branch = develop AND type = cron
+      before_install:
+        - echo "$GPG_SECRET_KEYS" | base64 --decode | $GPG_EXECUTABLE --import
+        - echo "$GPG_OWNERTRUST" | base64 --decode | $GPG_EXECUTABLE --import-ownertrust
+        - .travis/set_ssh.sh
+        - git remote set-url origin git@github.com:bsc-dom/javaclay.git
+      deploy:
+          provider: script
+          script: mvn -P publish deploy -s settings.xml
+          on:
+               branch: develop
+    - stage: deploy_release 
+      if: branch = master AND type = api
+      before_install:
+        - echo "$GPG_SECRET_KEYS" | base64 --decode | $GPG_EXECUTABLE --import
+        - echo "$GPG_OWNERTRUST" | base64 --decode | $GPG_EXECUTABLE --import-ownertrust
+        - .travis/set_ssh.sh
+        - git remote set-url origin git@github.com:bsc-dom/javaclay.git
+        - git fetch
+        - git checkout master
+      deploy:
+          provider: script
+          script: mvn -P publish -B release:clean release:prepare release:perform -s settings.xml
+          on:
+               branch: master
+      after_deploy:
+        - .travis/new_version.sh
+notifications:
+  email:
+    - commiter:
+      on_success: change
+      on_failure: always
+    - cron:
+      if: type = cron
+      recipients:
+        - support-dataclay@bsc.es
+      on_success: change
+      on_failure: always
