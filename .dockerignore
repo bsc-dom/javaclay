@@ -15,3 +15,6 @@ LICENSE.txt
 dataclay-common
 checkstyle
 state.txt
+.appveyor
+.github
+appveyor.yml
