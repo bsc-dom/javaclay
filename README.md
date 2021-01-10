@@ -1,4 +1,7 @@
-[![Build Status](https://travis-ci.com/bsc-dom/javaclay.svg?branch=develop)](https://travis-ci.com/bsc-dom/javaclay)
+[![Build status](https://ci.appveyor.com/api/projects/status/p4s4g3p4wlbvgqqv/branch/develop?retina=true)](https://ci.appveyor.com/project/support-dataclay/javaclay/branch/develop)
+[![Build status](https://ci.appveyor.com/api/projects/status/m03h5k33p0f82yrn/branch/master?svg=true&passingText=Passing+functional+tests&pendingText=Building+functional+tests)](https://ci.appveyor.com/project/support-dataclay/javaclay-testing-test/branch/master)
+
+
 [![Maven Central](https://img.shields.io/maven-central/v/es.bsc.dataclay/dataclay/2.5)](https://search.maven.org/artifact/es.bsc.dataclay/dataclay/2.5/jar)
 [![License](https://img.shields.io/github/license/bsc-dom/javaclay)](https://github.com/bsc-dom/javaclay/blob/develop/LICENSE.txt)
 
