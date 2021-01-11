@@ -1,0 +1,37 @@
+version: 2.6.1.build{build}
+branches:
+  except:
+    - master
+max_jobs: 1
+image: Ubuntu1804
+environment:
+  SONATYPE_USERNAME:
+    secure: TtcE9D/pju15d2bUD6uG6A==
+  SONATYPE_PASSWORD:
+    secure: D3yTf8WyeeWjwBZWxS0c85BDXfJkeXNTTXJzuxyxZ8/pu2aEg5P2hpVhPdg7iueA
+  GPG_EXECUTABLE:
+    secure: LilzeouXv79x7rlWnDr5rQ==
+  GPG_PASSPHRASE:
+    secure: Hg/8Dd7w6Q1AV0EMAkEO1Q==
+  GPG_PUBLIC_KEY_SECRET:
+    secure: g59B91FIwPaMcYE4J4owCp/ZAGFVCXVntFNzNH1zjlI=
+  GPG_PUBLIC_KEY_SALT:
+    secure: GZD1QcXGkYZV+BcgI+WZ4w6PiX9A2R8QHunQfnNaM7B8ar/NCKCCYXvSz3swjqkBQogEHizPBdB52gRStdKeBA==
+  GPG_PRIVATE_KEY_SECRET:
+    secure: /2gqEXc1nPkZTFJyco0WYZAXd7RtUFCg6T2vM1g/u4o=
+  GPG_PRIVATE_KEY_SALT:
+    secure: H6H5i5IzzgtNMN1dyDl48JLffG7EbWOmmVM3aH+d0GFNwP7FC8zslffTVcHAuUwgiZX0hVc2rzveX1qMDMbwSw==
+  JAVA_HOME: /usr/lib/jvm/java-1.11.0-openjdk-amd64/
+install:
+  - sh: "curl -sflL 'https://raw.githubusercontent.com/appveyor/secure-file/master/install.sh' | bash -e -\n./appveyor-tools/secure-file -decrypt .appveyor/javaclay_pub.gpg.enc -secret $GPG_PUBLIC_KEY_SECRET -salt $GPG_PUBLIC_KEY_SALT \n./appveyor-tools/secure-file -decrypt .appveyor/javaclay_sec.gpg.enc -secret $GPG_PRIVATE_KEY_SECRET -salt $GPG_PRIVATE_KEY_SALT \ngpg --import .appveyor/javaclay_pub.gpg\ngpg --allow-secret-key-import --no-tty --batch --yes --import .appveyor/javaclay_sec.gpg\nsudo apt-get update\nsudo apt-get install -y openjdk-11-jdk maven\nmvn -version\necho $JAVA_HOME"
+cache: /home/appveyor/.m2
+build: off
+test_script:
+  - sh: mvn clean test
+notifications:
+  - provider: Email
+    to:
+      - support-dataclay@bsc.es
+    on_build_success: false
+    on_build_failure: true
+    on_build_status_changed: true
