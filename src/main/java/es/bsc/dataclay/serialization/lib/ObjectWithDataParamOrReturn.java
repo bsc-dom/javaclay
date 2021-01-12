@@ -185,4 +185,8 @@ public final class ObjectWithDataParamOrReturn implements DataClaySerializable {
 		strb.append("DATA = " + serializedBytes + "\n");
 		return strb.toString();
 	}
+
+	public int hashCode() {
+		return this.objectID.hashCode();
+	}
 }

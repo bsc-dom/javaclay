@@ -7,8 +7,10 @@ package es.bsc.dataclay.logic.api;
 
 import java.util.*;
 
+import es.bsc.dataclay.api.BackendID;
 import es.bsc.dataclay.commonruntime.DataServiceRuntime;
 import es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.Langs;
+import es.bsc.dataclay.serialization.lib.ObjectWithDataParamOrReturn;
 import es.bsc.dataclay.serialization.lib.SerializedParametersOrReturn;
 import es.bsc.dataclay.util.events.listeners.ECA;
 import es.bsc.dataclay.util.events.message.EventMessage;
@@ -950,13 +952,16 @@ public interface LogicModuleAPI {
 	 *            id of the current session
 	 * @param objectID
 	 *            id of the object to be federated
+	 * @param classID id of the class of the object to federate
+	 * @param hint hint of the object to federate
 	 * @param extDataClayID
 	 *            ID of the external dataClay instance
 	 * @param recursive
 	 *            whether subobjects should be also federated or not
 	 */
-	void federateObject(final SessionID sessionID, final ObjectID objectID, final DataClayInstanceID extDataClayID,
-			final boolean recursive);
+	void federateObject(final SessionID sessionID, final ObjectID objectID, final MetaClassID classID,
+						final BackendID hint,
+						final DataClayInstanceID extDataClayID, final boolean recursive);
 
 	/**
 	 * Method that notifies current dataClay instance of a federated object from another dataClay
@@ -967,14 +972,15 @@ public interface LogicModuleAPI {
 	 *            hostname of source dataClay instance
 	 * @param srcDcPort
 	 *            port of source dataClay instance
+
 	 * @param providedobjectsInfo
 	 *            metadata of objects to federate
-	 * @param federatedObjects Serialized data of objects to federate
+	 * @param federatedObjectsPerLanguage Serialized data of objects to federate
 	 * 
 	 */
 	void notifyFederatedObjects(final DataClayInstanceID srcDataClayID, final String srcDcHost,
-			final int srcDcPort, final Map<ObjectID, MetaDataInfo> providedobjectsInfo, 
-			final Map<Langs, SerializedParametersOrReturn> federatedObjects);
+			final int srcDcPort, final Map<ObjectID, Tuple<MetaClassID, String>> providedobjectsInfo,
+								final Map<Langs, List<ObjectWithDataParamOrReturn>> federatedObjectsPerLanguage);
 
 	/**
 	 * Checks if the given object is federated with given external dataClay instance

@@ -1687,7 +1687,7 @@ public abstract class DataClayRuntime {
 		}
 		final SessionID sessionID = checkAndGetSession(new String[] {}, new Object[] {});
 		this.ensureObjectRegistered(sessionID, objectID, classID, hint);
-		logicModule.federateObject(sessionID, objectID, extDataClayID, recursive);
+		logicModule.federateObject(sessionID, objectID, classID, hint, extDataClayID, recursive);
 	}
 
 	/**

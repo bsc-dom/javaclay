@@ -167,24 +167,14 @@ public interface DataServiceAPI extends CommonManager {
 	 *            IDs of the objects to get
 	 * @param recursive
 	 *            Indicates if, per each object to get, also obtain its associated objects.
-	 * @param moving
-	 *            Indicates we are getting object for a move
-	 * @return List of serialized objects with ids provided
+	 * @param removeHint
+	 *            Indicates hint must be removed because we getting object for a move/federation...
+	 * @param getOnlyRefs Indicates object must not be serialized. Only the object ID is needed (the reference)
+	 * @return Map of serialized object where key is the objectID. Object is not serialized if flag getOnlyRefs=true
 	 */
-	List<ObjectWithDataParamOrReturn> getObjects(final SessionID sessionID, final Set<ObjectID> objectIDs,
-			final boolean recursive, final boolean moving);
+	Map<ObjectID, ObjectWithDataParamOrReturn> getObjects(final SessionID sessionID, final Set<ObjectID> objectIDs,
+			final boolean recursive, final boolean removeHint, final boolean getOnlyRefs);
 
-	/**
-	 * Get the serialized objects with id provided
-	 * 
-	 * @param extDataClayID
-	 *            ID of external dataClay
-	 * @param objectIDs
-	 *            IDs of the objects to get
-	 * @return List of serialized objects with ids provided
-	 */
-	List<ObjectWithDataParamOrReturn> getFederatedObjects(final DataClayInstanceID extDataClayID,
-			final Set<ObjectID> objectIDs);
 
 	/**
 	 * Retrieve the elements contained in the given object that match with specified conditions.
@@ -200,17 +190,6 @@ public interface DataServiceAPI extends CommonManager {
 	SerializedParametersOrReturn filterObject(final SessionID sessionID, final ObjectID objectID,
 			final String conditions);
 
-	/**
-	 * Method that traverses those objects from the given set that are stored locally and retrieves the IDs of the references
-	 * they have
-	 * 
-	 * @param sessionID
-	 *            id of the session
-	 * @param objectIDs
-	 *            ids of the entry set
-	 * @return set of objects ids of the references
-	 */
-	Set<ObjectID> getReferencedObjectsIDs(final SessionID sessionID, final Set<ObjectID> objectIDs);
 
 	/**
 	 * This function will deserialize make persistent "parameters" (i.e. object to persist and subobjects if needed) into
