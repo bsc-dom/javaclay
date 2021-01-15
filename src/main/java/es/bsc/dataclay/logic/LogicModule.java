@@ -1,4 +1,3 @@
-
 /**
  * @file LogicModule.java
  *
@@ -762,36 +761,40 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
 		// Activate storage location (execution environments cannot be activated before SL is ready)
 		this.activeBackends.get(slID).add(id);
 		
-		// ========== DEPLOY INSTALLED CLASSES ========== //
-		if (newRegistration && Configuration.Flags.REGISTER_DATACLAY_CLASSES.getBooleanValue()) {
-			LOGGER.info("[LOGICMODULE] Going to deploy dataClay classes");
-			// Deploy DataClay classes
-			// Generate MetaClassSpec for DataClay Classes
+		// ========== DEPLOY REGISTERED CLASSES ========== //
+		if (newRegistration) {
 			try {
-				final Map<MetaClassID, MetaClass> installedClasses = classMgrApi
-						.getInfoOfClassesInNamespace(publicIDs.dcPublicNamespaceID);
-				if (!installedClasses.isEmpty()) {
-					final Set<MetaClass> allMetaClasses = new HashSet<>(installedClasses.values());
-					final Set<String> classesToDeploy = new HashSet<>();
-					for (final MetaClass curClass : allMetaClasses) {
-						classesToDeploy.add(curClass.getName());
-					}
-					final Set<NamespaceID> namespacesIDs = new HashSet<>();
-					namespacesIDs.add(publicIDs.dcPublicNamespaceID);
-					final Map<NamespaceID, Namespace> namespaceInfos = namespaceMgrApi.getNamespacesInfo(namespacesIDs);
-					final Langs eeLang = executionEnv.getLang();
-					if (eeLang.equals(Langs.LANG_JAVA)) {
-						outsourceClassesDeploymentJava(allMetaClasses, classesToDeploy, namespaceInfos, null, executionEnv.getDataClayID());
-					} else if (eeLang.equals(Langs.LANG_PYTHON)) {
-						outsourceClassesDeploymentPython(allMetaClasses, classesToDeploy, namespaceInfos, null,
-								executionEnv.getDataClayID());
+				// get all namespaces
+				Set<String> allNamespaces = this.namespaceMgrApi.getNamespacesNames();
+				// get all classes
+				for (String namespace : allNamespaces) {
+					NamespaceID namespaceID = this.namespaceMgrApi.getNamespaceID(namespace);
+					final Map<MetaClassID, MetaClass> installedClasses = this.classMgrApi.getInfoOfClassesInNamespace(namespaceID);
+
+					if (!installedClasses.isEmpty()) {
+						LOGGER.info("[LOGICMODULE] Going to deploy registered classes in namespace " + namespace);
+						final Set<MetaClass> allMetaClasses = new HashSet<>(installedClasses.values());
+						final Set<String> classesToDeploy = new HashSet<>();
+						for (final MetaClass curClass : allMetaClasses) {
+							classesToDeploy.add(curClass.getName());
+							LOGGER.debug("[LOGICMODULE] Going to deploy " + curClass);
+						}
+						final Set<NamespaceID> namespacesIDs = new HashSet<>();
+						namespacesIDs.add(namespaceID);
+						final Map<NamespaceID, Namespace> namespaceInfos = namespaceMgrApi.getNamespacesInfo(namespacesIDs);
+						final Langs eeLang = executionEnv.getLang();
+						if (eeLang.equals(Langs.LANG_JAVA)) {
+							outsourceClassesDeploymentJava(allMetaClasses, classesToDeploy, namespaceInfos, null, executionEnv.getDataClayID());
+						} else if (eeLang.equals(Langs.LANG_PYTHON)) {
+							outsourceClassesDeploymentPython(allMetaClasses, classesToDeploy, namespaceInfos, null,
+									executionEnv.getDataClayID());
+						}
 					}
 				}
 			} catch (final Exception ex) {
 				LOGGER.debug("autoregisterDataService error during dataClay classes registration", ex);
 			}
 		}
-
 		return slID;
 	}
 

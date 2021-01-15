@@ -1449,7 +1449,7 @@ public final class ClassManagerDB {
 			}
 
 			insertStatement.setBytes(4, info.getClassByteCode());
-
+			insertStatement.setInt(5, info.getModifier());
 			// CHECKSTYLE:ON
 			if (DEBUG_ENABLED) {
 				logger.debug("[==DB==] Executing " + insertStatement);
@@ -2356,7 +2356,9 @@ public final class ClassManagerDB {
 			info = new JavaClassInfo(signature, bytecode);
 			info.setJavaParentInterfaces(javaParentInterfaces);
 			final UUID id = (UUID)rs.getObject("id");
+			int modifier = rs.getInt("modifier");
 			info.setId(id);
+			info.setModifier(modifier);
 		} catch (final SQLException e) {
 
 			logger.debug("SQL Exception in deserializeJavaClass", e);
