@@ -78,11 +78,13 @@
                 <groupId>com.nickwongdev</groupId>
                 <artifactId>aspectj-maven-plugin</artifactId>
                 <version>1.12.1</version>
+                <!--
                 <executions>
                     <execution>
-                        <phase />
+                        <phase/>
                     </execution>
                 </executions>
+                -->
             </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
@@ -157,6 +159,16 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <version>3.9.1</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-project-info-reports-plugin</artifactId>
+                <version>3.0.0</version>
             </plugin>
         </plugins>
         <!--</pluginManagement> -->
@@ -343,7 +355,7 @@
                             </execution>
                         </executions>
                         <configuration>
-                            <additionalparam>-Xdoclint:none</additionalparam>
+                            <doclint>none</doclint>
                             <additionalOptions>-Xdoclint:none</additionalOptions>
                             <additionalJOption>-Xdoclint:none</additionalJOption>
                             <source>8</source>
@@ -468,7 +480,7 @@
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>3.2.0</version>
                 <configuration>
-                    <additionalparam>-Xdoclint:none</additionalparam>
+                    <doclint>none</doclint>
                     <additionalOptions>-Xdoclint:none</additionalOptions>
                     <additionalJOption>-Xdoclint:none</additionalJOption>
                     <source>8</source>
@@ -606,7 +618,6 @@
             <artifactId>reflections</artifactId>
             <version>0.9.11</version>
         </dependency>
-
         <!-- WALA dependencies <dependency> <groupId>com.ibm.wala</groupId> <artifactId>com.ibm.wala.shrike</artifactId>
             <version>1.5.0</version> </dependency> <dependency> <groupId>com.ibm.wala</groupId>
             <artifactId>com.ibm.wala.core</artifactId> <version>1.5.0</version> </dependency>

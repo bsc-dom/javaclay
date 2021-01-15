@@ -73,7 +73,10 @@ public final class ExecutionByteCodeManager {
 		final DataClayClassWriter classWriter = new DataClayClassWriter(ClassWriter.COMPUTE_FRAMES, classMgrRef,
 				allIncludes, true);
 		final ClassRemapper remapper = new ClassRemapper(classWriter, new SimpleRemapper(renaming));
-		
+
+
+		System.out.println("MODIFIER OF " + metaclass.getName() + " is " + metaclass.getJavaClassInfo().getModifier());
+
 		if (Modifier.isInterface(metaclass.getJavaClassInfo().getModifier())) { 
 			final ClassReader classReader = new ClassReader(metaclass.getJavaClassInfo().getClassByteCode());
 			classReader.accept(remapper, ClassReader.EXPAND_FRAMES);
