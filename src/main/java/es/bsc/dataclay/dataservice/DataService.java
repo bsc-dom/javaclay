@@ -328,10 +328,12 @@ public final class DataService implements DataServiceAPI {
 
 		// Create directories if needed
 		FileAndAspectsUtils.createDirectory(namespaceDir);
+		LOGGER.debug("Received " + classesToDeploy.size() + " classes ");
 
 		for (final Entry<Tuple<String, MetaClassID>, byte[]> curEntry : classesToDeploy.entrySet()) {
 			final String className = curEntry.getKey().getFirst();
 			final String finalClassName = namespaceName + "." + className;
+			LOGGER.debug("Storing class " + finalClassName);
 			final byte[] classToDeploy = curEntry.getValue();
 			try {
 				FileAndAspectsUtils.storeClass(namespaceDir, finalClassName + ".class", classToDeploy);
@@ -342,6 +344,8 @@ public final class DataService implements DataServiceAPI {
 				throw new ClassDeploymentException(namespaceName, className, ex.getMessage());
 			}
 		}
+
+
 
 		for (final Entry<Tuple<String, MetaClassID>, byte[]> curEntry : classesToDeploy.entrySet()) {
 			final String className = curEntry.getKey().getFirst();

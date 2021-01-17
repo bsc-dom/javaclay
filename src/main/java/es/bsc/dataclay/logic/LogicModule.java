@@ -3500,7 +3500,7 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
 	public ObjectID registerObject(final RegistrationInfo regInfo, final ExecutionEnvironmentID backendID,
 			final String alias, final Langs lang) {
 		if (DEBUG_ENABLED) {
-			LOGGER.debug("Registering object explicit call: " + regInfo + " and alias " + alias);
+			LOGGER.debug("====> Registering object explicit call: " + regInfo + " and alias " + alias);
 		}
 		// Register the object in the metadataservice
 		final HashSet<ExecutionEnvironmentID> backendIDs = new HashSet<>();
@@ -3541,6 +3541,7 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
 			notifyGarbageCollectors(referenceCounting);
 		}
 
+		LOGGER.debug("====> Finished registration of object");
 		return objectIDofNewObject;
 	}
 
@@ -3718,7 +3719,7 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
 		try {
 
 			if (DEBUG_ENABLED) {
-				LOGGER.debug("Starting get object from alias for alias " + alias);
+				LOGGER.debug("====> Starting get object from alias for alias " + alias);
 			}
 
 			// Get session if needed

@@ -101,6 +101,11 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <compilerArgs>
+                        <arg>-Xpkginfo:always</arg>
+                    </compilerArgs>
+                </configuration>
             </plugin>
             <!-- Maven Assembly Plugin -->
             <plugin>
@@ -121,6 +126,7 @@
             </plugin>
 			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
+                <version>3.3.0</version>
 				<configuration>
 					<descriptorRefs>
 						<descriptorRef>jar-with-dependencies</descriptorRef>
@@ -161,6 +167,35 @@
                 </executions>
             </plugin>
             <plugin>
+                <groupId>de.qaware.maven</groupId>
+                <artifactId>go-offline-maven-plugin</artifactId>
+                <version>1.2.8</version>
+                <configuration>
+                    <dynamicDependencies>
+                        <DynamicDependency>
+                            <groupId>org.apache.maven.surefire</groupId>
+                            <artifactId>surefire-junit4</artifactId>
+                            <version>2.20.1</version>
+                            <repositoryType>PLUGIN</repositoryType>
+                        </DynamicDependency>
+                        <DynamicDependency>
+                            <groupId>com.querydsl</groupId>
+                            <artifactId>querydsl-apt</artifactId>
+                            <version>4.2.1</version>
+                            <classifier>jpa</classifier>
+                            <repositoryType>MAIN</repositoryType>
+                        </DynamicDependency>
+                        <DynamicDependency>
+                            <groupId>org.flywaydb</groupId>
+                            <artifactId>flyway-commandline</artifactId>
+                            <version>4.0.3</version>
+                            <type>zip</type>
+                            <repositoryType>MAIN</repositoryType>
+                        </DynamicDependency>
+                    </dynamicDependencies>
+                </configuration>
+            </plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-site-plugin</artifactId>
                 <version>3.9.1</version>
@@ -170,6 +205,7 @@
                 <artifactId>maven-project-info-reports-plugin</artifactId>
                 <version>3.0.0</version>
             </plugin>
+
         </plugins>
         <!--</pluginManagement> -->
     </build>

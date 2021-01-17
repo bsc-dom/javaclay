@@ -74,10 +74,7 @@ public final class ExecutionByteCodeManager {
 				allIncludes, true);
 		final ClassRemapper remapper = new ClassRemapper(classWriter, new SimpleRemapper(renaming));
 
-
-		System.out.println("MODIFIER OF " + metaclass.getName() + " is " + metaclass.getJavaClassInfo().getModifier());
-
-		if (Modifier.isInterface(metaclass.getJavaClassInfo().getModifier())) { 
+		if (Modifier.isInterface(metaclass.getJavaClassInfo().getModifier())) {
 			final ClassReader classReader = new ClassReader(metaclass.getJavaClassInfo().getClassByteCode());
 			classReader.accept(remapper, ClassReader.EXPAND_FRAMES);
 		} else {
