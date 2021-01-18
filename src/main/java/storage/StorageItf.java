@@ -37,9 +37,7 @@ public final class StorageItf {
 	protected static final boolean DEBUG_ENABLED = Configuration.isDebugEnabled();
 
 	/** Mapping from version "ObjectID" to the original object of its version sequence. */
-	private static Map<ObjectID, VersionInfo> versions;
-	/** UserClientLib for the session. */
-	private static ClientRuntime commonLib;
+	private static final Map<ObjectID, VersionInfo> versions = new ConcurrentHashMap<>();
 
 	/**
 	 * @brief Forbidden constructor
@@ -55,11 +53,6 @@ public final class StorageItf {
 		} catch (final DataClayException ex) {
 			throw new StorageException(ex.getLocalizedMessage());
 		}
-
-		// Init versions mappings --specific for COMPSs
-		versions = new ConcurrentHashMap<>();
-
-		commonLib = DataClay.getCommonLib();
 	}
 
 	/**
@@ -100,6 +93,7 @@ public final class StorageItf {
 	public static String newVersion(final String objectIDstr, final boolean preserveSource, final String optDestHost) throws StorageException {
 		// TODO preserveSource is currently ignored, but we could take advantage of it (jmarti 15-09-2017)
 		try {
+			ClientRuntime commonLib = DataClay.getCommonLib();
 			final Map<BackendID, Backend> backendsByID = DataClay.getBackends();
 			Map<BackendID, Backend> backendsByIDMatchLang = null;
 			// Check object language to select destination backends
@@ -203,7 +197,7 @@ public final class StorageItf {
 			if (versionInfo == null) {
 				throw new StorageException("There is no version with ID " + versionOID);
 			}
-			commonLib.consolidateVersion(versionInfo);
+			DataClay.getCommonLib().consolidateVersion(versionInfo);
 			versions.remove(versionOID);
 
 			System.out.println("[DATACLAY] Consolidated version " + versionOID);
@@ -226,7 +220,7 @@ public final class StorageItf {
 
 	/**
 	 * @brief Retrieves a random backend from the given set of backends.
-	 * @param possibleBackends
+	 * @param possibleObjects
 	 *            set of backends.
 	 * @return
 	 * @return the randomly selected backend.
@@ -315,8 +309,6 @@ public final class StorageItf {
 	 *            method to be executed
 	 * @param params
 	 *            parameters for the operation.
-	 * @param destHost
-	 *            destination host where the method has to be executed.
 	 * @param callback
 	 *            callback handler to communicate the result when the execution finishes.
 	 * @return an id of the executed request that will receive the callback handler with the corresponding response
