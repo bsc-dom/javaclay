@@ -342,15 +342,17 @@ public final class DataService implements DataServiceAPI {
         // Create temporary directories
         final String namespaceDir = Configuration.Flags.EXECUTION_CLASSES_PATH.getStringValue();
 
-        // Create directories if needed
-        FileAndAspectsUtils.createDirectory(namespaceDir);
+		// Create directories if needed
+		FileAndAspectsUtils.createDirectory(namespaceDir);
+		LOGGER.debug("Received " + classesToDeploy.size() + " classes ");
 
-        for (final Entry<Tuple<String, MetaClassID>, byte[]> curEntry : classesToDeploy.entrySet()) {
-            final String className = curEntry.getKey().getFirst();
-            final String finalClassName = namespaceName + "." + className;
-            final byte[] classToDeploy = curEntry.getValue();
-            try {
-                FileAndAspectsUtils.storeClass(namespaceDir, finalClassName + ".class", classToDeploy);
+		for (final Entry<Tuple<String, MetaClassID>, byte[]> curEntry : classesToDeploy.entrySet()) {
+			final String className = curEntry.getKey().getFirst();
+			final String finalClassName = namespaceName + "." + className;
+			LOGGER.debug("Storing class " + finalClassName);
+			final byte[] classToDeploy = curEntry.getValue();
+			try {
+				FileAndAspectsUtils.storeClass(namespaceDir, finalClassName + ".class", classToDeploy);
 
             } catch (final Exception ex) {
                 ex.printStackTrace();
@@ -359,14 +361,16 @@ public final class DataService implements DataServiceAPI {
             }
         }
 
-        for (final Entry<Tuple<String, MetaClassID>, byte[]> curEntry : classesToDeploy.entrySet()) {
-            final String className = curEntry.getKey().getFirst();
-            final String finalClassName = namespaceName + "." + className;
-            final byte[] classToDeploy = curEntry.getValue();
-            //  Verify class
-            checkGeneratedClass(classToDeploy);
-            DataClayClassLoaderSrv.getClass(finalClassName);
-        }
+
+
+		for (final Entry<Tuple<String, MetaClassID>, byte[]> curEntry : classesToDeploy.entrySet()) {
+			final String className = curEntry.getKey().getFirst();
+			final String finalClassName = namespaceName + "." + className;
+			final byte[] classToDeploy = curEntry.getValue();
+			//  Verify class 
+			checkGeneratedClass(classToDeploy);
+			DataClayClassLoaderSrv.getClass(finalClassName);
+		}
 
         // Store yamls into final path
         for (final Entry<String, byte[]> curEntry : stubYamls.entrySet()) {

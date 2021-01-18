@@ -380,7 +380,7 @@ public abstract class DataClayRuntime {
 			if (foundAliveThread) { 
 				LOGGER.warn("WARNING: Waiting for " + threadName + " thread to finish. Sleeping for 2s");
 				try {
-					Thread.sleep(2000);
+					Thread.sleep(300);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}

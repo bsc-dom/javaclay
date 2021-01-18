@@ -1,20 +1,11 @@
-target
-bin
-dbfiles
-.classpath
-.settings
-.project
-.travis*
-.project
-.pydevproject
-.git*
-.idea
-*.iml
-*.md
-LICENSE.txt
-dataclay-common
-checkstyle
-state.txt
-.appveyor
-.github
-appveyor.yml
+# In .dockerignore
+# Exclude everything:
+#
+*
+
+# Now un-exclude:
+#
+!src
+!pom.xml
+!META-INF
+.dockerignore

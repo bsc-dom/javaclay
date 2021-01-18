@@ -111,8 +111,7 @@ public final class ClassManager extends AbstractManager {
 	/**
 	 * Instantiates an Class Manager that uses the Backend configuration
 	 *        provided.
-	 * @param managerName
-	 *            Manager/service name.
+	 * @param dataSource data source
 	 * @post Creates an Class manager and hash initializes the backend.
 	 */
 	public ClassManager(final BasicDataSource dataSource) {
@@ -1960,7 +1959,6 @@ public final class ClassManager extends AbstractManager {
 	 */
 	public Tuple<byte[], byte[]> generateJavaExecutionClass(final MetaClass metaClass) {
 
-		final List<MetaClass> accessedClasses = getAllIncludes(metaClass);
 
 		// Get parent name
 		String realParentName = null;
@@ -1980,8 +1978,10 @@ public final class ClassManager extends AbstractManager {
 		}
 
 		// Once symbols were modified we must generate the execution class
+		Map<MetaClassID, MetaClass> allNamespaceClasses = this.getInfoOfClassesInNamespace(metaClass.getNamespaceID());
+
 		final byte[] result = ExecutionByteCodeManager.generateExecutionClass(metaClass, realParentName, this,
-				accessedClasses);
+				new ArrayList<>(allNamespaceClasses.values()));
 		final byte[] aspects = StubByteCodeManager.generateStubAspect(metaClass, true, this);
 		return new Tuple<>(result, aspects);
 	}
@@ -1993,6 +1993,7 @@ public final class ClassManager extends AbstractManager {
 	 * @return All includes of type
 	 */
 	private List<MetaClass> getAllIncludes(final MetaClass metaClass) {
+
 		final Set<MetaClassID> accClass = new HashSet<>();
 
 		// ======================== FIND ALL ACCESSED CLASSES

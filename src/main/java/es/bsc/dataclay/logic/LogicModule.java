@@ -3496,33 +3496,33 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
 
     // ============== Metadata Service ==============//
 
-    @Override
-    public ObjectID registerObject(final RegistrationInfo regInfo, final ExecutionEnvironmentID backendID,
-                                   final String alias, final Langs lang) {
-        if (DEBUG_ENABLED) {
-            LOGGER.debug("Registering object explicit call: " + regInfo + " and alias " + alias);
-        }
-        // Register the object in the metadataservice
-        final HashSet<ExecutionEnvironmentID> backendIDs = new HashSet<>();
-        backendIDs.add(backendID);
-        ObjectID objectIDofNewObject = regInfo.getObjectID();
-        final SessionID ownerSessionID = regInfo.getStoreSessionID();
-        final MetaClassID metaClassID = regInfo.getClassID();
-        DataSetID datasetIDforStore = null;
-        AccountID ownerAccountID = null;
-        if (ownerSessionID == null) {
-            // objects created in federation or without session
-            // TODO: create a general dataClay dataset and account
-            datasetIDforStore = dataSetMgrApi.getDataSetID(EXTERNAL_OBJECTS_DATASET_NAME);
-            ownerAccountID = accountMgrApi.getAccountID(FEDERATOR_ACCOUNT_USERNAME);
-        } else {
-            final SessionInfo sessionInfo = getSessionInfo(ownerSessionID);
-            final Map<DataContractID, SessionDataContract> sessionDataInfo = sessionInfo.getSessionDataContracts();
-            final DataContractID dataContractIDforStore = sessionInfo.getDataContractIDforStore();
-            final SessionDataContract sessionDataContractOfStore = sessionDataInfo.get(dataContractIDforStore);
-            datasetIDforStore = sessionDataContractOfStore.getDataSetOfProvider();
-            ownerAccountID = sessionInfo.getAccountID();
-        }
+	@Override
+	public ObjectID registerObject(final RegistrationInfo regInfo, final ExecutionEnvironmentID backendID,
+			final String alias, final Langs lang) {
+		if (DEBUG_ENABLED) {
+			LOGGER.debug("====> Registering object explicit call: " + regInfo + " and alias " + alias);
+		}
+		// Register the object in the metadataservice
+		final HashSet<ExecutionEnvironmentID> backendIDs = new HashSet<>();
+		backendIDs.add(backendID);
+		ObjectID objectIDofNewObject = regInfo.getObjectID();
+		final SessionID ownerSessionID = regInfo.getStoreSessionID();
+		final MetaClassID metaClassID = regInfo.getClassID();
+		DataSetID datasetIDforStore = null;
+		AccountID ownerAccountID = null;
+		if (ownerSessionID == null) {
+			// objects created in federation or without session
+			// TODO: create a general dataClay dataset and account
+			datasetIDforStore = dataSetMgrApi.getDataSetID(EXTERNAL_OBJECTS_DATASET_NAME);
+			ownerAccountID = accountMgrApi.getAccountID(FEDERATOR_ACCOUNT_USERNAME);
+		} else {
+			final SessionInfo sessionInfo = getSessionInfo(ownerSessionID);
+			final Map<DataContractID, SessionDataContract> sessionDataInfo = sessionInfo.getSessionDataContracts();
+			final DataContractID dataContractIDforStore = sessionInfo.getDataContractIDforStore();
+			final SessionDataContract sessionDataContractOfStore = sessionDataInfo.get(dataContractIDforStore);
+			datasetIDforStore = sessionDataContractOfStore.getDataSetOfProvider();
+			ownerAccountID = sessionInfo.getAccountID();
+		}
 
         if (regInfo.getDataSetID() != null) {
             // User specified dataset ID
@@ -3541,8 +3541,9 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
             notifyGarbageCollectors(referenceCounting);
         }
 
-        return objectIDofNewObject;
-    }
+		LOGGER.debug("====> Finished registration of object");
+		return objectIDofNewObject;
+	}
 
     /**
      * Notify garbage collectors to add delta in reference counting of the objects
@@ -3717,9 +3718,9 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
                                                                                     final String alias) {
         try {
 
-            if (DEBUG_ENABLED) {
-                LOGGER.debug("Starting get object from alias for alias " + alias);
-            }
+			if (DEBUG_ENABLED) {
+				LOGGER.debug("====> Starting get object from alias for alias " + alias);
+			}
 
             // Get session if needed
             SessionInfo sessionInfo = null;

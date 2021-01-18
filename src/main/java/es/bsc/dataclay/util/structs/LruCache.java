@@ -11,6 +11,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import es.bsc.dataclay.util.Configuration;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.Set;
 
@@ -24,7 +26,8 @@ import java.util.Set;
  */
 public class LruCache<A, B> {
 
-	
+	private static final Logger logger = LogManager.getLogger("LruCache");
+
 	/** Map used for this cache. */
 	private final Map<A, B> map;
 	
@@ -47,11 +50,11 @@ public class LruCache<A, B> {
 		return map.put(key, value);
 	}
 	
-	public B get(final A key) { 
+	public B get(final A key) {
 		return map.get(key);
 	}
 	
-	public B remove(final A key) { 
+	public B remove(final A key) {
 		return map.remove(key);
 	}
 	
