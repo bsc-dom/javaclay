@@ -94,10 +94,7 @@ public final class Configuration {
 	 * @return True if Log4J has debug enables.
 	 */
 	public static boolean isDebugEnabled() {
-		if (Flags.CHECK_LOG4J_DEBUG.getBooleanValue()) {
-			return LogManager.getRootLogger().isDebugEnabled();
-		}
-		return false;
+		return LogManager.getRootLogger().isDebugEnabled();
 	}
 
 	// CHECKSTYLE:ON
@@ -115,8 +112,6 @@ public final class Configuration {
 		CHECK_NAMESPACE(false, ConfType.BOOLEAN),
 		/** Expiration date for sessions when CHECK_SESSION=FALSE. */
 		EXPIRATION_DATE_IF_NOCHECK_SESSION(Configuration.getSessionExpirationDate(), ConfType.DATE),
-		/** Indicates whether to check LOG4J or not. */
-		CHECK_LOG4J_DEBUG(false, ConfType.BOOLEAN),
 		/** Indicates if MkPersistent should be synchronous. */
 		USE_SYNC_MKPERS(true, ConfType.BOOLEAN),
 		/** Indicates if DataClay Classes must be registered or not. */
@@ -414,27 +409,20 @@ public final class Configuration {
 			if (testFlagsProps == null) {
 				testFlagsProps = new Properties();
 				File globalFile = null;
-				LOGGER.debug("Looking for environment variable {}", Configuration.GLOBALPROPS_ENV);
 				String globalPropsPath = ProcessEnvironment.getInstance().get(Configuration.GLOBALPROPS_ENV);
 				boolean fileExists = false;
-				LOGGER.debug("Found {} defined at {}. Trying to read.",
-						Configuration.GLOBALPROPS_ENV, globalPropsPath);
 				if (globalPropsPath != null && !globalPropsPath.isEmpty()) {
 					globalFile = new File(globalPropsPath);
 					fileExists = globalFile.isFile() && globalFile.exists();
 				}
 
 				if (fileExists) {
-					LOGGER.debug("Found {}. Initializing global properties with properties located at {}",
-							Configuration.GLOBALPROPS_ENV, globalPropsPath);
 					final Path path = Paths.get(globalPropsPath).normalize();
 					globalPropsPath = path.toAbsolutePath().toString();
 					globalFile = new File(globalPropsPath);
 
 				} else {
 					final Path path = Paths.get(GLOBALPROPS_PATH).normalize();
-					LOGGER.debug("Cannot find environment variable {}. Trying default location {}",
-							Configuration.GLOBALPROPS_ENV, path.toAbsolutePath().toString());
 					globalPropsPath = path.toAbsolutePath().toString();
 					globalFile = new File(globalPropsPath);
 
@@ -447,7 +435,6 @@ public final class Configuration {
 					throw new Exception("Missing default value for configuration without Value type");
 				}
 			} else {
-				LOGGER.debug("Looking for env variable set in global.properties: {}", this.name());
 				String strVal = testFlagsProps.getProperty(this.name());
 				if (strVal != null) {
 					LOGGER.info("Found environment variable set in global.properties: {}={}", this.name(), strVal);
@@ -493,8 +480,6 @@ public final class Configuration {
 					default:
 						throw new Exception("Wrong value Type: " + valueType);
 					}
-				} else {
-					LOGGER.debug("Not found environment variable set in global.properties, using default: {}={}", this.name(), value);
 				}
 			}
 

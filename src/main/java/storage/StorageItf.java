@@ -128,7 +128,9 @@ public final class StorageItf {
 			}
 			if (possibleDestBackends == null) {
 				destBackendID = getRandom(backendsByIDMatchLang.keySet());
-				System.out.println("[DATACLAY] Target location chosen randomly: " + backendsByIDMatchLang.get(destBackendID).getName());
+				if (DEBUG_ENABLED) {
+					System.out.println("[DATACLAY] Target location chosen randomly: " + backendsByIDMatchLang.get(destBackendID).getName());
+				}
 			} else {
 				destBackendID = getRandom(possibleDestBackends);
 			}
@@ -168,12 +170,14 @@ public final class StorageItf {
 				versions.remove(previousVersionOID);
 			}
 
-			if (alreadyVersioned) {
-				System.out.println("[DATACLAY] Object " + originalObjectID + " already versioned in " + destBackendID);
-			} else {
-				System.out.println("[DATACLAY] Object " + originalObjectID + " versioned in " + destBackendID);
+			if (DEBUG_ENABLED) {
+				if (alreadyVersioned) {
+					System.out.println("[DATACLAY] Object " + originalObjectID + " already versioned in " + destBackendID);
+				} else {
+					System.out.println("[DATACLAY] Object " + originalObjectID + " versioned in " + destBackendID);
+				}
+				// System.out.println("[DATACLAY] Current versions " + versions.toString());
 			}
-			// System.out.println("[DATACLAY] Current versions " + versions.toString());
 
 			return DataClay.ids2String(versionOID, destBackendID, originalClassID);
 		} catch (final Exception ex) {

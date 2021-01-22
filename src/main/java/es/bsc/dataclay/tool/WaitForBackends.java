@@ -5,6 +5,8 @@ import es.bsc.dataclay.api.DataClay;
 import es.bsc.dataclay.commonruntime.ClientManagementLib;
 import es.bsc.dataclay.communication.grpc.messages.common.CommonMessages;
 import es.bsc.dataclay.tool.Util.ERRCODE;
+import es.bsc.dataclay.util.ids.AccountID;
+import es.bsc.dataclay.util.management.accountmgr.PasswordCredential;
 
 public class WaitForBackends {
 
@@ -25,8 +27,14 @@ public class WaitForBackends {
 			final int numBackends = Integer.parseInt(args[1]);
 			Util.init();
 			// Wait for one DS to be ready
+			// Check account
+			final AccountID accountID = ClientManagementLib.getAccountID("admin");
+			if (accountID == null) {
+				Util.finishErr("Invalid account", ERRCODE.ERROR);
+			}
+			final PasswordCredential credential = new PasswordCredential("admin");
 			try {
-				while ( GetBackends.getBackends("admin","admin", lang).size() < numBackends) {
+				while (ClientManagementLib.getBackendNames(accountID, credential, lang).size() < numBackends) {
 					System.out.println("[dataClay] Waiting for " + numBackends + " " + language + " backends to be ready...");
 					Thread.sleep(2000L); //sleep 2 seconds
 				}

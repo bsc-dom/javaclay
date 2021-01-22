@@ -75,7 +75,7 @@ public final class DataServiceRuntime extends DataClayRuntime {
 	 * Sessions in quarantine. note: maximum size of this map is max number of sessions per EE: This map is needed to solve a
 	 * race condition in Global Garbage collection (@see getReferenceCounting).
 	 */
-	private final Set<SessionID> quarantineSessions = new HashSet<>();
+	private final Set<SessionID> quarantineSessions = ConcurrentHashMap.newKeySet();
 
 	/**
 	 * Indicates if tasks (garbage collectors,...) were scheduled or not. This is done to manage. multiple initializations.

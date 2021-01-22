@@ -67,6 +67,7 @@ import es.bsc.dataclay.util.management.stubs.StubInfo;
 import es.bsc.dataclay.util.structs.LruCache;
 import es.bsc.dataclay.util.structs.Triple;
 import io.grpc.StatusRuntimeException;
+import org.apache.logging.log4j.core.LifeCycle;
 
 /**
  * This class contains functions to interact with DataClay. This is an abstract class in order to provide same functionalities
@@ -128,7 +129,7 @@ public abstract class DataClayRuntime {
 	/**
 	 * Set of object ids of volatile parameters that were send but did not arrive to any node yet.
 	 */
-	protected final Set<ObjectID> volatileParametersBeingSend = new HashSet<>();
+	protected final Set<ObjectID> volatileParametersBeingSend = ConcurrentHashMap.newKeySet();
 
 	public int misses = 0;
 	public int hits = 0;
@@ -378,7 +379,7 @@ public abstract class DataClayRuntime {
 				}
 			}
 			if (foundAliveThread) { 
-				LOGGER.warn("WARNING: Waiting for " + threadName + " thread to finish. Sleeping for 2s");
+				LOGGER.warn("WARNING: Waiting for " + threadName + " thread to finish...");
 				try {
 					Thread.sleep(300);
 				} catch (InterruptedException e) {
@@ -389,11 +390,14 @@ public abstract class DataClayRuntime {
 				break; 
 			}
 		}
-		
+		for (Thread t : Thread.getAllStackTraces().keySet()) {
+			String threadName = t.getName();
+			LOGGER.debug("Found alive thread while exiting: " + threadName);
+		}
 		if (aliveThreads) { 
 			LOGGER.warn("WARNING: Some threads still alive while exiting application.");
 		}
-		
+		//((LifeCycle) LogManager.getContext()).stop();
 		this.setInitialized(false);
 	}
 

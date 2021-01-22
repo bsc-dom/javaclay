@@ -1171,6 +1171,7 @@ public final class DataService implements DataServiceAPI {
 			 */
 			// Don't remove since it might be called from inside function
 		}
+		LOGGER.debug("[==Get==] Objects obtained: " + objectIDs);
 		return result;
 	}
 
@@ -2107,9 +2108,9 @@ public final class DataService implements DataServiceAPI {
 			}
 		} catch (final Exception e) {
 			// object already registered due to add alias
-
+			LOGGER.debug("[==RegisterPending==] Exception occurred while registering object, ignoring if already registered ", e);
 		}
-
+		LOGGER.debug("[==RegisterPending==] Object registered");
 	}
 
 	/**
