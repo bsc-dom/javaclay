@@ -146,7 +146,7 @@ public final class DataServiceGrpcClient implements DataServiceAPI {
 	 */
 	public DataServiceGrpcClient(final String originHostName, final String host, final int port) {
 		// Logger.getLogger("io.grpc").setLevel(Level.OFF);
-		logger = LogManager.getLogger("grpc.client.dataservice." + originHostName);
+		logger = LogManager.getLogger("grpc.client.dataservice");
 
 		ManagedChannelBuilder<?> chBuilder = NettyChannelBuilder.forAddress(host, port)
 				.maxHeaderListSize(Integer.MAX_VALUE)
@@ -272,6 +272,7 @@ public final class DataServiceGrpcClient implements DataServiceAPI {
 			final DeployMetaClassesRequest request = builder.build();
 			ExceptionInfo response;
 			try {
+				logger.debug("Calling deploy metaclass");
 				response = blockingStub.deployMetaClasses(request);
 
 			} catch (final StatusRuntimeException ex) {

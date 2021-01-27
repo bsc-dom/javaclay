@@ -6,6 +6,9 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.sql.DataSource;
 
@@ -112,6 +115,8 @@ class SQLiteDataSource extends BasicDataSource {
 
 // TODO managers should not close the connection to a sqlite db
 class UncloseableConnection extends ConnectionWrapper<SQLiteHandlerConfig>{
+
+	private Map<String, PreparedStatement> preparedStatements = new ConcurrentHashMap<String, PreparedStatement>();
 	public UncloseableConnection(final Connection connection) {
 		super(connection);
 	}
@@ -128,6 +133,9 @@ class UncloseableConnection extends ConnectionWrapper<SQLiteHandlerConfig>{
 	@Override
 	public PreparedStatement prepareStatement(final String sql) throws SQLException {
 		final PreparedStatement ps = super.prepareStatement(sql);
+		//RACE CONDITION, FINALIZER IN PREPARED-STATEMENT LOCKS THE CONNECTION (COULD BE USED BY SOMEONE)
+		preparedStatements.put(sql, ps);
+
 		return ps;
 	}
 }

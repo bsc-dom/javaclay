@@ -1909,22 +1909,22 @@ public final class DataService implements DataServiceAPI {
         final RegistrationInfo regInfo = new RegistrationInfo(instance.getObjectID(), instance.getMetaClassID(),
                 instance.getOwnerSessionIDforVolatiles(), instance.getDataSetID());
 
-        if (DEBUG_ENABLED) {
-            LOGGER.debug("[==RegisterPending==] Going to register " + regInfo + " for instance "
-                    + System.identityHashCode(instance));
-        }
-        try {
-            if (sync) {
-                this.runtime.getLogicModuleAPI().registerObject(regInfo, executionEnvironmentID, null, Langs.LANG_JAVA);
-            } else {
-                this.runtime.getLogicModuleAPI().registerObjectFromGC(regInfo, executionEnvironmentID, this.runtime);
-            }
-        } catch (final Exception e) {
-            // object already registered due to add alias
-
-        }
-
-    }
+		if (DEBUG_ENABLED) {
+			LOGGER.debug("[==RegisterPending==] Going to register " + regInfo + " for instance "
+					+ System.identityHashCode(instance));
+		}
+		try {
+			if (sync) {
+				this.runtime.getLogicModuleAPI().registerObject(regInfo, executionEnvironmentID, null, Langs.LANG_JAVA);
+			} else {
+				this.runtime.getLogicModuleAPI().registerObjectFromGC(regInfo, executionEnvironmentID, this.runtime);
+			}
+		} catch (final Exception e) {
+			// object already registered due to add alias
+			LOGGER.debug("[==RegisterPending==] Exception occurred while registering object, ignoring if already registered ", e);
+		}
+		LOGGER.debug("[==RegisterPending==] Object registered");
+	}
 
     /**
      * Register all pending objects

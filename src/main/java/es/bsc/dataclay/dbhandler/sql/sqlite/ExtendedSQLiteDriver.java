@@ -5,7 +5,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Map;
 import java.util.Properties;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.sqlite.SQLiteConnection;
 import org.sqlite.jdbc4.JDBC4PreparedStatement;
@@ -46,8 +48,9 @@ class ExtendedSQLiteConnection extends org.sqlite.SQLiteConnection{
 	public PreparedStatement prepareStatement(String sql, int rst, int rsc, int rsh) throws SQLException {
 		checkOpen();
 		checkCursor(rst, rsc, rsh);
-
-		return new ExtendedPreparedStatement(this, sql);
+		//RACE CONDITION, FINALIZER IN PREPARED-STATEMENT LOCKS THE CONNECTION (COULD BE USED BY SOMEONE)
+		ExtendedPreparedStatement preparedStatement = new ExtendedPreparedStatement(this, sql);
+		return preparedStatement;
 	}
 
 	@Override
@@ -56,7 +59,7 @@ class ExtendedSQLiteConnection extends org.sqlite.SQLiteConnection{
 	}
 
 	@Override
-	public void close() {
+	public void close() throws SQLException {
 		//System.out.println("CLOSE");
 	}
 }
@@ -81,6 +84,15 @@ class ExtendedPreparedStatement extends JDBC4PreparedStatement{
 		setString(i, x.toString());
 	}
 
+	public void close() throws SQLException {
+		// avoid closing prepared statement to not close connection
+		// do nothing!
+	}
+
+	public void finalize() {
+		//RACE CONDITION, FINALIZER IN PREPARED-STATEMENT LOCKS THE CONNECTION (COULD BE USED BY SOMEONE)
+		// do nothing!
+	}
 	public String toString() {
 		return this.sql;
 	}

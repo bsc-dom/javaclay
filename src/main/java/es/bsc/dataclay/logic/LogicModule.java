@@ -12,6 +12,7 @@ import java.rmi.RemoteException;
 import java.text.ParseException;
 import java.util.*;
 import java.util.Map.Entry;
+import java.util.concurrent.ConcurrentHashMap;
 
 import es.bsc.dataclay.api.BackendID;
 import es.bsc.dataclay.exceptions.metadataservice.*;
@@ -152,27 +153,27 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
     /** Grpc client. */
     public final CommonGrpcClient grpcClient;
 
-    /** DataService APIs, with associated StorageLocation. */
-    private final Map<StorageLocationID, Tuple<DataServiceAPI, StorageLocation>> storageLocations = new HashMap<>();
+	/** DataService APIs, with associated StorageLocation. */
+	private final Map<StorageLocationID, Tuple<DataServiceAPI, StorageLocation>> storageLocations = new ConcurrentHashMap<>();
 
-    /**
-     * DataService APIs, associated to ExecutionEnvironment (language dependent).
-     */
-    private final Map<Langs, Map<ExecutionEnvironmentID, Tuple<DataServiceAPI, ExecutionEnvironment>>> execEnvironments = new HashMap<>();
+	/**
+	 * DataService APIs, associated to ExecutionEnvironment (language dependent).
+	 */
+	private final Map<Langs, Map<ExecutionEnvironmentID, Tuple<DataServiceAPI, ExecutionEnvironment>>> execEnvironments = new ConcurrentHashMap<>();
 
-    /** Active Backends splitted in execution environments per storage Locations. */
-    private final Map<StorageLocationID, Set<ExecutionEnvironmentID>> activeBackends = new HashMap<>();
-
-    /** Name of public namespace DataClay (for DataClay classes). */
-    public static final String DC_PUBLIC_NAMESPACE = "DataClayNamespace";
-    /** Name of DataClay registrator (for DataClay classes). */
-    public static final String DC_REGISTRATOR = "DataClayRegistrator";
-    /** Suffix for default dataset. */
-    public static final String DEFAULT_DS_SUFFIX = "_ds";
-    /** Suffix for default java namespace. */
-    public static final String DEFAULT_JAVA_NS_SUFFIX = "_java_ns";
-    /** Suffix for default python namespace. */
-    public static final String DEFAULT_PYTHON_NS_SUFFIX = "_python_ns";
+	/** Active Backends splitted in execution environments per storage Locations. */
+	private final Map<StorageLocationID, Set<ExecutionEnvironmentID>> activeBackends = new ConcurrentHashMap<>();
+	
+	/** Name of public namespace DataClay (for DataClay classes). */
+	public static final String DC_PUBLIC_NAMESPACE = "DataClayNamespace";
+	/** Name of DataClay registrator (for DataClay classes). */
+	public static final String DC_REGISTRATOR = "DataClayRegistrator";
+	/** Suffix for default dataset. */
+	public static final String DEFAULT_DS_SUFFIX = "_ds";
+	/** Suffix for default java namespace. */
+	public static final String DEFAULT_JAVA_NS_SUFFIX = "_java_ns";
+	/** Suffix for default python namespace. */
+	public static final String DEFAULT_PYTHON_NS_SUFFIX = "_python_ns";
 
     /** Account Manager. */
     private final AccountManager accountMgrApi;
@@ -687,9 +688,10 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
         LOGGER.info("Published address {}:{}", thehostname, theport);
     }
 
-    @Override
-    public void autoregisterSL(final StorageLocationID id, final String dsName,
-                               final String dsHostname, final Integer dsPort) {
+	@Override
+	public void autoregisterSL(final StorageLocationID id, final String dsName, 
+			final String dsHostname, final Integer dsPort) {
+		LOGGER.debug("====> Starting autoregisterSL with name " + dsName + ", hostname " + dsHostname + " and port " + dsPort);
 
         // ===================== TRY CONNECTION ======================= //
         final StorageLocation storageLoc;
@@ -714,88 +716,101 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
                     + id.getId());
         }
 
-        // Activate storage location (execution environments cannot be activated before SL is ready)
-        this.activeBackends.put(id, new HashSet<ExecutionEnvironmentID>());
-
-    }
-
-    @Override
-    public StorageLocationID getStorageLocationID(final String slName) {
-        final StorageLocationID slID = metaDataSrvApi.getStorageLocationID(slName);
-        if (!this.activeBackends.containsKey(slID)) {
-            // Still not active
-            throw new StorageLocationNotExistException(slName);
-        }
-        return slID;
-    }
-
-    @Override
-    public StorageLocationID autoregisterEE(final ExecutionEnvironmentID id, final String eeName,
-                                            final String eeHostname, final Integer eePort, final Langs language) {
-
-        final StorageLocationID slID = getStorageLocationID(eeName);
-
-        // ===================== TRY CONNECTION ======================= //
-        // Obtain or Register the Execution Environment
-        final ExecutionEnvironment executionEnv;
-        try {
-            LOGGER.debug("autoregisterDataService initializing with hostname " + eeHostname + " and port " + eePort);
-            executionEnv = initRemoteTCPExecutionEnvironment(id, eeName, eeHostname, eePort, language);
-        } catch (final Exception ex) {
-            LOGGER.debug("autoregisterDataService interrupted while initializing remote ExecutionEnvironment", ex);
-            throw new DataClayRuntimeException(ERRORCODE.DATASERVICE_INIT_ERROR,
-                    "Could not create the DataService ExecutionEnvironment in the LogicModule", true);
-        }
-        // ========== REGISTER ========== //
-        boolean newRegistration = false;
-        try {
-            metaDataSrvApi.registerExecutionEnvironment(executionEnv);
-            LOGGER.info("[LOGICMODULE] Registered ExecutionEnvironment " + executionEnv + " for language `"
-                    + language + "` as " + id.getId() + " associated to storage location " + slID);
-            newRegistration = true;
-        } catch (final ExecutionEnvironmentAlreadyExistsException e) {
-            metaDataSrvApi.updateExecutionEnvironment(id, eeHostname, eePort);
-            LOGGER.info("[LOGICMODULE] Found already registered EE. Updated to " + executionEnv + " as "
-                    + id.getId());
-        }
-
 		// Activate storage location (execution environments cannot be activated before SL is ready)
-		this.activeBackends.get(slID).add(id);
+		this.activeBackends.put(id, new HashSet<ExecutionEnvironmentID>());
+		LOGGER.debug("====> AutoregisterSL finished for SL " + storageLoc);
+
+	}
+	
+	@Override
+	public StorageLocationID getStorageLocationID(final String slName) {
+		final StorageLocationID slID = metaDataSrvApi.getStorageLocationID(slName);
+		if (!this.activeBackends.containsKey(slID)) {
+			// Still not active
+			throw new StorageLocationNotExistException(slName);
+		}
+		return slID;
+	}
+
+	@Override
+	public StorageLocationID autoregisterEE(final ExecutionEnvironmentID id, final String eeName, 
+			final String eeHostname, final Integer eePort, final Langs language) {
+		LOGGER.debug("====> Starting autoregisterEE with dsName " + eeName + ", hostname " + eeHostname + " and port " + eePort);
+
+		final StorageLocationID slID = getStorageLocationID(eeName);
+
+		// ===================== TRY CONNECTION ======================= //
+		// Obtain or Register the Execution Environment
+		final ExecutionEnvironment executionEnv;
+		try {
+			executionEnv = initRemoteTCPExecutionEnvironment(id, eeName, eeHostname, eePort, language);
+		} catch (final Exception ex) {
+			LOGGER.debug("autoregisterDataService interrupted while initializing remote ExecutionEnvironment", ex);
+			throw new DataClayRuntimeException(ERRORCODE.DATASERVICE_INIT_ERROR,
+					"Could not create the DataService ExecutionEnvironment in the LogicModule", true);
+		}
+		// ========== REGISTER ========== //
+		// check it was already registered or not
+		boolean newRegistration = false;
+		try {
+			metaDataSrvApi.getExecutionEnvironmentInfo(executionEnv.getDataClayID());
+			metaDataSrvApi.updateExecutionEnvironment(id, eeHostname, eePort);
+			LOGGER.info("[LOGICMODULE] Found already registered EE. Updated to " + executionEnv + " as "
+					+ id.getId());
+		} catch (ExecutionEnvironmentNotExistException e) {
+			newRegistration = true;
+		}
+
 		
-		// ========== DEPLOY REGISTERED CLASSES ========== //
+		// ========== NEW REGISTRATION ========== //
 		if (newRegistration) {
 			try {
 				// get all namespaces
 				Set<String> allNamespaces = this.namespaceMgrApi.getNamespacesNames();
 				// get all classes
 				for (String namespace : allNamespaces) {
-					NamespaceID namespaceID = this.namespaceMgrApi.getNamespaceID(namespace);
-					final Map<MetaClassID, MetaClass> installedClasses = this.classMgrApi.getInfoOfClassesInNamespace(namespaceID);
 
-					if (!installedClasses.isEmpty()) {
-						LOGGER.info("[LOGICMODULE] Going to deploy registered classes in namespace " + namespace);
-						final Set<MetaClass> allMetaClasses = new HashSet<>(installedClasses.values());
-						final Set<String> classesToDeploy = new HashSet<>();
-						for (final MetaClass curClass : allMetaClasses) {
-							classesToDeploy.add(curClass.getName());
-							LOGGER.debug("[LOGICMODULE] Going to deploy " + curClass);
-						}
-						final Set<NamespaceID> namespacesIDs = new HashSet<>();
-						namespacesIDs.add(namespaceID);
-						final Map<NamespaceID, Namespace> namespaceInfos = namespaceMgrApi.getNamespacesInfo(namespacesIDs);
-						final Langs eeLang = executionEnv.getLang();
-						if (eeLang.equals(Langs.LANG_JAVA)) {
-							outsourceClassesDeploymentJava(allMetaClasses, classesToDeploy, namespaceInfos, null, executionEnv.getDataClayID());
-						} else if (eeLang.equals(Langs.LANG_PYTHON)) {
-							outsourceClassesDeploymentPython(allMetaClasses, classesToDeploy, namespaceInfos, null,
-									executionEnv.getDataClayID());
+					NamespaceID namespaceID = this.namespaceMgrApi.getNamespaceID(namespace);
+					final Set<NamespaceID> namespacesIDs = new HashSet<>();
+					namespacesIDs.add(namespaceID);
+					final Map<NamespaceID, Namespace> namespaceInfos = namespaceMgrApi.getNamespacesInfo(namespacesIDs);
+					Namespace currentNamespace = namespaceInfos.values().iterator().next();
+					// Check namespace belongs to current EE language
+					if (currentNamespace.getLanguage().equals(language)) {
+						final Map<MetaClassID, MetaClass> installedClasses = this.classMgrApi.getInfoOfClassesInNamespace(namespaceID);
+						if (!installedClasses.isEmpty()) {
+							LOGGER.info("[LOGICMODULE] Going to deploy registered classes in namespace " + namespace);
+							final Set<MetaClass> allMetaClasses = new HashSet<>(installedClasses.values());
+							final Set<String> classesToDeploy = new HashSet<>();
+							for (final MetaClass curClass : allMetaClasses) {
+								classesToDeploy.add(curClass.getName());
+							}
+							final Langs eeLang = executionEnv.getLang();
+							if (eeLang.equals(Langs.LANG_JAVA)) {
+								outsourceClassesDeploymentJava(allMetaClasses, classesToDeploy, namespaceInfos, null, executionEnv);
+							} else if (eeLang.equals(Langs.LANG_PYTHON)) {
+								outsourceClassesDeploymentPython(allMetaClasses, classesToDeploy, namespaceInfos, null,
+										executionEnv);
+							}
 						}
 					}
 				}
+
+				metaDataSrvApi.registerExecutionEnvironment(executionEnv);
+				LOGGER.info("[LOGICMODULE] Registered ExecutionEnvironment " + executionEnv + " for language `"
+						+ language + "` as " + id.getId() + " associated to storage location " + slID);
+
 			} catch (final Exception ex) {
 				LOGGER.debug("autoregisterDataService error during dataClay classes registration", ex);
 			}
 		}
+
+
+
+		// Activate storage location (execution environments cannot be activated before SL is ready)
+		this.activeBackends.get(slID).add(id);
+
+		LOGGER.debug("====> Autoregister finished for EE " + executionEnv);
 		return slID;
 	}
 
@@ -1860,27 +1875,27 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
         }
     }
 
-    /**
-     * Manage the class deployment (to all DataServices) of Java classes.
-     *
-     * @param allMetaClasses
-     *            all the MetaClasses related to this deployment.
-     * @param classesToDeploy
-     *            the name for all the classes which should be deployed (this should
-     *            be a subset of the previous set).
-     * @param namespaceInfos
-     *            all the namespace information of the namespaces of the classes
-     *            (although the deployment should be only on a specific one).
-     * @param enrichmentNamespaceID
-     *            NamespaceID for the enrichment when applicable.
-     * @param specificLocationOnly
-     *            Indicates only to deploy to a specific location
-     * @throws RemoteException
-     *             from the ClassManager calls, when things go wrong.
-     */
-    private void outsourceClassesDeploymentJava(final Set<MetaClass> allMetaClasses, final Set<String> classesToDeploy,
-                                                final Map<NamespaceID, Namespace> namespaceInfos, final NamespaceID enrichmentNamespaceID,
-                                                final ExecutionEnvironmentID specificLocationOnly) {
+	/**
+	 * Manage the class deployment (to all DataServices) of Java classes.
+	 *
+	 * @param allMetaClasses
+	 *            all the MetaClasses related to this deployment.
+	 * @param classesToDeploy
+	 *            the name for all the classes which should be deployed (this should
+	 *            be a subset of the previous set).
+	 * @param namespaceInfos
+	 *            all the namespace information of the namespaces of the classes
+	 *            (although the deployment should be only on a specific one).
+	 * @param enrichmentNamespaceID
+	 *            NamespaceID for the enrichment when applicable.
+	 * @param specificLocationOnly
+	 *            Indicates only to deploy to a specific location
+	 * @throws RemoteException
+	 *             from the ClassManager calls, when things go wrong.
+	 */
+	private void outsourceClassesDeploymentJava(final Set<MetaClass> allMetaClasses, final Set<String> classesToDeploy,
+			final Map<NamespaceID, Namespace> namespaceInfos, final NamespaceID enrichmentNamespaceID,
+			final ExecutionEnvironment specificLocationOnly) {
 
         final Map<Tuple<String, MetaClassID>, byte[]> bytecodes = new HashMap<>();
         final Map<String, byte[]> aspects = new HashMap<>();
@@ -1915,40 +1930,41 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
             }
         }
 
-        // First deploy the class at the adequate Execution Environments
-        if (specificLocationOnly == null) {
-            for (final Tuple<DataServiceAPI, ExecutionEnvironment> elem : getExecutionEnvironments(Langs.LANG_JAVA).values()) {
-                elem.getFirst().deployClasses(namespaceInfo.getName(), bytecodes, aspects, yamls);
-            }
-        } else {
-            final ExecutionEnvironment eeInfo = metaDataSrvApi.getExecutionEnvironmentInfo(specificLocationOnly);
-            final DataServiceAPI elem = getExecutionEnvironments(Langs.LANG_JAVA).get(eeInfo.getDataClayID()).getFirst();
-            elem.deployClasses(namespaceInfo.getName(), bytecodes, aspects, yamls);
-        }
-    }
+		// First deploy the class at the adequate Execution Environments
+		if (specificLocationOnly == null) {
+			for (final Tuple<DataServiceAPI, ExecutionEnvironment> elem : getExecutionEnvironments(Langs.LANG_JAVA).values()) {
+				LOGGER.debug("Sending classes to {}", elem.getSecond());
+				elem.getFirst().deployClasses(namespaceInfo.getName(), bytecodes, aspects, yamls);
+			}
+		} else {
+			final DataServiceAPI elem = getExecutionEnvironments(Langs.LANG_JAVA).get(specificLocationOnly.getDataClayID()).getFirst();
+			LOGGER.debug("Sending classes to {}", specificLocationOnly);
+			elem.deployClasses(namespaceInfo.getName(), bytecodes, aspects, yamls);
+		}
+	}
 
-    /**
-     * Manage the class deployment (to all DataServices) of Java classes.
-     *
-     * @param allMetaClasses
-     *            all the MetaClasses related to this deployment.
-     * @param classesToDeploy
-     *            the name for all the classes which should be deployed (this should
-     *            be a subset of the previous set).
-     * @param namespaceInfos
-     *            all the namespace information of the namespaces of the classes
-     *            (although the deployment should be only on a specific one).
-     * @param enrichmentNamespaceID
-     *            NamespaceID for the enrichment when applicable.
-     * @param specificEnvironmentOnly
-     *            specific environment if required (optional)
-     *
-     * @throws RemoteException
-     *             from the ClassManager calls, when things go wrong.
-     */
-    private void outsourceClassesDeploymentPython(final Set<MetaClass> allMetaClasses,
-                                                  final Set<String> classesToDeploy, final Map<NamespaceID, Namespace> namespaceInfos,
-                                                  final NamespaceID enrichmentNamespaceID, final ExecutionEnvironmentID specificEnvironmentOnly) {
+	/**
+	 * Manage the class deployment (to all DataServices) of Java classes.
+	 *
+	 * @param allMetaClasses
+	 *            all the MetaClasses related to this deployment.
+	 * @param classesToDeploy
+	 *            the name for all the classes which should be deployed (this should
+	 *            be a subset of the previous set).
+	 * @param namespaceInfos
+	 *            all the namespace information of the namespaces of the classes
+	 *            (although the deployment should be only on a specific one).
+	 * @param enrichmentNamespaceID
+	 *            NamespaceID for the enrichment when applicable.
+	 * @param specificEnvironmentOnly
+	 *            specific environment if required (optional)
+	 *
+	 * @throws RemoteException
+	 *             from the ClassManager calls, when things go wrong.
+	 */
+	private void outsourceClassesDeploymentPython(final Set<MetaClass> allMetaClasses,
+			final Set<String> classesToDeploy, final Map<NamespaceID, Namespace> namespaceInfos,
+			final NamespaceID enrichmentNamespaceID, final ExecutionEnvironment specificEnvironmentOnly) {
 
         final Map<String, MetaClass> deploymentPack = new HashMap<>();
 
@@ -1966,21 +1982,21 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
                     namespaceInfo = namespaceInfos.get(curMetaClass.getNamespaceID());
                 }
 
-                deploymentPack.put(className, curMetaClass);
-            }
-        }
-        if (specificEnvironmentOnly == null) {
-            // First deploy the classes at the adequate Execution Environments
-            for (final Tuple<DataServiceAPI, ExecutionEnvironment> elem : getExecutionEnvironments(Langs.LANG_PYTHON).values()) {
-                LOGGER.debug("Seding classes to {}", elem.getFirst());
-                elem.getFirst().deployMetaClasses(namespaceInfo.getName(), deploymentPack);
-            }
-        } else {
-            final ExecutionEnvironment eeInfo = metaDataSrvApi.getExecutionEnvironmentInfo(specificEnvironmentOnly);
-            final DataServiceAPI elem = getExecutionEnvironments(Langs.LANG_PYTHON).get(eeInfo.getDataClayID()).getFirst();
-            elem.deployMetaClasses(namespaceInfo.getName(), deploymentPack);
-        }
-    }
+				deploymentPack.put(className, curMetaClass);
+			}
+		}
+		if (specificEnvironmentOnly == null) {
+			// First deploy the classes at the adequate Execution Environments
+			for (final Tuple<DataServiceAPI, ExecutionEnvironment> elem : getExecutionEnvironments(Langs.LANG_PYTHON).values()) {
+				LOGGER.debug("Sending classes to {}", elem.getFirst());
+				elem.getFirst().deployMetaClasses(namespaceInfo.getName(), deploymentPack);
+			}
+		} else {
+			final DataServiceAPI elem = getExecutionEnvironments(Langs.LANG_PYTHON).get(specificEnvironmentOnly.getDataClayID()).getFirst();
+			LOGGER.debug("Sending classes to {}", specificEnvironmentOnly);
+			elem.deployMetaClasses(namespaceInfo.getName(), deploymentPack);
+		}
+	}
 
     /**
      * This internal operation recursively registers all the required dependencies
@@ -3657,23 +3673,28 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
         return execEnvs;
     }
 
-    @Override
-    public Set<String> getExecutionEnvironmentsNames(final AccountID accountID, final PasswordCredential credential,
-                                                     final Langs execEnvLang) {
-        // Validate account
-        if (!accountMgrApi.validateAccount(accountID, credential)) {
-            throw new DataClayRuntimeException(ERRORCODE.INVALID_CREDENTIALS);
-        }
-        final Set<String> result = new HashSet<>();
-        final Map<ExecutionEnvironmentID, ExecutionEnvironment> execEnvs = metaDataSrvApi
-                .getAllExecutionEnvironmentsInfo(execEnvLang);
-        if (execEnvs != null) {
-            for (final ExecutionEnvironment ee : execEnvs.values()) {
-                result.add(ee.getName() + "," + ee.getHostname() + ":" + ee.getPort());
-            }
-        }
-        return result;
-    }
+	@Override
+	public Set<String> getExecutionEnvironmentsNames(final AccountID accountID, final PasswordCredential credential,
+			final Langs execEnvLang) {
+
+		LOGGER.debug("==> Getting execution environment names of language " + execEnvLang);
+
+		// Validate account
+		if (!accountMgrApi.validateAccount(accountID, credential)) {
+			throw new DataClayRuntimeException(ERRORCODE.INVALID_CREDENTIALS);
+		}
+		final Set<String> result = new HashSet<>();
+		final Map<ExecutionEnvironmentID, ExecutionEnvironment> execEnvs = metaDataSrvApi
+				.getAllExecutionEnvironmentsInfo(execEnvLang);
+		if (execEnvs != null) {
+			for (final ExecutionEnvironment ee : execEnvs.values()) {
+				result.add(ee.getName() + "," + ee.getHostname() + ":" + ee.getPort());
+			}
+		}
+		LOGGER.debug("==> Finished getting execution environment names with result: " + result);
+
+		return result;
+	}
 
     // ============== Metadata Service ==============//
 
@@ -4896,11 +4917,12 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
         // becomes from it! (9 Jul 2013 jmarti)
 
 
-        DataServiceAPI dataServiceApi = getExecutionEnvironmentAPI(destBackend.getSecond());
-        final Set<ObjectID> replicatedObjs = dataServiceApi.newReplica(sessionID, objectID, recursive);
-        for (final ObjectID replicatedObj : replicatedObjs) {
-            metaDataSrvApi.registerReplica(replicatedObj, destBackend.getFirst());
-        }
+		DataServiceAPI dataServiceApi = getExecutionEnvironmentAPI(destBackend.getSecond());
+		LOGGER.debug("Calling new replica to destination backend " + destBackend);
+		final Set<ObjectID> replicatedObjs = dataServiceApi.newReplica(sessionID, objectID, recursive);
+		for (final ObjectID replicatedObj : replicatedObjs) {
+			metaDataSrvApi.registerReplica(replicatedObj, destBackend.getFirst());
+		}
 
 
         // Go to all DataServices to modify MDS cache

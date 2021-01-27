@@ -114,18 +114,15 @@ public final class ClientManagementLib {
 		String configFilePath = configFilePathArg;
 		try {
 			File configFile = null;
-			LOGGER.info("Initializing client library with properties located at {}", configFilePath);
 			boolean fileExists = false;
 			if (configFilePath != null && !configFilePath.isEmpty()) {
+				LOGGER.info("Initializing client library with provided file located at {}", configFilePath);
 				configFile = new File(configFilePath);
 				fileExists = configFile.isFile() && configFile.exists();
 			}
 			if (!fileExists) {
-				LOGGER.warn("Provided config file path is null, empty or does not exist. "
-						+ "Looking for environment variable {}", CONFIGFILEPATH_ENV);
 				configFilePath = ProcessEnvironment.getInstance().get(CONFIGFILEPATH_ENV);
 				if (configFilePath != null && !configFilePath.isEmpty()) {
-					LOGGER.info("Trying to use the following configFile: {}", configFilePath);
 					configFile = new File(configFilePath);
 					fileExists = configFile.isFile() && configFile.exists();
 				}
@@ -135,8 +132,8 @@ public final class ClientManagementLib {
 							CONFIGFILEPATH_ENV, configFilePath);
 				} else {
 					final Path path = Paths.get(CONFIGFILEPATH).normalize();
-					LOGGER.warn("Unsuccessful while trying to load file from the environment variable `{}`. "
-							+ "Fallback to default location: {}", CONFIGFILEPATH_ENV, path.toAbsolutePath());
+					LOGGER.warn("Unsuccessful while trying to load file from the environment variable `{}={}`. "
+							+ "Fallback to default location: {}", CONFIGFILEPATH_ENV, CONFIGFILEPATH, path.toAbsolutePath());
 					configFilePath = path.toAbsolutePath().toString();
 					configFile = new File(configFilePath);
 
