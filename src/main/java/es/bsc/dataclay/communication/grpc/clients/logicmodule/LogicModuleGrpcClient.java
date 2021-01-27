@@ -1727,17 +1727,15 @@ public final class LogicModuleGrpcClient implements LogicModuleAPI {
 
 			@Override
 			public void onCompleted() {
-				if (DEBUG_ENABLED) {
-					logger.debug("[==Communication==] Asynchronous register object finished for object: {}",
+				logger.debug("[==Communication==] Asynchronous register object finished for object: {}",
 							regInfo.getObjectID());
-				}
+
 				asyncReqReceived.incrementAndGet();
 			}
 		};
-		if (DEBUG_ENABLED) {
-			logger.debug("[==Communication==] Asynchronous call to register object from Garbage Collector. "
+		logger.debug("[==Communication==] Asynchronous call to register object "
 					+ "Object: " + regInfo.getObjectID());
-		}
+
 		final BiConsumer<RegisterObjectForGCRequest, StreamObserver<ExceptionInfo>> f = (req, obs) -> getAsyncStub()
 				.registerObjectFromGC(req, obs);
 		this.<RegisterObjectForGCRequest, ExceptionInfo>callLogicModuleAsync(request, responseObserver, f);

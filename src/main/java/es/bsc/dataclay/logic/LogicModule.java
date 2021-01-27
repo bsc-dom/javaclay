@@ -691,7 +691,7 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
 	@Override
 	public void autoregisterSL(final StorageLocationID id, final String dsName, 
 			final String dsHostname, final Integer dsPort) {
-		LOGGER.debug("====> Starting autoregisterSL with name " + dsName + ", hostname " + dsHostname + " and port " + dsPort);
+		LOGGER.debug("==> Starting autoregisterSL with name " + dsName + ", hostname " + dsHostname + " and port " + dsPort);
 
         // ===================== TRY CONNECTION ======================= //
         final StorageLocation storageLoc;
@@ -718,7 +718,7 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
 
 		// Activate storage location (execution environments cannot be activated before SL is ready)
 		this.activeBackends.put(id, new HashSet<ExecutionEnvironmentID>());
-		LOGGER.debug("====> AutoregisterSL finished for SL " + storageLoc);
+		LOGGER.debug("==> AutoregisterSL finished for SL " + storageLoc);
 
 	}
 	
@@ -735,7 +735,7 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
 	@Override
 	public StorageLocationID autoregisterEE(final ExecutionEnvironmentID id, final String eeName, 
 			final String eeHostname, final Integer eePort, final Langs language) {
-		LOGGER.debug("====> Starting autoregisterEE with dsName " + eeName + ", hostname " + eeHostname + " and port " + eePort);
+		LOGGER.debug("==> Starting autoregisterEE with dsName " + eeName + ", hostname " + eeHostname + " and port " + eePort);
 
 		final StorageLocationID slID = getStorageLocationID(eeName);
 
@@ -810,7 +810,7 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
 		// Activate storage location (execution environments cannot be activated before SL is ready)
 		this.activeBackends.get(slID).add(id);
 
-		LOGGER.debug("====> Autoregister finished for EE " + executionEnv);
+		LOGGER.debug("==> Autoregister finished for EE " + executionEnv);
 		return slID;
 	}
 
@@ -3516,7 +3516,7 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
 	public ObjectID registerObject(final RegistrationInfo regInfo, final ExecutionEnvironmentID backendID,
 			final String alias, final Langs lang) {
 		if (DEBUG_ENABLED) {
-			LOGGER.debug("====> Registering object explicit call: " + regInfo + " and alias " + alias);
+			LOGGER.debug("==> Registering object explicit call: " + regInfo + " and alias " + alias);
 		}
 		// Register the object in the metadataservice
 		final HashSet<ExecutionEnvironmentID> backendIDs = new HashSet<>();
@@ -3557,7 +3557,7 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
             notifyGarbageCollectors(referenceCounting);
         }
 
-		LOGGER.debug("====> Finished registration of object");
+		LOGGER.debug("<== Finished registration of object");
 		return objectIDofNewObject;
 	}
 
@@ -3691,7 +3691,7 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
 				result.add(ee.getName() + "," + ee.getHostname() + ":" + ee.getPort());
 			}
 		}
-		LOGGER.debug("==> Finished getting execution environment names with result: " + result);
+		LOGGER.debug("<== Finished getting execution environment names with result: " + result);
 
 		return result;
 	}
@@ -3740,7 +3740,7 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
         try {
 
 			if (DEBUG_ENABLED) {
-				LOGGER.debug("====> Starting get object from alias for alias " + alias);
+				LOGGER.debug("==> Starting get object from alias for alias " + alias);
 			}
 
             // Get session if needed
@@ -4760,24 +4760,32 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
 
     @Override
     public VersionInfo newVersion(final SessionID sessionID, final ObjectID objectID,
+                                  final MetaClassID classID, final BackendID hint,
                                   final ExecutionEnvironmentID optionalDestBackendID) {
 
-        LOGGER.info("Starting new version for object " + objectID);
+        LOGGER.debug("==> Starting new version for object " + objectID);
 
         final VersionInfo result = new VersionInfo();
 
         // Get object info
-        final MetaDataInfo metadataInfo = getObjectMetadata(objectID);
+        MetaDataInfo metadataInfo = getObjectMetadata(objectID);
         if (metadataInfo == null) {
-            throw new DataClayRuntimeException(ERRORCODE.OBJECT_NOT_EXIST);
+            // Register object
+            final RegistrationInfo regInfo = new RegistrationInfo(objectID, classID, sessionID, null);
+            // NOTE: an object with alias must be always registered
+            this.registerObject(regInfo, (ExecutionEnvironmentID) hint, null, Langs.LANG_JAVA);
+            metadataInfo = getObjectMetadata(objectID);
+            if (metadataInfo == null) {
+                throw new DataClayRuntimeException(ERRORCODE.OBJECT_NOT_EXIST);
+            }
         }
 
         final SessionInfo sessionInfo = getSessionInfo(sessionID);
         // Check session if needed
-        if (Configuration.Flags.CHECK_SESSION.getBooleanValue()) {
+        // if (Configuration.Flags.CHECK_SESSION.getBooleanValue()) {
             // Check dataset
-            checkDataSetAmongDataContracts(metadataInfo.getDatasetID(), sessionInfo.getSessionDataContracts());
-        }
+         //   checkDataSetAmongDataContracts(metadataInfo.getDatasetID(), sessionInfo.getSessionDataContracts());
+        // }
 
         // Get backend info of the destination
         Tuple<ExecutionEnvironmentID, ExecutionEnvironment> destBackend = null;
@@ -4803,19 +4811,14 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
 
         // Only add original MD since DS will recursively update others.
         result.setOriginalMD(originalMD);
-
-        // Could not store version in the indicated backend, try another one
-        destBackend = metaDataSrvApi.getRandomExecutionEnvironmentInfo(sessionInfo.getLanguage());
-
-        LOGGER.info("Finished new version for object " + objectID);
-
+        LOGGER.debug("<== Finished new version for object " + objectID);
         return result;
     }
 
     @Override
     public void consolidateVersion(final SessionID sessionID, final VersionInfo version) {
         // Get object md
-        LOGGER.info("Starting consolidate version for object " + version);
+        LOGGER.debug("==> Starting consolidate version for object " + version);
 
         final MetaDataInfo versionMD = getObjectMetadata(version.getVersionOID());
 
@@ -4856,36 +4859,41 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
             }
         }
 
-        LOGGER.info("Finished consolidate version for object " + version);
+        LOGGER.debug("<== Finished consolidate version for object " + version);
 
     }
 
     @Override
     public ExecutionEnvironmentID newReplica(final SessionID sessionID, final ObjectID objectID,
+                                             final MetaClassID classID, final BackendID hint,
                                              final ExecutionEnvironmentID optionalDestBackendID, final boolean recursive) {
 
-        LOGGER.info("Starting new replica for object " + objectID);
-
-
+        LOGGER.debug("==> Starting new replica for object " + objectID);
         ExecutionEnvironmentID result = null;
-
         // Get object info
-        final MetaDataInfo metadataInfo = getObjectMetadata(objectID);
+        MetaDataInfo metadataInfo = getObjectMetadata(objectID);
         if (metadataInfo == null) {
-            throw new DataClayRuntimeException(ERRORCODE.OBJECT_NOT_EXIST);
+            // Register object
+            final RegistrationInfo regInfo = new RegistrationInfo(objectID, classID, sessionID, null);
+            // NOTE: an object with alias must be always registered
+            this.registerObject(regInfo, (ExecutionEnvironmentID) hint, null, Langs.LANG_JAVA);
+            metadataInfo = getObjectMetadata(objectID);
+            if (metadataInfo == null) {
+                throw new DataClayRuntimeException(ERRORCODE.OBJECT_NOT_EXIST);
+            }
         }
 
         final SessionInfo sessionInfo = getSessionInfo(sessionID);
         // Check session if needed
-        if (Configuration.Flags.CHECK_SESSION.getBooleanValue()) {
+        // if (Configuration.Flags.CHECK_SESSION.getBooleanValue()) {
             // Check dataset
-            checkDataSetAmongDataContracts(metadataInfo.getDatasetID(), sessionInfo.getSessionDataContracts());
-        }
+           // checkDataSetAmongDataContracts(metadataInfo.getDatasetID(), sessionInfo.getSessionDataContracts());
+        // }
 
         // Check it is read-only
-        if (Configuration.Flags.CHECK_READ_ONLY.getBooleanValue() && !metadataInfo.getIsReadOnly()) {
-            throw new DataClayRuntimeException(ERRORCODE.OBJECT_IS_NOT_READONLY);
-        }
+        // if (Configuration.Flags.CHECK_READ_ONLY.getBooleanValue() && !metadataInfo.getIsReadOnly()) {
+           // throw new DataClayRuntimeException(ERRORCODE.OBJECT_IS_NOT_READONLY);
+        //}
 
         // Get backend info of the destination
         Tuple<ExecutionEnvironmentID, ExecutionEnvironment> destBackend = null;
@@ -4907,7 +4915,7 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
                     }
                 }
             } else {
-                // throw new DataClayRuntimeException(ERRORCODE.NO_BACKEND_FOR_REPLICATION);
+                //throw new DataClayRuntimeException(ERRORCODE.NO_BACKEND_FOR_REPLICATION);
                 throw new DataClayRuntimeException(ERRORCODE.STORAGE_LOCATION_NOT_EXIST);
             }
         }
@@ -4915,31 +4923,21 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
         // Replica object from any of them
         // TODO We can also retry with different origin if the exception
         // becomes from it! (9 Jul 2013 jmarti)
-
-
 		DataServiceAPI dataServiceApi = getExecutionEnvironmentAPI(destBackend.getSecond());
 		LOGGER.debug("Calling new replica to destination backend " + destBackend);
-		final Set<ObjectID> replicatedObjs = dataServiceApi.newReplica(sessionID, objectID, recursive);
-		for (final ObjectID replicatedObj : replicatedObjs) {
-			metaDataSrvApi.registerReplica(replicatedObj, destBackend.getFirst());
+		final Map<ObjectID, RegistrationInfo> replicatedObjs = dataServiceApi.newReplica(sessionID, objectID, recursive);
+		for (final RegistrationInfo regInfo : replicatedObjs.values()) {
+            // Register object
+            // NOTE: an object with alias must be always registered
+            try {
+                this.registerObject(regInfo, (ExecutionEnvironmentID) hint, null, Langs.LANG_JAVA);
+            } catch (Exception e) {
+                // ignore, already registered
+            }
+			metaDataSrvApi.registerReplica(regInfo.getObjectID(), destBackend.getFirst());
 		}
-
-
-        // Go to all DataServices to modify MDS cache
-        // FIXME: do we need this?
-        for (final Tuple<DataServiceAPI, ExecutionEnvironment> api : getExecutionEnvironments(Langs.LANG_JAVA).values()) {
-            dataServiceApi = api.getFirst();
-            final HashMap<ObjectID, MetaDataInfo> mdInfos = new HashMap<>();
-            final MetaDataInfo mdInfo = metaDataSrvApi.getObjectMetaData(objectID);
-            mdInfos.put(objectID, mdInfo);
-            // Inform about the related registered objects to DS
-            dataServiceApi.newMetaData(mdInfos);
-        }
-
         result = destBackend.getFirst();
-
-        LOGGER.info("Finished new replica for object " + objectID);
-
+        LOGGER.debug("<== Finished new replica for object " + objectID);
         return result;
 
     }

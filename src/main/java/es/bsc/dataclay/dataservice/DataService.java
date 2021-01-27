@@ -1110,9 +1110,8 @@ public final class DataService implements DataServiceAPI {
     @Override
     public Map<ObjectID, ObjectWithDataParamOrReturn> getObjects(final SessionID sessionID, final Set<ObjectID> objectIDs,
                                                         final boolean recursive, final boolean removeHint, final boolean getOnlyRefs) {
-        if (DEBUG_ENABLED) {
-            LOGGER.debug("[==Get==] Getting objects " + objectIDs);
-        }
+        LOGGER.debug("----> Starting get objects " + objectIDs);
+
         final Map<ObjectID, ObjectWithDataParamOrReturn> result = new HashMap<>();
         try {
             runtime.setCurrentThreadSessionID(sessionID);
@@ -1187,6 +1186,8 @@ public final class DataService implements DataServiceAPI {
              */
             // Don't remove since it might be called from inside function
         }
+        LOGGER.debug("<---- Finished get objects " + objectIDs);
+
         return result;
     }
 
@@ -1518,22 +1519,27 @@ public final class DataService implements DataServiceAPI {
     }
 
     @Override
-    public Set<ObjectID> newReplica(final SessionID sessionID, final ObjectID objectID, final boolean recursive) {
-        if (DEBUG_ENABLED) {
-            LOGGER.debug("[==Replica==] New replica for " + objectID);
-        }
+    public Map<ObjectID, RegistrationInfo> newReplica(final SessionID sessionID, final ObjectID objectID, final boolean recursive) {
+        LOGGER.debug("----> Starting new replica of " + objectID);
+
 
         // Get the original object.
         final Set<ObjectID> objectIDs = new HashSet<>();
         objectIDs.add(objectID);
         final Map<ObjectID, ObjectWithDataParamOrReturn> serializedObjs = getObjects(sessionID, objectIDs, recursive, false, false);
 
-        for (final ObjectID objFound : serializedObjs.keySet()) {
-            objectIDs.add(objFound);
-        }
 
         storeObjects(sessionID, new ArrayList<>(serializedObjs.values()), false, null);
-        return objectIDs;
+
+        Map<ObjectID, RegistrationInfo> registrationInfoMap = new HashMap<>();
+        // All objects are forced to be registered before sending them
+        for (final ObjectWithDataParamOrReturn objectToRegister : serializedObjs.values()) {
+            final RegistrationInfo regInfo = new RegistrationInfo(objectToRegister.getObjectID(),
+                    objectToRegister.getClassID(), sessionID, null);
+            registrationInfoMap.put(objectToRegister.getObjectID(), regInfo);
+        }
+        LOGGER.debug("<---- Finished new replica of " + objectID);
+        return registrationInfoMap;
 
     }
 
@@ -1885,6 +1891,54 @@ public final class DataService implements DataServiceAPI {
     }
 
     /**
+     * Register pending object
+     *
+     * @param instance Instance to register
+     * @param sync     Indicates if register is synchronous or asynchronous
+     */
+    private void registerObject(final DataClayExecutionObject instance,
+                                               final boolean sync) {
+        // Inform MDS about new object !
+        final Map<ObjectID, MetaClassID> storedObjs = new ConcurrentHashMap<>();
+        storedObjs.put(instance.getObjectID(), instance.getMetaClassID());
+
+        final RegistrationInfo regInfo = new RegistrationInfo(instance.getObjectID(), instance.getMetaClassID(),
+                instance.getOwnerSessionIDforVolatiles(), instance.getDataSetID());
+
+        if (DEBUG_ENABLED) {
+            LOGGER.debug("[==RegisterPending==] Going to register " + regInfo + " for instance "
+                    + System.identityHashCode(instance));
+        }
+        try {
+            if (sync) {
+                this.runtime.getLogicModuleAPI().registerObject(regInfo, executionEnvironmentID, null, Langs.LANG_JAVA);
+            } else {
+                this.runtime.getLogicModuleAPI().registerObjectFromGC(regInfo, executionEnvironmentID, this.runtime);
+            }
+        } catch (final Exception e) {
+            // object already registered due to add alias
+            LOGGER.debug("[==RegisterPending==] Exception occurred while registering object, ignoring if already registered ", e);
+        }
+        LOGGER.debug("[==RegisterPending==] Object registered");
+    }
+
+    /**
+     * Store pending object
+     *
+     * @param instance Instance to register
+     * @param arrBytes Persistent object
+     */
+    private void storePendingObject(final DataClayExecutionObject instance, final byte[] arrBytes) {
+
+        LOGGER.debug("[==RegisterPending==] Registering pending object with ID " + instance.getObjectID() + " of class "
+                            + instance.getClass().getName() + ". System.id = " + System.identityHashCode(instance));
+
+        this.storageLocation.store(this.executionEnvironmentID, instance.getObjectID(), arrBytes);
+
+
+    }
+
+    /**
      * Register and store pending object
      *
      * @param instance Instance to register
@@ -1893,37 +1947,9 @@ public final class DataService implements DataServiceAPI {
      */
     private void registerAndStorePendingObject(final DataClayExecutionObject instance, final byte[] arrBytes,
                                                final boolean sync) {
+        storePendingObject(instance, arrBytes);
+        registerObject(instance, sync);
 
-        if (DEBUG_ENABLED) {
-            LOGGER.debug(
-                    "[==RegisterPending==] Registering pending object with ID " + instance.getObjectID() + " of class "
-                            + instance.getClass().getName() + ". System.id = " + System.identityHashCode(instance));
-        }
-
-        this.storageLocation.store(this.executionEnvironmentID, instance.getObjectID(), arrBytes);
-
-        // Inform MDS about new object !
-        final Map<ObjectID, MetaClassID> storedObjs = new ConcurrentHashMap<>();
-        storedObjs.put(instance.getObjectID(), instance.getMetaClassID());
-
-        final RegistrationInfo regInfo = new RegistrationInfo(instance.getObjectID(), instance.getMetaClassID(),
-                instance.getOwnerSessionIDforVolatiles(), instance.getDataSetID());
-
-		if (DEBUG_ENABLED) {
-			LOGGER.debug("[==RegisterPending==] Going to register " + regInfo + " for instance "
-					+ System.identityHashCode(instance));
-		}
-		try {
-			if (sync) {
-				this.runtime.getLogicModuleAPI().registerObject(regInfo, executionEnvironmentID, null, Langs.LANG_JAVA);
-			} else {
-				this.runtime.getLogicModuleAPI().registerObjectFromGC(regInfo, executionEnvironmentID, this.runtime);
-			}
-		} catch (final Exception e) {
-			// object already registered due to add alias
-			LOGGER.debug("[==RegisterPending==] Exception occurred while registering object, ignoring if already registered ", e);
-		}
-		LOGGER.debug("[==RegisterPending==] Object registered");
 	}
 
     /**

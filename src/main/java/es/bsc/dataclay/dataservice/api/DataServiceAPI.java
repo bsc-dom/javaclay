@@ -22,6 +22,7 @@ import es.bsc.dataclay.util.ids.StorageLocationID;
 import es.bsc.dataclay.util.info.VersionInfo;
 import es.bsc.dataclay.util.management.classmgr.MetaClass;
 import es.bsc.dataclay.util.management.metadataservice.MetaDataInfo;
+import es.bsc.dataclay.util.management.metadataservice.RegistrationInfo;
 import es.bsc.dataclay.util.management.metadataservice.StorageLocation;
 import es.bsc.dataclay.util.structs.Tuple;
 
@@ -288,9 +289,9 @@ public interface DataServiceAPI extends CommonManager {
 	 *            ID of the object
 	 * @param recursive
 	 *            Indicates if all sub-objects must be replicated as well.
-	 * @return Set of IDs of replicated objects
+	 * @return IDs of replicated objects and information for registering them if needed
 	 */
-	Set<ObjectID> newReplica(final SessionID sessionID, final ObjectID objectID, final boolean recursive);
+	Map<ObjectID, RegistrationInfo> newReplica(final SessionID sessionID, final ObjectID objectID, final boolean recursive);
 
 	/**
 	 * Move object from this location to the one specified

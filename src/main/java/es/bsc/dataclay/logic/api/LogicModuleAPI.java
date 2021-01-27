@@ -1191,11 +1191,16 @@ public interface LogicModuleAPI {
 	 *            ID of the session
 	 * @param objectID
 	 *            ID of the object
+	 * @param classID
+	 *            Class ID of the object
+	 * @param hint
+	 *            Hint of the object
 	 * @param optionalDestBackendID
 	 *            optionally a preferred destination backend
 	 * @return the information about the new version required for consolidate
 	 */
 	VersionInfo newVersion(final SessionID sessionID, final ObjectID objectID,
+						   final MetaClassID classID, final BackendID hint,
 			final ExecutionEnvironmentID optionalDestBackendID);
 
 	/**
@@ -1218,6 +1223,10 @@ public interface LogicModuleAPI {
 	 *            ID of the session
 	 * @param objectID
 	 *            ID of the object
+	 * @param classID
+	 *            Class ID of the object
+	 * @param hint
+	 *            Hint of the object
 	 * @param optionalDestBackendID
 	 *            optionally a preferred destination backend
 	 * @param recursive
@@ -1225,6 +1234,7 @@ public interface LogicModuleAPI {
 	 * @return ID of the backend where replica has been eventually registered.
 	 */
 	ExecutionEnvironmentID newReplica(final SessionID sessionID, final ObjectID objectID,
+									  final MetaClassID classID, final BackendID hint,
 			final ExecutionEnvironmentID optionalDestBackendID, final boolean recursive);
 
 	/**
