@@ -763,48 +763,7 @@ public final class DataClay {
 			final ObjectID objectID = ids.getFirst();
 			final BackendID hint = ids.getSecond();
 			final MetaClassID classID = ids.getThird();
-			final Set<BackendID> currentBackends = commonLib.getAllLocations(objectID);
-			final BackendID oneBK = currentBackends.iterator().next();
-			final Langs lang = backendsByID.get(oneBK).getLang();
-
-			// Select dest backend for the provided dest host
-			BackendID destLocID = null;
-			Set<BackendID> destBackends = null;
-			switch (lang) {
-				case LANG_JAVA:
-					if (LOCALTOKEN.equals(destHost)) {
-						destLocID = jLOCAL;
-					} else {
-						destBackends = jBackendsByHostname.get(destHost);
-					}
-					break;
-				case LANG_PYTHON:
-					if (LOCALTOKEN.equals(destHost)) {
-						destLocID = pLOCAL;
-					} else {
-						destBackends = pyBackendsByHostname.get(destHost);
-					}
-					break;
-				default:
-					throw new DataClayException("ERROR in newReplica: unsupported language");
-			}
-			if (destLocID == null) {
-				if (destBackends == null || destBackends.isEmpty()) {
-					throw new DataClayException("ERROR in newReplica: dest host " + destHost + " has no backends");
-				}
-				for (final BackendID bkID : destBackends) {
-					if (!currentBackends.contains(bkID)) { // find backend NOT containing a replica
-						destLocID = bkID;
-						break;
-					}
-				}
-			}
-			// Replicate
-			if (destLocID == null) {
-				throw new DataClayException(
-						"ERROR in newReplica: no suitable backend found (or replica already present in dest)");
-			}
-			commonLib.newReplica(objectID, classID, hint, destLocID, true);
+			commonLib.newReplica(objectID, classID, hint, null, destHost, true);
 
 		} catch (final Exception e) {
 			throw new DataClayException(e);

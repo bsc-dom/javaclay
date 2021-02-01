@@ -733,15 +733,17 @@ public abstract class DataClayRuntime {
 	 *            Hint of the object
 	 * @param optDestBackendID
 	 *            ID of the backend in which to store the version the object (optional)
+	 * @param optDestHostname Hostname of the backend in which to replicate the object (optional)
 	 * @return The ID of the version or NULL if some error is thrown.
 	 */
 	public final VersionInfo newVersion(final ObjectID objectID, final MetaClassID classID, final BackendID hint,
-			final BackendID optDestBackendID) {
+			final BackendID optDestBackendID, final String optDestHostname) {
 		final SessionID sessionID = checkAndGetSession(new String[] { "ObjectID" }, new Object[] { objectID });
 
 		// Make sure object is registered
 		ensureObjectRegistered(sessionID, objectID, classID, hint);
-		final VersionInfo result = logicModule.newVersion(sessionID, objectID, (ExecutionEnvironmentID) optDestBackendID);
+		final VersionInfo result = logicModule.newVersion(sessionID, objectID, classID, hint,
+				(ExecutionEnvironmentID) optDestBackendID, optDestHostname);
 		this.metaDataCache.remove(objectID);
 		return result;
 	}
@@ -775,19 +777,21 @@ public abstract class DataClayRuntime {
 	 *            Hint of the object
 	 * @param optDestBackendID
 	 *            ID of the backend in which to replicate the object (optional)
+	 * @param optDestHostname Hostname of the backend in which to replicate the object (optional)
 	 * @param recursive
 	 *            Indicates if we should also replicate all sub-objects or not.
 	 * @return The ID of the backend in which the replica was created or NULL if some error is thrown.
 	 * 
 	 */
-	public final BackendID newReplica(final ObjectID objectID, final MetaClassID classID, final BackendID hint,
-			final BackendID optDestBackendID, final boolean recursive) {
+	public final BackendID newReplica(final ObjectID objectID, final MetaClassID classID,
+			final BackendID hint, final BackendID optDestBackendID, final String optDestHostname,
+									  final boolean recursive) {
 		final SessionID sessionID = checkAndGetSession(new String[] { "ObjectID" }, new Object[] { objectID });
 
 		// Make sure object is registered
 		ensureObjectRegistered(sessionID, objectID, classID, hint);
-		final ExecutionEnvironmentID backendID = logicModule.newReplica(sessionID, objectID, (ExecutionEnvironmentID) optDestBackendID,
-						recursive);
+		final ExecutionEnvironmentID backendID = logicModule.newReplica(sessionID, objectID,
+				(ExecutionEnvironmentID) optDestBackendID, optDestHostname, recursive);
 		this.metaDataCache.remove(objectID);
 		return backendID;
 	}

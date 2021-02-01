@@ -4761,7 +4761,8 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
     @Override
     public VersionInfo newVersion(final SessionID sessionID, final ObjectID objectID,
                                   final MetaClassID classID, final BackendID hint,
-                                  final ExecutionEnvironmentID optionalDestBackendID) {
+                                  final ExecutionEnvironmentID optionalDestBackendID,
+                                  final String optDestHostname) {
 
         LOGGER.debug("==> Starting new version for object " + objectID);
 
@@ -4792,6 +4793,24 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
         if (optionalDestBackendID != null) {
             final ExecutionEnvironment backendDest = metaDataSrvApi.getExecutionEnvironmentInfo(optionalDestBackendID);
             destBackend = new Tuple<>(optionalDestBackendID, backendDest);
+
+        } else if (optDestHostname != null) {
+            // Get a random backend in provided host
+            final Map<ExecutionEnvironmentID, ExecutionEnvironment> allBackends = metaDataSrvApi
+                    .getAllExecutionEnvironmentsInfo(sessionInfo.getLanguage());
+            for (ExecutionEnvironment ee : allBackends.values()) {
+                String backendHostName = ee.getHostname();
+                if (backendHostName.equals(optDestHostname)) {
+                    destBackend = new Tuple<ExecutionEnvironmentID, ExecutionEnvironment>(ee.getDataClayID(), ee);
+                    break;
+                }
+            }
+
+            if (destBackend == null) {
+                //throw new DataClayRuntimeException(ERRORCODE.NO_BACKEND_FOR_REPLICATION);
+                throw new DataClayRuntimeException(ERRORCODE.STORAGE_LOCATION_NOT_EXIST);
+            }
+
         } else {
             // TODO We could think of better policies than random (jmarti 8 Jul 2013)
             destBackend = metaDataSrvApi.getRandomExecutionEnvironmentInfo(sessionInfo.getLanguage());
@@ -4805,6 +4824,10 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
         // (used in consolidate)
         final Map<ObjectID, MetaDataInfo> originalMD = metaDataSrvApi.registerVersions(versionInfo.getSecond(),
                 destBackend.getFirst(), sessionInfo.getLanguage());
+
+
+
+
         result.setVersionOID(versionInfo.getFirst());
         result.setVersionsMapping(versionInfo.getSecond());
         result.setLocID(backend.getDataClayID());
@@ -4866,7 +4889,8 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
     @Override
     public ExecutionEnvironmentID newReplica(final SessionID sessionID, final ObjectID objectID,
                                              final MetaClassID classID, final BackendID hint,
-                                             final ExecutionEnvironmentID optionalDestBackendID, final boolean recursive) {
+                                             final ExecutionEnvironmentID optionalDestBackendID,
+                                             final String optDestHostname, final boolean recursive) {
 
         LOGGER.debug("==> Starting new replica for object " + objectID);
         ExecutionEnvironmentID result = null;
@@ -4902,7 +4926,33 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
             // since subobjects may not be there
             final ExecutionEnvironment backendDest = metaDataSrvApi.getExecutionEnvironmentInfo(optionalDestBackendID);
             destBackend = new Tuple<>(optionalDestBackendID, backendDest);
+
+        } else if (optDestHostname != null) {
+            // Avoid replicating to a node that already has a replica
+            // Get current object locations and seek for any location in that backend without a replica
+            final Map<ExecutionEnvironmentID, ExecutionEnvironment> currentLocations = metadataInfo.getLocations();
+            final Set<String> currentHostNameLocations = new HashSet<>();
+            for (ExecutionEnvironment ee : currentLocations.values()) {
+                currentHostNameLocations.add(ee.getHostname());
+            }
+
+            final Map<ExecutionEnvironmentID, ExecutionEnvironment> allBackends = metaDataSrvApi
+                    .getAllExecutionEnvironmentsInfo(sessionInfo.getLanguage());
+
+            for (ExecutionEnvironment ee : allBackends.values()) {
+                String backendHostName = ee.getHostname();
+                if (backendHostName.equals(optDestHostname) && !currentHostNameLocations.contains(backendHostName)) {
+                    destBackend = new Tuple<ExecutionEnvironmentID, ExecutionEnvironment>(ee.getDataClayID(), ee);
+                    break;
+                }
+            }
+
+            if (destBackend == null) {
+                //throw new DataClayRuntimeException(ERRORCODE.NO_BACKEND_FOR_REPLICATION);
+                throw new DataClayRuntimeException(ERRORCODE.STORAGE_LOCATION_NOT_EXIST);
+            }
         } else {
+            // Get a random location to replicate
             final Map<ExecutionEnvironmentID, ExecutionEnvironment> currentLocations = metadataInfo.getLocations();
             final Map<ExecutionEnvironmentID, ExecutionEnvironment> allBackends = metaDataSrvApi
                     .getAllExecutionEnvironmentsInfo(sessionInfo.getLanguage());
@@ -4926,12 +4976,12 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
 		DataServiceAPI dataServiceApi = getExecutionEnvironmentAPI(destBackend.getSecond());
 		LOGGER.debug("Calling new replica to destination backend " + destBackend);
 		final Map<ObjectID, RegistrationInfo> replicatedObjs = dataServiceApi.newReplica(sessionID, objectID, recursive);
+        // Register all replicated objects
 		for (final RegistrationInfo regInfo : replicatedObjs.values()) {
-            // Register object
             // NOTE: an object with alias must be always registered
             try {
                 this.registerObject(regInfo, (ExecutionEnvironmentID) hint, null, Langs.LANG_JAVA);
-            } catch (Exception e) {
+            } catch (DbObjectAlreadyExistException e) {
                 // ignore, already registered
             }
 			metaDataSrvApi.registerReplica(regInfo.getObjectID(), destBackend.getFirst());

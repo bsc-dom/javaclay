@@ -102,40 +102,9 @@ public final class StorageItf {
 			final ObjectID originalObjectID = ids.getFirst();
 			final BackendID originalHint = ids.getSecond();
 			final MetaClassID originalClassID = ids.getThird();
-			BackendID bkID = null;
-			if (originalHint == null) {
-				bkID = commonLib.getLocation(originalObjectID);
-			} else {
-				bkID = originalHint;
-			}
-			final Map<String, Set<BackendID>> backendsByHostname;
-			final Langs lang = backendsByID.get(bkID).getLang();
-			if (lang.equals(Langs.LANG_JAVA)) {
-				backendsByHostname = DataClay.getJBackendsByHostname();
-				backendsByIDMatchLang = DataClay.getJBackends();
-			} else if (lang.equals(Langs.LANG_PYTHON)) {
-				backendsByHostname = DataClay.getPyBackendsByHostname();
-				backendsByIDMatchLang = DataClay.getPyBackends();
-			} else {
-				throw new StorageException("Invalid language of object");
-			}
-			BackendID destBackendID = null;
-			Set<BackendID> possibleDestBackends = null;
-			if (optDestHost != null) {
-				possibleDestBackends = backendsByHostname.get(optDestHost);
-			} else {
-				System.out.println("[DATACLAY] Warning newVersion : optDestHost is not specified, choosing host randomly");
-			}
-			if (possibleDestBackends == null) {
-				destBackendID = getRandom(backendsByIDMatchLang.keySet());
-				if (DEBUG_ENABLED) {
-					System.out.println("[DATACLAY] Target location chosen randomly: " + backendsByIDMatchLang.get(destBackendID).getName());
-				}
-			} else {
-				destBackendID = getRandom(possibleDestBackends);
-			}
 
-			final VersionInfo versionInfo = commonLib.newVersion(originalObjectID, originalClassID, originalHint, destBackendID);
+			final VersionInfo versionInfo = commonLib.newVersion(originalObjectID,
+					originalClassID, originalHint, null, optDestHost);
 			if (versionInfo == null) {
 				throw new StorageException("Cannot create version of object " + originalObjectID + " in " + destBackendID
 						+ " with session " + commonLib.getSessionID());

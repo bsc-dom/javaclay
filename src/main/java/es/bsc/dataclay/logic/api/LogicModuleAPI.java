@@ -1197,11 +1197,12 @@ public interface LogicModuleAPI {
 	 *            Hint of the object
 	 * @param optionalDestBackendID
 	 *            optionally a preferred destination backend
+	 * @param optDestHostname Hostname of the backend in which to replicate the object (optional)
 	 * @return the information about the new version required for consolidate
 	 */
 	VersionInfo newVersion(final SessionID sessionID, final ObjectID objectID,
 						   final MetaClassID classID, final BackendID hint,
-			final ExecutionEnvironmentID optionalDestBackendID);
+			final ExecutionEnvironmentID optionalDestBackendID, final String optDestHostname);
 
 	/**
 	 * Makes the object with finalVersionID the definitive version of the object with originalObjectID. The original version is
@@ -1229,13 +1230,15 @@ public interface LogicModuleAPI {
 	 *            Hint of the object
 	 * @param optionalDestBackendID
 	 *            optionally a preferred destination backend
+	 * @param optDestHostname Hostname of the backend in which to replicate the object (optional)
 	 * @param recursive
 	 *            Indicates if sub-objects must be also replicated or not.
 	 * @return ID of the backend where replica has been eventually registered.
 	 */
 	ExecutionEnvironmentID newReplica(final SessionID sessionID, final ObjectID objectID,
 									  final MetaClassID classID, final BackendID hint,
-			final ExecutionEnvironmentID optionalDestBackendID, final boolean recursive);
+			final ExecutionEnvironmentID optionalDestBackendID, final String optDestHostname,
+									  final boolean recursive);
 
 	/**
 	 * Method that moves an object from location to location.

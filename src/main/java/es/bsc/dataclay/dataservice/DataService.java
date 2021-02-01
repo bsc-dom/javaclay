@@ -1547,7 +1547,7 @@ public final class DataService implements DataServiceAPI {
     public Tuple<ObjectID, Map<ObjectID, ObjectID>> newVersion(final SessionID sessionID, final ObjectID objectID,
                                                                final MetaDataInfo metadataInfo) {
         if (DEBUG_ENABLED) {
-            LOGGER.debug("[==Version==] New version for " + objectID);
+            LOGGER.debug("----> Starting new version for " + objectID);
         }
 
         // Get the data service of one of the backends that contains the original
@@ -1608,7 +1608,7 @@ public final class DataService implements DataServiceAPI {
         }
         runtime.getMetaDataCache().put(versionID, versionMD);
         if (DEBUG_ENABLED) {
-            LOGGER.debug("[==Version==] Version finished for " + objectID + " with id " + versionID);
+            LOGGER.debug("<---- Finished new Version for " + objectID + " with id " + versionID);
         }
         return new Tuple<>(versionID, versionToOriginal);
     }
