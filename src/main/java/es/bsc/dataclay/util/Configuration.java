@@ -402,33 +402,46 @@ public final class Configuration {
 		}
 
 		/**
+		 * Initialize the testFlagsProps variable
+		 * 
+		 * This static method will typically be called either from the non-static
+		 * init() or from the initializeGlobalProperties() --which may seem a little bit
+		 * chicken-egg given that this is also calling the initializeGlobalProperties.
+		 * 
+		 * But certain dataClay initializations (e.g. PyCOMPSs runtime) will end up here,
+		 * not through the init(), so this method is needed for those scenarios.
+		 */
+		private static void initTestFlagsProps() {
+			testFlagsProps = new Properties();
+			File globalFile = null;
+			String globalPropsPath = ProcessEnvironment.getInstance().get(Configuration.GLOBALPROPS_ENV);
+			boolean fileExists = false;
+			if (globalPropsPath != null && !globalPropsPath.isEmpty()) {
+				globalFile = new File(globalPropsPath);
+				fileExists = globalFile.isFile() && globalFile.exists();
+			}
+
+			if (fileExists) {
+				final Path path = Paths.get(globalPropsPath).normalize();
+				globalPropsPath = path.toAbsolutePath().toString();
+				globalFile = new File(globalPropsPath);
+
+			} else {
+				final Path path = Paths.get(GLOBALPROPS_PATH).normalize();
+				globalPropsPath = path.toAbsolutePath().toString();
+				globalFile = new File(globalPropsPath);
+			}
+
+			initializeGlobalProperties(globalFile);
+		}
+
+		/**
 		 * @throws Exception
 		 *             if some exception occurs Init properties.
 		 */
 		private void init() throws Exception {
 			if (testFlagsProps == null) {
-				testFlagsProps = new Properties();
-				File globalFile = null;
-				String globalPropsPath = ProcessEnvironment.getInstance().get(Configuration.GLOBALPROPS_ENV);
-				boolean fileExists = false;
-				if (globalPropsPath != null && !globalPropsPath.isEmpty()) {
-					globalFile = new File(globalPropsPath);
-					fileExists = globalFile.isFile() && globalFile.exists();
-				}
-
-				if (fileExists) {
-					final Path path = Paths.get(globalPropsPath).normalize();
-					globalPropsPath = path.toAbsolutePath().toString();
-					globalFile = new File(globalPropsPath);
-
-				} else {
-					final Path path = Paths.get(GLOBALPROPS_PATH).normalize();
-					globalPropsPath = path.toAbsolutePath().toString();
-					globalFile = new File(globalPropsPath);
-
-				}
-
-				initializeGlobalProperties(globalFile);
+				initTestFlagsProps();
 			}
 			if (valueType == null) {
 				if (value == null) {
@@ -484,11 +497,6 @@ public final class Configuration {
 			}
 
 			loaded = true;
-
-
-
-
-
 		}
 
 		/**
@@ -517,6 +525,14 @@ public final class Configuration {
 		 */
 		public static void initializeGlobalProperties(final File globalFile) {
 			FileInputStream input = null;
+
+			if (testFlagsProps == null) {
+				// testFlagsProps will be already initialized if init() is the one calling this,
+				// but maybe the code comes from another path (i.e. reloadGlobalProperties) and thus
+				// this check is required.
+				initTestFlagsProps();
+			}
+
 			try {
 
 				input = new FileInputStream(globalFile);
