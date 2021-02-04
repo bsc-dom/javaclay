@@ -262,9 +262,9 @@ public final class Configuration {
 		// ANY CALL TO LOGICMODULE 
 		/** Default value for number of retries in connection to LogicModule. 
 		 * NOTE: Clients can wait at init waitForBackends*/
-		MAX_RETRIES_LOGICMODULE(1, ConfType.SHORT),
+		MAX_RETRIES_LOGICMODULE(600, ConfType.SHORT),
 		/** Default value for sleeping before retrying in LM in millis. */
-		SLEEP_RETRIES_LOGICMODULE(100, ConfType.SHORT),
+		SLEEP_RETRIES_LOGICMODULE(1000, ConfType.SHORT),
 
 		// EXECUTION RETRIES
 
