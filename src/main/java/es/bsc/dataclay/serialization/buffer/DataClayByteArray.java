@@ -3,6 +3,8 @@ package es.bsc.dataclay.serialization.buffer;
 
 import com.google.protobuf.ByteString;
 
+import java.nio.ByteBuffer;
+
 /**
  * This class is a wrapper to a byte array. Used for serialization of messages that need to deal with DataClayByteBuffer.
  */
@@ -32,8 +34,8 @@ public final class DataClayByteArray {
 	/**
 	 * @return the byteArray
 	 */
-	public byte[] getByteArray() {
-		return byteString.toByteArray();
+	public ByteBuffer getByteArray() {
+		return byteString.asReadOnlyByteBuffer();
 	}
 
 	/**

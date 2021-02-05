@@ -7,6 +7,7 @@ import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 
 import io.grpc.netty.shaded.io.netty.buffer.ByteBuf;
+import io.grpc.netty.shaded.io.netty.buffer.Unpooled;
 
 
 /**
@@ -37,7 +38,16 @@ public final class JavaByteBuffer implements DataClayByteBuffer {
 	public JavaByteBuffer() {
 		javaByteBuffer = ByteBuffer.allocate(INITIAL_CAPACITY);
 	}
-	
+
+	/**
+	 * Constructor
+	 * @param data
+	 *            ByteBuffer containing data
+	 */
+	public JavaByteBuffer(final ByteBuffer data) {
+		this.javaByteBuffer = data;
+	}
+
 	@Override
 	public void rewind() { 
 		this.javaByteBuffer.rewind();
@@ -90,7 +100,7 @@ public final class JavaByteBuffer implements DataClayByteBuffer {
 
 	@Override
 	public void release() {
-
+		javaByteBuffer = null;
 	}
 
 	@Override
@@ -146,7 +156,23 @@ public final class JavaByteBuffer implements DataClayByteBuffer {
 	@Override
 	public void writeVLQInt(final int value) {
 		try {
-			javaByteBuffer.putInt(value);
+			int tmp = value;
+			final byte[] byteArrayList = new byte[10];
+			int i = 0;
+			while ((tmp & 0xFFFFFF80) != 0L) {
+				byteArrayList[i++] = ((byte) ((tmp & 0x7F) | 0x80));
+				tmp >>>= 7;
+			}
+			byteArrayList[i] = ((byte) (tmp & 0x7F));
+			final byte[] out = new byte[i + 1];
+			System.arraycopy(byteArrayList, 0, out, 0, i + 1);
+			/*
+			 * for (; i >= 0; i--) { out[i] = byteArrayList[i]; }
+			 */
+			for (final byte b : out) {
+				javaByteBuffer.put(b);
+			}
+
 		} catch (final BufferOverflowException e) { 
 			this.increaseBufferSize(INCREASE_CAPACITY);
 			javaByteBuffer.putInt(value);
@@ -155,7 +181,18 @@ public final class JavaByteBuffer implements DataClayByteBuffer {
 	
 	@Override
 	public int readVLQInt() {
-		return javaByteBuffer.getInt();
+		int value = 0;
+		int i = 0;
+		int b = 0;
+		while (((b = javaByteBuffer.get()) & 0x80) != 0) {
+			value |= (b & 0x7F) << i;
+			i += 7;
+			if (i > 35) {
+				throw new IllegalArgumentException("Variable length quantity is too long");
+			}
+		}
+		final int finalValue = value | (b << i);
+		return finalValue;
 	}
 
 
