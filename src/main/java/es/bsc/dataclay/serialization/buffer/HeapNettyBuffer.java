@@ -1,6 +1,7 @@
 
 package es.bsc.dataclay.serialization.buffer;
 
+import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 
 import io.grpc.netty.shaded.io.netty.buffer.ByteBuf;
@@ -39,10 +40,22 @@ public final class HeapNettyBuffer implements DataClayByteBuffer {
 		this.nettyByteBuf = data;
 	}
 
+	/**
+	 * Constructor
+	 * @param data
+	 *            ByteBuffer containing data
+	 */
+	public HeapNettyBuffer(final ByteBuffer data) {
+		this.nettyByteBuf = Unpooled.wrappedBuffer(data);
+	}
+
+
 	@Override
 	public void wrapBytes(final byte[] newBuffer) {
 		nettyByteBuf = Unpooled.wrappedBuffer(newBuffer);
 	}
+
+
 
 	@Override
 	public boolean isReadable() {
@@ -117,6 +130,7 @@ public final class HeapNettyBuffer implements DataClayByteBuffer {
 		nettyByteBuf.getBytes(this.readerIndex(), curArray);
 		return curArray;
 	}
+
 
 	// ===== INTEGER ===== //
 

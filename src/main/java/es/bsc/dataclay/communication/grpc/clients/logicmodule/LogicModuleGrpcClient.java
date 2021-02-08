@@ -247,10 +247,9 @@ public final class LogicModuleGrpcClient implements LogicModuleAPI {
 				response = fn.apply(request);
 				break;
 			} catch (final StatusRuntimeException e) {
-				logger.debug("Error calling LogicModule", e);
+				logger.warn("Error calling LogicModule. Retrying.", e);
 				retryCommunicationIteration++;
 				if (retryCommunicationIteration >= Configuration.Flags.MAX_RETRIES_LOGICMODULE.getShortValue()) {
-					// Use Backup LM
 					throw new RuntimeException(e.getStatus().getDescription());
 					
 				} else { 
