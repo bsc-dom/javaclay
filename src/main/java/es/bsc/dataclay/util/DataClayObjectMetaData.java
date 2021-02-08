@@ -33,9 +33,6 @@ public final class DataClayObjectMetaData {
 	/** Map tag to hint id. */
 	private Map<Integer, ExecutionEnvironmentID> hints;
 
-	/** Map tag to external dataClay ID */
-	private Map<Integer, DataClayInstanceID> extDataClayIDs;
-
 	/** Number of references pointing to object. */
 	private int numRefs;
 
@@ -175,17 +172,6 @@ public final class DataClayObjectMetaData {
 	}
 
 	/**
-	 * Get a specific dataClayID for a tag
-	 * 
-	 * @param tag
-	 *            the tag of the dataClayID to be retrieved
-	 * @return dataClayID corresponding to given tag
-	 */
-	public DataClayInstanceID getDataClayID(final Integer tag) {
-		return this.extDataClayIDs.get(tag);
-	}
-
-	/**
 	 * Modify oids
 	 * 
 	 * @param oidsMapping
@@ -222,6 +208,25 @@ public final class DataClayObjectMetaData {
 
 	}
 
+
+	/**
+	 * Modify hints
+	 *
+	 * @param hintsMapping
+	 *            Hints of objects
+	 */
+	public void modifyHints(final Map<ObjectID, ExecutionEnvironmentID> hintsMapping) {
+		for (final Entry<Integer, ObjectID> curTagEntry : this.oids.entrySet()) {
+			final Integer tag = curTagEntry.getKey();
+			final ObjectID oid = curTagEntry.getValue();
+			final ExecutionEnvironmentID newHint = hintsMapping.get(oid);
+			if (newHint != null) {
+				this.hints.put(tag, newHint);
+			}
+		}
+
+	}
+
 	/**
 	 * @return the numRefs
 	 */
@@ -244,7 +249,6 @@ public final class DataClayObjectMetaData {
 		strb.append("oids = " + this.oids + "\n");
 		strb.append("classIDs = " + this.classIDs + "\n");
 		strb.append("hints = " + this.hints + "\n");
-		strb.append("extDataClayIDs = " + this.extDataClayIDs + "\n");
 		strb.append("}\n");
 		return strb.toString();
 	}

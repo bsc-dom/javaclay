@@ -507,49 +507,38 @@ public final class DataService implements DataServiceAPI {
     }
 
     @Override
-    public void storeObjects(final SessionID sessionID, final List<ObjectWithDataParamOrReturn> objects,
+    public void storeObjects(final SessionID sessionID,
+                             final List<ObjectWithDataParamOrReturn> objects,
                              final boolean moving, final Set<ObjectID> idsWithAlias) {
-
         if (DEBUG_ENABLED) {
             LOGGER.debug("[==Store==] Storing " + objects.size() + " objects.");
         }
-
         runtime.setCurrentThreadSessionID(sessionID);
-        if (Configuration.mockTesting) {
-            DataClayMockObject.setCurrentThreadLib(this.runtime);
-        }
-
         // notify GlobalGC about new alias references
         if (idsWithAlias != null) {
             for (final ObjectID oid : idsWithAlias) {
                 runtime.addAliasReference(oid);
             }
         }
+        // NOTE: update hints of objects since they come from other backends in this call
 
+        // Prepare hints to update
+        Map<ObjectID, ExecutionEnvironmentID> hintsMapping = new HashMap<>();
         for (final ObjectWithDataParamOrReturn object : objects) {
             final ObjectID objectID = object.getObjectID();
-
+            hintsMapping.put(objectID, this.executionEnvironmentID);
+        }
+        // Update hints
+        for (final ObjectWithDataParamOrReturn object : objects) {
+            final ObjectID objectID = object.getObjectID();
             // Set object's hint to current location
             final DataClayObjectMetaData metadata = object.getMetaData();
-            final int tag = metadata.getOids().entrySet().stream()
-                    .collect(Collectors.toMap(Entry::getValue, c -> c.getKey())).get(objectID);
-            metadata.setHint(tag, this.executionEnvironmentID);
-
+            metadata.modifyHints(hintsMapping);
             // make persistent - session references
             this.runtime.addSessionReference(objectID);
-
-            final byte[] byteArray = DataClaySerializationLib.serializeForDB(objectID, metadata,
-                    object.getSerializedBytes(), true);
-
-            if (DEBUG_ENABLED) {
-                LOGGER.debug("[==Store==] Storing object " + objectID + " of size = " + byteArray.length + " bytes ");
-            }
-            this.storageLocation.store(this.executionEnvironmentID, objectID, byteArray);
-            if (DEBUG_ENABLED) {
-                LOGGER.debug("[==Store==] Stored object " + objectID + " of size = " + byteArray.length + " bytes ");
-            }
-
         }
+
+        storeInMemory(sessionID, objects);
 
         if (moving) {
 
@@ -612,36 +601,25 @@ public final class DataService implements DataServiceAPI {
         }
     }
 
-    @Override
-    public void newMetaData(final Map<ObjectID, MetaDataInfo> mdInfos) {
-        if (DEBUG_ENABLED) {
-            for (final Entry<ObjectID, MetaDataInfo> entry : mdInfos.entrySet()) {
-                LOGGER.debug("[==MetaData Cache==] Added metadata info to MetaData Cache: " + entry.getKey() + " : "
-                        + entry.getValue().getLocations().values());
-            }
-        }
-        runtime.getMetaDataCache().putAll(mdInfos);
-    }
-
     /**
      * @param sessionID        ID of session
      * @param objectsToPersist objects to deserialize into heap
      * @return Deserialized instances
      * @brief Deserialize and load the data of objects provided into heap
      */
-    private Object[] storeInMemory(final SessionID sessionID, final SerializedParametersOrReturn objectsToPersist) {
+    private Object[] storeInMemory(final SessionID sessionID, final List<ObjectWithDataParamOrReturn> objectsToPersist) {
 
         final Map<MetaClassID, byte[]> ifaceBitMaps = null; // TODO: get for current session
 
         // Deserialize objects following same design as volatile but without
         // implementation ID (null) and
         // no instance to execute.
-        return this.runtime.deserializeMakePersistent(ifaceBitMaps, objectsToPersist);
+        return this.runtime.deserializeIntoHeap(ifaceBitMaps, objectsToPersist);
 
     }
 
     @Override
-    public void makePersistent(final SessionID sessionID, final SerializedParametersOrReturn objectsToPersist) {
+    public void makePersistent(final SessionID sessionID, final List<ObjectWithDataParamOrReturn> objectsToPersist) {
         try {
 
             if (DEBUG_ENABLED) {
@@ -650,10 +628,6 @@ public final class DataService implements DataServiceAPI {
 
             // create lots of objects here and stash them somewhere
             runtime.setCurrentThreadSessionID(sessionID);
-
-            if (Configuration.mockTesting) {
-                DataClayMockObject.setCurrentThreadLib(this.runtime);
-            }
             if (DEBUG_ENABLED) {
                 LOGGER.debug("[==Make Persistent==] ** Starting make persistent **");
 
@@ -1519,28 +1493,34 @@ public final class DataService implements DataServiceAPI {
     }
 
     @Override
-    public Map<ObjectID, RegistrationInfo> newReplica(final SessionID sessionID, final ObjectID objectID, final boolean recursive) {
+    public void newReplica(final SessionID sessionID, final ObjectID objectID,
+                                                      final ExecutionEnvironmentID destBackendID,
+                                                      final boolean registerMetaData,
+                                                      final boolean recursive) {
         LOGGER.debug("----> Starting new replica of " + objectID);
-
 
         // Get the original object.
         final Set<ObjectID> objectIDs = new HashSet<>();
         objectIDs.add(objectID);
         final Map<ObjectID, ObjectWithDataParamOrReturn> serializedObjs = getObjects(sessionID, objectIDs, recursive, false, false);
 
+        // Store it in destination backend
+        final DataServiceAPI dataServiceApi = runtime.getRemoteExecutionEnvironment(destBackendID);
+        dataServiceApi.storeObjects(sessionID, new ArrayList<>(serializedObjs.values()), false, null);
 
-        storeObjects(sessionID, new ArrayList<>(serializedObjs.values()), false, null);
-
-        Map<ObjectID, RegistrationInfo> registrationInfoMap = new HashMap<>();
-        // All objects are forced to be registered before sending them
-        for (final ObjectWithDataParamOrReturn objectToRegister : serializedObjs.values()) {
-            final RegistrationInfo regInfo = new RegistrationInfo(objectToRegister.getObjectID(),
-                    objectToRegister.getClassID(), sessionID, null);
-            registrationInfoMap.put(objectToRegister.getObjectID(), regInfo);
+        // Send registration info to LogicModule if required
+        if (registerMetaData) {
+            List<RegistrationInfo> registrationInfos = new ArrayList<>();
+            // All objects are forced to be registered before sending them
+            for (final ObjectWithDataParamOrReturn objectToRegister : serializedObjs.values()) {
+                final RegistrationInfo regInfo = new RegistrationInfo(objectToRegister.getObjectID(),
+                        objectToRegister.getClassID(), sessionID, null, null);
+                registrationInfos.add(regInfo);
+            }
+            runtime.getLogicModuleAPI().registerObjects(registrationInfos,
+                    destBackendID, Langs.LANG_JAVA);
         }
         LOGGER.debug("<---- Finished new replica of " + objectID);
-        return registrationInfoMap;
-
     }
 
     @Override
@@ -1903,7 +1883,7 @@ public final class DataService implements DataServiceAPI {
         storedObjs.put(instance.getObjectID(), instance.getMetaClassID());
 
         final RegistrationInfo regInfo = new RegistrationInfo(instance.getObjectID(), instance.getMetaClassID(),
-                instance.getOwnerSessionIDforVolatiles(), instance.getDataSetID());
+                instance.getOwnerSessionIDforVolatiles(), instance.getDataSetID(), null);
 
         if (DEBUG_ENABLED) {
             LOGGER.debug("[==RegisterPending==] Going to register " + regInfo + " for instance "
@@ -1911,12 +1891,14 @@ public final class DataService implements DataServiceAPI {
         }
         try {
             if (sync) {
-                this.runtime.getLogicModuleAPI().registerObject(regInfo, executionEnvironmentID, null, Langs.LANG_JAVA);
+                List<RegistrationInfo> regInfos = new ArrayList<>();
+                regInfos.add(regInfo);
+                this.runtime.getLogicModuleAPI().registerObjects(regInfos, executionEnvironmentID, Langs.LANG_JAVA);
             } else {
                 this.runtime.getLogicModuleAPI().registerObjectFromGC(regInfo, executionEnvironmentID, this.runtime);
             }
         } catch (final Exception e) {
-            // object already registered due to add alias
+            // object already registered due to add alias / it's a replica
             LOGGER.debug("[==RegisterPending==] Exception occurred while registering object, ignoring if already registered ", e);
         }
         LOGGER.debug("[==RegisterPending==] Object registered");

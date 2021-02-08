@@ -215,8 +215,6 @@ public final class DataClay {
 	/**
 	 * Method that initializes the lib.
 	 *
-	 * @param configFilePath
-	 *            path where the cfg file is stored.
 	 * @throws DataClayException
 	 *             if an exception occurs
 	 */
@@ -763,7 +761,7 @@ public final class DataClay {
 			final ObjectID objectID = ids.getFirst();
 			final BackendID hint = ids.getSecond();
 			final MetaClassID classID = ids.getThird();
-			commonLib.newReplica(objectID, classID, hint, null, destHost, true);
+			commonLib.newReplica(objectID,null, destHost, false, true);
 
 		} catch (final Exception e) {
 			throw new DataClayException(e);

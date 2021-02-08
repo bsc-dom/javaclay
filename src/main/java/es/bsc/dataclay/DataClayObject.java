@@ -181,8 +181,8 @@ public class DataClayObject extends StorageObject implements DataClaySerializabl
 	/**
 	 * Generic static method to instantiate a DataClayObject by its alias
 	 * 
-	 * @param className
-	 *            real class of the instance
+	 * @param classID
+	 *            id of real class of the instance
 	 * @param alias
 	 *            alias of the instance
 	 * @param safe
@@ -769,24 +769,24 @@ public class DataClayObject extends StorageObject implements DataClaySerializabl
 
 	/**
 	 * Creates a new replica of this persistent object and its subobjects in a certain backend.
-	 * 
+	 *
 	 * @return The ID of the backend in which the replica was created.
 	 */
 	@Override
 	public final BackendID newReplica() {
-		return DataClayObject.getLib().newReplica(this.objectID, this.getMetaClassID(), this.hint, null, true);
+		return DataClayObject.getLib().newReplica(this.objectID, null, null, false,true);
 	}
 
 	/**
 	 * Creates a new replica of this persistent object in a certain backend.
-	 * 
+	 *
 	 * @param recursive
 	 *            Indicates if all sub-objects must be replicated as well.
 	 * @return The ID of the backend in which the replica was created.
 	 */
 	@Override
 	public final BackendID newReplica(final boolean recursive) {
-		return DataClayObject.getLib().newReplica(this.objectID, this.getMetaClassID(), this.hint, null, recursive);
+		return DataClayObject.getLib().newReplica(this.objectID, null, null, false, recursive);
 	}
 
 	/**
@@ -799,7 +799,7 @@ public class DataClayObject extends StorageObject implements DataClaySerializabl
 	 */
 	@Override
 	public final BackendID newReplica(final BackendID optionalBackendID) {
-		return DataClayObject.getLib().newReplica(this.objectID, this.getMetaClassID(), this.hint, optionalBackendID,
+		return DataClayObject.getLib().newReplica(this.objectID, optionalBackendID, null, false,
 				true);
 	}
 
@@ -815,7 +815,7 @@ public class DataClayObject extends StorageObject implements DataClaySerializabl
 	 */
 	@Override
 	public final BackendID newReplica(final BackendID optionalBackendID, final boolean recursive) {
-		return DataClayObject.getLib().newReplica(this.objectID, this.getMetaClassID(), this.hint, optionalBackendID,
+		return DataClayObject.getLib().newReplica(this.objectID, optionalBackendID, null, false,
 				recursive);
 	}
 

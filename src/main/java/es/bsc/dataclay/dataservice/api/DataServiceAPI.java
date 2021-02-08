@@ -123,13 +123,6 @@ public interface DataServiceAPI extends CommonManager {
 	void storeObjects(final SessionID sessionID, final List<ObjectWithDataParamOrReturn> objects, final boolean moving,
 			final Set<ObjectID> idsWithAlias);
 
-	/**
-	 * Method that allows LM to communicate registered objects to DS.
-	 * 
-	 * @param mdInfos
-	 *            metadata info of the given objects
-	 */
-	void newMetaData(final Map<ObjectID, MetaDataInfo> mdInfos);
 
 	/**
 	 * Retrieves the given object and all subobjects as volatile new objects with new OIDs
@@ -168,13 +161,13 @@ public interface DataServiceAPI extends CommonManager {
 	 *            IDs of the objects to get
 	 * @param recursive
 	 *            Indicates if, per each object to get, also obtain its associated objects.
-	 * @param removeHint
+	 * @param removeHints
 	 *            Indicates hint must be removed because we getting object for a move/federation...
 	 * @param getOnlyRefs Indicates object must not be serialized. Only the object ID is needed (the reference)
 	 * @return Map of serialized object where key is the objectID. Object is not serialized if flag getOnlyRefs=true
 	 */
 	Map<ObjectID, ObjectWithDataParamOrReturn> getObjects(final SessionID sessionID, final Set<ObjectID> objectIDs,
-			final boolean recursive, final boolean removeHint, final boolean getOnlyRefs);
+			final boolean recursive, final boolean removeHints, final boolean getOnlyRefs);
 
 
 	/**
@@ -203,7 +196,7 @@ public interface DataServiceAPI extends CommonManager {
 	 * @param objectsToPersist
 	 *            objects to store.
 	 */
-	void makePersistent(final SessionID sessionID, final SerializedParametersOrReturn objectsToPersist);
+	void makePersistent(final SessionID sessionID, final List<ObjectWithDataParamOrReturn> objectsToPersist);
 
 	// ==================== FEDERATION ====================//
 
@@ -287,11 +280,16 @@ public interface DataServiceAPI extends CommonManager {
 	 *            Session
 	 * @param objectID
 	 *            ID of the object
+	 * @param destBackendID
+	 * 			  ID of destination backend
+	 * @param registerMetaData Indicates that registration of metadata of replica must be forced
 	 * @param recursive
 	 *            Indicates if all sub-objects must be replicated as well.
-	 * @return IDs of replicated objects and information for registering them if needed
 	 */
-	Map<ObjectID, RegistrationInfo> newReplica(final SessionID sessionID, final ObjectID objectID, final boolean recursive);
+	void newReplica(final SessionID sessionID, final ObjectID objectID,
+					final ExecutionEnvironmentID destBackendID,
+					final boolean registerMetaData,
+					final boolean recursive);
 
 	/**
 	 * Move object from this location to the one specified

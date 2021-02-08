@@ -455,15 +455,16 @@ public final class DataServiceGrpcClient implements DataServiceAPI {
 	}
 
 	@Override
-	public List<ObjectWithDataParamOrReturn> getObjects(final SessionID sessionID, final Set<ObjectID> objectIDs,
-			final boolean recursive, final boolean moving) {
+	public Map<ObjectID, ObjectWithDataParamOrReturn> getObjects(final SessionID sessionID, final Set<ObjectID> objectIDs,
+			final boolean recursive, final boolean removeHints, final boolean getOnlyRefs) {
 		final GetObjectsRequest.Builder builder = GetObjectsRequest.newBuilder();
 		for (final ObjectID oid : objectIDs) {
 			builder.addObjectIDS(Utils.getMsgID(oid));
 		}
 		builder.setRecursive(recursive);
 		builder.setSessionID(Utils.getMsgID(sessionID));
-		builder.setMoving(moving);
+		builder.setRemoveHints(removeHints);
+		builder.setGetOnlyRefs(getOnlyRefs);
 		final GetObjectsRequest request = builder.build();
 		GetObjectsResponse response;
 		try {
@@ -475,7 +476,7 @@ public final class DataServiceGrpcClient implements DataServiceAPI {
 		}
 		Utils.checkIsExc(response.getExcInfo());
 
-		final List<ObjectWithDataParamOrReturn> result = new ArrayList<>();
+		final Map<ObjectID, ObjectWithDataParamOrReturn> result = new ArrayList<>();
 		for (final es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn entry : response
 				.getObjectsList()) {
 			result.add(Utils.getObjectWithDataParamOrReturn(entry));

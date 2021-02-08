@@ -422,7 +422,7 @@ public final class DataServiceRuntime extends DataClayRuntime {
 
 		if (alias != null && execObject.isPendingToRegister()) {
 			final RegistrationInfo regInfo = new RegistrationInfo(execObject.getObjectID(),
-					execObject.getMetaClassID(), sessionID, execObject.getDataSetID());
+					execObject.getMetaClassID(), sessionID, execObject.getDataSetID(), alias);
 			// Location of object is 'this' EE.
 			// TODO: Review if we use hint of the object or the hint of the runtime.
 			final ObjectID newID = logicModule.registerObject(regInfo, (ExecutionEnvironmentID) dcObject.getHint(), alias,

@@ -208,10 +208,14 @@ public final class ClientRuntime extends DataClayRuntime {
 			// Force registration due to alias
 			if (alias != null) {
 				final RegistrationInfo regInfo = new RegistrationInfo(dcObject.getObjectID(), dcObject.getMetaClassID(),
-						sessionID, dcObject.getDataSetID());
+						sessionID, dcObject.getDataSetID(), alias);
 				// TODO ask DANI
 				// it is important to register the object once we are sure it is in EE.
-				final ObjectID newID = logicModule.registerObject(regInfo, (ExecutionEnvironmentID) location, alias, Langs.LANG_JAVA);
+				List<RegistrationInfo> regInfos = new ArrayList<>();
+				regInfos.add(regInfo);
+				final List<ObjectID> newIDs = logicModule.registerObjects(regInfos,
+						(ExecutionEnvironmentID) location, Langs.LANG_JAVA);
+				ObjectID newID = newIDs.get(0);
 				this.updateObjectID(dcObject, newID);
 			}
 

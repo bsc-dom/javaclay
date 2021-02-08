@@ -97,11 +97,8 @@ public abstract class DataClayRuntime {
 	/** Pool of lockers. */
 	protected final LockerPool lockerPool = new LockerPool();
 
-	/** Information of all locations known (identified by a hash). */
-	protected final Map<Integer, ExecutionEnvironmentID> execLocationsPerHash = new ConcurrentHashMap<>();
-
 	/** Execution Environments cache. */
-	protected final Map<ExecutionEnvironmentID, ExecutionEnvironment> execEnvironmentsCache = new ConcurrentHashMap<>();
+	private final Map<ExecutionEnvironmentID, ExecutionEnvironment> execEnvironmentsCache = new ConcurrentHashMap<>();
 
 	/** Cache of metaData. */
 	public LruCache<ObjectID, MetaDataInfo> metaDataCache = new LruCache<>(Configuration.Flags.MAX_ENTRIES_DATASERVICE_CACHE.getIntValue());
@@ -202,6 +199,12 @@ public abstract class DataClayRuntime {
 			final ExecutionEnvironment execEnvironment = ee.getValue();
 			execLocationsPerHash.put(i, execLocationID);
 			execEnvironmentsCache.put(execLocationID, execEnvironment);
+			Set<ExecutionEnvironment> execEnvsInHost = execEnvironmentsCachePerHost.get(execEnvironment.getHostname());
+			if (execEnvsInHost == null) {
+				execEnvsInHost = ConcurrentHashMap.newKeySet();
+				execEnvironmentsCachePerHost.put(execEnvironment.getHostname(), execEnvsInHost);
+			}
+			execEnvsInHost.add(execEnvironment);
 			i++;
 		}
 
@@ -771,29 +774,68 @@ public abstract class DataClayRuntime {
 	 * 
 	 * @param objectID
 	 *            ID of the object
-	 * @param classID
-	 *            Class ID of the object
-	 * @param hint
-	 *            Hint of the object
 	 * @param optDestBackendID
 	 *            ID of the backend in which to replicate the object (optional)
 	 * @param optDestHostname Hostname of the backend in which to replicate the object (optional)
+	 * @param registerMetaData Indicates if registration of object metadata must be forced or not
 	 * @param recursive
 	 *            Indicates if we should also replicate all sub-objects or not.
 	 * @return The ID of the backend in which the replica was created or NULL if some error is thrown.
 	 * 
 	 */
-	public final BackendID newReplica(final ObjectID objectID, final MetaClassID classID,
-			final BackendID hint, final BackendID optDestBackendID, final String optDestHostname,
+	public final BackendID newReplica(final ObjectID objectID,
+									  final BackendID optDestBackendID, final String optDestHostname,
+									  final boolean registerMetaData,
 									  final boolean recursive) {
 		final SessionID sessionID = checkAndGetSession(new String[] { "ObjectID" }, new Object[] { objectID });
 
-		// Make sure object is registered
-		ensureObjectRegistered(sessionID, objectID, classID, hint);
-		final ExecutionEnvironmentID backendID = logicModule.newReplica(sessionID, objectID,
-				(ExecutionEnvironmentID) optDestBackendID, optDestHostname, recursive);
-		this.metaDataCache.remove(objectID);
-		return backendID;
+
+		// Get an arbitrary object location
+		final BackendID execLocationID = getLocation(objectID);
+		final DataServiceAPI dsAPI = getRemoteExecutionEnvironment(execLocationID);
+
+		ExecutionEnvironmentID destBackendID = (ExecutionEnvironmentID) optDestBackendID;
+		ExecutionEnvironment destBackend = null;
+		if (destBackendID == null) {
+			if (optDestHostname != null) {
+				// Get some execution environment in that host
+				if (this.execEnvironmentsCachePerHost.get(optDestHostname) == null) {
+					prepareExecuteLocations();
+				}
+				destBackend =
+						this.execEnvironmentsCachePerHost.get(optDestHostname).iterator().next();
+				destBackendID = destBackend.getDataClayID();
+			} else {
+				// no destination backend specified, get one randomly in which object is
+				// not registered
+				Set<BackendID> locations = this.getAllLocations(objectID);
+				// === RANDOM === //
+				if (execEnvironmentsCache.isEmpty()) {
+					prepareExecuteLocations();
+				}
+				for (Entry<ExecutionEnvironmentID, ExecutionEnvironment> eeEntry : execEnvironmentsCache.entrySet()) {
+					ExecutionEnvironmentID eeID = eeEntry.getKey();
+					ExecutionEnvironment execEnv = eeEntry.getValue();
+					if (!locations.contains(eeID)) {
+						destBackendID = eeID;
+						destBackend = execEnv;
+						break;
+					}
+				}
+			}
+		} else {
+			if (this.execEnvironmentsCache.get(destBackendID) == null) {
+				prepareExecuteLocations();
+			}
+			destBackend = this.execEnvironmentsCache.get(destBackendID);
+		}
+
+		dsAPI.newReplica(sessionID, objectID, destBackendID, false, recursive);
+
+		// update metadata of the object in cache
+		MetaDataInfo mdInfo = this.metaDataCache.get(objectID);
+		mdInfo.getLocations().put(destBackendID, destBackend);
+		return destBackendID;
 	}
 
 	/**
@@ -836,7 +878,7 @@ public abstract class DataClayRuntime {
 		// already registered, just
 		// continue.
 		// Make sure object is registered.
-		final RegistrationInfo regInfo = new RegistrationInfo(objectID, classID, sessionID, null);
+		final RegistrationInfo regInfo = new RegistrationInfo(objectID, classID, sessionID, null, null);
 		// alias must be null
 		// NOTE: LogicModule register object function does not return an exception for
 		// already registered
@@ -849,7 +891,9 @@ public abstract class DataClayRuntime {
 		// we must change the algorithms to not depend on metadata.
 		// Also, location in which to register the object is the hint (in case it is not
 		// registered yet).
-		logicModule.registerObject(regInfo, (ExecutionEnvironmentID) hint, null, Langs.LANG_JAVA);
+		List<RegistrationInfo> regInfos = new ArrayList<>();
+		regInfos.add(regInfo);
+		logicModule.registerObjects(regInfos, (ExecutionEnvironmentID) hint, null, Langs.LANG_JAVA);
 
 		final List<ObjectID> movedObjs = logicModule.moveObject(sessionID, objectID,
 				(ExecutionEnvironmentID) srcBackendID, (ExecutionEnvironmentID) destBackendID, recursive);
@@ -932,7 +976,7 @@ public abstract class DataClayRuntime {
 		// already registered, just
 		// continue.
 		// Make sure object is registered.
-		final RegistrationInfo regInfo = new RegistrationInfo(objectID, classID, sessionID, null);
+		final RegistrationInfo regInfo = new RegistrationInfo(objectID, classID, sessionID, null, null);
 		// alias must be null
 		// NOTE: LogicModule register object function does not return an exception for
 		// already registered
@@ -946,7 +990,9 @@ public abstract class DataClayRuntime {
 		// Also, location in which to register the object is the hint (in case it is not
 		// registered yet).
 		try {
-			logicModule.registerObject(regInfo, (ExecutionEnvironmentID) hint, null, Langs.LANG_JAVA);
+			List<RegistrationInfo> regInfos = new ArrayList<>();
+			regInfos.add(regInfo);
+			logicModule.registerObjects(regInfos, (ExecutionEnvironmentID) hint, null, Langs.LANG_JAVA);
 		} catch (Exception e) { 
 			//ignore
 		}
@@ -1164,12 +1210,13 @@ public abstract class DataClayRuntime {
 	 *            Objects to deserialize
 	 * @return the deserialized parameters
 	 */
-	public final Object[] deserializeMakePersistent(final Map<MetaClassID, byte[]> ifaceBitMaps,
-			final SerializedParametersOrReturn serializedParams) {
+	public final Object[] deserializeIntoHeap(final Map<MetaClassID, byte[]> ifaceBitMaps,
+			final List<ObjectWithDataParamOrReturn> serializedParams) {
 		if (serializedParams == null) {
 			return null;
 		}
-		return DataClayDeserializationLib.deserializeParamsOrReturn(serializedParams, ifaceBitMaps, this);
+		return DataClayDeserializationLib.deserializeParamsOrReturn(new SerializedParametersOrReturn(serializedParams),
+				ifaceBitMaps, this);
 	}
 
 	/**

@@ -33,19 +33,13 @@ import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessag
 import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.ExecuteImplementationRequest;
 import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.ExecuteImplementationResponse;
 import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.FederateRequest;
-import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.FilterObjectRequest;
-import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.FilterObjectResponse;
 import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetClassIDFromObjectInMemoryRequest;
 import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetClassIDFromObjectInMemoryResponse;
 import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetCopyOfObjectRequest;
 import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetCopyOfObjectResponse;
-import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetFederatedObjectsRequest;
-import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetFederatedObjectsResponse;
 import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetFromDBResponse;
 import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetObjectsRequest;
 import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetObjectsResponse;
-import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetReferencedObjectIDsRequest;
-import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetReferencedObjectIDsResponse;
 import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetRetainedReferencesResponse;
 import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.InitBackendIDRequest;
 import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.MakePersistentRequest;
@@ -54,11 +48,9 @@ import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessag
 import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.MigratedObjects;
 import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.MoveObjectsRequest;
 import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.MoveObjectsResponse;
-import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NewMetaDataRequest;
 import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NewPersistentInstanceRequest;
 import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NewPersistentInstanceResponse;
 import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NewReplicaRequest;
-import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NewReplicaResponse;
 import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NewVersionRequest;
 import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NewVersionResponse;
 import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.RemoveObjectsRequest;
@@ -309,14 +301,16 @@ public final class DataServiceService extends DataServiceGrpc.DataServiceImplBas
 			for (final CommonMessages.ObjectID oid : request.getObjectIDSList()) {
 				objectIDs.add(Utils.getID(oid));
 			}
-			final List<ObjectWithDataParamOrReturn> result = dataService.getObjects(Utils.getID(request.getSessionID()),
-					objectIDs, request.getRecursive(), request.getMoving());
+			final Map<ObjectID, ObjectWithDataParamOrReturn> result = dataService.getObjects(
+					Utils.getID(request.getSessionID()),
+					objectIDs, request.getRecursive(), request.getRemoveHints(),
+					request.getGetOnlyRefs());
 
 			final GetObjectsResponse.Builder builder = GetObjectsResponse.newBuilder();
-			for (final ObjectWithDataParamOrReturn entry : result) {
-				builder.addObjects(Utils.getObjectWithDataParamOrReturn(entry));
+			for (final Entry<ObjectID, ObjectWithDataParamOrReturn> entry : result.entrySet()) {
+				builder.putObjects(entry.getKey().getId().toString(),
+						Utils.getObjectWithDataParamOrReturn(entry.getValue()));
 			}
-
 			final GetObjectsResponse resp = builder.build();
 			responseObserver.onNext(resp);
 			responseObserver.onCompleted();
@@ -328,112 +322,6 @@ public final class DataServiceService extends DataServiceGrpc.DataServiceImplBas
 			responseObserver.onNext(resp);
 			responseObserver.onCompleted();
 		}
-	}
-
-	@Override
-	public void getReferencedObjectsIDs(final GetReferencedObjectIDsRequest request,
-			final io.grpc.stub.StreamObserver<GetReferencedObjectIDsResponse> responseObserver) {
-		try {
-			final Set<ObjectID> objectIDs = new HashSet<>();
-			for (final CommonMessages.ObjectID oid : request.getObjectIDSList()) {
-				objectIDs.add(Utils.getID(oid));
-			}
-			final Set<ObjectID> result = dataService.getReferencedObjectsIDs(Utils.getID(request.getSessionID()),
-					objectIDs);
-
-			final GetReferencedObjectIDsResponse.Builder builder = GetReferencedObjectIDsResponse.newBuilder();
-			for (final ObjectID entry : result) {
-				builder.addObjectIDs(Utils.getMsgID(entry));
-			}
-
-			final GetReferencedObjectIDsResponse resp = builder.build();
-			responseObserver.onNext(resp);
-			responseObserver.onCompleted();
-
-		} catch (final Exception e) {
-			final GetReferencedObjectIDsResponse.Builder builder = GetReferencedObjectIDsResponse.newBuilder();
-			builder.setExcInfo(Utils.serializeException(e));
-			final GetReferencedObjectIDsResponse resp = builder.build();
-			responseObserver.onNext(resp);
-			responseObserver.onCompleted();
-		}
-	}
-
-	@Override
-	public void getFederatedObjects(final GetFederatedObjectsRequest request,
-			final io.grpc.stub.StreamObserver<GetFederatedObjectsResponse> responseObserver) {
-		try {
-			final Set<ObjectID> objectIDs = new HashSet<>();
-			for (final CommonMessages.ObjectID oid : request.getObjectIDSList()) {
-				objectIDs.add(Utils.getID(oid));
-			}
-			final List<ObjectWithDataParamOrReturn> result = dataService
-					.getFederatedObjects(Utils.getID(request.getExtDataClayID()), objectIDs);
-
-			final GetFederatedObjectsResponse.Builder builder = GetFederatedObjectsResponse.newBuilder();
-			for (final ObjectWithDataParamOrReturn entry : result) {
-				builder.addObjects(Utils.getObjectWithDataParamOrReturn(entry));
-			}
-
-			final GetFederatedObjectsResponse resp = builder.build();
-			responseObserver.onNext(resp);
-			responseObserver.onCompleted();
-
-		} catch (final Exception e) {
-			final GetFederatedObjectsResponse.Builder builder = GetFederatedObjectsResponse.newBuilder();
-			builder.setExcInfo(Utils.serializeException(e));
-			final GetFederatedObjectsResponse resp = builder.build();
-			responseObserver.onNext(resp);
-			responseObserver.onCompleted();
-		}
-	}
-
-	@Override
-	public void filterObject(final FilterObjectRequest request,
-			final io.grpc.stub.StreamObserver<FilterObjectResponse> responseObserver) {
-		try {
-			final SerializedParametersOrReturn result = dataService.filterObject(Utils.getID(request.getSessionID()),
-					Utils.getID(request.getObjectID()), request.getConditions());
-
-			final FilterObjectResponse.Builder builder = FilterObjectResponse.newBuilder();
-			if (result != null) {
-				builder.setRet(Utils.getParamsOrReturn(result));
-			}
-
-			final FilterObjectResponse resp = builder.build();
-
-			responseObserver.onNext(resp);
-			responseObserver.onCompleted();
-
-		} catch (final Exception e) {
-			final FilterObjectResponse.Builder builder = FilterObjectResponse.newBuilder();
-			builder.setExcInfo(Utils.serializeException(e));
-			final FilterObjectResponse resp = builder.build();
-			responseObserver.onNext(resp);
-			responseObserver.onCompleted();
-		}
-	}
-
-	@Override
-	public void newMetaData(final NewMetaDataRequest request,
-			final io.grpc.stub.StreamObserver<CommonMessages.ExceptionInfo> responseObserver) {
-
-		try {
-			final Map<ObjectID, MetaDataInfo> mdInfos = new ConcurrentHashMap<>();
-			for (final Entry<String, String> entry : request.getMdInfosMap().entrySet()) {
-				mdInfos.put(Utils.getObjectIDFromUUID(entry.getKey()),
-						(MetaDataInfo) CommonYAML.getYamlObject().load(entry.getValue()));
-			}
-			dataService.newMetaData(mdInfos);
-			Utils.returnExceptionInfoMessage(responseObserver);
-			responseObserver.onCompleted();
-
-		} catch (final Exception e) {
-			final ExceptionInfo resp = Utils.serializeException(e);
-			responseObserver.onNext(resp);
-			responseObserver.onCompleted();
-		}
-
 	}
 
 	@Override
@@ -505,25 +393,20 @@ public final class DataServiceService extends DataServiceGrpc.DataServiceImplBas
 
 	@Override
 	public void newReplica(final NewReplicaRequest request,
-			final io.grpc.stub.StreamObserver<NewReplicaResponse> responseObserver) {
+			final io.grpc.stub.StreamObserver<CommonMessages.ExceptionInfo> responseObserver) {
 		try {
 
-			final Set<ObjectID> result = dataService.newReplica(Utils.getID(request.getSessionID()),
-					Utils.getID(request.getObjectID()), request.getRecursive());
+			dataService.newReplica(Utils.getID(request.getSessionID()),
+					Utils.getID(request.getObjectID()),
+					Utils.getID(request.getDestBackendID()),
+					request.getRegisterMetaData(),
+					request.getRecursive());
 
-			final NewReplicaResponse.Builder builder = NewReplicaResponse.newBuilder();
-			for (final ObjectID oid : result) {
-				builder.addReplicatedIDs(Utils.getMsgID(oid));
-			}
-
-			final NewReplicaResponse resp = builder.build();
-			responseObserver.onNext(resp);
+			Utils.returnExceptionInfoMessage(responseObserver);
 			responseObserver.onCompleted();
 
 		} catch (final Exception e) {
-			final NewReplicaResponse.Builder builder = NewReplicaResponse.newBuilder();
-			builder.setExcInfo(Utils.serializeException(e));
-			final NewReplicaResponse resp = builder.build();
+			final ExceptionInfo resp = Utils.serializeException(e);
 			responseObserver.onNext(resp);
 			responseObserver.onCompleted();
 		}

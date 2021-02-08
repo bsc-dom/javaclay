@@ -793,18 +793,16 @@ public interface LogicModuleAPI {
 	// ============== MetaData Service ==========//
 
 	/**
-	 * Register object in MDS
+	 * Register objects in MDS
 	 * 
-	 * @param regInfo
-	 *            Registration info
+	 * @param regInfos
+	 *            Registration infos
 	 * @param backendID
 	 *            ID of the backend in which the object is stored
-	 * @param alias
-	 *            Alias (can be null)
 	 * @param lang
 	 *            Language
 	 */
-	ObjectID registerObject(final RegistrationInfo regInfo, final ExecutionEnvironmentID backendID, final String alias,
+	List<ObjectID> registerObjects(final List<RegistrationInfo> regInfos, final ExecutionEnvironmentID backendID,
 			final Langs lang);
 
 	/**
@@ -1215,30 +1213,6 @@ public interface LogicModuleAPI {
 	 *            versioned objects
 	 */
 	void consolidateVersion(final SessionID sessionID, final VersionInfo version);
-
-	/**
-	 * Method that creates a new replica of the object. If a destination backend is given, it tries to replicate the object in
-	 * it.
-	 * 
-	 * @param sessionID
-	 *            ID of the session
-	 * @param objectID
-	 *            ID of the object
-	 * @param classID
-	 *            Class ID of the object
-	 * @param hint
-	 *            Hint of the object
-	 * @param optionalDestBackendID
-	 *            optionally a preferred destination backend
-	 * @param optDestHostname Hostname of the backend in which to replicate the object (optional)
-	 * @param recursive
-	 *            Indicates if sub-objects must be also replicated or not.
-	 * @return ID of the backend where replica has been eventually registered.
-	 */
-	ExecutionEnvironmentID newReplica(final SessionID sessionID, final ObjectID objectID,
-									  final MetaClassID classID, final BackendID hint,
-			final ExecutionEnvironmentID optionalDestBackendID, final String optDestHostname,
-									  final boolean recursive);
 
 	/**
 	 * Method that moves an object from location to location.

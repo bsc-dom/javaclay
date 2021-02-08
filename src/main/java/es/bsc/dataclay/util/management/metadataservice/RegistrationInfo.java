@@ -10,16 +10,27 @@ import es.bsc.dataclay.util.ids.SessionID;
 public final class RegistrationInfo {
 
 	/** ID of the object. */
-	private final ObjectID objectID;
+	private ObjectID objectID;
 
 	/** Class ID of the object. */
-	private final MetaClassID classID;
+	private MetaClassID classID;
 
 	/** ID of session that created the object from which to get DataSet (store DataSet). */
-	private final SessionID storeSessionID;
+	private SessionID storeSessionID;
 
 	/** Optionally, ID of dataset provided by user. */
-	private final DataSetID dataSetID;
+	private DataSetID dataSetID;
+
+	/** Optionally, alias of the objec to register.*/
+	private String alias;
+
+
+	/**
+	 * Basic constructor
+	 */
+	public RegistrationInfo() {
+
+	}
 
 	/**
 	 * Constructor
@@ -33,11 +44,13 @@ public final class RegistrationInfo {
 	 *            Optionally, ID of dataset provided by user.
 	 */
 	public RegistrationInfo(final ObjectID theobjectID, final MetaClassID theclassID,
-			final SessionID thesessionID, final DataSetID thedataSetID) {
+			final SessionID thesessionID, final DataSetID thedataSetID,
+							final String thealias) {
 		this.objectID = theobjectID;
 		this.classID = theclassID;
 		this.storeSessionID = thesessionID;
 		this.dataSetID = thedataSetID;
+		this.alias = thealias;
 	}
 
 	/**
@@ -68,11 +81,20 @@ public final class RegistrationInfo {
 		return dataSetID;
 	}
 
+	/**
+	 * @return the alias
+	 */
+	public String getAlias() {
+		return alias;
+	}
+
 	@Override
 	public String toString() {
 		return "{oid = " + objectID + ", classID = " + classID
 				+ ", storeSessionID = " + storeSessionID
-				+ ", dataSetId = " + dataSetID + "}";
+				+ ", dataSetId = " + dataSetID
+				+ ", alias = " + alias
+				+ "}";
 	}
 
 }

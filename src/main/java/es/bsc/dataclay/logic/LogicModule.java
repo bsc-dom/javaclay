@@ -3513,10 +3513,21 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
     // ============== Metadata Service ==============//
 
 	@Override
-	public ObjectID registerObject(final RegistrationInfo regInfo, final ExecutionEnvironmentID backendID,
-			final String alias, final Langs lang) {
+	public List<ObjectID> registerObjects(final List<RegistrationInfo> regInfos, final ExecutionEnvironmentID backendID,
+			final Langs lang) {
+        List<ObjectID> newObjectIDs = new ArrayList<>();
+        for (RegistrationInfo regInfo : regInfos) {
+            ObjectID newOID = registerObject(regInfo, backendID, lang);
+            newObjectIDs.add(newOID);
+        }
+        return newObjectIDs;
+    }
+
+    private ObjectID registerObject(final RegistrationInfo regInfo, final ExecutionEnvironmentID backendID,
+                                    final Langs lang) {
+
 		if (DEBUG_ENABLED) {
-			LOGGER.debug("==> Registering object explicit call: " + regInfo + " and alias " + alias);
+			LOGGER.debug("==> Registering object explicit call: " + regInfo);
 		}
 		// Register the object in the metadataservice
 		final HashSet<ExecutionEnvironmentID> backendIDs = new HashSet<>();
@@ -3524,6 +3535,7 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
 		ObjectID objectIDofNewObject = regInfo.getObjectID();
 		final SessionID ownerSessionID = regInfo.getStoreSessionID();
 		final MetaClassID metaClassID = regInfo.getClassID();
+		final String alias = regInfo.getAlias();
 		DataSetID datasetIDforStore = null;
 		AccountID ownerAccountID = null;
 		if (ownerSessionID == null) {
@@ -3558,7 +3570,7 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
         }
 
 		LOGGER.debug("<== Finished registration of object");
-		return objectIDofNewObject;
+        return objectIDofNewObject;
 	}
 
     /**
@@ -4156,9 +4168,9 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
                 // All objects are forced to be registered before sending them
                 for (final ObjectWithDataParamOrReturn objectToRegister : serObjs.values()) {
                     final RegistrationInfo regInfo = new RegistrationInfo(objectToRegister.getObjectID(),
-                            objectToRegister.getClassID(), sessionID, null);
+                            objectToRegister.getClassID(), sessionID, null, null);
                     try {
-                        this.registerObject(regInfo, (ExecutionEnvironmentID) location.getDataClayID(), null, Langs.LANG_JAVA);
+                        this.registerObject(regInfo, (ExecutionEnvironmentID) location.getDataClayID(), Langs.LANG_JAVA);
                     } catch (Exception e) {
                         //ignore
                     }
@@ -4772,9 +4784,9 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
         MetaDataInfo metadataInfo = getObjectMetadata(objectID);
         if (metadataInfo == null) {
             // Register object
-            final RegistrationInfo regInfo = new RegistrationInfo(objectID, classID, sessionID, null);
+            final RegistrationInfo regInfo = new RegistrationInfo(objectID, classID, sessionID, null, null);
             // NOTE: an object with alias must be always registered
-            this.registerObject(regInfo, (ExecutionEnvironmentID) hint, null, Langs.LANG_JAVA);
+            this.registerObject(regInfo, (ExecutionEnvironmentID) hint, Langs.LANG_JAVA);
             metadataInfo = getObjectMetadata(objectID);
             if (metadataInfo == null) {
                 throw new DataClayRuntimeException(ERRORCODE.OBJECT_NOT_EXIST);
@@ -4883,112 +4895,6 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
         }
 
         LOGGER.debug("<== Finished consolidate version for object " + version);
-
-    }
-
-    @Override
-    public ExecutionEnvironmentID newReplica(final SessionID sessionID, final ObjectID objectID,
-                                             final MetaClassID classID, final BackendID hint,
-                                             final ExecutionEnvironmentID optionalDestBackendID,
-                                             final String optDestHostname, final boolean recursive) {
-
-        LOGGER.debug("==> Starting new replica for object " + objectID);
-        ExecutionEnvironmentID result = null;
-        // Get object info
-        MetaDataInfo metadataInfo = getObjectMetadata(objectID);
-        if (metadataInfo == null) {
-            // Register object
-            final RegistrationInfo regInfo = new RegistrationInfo(objectID, classID, sessionID, null);
-            // NOTE: an object with alias must be always registered
-            this.registerObject(regInfo, (ExecutionEnvironmentID) hint, null, Langs.LANG_JAVA);
-            metadataInfo = getObjectMetadata(objectID);
-            if (metadataInfo == null) {
-                throw new DataClayRuntimeException(ERRORCODE.OBJECT_NOT_EXIST);
-            }
-        }
-
-        final SessionInfo sessionInfo = getSessionInfo(sessionID);
-        // Check session if needed
-        // if (Configuration.Flags.CHECK_SESSION.getBooleanValue()) {
-            // Check dataset
-           // checkDataSetAmongDataContracts(metadataInfo.getDatasetID(), sessionInfo.getSessionDataContracts());
-        // }
-
-        // Check it is read-only
-        // if (Configuration.Flags.CHECK_READ_ONLY.getBooleanValue() && !metadataInfo.getIsReadOnly()) {
-           // throw new DataClayRuntimeException(ERRORCODE.OBJECT_IS_NOT_READONLY);
-        //}
-
-        // Get backend info of the destination
-        Tuple<ExecutionEnvironmentID, ExecutionEnvironment> destBackend = null;
-        if (optionalDestBackendID != null) {
-            // We want to replicate even if the root object is in the destination backend,
-            // since subobjects may not be there
-            final ExecutionEnvironment backendDest = metaDataSrvApi.getExecutionEnvironmentInfo(optionalDestBackendID);
-            destBackend = new Tuple<>(optionalDestBackendID, backendDest);
-
-        } else if (optDestHostname != null) {
-            // Avoid replicating to a node that already has a replica
-            // Get current object locations and seek for any location in that backend without a replica
-            final Map<ExecutionEnvironmentID, ExecutionEnvironment> currentLocations = metadataInfo.getLocations();
-            final Set<String> currentHostNameLocations = new HashSet<>();
-            for (ExecutionEnvironment ee : currentLocations.values()) {
-                currentHostNameLocations.add(ee.getHostname());
-            }
-
-            final Map<ExecutionEnvironmentID, ExecutionEnvironment> allBackends = metaDataSrvApi
-                    .getAllExecutionEnvironmentsInfo(sessionInfo.getLanguage());
-
-            for (ExecutionEnvironment ee : allBackends.values()) {
-                String backendHostName = ee.getHostname();
-                if (backendHostName.equals(optDestHostname) && !currentHostNameLocations.contains(backendHostName)) {
-                    destBackend = new Tuple<ExecutionEnvironmentID, ExecutionEnvironment>(ee.getDataClayID(), ee);
-                    break;
-                }
-            }
-
-            if (destBackend == null) {
-                //throw new DataClayRuntimeException(ERRORCODE.NO_BACKEND_FOR_REPLICATION);
-                throw new DataClayRuntimeException(ERRORCODE.STORAGE_LOCATION_NOT_EXIST);
-            }
-        } else {
-            // Get a random location to replicate
-            final Map<ExecutionEnvironmentID, ExecutionEnvironment> currentLocations = metadataInfo.getLocations();
-            final Map<ExecutionEnvironmentID, ExecutionEnvironment> allBackends = metaDataSrvApi
-                    .getAllExecutionEnvironmentsInfo(sessionInfo.getLanguage());
-            if (allBackends.size() > currentLocations.size()) {
-                boolean isDifferent = false;
-                while (!isDifferent) {
-                    destBackend = metaDataSrvApi.getRandomExecutionEnvironmentInfo(sessionInfo.getLanguage());
-                    if (!currentLocations.containsKey(destBackend.getFirst())) {
-                        isDifferent = true;
-                    }
-                }
-            } else {
-                //throw new DataClayRuntimeException(ERRORCODE.NO_BACKEND_FOR_REPLICATION);
-                throw new DataClayRuntimeException(ERRORCODE.STORAGE_LOCATION_NOT_EXIST);
-            }
-        }
-
-        // Replica object from any of them
-        // TODO We can also retry with different origin if the exception
-        // becomes from it! (9 Jul 2013 jmarti)
-		DataServiceAPI dataServiceApi = getExecutionEnvironmentAPI(destBackend.getSecond());
-		LOGGER.debug("Calling new replica to destination backend " + destBackend);
-		final Map<ObjectID, RegistrationInfo> replicatedObjs = dataServiceApi.newReplica(sessionID, objectID, recursive);
-        // Register all replicated objects
-		for (final RegistrationInfo regInfo : replicatedObjs.values()) {
-            // NOTE: an object with alias must be always registered
-            try {
-                this.registerObject(regInfo, (ExecutionEnvironmentID) hint, null, Langs.LANG_JAVA);
-            } catch (DbObjectAlreadyExistException e) {
-                // ignore, already registered
-            }
-			metaDataSrvApi.registerReplica(regInfo.getObjectID(), destBackend.getFirst());
-		}
-        result = destBackend.getFirst();
-        LOGGER.debug("<== Finished new replica for object " + objectID);
-        return result;
 
     }
 
