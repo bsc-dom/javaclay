@@ -17,6 +17,7 @@ import java.util.StringJoiner;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
+import es.bsc.dataclay.util.ids.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -37,27 +38,6 @@ import es.bsc.dataclay.serialization.lib.SerializationLibUtils;
 import es.bsc.dataclay.serialization.lib.SerializedParametersOrReturn;
 import es.bsc.dataclay.util.Configuration;
 import es.bsc.dataclay.util.DataClayObjectMetaData;
-import es.bsc.dataclay.util.ids.AccountID;
-import es.bsc.dataclay.util.ids.ContractID;
-import es.bsc.dataclay.util.ids.CredentialID;
-import es.bsc.dataclay.util.ids.DataClayInstanceID;
-import es.bsc.dataclay.util.ids.DataContractID;
-import es.bsc.dataclay.util.ids.DataSetID;
-import es.bsc.dataclay.util.ids.ECAID;
-import es.bsc.dataclay.util.ids.EventMessageID;
-import es.bsc.dataclay.util.ids.EventObjsMeetConditionID;
-import es.bsc.dataclay.util.ids.ExecutionEnvironmentID;
-import es.bsc.dataclay.util.ids.ImplementationID;
-import es.bsc.dataclay.util.ids.InterfaceID;
-import es.bsc.dataclay.util.ids.MetaClassID;
-import es.bsc.dataclay.util.ids.NamespaceID;
-import es.bsc.dataclay.util.ids.ObjectID;
-import es.bsc.dataclay.util.ids.OperationID;
-import es.bsc.dataclay.util.ids.PropertyID;
-import es.bsc.dataclay.util.ids.QualitativeRegistryID;
-import es.bsc.dataclay.util.ids.ResourceID;
-import es.bsc.dataclay.util.ids.SessionID;
-import es.bsc.dataclay.util.ids.StorageLocationID;
 import es.bsc.dataclay.util.management.accountmgr.PasswordCredential;
 
 import com.google.protobuf.MapEntry;
@@ -81,6 +61,19 @@ public final class Utils {
 	}
 
 	/**
+	 * Get string representation of ID
+	 * @param id ID to get representation from
+	 * @return String represation or null if id is null
+	 */
+	public static String getMsgID(final ID id) {
+		if (id == null) {
+			return null;
+		} else {
+			return id.toString();
+		}
+	}
+
+	/**
 	 * Get password credential
 	 * 
 	 * @param cred
@@ -97,6 +90,7 @@ public final class Utils {
 		}
 	}
 
+
 	/**
 	 * Get AccountID ID from Protobuf ID
 	 * 
@@ -104,12 +98,11 @@ public final class Utils {
 	 *            Message ID
 	 * @return AccountID
 	 */
-	public static AccountID getID(final es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.AccountID idMsg) {
-		if (idMsg == null || idMsg
-				.equals(es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.AccountID.getDefaultInstance())) {
+	public static AccountID getAccountID(final String idMsg) {
+		if (idMsg == null || idMsg.isEmpty()) {
 			return null;
 		} else {
-			return new AccountID(UUID.fromString(idMsg.getUuid()));
+			return new AccountID(UUID.fromString(idMsg));
 		}
 	}
 
@@ -120,12 +113,11 @@ public final class Utils {
 	 *            Message ID
 	 * @return ContractID
 	 */
-	public static ContractID getID(final es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ContractID idMsg) {
-		if (idMsg == null || idMsg
-				.equals(es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ContractID.getDefaultInstance())) {
+	public static ContractID getContractID(final String idMsg) {
+		if (idMsg == null || idMsg.isEmpty()) {
 			return null;
 		} else {
-			return new ContractID(UUID.fromString(idMsg.getUuid()));
+			return new ContractID(UUID.fromString(idMsg));
 		}
 	}
 
@@ -136,13 +128,11 @@ public final class Utils {
 	 *            Message ID
 	 * @return CredentialID
 	 */
-	public static CredentialID getID(
-			final es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.CredentialID idMsg) {
-		if (idMsg == null || idMsg
-				.equals(es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.CredentialID.getDefaultInstance())) {
+	public static CredentialID getCredentialID(String idMsg) {
+		if (idMsg == null || idMsg.isEmpty()) {
 			return null;
 		} else {
-			return new CredentialID(UUID.fromString(idMsg.getUuid()));
+			return new CredentialID(UUID.fromString(idMsg));
 		}
 	}
 
@@ -153,13 +143,11 @@ public final class Utils {
 	 *            Message ID
 	 * @return DataContractID
 	 */
-	public static DataContractID getID(
-			final es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.DataContractID idMsg) {
-		if (idMsg == null || idMsg.equals(
-				es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.DataContractID.getDefaultInstance())) {
+	public static DataContractID getDataContractID(String idMsg) {
+		if (idMsg == null || idMsg.isEmpty()) {
 			return null;
 		} else {
-			return new DataContractID(UUID.fromString(idMsg.getUuid()));
+			return new DataContractID(UUID.fromString(idMsg));
 		}
 	}
 
@@ -170,12 +158,11 @@ public final class Utils {
 	 *            Message ID
 	 * @return DataSetID
 	 */
-	public static DataSetID getID(final es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.DataSetID idMsg) {
-		if (idMsg == null || idMsg
-				.equals(es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.DataSetID.getDefaultInstance())) {
+	public static DataSetID getDataSetID(final String idMsg) {
+		if (idMsg == null || idMsg.isEmpty()) {
 			return null;
 		} else {
-			return new DataSetID(UUID.fromString(idMsg.getUuid()));
+			return new DataSetID(UUID.fromString(idMsg));
 		}
 	}
 
@@ -186,13 +173,11 @@ public final class Utils {
 	 *            Message ID
 	 * @return NamespaceID
 	 */
-	public static NamespaceID getID(
-			final es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.NamespaceID idMsg) {
-		if (idMsg == null || idMsg
-				.equals(es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.NamespaceID.getDefaultInstance())) {
+	public static NamespaceID getNamespaceID(final String idMsg) {
+		if (idMsg == null || idMsg.isEmpty()) {
 			return null;
 		} else {
-			return new NamespaceID(UUID.fromString(idMsg.getUuid()));
+			return new NamespaceID(UUID.fromString(idMsg));
 		}
 	}
 
@@ -203,12 +188,11 @@ public final class Utils {
 	 *            Message ID
 	 * @return ECAID
 	 */
-	public static ECAID getID(final es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ECAID idMsg) {
-		if (idMsg == null || idMsg
-				.equals(es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ECAID.getDefaultInstance())) {
+	public static ECAID getECAID(final String idMsg) {
+		if (idMsg == null || idMsg.isEmpty()) {
 			return null;
 		} else {
-			return new ECAID(UUID.fromString(idMsg.getUuid()));
+			return new ECAID(UUID.fromString(idMsg));
 		}
 	}
 
@@ -219,13 +203,11 @@ public final class Utils {
 	 *            Message ID
 	 * @return EventMessageID
 	 */
-	public static EventMessageID getID(
-			final es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EventMessageID idMsg) {
-		if (idMsg == null || idMsg.equals(
-				es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EventMessageID.getDefaultInstance())) {
+	public static EventMessageID getEventMessageID(final String idMsg) {
+		if (idMsg == null || idMsg.isEmpty()) {
 			return null;
 		} else {
-			return new EventMessageID(UUID.fromString(idMsg.getUuid()));
+			return new EventMessageID(UUID.fromString(idMsg));
 		}
 	}
 
@@ -236,14 +218,11 @@ public final class Utils {
 	 *            Message ID
 	 * @return EventObjsMeetConditionID
 	 */
-	public static EventObjsMeetConditionID getID(
-			final es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EventObjsMeetConditionID idMsg) {
-		if (idMsg == null
-				|| idMsg.equals(es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EventObjsMeetConditionID
-						.getDefaultInstance())) {
+	public static EventObjsMeetConditionID getEventObjsMeetConditionID(String idMsg) {
+		if (idMsg == null || idMsg.isEmpty()) {
 			return null;
 		} else {
-			return new EventObjsMeetConditionID(UUID.fromString(idMsg.getUuid()));
+			return new EventObjsMeetConditionID(UUID.fromString(idMsg));
 		}
 	}
 
@@ -254,14 +233,11 @@ public final class Utils {
 	 *            Message ID
 	 * @return ExecutionEnvironmentID
 	 */
-	public static ExecutionEnvironmentID getID(
-			final es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironmentID idMsg) {
-		if (idMsg == null
-				|| idMsg.equals(es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironmentID
-						.getDefaultInstance())) {
+	public static ExecutionEnvironmentID getExecutionEnvironmentID(String idMsg) {
+		if (idMsg == null || idMsg.isEmpty()) {
 			return null;
 		} else {
-			return new ExecutionEnvironmentID(UUID.fromString(idMsg.getUuid()));
+			return new ExecutionEnvironmentID(UUID.fromString(idMsg));
 		}
 	}
 
@@ -272,13 +248,11 @@ public final class Utils {
 	 *            Message ID
 	 * @return ImplementationID
 	 */
-	public static ImplementationID getID(
-			final es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ImplementationID idMsg) {
-		if (idMsg == null || idMsg.equals(
-				es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ImplementationID.getDefaultInstance())) {
+	public static ImplementationID getImplementationID(String idMsg) {
+		if (idMsg == null || idMsg.isEmpty()) {
 			return null;
 		} else {
-			return new ImplementationID(UUID.fromString(idMsg.getUuid()));
+			return new ImplementationID(UUID.fromString(idMsg));
 		}
 	}
 
@@ -289,13 +263,11 @@ public final class Utils {
 	 *            Message ID
 	 * @return InterfaceID
 	 */
-	public static InterfaceID getID(
-			final es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.InterfaceID idMsg) {
-		if (idMsg == null || idMsg
-				.equals(es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.InterfaceID.getDefaultInstance())) {
+	public static InterfaceID getInterfaceID(String idMsg) {
+		if (idMsg == null || idMsg.isEmpty()) {
 			return null;
 		} else {
-			return new InterfaceID(UUID.fromString(idMsg.getUuid()));
+			return new InterfaceID(UUID.fromString(idMsg));
 		}
 	}
 
@@ -306,13 +278,11 @@ public final class Utils {
 	 *            Message ID
 	 * @return MetaClassID
 	 */
-	public static MetaClassID getID(
-			final es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.MetaClassID idMsg) {
-		if (idMsg == null || idMsg
-				.equals(es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.MetaClassID.getDefaultInstance())) {
+	public static MetaClassID getMetaClassID(String idMsg) {
+		if (idMsg == null || idMsg.isEmpty()) {
 			return null;
 		} else {
-			return new MetaClassID(UUID.fromString(idMsg.getUuid()));
+			return new MetaClassID(UUID.fromString(idMsg));
 		}
 	}
 
@@ -323,12 +293,11 @@ public final class Utils {
 	 *            Message ID
 	 * @return ObjectID
 	 */
-	public static ObjectID getID(final es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID idMsg) {
-		if (idMsg == null || idMsg
-				.equals(es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID.getDefaultInstance())) {
+	public static ObjectID getObjectID(final String idMsg) {
+		if (idMsg == null || idMsg.isEmpty()) {
 			return null;
 		} else {
-			return new ObjectID(UUID.fromString(idMsg.getUuid()));
+			return new ObjectID(UUID.fromString(idMsg));
 		}
 	}
 
@@ -339,13 +308,11 @@ public final class Utils {
 	 *            Message ID
 	 * @return OperationID
 	 */
-	public static OperationID getID(
-			final es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.OperationID idMsg) {
-		if (idMsg == null || idMsg
-				.equals(es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.OperationID.getDefaultInstance())) {
+	public static OperationID getOperationID(String idMsg) {
+		if (idMsg == null || idMsg.isEmpty()) {
 			return null;
 		} else {
-			return new OperationID(UUID.fromString(idMsg.getUuid()));
+			return new OperationID(UUID.fromString(idMsg));
 		}
 	}
 
@@ -356,12 +323,11 @@ public final class Utils {
 	 *            Message ID
 	 * @return PropertyID
 	 */
-	public static PropertyID getID(final es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.PropertyID idMsg) {
-		if (idMsg == null || idMsg
-				.equals(es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.PropertyID.getDefaultInstance())) {
+	public static PropertyID getPropertyID(final String idMsg) {
+		if (idMsg == null || idMsg.isEmpty()) {
 			return null;
 		} else {
-			return new PropertyID(UUID.fromString(idMsg.getUuid()));
+			return new PropertyID(UUID.fromString(idMsg));
 		}
 	}
 
@@ -372,14 +338,11 @@ public final class Utils {
 	 *            Message ID
 	 * @return QualitativeRegistryID
 	 */
-	public static QualitativeRegistryID getID(
-			final es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.QualitativeRegistryID idMsg) {
-		if (idMsg == null
-				|| idMsg.equals(es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.QualitativeRegistryID
-						.getDefaultInstance())) {
+	public static QualitativeRegistryID getQualitativeRegistryID(String idMsg) {
+		if (idMsg == null || idMsg.isEmpty()) {
 			return null;
 		} else {
-			return new QualitativeRegistryID(UUID.fromString(idMsg.getUuid()));
+			return new QualitativeRegistryID(UUID.fromString(idMsg));
 		}
 	}
 
@@ -390,12 +353,11 @@ public final class Utils {
 	 *            Message ID
 	 * @return ResourceID
 	 */
-	public static ResourceID getID(final es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ResourceID idMsg) {
-		if (idMsg == null || idMsg
-				.equals(es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ResourceID.getDefaultInstance())) {
+	public static ResourceID getResourceID(final String idMsg) {
+		if (idMsg == null || idMsg.isEmpty()) {
 			return null;
 		} else {
-			return new ResourceID(UUID.fromString(idMsg.getUuid()));
+			return new ResourceID(UUID.fromString(idMsg));
 		}
 	}
 
@@ -406,12 +368,11 @@ public final class Utils {
 	 *            Message ID
 	 * @return SessionID
 	 */
-	public static SessionID getID(final es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID idMsg) {
-		if (idMsg == null || idMsg
-				.equals(es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID.getDefaultInstance())) {
+	public static SessionID getSessionID(final String idMsg) {
+		if (idMsg == null || idMsg.isEmpty()) {
 			return null;
 		} else {
-			return new SessionID(UUID.fromString(idMsg.getUuid()));
+			return new SessionID(UUID.fromString(idMsg));
 		}
 	}
 
@@ -422,13 +383,11 @@ public final class Utils {
 	 *            Message ID
 	 * @return StorageLocationID
 	 */
-	public static StorageLocationID getID(
-			final es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.StorageLocationID idMsg) {
-		if (idMsg == null || idMsg.equals(
-				es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.StorageLocationID.getDefaultInstance())) {
+	public static StorageLocationID getStorageLocationID(String idMsg) {
+		if (idMsg == null || idMsg.isEmpty()) {
 			return null;
 		} else {
-			return new StorageLocationID(UUID.fromString(idMsg.getUuid()));
+			return new StorageLocationID(UUID.fromString(idMsg));
 		}
 	}
 
@@ -439,505 +398,11 @@ public final class Utils {
 	 *            Message ID
 	 * @return DataClayID
 	 */
-	public static DataClayInstanceID getID(
-			final es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.DataClayInstanceID idMsg) {
-		if (idMsg == null || idMsg.equals(
-				es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.DataClayInstanceID.getDefaultInstance())) {
+	public static DataClayInstanceID getDataClayInstanceID(String idMsg) {
+		if (idMsg == null || idMsg.isEmpty()) {
 			return null;
 		} else {
-			return new DataClayInstanceID(UUID.fromString(idMsg.getUuid()));
-		}
-	}
-
-	/**
-	 * Get ObjectID from uuid string
-	 * 
-	 * @param msgStr
-	 *            UUID string
-	 * @return ObjectID
-	 */
-	public static ObjectID getObjectIDFromUUID(final String msgStr) {
-		if (msgStr == null || msgStr.trim().isEmpty()) {
-			return null;
-		} else {
-			return new ObjectID(msgStr);
-		}
-	}
-
-	/**
-	 * Get MetaClassID from uuid string
-	 * 
-	 * @param msgStr
-	 *            UUID string
-	 * @return MetaClassID
-	 */
-	public static MetaClassID getMetaClassIDFromUUID(final String msgStr) {
-		if (msgStr == null || msgStr.trim().isEmpty()) {
-			return null;
-		} else {
-			return new MetaClassID(msgStr);
-		}
-	}
-
-	/**
-	 * Get DataContractID from uuid string
-	 * 
-	 * @param msgStr
-	 *            UUID string
-	 * @return DataContractID
-	 */
-	public static DataContractID getDataContractIDFromUUID(final String msgStr) {
-		if (msgStr == null || msgStr.trim().isEmpty()) {
-			return null;
-		} else {
-			return new DataContractID(msgStr);
-		}
-	}
-
-	/**
-	 * Get ContractID from uuid string
-	 * 
-	 * @param msgStr
-	 *            UUID string
-	 * @return ContractID
-	 */
-	public static ContractID getContractIDFromUUID(final String msgStr) {
-		if (msgStr == null || msgStr.trim().isEmpty()) {
-			return null;
-		} else {
-			return new ContractID(msgStr);
-		}
-	}
-
-	/**
-	 * Get AccountID from uuid string
-	 * 
-	 * @param msgStr
-	 *            UUID string
-	 * @return AccountID
-	 */
-	public static AccountID getAccountIDFromUUID(final String msgStr) {
-		if (msgStr == null || msgStr.trim().isEmpty()) {
-			return null;
-		} else {
-			return new AccountID(msgStr);
-		}
-	}
-
-	/**
-	 * Get StorageLocationID from uuid string
-	 * 
-	 * @param msgStr
-	 *            UUID string
-	 * @return StorageLocationID
-	 */
-	public static StorageLocationID getStorageLocationIDFromUUID(final String msgStr) {
-		if (msgStr == null || msgStr.trim().isEmpty()) {
-			return null;
-		} else {
-			return new StorageLocationID(msgStr);
-		}
-	}
-
-	/**
-	 * Get ExecutionEnvironmentID from uuid string
-	 * 
-	 * @param msgStr
-	 *            UUID string
-	 * @return ExecutionEnvironmentID
-	 */
-	public static ExecutionEnvironmentID getExecutionEnvironmentIDFromUUID(final String msgStr) {
-		if (msgStr == null || msgStr.trim().isEmpty()) {
-			return null;
-		} else {
-			return new ExecutionEnvironmentID(msgStr);
-		}
-	}
-
-	/**
-	 * Get SessionID from uuid string
-	 * 
-	 * @param msgStr
-	 *            UUID string
-	 * @return SessionID
-	 */
-	public static SessionID getSessionIDFromUUID(final String msgStr) {
-		if (msgStr == null || msgStr.trim().isEmpty()) {
-			return null;
-		} else {
-			return new SessionID(msgStr);
-		}
-	}
-
-	/**
-	 * Get message ID from Account ID
-	 * 
-	 * @param id
-	 *            Account ID
-	 * @return Protocol buffers message ID
-	 */
-	public static es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.AccountID getMsgID(final AccountID id) {
-		if (id == null) {
-			return es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.AccountID.getDefaultInstance();
-		} else {
-			return es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.AccountID.newBuilder()
-					.setUuid(id.getId().toString()).build();
-		}
-	}
-
-	/**
-	 * Get message ID from ContractID
-	 * 
-	 * @param id
-	 *            ContractID
-	 * @return Protocol buffers message ID
-	 */
-	public static es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ContractID getMsgID(final ContractID id) {
-		if (id == null) {
-			return es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ContractID.getDefaultInstance();
-		} else {
-			return es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ContractID.newBuilder()
-					.setUuid(id.getId().toString()).build();
-
-		}
-	}
-
-	/**
-	 * Get message ID from CredentialID
-	 * 
-	 * @param id
-	 *            CredentialID
-	 * @return Protocol buffers message ID
-	 */
-	public static es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.CredentialID getMsgID(
-			final CredentialID id) {
-		if (id == null) {
-			return es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.CredentialID.getDefaultInstance();
-		} else {
-			return es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.CredentialID.newBuilder()
-					.setUuid(id.getId().toString()).build();
-
-		}
-	}
-
-	/**
-	 * Get message ID from DataContractID
-	 * 
-	 * @param id
-	 *            DataContractID
-	 * @return Protocol buffers message ID
-	 */
-	public static es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.DataContractID getMsgID(
-			final DataContractID id) {
-		if (id == null) {
-			return es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.DataContractID.getDefaultInstance();
-		} else {
-			return es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.DataContractID.newBuilder()
-					.setUuid(id.getId().toString()).build();
-
-		}
-	}
-
-	/**
-	 * Get message ID from DataSetID
-	 * 
-	 * @param id
-	 *            DataSetID
-	 * @return Protocol buffers message ID
-	 */
-	public static es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.DataSetID getMsgID(final DataSetID id) {
-		if (id == null) {
-			return es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.DataSetID.getDefaultInstance();
-		} else {
-			return es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.DataSetID.newBuilder()
-					.setUuid(id.getId().toString()).build();
-
-		}
-	}
-
-	/**
-	 * Get message ID from NamespaceID
-	 * 
-	 * @param id
-	 *            NamespaceID
-	 * @return Protocol buffers message ID
-	 */
-	public static es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.NamespaceID getMsgID(
-			final NamespaceID id) {
-		if (id == null) {
-			return es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.NamespaceID.getDefaultInstance();
-		} else {
-			return es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.NamespaceID.newBuilder()
-					.setUuid(id.getId().toString()).build();
-
-		}
-	}
-
-	/**
-	 * Get message ID from ECAID
-	 * 
-	 * @param id
-	 *            ECAID
-	 * @return Protocol buffers message ID
-	 */
-	public static es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ECAID getMsgID(final ECAID id) {
-		if (id == null) {
-			return es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ECAID.getDefaultInstance();
-		} else {
-			return es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ECAID.newBuilder()
-					.setUuid(id.getId().toString()).build();
-
-		}
-	}
-
-	/**
-	 * Get message ID from EventMessageID
-	 * 
-	 * @param id
-	 *            EventMessageID
-	 * @return Protocol buffers message ID
-	 */
-	public static es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EventMessageID getMsgID(
-			final EventMessageID id) {
-		if (id == null) {
-			return es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EventMessageID.getDefaultInstance();
-		} else {
-			return es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EventMessageID.newBuilder()
-					.setUuid(id.getId().toString()).build();
-
-		}
-	}
-
-	/**
-	 * Get message ID from EventObjsMeetConditionID
-	 * 
-	 * @param id
-	 *            EventObjsMeetConditionID
-	 * @return Protocol buffers message ID
-	 */
-	public static es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EventObjsMeetConditionID getMsgID(
-			final EventObjsMeetConditionID id) {
-		if (id == null) {
-			return es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EventObjsMeetConditionID
-					.getDefaultInstance();
-		} else {
-			return es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EventObjsMeetConditionID.newBuilder()
-					.setUuid(id.getId().toString()).build();
-
-		}
-	}
-
-	/**
-	 * Get message ID from ExecutionEnvironmentID
-	 * 
-	 * @param id
-	 *            ExecutionEnvironmentID
-	 * @return Protocol buffers message ID
-	 */
-	public static es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironmentID getMsgID(
-			final ExecutionEnvironmentID id) {
-		if (id == null) {
-			return es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironmentID
-					.getDefaultInstance();
-		} else {
-			return es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironmentID.newBuilder()
-					.setUuid(id.getId().toString()).build();
-
-		}
-	}
-
-	/**
-	 * Get message ID from ImplementationID
-	 * 
-	 * @param id
-	 *            ImplementationID
-	 * @return Protocol buffers message ID
-	 */
-	public static es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ImplementationID getMsgID(
-			final ImplementationID id) {
-		if (id == null) {
-			return es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ImplementationID.getDefaultInstance();
-		} else {
-			return es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ImplementationID.newBuilder()
-					.setUuid(id.getId().toString()).build();
-
-		}
-	}
-
-	/**
-	 * Get message ID from InterfaceID
-	 * 
-	 * @param id
-	 *            InterfaceID
-	 * @return Protocol buffers message ID
-	 */
-	public static es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.InterfaceID getMsgID(
-			final InterfaceID id) {
-		if (id == null) {
-			return es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.InterfaceID.getDefaultInstance();
-		} else {
-			return es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.InterfaceID.newBuilder()
-					.setUuid(id.getId().toString()).build();
-
-		}
-	}
-
-	/**
-	 * Get message ID from MetaClassID
-	 * 
-	 * @param id
-	 *            MetaClassID
-	 * @return Protocol buffers message ID
-	 */
-	public static es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.MetaClassID getMsgID(
-			final MetaClassID id) {
-		if (id == null) {
-			return es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.MetaClassID.getDefaultInstance();
-		} else {
-			return es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.MetaClassID.newBuilder()
-					.setUuid(id.getId().toString()).build();
-
-		}
-	}
-
-	/**
-	 * Get message ID from ObjectID
-	 * 
-	 * @param id
-	 *            ObjectID
-	 * @return Protocol buffers message ID
-	 */
-	public static es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID getMsgID(final ObjectID id) {
-		if (id == null) {
-			return es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID.getDefaultInstance();
-		} else {
-			return es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID.newBuilder()
-					.setUuid(id.getId().toString()).build();
-
-		}
-	}
-
-	/**
-	 * Get message ID from OperationID
-	 * 
-	 * @param id
-	 *            OperationID
-	 * @return Protocol buffers message ID
-	 */
-	public static es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.OperationID getMsgID(
-			final OperationID id) {
-		if (id == null) {
-			return es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.OperationID.getDefaultInstance();
-		} else {
-			return es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.OperationID.newBuilder()
-					.setUuid(id.getId().toString()).build();
-
-		}
-	}
-
-	/**
-	 * Get message ID from PropertyID
-	 * 
-	 * @param id
-	 *            PropertyID
-	 * @return Protocol buffers message ID
-	 */
-	public static es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.PropertyID getMsgID(final PropertyID id) {
-		if (id == null) {
-			return es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.PropertyID.getDefaultInstance();
-		} else {
-			return es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.PropertyID.newBuilder()
-					.setUuid(id.getId().toString()).build();
-
-		}
-	}
-
-	/**
-	 * Get message ID from QualitativeRegistryID
-	 * 
-	 * @param id
-	 *            QualitativeRegistryID
-	 * @return Protocol buffers message ID
-	 */
-	public static es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.QualitativeRegistryID getMsgID(
-			final QualitativeRegistryID id) {
-		if (id == null) {
-			return es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.QualitativeRegistryID
-					.getDefaultInstance();
-		} else {
-			return es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.QualitativeRegistryID.newBuilder()
-					.setUuid(id.getId().toString()).build();
-
-		}
-	}
-
-	/**
-	 * Get message ID from ResourceID
-	 * 
-	 * @param id
-	 *            ResourceID
-	 * @return Protocol buffers message ID
-	 */
-	public static es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ResourceID getMsgID(final ResourceID id) {
-		if (id == null) {
-			return es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ResourceID.getDefaultInstance();
-		} else {
-			return es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ResourceID.newBuilder()
-					.setUuid(id.getId().toString()).build();
-
-		}
-	}
-
-	/**
-	 * Get message ID from SessionID
-	 * 
-	 * @param id
-	 *            SessionID
-	 * @return Protocol buffers message ID
-	 */
-	public static es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID getMsgID(final SessionID id) {
-		if (id == null) {
-			return es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID.getDefaultInstance();
-		} else {
-			final es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID sessIDMsg = es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SessionID
-					.newBuilder().setUuid(id.getId().toString()).build();
-			return sessIDMsg;
-		}
-	}
-
-	/**
-	 * Get message ID from StorageLocationID
-	 * 
-	 * @param id
-	 *            StorageLocationID
-	 * @return Protocol buffers message ID
-	 */
-	public static es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.StorageLocationID getMsgID(
-			final StorageLocationID id) {
-		if (id == null) {
-			return es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.StorageLocationID.getDefaultInstance();
-		} else {
-			return es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.StorageLocationID.newBuilder()
-					.setUuid(id.getId().toString()).build();
-
-		}
-	}
-
-	/**
-	 * Get message ID from DataClayID
-	 * 
-	 * @param id
-	 *            DataClayID
-	 * @return Protocol buffers message ID
-	 */
-	public static es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.DataClayInstanceID getMsgID(
-			final DataClayInstanceID id) {
-		if (id == null) {
-			return es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.DataClayInstanceID.getDefaultInstance();
-		} else {
-			return es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.DataClayInstanceID.newBuilder()
-					.setUuid(id.getId().toString()).build();
-
+			return new DataClayInstanceID(UUID.fromString(idMsg));
 		}
 	}
 
@@ -983,7 +448,7 @@ public final class Utils {
 		if (metadata.getOids() != null) {
 			for (final Entry<Integer, ObjectID> oidEntry : metadata.getOids().entrySet()) {
 				if (oidEntry.getValue() != null) {
-					final CommonMessages.ObjectID oidIDmsg = Utils.getMsgID(oidEntry.getValue());
+					final String oidIDmsg = Utils.getMsgID(oidEntry.getValue());
 					metadataBuilder.putOids(oidEntry.getKey(), oidIDmsg);
 					// System.err.println("OID entry bytes = " + Reflector.bytesToHex(
 					// oidIDmsg.toByteArray()));
@@ -994,7 +459,7 @@ public final class Utils {
 		if (metadata.getClassIDs() != null) {
 			for (final Entry<Integer, MetaClassID> classIDEntry : metadata.getClassIDs().entrySet()) {
 				if (classIDEntry.getValue() != null) {
-					final CommonMessages.MetaClassID classIDmsg = Utils.getMsgID(classIDEntry.getValue());
+					final String classIDmsg = Utils.getMsgID(classIDEntry.getValue());
 					metadataBuilder.putClassids(classIDEntry.getKey(), classIDmsg);
 					// System.err.println("ClassID entry bytes = " + Reflector.bytesToHex(
 					// classIDmsg.toByteArray()));
@@ -1030,9 +495,9 @@ public final class Utils {
 		final Map<Integer, DataClayInstanceID> extDataClayIDs = new ConcurrentHashMap<>();
 
 		if (msg.getClassidsMap() != null) {
-			for (final Entry<Integer, CommonMessages.MetaClassID> classIDEntry : msg.getClassidsMap().entrySet()) {
+			for (final Entry<Integer, String> classIDEntry : msg.getClassidsMap().entrySet()) {
 				if (classIDEntry.getKey() != null && classIDEntry.getValue() != null) {
-					final MetaClassID classID = Utils.getID(classIDEntry.getValue());
+					final MetaClassID classID = Utils.getMetaClassID(classIDEntry.getValue());
 					if (classID != null) {
 						classIDs.put(classIDEntry.getKey(), classID);
 					}
@@ -1041,26 +506,26 @@ public final class Utils {
 		}
 
 		if (msg.getOidsMap() != null) {
-			for (final Entry<Integer, CommonMessages.ObjectID> entry : msg.getOidsMap().entrySet()) {
+			for (final Entry<Integer, String> entry : msg.getOidsMap().entrySet()) {
 				if (entry.getKey() != null && entry.getValue() != null) {
-					oids.put(entry.getKey(), Utils.getID(entry.getValue()));
+					oids.put(entry.getKey(), Utils.getObjectID(entry.getValue()));
 				}
 			}
 		}
 
 		if (msg.getHintsMap() != null) {
-			for (final Entry<Integer, CommonMessages.ExecutionEnvironmentID> entry : msg.getHintsMap().entrySet()) {
+			for (final Entry<Integer, String> entry : msg.getHintsMap().entrySet()) {
 				if (entry.getKey() != null && entry.getValue() != null) {
-					hints.put(entry.getKey(), Utils.getID(entry.getValue()));
+					hints.put(entry.getKey(), Utils.getExecutionEnvironmentID(entry.getValue()));
 				}
 			}
 		}
 
 		if (msg.getExtDataClayIDsMap() != null) {
-			for (final Entry<Integer, CommonMessages.DataClayInstanceID> entry : msg.getExtDataClayIDsMap()
+			for (final Entry<Integer, String> entry : msg.getExtDataClayIDsMap()
 					.entrySet()) {
 				if (entry.getKey() != null && entry.getValue() != null) {
-					extDataClayIDs.put(entry.getKey(), Utils.getID(entry.getValue()));
+					extDataClayIDs.put(entry.getKey(), Utils.getDataClayInstanceID(entry.getValue()));
 				}
 			}
 		}
@@ -1081,12 +546,12 @@ public final class Utils {
 			final ObjectWithDataParamOrReturn volParamOrRet) {
 		final CommonMessages.ObjectWithDataParamOrReturn.Builder volBuilder = CommonMessages.ObjectWithDataParamOrReturn
 				.newBuilder();
-		final CommonMessages.MetaClassID classIDmsg = Utils.getMsgID(volParamOrRet.getClassID());
+		final String classIDmsg = Utils.getMsgID(volParamOrRet.getClassID());
 		volBuilder.setClassid(classIDmsg);
 		// System.err.println("ObjwData class ID size : " +
 		// classIDmsg.getSerializedSize());
 
-		final CommonMessages.ObjectID objectIDmsg = Utils.getMsgID(volParamOrRet.getObjectID());
+		final String objectIDmsg = Utils.getMsgID(volParamOrRet.getObjectID());
 		volBuilder.setOid(objectIDmsg);
 		// System.err.println("ObjwData oid ID size : " +
 		// objectIDmsg.getSerializedSize());
@@ -1112,8 +577,8 @@ public final class Utils {
 	 */
 	public static ObjectWithDataParamOrReturn getObjectWithDataParamOrReturn(
 			final CommonMessages.ObjectWithDataParamOrReturn volParamOrRet) {
-		final ObjectID oid = Utils.getID(volParamOrRet.getOid());
-		final MetaClassID classid = Utils.getID(volParamOrRet.getClassid());
+		final ObjectID oid = Utils.getObjectID(volParamOrRet.getOid());
+		final MetaClassID classid = Utils.getMetaClassID(volParamOrRet.getClassid());
 		final DataClayObjectMetaData mdata = Utils.getMetaData(volParamOrRet.getMetadata());
 		final DataClayByteArray byteArray = new DataClayByteArray(volParamOrRet.getObjbytes());
 		return new ObjectWithDataParamOrReturn(oid, classid, mdata, byteArray);
@@ -1224,17 +689,12 @@ public final class Utils {
 		MetaClassID classID = null;
 		ExecutionEnvironmentID hint = null;
 		DataClayInstanceID extDataClayID = null;
-		if (paramOrRet.hasHint()) {
-			hint = Utils.getID(paramOrRet.getHint());
-		}
-		if (paramOrRet.hasClassID()) {
-			classID = Utils.getID(paramOrRet.getClassID());
-		}
-		if (paramOrRet.hasExtDataClayID()) {
-			extDataClayID = Utils.getID(paramOrRet.getExtDataClayID());
-		}
+		hint = Utils.getExecutionEnvironmentID(paramOrRet.getHint());
+		classID = Utils.getMetaClassID(paramOrRet.getClassID());
+		extDataClayID = Utils.getDataClayInstanceID(paramOrRet.getExtDataClayID());
 
-		return new PersistentParamOrReturn(Utils.getID(paramOrRet.getOid()), hint, classID, extDataClayID);
+
+		return new PersistentParamOrReturn(Utils.getObjectID(paramOrRet.getOid()), hint, classID, extDataClayID);
 	}
 
 	/**
@@ -1753,7 +1213,7 @@ public final class Utils {
 	/**
 	 * Serialize Exception
 	 * 
-	 * @param dcEx
+	 * @param ex
 	 *            Exception to serialize
 	 * @return Serialized exception
 	 */

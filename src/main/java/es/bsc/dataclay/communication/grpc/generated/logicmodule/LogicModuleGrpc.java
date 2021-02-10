@@ -92,37 +92,6 @@ public final class LogicModuleGrpc {
     return getAutoregisterEEMethod;
   }
 
-  private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationIDRequest,
-      es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationIDResponse> getGetStorageLocationIDMethod;
-
-  @io.grpc.stub.annotations.RpcMethod(
-      fullMethodName = SERVICE_NAME + '/' + "getStorageLocationID",
-      requestType = es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationIDRequest.class,
-      responseType = es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationIDResponse.class,
-      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
-  public static io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationIDRequest,
-      es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationIDResponse> getGetStorageLocationIDMethod() {
-    io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationIDRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationIDResponse> getGetStorageLocationIDMethod;
-    if ((getGetStorageLocationIDMethod = LogicModuleGrpc.getGetStorageLocationIDMethod) == null) {
-      synchronized (LogicModuleGrpc.class) {
-        if ((getGetStorageLocationIDMethod = LogicModuleGrpc.getGetStorageLocationIDMethod) == null) {
-          LogicModuleGrpc.getGetStorageLocationIDMethod = getGetStorageLocationIDMethod =
-              io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationIDRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationIDResponse>newBuilder()
-              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "getStorageLocationID"))
-              .setSampledToLocalTracing(true)
-              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationIDRequest.getDefaultInstance()))
-              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationIDResponse.getDefaultInstance()))
-              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getStorageLocationID"))
-              .build();
-        }
-      }
-    }
-    return getGetStorageLocationIDMethod;
-  }
-
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.UnregisterStorageLocationRequest,
       es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> getUnregisterStorageLocationMethod;
 
@@ -1828,128 +1797,128 @@ public final class LogicModuleGrpc {
     return getRemoveInterfaceMethod;
   }
 
-  private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentsInfoRequest,
-      es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentsInfoResponse> getGetExecutionEnvironmentsInfoMethod;
+  private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetAllExecutionEnvironmentsInfoRequest,
+      es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetAllExecutionEnvironmentsInfoResponse> getGetAllExecutionEnvironmentsInfoMethod;
 
   @io.grpc.stub.annotations.RpcMethod(
-      fullMethodName = SERVICE_NAME + '/' + "getExecutionEnvironmentsInfo",
-      requestType = es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentsInfoRequest.class,
-      responseType = es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentsInfoResponse.class,
+      fullMethodName = SERVICE_NAME + '/' + "getAllExecutionEnvironmentsInfo",
+      requestType = es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetAllExecutionEnvironmentsInfoRequest.class,
+      responseType = es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetAllExecutionEnvironmentsInfoResponse.class,
       methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
-  public static io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentsInfoRequest,
-      es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentsInfoResponse> getGetExecutionEnvironmentsInfoMethod() {
-    io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentsInfoRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentsInfoResponse> getGetExecutionEnvironmentsInfoMethod;
-    if ((getGetExecutionEnvironmentsInfoMethod = LogicModuleGrpc.getGetExecutionEnvironmentsInfoMethod) == null) {
+  public static io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetAllExecutionEnvironmentsInfoRequest,
+      es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetAllExecutionEnvironmentsInfoResponse> getGetAllExecutionEnvironmentsInfoMethod() {
+    io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetAllExecutionEnvironmentsInfoRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetAllExecutionEnvironmentsInfoResponse> getGetAllExecutionEnvironmentsInfoMethod;
+    if ((getGetAllExecutionEnvironmentsInfoMethod = LogicModuleGrpc.getGetAllExecutionEnvironmentsInfoMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
-        if ((getGetExecutionEnvironmentsInfoMethod = LogicModuleGrpc.getGetExecutionEnvironmentsInfoMethod) == null) {
-          LogicModuleGrpc.getGetExecutionEnvironmentsInfoMethod = getGetExecutionEnvironmentsInfoMethod =
-              io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentsInfoRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentsInfoResponse>newBuilder()
+        if ((getGetAllExecutionEnvironmentsInfoMethod = LogicModuleGrpc.getGetAllExecutionEnvironmentsInfoMethod) == null) {
+          LogicModuleGrpc.getGetAllExecutionEnvironmentsInfoMethod = getGetAllExecutionEnvironmentsInfoMethod =
+              io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetAllExecutionEnvironmentsInfoRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetAllExecutionEnvironmentsInfoResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "getExecutionEnvironmentsInfo"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "getAllExecutionEnvironmentsInfo"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentsInfoRequest.getDefaultInstance()))
+                  es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetAllExecutionEnvironmentsInfoRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentsInfoResponse.getDefaultInstance()))
-              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getExecutionEnvironmentsInfo"))
+                  es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetAllExecutionEnvironmentsInfoResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getAllExecutionEnvironmentsInfo"))
               .build();
         }
       }
     }
-    return getGetExecutionEnvironmentsInfoMethod;
+    return getGetAllExecutionEnvironmentsInfoMethod;
   }
 
-  private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentsNamesRequest,
-      es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentsNamesResponse> getGetExecutionEnvironmentsNamesMethod;
+  private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationIDRequest,
+      es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationIDResponse> getGetStorageLocationIDMethod;
 
   @io.grpc.stub.annotations.RpcMethod(
-      fullMethodName = SERVICE_NAME + '/' + "getExecutionEnvironmentsNames",
-      requestType = es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentsNamesRequest.class,
-      responseType = es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentsNamesResponse.class,
+      fullMethodName = SERVICE_NAME + '/' + "getStorageLocationID",
+      requestType = es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationIDRequest.class,
+      responseType = es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationIDResponse.class,
       methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
-  public static io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentsNamesRequest,
-      es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentsNamesResponse> getGetExecutionEnvironmentsNamesMethod() {
-    io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentsNamesRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentsNamesResponse> getGetExecutionEnvironmentsNamesMethod;
-    if ((getGetExecutionEnvironmentsNamesMethod = LogicModuleGrpc.getGetExecutionEnvironmentsNamesMethod) == null) {
+  public static io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationIDRequest,
+      es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationIDResponse> getGetStorageLocationIDMethod() {
+    io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationIDRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationIDResponse> getGetStorageLocationIDMethod;
+    if ((getGetStorageLocationIDMethod = LogicModuleGrpc.getGetStorageLocationIDMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
-        if ((getGetExecutionEnvironmentsNamesMethod = LogicModuleGrpc.getGetExecutionEnvironmentsNamesMethod) == null) {
-          LogicModuleGrpc.getGetExecutionEnvironmentsNamesMethod = getGetExecutionEnvironmentsNamesMethod =
-              io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentsNamesRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentsNamesResponse>newBuilder()
+        if ((getGetStorageLocationIDMethod = LogicModuleGrpc.getGetStorageLocationIDMethod) == null) {
+          LogicModuleGrpc.getGetStorageLocationIDMethod = getGetStorageLocationIDMethod =
+              io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationIDRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationIDResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "getExecutionEnvironmentsNames"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "getStorageLocationID"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentsNamesRequest.getDefaultInstance()))
+                  es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationIDRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentsNamesResponse.getDefaultInstance()))
-              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getExecutionEnvironmentsNames"))
+                  es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationIDResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getStorageLocationID"))
               .build();
         }
       }
     }
-    return getGetExecutionEnvironmentsNamesMethod;
+    return getGetStorageLocationIDMethod;
   }
 
-  private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentForDSRequest,
-      es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentForDSResponse> getGetExecutionEnvironmentForDSMethod;
+  private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationInfoRequest,
+      es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationInfoResponse> getGetStorageLocationInfoMethod;
 
   @io.grpc.stub.annotations.RpcMethod(
-      fullMethodName = SERVICE_NAME + '/' + "getExecutionEnvironmentForDS",
-      requestType = es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentForDSRequest.class,
-      responseType = es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentForDSResponse.class,
+      fullMethodName = SERVICE_NAME + '/' + "getStorageLocationInfo",
+      requestType = es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationInfoRequest.class,
+      responseType = es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationInfoResponse.class,
       methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
-  public static io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentForDSRequest,
-      es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentForDSResponse> getGetExecutionEnvironmentForDSMethod() {
-    io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentForDSRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentForDSResponse> getGetExecutionEnvironmentForDSMethod;
-    if ((getGetExecutionEnvironmentForDSMethod = LogicModuleGrpc.getGetExecutionEnvironmentForDSMethod) == null) {
+  public static io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationInfoRequest,
+      es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationInfoResponse> getGetStorageLocationInfoMethod() {
+    io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationInfoRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationInfoResponse> getGetStorageLocationInfoMethod;
+    if ((getGetStorageLocationInfoMethod = LogicModuleGrpc.getGetStorageLocationInfoMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
-        if ((getGetExecutionEnvironmentForDSMethod = LogicModuleGrpc.getGetExecutionEnvironmentForDSMethod) == null) {
-          LogicModuleGrpc.getGetExecutionEnvironmentForDSMethod = getGetExecutionEnvironmentForDSMethod =
-              io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentForDSRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentForDSResponse>newBuilder()
+        if ((getGetStorageLocationInfoMethod = LogicModuleGrpc.getGetStorageLocationInfoMethod) == null) {
+          LogicModuleGrpc.getGetStorageLocationInfoMethod = getGetStorageLocationInfoMethod =
+              io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationInfoRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationInfoResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "getExecutionEnvironmentForDS"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "getStorageLocationInfo"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentForDSRequest.getDefaultInstance()))
+                  es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationInfoRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentForDSResponse.getDefaultInstance()))
-              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getExecutionEnvironmentForDS"))
+                  es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationInfoResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getStorageLocationInfo"))
               .build();
         }
       }
     }
-    return getGetExecutionEnvironmentForDSMethod;
+    return getGetStorageLocationInfoMethod;
   }
 
-  private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationForDSRequest,
-      es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationForDSResponse> getGetStorageLocationForDSMethod;
+  private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationInfoRequest,
+      es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationInfoResponse> getGetExecutionEnvironmentInfoMethod;
 
   @io.grpc.stub.annotations.RpcMethod(
-      fullMethodName = SERVICE_NAME + '/' + "getStorageLocationForDS",
-      requestType = es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationForDSRequest.class,
-      responseType = es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationForDSResponse.class,
+      fullMethodName = SERVICE_NAME + '/' + "getExecutionEnvironmentInfo",
+      requestType = es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationInfoRequest.class,
+      responseType = es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationInfoResponse.class,
       methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
-  public static io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationForDSRequest,
-      es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationForDSResponse> getGetStorageLocationForDSMethod() {
-    io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationForDSRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationForDSResponse> getGetStorageLocationForDSMethod;
-    if ((getGetStorageLocationForDSMethod = LogicModuleGrpc.getGetStorageLocationForDSMethod) == null) {
+  public static io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationInfoRequest,
+      es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationInfoResponse> getGetExecutionEnvironmentInfoMethod() {
+    io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationInfoRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationInfoResponse> getGetExecutionEnvironmentInfoMethod;
+    if ((getGetExecutionEnvironmentInfoMethod = LogicModuleGrpc.getGetExecutionEnvironmentInfoMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
-        if ((getGetStorageLocationForDSMethod = LogicModuleGrpc.getGetStorageLocationForDSMethod) == null) {
-          LogicModuleGrpc.getGetStorageLocationForDSMethod = getGetStorageLocationForDSMethod =
-              io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationForDSRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationForDSResponse>newBuilder()
+        if ((getGetExecutionEnvironmentInfoMethod = LogicModuleGrpc.getGetExecutionEnvironmentInfoMethod) == null) {
+          LogicModuleGrpc.getGetExecutionEnvironmentInfoMethod = getGetExecutionEnvironmentInfoMethod =
+              io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationInfoRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationInfoResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "getStorageLocationForDS"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "getExecutionEnvironmentInfo"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationForDSRequest.getDefaultInstance()))
+                  es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationInfoRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationForDSResponse.getDefaultInstance()))
-              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getStorageLocationForDS"))
+                  es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationInfoResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getExecutionEnvironmentInfo"))
               .build();
         }
       }
     }
-    return getGetStorageLocationForDSMethod;
+    return getGetExecutionEnvironmentInfoMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetObjectInfoRequest,
@@ -2169,35 +2138,35 @@ public final class LogicModuleGrpc {
     return getUnregisterObjectsMethod;
   }
 
-  private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectsRequest,
-      es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectsResponse> getRegisterObjectsMethod;
+  private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectRequest,
+      es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectResponse> getRegisterObjectMethod;
 
   @io.grpc.stub.annotations.RpcMethod(
-      fullMethodName = SERVICE_NAME + '/' + "registerObjects",
-      requestType = es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectsRequest.class,
-      responseType = es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectsResponse.class,
+      fullMethodName = SERVICE_NAME + '/' + "registerObject",
+      requestType = es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectRequest.class,
+      responseType = es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectResponse.class,
       methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
-  public static io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectsRequest,
-      es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectsResponse> getRegisterObjectsMethod() {
-    io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectsRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectsResponse> getRegisterObjectsMethod;
-    if ((getRegisterObjectsMethod = LogicModuleGrpc.getRegisterObjectsMethod) == null) {
+  public static io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectRequest,
+      es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectResponse> getRegisterObjectMethod() {
+    io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectResponse> getRegisterObjectMethod;
+    if ((getRegisterObjectMethod = LogicModuleGrpc.getRegisterObjectMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
-        if ((getRegisterObjectsMethod = LogicModuleGrpc.getRegisterObjectsMethod) == null) {
-          LogicModuleGrpc.getRegisterObjectsMethod = getRegisterObjectsMethod =
-              io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectsRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectsResponse>newBuilder()
+        if ((getRegisterObjectMethod = LogicModuleGrpc.getRegisterObjectMethod) == null) {
+          LogicModuleGrpc.getRegisterObjectMethod = getRegisterObjectMethod =
+              io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "registerObjects"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "registerObject"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectsRequest.getDefaultInstance()))
+                  es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectsResponse.getDefaultInstance()))
-              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("registerObjects"))
+                  es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("registerObject"))
               .build();
         }
       }
     }
-    return getRegisterObjectsMethod;
+    return getRegisterObjectMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.SetDataSetIDFromGarbageCollectorRequest,
@@ -2322,6 +2291,37 @@ public final class LogicModuleGrpc {
       }
     }
     return getConsolidateVersionMethod;
+  }
+
+  private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewReplicaRequest,
+      es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewReplicaResponse> getNewReplicaMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "newReplica",
+      requestType = es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewReplicaRequest.class,
+      responseType = es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewReplicaResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewReplicaRequest,
+      es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewReplicaResponse> getNewReplicaMethod() {
+    io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewReplicaRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewReplicaResponse> getNewReplicaMethod;
+    if ((getNewReplicaMethod = LogicModuleGrpc.getNewReplicaMethod) == null) {
+      synchronized (LogicModuleGrpc.class) {
+        if ((getNewReplicaMethod = LogicModuleGrpc.getNewReplicaMethod) == null) {
+          LogicModuleGrpc.getNewReplicaMethod = getNewReplicaMethod =
+              io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewReplicaRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewReplicaResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "newReplica"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewReplicaRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewReplicaResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("newReplica"))
+              .build();
+        }
+      }
+    }
+    return getNewReplicaMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.MoveObjectRequest,
@@ -3734,13 +3734,6 @@ public final class LogicModuleGrpc {
 
     /**
      */
-    public void getStorageLocationID(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationIDRequest request,
-        io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationIDResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getGetStorageLocationIDMethod(), responseObserver);
-    }
-
-    /**
-     */
     public void unregisterStorageLocation(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.UnregisterStorageLocationRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
       asyncUnimplementedUnaryCall(getUnregisterStorageLocationMethod(), responseObserver);
@@ -4153,33 +4146,30 @@ public final class LogicModuleGrpc {
      * EE-SL information
      * </pre>
      */
-    public void getExecutionEnvironmentsInfo(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentsInfoRequest request,
-        io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentsInfoResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getGetExecutionEnvironmentsInfoMethod(), responseObserver);
+    public void getAllExecutionEnvironmentsInfo(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetAllExecutionEnvironmentsInfoRequest request,
+        io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetAllExecutionEnvironmentsInfoResponse> responseObserver) {
+      asyncUnimplementedUnaryCall(getGetAllExecutionEnvironmentsInfoMethod(), responseObserver);
     }
 
     /**
      */
-    public void getExecutionEnvironmentsNames(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentsNamesRequest request,
-        io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentsNamesResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getGetExecutionEnvironmentsNamesMethod(), responseObserver);
-    }
-
-    /**
-     * <pre>
-     * TODO: modify next functions also called from Python to more scalable information
-     * </pre>
-     */
-    public void getExecutionEnvironmentForDS(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentForDSRequest request,
-        io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentForDSResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getGetExecutionEnvironmentForDSMethod(), responseObserver);
+    public void getStorageLocationID(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationIDRequest request,
+        io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationIDResponse> responseObserver) {
+      asyncUnimplementedUnaryCall(getGetStorageLocationIDMethod(), responseObserver);
     }
 
     /**
      */
-    public void getStorageLocationForDS(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationForDSRequest request,
-        io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationForDSResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getGetStorageLocationForDSMethod(), responseObserver);
+    public void getStorageLocationInfo(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationInfoRequest request,
+        io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationInfoResponse> responseObserver) {
+      asyncUnimplementedUnaryCall(getGetStorageLocationInfoMethod(), responseObserver);
+    }
+
+    /**
+     */
+    public void getExecutionEnvironmentInfo(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationInfoRequest request,
+        io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationInfoResponse> responseObserver) {
+      asyncUnimplementedUnaryCall(getGetExecutionEnvironmentInfoMethod(), responseObserver);
     }
 
     /**
@@ -4236,9 +4226,9 @@ public final class LogicModuleGrpc {
 
     /**
      */
-    public void registerObjects(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectsRequest request,
-        io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectsResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getRegisterObjectsMethod(), responseObserver);
+    public void registerObject(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectRequest request,
+        io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectResponse> responseObserver) {
+      asyncUnimplementedUnaryCall(getRegisterObjectMethod(), responseObserver);
     }
 
     /**
@@ -4270,6 +4260,13 @@ public final class LogicModuleGrpc {
     public void consolidateVersion(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ConsolidateVersionRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
       asyncUnimplementedUnaryCall(getConsolidateVersionMethod(), responseObserver);
+    }
+
+    /**
+     */
+    public void newReplica(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewReplicaRequest request,
+        io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewReplicaResponse> responseObserver) {
+      asyncUnimplementedUnaryCall(getNewReplicaMethod(), responseObserver);
     }
 
     /**
@@ -4623,13 +4620,6 @@ public final class LogicModuleGrpc {
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.AutoRegisterEERequest,
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.AutoRegisterEEResponse>(
                   this, METHODID_AUTOREGISTER_EE)))
-          .addMethod(
-            getGetStorageLocationIDMethod(),
-            asyncUnaryCall(
-              new MethodHandlers<
-                es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationIDRequest,
-                es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationIDResponse>(
-                  this, METHODID_GET_STORAGE_LOCATION_ID)))
           .addMethod(
             getUnregisterStorageLocationMethod(),
             asyncUnaryCall(
@@ -5016,33 +5006,33 @@ public final class LogicModuleGrpc {
                 es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>(
                   this, METHODID_REMOVE_INTERFACE)))
           .addMethod(
-            getGetExecutionEnvironmentsInfoMethod(),
+            getGetAllExecutionEnvironmentsInfoMethod(),
             asyncUnaryCall(
               new MethodHandlers<
-                es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentsInfoRequest,
-                es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentsInfoResponse>(
-                  this, METHODID_GET_EXECUTION_ENVIRONMENTS_INFO)))
+                es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetAllExecutionEnvironmentsInfoRequest,
+                es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetAllExecutionEnvironmentsInfoResponse>(
+                  this, METHODID_GET_ALL_EXECUTION_ENVIRONMENTS_INFO)))
           .addMethod(
-            getGetExecutionEnvironmentsNamesMethod(),
+            getGetStorageLocationIDMethod(),
             asyncUnaryCall(
               new MethodHandlers<
-                es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentsNamesRequest,
-                es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentsNamesResponse>(
-                  this, METHODID_GET_EXECUTION_ENVIRONMENTS_NAMES)))
+                es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationIDRequest,
+                es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationIDResponse>(
+                  this, METHODID_GET_STORAGE_LOCATION_ID)))
           .addMethod(
-            getGetExecutionEnvironmentForDSMethod(),
+            getGetStorageLocationInfoMethod(),
             asyncUnaryCall(
               new MethodHandlers<
-                es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentForDSRequest,
-                es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentForDSResponse>(
-                  this, METHODID_GET_EXECUTION_ENVIRONMENT_FOR_DS)))
+                es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationInfoRequest,
+                es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationInfoResponse>(
+                  this, METHODID_GET_STORAGE_LOCATION_INFO)))
           .addMethod(
-            getGetStorageLocationForDSMethod(),
+            getGetExecutionEnvironmentInfoMethod(),
             asyncUnaryCall(
               new MethodHandlers<
-                es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationForDSRequest,
-                es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationForDSResponse>(
-                  this, METHODID_GET_STORAGE_LOCATION_FOR_DS)))
+                es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationInfoRequest,
+                es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationInfoResponse>(
+                  this, METHODID_GET_EXECUTION_ENVIRONMENT_INFO)))
           .addMethod(
             getGetObjectInfoMethod(),
             asyncUnaryCall(
@@ -5093,12 +5083,12 @@ public final class LogicModuleGrpc {
                 es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>(
                   this, METHODID_UNREGISTER_OBJECTS)))
           .addMethod(
-            getRegisterObjectsMethod(),
+            getRegisterObjectMethod(),
             asyncUnaryCall(
               new MethodHandlers<
-                es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectsRequest,
-                es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectsResponse>(
-                  this, METHODID_REGISTER_OBJECTS)))
+                es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectRequest,
+                es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectResponse>(
+                  this, METHODID_REGISTER_OBJECT)))
           .addMethod(
             getSetDataSetIDFromGarbageCollectorMethod(),
             asyncUnaryCall(
@@ -5127,6 +5117,13 @@ public final class LogicModuleGrpc {
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ConsolidateVersionRequest,
                 es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>(
                   this, METHODID_CONSOLIDATE_VERSION)))
+          .addMethod(
+            getNewReplicaMethod(),
+            asyncUnaryCall(
+              new MethodHandlers<
+                es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewReplicaRequest,
+                es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewReplicaResponse>(
+                  this, METHODID_NEW_REPLICA)))
           .addMethod(
             getMoveObjectMethod(),
             asyncUnaryCall(
@@ -5474,14 +5471,6 @@ public final class LogicModuleGrpc {
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.AutoRegisterEEResponse> responseObserver) {
       asyncUnaryCall(
           getChannel().newCall(getAutoregisterEEMethod(), getCallOptions()), request, responseObserver);
-    }
-
-    /**
-     */
-    public void getStorageLocationID(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationIDRequest request,
-        io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationIDResponse> responseObserver) {
-      asyncUnaryCall(
-          getChannel().newCall(getGetStorageLocationIDMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
@@ -5953,37 +5942,34 @@ public final class LogicModuleGrpc {
      * EE-SL information
      * </pre>
      */
-    public void getExecutionEnvironmentsInfo(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentsInfoRequest request,
-        io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentsInfoResponse> responseObserver) {
+    public void getAllExecutionEnvironmentsInfo(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetAllExecutionEnvironmentsInfoRequest request,
+        io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetAllExecutionEnvironmentsInfoResponse> responseObserver) {
       asyncUnaryCall(
-          getChannel().newCall(getGetExecutionEnvironmentsInfoMethod(), getCallOptions()), request, responseObserver);
+          getChannel().newCall(getGetAllExecutionEnvironmentsInfoMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
      */
-    public void getExecutionEnvironmentsNames(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentsNamesRequest request,
-        io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentsNamesResponse> responseObserver) {
+    public void getStorageLocationID(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationIDRequest request,
+        io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationIDResponse> responseObserver) {
       asyncUnaryCall(
-          getChannel().newCall(getGetExecutionEnvironmentsNamesMethod(), getCallOptions()), request, responseObserver);
-    }
-
-    /**
-     * <pre>
-     * TODO: modify next functions also called from Python to more scalable information
-     * </pre>
-     */
-    public void getExecutionEnvironmentForDS(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentForDSRequest request,
-        io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentForDSResponse> responseObserver) {
-      asyncUnaryCall(
-          getChannel().newCall(getGetExecutionEnvironmentForDSMethod(), getCallOptions()), request, responseObserver);
+          getChannel().newCall(getGetStorageLocationIDMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
      */
-    public void getStorageLocationForDS(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationForDSRequest request,
-        io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationForDSResponse> responseObserver) {
+    public void getStorageLocationInfo(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationInfoRequest request,
+        io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationInfoResponse> responseObserver) {
       asyncUnaryCall(
-          getChannel().newCall(getGetStorageLocationForDSMethod(), getCallOptions()), request, responseObserver);
+          getChannel().newCall(getGetStorageLocationInfoMethod(), getCallOptions()), request, responseObserver);
+    }
+
+    /**
+     */
+    public void getExecutionEnvironmentInfo(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationInfoRequest request,
+        io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationInfoResponse> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(getGetExecutionEnvironmentInfoMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
@@ -6047,10 +6033,10 @@ public final class LogicModuleGrpc {
 
     /**
      */
-    public void registerObjects(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectsRequest request,
-        io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectsResponse> responseObserver) {
+    public void registerObject(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectRequest request,
+        io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectResponse> responseObserver) {
       asyncUnaryCall(
-          getChannel().newCall(getRegisterObjectsMethod(), getCallOptions()), request, responseObserver);
+          getChannel().newCall(getRegisterObjectMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
@@ -6086,6 +6072,14 @@ public final class LogicModuleGrpc {
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
       asyncUnaryCall(
           getChannel().newCall(getConsolidateVersionMethod(), getCallOptions()), request, responseObserver);
+    }
+
+    /**
+     */
+    public void newReplica(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewReplicaRequest request,
+        io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewReplicaResponse> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(getNewReplicaMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
@@ -6505,13 +6499,6 @@ public final class LogicModuleGrpc {
 
     /**
      */
-    public es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationIDResponse getStorageLocationID(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationIDRequest request) {
-      return blockingUnaryCall(
-          getChannel(), getGetStorageLocationIDMethod(), getCallOptions(), request);
-    }
-
-    /**
-     */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo unregisterStorageLocation(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.UnregisterStorageLocationRequest request) {
       return blockingUnaryCall(
           getChannel(), getUnregisterStorageLocationMethod(), getCallOptions(), request);
@@ -6924,33 +6911,30 @@ public final class LogicModuleGrpc {
      * EE-SL information
      * </pre>
      */
-    public es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentsInfoResponse getExecutionEnvironmentsInfo(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentsInfoRequest request) {
+    public es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetAllExecutionEnvironmentsInfoResponse getAllExecutionEnvironmentsInfo(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetAllExecutionEnvironmentsInfoRequest request) {
       return blockingUnaryCall(
-          getChannel(), getGetExecutionEnvironmentsInfoMethod(), getCallOptions(), request);
+          getChannel(), getGetAllExecutionEnvironmentsInfoMethod(), getCallOptions(), request);
     }
 
     /**
      */
-    public es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentsNamesResponse getExecutionEnvironmentsNames(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentsNamesRequest request) {
+    public es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationIDResponse getStorageLocationID(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationIDRequest request) {
       return blockingUnaryCall(
-          getChannel(), getGetExecutionEnvironmentsNamesMethod(), getCallOptions(), request);
-    }
-
-    /**
-     * <pre>
-     * TODO: modify next functions also called from Python to more scalable information
-     * </pre>
-     */
-    public es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentForDSResponse getExecutionEnvironmentForDS(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentForDSRequest request) {
-      return blockingUnaryCall(
-          getChannel(), getGetExecutionEnvironmentForDSMethod(), getCallOptions(), request);
+          getChannel(), getGetStorageLocationIDMethod(), getCallOptions(), request);
     }
 
     /**
      */
-    public es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationForDSResponse getStorageLocationForDS(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationForDSRequest request) {
+    public es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationInfoResponse getStorageLocationInfo(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationInfoRequest request) {
       return blockingUnaryCall(
-          getChannel(), getGetStorageLocationForDSMethod(), getCallOptions(), request);
+          getChannel(), getGetStorageLocationInfoMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
+    public es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationInfoResponse getExecutionEnvironmentInfo(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationInfoRequest request) {
+      return blockingUnaryCall(
+          getChannel(), getGetExecutionEnvironmentInfoMethod(), getCallOptions(), request);
     }
 
     /**
@@ -7007,9 +6991,9 @@ public final class LogicModuleGrpc {
 
     /**
      */
-    public es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectsResponse registerObjects(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectsRequest request) {
+    public es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectResponse registerObject(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectRequest request) {
       return blockingUnaryCall(
-          getChannel(), getRegisterObjectsMethod(), getCallOptions(), request);
+          getChannel(), getRegisterObjectMethod(), getCallOptions(), request);
     }
 
     /**
@@ -7041,6 +7025,13 @@ public final class LogicModuleGrpc {
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo consolidateVersion(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ConsolidateVersionRequest request) {
       return blockingUnaryCall(
           getChannel(), getConsolidateVersionMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
+    public es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewReplicaResponse newReplica(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewReplicaRequest request) {
+      return blockingUnaryCall(
+          getChannel(), getNewReplicaMethod(), getCallOptions(), request);
     }
 
     /**
@@ -7414,14 +7405,6 @@ public final class LogicModuleGrpc {
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.AutoRegisterEERequest request) {
       return futureUnaryCall(
           getChannel().newCall(getAutoregisterEEMethod(), getCallOptions()), request);
-    }
-
-    /**
-     */
-    public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationIDResponse> getStorageLocationID(
-        es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationIDRequest request) {
-      return futureUnaryCall(
-          getChannel().newCall(getGetStorageLocationIDMethod(), getCallOptions()), request);
     }
 
     /**
@@ -7893,37 +7876,34 @@ public final class LogicModuleGrpc {
      * EE-SL information
      * </pre>
      */
-    public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentsInfoResponse> getExecutionEnvironmentsInfo(
-        es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentsInfoRequest request) {
+    public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetAllExecutionEnvironmentsInfoResponse> getAllExecutionEnvironmentsInfo(
+        es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetAllExecutionEnvironmentsInfoRequest request) {
       return futureUnaryCall(
-          getChannel().newCall(getGetExecutionEnvironmentsInfoMethod(), getCallOptions()), request);
+          getChannel().newCall(getGetAllExecutionEnvironmentsInfoMethod(), getCallOptions()), request);
     }
 
     /**
      */
-    public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentsNamesResponse> getExecutionEnvironmentsNames(
-        es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentsNamesRequest request) {
+    public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationIDResponse> getStorageLocationID(
+        es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationIDRequest request) {
       return futureUnaryCall(
-          getChannel().newCall(getGetExecutionEnvironmentsNamesMethod(), getCallOptions()), request);
-    }
-
-    /**
-     * <pre>
-     * TODO: modify next functions also called from Python to more scalable information
-     * </pre>
-     */
-    public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentForDSResponse> getExecutionEnvironmentForDS(
-        es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentForDSRequest request) {
-      return futureUnaryCall(
-          getChannel().newCall(getGetExecutionEnvironmentForDSMethod(), getCallOptions()), request);
+          getChannel().newCall(getGetStorageLocationIDMethod(), getCallOptions()), request);
     }
 
     /**
      */
-    public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationForDSResponse> getStorageLocationForDS(
-        es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationForDSRequest request) {
+    public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationInfoResponse> getStorageLocationInfo(
+        es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationInfoRequest request) {
       return futureUnaryCall(
-          getChannel().newCall(getGetStorageLocationForDSMethod(), getCallOptions()), request);
+          getChannel().newCall(getGetStorageLocationInfoMethod(), getCallOptions()), request);
+    }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationInfoResponse> getExecutionEnvironmentInfo(
+        es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationInfoRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(getGetExecutionEnvironmentInfoMethod(), getCallOptions()), request);
     }
 
     /**
@@ -7987,10 +7967,10 @@ public final class LogicModuleGrpc {
 
     /**
      */
-    public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectsResponse> registerObjects(
-        es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectsRequest request) {
+    public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectResponse> registerObject(
+        es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectRequest request) {
       return futureUnaryCall(
-          getChannel().newCall(getRegisterObjectsMethod(), getCallOptions()), request);
+          getChannel().newCall(getRegisterObjectMethod(), getCallOptions()), request);
     }
 
     /**
@@ -8026,6 +8006,14 @@ public final class LogicModuleGrpc {
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ConsolidateVersionRequest request) {
       return futureUnaryCall(
           getChannel().newCall(getConsolidateVersionMethod(), getCallOptions()), request);
+    }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewReplicaResponse> newReplica(
+        es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewReplicaRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(getNewReplicaMethod(), getCallOptions()), request);
     }
 
     /**
@@ -8410,78 +8398,78 @@ public final class LogicModuleGrpc {
 
   private static final int METHODID_AUTOREGISTER_SL = 0;
   private static final int METHODID_AUTOREGISTER_EE = 1;
-  private static final int METHODID_GET_STORAGE_LOCATION_ID = 2;
-  private static final int METHODID_UNREGISTER_STORAGE_LOCATION = 3;
-  private static final int METHODID_UNREGISTER_EXECUTION_ENVIRONMENT = 4;
-  private static final int METHODID_CHECK_ALIVE = 5;
-  private static final int METHODID_NOTIFY_EXECUTION_ENVIRONMENT_SHUTDOWN = 6;
-  private static final int METHODID_NOTIFY_STORAGE_LOCATION_SHUTDOWN = 7;
-  private static final int METHODID_EXISTS_ACTIVE_ENVIRONMENTS_FOR_SL = 8;
-  private static final int METHODID_PERFORM_SET_OF_NEW_ACCOUNTS = 9;
-  private static final int METHODID_PERFORM_SET_OF_OPERATIONS = 10;
-  private static final int METHODID_PUBLISH_ADDRESS = 11;
-  private static final int METHODID_NEW_ACCOUNT_NO_ADMIN = 12;
-  private static final int METHODID_NEW_ACCOUNT = 13;
-  private static final int METHODID_GET_ACCOUNT_ID = 14;
-  private static final int METHODID_GET_ACCOUNT_LIST = 15;
-  private static final int METHODID_NEW_SESSION = 16;
-  private static final int METHODID_GET_INFO_OF_SESSION_FOR_DS = 17;
-  private static final int METHODID_NEW_NAMESPACE = 18;
-  private static final int METHODID_REMOVE_NAMESPACE = 19;
-  private static final int METHODID_GET_NAMESPACE_ID = 20;
-  private static final int METHODID_GET_NAMESPACE_LANG = 21;
-  private static final int METHODID_GET_OBJECT_DATA_SET_ID = 22;
-  private static final int METHODID_IMPORT_INTERFACE = 23;
-  private static final int METHODID_IMPORT_CONTRACT = 24;
-  private static final int METHODID_GET_INFO_OF_CLASSES_IN_NAMESPACE = 25;
-  private static final int METHODID_GET_IMPORTED_CLASSES_INFO_IN_NAMESPACE = 26;
-  private static final int METHODID_GET_CLASS_IDFROM_IMPORT = 27;
-  private static final int METHODID_GET_NAMESPACES = 28;
-  private static final int METHODID_NEW_DATA_SET = 29;
-  private static final int METHODID_REMOVE_DATA_SET = 30;
-  private static final int METHODID_GET_DATA_SET_ID = 31;
-  private static final int METHODID_CHECK_DATA_SET_IS_PUBLIC = 32;
-  private static final int METHODID_GET_PUBLIC_DATA_SETS = 33;
-  private static final int METHODID_GET_ACCOUNT_DATA_SETS = 34;
-  private static final int METHODID_NEW_CLASS = 35;
-  private static final int METHODID_NEW_CLASS_ID = 36;
-  private static final int METHODID_REMOVE_CLASS = 37;
-  private static final int METHODID_REMOVE_OPERATION = 38;
-  private static final int METHODID_REMOVE_IMPLEMENTATION = 39;
-  private static final int METHODID_GET_OPERATION_ID = 40;
-  private static final int METHODID_GET_PROPERTY_ID = 41;
-  private static final int METHODID_GET_CLASS_ID = 42;
-  private static final int METHODID_GET_CLASS_INFO = 43;
-  private static final int METHODID_NEW_CONTRACT = 44;
-  private static final int METHODID_REGISTER_TO_PUBLIC_CONTRACT = 45;
-  private static final int METHODID_REGISTER_TO_PUBLIC_CONTRACT_OF_NAMESPACE = 46;
-  private static final int METHODID_GET_CONTRACT_IDS_OF_APPLICANT = 47;
-  private static final int METHODID_GET_CONTRACT_IDS_OF_PROVIDER = 48;
-  private static final int METHODID_GET_CONTRACT_IDS_OF_APPLICANT_WITH_PROVIDER = 49;
-  private static final int METHODID_NEW_DATA_CONTRACT = 50;
-  private static final int METHODID_REGISTER_TO_PUBLIC_DATA_CONTRACT = 51;
-  private static final int METHODID_GET_DATA_CONTRACT_IDS_OF_APPLICANT = 52;
-  private static final int METHODID_GET_DATA_CONTRACT_IDS_OF_PROVIDER = 53;
-  private static final int METHODID_GET_DATA_CONTRACT_INFO_OF_APPLICANT_WITH_PROVIDER = 54;
-  private static final int METHODID_NEW_INTERFACE = 55;
-  private static final int METHODID_GET_INTERFACE_INFO = 56;
-  private static final int METHODID_REMOVE_INTERFACE = 57;
-  private static final int METHODID_GET_EXECUTION_ENVIRONMENTS_INFO = 58;
-  private static final int METHODID_GET_EXECUTION_ENVIRONMENTS_NAMES = 59;
-  private static final int METHODID_GET_EXECUTION_ENVIRONMENT_FOR_DS = 60;
-  private static final int METHODID_GET_STORAGE_LOCATION_FOR_DS = 61;
-  private static final int METHODID_GET_OBJECT_INFO = 62;
-  private static final int METHODID_GET_OBJECT_FROM_ALIAS = 63;
-  private static final int METHODID_DELETE_ALIAS = 64;
-  private static final int METHODID_GET_OBJECTS_META_DATA_INFO_OF_CLASS_FOR_NM = 65;
-  private static final int METHODID_ADD_ALIAS = 66;
-  private static final int METHODID_REGISTER_OBJECT_FROM_GC = 67;
-  private static final int METHODID_UNREGISTER_OBJECTS = 68;
-  private static final int METHODID_REGISTER_OBJECTS = 69;
-  private static final int METHODID_SET_DATA_SET_IDFROM_GARBAGE_COLLECTOR = 70;
-  private static final int METHODID_SET_DATA_SET_ID = 71;
-  private static final int METHODID_NEW_VERSION = 72;
-  private static final int METHODID_CONSOLIDATE_VERSION = 73;
+  private static final int METHODID_UNREGISTER_STORAGE_LOCATION = 2;
+  private static final int METHODID_UNREGISTER_EXECUTION_ENVIRONMENT = 3;
+  private static final int METHODID_CHECK_ALIVE = 4;
+  private static final int METHODID_NOTIFY_EXECUTION_ENVIRONMENT_SHUTDOWN = 5;
+  private static final int METHODID_NOTIFY_STORAGE_LOCATION_SHUTDOWN = 6;
+  private static final int METHODID_EXISTS_ACTIVE_ENVIRONMENTS_FOR_SL = 7;
+  private static final int METHODID_PERFORM_SET_OF_NEW_ACCOUNTS = 8;
+  private static final int METHODID_PERFORM_SET_OF_OPERATIONS = 9;
+  private static final int METHODID_PUBLISH_ADDRESS = 10;
+  private static final int METHODID_NEW_ACCOUNT_NO_ADMIN = 11;
+  private static final int METHODID_NEW_ACCOUNT = 12;
+  private static final int METHODID_GET_ACCOUNT_ID = 13;
+  private static final int METHODID_GET_ACCOUNT_LIST = 14;
+  private static final int METHODID_NEW_SESSION = 15;
+  private static final int METHODID_GET_INFO_OF_SESSION_FOR_DS = 16;
+  private static final int METHODID_NEW_NAMESPACE = 17;
+  private static final int METHODID_REMOVE_NAMESPACE = 18;
+  private static final int METHODID_GET_NAMESPACE_ID = 19;
+  private static final int METHODID_GET_NAMESPACE_LANG = 20;
+  private static final int METHODID_GET_OBJECT_DATA_SET_ID = 21;
+  private static final int METHODID_IMPORT_INTERFACE = 22;
+  private static final int METHODID_IMPORT_CONTRACT = 23;
+  private static final int METHODID_GET_INFO_OF_CLASSES_IN_NAMESPACE = 24;
+  private static final int METHODID_GET_IMPORTED_CLASSES_INFO_IN_NAMESPACE = 25;
+  private static final int METHODID_GET_CLASS_IDFROM_IMPORT = 26;
+  private static final int METHODID_GET_NAMESPACES = 27;
+  private static final int METHODID_NEW_DATA_SET = 28;
+  private static final int METHODID_REMOVE_DATA_SET = 29;
+  private static final int METHODID_GET_DATA_SET_ID = 30;
+  private static final int METHODID_CHECK_DATA_SET_IS_PUBLIC = 31;
+  private static final int METHODID_GET_PUBLIC_DATA_SETS = 32;
+  private static final int METHODID_GET_ACCOUNT_DATA_SETS = 33;
+  private static final int METHODID_NEW_CLASS = 34;
+  private static final int METHODID_NEW_CLASS_ID = 35;
+  private static final int METHODID_REMOVE_CLASS = 36;
+  private static final int METHODID_REMOVE_OPERATION = 37;
+  private static final int METHODID_REMOVE_IMPLEMENTATION = 38;
+  private static final int METHODID_GET_OPERATION_ID = 39;
+  private static final int METHODID_GET_PROPERTY_ID = 40;
+  private static final int METHODID_GET_CLASS_ID = 41;
+  private static final int METHODID_GET_CLASS_INFO = 42;
+  private static final int METHODID_NEW_CONTRACT = 43;
+  private static final int METHODID_REGISTER_TO_PUBLIC_CONTRACT = 44;
+  private static final int METHODID_REGISTER_TO_PUBLIC_CONTRACT_OF_NAMESPACE = 45;
+  private static final int METHODID_GET_CONTRACT_IDS_OF_APPLICANT = 46;
+  private static final int METHODID_GET_CONTRACT_IDS_OF_PROVIDER = 47;
+  private static final int METHODID_GET_CONTRACT_IDS_OF_APPLICANT_WITH_PROVIDER = 48;
+  private static final int METHODID_NEW_DATA_CONTRACT = 49;
+  private static final int METHODID_REGISTER_TO_PUBLIC_DATA_CONTRACT = 50;
+  private static final int METHODID_GET_DATA_CONTRACT_IDS_OF_APPLICANT = 51;
+  private static final int METHODID_GET_DATA_CONTRACT_IDS_OF_PROVIDER = 52;
+  private static final int METHODID_GET_DATA_CONTRACT_INFO_OF_APPLICANT_WITH_PROVIDER = 53;
+  private static final int METHODID_NEW_INTERFACE = 54;
+  private static final int METHODID_GET_INTERFACE_INFO = 55;
+  private static final int METHODID_REMOVE_INTERFACE = 56;
+  private static final int METHODID_GET_ALL_EXECUTION_ENVIRONMENTS_INFO = 57;
+  private static final int METHODID_GET_STORAGE_LOCATION_ID = 58;
+  private static final int METHODID_GET_STORAGE_LOCATION_INFO = 59;
+  private static final int METHODID_GET_EXECUTION_ENVIRONMENT_INFO = 60;
+  private static final int METHODID_GET_OBJECT_INFO = 61;
+  private static final int METHODID_GET_OBJECT_FROM_ALIAS = 62;
+  private static final int METHODID_DELETE_ALIAS = 63;
+  private static final int METHODID_GET_OBJECTS_META_DATA_INFO_OF_CLASS_FOR_NM = 64;
+  private static final int METHODID_ADD_ALIAS = 65;
+  private static final int METHODID_REGISTER_OBJECT_FROM_GC = 66;
+  private static final int METHODID_UNREGISTER_OBJECTS = 67;
+  private static final int METHODID_REGISTER_OBJECT = 68;
+  private static final int METHODID_SET_DATA_SET_IDFROM_GARBAGE_COLLECTOR = 69;
+  private static final int METHODID_SET_DATA_SET_ID = 70;
+  private static final int METHODID_NEW_VERSION = 71;
+  private static final int METHODID_CONSOLIDATE_VERSION = 72;
+  private static final int METHODID_NEW_REPLICA = 73;
   private static final int METHODID_MOVE_OBJECT = 74;
   private static final int METHODID_SET_OBJECT_READ_ONLY = 75;
   private static final int METHODID_SET_OBJECT_READ_WRITE = 76;
@@ -8551,10 +8539,6 @@ public final class LogicModuleGrpc {
         case METHODID_AUTOREGISTER_EE:
           serviceImpl.autoregisterEE((es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.AutoRegisterEERequest) request,
               (io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.AutoRegisterEEResponse>) responseObserver);
-          break;
-        case METHODID_GET_STORAGE_LOCATION_ID:
-          serviceImpl.getStorageLocationID((es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationIDRequest) request,
-              (io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationIDResponse>) responseObserver);
           break;
         case METHODID_UNREGISTER_STORAGE_LOCATION:
           serviceImpl.unregisterStorageLocation((es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.UnregisterStorageLocationRequest) request,
@@ -8776,21 +8760,21 @@ public final class LogicModuleGrpc {
           serviceImpl.removeInterface((es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RemoveInterfaceRequest) request,
               (io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>) responseObserver);
           break;
-        case METHODID_GET_EXECUTION_ENVIRONMENTS_INFO:
-          serviceImpl.getExecutionEnvironmentsInfo((es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentsInfoRequest) request,
-              (io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentsInfoResponse>) responseObserver);
+        case METHODID_GET_ALL_EXECUTION_ENVIRONMENTS_INFO:
+          serviceImpl.getAllExecutionEnvironmentsInfo((es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetAllExecutionEnvironmentsInfoRequest) request,
+              (io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetAllExecutionEnvironmentsInfoResponse>) responseObserver);
           break;
-        case METHODID_GET_EXECUTION_ENVIRONMENTS_NAMES:
-          serviceImpl.getExecutionEnvironmentsNames((es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentsNamesRequest) request,
-              (io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentsNamesResponse>) responseObserver);
+        case METHODID_GET_STORAGE_LOCATION_ID:
+          serviceImpl.getStorageLocationID((es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationIDRequest) request,
+              (io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationIDResponse>) responseObserver);
           break;
-        case METHODID_GET_EXECUTION_ENVIRONMENT_FOR_DS:
-          serviceImpl.getExecutionEnvironmentForDS((es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentForDSRequest) request,
-              (io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentForDSResponse>) responseObserver);
+        case METHODID_GET_STORAGE_LOCATION_INFO:
+          serviceImpl.getStorageLocationInfo((es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationInfoRequest) request,
+              (io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationInfoResponse>) responseObserver);
           break;
-        case METHODID_GET_STORAGE_LOCATION_FOR_DS:
-          serviceImpl.getStorageLocationForDS((es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationForDSRequest) request,
-              (io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationForDSResponse>) responseObserver);
+        case METHODID_GET_EXECUTION_ENVIRONMENT_INFO:
+          serviceImpl.getExecutionEnvironmentInfo((es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationInfoRequest) request,
+              (io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationInfoResponse>) responseObserver);
           break;
         case METHODID_GET_OBJECT_INFO:
           serviceImpl.getObjectInfo((es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetObjectInfoRequest) request,
@@ -8820,9 +8804,9 @@ public final class LogicModuleGrpc {
           serviceImpl.unregisterObjects((es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.UnregisterObjectsRequest) request,
               (io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>) responseObserver);
           break;
-        case METHODID_REGISTER_OBJECTS:
-          serviceImpl.registerObjects((es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectsRequest) request,
-              (io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectsResponse>) responseObserver);
+        case METHODID_REGISTER_OBJECT:
+          serviceImpl.registerObject((es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectRequest) request,
+              (io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectResponse>) responseObserver);
           break;
         case METHODID_SET_DATA_SET_IDFROM_GARBAGE_COLLECTOR:
           serviceImpl.setDataSetIDFromGarbageCollector((es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.SetDataSetIDFromGarbageCollectorRequest) request,
@@ -8839,6 +8823,10 @@ public final class LogicModuleGrpc {
         case METHODID_CONSOLIDATE_VERSION:
           serviceImpl.consolidateVersion((es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ConsolidateVersionRequest) request,
               (io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>) responseObserver);
+          break;
+        case METHODID_NEW_REPLICA:
+          serviceImpl.newReplica((es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewReplicaRequest) request,
+              (io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewReplicaResponse>) responseObserver);
           break;
         case METHODID_MOVE_OBJECT:
           serviceImpl.moveObject((es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.MoveObjectRequest) request,
@@ -9079,7 +9067,6 @@ public final class LogicModuleGrpc {
               .setSchemaDescriptor(new LogicModuleFileDescriptorSupplier())
               .addMethod(getAutoregisterSLMethod())
               .addMethod(getAutoregisterEEMethod())
-              .addMethod(getGetStorageLocationIDMethod())
               .addMethod(getUnregisterStorageLocationMethod())
               .addMethod(getUnregisterExecutionEnvironmentMethod())
               .addMethod(getCheckAliveMethod())
@@ -9135,10 +9122,10 @@ public final class LogicModuleGrpc {
               .addMethod(getNewInterfaceMethod())
               .addMethod(getGetInterfaceInfoMethod())
               .addMethod(getRemoveInterfaceMethod())
-              .addMethod(getGetExecutionEnvironmentsInfoMethod())
-              .addMethod(getGetExecutionEnvironmentsNamesMethod())
-              .addMethod(getGetExecutionEnvironmentForDSMethod())
-              .addMethod(getGetStorageLocationForDSMethod())
+              .addMethod(getGetAllExecutionEnvironmentsInfoMethod())
+              .addMethod(getGetStorageLocationIDMethod())
+              .addMethod(getGetStorageLocationInfoMethod())
+              .addMethod(getGetExecutionEnvironmentInfoMethod())
               .addMethod(getGetObjectInfoMethod())
               .addMethod(getGetObjectFromAliasMethod())
               .addMethod(getDeleteAliasMethod())
@@ -9146,11 +9133,12 @@ public final class LogicModuleGrpc {
               .addMethod(getAddAliasMethod())
               .addMethod(getRegisterObjectFromGCMethod())
               .addMethod(getUnregisterObjectsMethod())
-              .addMethod(getRegisterObjectsMethod())
+              .addMethod(getRegisterObjectMethod())
               .addMethod(getSetDataSetIDFromGarbageCollectorMethod())
               .addMethod(getSetDataSetIDMethod())
               .addMethod(getNewVersionMethod())
               .addMethod(getConsolidateVersionMethod())
+              .addMethod(getNewReplicaMethod())
               .addMethod(getMoveObjectMethod())
               .addMethod(getSetObjectReadOnlyMethod())
               .addMethod(getSetObjectReadWriteMethod())

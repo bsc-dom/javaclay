@@ -208,7 +208,7 @@ public interface DataServiceAPI extends CommonManager {
 	 * @param objectsToPersist
 	 *            Data of the object to persist
 	 */
-	void federate(final SessionID sessionID, final SerializedParametersOrReturn objectsToPersist);
+	void federate(final SessionID sessionID, final List<ObjectWithDataParamOrReturn> objectsToPersist);
 
 	/**
 	 * Unfederate objects with ID provided.
@@ -285,8 +285,9 @@ public interface DataServiceAPI extends CommonManager {
 	 * @param registerMetaData Indicates that registration of metadata of replica must be forced
 	 * @param recursive
 	 *            Indicates if all sub-objects must be replicated as well.
+	 * @return ids of replicated objects
 	 */
-	void newReplica(final SessionID sessionID, final ObjectID objectID,
+	Set<ObjectID> newReplica(final SessionID sessionID, final ObjectID objectID,
 					final ExecutionEnvironmentID destBackendID,
 					final boolean registerMetaData,
 					final boolean recursive);

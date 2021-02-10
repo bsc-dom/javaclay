@@ -821,51 +821,30 @@ public interface LogicModuleAPI {
 
 	/**
 	 * Method that retrieves the info of all the registered backends
-	 * 
-	 * @param sessionID
-	 *            ID of session asking
-	 * @param fromClient Indicates information was requested from client
+	 *
 	 * @param exeEnvLang Language of execution environments to get information of
 	 * @return the info of the registered Storage Locations in a table indexed by their IDs
 	 */
-	Map<ExecutionEnvironmentID, ExecutionEnvironment> getExecutionEnvironmentsInfo(final SessionID sessionID,
-			final Langs exeEnvLang, final boolean fromClient);
+	Map<ExecutionEnvironmentID, ExecutionEnvironment> getAllExecutionEnvironmentsInfo(final Langs exeEnvLang);
 
-	/**
-	 * Method that retrieves the names of registered backends by language
-	 * 
-	 * @param accountID
-	 *            ID of account
-	 * @param credential
-	 *            credentials of the account
-	 * @param exeEnvLang
-	 *            Language of exec environments.
-	 * @return the info of the registered Storage Locations in a table indexed by their IDs
-	 */
-	Set<String> getExecutionEnvironmentsNames(final AccountID accountID, final PasswordCredential credential,
-			final Langs exeEnvLang);
 
-	// ============== Federated objects ==============//
-
-	// ============== MetaData Service ==========//
-	
 	/**
 	 * Retrieves the backend specification
-	 * 
+	 *
 	 * @param backendID
 	 *            ID of the backend
 	 * @return the specification of the backend
 	 */
-	StorageLocation getStorageLocationForDS(final StorageLocationID backendID);
+	StorageLocation getStorageLocationInfo(final StorageLocationID backendID);
 
 	/**
 	 * Retrieves the backend specification
-	 * 
+	 *
 	 * @param backendID
 	 *            ID of the backend
 	 * @return the specification of the backend
 	 */
-	ExecutionEnvironment getExecutionEnvironmentForDS(final ExecutionEnvironmentID backendID);
+	ExecutionEnvironment getExecutionEnvironmentInfo(final ExecutionEnvironmentID backendID);
 
 	/**
 	 * Method that tries to register an external instance of dataClay assigning a new ID to it. If if is already registered,

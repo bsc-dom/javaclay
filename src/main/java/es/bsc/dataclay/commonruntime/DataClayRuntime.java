@@ -4,16 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Scanner;
-import java.util.Set;
-import java.util.Timer;
-import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ScheduledExecutorService;
 
@@ -98,7 +90,7 @@ public abstract class DataClayRuntime {
 	protected final LockerPool lockerPool = new LockerPool();
 
 	/** Execution Environments cache. */
-	private final Map<ExecutionEnvironmentID, ExecutionEnvironment> execEnvironmentsCache = new ConcurrentHashMap<>();
+	private Map<ExecutionEnvironmentID, ExecutionEnvironment> execEnvsCache = new ConcurrentHashMap<>();
 
 	/** Cache of metaData. */
 	public LruCache<ObjectID, MetaDataInfo> metaDataCache = new LruCache<>(Configuration.Flags.MAX_ENTRIES_DATASERVICE_CACHE.getIntValue());
@@ -177,37 +169,102 @@ public abstract class DataClayRuntime {
 	/**
 	 * Get all execution environments information.
 	 * @param lang Language
+	 * @param forceUpdateCache Indicates cache must be forcibly updated
 	 * @return All execution locations information
 	 */
-	public final Map<ExecutionEnvironmentID, ExecutionEnvironment> getExecutionEnvironmentsInfo(final Langs lang) {
-		final SessionID sessionID = checkAndGetSession(new String[] {}, new Object[] {});
-		final Map<ExecutionEnvironmentID, ExecutionEnvironment> allEEs = logicModule
-				.getExecutionEnvironmentsInfo(sessionID, lang, !this.isDSLib());
-		return allEEs;
+	public final Map<ExecutionEnvironmentID, ExecutionEnvironment> getAllExecutionEnvironmentsInfo(
+			final Langs lang, final boolean forceUpdateCache) {
+		// Check cache
+		if ((execEnvsCache != null && forceUpdateCache) || (execEnvsCache == null)){
+			execEnvsCache = logicModule.getAllExecutionEnvironmentsInfo(lang);
+		}
+		return execEnvsCache;
 	
 	}
-	/**
-	 * Prepare locations for calculating Hash.
-	 */
-	public final void prepareExecuteLocations() {
-		final Map<ExecutionEnvironmentID, ExecutionEnvironment> allEEs = getExecutionEnvironmentsInfo(Langs.LANG_JAVA);
-		// Connect them
-		// Since we will use a Hash, prepare it.
-		int i = 0;
-		for (final Entry<ExecutionEnvironmentID, ExecutionEnvironment> ee : allEEs.entrySet()) {
-			final ExecutionEnvironmentID execLocationID = ee.getKey();
-			final ExecutionEnvironment execEnvironment = ee.getValue();
-			execLocationsPerHash.put(i, execLocationID);
-			execEnvironmentsCache.put(execLocationID, execEnvironment);
-			Set<ExecutionEnvironment> execEnvsInHost = execEnvironmentsCachePerHost.get(execEnvironment.getHostname());
-			if (execEnvsInHost == null) {
-				execEnvsInHost = ConcurrentHashMap.newKeySet();
-				execEnvironmentsCachePerHost.put(execEnvironment.getHostname(), execEnvsInHost);
-			}
-			execEnvsInHost.add(execEnvironment);
-			i++;
-		}
 
+	/**
+	 * Get ExecutionEnvironment information
+	 *
+	 * @param execLocationID
+	 *            Execution location ID
+	 * @return Execution location information
+	 */
+	public final ExecutionEnvironment getExecutionEnvironmentInfo(final BackendID execLocationID) {
+		Map<ExecutionEnvironmentID, ExecutionEnvironment> execEnvs = getAllExecutionEnvironmentsInfo(Langs.LANG_JAVA, false);
+		ExecutionEnvironment execEnv = execEnvs.get(execLocationID);
+		if (execEnv == null) {
+			execEnvs = getAllExecutionEnvironmentsInfo(Langs.LANG_JAVA, true);
+			execEnv = execEnvs.get(execLocationID);
+		}
+		return execEnv;
+	}
+
+	/**
+	 * Get all execution environments in provided host
+	 * @param lang Language
+	 * @param hostname Host name
+	 * @return Set of execution environments in provided host
+	 */
+	public Map<BackendID, ExecutionEnvironment> getAllExecutionEnvironmentsAtHost(final Langs lang, final String hostname) {
+		Map<BackendID, ExecutionEnvironment> execEnvsAtHost = new HashMap<>();
+		Map<ExecutionEnvironmentID, ExecutionEnvironment> execEnvs = getAllExecutionEnvironmentsInfo(lang, false);
+		// check if there is any execution.env in that host, otherwise update cache
+		for (ExecutionEnvironment env : execEnvs.values()) {
+			if (env.getHostname().equals(hostname)) {
+				execEnvsAtHost.put(env.getDataClayID(), env);
+			}
+		}
+		if (execEnvsAtHost.isEmpty()) {
+			execEnvs = getAllExecutionEnvironmentsInfo(lang, true);
+			for (ExecutionEnvironment env : execEnvs.values()) {
+				if (env.getHostname().equals(hostname)) {
+					execEnvsAtHost.put(env.getDataClayID(), env);
+				}
+			}
+		}
+		return execEnvsAtHost;
+	}
+
+	/**
+	 * Get all backend names
+	 * @param lang Language
+	 * @param forceUpdateCache Indicates cache must be forcibly updated
+	 * @return All backed names information
+	 */
+	public Set<String> getAllBackendsNames(final Langs lang, final boolean forceUpdateCache) {
+		Set<String> result = null;
+		result = new HashSet<>();
+		Collection<ExecutionEnvironment> execEnvs = getAllExecutionEnvironmentsInfo(lang, true).values();
+		for (ExecutionEnvironment execEnv : execEnvs) {
+			result.add(execEnv.getName());
+		}
+		return result;
+	}
+
+	/**
+	 * Get exec. environments with name provided
+	 * @param lang Language
+	 * @param backendName Name of backend
+	 * @return All backends with name provided
+	 */
+	public Set<BackendID> getBackendsWithName(final Langs lang, final String backendName) {
+		Set<BackendID> execEnvsWithName = new HashSet<>();
+		Map<ExecutionEnvironmentID, ExecutionEnvironment> execEnvs = getAllExecutionEnvironmentsInfo(Langs.LANG_JAVA, false);
+		// check if there is any execution.env in that host, otherwise update cache
+		for (ExecutionEnvironment env : execEnvs.values()) {
+			if (env.getName().equals(backendName)) {
+				execEnvsWithName.add(env.getDataClayID());
+			}
+		}
+		if (execEnvsWithName.isEmpty()) {
+			execEnvs = getAllExecutionEnvironmentsInfo(Langs.LANG_JAVA, true);
+			for (ExecutionEnvironment env : execEnvs.values()) {
+				if (env.getName().equals(backendName)) {
+					execEnvsWithName.add(env.getDataClayID());
+				}
+			}
+		}
+		return execEnvsWithName;
 	}
 
 	/**
@@ -218,16 +275,12 @@ public abstract class DataClayRuntime {
 	 * @return ExecutionEnvironmentID by hash
 	 */
 	public final ExecutionEnvironmentID getBackendIDFromObjectID(final ObjectID objectID) {
-
-		if (execLocationsPerHash.isEmpty()) {
-			prepareExecuteLocations();
-		}
-
 		// Apply hash to choose which DS to go.
+		List<ExecutionEnvironmentID> allEEs = new ArrayList<>(this.getAllExecutionEnvironmentsInfo(Langs.LANG_JAVA, false).keySet());
 		final int hashCode = objectID.hashCode();
-		final int whichDS = hashCode % execLocationsPerHash.size();
+		final int whichDS = hashCode % allEEs.size();
 		final int hash = Math.abs(whichDS);
-		final ExecutionEnvironmentID stLocID = execLocationsPerHash.get(hash);
+		final ExecutionEnvironmentID stLocID = allEEs.get(hash);
 		return stLocID;
 	}
 
@@ -257,12 +310,8 @@ public abstract class DataClayRuntime {
 	 *            ID of remote execution environment
 	 * @return Remote execution environment
 	 */
-	public final DataServiceAPI getRemoteExecutionEnvironmentForDS(final ExecutionEnvironmentID execLocationID) {
-		ExecutionEnvironment execEnv = this.execEnvironmentsCache.get(execLocationID);
-		if (execEnv == null) {
-			execEnv = this.logicModule.getExecutionEnvironmentForDS(execLocationID);
-			this.execEnvironmentsCache.put(execLocationID, execEnv);
-		}
+	public final DataServiceAPI getRemoteDSAPI(final ExecutionEnvironmentID execLocationID) {
+		ExecutionEnvironment execEnv = this.getExecutionEnvironmentInfo(execLocationID);
 		try {
 			return grpcClient.getDataServiceAPI(execEnv.getHostname(), execEnv.getPort());
 		} catch (final InterruptedException ex) {
@@ -272,21 +321,6 @@ public abstract class DataClayRuntime {
 		}
 	}
 
-	/**
-	 * Get ExecutionEnvironment information
-	 * 
-	 * @param execLocationID
-	 *            Execution location ID
-	 * @return Execution location information
-	 */
-	public final ExecutionEnvironment getExecutionEnvironmentInfo(final BackendID execLocationID) {
-		ExecutionEnvironment execEnvironment = this.execEnvironmentsCache.get(execLocationID);
-		if (execEnvironment == null) {
-			this.prepareExecuteLocations(); //update execute locations 
-			execEnvironment = this.execEnvironmentsCache.get(execLocationID);
-		}
-		return execEnvironment;
-	}
 
 	/**
 	 * Get external dataClay info
@@ -447,7 +481,17 @@ public abstract class DataClayRuntime {
 		return mdInfo;
 	}
 
-	// ================================================== //
+	/**
+	 * Remove metadata of object from cache
+	 *
+	 * @param objectID
+	 *            ID of the object
+	 */
+	public final void removeObjectMetadataFromCache(final ObjectID objectID) {
+		metaDataCache.remove(objectID);
+	}
+
+												// ================================================== //
 	// ================= FUNCTIONS ================== //
 	// ================================================== //
 
@@ -774,6 +818,7 @@ public abstract class DataClayRuntime {
 	 * 
 	 * @param objectID
 	 *            ID of the object
+	 * @param objectHint object hint
 	 * @param optDestBackendID
 	 *            ID of the backend in which to replicate the object (optional)
 	 * @param optDestHostname Hostname of the backend in which to replicate the object (optional)
@@ -783,15 +828,19 @@ public abstract class DataClayRuntime {
 	 * @return The ID of the backend in which the replica was created or NULL if some error is thrown.
 	 * 
 	 */
-	public final BackendID newReplica(final ObjectID objectID,
+	public final BackendID newReplica(final ObjectID objectID, final BackendID objectHint,
 									  final BackendID optDestBackendID, final String optDestHostname,
 									  final boolean registerMetaData,
 									  final boolean recursive) {
 		final SessionID sessionID = checkAndGetSession(new String[] { "ObjectID" }, new Object[] { objectID });
 
-
 		// Get an arbitrary object location
-		final BackendID execLocationID = getLocation(objectID);
+		BackendID execLocationID = objectHint;
+		if (objectHint == null) {
+			execLocationID = getLocation(objectID);
+		}
+		// Get language from origin location
+		Langs objectLanguage = this.getExecutionEnvironmentInfo(execLocationID).getLang();
 		final DataServiceAPI dsAPI = getRemoteExecutionEnvironment(execLocationID);
 
 		ExecutionEnvironmentID destBackendID = (ExecutionEnvironmentID) optDestBackendID;
@@ -799,21 +848,16 @@ public abstract class DataClayRuntime {
 		if (destBackendID == null) {
 			if (optDestHostname != null) {
 				// Get some execution environment in that host
-				if (this.execEnvironmentsCachePerHost.get(optDestHostname) == null) {
-					prepareExecuteLocations();
-				}
-				destBackend =
-						this.execEnvironmentsCachePerHost.get(optDestHostname).iterator().next();
+				destBackend = getAllExecutionEnvironmentsAtHost(objectLanguage,
+						optDestHostname).values().iterator().next();
 				destBackendID = destBackend.getDataClayID();
 			} else {
 				// no destination backend specified, get one randomly in which object is
 				// not registered
 				Set<BackendID> locations = this.getAllLocations(objectID);
 				// === RANDOM === //
-				if (execEnvironmentsCache.isEmpty()) {
-					prepareExecuteLocations();
-				}
-				for (Entry<ExecutionEnvironmentID, ExecutionEnvironment> eeEntry : execEnvironmentsCache.entrySet()) {
+				Map<ExecutionEnvironmentID, ExecutionEnvironment> backends = this.getAllExecutionEnvironmentsInfo(Langs.LANG_JAVA, false);
+				for (Entry<ExecutionEnvironmentID, ExecutionEnvironment> eeEntry : backends.entrySet()) {
 					ExecutionEnvironmentID eeID = eeEntry.getKey();
 					ExecutionEnvironment execEnv = eeEntry.getValue();
 					if (!locations.contains(eeID)) {
@@ -824,17 +868,15 @@ public abstract class DataClayRuntime {
 				}
 			}
 		} else {
-			if (this.execEnvironmentsCache.get(destBackendID) == null) {
-				prepareExecuteLocations();
-			}
-			destBackend = this.execEnvironmentsCache.get(destBackendID);
+			destBackend = getExecutionEnvironmentInfo(destBackendID);
 		}
 
-		dsAPI.newReplica(sessionID, objectID, destBackendID, false, recursive);
-
-		// update metadata of the object in cache
-		MetaDataInfo mdInfo = this.metaDataCache.get(objectID);
-		mdInfo.getLocations().put(destBackendID, destBackend);
+		Set<ObjectID> replicatedObjects = dsAPI.newReplica(sessionID, objectID, destBackendID, false, recursive);
+		for (ObjectID replicatedObjectID : replicatedObjects) {
+			// update metadata of the object in cache
+			MetaDataInfo mdInfo = getObjectMetadata(replicatedObjectID);
+			mdInfo.getLocations().put(destBackendID, destBackend);
+		}
 		return destBackendID;
 	}
 
@@ -893,7 +935,7 @@ public abstract class DataClayRuntime {
 		// registered yet).
 		List<RegistrationInfo> regInfos = new ArrayList<>();
 		regInfos.add(regInfo);
-		logicModule.registerObjects(regInfos, (ExecutionEnvironmentID) hint, null, Langs.LANG_JAVA);
+		logicModule.registerObjects(regInfos, (ExecutionEnvironmentID) hint, Langs.LANG_JAVA);
 
 		final List<ObjectID> movedObjs = logicModule.moveObject(sessionID, objectID,
 				(ExecutionEnvironmentID) srcBackendID, (ExecutionEnvironmentID) destBackendID, recursive);
@@ -931,7 +973,7 @@ public abstract class DataClayRuntime {
 		final SessionID sessionID = checkAndGetSession(new String[] { "ObjectID" }, new Object[] { objectID });
 		this.ensureObjectRegistered(sessionID, objectID, classID, hint);
 		logicModule.setObjectReadOnly(sessionID, objectID);
-		this.metaDataCache.remove(objectID);
+		getObjectMetadata(objectID).setIsReadOnly(true);
 	}
 
 	/**
@@ -948,7 +990,7 @@ public abstract class DataClayRuntime {
 		final SessionID sessionID = checkAndGetSession(new String[] { "ObjectID" }, new Object[] { objectID });
 		this.ensureObjectRegistered(sessionID, objectID, classID, hint);
 		logicModule.setObjectReadWrite(sessionID, objectID);
-		this.metaDataCache.remove(objectID);
+		getObjectMetadata(objectID).setIsReadOnly(true);
 	}
 
 	/**
@@ -992,7 +1034,7 @@ public abstract class DataClayRuntime {
 		try {
 			List<RegistrationInfo> regInfos = new ArrayList<>();
 			regInfos.add(regInfo);
-			logicModule.registerObjects(regInfos, (ExecutionEnvironmentID) hint, null, Langs.LANG_JAVA);
+			logicModule.registerObjects(regInfos, (ExecutionEnvironmentID) hint, Langs.LANG_JAVA);
 		} catch (Exception e) { 
 			//ignore
 		}
@@ -1025,7 +1067,7 @@ public abstract class DataClayRuntime {
 			return locationID;
 		} else {
 			// If the object is not initialized well trying to obtain location from metadata
-			final MetaDataInfo metadata = getObjectMetadata(objectID);
+			MetaDataInfo metadata = getObjectMetadata(objectID);
 			if (metadata == null) {
 				// no metadata available, throw exception
 				// NOTE: if it is a volatile and hint failed, it means that object is actually
@@ -1371,11 +1413,9 @@ public abstract class DataClayRuntime {
 					// If remote DS sends a DbObjectNotExists means that it might be possible that
 					// THIS DataService contains wrong information
 					// in its cache and must remove it and seek for new one.
-					metaDataCache.remove(dcObject.getObjectID());
-
 					LOGGER.debug("Execution failed in location " + execLocationID);
-
 					// PREFER NOT TRIED LOCATION (In case Backend failed and we have replicas)
+					removeObjectMetadataFromCache(dcObject.getObjectID());
 					final MetaDataInfo metadata = getObjectMetadata(dcObject.getObjectID());
 					if (metadata == null) {
 						// no metadata available, throw exception
@@ -1687,10 +1727,7 @@ public abstract class DataClayRuntime {
 		BackendID execLocationID = locID;
 		if (execLocationID == null) {
 			// === RANDOM === //
-			if (execEnvironmentsCache.isEmpty()) {
-				prepareExecuteLocations();
-			}
-			execLocationID = execLocationsPerHash.values().iterator().next();
+			execLocationID = this.getAllExecutionEnvironmentsInfo(Langs.LANG_JAVA, false).keySet().iterator().next();
 		}
 
 		// Serialize parameters
@@ -1904,8 +1941,7 @@ public abstract class DataClayRuntime {
 				// If remote DS sends a DbObjectNotExists means that it might be possible that
 				// THIS DataService contains wrong information
 				// in its cache and must remove it and seek for new one.
-				metaDataCache.remove(dcObject.getObjectID());
-
+				this.removeObjectMetadataFromCache(dcObject.getObjectID());
 				execLocationID = getLocation(dcObject.getObjectID());
 				// execLocationID = getExecutionEnvironmentLocation(dcObject.getObjectID());
 
@@ -2156,21 +2192,6 @@ public abstract class DataClayRuntime {
 		
 		
 		
-	}
-
-	/**
-	 * @return the metaDataCache
-	 */
-	public final LruCache<ObjectID, MetaDataInfo> getMetaDataCache() {
-		return metaDataCache;
-	}
-
-	/**
-	 * @param themetaDataCache
-	 *            the metaDataCache to set
-	 */
-	public final void setMetaDataCache(final LruCache<ObjectID, MetaDataInfo> themetaDataCache) {
-		this.metaDataCache = themetaDataCache;
 	}
 
 	/**

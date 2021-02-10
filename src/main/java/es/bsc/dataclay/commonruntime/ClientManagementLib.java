@@ -5,13 +5,8 @@ import java.io.FileInputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.rmi.RemoteException;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Properties;
-import java.util.Set;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -1752,23 +1747,20 @@ public final class ClientManagementLib {
 	/**
 	 * Method that retrieves the info of the execution environments of a specific
 	 * language
-	 * 
-	 * @param accountID
-	 *            ID of the account
-	 * @param credential
-	 *            credential of the account
+	 *
 	 * @param language
 	 *            language of the backends to be retrieved
+	 * @param forceUpdateCache Indicates cache of EEs must be updated
 	 * @return info of the of the execution environments of a specific language, indexed by their ID
 	 */
-	public static Map<ExecutionEnvironmentID, ExecutionEnvironment> getExecutionEnvironmentsInfo(final AccountID accountID,
-			final PasswordCredential credential, final Langs language) {
+	public static Map<ExecutionEnvironmentID, ExecutionEnvironment> getExecutionEnvironmentsInfo(final Langs language,
+																								 boolean forceUpdateCache) {
 		try {
 			if (language == null || language.equals(Langs.LANG_NONE)) {
 				LOGGER.error("A specific language must be provided");
 				return null;
 			}
-			return clientLib.getExecutionEnvironmentsInfo(language);
+			return clientLib.getAllExecutionEnvironmentsInfo(language, forceUpdateCache);
 		} catch (final Exception ex) {
 			LOGGER.warn("Error during getExecutionEnvironmentsInfo", ex);
 			return null;
@@ -1789,17 +1781,7 @@ public final class ClientManagementLib {
 	 */
 	public static Set<String> getBackendNames(final AccountID accountID, final PasswordCredential credential,
 			final Langs backendLanguage) {
-		clientLib.checkConnectionAndParams(new String[] { "AccountID", "Credential" },
-				new Object[] { accountID, credential });
-		Set<String> result = null;
-		try {
-			result = new HashSet<>();
-			result = clientLib.getLogicModuleAPI().getExecutionEnvironmentsNames(accountID, credential,
-					backendLanguage);
-		} catch (final Exception ex) {
-			LOGGER.warn("Error during getBackendNames", ex);
-		}
-		return result;
+		return clientLib.getAllBackendsNames(backendLanguage, true);
 	}
 
 	/**

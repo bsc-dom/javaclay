@@ -1,6 +1,7 @@
 package es.bsc.dataclay.commonruntime;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -222,12 +223,12 @@ public final class ClientRuntime extends DataClayRuntime {
 			// Serialize objects
 			dcObject.setMasterLocation(location);
 
-			final SerializedParametersOrReturn objectsToPersist = this.serializeMakePersistent(location, dcObject, null, recursive);
+			List<ObjectWithDataParamOrReturn> objectsToPersist = this.serializeMakePersistent(location, dcObject, null, recursive);
 
 			// Avoid some race-conditions in communication (make persistent + execute where
 			// execute arrives before).
-			for (final Entry<Integer, ObjectWithDataParamOrReturn> param : objectsToPersist.getVolatileObjs().entrySet()) {
-				super.volatileParametersBeingSend.add(param.getValue().getObjectID());
+			for (final ObjectWithDataParamOrReturn param : objectsToPersist) {
+				super.volatileParametersBeingSend.add(param.getObjectID());
 			}
 
 			// Call EE
@@ -236,8 +237,8 @@ public final class ClientRuntime extends DataClayRuntime {
 
 			// Avoid some race-conditions in communication (make persistent + execute where
 			// execute arrives before).
-			for (final Entry<Integer, ObjectWithDataParamOrReturn> param : objectsToPersist.getVolatileObjs().entrySet()) {
-				super.volatileParametersBeingSend.remove(param.getValue().getObjectID());
+			for (final ObjectWithDataParamOrReturn param : objectsToPersist) {
+				super.volatileParametersBeingSend.remove(param.getObjectID());
 			}
 			// =========================== //
 		}
@@ -258,9 +259,9 @@ public final class ClientRuntime extends DataClayRuntime {
 	 *            Indicates if sub-objects must be serialized also.
 	 * @return Serialized parameters
 	 */
-	public final SerializedParametersOrReturn serializeMakePersistent(final BackendID location,
-			final DataClayObject objectToPersist, final Map<MetaClassID, byte[]> ifaceBitMaps,
-			final boolean recursive) {
+	public final List<ObjectWithDataParamOrReturn> serializeMakePersistent(final BackendID location,
+																				 final DataClayObject objectToPersist, final Map<MetaClassID, byte[]> ifaceBitMaps,
+																				 final boolean recursive) {
 		if (DEBUG_ENABLED) {
 			LOGGER.debug("[==Serialization==] Serializing for make persistent.");
 		}
@@ -277,8 +278,8 @@ public final class ClientRuntime extends DataClayRuntime {
 			LOGGER.debug("[==Serialization==] Serialized " + serObject);
 		}
 
-		// client
-		return serObject;
+		//
+		return new ArrayList<>(serObject.getVolatileObjs().values());
 	}
 
 	@Override

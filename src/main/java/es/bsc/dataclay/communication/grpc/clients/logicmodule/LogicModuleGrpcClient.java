@@ -333,7 +333,7 @@ public final class LogicModuleGrpcClient implements LogicModuleAPI {
 				.autoregisterEE(req);
 		response = this.<AutoRegisterEERequest, AutoRegisterEEResponse>callLogicModule(request, f);
 		Utils.checkIsExc(response.getExcInfo());
-		return Utils.getID(response.getStorageLocationID());
+		return Utils.getStorageLocationID(response.getStorageLocationID());
 	}
 
 	@Override
@@ -408,7 +408,7 @@ public final class LogicModuleGrpcClient implements LogicModuleAPI {
 
 		response = this.<NewAccountNoAdminRequest, NewAccountResponse>callLogicModule(request, f);
 		Utils.checkIsExc(response.getExcInfo());
-		return Utils.getID(response.getNewAccountID());
+		return Utils.getAccountID(response.getNewAccountID());
 	}
 
 	/*
@@ -430,7 +430,7 @@ public final class LogicModuleGrpcClient implements LogicModuleAPI {
 
 		response = this.<NewAccountRequest, NewAccountResponse>callLogicModule(request, f);
 		Utils.checkIsExc(response.getExcInfo());
-		return Utils.getID(response.getNewAccountID());
+		return Utils.getAccountID(response.getNewAccountID());
 	}
 
 	/*
@@ -447,7 +447,7 @@ public final class LogicModuleGrpcClient implements LogicModuleAPI {
 		final Function<GetAccountIDRequest, GetAccountIDResponse> f = req -> getBlockingStub().getAccountID(req);
 		response = this.<GetAccountIDRequest, GetAccountIDResponse>callLogicModule(request, f);
 		Utils.checkIsExc(response.getExcInfo());
-		return Utils.getID(response.getNewAccountID());
+		return Utils.getAccountID(response.getNewAccountID());
 	}
 
 	/*
@@ -469,7 +469,7 @@ public final class LogicModuleGrpcClient implements LogicModuleAPI {
 
 		final Set<AccountID> result = new HashSet<>();
 		for (final String id : response.getAccountIDsList()) {
-			result.add(Utils.getAccountIDFromUUID(id));
+			result.add(Utils.getAccountID(id));
 		}
 
 		return result;
@@ -535,13 +535,13 @@ public final class LogicModuleGrpcClient implements LogicModuleAPI {
 		response = this.<GetInfoOfSessionForDSRequest, GetInfoOfSessionForDSResponse>callLogicModule(request, f);
 		Utils.checkIsExc(response.getExcInfo());
 
-		final DataSetID dsId = Utils.getID(response.getDataSetID());
+		final DataSetID dsId = Utils.getDataSetID(response.getDataSetID());
 		final Calendar calendar = Calendar.getInstance();
 		calendar.setTimeInMillis(response.getDate());
 		final Set<DataSetID> datasets = new HashSet<>();
-		for (final es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.DataSetID id : response
+		for (final String id : response
 				.getDataSetIDsList()) {
-			datasets.add(Utils.getID(id));
+			datasets.add(Utils.getDataSetID(id));
 		}
 
 		return new Tuple<>(new Tuple<>(dsId, datasets), calendar);
@@ -565,7 +565,7 @@ public final class LogicModuleGrpcClient implements LogicModuleAPI {
 		final Function<NewNamespaceRequest, NewNamespaceResponse> f = req -> getBlockingStub().newNamespace(req);
 		response = this.<NewNamespaceRequest, NewNamespaceResponse>callLogicModule(request, f);
 		Utils.checkIsExc(response.getExcInfo());
-		return Utils.getID(response.getNamespaceID());
+		return Utils.getNamespaceID(response.getNamespaceID());
 	}
 
 	/*
@@ -623,7 +623,7 @@ public final class LogicModuleGrpcClient implements LogicModuleAPI {
 		response = this.<GetNamespaceIDRequest, GetNamespaceIDResponse>callLogicModule(request, f);
 		Utils.checkIsExc(response.getExcInfo());
 
-		return Utils.getID(response.getNamespaceID());
+		return Utils.getNamespaceID(response.getNamespaceID());
 	}
 
 	/*
@@ -661,7 +661,7 @@ public final class LogicModuleGrpcClient implements LogicModuleAPI {
 				.getObjectDataSetID(req);
 		response = this.<GetObjectDataSetIDRequest, GetObjectDataSetIDResponse>callLogicModule(request, f);
 		Utils.checkIsExc(response.getExcInfo());
-		return Utils.getID(response.getDataSetID());
+		return Utils.getDataSetID(response.getDataSetID());
 	}
 
 	/*
@@ -721,7 +721,7 @@ public final class LogicModuleGrpcClient implements LogicModuleAPI {
 		final Function<NewDataSetRequest, NewDataSetResponse> f = req -> getBlockingStub().newDataSet(req);
 		response = this.<NewDataSetRequest, NewDataSetResponse>callLogicModule(request, f);
 		Utils.checkIsExc(response.getExcInfo());
-		return Utils.getID(response.getDataSetID());
+		return Utils.getDataSetID(response.getDataSetID());
 	}
 
 	/*
@@ -757,7 +757,7 @@ public final class LogicModuleGrpcClient implements LogicModuleAPI {
 		final Function<GetDataSetIDRequest, GetDataSetIDResponse> f = req -> getBlockingStub().getDataSetID(req);
 		response = this.<GetDataSetIDRequest, GetDataSetIDResponse>callLogicModule(request, f);
 		Utils.checkIsExc(response.getExcInfo());
-		return Utils.getID(response.getDataSetID());
+		return Utils.getDataSetID(response.getDataSetID());
 	}
 
 	/*
@@ -878,7 +878,7 @@ public final class LogicModuleGrpcClient implements LogicModuleAPI {
 		final Function<NewClassIDRequest, NewClassIDResponse> f = req -> getBlockingStub().newClassID(req);
 		response = this.<NewClassIDRequest, NewClassIDResponse>callLogicModule(request, f);
 		Utils.checkIsExc(response.getExcInfo());
-		return Utils.getID(response.getClassID());
+		return Utils.getMetaClassID(response.getClassID());
 	}
 
 	/*
@@ -960,7 +960,7 @@ public final class LogicModuleGrpcClient implements LogicModuleAPI {
 		final Function<GetOperationIDRequest, GetOperationIDResponse> f = req -> getBlockingStub().getOperationID(req);
 		response = this.<GetOperationIDRequest, GetOperationIDResponse>callLogicModule(request, f);
 		Utils.checkIsExc(response.getExcInfo());
-		return Utils.getID(response.getOperationID());
+		return Utils.getOperationID(response.getOperationID());
 	}
 
 	/*
@@ -980,7 +980,7 @@ public final class LogicModuleGrpcClient implements LogicModuleAPI {
 		final Function<GetPropertyIDRequest, GetPropertyIDResponse> f = req -> getBlockingStub().getPropertyID(req);
 		response = this.<GetPropertyIDRequest, GetPropertyIDResponse>callLogicModule(request, f);
 		Utils.checkIsExc(response.getExcInfo());
-		return Utils.getID(response.getPropertyID());
+		return Utils.getPropertyID(response.getPropertyID());
 	}
 
 	/*
@@ -1000,7 +1000,7 @@ public final class LogicModuleGrpcClient implements LogicModuleAPI {
 		final Function<GetClassIDRequest, GetClassIDResponse> f = req -> getBlockingStub().getClassID(req);
 		response = this.<GetClassIDRequest, GetClassIDResponse>callLogicModule(request, f);
 		Utils.checkIsExc(response.getExcInfo());
-		return Utils.getID(response.getClassID());
+		return Utils.getMetaClassID(response.getClassID());
 	}
 
 	/*
@@ -1047,7 +1047,7 @@ public final class LogicModuleGrpcClient implements LogicModuleAPI {
 		final Map<MetaClassID, MetaClass> result = new HashMap<>();
 		for (final Entry<String, String> entry : response.getClassesInfoMap().entrySet()) {
 			final MetaClass clazz = (MetaClass) CommonYAML.getYamlObject().load(entry.getValue());
-			result.put(Utils.getMetaClassIDFromUUID(entry.getKey()), clazz);
+			result.put(Utils.getMetaClassID(entry.getKey()), clazz);
 		}
 		return result;
 	}
@@ -1070,7 +1070,7 @@ public final class LogicModuleGrpcClient implements LogicModuleAPI {
 		final Function<NewContractRequest, NewContractResponse> f = req -> getBlockingStub().newContract(req);
 		response = this.<NewContractRequest, NewContractResponse>callLogicModule(request, f);
 		Utils.checkIsExc(response.getExcInfo());
-		return Utils.getID(response.getContractID());
+		return Utils.getContractID(response.getContractID());
 	}
 
 	/*
@@ -1115,7 +1115,7 @@ public final class LogicModuleGrpcClient implements LogicModuleAPI {
 				.<RegisterToPublicContractOfNamespaceRequest, RegisterToPublicContractOfNamespaceResponse>callLogicModule(
 						request, f);
 		Utils.checkIsExc(response.getExcInfo());
-		return Utils.getID(response.getContractID());
+		return Utils.getContractID(response.getContractID());
 	}
 
 	/*
@@ -1139,7 +1139,7 @@ public final class LogicModuleGrpcClient implements LogicModuleAPI {
 
 		final Map<ContractID, Contract> result = new HashMap<>();
 		for (final Entry<String, String> entry : response.getContractsMap().entrySet()) {
-			result.put(Utils.getContractIDFromUUID(entry.getKey()),
+			result.put(Utils.getContractID(entry.getKey()),
 					(Contract) CommonYAML.getYamlObject().load(entry.getValue()));
 		}
 		return result;
@@ -1167,7 +1167,7 @@ public final class LogicModuleGrpcClient implements LogicModuleAPI {
 
 		final Map<ContractID, Contract> result = new HashMap<>();
 		for (final Entry<String, String> entry : response.getContractsMap().entrySet()) {
-			result.put(Utils.getContractIDFromUUID(entry.getKey()),
+			result.put(Utils.getContractID(entry.getKey()),
 					(Contract) CommonYAML.getYamlObject().load(entry.getValue()));
 		}
 		return result;
@@ -1196,7 +1196,7 @@ public final class LogicModuleGrpcClient implements LogicModuleAPI {
 
 		final Map<ContractID, Contract> result = new HashMap<>();
 		for (final Entry<String, String> entry : response.getContractsMap().entrySet()) {
-			result.put(Utils.getContractIDFromUUID(entry.getKey()),
+			result.put(Utils.getContractID(entry.getKey()),
 					(Contract) CommonYAML.getYamlObject().load(entry.getValue()));
 		}
 		return result;
@@ -1222,7 +1222,7 @@ public final class LogicModuleGrpcClient implements LogicModuleAPI {
 				.newDataContract(req);
 		response = this.<NewDataContractRequest, NewDataContractResponse>callLogicModule(request, f);
 		Utils.checkIsExc(response.getExcInfo());
-		return Utils.getID(response.getDataContractID());
+		return Utils.getDataContractID(response.getDataContractID());
 	}
 
 	/*
@@ -1267,7 +1267,7 @@ public final class LogicModuleGrpcClient implements LogicModuleAPI {
 
 		final Map<DataContractID, DataContract> result = new HashMap<>();
 		for (final Entry<String, String> entry : response.getDatacontractsMap().entrySet()) {
-			result.put(Utils.getDataContractIDFromUUID(entry.getKey()),
+			result.put(Utils.getDataContractID(entry.getKey()),
 					(DataContract) CommonYAML.getYamlObject().load(entry.getValue()));
 		}
 		return result;
@@ -1295,7 +1295,7 @@ public final class LogicModuleGrpcClient implements LogicModuleAPI {
 
 		final Map<DataContractID, DataContract> result = new HashMap<>();
 		for (final Entry<String, String> entry : response.getDatacontractsMap().entrySet()) {
-			result.put(Utils.getDataContractIDFromUUID(entry.getKey()),
+			result.put(Utils.getDataContractID(entry.getKey()),
 					(DataContract) CommonYAML.getYamlObject().load(entry.getValue()));
 		}
 		return result;
@@ -1346,7 +1346,7 @@ public final class LogicModuleGrpcClient implements LogicModuleAPI {
 		final Function<NewInterfaceRequest, NewInterfaceResponse> f = req -> getBlockingStub().newInterface(req);
 		response = this.<NewInterfaceRequest, NewInterfaceResponse>callLogicModule(request, f);
 		Utils.checkIsExc(response.getExcInfo());
-		return Utils.getID(response.getInterfaceID());
+		return Utils.getInterfaceID(response.getInterfaceID());
 	}
 
 	/*
@@ -1399,13 +1399,13 @@ public final class LogicModuleGrpcClient implements LogicModuleAPI {
 	 * StorageLocationID)
 	 */
 	@Override
-	public StorageLocation getStorageLocationForDS(final StorageLocationID backendID) {
-		final GetStorageLocationForDSRequest request = GetStorageLocationForDSRequest.newBuilder()
+	public StorageLocation getStorageLocationInfo(final StorageLocationID backendID) {
+		final GetStorageLocationInfoRequest request = GetStorageLocationInfoRequest.newBuilder()
 				.setStorageLocationID(Utils.getMsgID(backendID)).build();
-		final GetStorageLocationForDSResponse response;
-		final Function<GetStorageLocationForDSRequest, GetStorageLocationForDSResponse> f = req -> getBlockingStub()
-				.getStorageLocationForDS(req);
-		response = this.<GetStorageLocationForDSRequest, GetStorageLocationForDSResponse>callLogicModule(request, f);
+		final GetStorageLocationInfoResponse response;
+		final Function<GetStorageLocationInfoRequest, GetStorageLocationInfoResponse> f = req -> getBlockingStub()
+				.getStorageLocationInfo(req);
+		response = this.<GetStorageLocationInfoRequest, GetStorageLocationInfoResponse>callLogicModule(request, f);
 		Utils.checkIsExc(response.getExcInfo());
 		return (StorageLocation) CommonYAML.getYamlObject().load(response.getStorageLocationYaml());
 	}
@@ -1417,14 +1417,14 @@ public final class LogicModuleGrpcClient implements LogicModuleAPI {
 	 * ExecutionEnvironmentID)
 	 */
 	@Override
-	public ExecutionEnvironment getExecutionEnvironmentForDS(final ExecutionEnvironmentID backendID) {
-		final GetExecutionEnvironmentForDSRequest request = GetExecutionEnvironmentForDSRequest.newBuilder()
+	public ExecutionEnvironment getExecutionEnvironmentInfo(final ExecutionEnvironmentID backendID) {
+		final GetExecutionEnvironmentInfoRequest request = GetExecutionEnvironmentInfoRequest.newBuilder()
 				.setExecEnvID(Utils.getMsgID(backendID)).build();
-		final GetExecutionEnvironmentForDSResponse response;
-		final Function<GetExecutionEnvironmentForDSRequest, GetExecutionEnvironmentForDSResponse> f = req -> getBlockingStub()
-				.getExecutionEnvironmentForDS(req);
+		final GetExecutionEnvironmentInfoResponse response;
+		final Function<GetExecutionEnvironmentInfoRequest, GetExecutionEnvironmentInfoResponse> f = req -> getBlockingStub()
+				.getExecutionEnvironmentInfo(req);
 		response = this
-				.<GetExecutionEnvironmentForDSRequest, GetExecutionEnvironmentForDSResponse>callLogicModule(request, f);
+				.<GetExecutionEnvironmentInfoRequest, GetExecutionEnvironmentInfoResponse>callLogicModule(request, f);
 		Utils.checkIsExc(response.getExcInfo());
 		return (ExecutionEnvironment) CommonYAML.getYamlObject().load(response.getExecEnvYaml());
 	}
@@ -1440,7 +1440,7 @@ public final class LogicModuleGrpcClient implements LogicModuleAPI {
 		final Function<EmptyMessage, GetDataClayIDResponse> f = req -> getBlockingStub().getDataClayID(req);
 		response = this.<EmptyMessage, GetDataClayIDResponse>callLogicModule(EmptyMessage.newBuilder().build(), f);
 		Utils.checkIsExc(response.getExcInfo());
-		return Utils.getID(response.getDataClayID());
+		return Utils.getDataClayInstanceID(response.getDataClayID());
 	}
 
 	/*
@@ -1470,7 +1470,7 @@ public final class LogicModuleGrpcClient implements LogicModuleAPI {
 				.getExternalDataclayId(req);
 		response = this.<GetExternalDataclayIDRequest, GetExternalDataclayIDResponse>callLogicModule(request, f);
 		Utils.checkIsExc(response.getExcInfo());
-		return Utils.getID(response.getExtDataClayID());
+		return Utils.getDataClayInstanceID(response.getExtDataClayID());
 	}
 
 	/*
@@ -1488,7 +1488,7 @@ public final class LogicModuleGrpcClient implements LogicModuleAPI {
 				.registerExternalDataClay(req);
 		response = this.<RegisterExternalDataClayRequest, RegisterExternalDataClayResponse>callLogicModule(request, f);
 		Utils.checkIsExc(response.getExcInfo());
-		return Utils.getID(response.getExtDataClayID());
+		return Utils.getDataClayInstanceID(response.getExtDataClayID());
 	}
 
 	@Override
@@ -1502,7 +1502,7 @@ public final class LogicModuleGrpcClient implements LogicModuleAPI {
 				.registerExternalDataClayOverrideAuthority(req);
 		response = this.<RegisterExternalDataClayOverrideAuthorityRequest, RegisterExternalDataClayResponse>callLogicModule(request, f);
 		Utils.checkIsExc(response.getExcInfo());
-		return Utils.getID(response.getExtDataClayID());
+		return Utils.getDataClayInstanceID(response.getExtDataClayID());
 	}
 	
 	@Override
@@ -1518,7 +1518,7 @@ public final class LogicModuleGrpcClient implements LogicModuleAPI {
 				.<NotifyRegistrationOfExternalDataClayRequest, NotifyRegistrationOfExternalDataClayResponse>callLogicModule(
 						request, f);
 		Utils.checkIsExc(response.getExcInfo());
-		return Utils.getID(response.getExtDataClayID());
+		return Utils.getDataClayInstanceID(response.getExtDataClayID());
 	}
 
 	@Override
@@ -1680,8 +1680,8 @@ public final class LogicModuleGrpcClient implements LogicModuleAPI {
 		response = this.<GetDataClaysObjectIsFederatedWithRequest, GetDataClaysObjectIsFederatedWithResponse>callLogicModule(request, f);
 		Utils.checkIsExc(response.getExcInfo());
 		final Set<DataClayInstanceID> result = new HashSet<>();
-		for (final  es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.DataClayInstanceID curInstanceID : response.getExtDataClayIDsList()) {
-			result.add(Utils.getID(curInstanceID));
+		for (final String curInstanceID : response.getExtDataClayIDsList()) {
+			result.add(Utils.getDataClayInstanceID(curInstanceID));
 		}
 		return result;
 	}
@@ -1695,7 +1695,7 @@ public final class LogicModuleGrpcClient implements LogicModuleAPI {
 				.getExternalSourceDataClayOfObject(req);
 		response = this.<GetExternalSourceDataClayOfObjectRequest, GetExternalSourceDataClayOfObjectResponse>callLogicModule(request, f);
 		Utils.checkIsExc(response.getExcInfo());
-		return Utils.getID(response.getExtDataClayID());
+		return Utils.getDataClayInstanceID(response.getExtDataClayID());
 	}
 
 	@Override
@@ -1741,8 +1741,8 @@ public final class LogicModuleGrpcClient implements LogicModuleAPI {
 	}
 
 	@Override
-	public ObjectID registerObject(final RegistrationInfo regInfo, final ExecutionEnvironmentID backendID,
-			final String alias, final Langs lang) {
+	public List<ObjectID> registerObjects(final List<RegistrationInfo> regInfos, final ExecutionEnvironmentID backendID,
+			final Langs lang) {
 
 		final RegisterObjectRequest.Builder builder = RegisterObjectRequest.newBuilder();
 
@@ -1766,7 +1766,7 @@ public final class LogicModuleGrpcClient implements LogicModuleAPI {
 		response = this.<RegisterObjectRequest, RegisterObjectResponse>callLogicModule(request, f);
 		Utils.checkIsExc(response.getExcInfo());
 
-		return Utils.getID(response.getObjectID());
+		return Utils.getObjectID(response.getObjectID());
 	}
 
 	@Override
@@ -1802,49 +1802,21 @@ public final class LogicModuleGrpcClient implements LogicModuleAPI {
 	 * AccountID, dataClay.util.management.accountmgr.Credential)
 	 */
 	@Override
-	public Map<ExecutionEnvironmentID, ExecutionEnvironment> getExecutionEnvironmentsInfo(final SessionID sessionID,
-			final Langs execEnvLang, final boolean fromClient) {
-		final GetExecutionEnvironmentsInfoRequest request = GetExecutionEnvironmentsInfoRequest.newBuilder()
-				.setSessionID(Utils.getMsgID(sessionID)).setExecEnvLang(execEnvLang)
-				.setFromClient(fromClient).build();
-		final GetExecutionEnvironmentsInfoResponse response;
-		final Function<GetExecutionEnvironmentsInfoRequest, GetExecutionEnvironmentsInfoResponse> f = req -> getBlockingStub()
-				.getExecutionEnvironmentsInfo(req);
+	public Map<ExecutionEnvironmentID, ExecutionEnvironment> getAllExecutionEnvironmentsInfo(
+			final Langs execEnvLang) {
+		final GetAllExecutionEnvironmentsInfoRequest request = GetAllExecutionEnvironmentsInfoRequest.newBuilder()
+				.setExecEnvLang(execEnvLang).build();
+		final GetAllExecutionEnvironmentsInfoResponse response;
+		final Function<GetAllExecutionEnvironmentsInfoRequest, GetAllExecutionEnvironmentsInfoResponse> f = req -> getBlockingStub()
+				.getAllExecutionEnvironmentsInfo(req);
 		response = this
-				.<GetExecutionEnvironmentsInfoRequest, GetExecutionEnvironmentsInfoResponse>callLogicModule(request, f);
+				.<GetAllExecutionEnvironmentsInfoRequest, GetAllExecutionEnvironmentsInfoResponse>callLogicModule(request, f);
 		Utils.checkIsExc(response.getExcInfo());
 
 		final Map<ExecutionEnvironmentID, ExecutionEnvironment> result = new HashMap<>();
 		for (final Entry<String, String> entry : response.getExecEnvsMap().entrySet()) {
-			result.put(Utils.getExecutionEnvironmentIDFromUUID(entry.getKey()),
+			result.put(Utils.getExecutionEnvironmentID(entry.getKey()),
 					(ExecutionEnvironment) CommonYAML.getYamlObject().load(entry.getValue()));
-		}
-		return result;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * logic.api.LogicModuleAPI#getExecutionEnvironmentsNames(dataClay.util.ids.
-	 * AccountID, dataClay.util.management.accountmgr.Credential)
-	 */
-	@Override
-	public Set<String> getExecutionEnvironmentsNames(final AccountID accountID, final PasswordCredential credential,
-			final Langs execEnvLang) {
-		final GetExecutionEnvironmentsNamesRequest request = GetExecutionEnvironmentsNamesRequest.newBuilder()
-				.setAccountID(Utils.getMsgID(accountID)).setCredential(Utils.getCredential(credential))
-				.setExecEnvLang(execEnvLang).build();
-		final GetExecutionEnvironmentsNamesResponse response;
-		final Function<GetExecutionEnvironmentsNamesRequest, GetExecutionEnvironmentsNamesResponse> f = req -> getBlockingStub()
-				.getExecutionEnvironmentsNames(req);
-		response = this.<GetExecutionEnvironmentsNamesRequest, GetExecutionEnvironmentsNamesResponse>callLogicModule(
-				request, f);
-		Utils.checkIsExc(response.getExcInfo());
-
-		final Set<String> result = new HashSet<>();
-		for (final String id : response.getExecEnvsList()) {
-			result.add(id);
 		}
 		return result;
 	}
@@ -1901,8 +1873,8 @@ public final class LogicModuleGrpcClient implements LogicModuleAPI {
 				.getObjectFromAlias(req);
 		response = this.<GetObjectFromAliasRequest, GetObjectFromAliasResponse>callLogicModule(request, f);
 		Utils.checkIsExc(response.getExcInfo());
-		return new Triple<>(Utils.getID(response.getObjectID()), Utils.getID(response.getClassID()),
-				Utils.getID(response.getHint()));
+		return new Triple<>(Utils.getObjectID(response.getObjectID()), Utils.getMetaClassID(response.getClassID()),
+				Utils.getExecutionEnvironmentID(response.getHint()));
 	}
 
 	/*
@@ -1942,7 +1914,7 @@ public final class LogicModuleGrpcClient implements LogicModuleAPI {
 		Utils.checkIsExc(response.getExcInfo());
 		final HashMap<ObjectID, MetaDataInfo> result = new HashMap<>();
 		for (final Entry<String, String> entry : response.getMdataInfoMap().entrySet()) {
-			result.put(Utils.getObjectIDFromUUID(entry.getKey()),
+			result.put(Utils.getObjectID(entry.getKey()),
 					(MetaDataInfo) CommonYAML.getYamlObject().load(entry.getValue()));
 		}
 		return result;
@@ -2003,7 +1975,7 @@ public final class LogicModuleGrpcClient implements LogicModuleAPI {
 		response = this.<NewReplicaRequest, NewReplicaResponse>callLogicModule(request, f);
 		Utils.checkIsExc(response.getExcInfo());
 
-		return Utils.getID(response.getDestBackendID());
+		return Utils.getExecutionEnvironmentID(response.getDestBackendID());
 	}
 
 	/*
@@ -2026,9 +1998,9 @@ public final class LogicModuleGrpcClient implements LogicModuleAPI {
 		Utils.checkIsExc(response.getExcInfo());
 
 		final List<ObjectID> result = new ArrayList<>();
-		for (final es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID curObjID : response
+		for (final String curObjID : response
 				.getObjectIDsList()) {
-			result.add(Utils.getID(curObjID));
+			result.add(Utils.getObjectID(curObjID));
 		}
 		return result;
 
@@ -2445,7 +2417,7 @@ public final class LogicModuleGrpcClient implements LogicModuleAPI {
 				.<GetContractIDOfDataClayProviderRequest, GetContractIDOfDataClayProviderResponse>callLogicModule(
 						request, f);
 		Utils.checkIsExc(response.getExcInfo());
-		return Utils.getID(response.getContractID());
+		return Utils.getContractID(response.getContractID());
 	}
 
 	/**
@@ -2531,7 +2503,7 @@ public final class LogicModuleGrpcClient implements LogicModuleAPI {
 		response = this.<GetStorageLocationIDRequest, GetStorageLocationIDResponse>callLogicModule(
 				request, f);
 		Utils.checkIsExc(response.getExcInfo());
-		return Utils.getID(response.getStorageLocationID());
+		return Utils.getStorageLocationID(response.getStorageLocationID());
 	}
 
 	@Override

@@ -94,8 +94,6 @@ public final class StorageItf {
 		// TODO preserveSource is currently ignored, but we could take advantage of it (jmarti 15-09-2017)
 		try {
 			ClientRuntime commonLib = DataClay.getCommonLib();
-			final Map<BackendID, Backend> backendsByID = DataClay.getBackends();
-			Map<BackendID, Backend> backendsByIDMatchLang = null;
 			// Check object language to select destination backends
 
 			final Triple<ObjectID, BackendID, MetaClassID> ids = DataClay.string2IDandHintID(objectIDstr);

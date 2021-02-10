@@ -641,7 +641,7 @@ public final class DataClayDiskGC {
 					LOGGER.debug("[==GGC notifier==] Notifying references to " + nodeID);
 				}
 				try {
-					final DataServiceAPI dsAPI = runtime.getRemoteExecutionEnvironmentForDS((ExecutionEnvironmentID) nodeID);
+					final DataServiceAPI dsAPI = runtime.getRemoteDSAPI((ExecutionEnvironmentID) nodeID);
 					final Map<ObjectID, Integer> referenceCounting = new HashMap<>();
 					for (final Entry<ObjectID, AtomicInteger> curCounting : countingsPerNode.getValue().entrySet()) {
 						final AtomicInteger atomicCounting = curCounting.getValue();
@@ -704,7 +704,7 @@ public final class DataClayDiskGC {
 				// get information from EE to check if candidates are in memory, used by some session or have alias
 
 				for (final ExecutionEnvironmentID associatedExecutionEnvironmentID : this.storageLocation.getAssociateExecutionEnvironments()) {
-					final DataServiceAPI dsAPI = runtime.getRemoteExecutionEnvironmentForDS(associatedExecutionEnvironmentID);
+					final DataServiceAPI dsAPI = runtime.getRemoteDSAPI(associatedExecutionEnvironmentID);
 					referencedObjectsByEE.addAll(dsAPI.getRetainedReferences());
 				}
 				// NOTE: do not add it to SL counters, just check it! EE is going to send what it has, not delta (-1 to session,

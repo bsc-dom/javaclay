@@ -3665,58 +3665,17 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
 
 
     @Override
-    public Map<ExecutionEnvironmentID, ExecutionEnvironment> getExecutionEnvironmentsInfo(final SessionID sessionID,
-                                                                                          final Langs execEnvLang, final boolean fromClient) {
-        // Check session exists
-        if (Configuration.Flags.CHECK_SESSION.getBooleanValue()) {
-            getSessionInfo(sessionID);
-        }
-        final Map<ExecutionEnvironmentID, ExecutionEnvironment> execEnvs = metaDataSrvApi
-                .getAllExecutionEnvironmentsInfo(execEnvLang);
-        if (fromClient && exposedIPForClient != null) {
-            // All information send to client will use exposed IP configured
-            for (final Entry<ExecutionEnvironmentID, ExecutionEnvironment> ee : execEnvs.entrySet()) {
-                ee.getValue().setHostname(exposedIPForClient);
-            }
-        }
-        if (DEBUG_ENABLED) {
-            LOGGER.debug("Got execution environments: " + execEnvs);
-        }
-        return execEnvs;
+    public Map<ExecutionEnvironmentID, ExecutionEnvironment> getAllExecutionEnvironmentsInfo(final Langs execEnvLang) {
+        return metaDataSrvApi.getAllExecutionEnvironmentsInfo(execEnvLang);
     }
 
-	@Override
-	public Set<String> getExecutionEnvironmentsNames(final AccountID accountID, final PasswordCredential credential,
-			final Langs execEnvLang) {
-
-		LOGGER.debug("==> Getting execution environment names of language " + execEnvLang);
-
-		// Validate account
-		if (!accountMgrApi.validateAccount(accountID, credential)) {
-			throw new DataClayRuntimeException(ERRORCODE.INVALID_CREDENTIALS);
-		}
-		final Set<String> result = new HashSet<>();
-		final Map<ExecutionEnvironmentID, ExecutionEnvironment> execEnvs = metaDataSrvApi
-				.getAllExecutionEnvironmentsInfo(execEnvLang);
-		if (execEnvs != null) {
-			for (final ExecutionEnvironment ee : execEnvs.values()) {
-				result.add(ee.getName() + "," + ee.getHostname() + ":" + ee.getPort());
-			}
-		}
-		LOGGER.debug("<== Finished getting execution environment names with result: " + result);
-
-		return result;
-	}
-
-    // ============== Metadata Service ==============//
-
     @Override
-    public StorageLocation getStorageLocationForDS(final StorageLocationID backendID) {
+    public StorageLocation getStorageLocationInfo(final StorageLocationID backendID) {
         return metaDataSrvApi.getStorageLocationInfo(backendID);
     }
 
     @Override
-    public ExecutionEnvironment getExecutionEnvironmentForDS(final ExecutionEnvironmentID backendID) {
+    public ExecutionEnvironment getExecutionEnvironmentInfo(final ExecutionEnvironmentID backendID) {
         return metaDataSrvApi.getExecutionEnvironmentInfo(backendID);
     }
 
@@ -4326,7 +4285,7 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
                 }
 
                 // === SEND OBJECTS ===
-                dsAPI.federate(LogicModule.federationSessionID, new SerializedParametersOrReturn(federatedObjects));
+                dsAPI.federate(LogicModule.federationSessionID, federatedObjects);
             }
 
             // Notify alias and federation reference references

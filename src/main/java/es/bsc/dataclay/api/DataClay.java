@@ -98,16 +98,6 @@ public final class DataClay {
 	 * THREADS CREATED IN CLIENT TO USE THE COMMONLIB. Check design.
 	 */
 	public static ClientRuntime commonLib;
-	/** Backends by name. */
-	private static Map<String, Set<BackendID>> pyBackendsByName;
-	private static Map<String, Set<BackendID>> jBackendsByName;
-	/** Execution Environments by hostname. */
-	private static Map<String, Set<BackendID>> pyBackendsByHostname;
-	private static Map<String, Set<BackendID>> jBackendsByHostname;
-	/** Backends by ID. */
-	private static ConcurrentHashMap<BackendID, Backend> backendsByID;
-	private static ConcurrentHashMap<BackendID, Backend> jBackendsByID;
-	private static ConcurrentHashMap<BackendID, Backend> pyBackendsByID;
 
 	/** LOCAL BackendID */
 	public static BackendID jLOCAL;
@@ -328,17 +318,15 @@ public final class DataClay {
 
 				sessionID = ClientManagementLib.newSession(accountID, credential, contracts, dataSets, dataSetForStore);
 			}
-
-			// Init all backend structures
-			initBackendsInternalInfo(accountID, credential);
-
 			// Init commonLib
 			commonLib = ClientManagementLib.getDataClayClientLib();
 
 			// Init local backend if needed
 			final String localBackendName = prop.getProperty(LOCAL_BACKEND);
 			if (localBackendName != null) {
-				Set<BackendID> localBackends = jBackendsByName.get(localBackendName);
+
+				Set<BackendID> localBackends = commonLib.getBackendsWithName(Langs.LANG_JAVA,
+						localBackendName);
 				if (localBackends != null && !localBackends.isEmpty()) {
 					BackendID bkID = null;
 					// Get first backend ID, which is an almost random policy
@@ -346,12 +334,12 @@ public final class DataClay {
 						bkID = aBkID;
 						break;
 					}
-
 					commonLib.setLocalBackend(bkID);
 					jLOCAL = bkID;
 				}
 
-				localBackends = pyBackendsByName.get(localBackendName);
+				localBackends = commonLib.getBackendsWithName(Langs.LANG_PYTHON,
+						localBackendName);
 				if (localBackends != null && !localBackends.isEmpty()) {
 					BackendID bkID = null;
 					// Get first backend ID, which is an almost random policy
@@ -367,8 +355,6 @@ public final class DataClay {
 
 			LOGGER.info("Session: {}", sessionID);
 			LOGGER.info("dataClay ID: {}", commonLib.getDataClayID());
-			LOGGER.info("Backends: {}", getJBackendsByName());
-			LOGGER.info("Python Backends: {}", getPyBackendsByName());
 			if (localBackendName != null) {
 				LOGGER.info("Default {} backend: {}", LOCALTOKEN, localBackendName);
 			}
@@ -437,90 +423,6 @@ public final class DataClay {
 	}
 
 	/**
-	 * This method initializes the structures containing backend info (st loc and
-	 * exec env) present in any hostname.
-	 *
-	 * @throws DataClayException
-	 *             if an exception occurs
-	 */
-	private static void initBackendsInternalInfo(final AccountID accountID, final PasswordCredential credential)
-			throws DataClayException {
-		try {
-			backendsByID = new ConcurrentHashMap<>();
-
-			jBackendsByName = new ConcurrentHashMap<>();
-			jBackendsByHostname = new ConcurrentHashMap<>();
-
-			jBackendsByID = new ConcurrentHashMap<>(
-					ClientManagementLib.getExecutionEnvironmentsInfo(accountID, credential, Langs.LANG_JAVA));
-
-			backendsByID.putAll(jBackendsByID);
-
-			for (final Backend backend : jBackendsByID.values()) {
-				final BackendID bkID = backend.getDataClayID();
-
-				final String hostname = backend.getHostname();
-				final String name = backend.getName();
-
-				Set<BackendID> setExecEnvsPerHostname = jBackendsByHostname.get(hostname);
-				Set<BackendID> setExecEnvsPerName = jBackendsByName.get(name);
-
-				if (setExecEnvsPerHostname == null) {
-					setExecEnvsPerHostname = new HashSet<>();
-					jBackendsByHostname.put(hostname, setExecEnvsPerHostname);
-				}
-
-				if (setExecEnvsPerName == null) {
-					setExecEnvsPerName = new HashSet<>();
-					jBackendsByName.put(hostname, setExecEnvsPerName);
-				}
-
-				setExecEnvsPerHostname.add(bkID);
-				setExecEnvsPerName.add(bkID);
-			}
-
-			LOGGER.info("Java Backends: {}", jBackendsByID);
-
-			pyBackendsByName = new ConcurrentHashMap<>();
-			pyBackendsByHostname = new ConcurrentHashMap<>();
-
-			pyBackendsByID = new ConcurrentHashMap<>(
-					ClientManagementLib.getExecutionEnvironmentsInfo(accountID, credential, Langs.LANG_PYTHON));
-
-			backendsByID.putAll(pyBackendsByID);
-
-			for (final Backend backend : pyBackendsByID.values()) {
-				final BackendID bkID = backend.getDataClayID();
-
-				final String hostname = backend.getHostname();
-				final String name = backend.getName();
-
-				Set<BackendID> setExecEnvsPerHostname = pyBackendsByHostname.get(hostname);
-				Set<BackendID> setExecEnvsPerName = pyBackendsByName.get(name);
-
-				if (setExecEnvsPerHostname == null) {
-					setExecEnvsPerHostname = new HashSet<>();
-					pyBackendsByHostname.put(hostname, setExecEnvsPerHostname);
-				}
-
-				if (setExecEnvsPerName == null) {
-					setExecEnvsPerName = new HashSet<>();
-					pyBackendsByName.put(hostname, setExecEnvsPerName);
-				}
-
-				setExecEnvsPerHostname.add(bkID);
-				setExecEnvsPerName.add(bkID);
-			}
-
-			LOGGER.info("Python Backends: {}", pyBackendsByID);
-
-		} catch (final Exception ex) {
-			LOGGER.debug("Backend initialization error", ex);
-			throw new DataClayException(ex);
-		}
-	}
-
-	/**
 	 * If the object is accessible, initializes an instance of a stub with the given
 	 * objectID.
 	 *
@@ -571,7 +473,7 @@ public final class DataClay {
 				throw new DataClayException("ERROR in getLocation: Null or empty object string : " + objectIDstr);
 			}
 			final Triple<ObjectID, BackendID, MetaClassID> objectData = string2IDandHintID(objectIDstr);
-			return backendsByID.get(objectData.getSecond()).getHostname();
+			return commonLib.getExecutionEnvironmentInfo(objectData.getSecond()).getHostname();
 		} catch (final DataClayException e) {
 			throw e;
 		} catch (final Exception ex) {
@@ -610,11 +512,11 @@ public final class DataClay {
 				if (DEBUG_ENABLED) {
 					LOGGER.debug("No locations for object {}, assuming volatile and returning hint {}", objectID, hint);
 				}
-				return Arrays.asList(backendsByID.get(hint).getHostname());
+				return Arrays.asList(commonLib.getExecutionEnvironmentInfo(hint).getHostname());
 			}
 			final LinkedList<String> result = new LinkedList<>();
 			for (final BackendID location : currentLocations) {
-				result.add(backendsByID.get(location).getHostname());
+				result.add(commonLib.getExecutionEnvironmentInfo(location).getHostname());
 			}
 			return result;
 		} catch (final DataClayException e) {
@@ -658,7 +560,7 @@ public final class DataClay {
 			final MetaClassID classID = ids.getThird();
 			final Set<BackendID> currentBackends = commonLib.getAllLocations(objectID);
 			final BackendID oneBK = currentBackends.iterator().next();
-			final Langs lang = backendsByID.get(oneBK).getLang();
+			final Langs lang = commonLib.getExecutionEnvironmentInfo(oneBK).getLang();
 
 			// Select backend for the provided src host
 			BackendID srcLocID = null;
@@ -668,14 +570,14 @@ public final class DataClay {
 					if (LOCALTOKEN.equals(srcHost)) {
 						srcLocID = jLOCAL;
 					} else {
-						srcBackends = jBackendsByHostname.get(srcHost);
+						srcBackends = commonLib.getAllExecutionEnvironmentsAtHost(lang, srcHost).keySet();
 					}
 					break;
 				case LANG_PYTHON:
 					if (LOCALTOKEN.equals(srcHost)) {
 						srcLocID = pLOCAL;
 					} else {
-						srcBackends = pyBackendsByHostname.get(srcHost);
+						srcBackends = commonLib.getAllExecutionEnvironmentsAtHost(lang, srcHost).keySet();
 					}
 					break;
 				default:
@@ -704,14 +606,14 @@ public final class DataClay {
 					if (LOCALTOKEN.equals(destHost)) {
 						destLocID = jLOCAL;
 					} else {
-						destBackends = jBackendsByHostname.get(destHost);
+						destBackends = commonLib.getAllExecutionEnvironmentsAtHost(lang, destHost).keySet();
 					}
 					break;
 				case LANG_PYTHON:
 					if (LOCALTOKEN.equals(destHost)) {
 						destLocID = pLOCAL;
 					} else {
-						destBackends = pyBackendsByHostname.get(destHost);
+						destBackends = commonLib.getAllExecutionEnvironmentsAtHost(lang, destHost).keySet();
 					}
 					break;
 				default:
@@ -761,7 +663,7 @@ public final class DataClay {
 			final ObjectID objectID = ids.getFirst();
 			final BackendID hint = ids.getSecond();
 			final MetaClassID classID = ids.getThird();
-			commonLib.newReplica(objectID,null, destHost, false, true);
+			commonLib.newReplica(objectID, hint, null, destHost,false, true);
 
 		} catch (final Exception e) {
 			throw new DataClayException(e);
@@ -938,34 +840,7 @@ public final class DataClay {
 	 * @return info of the backend
 	 */
 	public static Backend getBackendInfo(final BackendID backendID) {
-		return backendsByID.get(backendID);
-	}
-
-	/**
-	 * Retrieves the info of all known backends indexed by ID
-	 *
-	 * @return map of backends indexed by ID
-	 */
-	public static Map<BackendID, Backend> getBackends() {
-		return backendsByID;
-	}
-
-	/**
-	 * Retrieves the info of all Java backends
-	 *
-	 * @return map of backends indexed by ID
-	 */
-	public static Map<BackendID, Backend> getJBackends() {
-		return jBackendsByID;
-	}
-
-	/**
-	 * Retrieves the info of all Python backends
-	 *
-	 * @return map of backends indexed by ID
-	 */
-	public static Map<BackendID, Backend> getPyBackends() {
-		return pyBackendsByID;
+		return commonLib.getExecutionEnvironmentInfo(backendID);
 	}
 
 	/**
@@ -993,23 +868,6 @@ public final class DataClay {
 	public static int getMDhits() {
 		return commonLib.hits;
 	}
-
-	public static Map<String, Set<BackendID>> getPyBackendsByName() {
-		return pyBackendsByName;
-	}
-
-	public static Map<String, Set<BackendID>> getJBackendsByName() {
-		return jBackendsByName;
-	}
-
-	public static Map<String, Set<BackendID>> getPyBackendsByHostname() {
-		return pyBackendsByHostname;
-	}
-
-	public static Map<String, Set<BackendID>> getJBackendsByHostname() {
-		return jBackendsByHostname;
-	}
-
 
 	/**
 	 * Retrieves current dataClay instance ID

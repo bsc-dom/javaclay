@@ -281,14 +281,6 @@ public final class DataService implements DataServiceAPI {
         return executionEnvironmentID;
     }
 
-    /**
-     * Returns reference to metadata cache
-     *
-     * @return reference to metadata cache
-     */
-    public LruCache<ObjectID, MetaDataInfo> getMetaDataCache() {
-        return runtime.getMetaDataCache();
-    }
 
     @Override
     public void initBackendID(final StorageLocationID newbackendID) {
@@ -585,7 +577,7 @@ public final class DataService implements DataServiceAPI {
                 } finally {
                     // Remove metadata from cache in case this dataservice has information that the
                     // object is in another.
-                    runtime.getMetaDataCache().remove(objectID);
+                    runtime.removeObjectMetadataFromCache(objectID);
                 }
 
             }
@@ -651,7 +643,7 @@ public final class DataService implements DataServiceAPI {
     }
 
     @Override
-    public void federate(final SessionID sessionID, final SerializedParametersOrReturn objectsToPersist) {
+    public void federate(final SessionID sessionID, final List<ObjectWithDataParamOrReturn> objectsToPersist) {
 
         try {
 
@@ -1425,7 +1417,7 @@ public final class DataService implements DataServiceAPI {
             if (DEBUG_ENABLED) {
                 LOGGER.debug("[==Remove==] Removing metadata info from MetaData Cache: " + objectID);
             }
-            runtime.getMetaDataCache().remove(objectID);
+            runtime.removeObjectMetadataFromCache(objectID);
             this.storageLocation.delete(this.executionEnvironmentID, objectID);
 
         } finally {
@@ -1474,7 +1466,7 @@ public final class DataService implements DataServiceAPI {
             if (DEBUG_ENABLED) {
                 LOGGER.debug("[==Remove==] Removing metadata info from MetaData Cache: " + curObjectID);
             }
-            runtime.getMetaDataCache().remove(curObjectID);
+            runtime.removeObjectMetadataFromCache(curObjectID);
             result.put(curObjectID, backendSrc.getKey());
         }
 
@@ -1493,7 +1485,7 @@ public final class DataService implements DataServiceAPI {
     }
 
     @Override
-    public void newReplica(final SessionID sessionID, final ObjectID objectID,
+    public Set<ObjectID> newReplica(final SessionID sessionID, final ObjectID objectID,
                                                       final ExecutionEnvironmentID destBackendID,
                                                       final boolean registerMetaData,
                                                       final boolean recursive) {
@@ -1508,6 +1500,8 @@ public final class DataService implements DataServiceAPI {
         final DataServiceAPI dataServiceApi = runtime.getRemoteExecutionEnvironment(destBackendID);
         dataServiceApi.storeObjects(sessionID, new ArrayList<>(serializedObjs.values()), false, null);
 
+        objectIDs.addAll(serializedObjs.keySet());
+
         // Send registration info to LogicModule if required
         if (registerMetaData) {
             List<RegistrationInfo> registrationInfos = new ArrayList<>();
@@ -1521,6 +1515,7 @@ public final class DataService implements DataServiceAPI {
                     destBackendID, Langs.LANG_JAVA);
         }
         LOGGER.debug("<---- Finished new replica of " + objectID);
+        return objectIDs;
     }
 
     @Override
@@ -1758,7 +1753,7 @@ public final class DataService implements DataServiceAPI {
 
             // Remove entries
             for (final ObjectID oid : objectsToRemove) {
-                runtime.getMetaDataCache().remove(oid);
+                runtime.removeObjectMetadataFromCache(oid);
             }
 
             if (DEBUG_ENABLED) {
