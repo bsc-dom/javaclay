@@ -47,6 +47,7 @@ import es.bsc.dataclay.util.management.metadataservice.MetaDataInfo;
 import es.bsc.dataclay.util.management.metadataservice.StorageLocation;
 import es.bsc.dataclay.util.structs.LruCache;
 import es.bsc.dataclay.util.structs.Tuple;
+import es.bsc.dataclay.dbhandler.sql.sqlite.SQLiteDataSource;
 
 /**
  * This class is responsible to manage information related to an object (metaclassID of the object, backend in which is stored,
@@ -91,7 +92,7 @@ public final class MetaDataService extends AbstractManager {
 	 *            Manager/service name.
 	 * @post Creates MetaDataService and initializes the backend.
 	 */
-	public MetaDataService(final BasicDataSource dataSource) {
+	public MetaDataService(final SQLiteDataSource dataSource) {
 		super(dataSource);
 		metadataDB = new MetaDataServiceDB(dataSource);
 		metadataDB.createTables();

@@ -31,6 +31,7 @@ import es.bsc.dataclay.util.management.sessionmgr.SessionDataContract;
 import es.bsc.dataclay.util.management.sessionmgr.SessionInfo;
 import es.bsc.dataclay.util.structs.LruCacheByDate;
 import es.bsc.dataclay.util.structs.Tuple;
+import es.bsc.dataclay.dbhandler.sql.sqlite.SQLiteDataSource;
 
 /**
  * This class is responsible to manage information related to sessions.
@@ -59,7 +60,7 @@ public final class SessionManager extends AbstractManager {
 	 *            Manager/service name.
 	 * @post Creates an Class manager and hash initializes the backend.
 	 */
-	public SessionManager(final BasicDataSource dataSource) {
+	public SessionManager(final SQLiteDataSource dataSource) {
 		super(dataSource);
 		if (DEBUG_ENABLED) {
 			logger = LogManager.getLogger("LogicModule");

@@ -71,6 +71,7 @@ import es.bsc.dataclay.util.reflection.Reflector;
 import es.bsc.dataclay.util.structs.LruCache;
 import es.bsc.dataclay.util.structs.Triple;
 import es.bsc.dataclay.util.structs.Tuple;
+import es.bsc.dataclay.dbhandler.sql.sqlite.SQLiteDataSource;
 
 /**
  * This class is responsible to manage Classes, Operations, Properties and
@@ -114,7 +115,7 @@ public final class ClassManager extends AbstractManager {
 	 * @param dataSource data source
 	 * @post Creates an Class manager and hash initializes the backend.
 	 */
-	public ClassManager(final BasicDataSource dataSource) {
+	public ClassManager(final SQLiteDataSource dataSource) {
 		super(dataSource);
 		classCache = new LruCache<>(Configuration.Flags.MAX_ENTRIES_CLASS_MANAGER_CACHE.getIntValue());
 		classCacheByName = new LruCache<>(Configuration.Flags.MAX_ENTRIES_CLASS_MANAGER_CACHE.getIntValue());
@@ -1979,7 +1980,14 @@ public final class ClassManager extends AbstractManager {
 
 		// Once symbols were modified we must generate the execution class
 		Map<MetaClassID, MetaClass> allNamespaceClasses = this.getInfoOfClassesInNamespace(metaClass.getNamespaceID());
+		if (DEBUG_ENABLED) {
+			List<String> classNamesToUse = new ArrayList<>();
+			for (MetaClass curDepClass : allNamespaceClasses.values()) {
+				classNamesToUse.add(curDepClass.getName());
+			}
+			logger.debug("Class dependencies used to replace: " + classNamesToUse);
 
+		}
 		final byte[] result = ExecutionByteCodeManager.generateExecutionClass(metaClass, realParentName, this,
 				new ArrayList<>(allNamespaceClasses.values()));
 		final byte[] aspects = StubByteCodeManager.generateStubAspect(metaClass, true, this);

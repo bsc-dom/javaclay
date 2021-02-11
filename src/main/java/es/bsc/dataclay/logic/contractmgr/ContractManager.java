@@ -33,6 +33,7 @@ import es.bsc.dataclay.util.management.contractmgr.InterfaceInContract;
 import es.bsc.dataclay.util.management.contractmgr.OpImplementations;
 import es.bsc.dataclay.util.structs.LruCache;
 import es.bsc.dataclay.util.structs.Tuple;
+import es.bsc.dataclay.dbhandler.sql.sqlite.SQLiteDataSource;
 
 /**
  * This class is responsible to manage contracts: add, remove and modify.
@@ -55,7 +56,7 @@ public final class ContractManager extends AbstractManager {
 	 *            Manager/service name.
 	 * @post Creates an Contract manager and hash initializes the backend.
 	 */
-	public ContractManager(final BasicDataSource dataSource) {
+	public ContractManager(final SQLiteDataSource dataSource) {
 		super(dataSource);
 
 		this.contractDB = new ContractManagerDB(dataSource);

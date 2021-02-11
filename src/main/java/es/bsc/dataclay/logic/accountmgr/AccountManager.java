@@ -20,6 +20,7 @@ import es.bsc.dataclay.util.management.accountmgr.Account;
 import es.bsc.dataclay.util.management.accountmgr.AccountRole;
 import es.bsc.dataclay.util.management.accountmgr.PasswordCredential;
 import es.bsc.dataclay.util.structs.LruCache;
+import es.bsc.dataclay.dbhandler.sql.sqlite.SQLiteDataSource;
 
 /**
  * This class is responsible to manage system accounts: add, remove and modify.
@@ -42,7 +43,7 @@ public final class AccountManager extends AbstractManager {
 	 *            Manager/service name.
 	 * @post Creates an Account manager and initializes the accountDB.
 	 */
-	public AccountManager(final BasicDataSource dataSource) {
+	public AccountManager(final SQLiteDataSource dataSource) {
 		super(dataSource);
 		this.accountDB = new AccountManagerDB(dataSource);
 		accountDB.createTables();

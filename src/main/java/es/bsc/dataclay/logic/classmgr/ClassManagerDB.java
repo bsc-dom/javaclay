@@ -63,6 +63,7 @@ import es.bsc.dataclay.util.management.classmgr.python.PythonImplementation;
 import es.bsc.dataclay.util.management.classmgr.python.PythonOperationInfo;
 import es.bsc.dataclay.util.management.classmgr.python.PythonPropertyInfo;
 import es.bsc.dataclay.util.management.classmgr.python.PythonTypeInfo;
+import es.bsc.dataclay.dbhandler.sql.sqlite.SQLiteDataSource;
 
 /**
  * Class manager data base.
@@ -76,15 +77,15 @@ public final class ClassManagerDB {
 	private static final boolean DEBUG_ENABLED = Configuration.isDebugEnabled();
 
 	/** DataSource. */
-	private final BasicDataSource dataSource;
+	private final SQLiteDataSource dataSource;
 
 	/**
 	 * ClassManagerDB constructor.
 	 * 
-	 * @param managerName
+	 * @param dataSource
 	 *            Name of the LM service managing.
 	 */
-	public ClassManagerDB(final BasicDataSource dataSource) {
+	public ClassManagerDB(final SQLiteDataSource dataSource) {
 		this.dataSource = dataSource;
 	}
 
@@ -92,56 +93,57 @@ public final class ClassManagerDB {
 	 * Create tables.
 	 */
 	public void createTables() {
-
-		Connection conn = null;
-		try {
-			conn = dataSource.getConnection();
-			for (final ClassManagerSQLStatements.SqlStatements stmt : ClassManagerSQLStatements.SqlStatements.values()) {
-				if (stmt.name().startsWith("CREATE_TYPE")) {
-					try {
-						final PreparedStatement createStmt = conn.prepareStatement(stmt.getSqlStatement());
-						if (DEBUG_ENABLED) {
-							logger.debug("[==DB==] Executing " + createStmt);
+		synchronized (dataSource) {
+			Connection conn = null;
+			try {
+				conn = dataSource.getConnection();
+				for (final ClassManagerSQLStatements.SqlStatements stmt : ClassManagerSQLStatements.SqlStatements.values()) {
+					if (stmt.name().startsWith("CREATE_TYPE")) {
+						try {
+							final PreparedStatement createStmt = conn.prepareStatement(stmt.getSqlStatement());
+							if (DEBUG_ENABLED) {
+								logger.debug("[==DB==] Executing " + createStmt);
+							}
+							createStmt.execute();
+						} catch (final SQLException e) {
+							// ignore if already exists
 						}
-						createStmt.execute();
-					} catch (final SQLException e) {
-						// ignore if already exists
 					}
 				}
-			}
-		} catch (final SQLException e1) {
-			logger.debug("SQL Exception in createTables (first step)", e1);
-		} finally {
-			try {
-				if (conn != null) {
-					conn.close();
+			} catch (final SQLException e1) {
+				logger.debug("SQL Exception in createTables (first step)", e1);
+			} finally {
+				try {
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException ex1) {
+					logger.debug("SQL Exception while closing connection", ex1);
 				}
-			} catch (final SQLException ex1) {
-				logger.debug("SQL Exception while closing connection", ex1);
 			}
-		}
 
-		conn = null;
-		try {
-			conn = dataSource.getConnection();
-			for (final ClassManagerSQLStatements.SqlStatements stmt : ClassManagerSQLStatements.SqlStatements.values()) {
-				if (stmt.name().startsWith("CREATE_TABLE")) {
-					final PreparedStatement updateStatement = conn.prepareStatement(stmt.getSqlStatement());
-					if (DEBUG_ENABLED) {
-						logger.debug("[==DB==] Executing " + updateStatement);
-					}
-					updateStatement.execute();
-				}
-			}
-		} catch (final SQLException e) {
-			logger.debug("SQL Exception in createTables (second step)", e);
-		} finally {
+			conn = null;
 			try {
-				if (conn != null) {
-					conn.close();
+				conn = dataSource.getConnection();
+				for (final ClassManagerSQLStatements.SqlStatements stmt : ClassManagerSQLStatements.SqlStatements.values()) {
+					if (stmt.name().startsWith("CREATE_TABLE")) {
+						final PreparedStatement updateStatement = conn.prepareStatement(stmt.getSqlStatement());
+						if (DEBUG_ENABLED) {
+							logger.debug("[==DB==] Executing " + updateStatement);
+						}
+						updateStatement.execute();
+					}
 				}
-			} catch (final SQLException ex1) {
-				logger.debug("SQL Exception while closing connection", ex1);
+			} catch (final SQLException e) {
+				logger.debug("SQL Exception in createTables (second step)", e);
+			} finally {
+				try {
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException ex1) {
+					logger.debug("SQL Exception while closing connection", ex1);
+				}
 			}
 		}
 	}
@@ -150,52 +152,53 @@ public final class ClassManagerDB {
 	 * Delete the tables of MDS. Just the other way around of createTables --much simpler.
 	 */
 	public void dropTables() {
-
-		Connection conn = null;
-		try {
-			conn = dataSource.getConnection();
-			for (final ClassManagerSQLStatements.SqlStatements stmt : ClassManagerSQLStatements.SqlStatements.values()) {
-				if (stmt.name().startsWith("DROP_TYPE")) {
-					final PreparedStatement updateStatement = conn.prepareStatement(stmt.getSqlStatement());
-					if (DEBUG_ENABLED) {
-						logger.debug("[==DB==] Executing " + updateStatement);
-					}
-					updateStatement.execute();
-				}
-			}
-		} catch (final SQLException e) {
-			logger.debug("SQL Exception in dropTables (first step)", e);
-		} finally {
+		synchronized (dataSource) {
+			Connection conn = null;
 			try {
-				if (conn != null) {
-					conn.close();
-				}
-			} catch (final SQLException ex1) {
-				logger.debug("SQL Exception while closing connection", ex1);
-			}
-		}
-
-		conn = null;
-		try {
-			conn = dataSource.getConnection();
-			for (final ClassManagerSQLStatements.SqlStatements stmt : ClassManagerSQLStatements.SqlStatements.values()) {
-				if (stmt.name().startsWith("DROP_TABLE")) {
-					final PreparedStatement updateStatement = conn.prepareStatement(stmt.getSqlStatement());
-					if (DEBUG_ENABLED) {
-						logger.debug("[==DB==] Executing " + updateStatement);
+				conn = dataSource.getConnection();
+				for (final ClassManagerSQLStatements.SqlStatements stmt : ClassManagerSQLStatements.SqlStatements.values()) {
+					if (stmt.name().startsWith("DROP_TYPE")) {
+						final PreparedStatement updateStatement = conn.prepareStatement(stmt.getSqlStatement());
+						if (DEBUG_ENABLED) {
+							logger.debug("[==DB==] Executing " + updateStatement);
+						}
+						updateStatement.execute();
 					}
-					updateStatement.execute();
+				}
+			} catch (final SQLException e) {
+				logger.debug("SQL Exception in dropTables (first step)", e);
+			} finally {
+				try {
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException ex1) {
+					logger.debug("SQL Exception while closing connection", ex1);
 				}
 			}
-		} catch (final SQLException e) {
-			logger.debug("SQL Exception in dropTables (second step)", e);
-		} finally {
+
+			conn = null;
 			try {
-				if (conn != null) {
-					conn.close();
+				conn = dataSource.getConnection();
+				for (final ClassManagerSQLStatements.SqlStatements stmt : ClassManagerSQLStatements.SqlStatements.values()) {
+					if (stmt.name().startsWith("DROP_TABLE")) {
+						final PreparedStatement updateStatement = conn.prepareStatement(stmt.getSqlStatement());
+						if (DEBUG_ENABLED) {
+							logger.debug("[==DB==] Executing " + updateStatement);
+						}
+						updateStatement.execute();
+					}
 				}
-			} catch (final SQLException ex1) {
-				logger.debug("SQL Exception while closing connection", ex1);
+			} catch (final SQLException e) {
+				logger.debug("SQL Exception in dropTables (second step)", e);
+			} finally {
+				try {
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException ex1) {
+					logger.debug("SQL Exception while closing connection", ex1);
+				}
 			}
 		}
 	}
@@ -207,36 +210,38 @@ public final class ClassManagerDB {
 	 * @return UUID of stored object
 	 */
 	public UUID storeAccessedImplementation(final AccessedImplementation accessedImplementation) {
-		Connection conn = null;
-		final UUID uuid = UUID.randomUUID();
-		try {
-			conn = dataSource.getConnection();
-			final PreparedStatement insertStatement = conn.prepareStatement(ClassManagerSQLStatements.SqlStatements.INSERT_ACCESSED_IMPL.getSqlStatement());
-			insertStatement.setObject(1, uuid);
-			// CHECKSTYLE:OFF
-			insertStatement.setString(2, accessedImplementation.getNamespace());
-			insertStatement.setString(3, accessedImplementation.getClassName());
-			insertStatement.setString(4, accessedImplementation.getOpSignature());
-			insertStatement.setInt(5, accessedImplementation.getImplPosition());
-			insertStatement.setObject(6, accessedImplementation.getImplementationID().getId());
-			// CHECKSTYLE:ON
-			if (DEBUG_ENABLED) {
-				logger.debug("[==DB==] Executing " + insertStatement);
-			}
-			insertStatement.executeUpdate();
-
-		} catch (final Exception e) {
-			logger.debug("SQL Exception in storeAccessedImplementation", e);
-		} finally {
+		synchronized (dataSource) {
+			Connection conn = null;
+			final UUID uuid = UUID.randomUUID();
 			try {
-				if (conn != null) {
-					conn.close();
+				conn = dataSource.getConnection();
+				final PreparedStatement insertStatement = conn.prepareStatement(ClassManagerSQLStatements.SqlStatements.INSERT_ACCESSED_IMPL.getSqlStatement());
+				insertStatement.setObject(1, uuid);
+				// CHECKSTYLE:OFF
+				insertStatement.setString(2, accessedImplementation.getNamespace());
+				insertStatement.setString(3, accessedImplementation.getClassName());
+				insertStatement.setString(4, accessedImplementation.getOpSignature());
+				insertStatement.setInt(5, accessedImplementation.getImplPosition());
+				insertStatement.setObject(6, accessedImplementation.getImplementationID().getId());
+				// CHECKSTYLE:ON
+				if (DEBUG_ENABLED) {
+					logger.debug("[==DB==] Executing " + insertStatement);
 				}
-			} catch (final SQLException ex1) {
-				logger.debug("SQL Exception while closing connection", ex1);
+				insertStatement.executeUpdate();
+
+			} catch (final Exception e) {
+				logger.debug("SQL Exception in storeAccessedImplementation", e);
+			} finally {
+				try {
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException ex1) {
+					logger.debug("SQL Exception while closing connection", ex1);
+				}
 			}
+			return uuid;
 		}
-		return uuid;
 	}
 
 	/**
@@ -246,35 +251,37 @@ public final class ClassManagerDB {
 	 * @return UUID of stored object
 	 */
 	public UUID storeAccessedProperty(final AccessedProperty accessedProperty) {
-		Connection conn = null;
-		final UUID uuid = UUID.randomUUID();
-		try {
-			conn = dataSource.getConnection();
-			final PreparedStatement insertStatement = conn.prepareStatement(ClassManagerSQLStatements.SqlStatements.INSERT_ACCESSED_PROP.getSqlStatement());
-			insertStatement.setObject(1, uuid);
-			// CHECKSTYLE:OFF
-			insertStatement.setString(2, accessedProperty.getNamespace());
-			insertStatement.setString(3, accessedProperty.getClassName());
-			insertStatement.setString(4, accessedProperty.getName());
-			insertStatement.setObject(5, accessedProperty.getPropertyID().getId());
-			// CHECKSTYLE:ON
-			if (DEBUG_ENABLED) {
-				logger.debug("[==DB==] Executing " + insertStatement);
-			}
-			insertStatement.executeUpdate();
-
-		} catch (final Exception e) {
-			logger.debug("SQL Exception in storeAccessedProperty", e);
-		} finally {
+		synchronized (dataSource) {
+			Connection conn = null;
+			final UUID uuid = UUID.randomUUID();
 			try {
-				if (conn != null) {
-					conn.close();
+				conn = dataSource.getConnection();
+				final PreparedStatement insertStatement = conn.prepareStatement(ClassManagerSQLStatements.SqlStatements.INSERT_ACCESSED_PROP.getSqlStatement());
+				insertStatement.setObject(1, uuid);
+				// CHECKSTYLE:OFF
+				insertStatement.setString(2, accessedProperty.getNamespace());
+				insertStatement.setString(3, accessedProperty.getClassName());
+				insertStatement.setString(4, accessedProperty.getName());
+				insertStatement.setObject(5, accessedProperty.getPropertyID().getId());
+				// CHECKSTYLE:ON
+				if (DEBUG_ENABLED) {
+					logger.debug("[==DB==] Executing " + insertStatement);
 				}
-			} catch (final SQLException ex1) {
-				logger.debug("SQL Exception while closing connection", ex1);
+				insertStatement.executeUpdate();
+
+			} catch (final Exception e) {
+				logger.debug("SQL Exception in storeAccessedProperty", e);
+			} finally {
+				try {
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException ex1) {
+					logger.debug("SQL Exception while closing connection", ex1);
+				}
 			}
+			return uuid;
 		}
-		return uuid;
 
 	}
 
@@ -285,94 +292,96 @@ public final class ClassManagerDB {
 	 * @return UUID of stored object
 	 */
 	public UUID storeType(final Type type) {
-		Connection conn = null;
-		final UUID uuid = UUID.randomUUID();
-		try {
-			UUID[] includesArray = null;
-			if (type.getIncludes() != null) {
-				includesArray = new UUID[type.getIncludes().size()];
-				int j = 0;
-				for (final Type include : type.getIncludes()) {
-					includesArray[j] = storeType(include);
-					j++;
-				}
-			}
-
-			String[] extensionsTypeArray = null;
-			UUID[] extensionsArray = null;
-			if (type.getLanguageDepInfos() != null) {
-
-				extensionsTypeArray = new String[type.getLanguageDepInfos().size()];
-				extensionsArray = new UUID[type.getLanguageDepInfos().size()];
-				int i = 0;
-				for (final Entry<Langs, LanguageDependantTypeInfo> entry : type.getLanguageDepInfos().entrySet()) {
-					extensionsTypeArray[i] = entry.getKey().name();
-					if (entry.getKey().equals(Langs.LANG_JAVA)) {
-						extensionsArray[i] = storeJavaTypeInfo((JavaTypeInfo) entry.getValue());
-					} else if (entry.getKey().equals(Langs.LANG_PYTHON)) {
-						extensionsArray[i] = storePythonTypeInfo((PythonTypeInfo) entry.getValue());
-					}
-					i++;
-				}
-
-			}
-
-			conn = dataSource.getConnection();
-			final PreparedStatement insertStatement = conn.prepareStatement(ClassManagerSQLStatements.SqlStatements.INSERT_TYPE.getSqlStatement());
-			insertStatement.setObject(1, uuid);
-			// CHECKSTYLE:OFF
-			insertStatement.setString(2, type.getDescriptor());
-			insertStatement.setString(3, type.getSignature());
-			insertStatement.setString(4, type.getTypeName());
-
-			if (includesArray != null) {
-				final Array tArray = insertStatement.getConnection().createArrayOf("uuid", includesArray);
-				insertStatement.setArray(5, tArray);
-			} else {
-				insertStatement.setArray(5, null);
-			}
-
-			if (type instanceof UserType) {
-				final UserType utype = (UserType) type;
-				insertStatement.setString(6, utype.getNamespace());
-				insertStatement.setObject(7, utype.getClassID().getId());
-			} else {
-				insertStatement.setString(6, null);
-				insertStatement.setObject(7, null);
-			}
-
-			if (extensionsTypeArray != null) {
-				final Array sqlArray = insertStatement.getConnection().createArrayOf("varchar", extensionsTypeArray);
-				insertStatement.setArray(8, sqlArray);
-			} else {
-				insertStatement.setArray(8, null);
-			}
-
-			if (extensionsArray != null) {
-				final Array sqlArray = insertStatement.getConnection().createArrayOf("uuid", extensionsArray);
-				insertStatement.setArray(9, sqlArray);
-			} else {
-				insertStatement.setArray(9, null);
-			}
-
-			// CHECKSTYLE:ON
-			if (DEBUG_ENABLED) {
-				logger.debug("[==DB==] Executing " + insertStatement);
-			}
-			insertStatement.executeUpdate();
-
-		} catch (final Exception e) {
-			logger.debug("SQL Exception in storeType", e);
-		} finally {
+		synchronized (dataSource) {
+			Connection conn = null;
+			final UUID uuid = UUID.randomUUID();
 			try {
-				if (conn != null) {
-					conn.close();
+				UUID[] includesArray = null;
+				if (type.getIncludes() != null) {
+					includesArray = new UUID[type.getIncludes().size()];
+					int j = 0;
+					for (final Type include : type.getIncludes()) {
+						includesArray[j] = storeType(include);
+						j++;
+					}
 				}
-			} catch (final SQLException ex1) {
-				logger.debug("SQL Exception while closing connection", ex1);
+
+				String[] extensionsTypeArray = null;
+				UUID[] extensionsArray = null;
+				if (type.getLanguageDepInfos() != null) {
+
+					extensionsTypeArray = new String[type.getLanguageDepInfos().size()];
+					extensionsArray = new UUID[type.getLanguageDepInfos().size()];
+					int i = 0;
+					for (final Entry<Langs, LanguageDependantTypeInfo> entry : type.getLanguageDepInfos().entrySet()) {
+						extensionsTypeArray[i] = entry.getKey().name();
+						if (entry.getKey().equals(Langs.LANG_JAVA)) {
+							extensionsArray[i] = storeJavaTypeInfo((JavaTypeInfo) entry.getValue());
+						} else if (entry.getKey().equals(Langs.LANG_PYTHON)) {
+							extensionsArray[i] = storePythonTypeInfo((PythonTypeInfo) entry.getValue());
+						}
+						i++;
+					}
+
+				}
+
+				conn = dataSource.getConnection();
+				final PreparedStatement insertStatement = conn.prepareStatement(ClassManagerSQLStatements.SqlStatements.INSERT_TYPE.getSqlStatement());
+				insertStatement.setObject(1, uuid);
+				// CHECKSTYLE:OFF
+				insertStatement.setString(2, type.getDescriptor());
+				insertStatement.setString(3, type.getSignature());
+				insertStatement.setString(4, type.getTypeName());
+
+				if (includesArray != null) {
+					final Array tArray = insertStatement.getConnection().createArrayOf("uuid", includesArray);
+					insertStatement.setArray(5, tArray);
+				} else {
+					insertStatement.setArray(5, null);
+				}
+
+				if (type instanceof UserType) {
+					final UserType utype = (UserType) type;
+					insertStatement.setString(6, utype.getNamespace());
+					insertStatement.setObject(7, utype.getClassID().getId());
+				} else {
+					insertStatement.setString(6, null);
+					insertStatement.setObject(7, null);
+				}
+
+				if (extensionsTypeArray != null) {
+					final Array sqlArray = insertStatement.getConnection().createArrayOf("varchar", extensionsTypeArray);
+					insertStatement.setArray(8, sqlArray);
+				} else {
+					insertStatement.setArray(8, null);
+				}
+
+				if (extensionsArray != null) {
+					final Array sqlArray = insertStatement.getConnection().createArrayOf("uuid", extensionsArray);
+					insertStatement.setArray(9, sqlArray);
+				} else {
+					insertStatement.setArray(9, null);
+				}
+
+				// CHECKSTYLE:ON
+				if (DEBUG_ENABLED) {
+					logger.debug("[==DB==] Executing " + insertStatement);
+				}
+				insertStatement.executeUpdate();
+
+			} catch (final Exception e) {
+				logger.debug("SQL Exception in storeType", e);
+			} finally {
+				try {
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException ex1) {
+					logger.debug("SQL Exception while closing connection", ex1);
+				}
 			}
+			return uuid;
 		}
-		return uuid;
 
 	}
 
@@ -383,33 +392,34 @@ public final class ClassManagerDB {
 	 * @return UUID of stored object
 	 */
 	public UUID storeJavaTypeInfo(final JavaTypeInfo type) {
-		Connection conn = null;
-		final UUID uuid = UUID.randomUUID();
-		try {
-
-			conn = dataSource.getConnection();
-			final PreparedStatement insertStatement = conn.prepareStatement(ClassManagerSQLStatements.SqlStatements.INSERT_JAVA_TYPE.getSqlStatement());
-			insertStatement.setObject(1, uuid);
-			// CHECKSTYLE:OFF
-			// CHECKSTYLE:ON
-			if (DEBUG_ENABLED) {
-				logger.debug("[==DB==] Executing " + insertStatement);
-			}
-			insertStatement.executeUpdate();
-
-		} catch (final Exception e) {
-			logger.debug("SQL Exception in storeJavaTypeInfo", e);
-		} finally {
+		synchronized (dataSource) {
+			Connection conn = null;
+			final UUID uuid = UUID.randomUUID();
 			try {
-				if (conn != null) {
-					conn.close();
-				}
-			} catch (final SQLException ex1) {
-				logger.debug("SQL Exception while closing connection", ex1);
-			}
-		}
-		return uuid;
 
+				conn = dataSource.getConnection();
+				final PreparedStatement insertStatement = conn.prepareStatement(ClassManagerSQLStatements.SqlStatements.INSERT_JAVA_TYPE.getSqlStatement());
+				insertStatement.setObject(1, uuid);
+				// CHECKSTYLE:OFF
+				// CHECKSTYLE:ON
+				if (DEBUG_ENABLED) {
+					logger.debug("[==DB==] Executing " + insertStatement);
+				}
+				insertStatement.executeUpdate();
+
+			} catch (final Exception e) {
+				logger.debug("SQL Exception in storeJavaTypeInfo", e);
+			} finally {
+				try {
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException ex1) {
+					logger.debug("SQL Exception while closing connection", ex1);
+				}
+			}
+			return uuid;
+		}
 	}
 
 	/**
@@ -419,34 +429,35 @@ public final class ClassManagerDB {
 	 * @return UUID of stored object
 	 */
 	public UUID storePythonTypeInfo(final PythonTypeInfo type) {
-		Connection conn = null;
-		final UUID uuid = UUID.randomUUID();
-		try {
-
-			conn = dataSource.getConnection();
-			final PreparedStatement insertStatement = conn.prepareStatement(ClassManagerSQLStatements.SqlStatements.INSERT_PYTHON_TYPE.getSqlStatement());
-			insertStatement.setObject(1, uuid);
-			insertStatement.setString(2, type.getSignature());
-			// CHECKSTYLE:OFF
-			// CHECKSTYLE:ON
-			if (DEBUG_ENABLED) {
-				logger.debug("[==DB==] Executing " + insertStatement);
-			}
-			insertStatement.executeUpdate();
-
-		} catch (final Exception e) {
-			logger.debug("SQL Exception in storePythonTypeInfo", e);
-		} finally {
+		synchronized (dataSource) {
+			Connection conn = null;
+			final UUID uuid = UUID.randomUUID();
 			try {
-				if (conn != null) {
-					conn.close();
-				}
-			} catch (final SQLException ex1) {
-				logger.debug("SQL Exception while closing connection", ex1);
-			}
-		}
-		return uuid;
 
+				conn = dataSource.getConnection();
+				final PreparedStatement insertStatement = conn.prepareStatement(ClassManagerSQLStatements.SqlStatements.INSERT_PYTHON_TYPE.getSqlStatement());
+				insertStatement.setObject(1, uuid);
+				insertStatement.setString(2, type.getSignature());
+				// CHECKSTYLE:OFF
+				// CHECKSTYLE:ON
+				if (DEBUG_ENABLED) {
+					logger.debug("[==DB==] Executing " + insertStatement);
+				}
+				insertStatement.executeUpdate();
+
+			} catch (final Exception e) {
+				logger.debug("SQL Exception in storePythonTypeInfo", e);
+			} finally {
+				try {
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException ex1) {
+					logger.debug("SQL Exception while closing connection", ex1);
+				}
+			}
+			return uuid;
+		}
 	}
 
 	/**
@@ -456,32 +467,34 @@ public final class ClassManagerDB {
 	 * @return UUID of stored object
 	 */
 	public UUID storeMemoryFeature(final MemoryFeature memFeature) {
-		Connection conn = null;
-		final UUID uuid = UUID.randomUUID();
-		try {
-			conn = dataSource.getConnection();
-			final PreparedStatement insertStatement = conn.prepareStatement(ClassManagerSQLStatements.SqlStatements.INSERT_MEMORY_FEATURE.getSqlStatement());
-			insertStatement.setObject(1, uuid);
-			// CHECKSTYLE:OFF
-			insertStatement.setInt(2, memFeature.getCapacityInMB());
-			// CHECKSTYLE:ON
-			if (DEBUG_ENABLED) {
-				logger.debug("[==DB==] Executing " + insertStatement);
-			}
-			insertStatement.executeUpdate();
-
-		} catch (final Exception e) {
-			logger.debug("SQL Exception in storeMemoryFeature", e);
-		} finally {
+		synchronized (dataSource) {
+			Connection conn = null;
+			final UUID uuid = UUID.randomUUID();
 			try {
-				if (conn != null) {
-					conn.close();
+				conn = dataSource.getConnection();
+				final PreparedStatement insertStatement = conn.prepareStatement(ClassManagerSQLStatements.SqlStatements.INSERT_MEMORY_FEATURE.getSqlStatement());
+				insertStatement.setObject(1, uuid);
+				// CHECKSTYLE:OFF
+				insertStatement.setInt(2, memFeature.getCapacityInMB());
+				// CHECKSTYLE:ON
+				if (DEBUG_ENABLED) {
+					logger.debug("[==DB==] Executing " + insertStatement);
 				}
-			} catch (final SQLException ex1) {
-				logger.debug("SQL Exception while closing connection", ex1);
+				insertStatement.executeUpdate();
+
+			} catch (final Exception e) {
+				logger.debug("SQL Exception in storeMemoryFeature", e);
+			} finally {
+				try {
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException ex1) {
+					logger.debug("SQL Exception while closing connection", ex1);
+				}
 			}
+			return uuid;
 		}
-		return uuid;
 
 	}
 
@@ -492,32 +505,34 @@ public final class ClassManagerDB {
 	 * @return UUID of stored object
 	 */
 	public UUID storeCPUFeature(final CPUFeature feature) {
-		Connection conn = null;
-		final UUID uuid = UUID.randomUUID();
-		try {
-			conn = dataSource.getConnection();
-			final PreparedStatement insertStatement = conn.prepareStatement(ClassManagerSQLStatements.SqlStatements.INSERT_CPU_FEATURE.getSqlStatement());
-			insertStatement.setObject(1, uuid);
-			// CHECKSTYLE:OFF
-			insertStatement.setInt(2, feature.getAmount());
-			// CHECKSTYLE:ON
-			if (DEBUG_ENABLED) {
-				logger.debug("[==DB==] Executing " + insertStatement);
-			}
-			insertStatement.executeUpdate();
-
-		} catch (final Exception e) {
-			logger.debug("SQL Exception in storeCPUFeature", e);
-		} finally {
+		synchronized (dataSource) {
+			Connection conn = null;
+			final UUID uuid = UUID.randomUUID();
 			try {
-				if (conn != null) {
-					conn.close();
+				conn = dataSource.getConnection();
+				final PreparedStatement insertStatement = conn.prepareStatement(ClassManagerSQLStatements.SqlStatements.INSERT_CPU_FEATURE.getSqlStatement());
+				insertStatement.setObject(1, uuid);
+				// CHECKSTYLE:OFF
+				insertStatement.setInt(2, feature.getAmount());
+				// CHECKSTYLE:ON
+				if (DEBUG_ENABLED) {
+					logger.debug("[==DB==] Executing " + insertStatement);
 				}
-			} catch (final SQLException ex1) {
-				logger.debug("SQL Exception while closing connection", ex1);
+				insertStatement.executeUpdate();
+
+			} catch (final Exception e) {
+				logger.debug("SQL Exception in storeCPUFeature", e);
+			} finally {
+				try {
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException ex1) {
+					logger.debug("SQL Exception while closing connection", ex1);
+				}
 			}
+			return uuid;
 		}
-		return uuid;
 
 	}
 
@@ -528,34 +543,35 @@ public final class ClassManagerDB {
 	 * @return UUID of stored object
 	 */
 	public UUID storeLanguageFeature(final LanguageFeature feature) {
-		Connection conn = null;
-		final UUID uuid = UUID.randomUUID();
-		try {
-			conn = dataSource.getConnection();
-			final PreparedStatement insertStatement = conn.prepareStatement(ClassManagerSQLStatements.SqlStatements.INSERT_LANGUAGE_FEATURE.getSqlStatement());
-			insertStatement.setObject(1, uuid);
-			// CHECKSTYLE:OFF
-			insertStatement.setString(2, feature.getLanguageName());
-			insertStatement.setString(3, feature.getVersion());
-			// CHECKSTYLE:ON
-			if (DEBUG_ENABLED) {
-				logger.debug("[==DB==] Executing " + insertStatement);
-			}
-			insertStatement.executeUpdate();
-
-		} catch (final Exception e) {
-			logger.debug("SQL Exception in storeLanguageFeature", e);
-		} finally {
+		synchronized (dataSource) {
+			Connection conn = null;
+			final UUID uuid = UUID.randomUUID();
 			try {
-				if (conn != null) {
-					conn.close();
+				conn = dataSource.getConnection();
+				final PreparedStatement insertStatement = conn.prepareStatement(ClassManagerSQLStatements.SqlStatements.INSERT_LANGUAGE_FEATURE.getSqlStatement());
+				insertStatement.setObject(1, uuid);
+				// CHECKSTYLE:OFF
+				insertStatement.setString(2, feature.getLanguageName());
+				insertStatement.setString(3, feature.getVersion());
+				// CHECKSTYLE:ON
+				if (DEBUG_ENABLED) {
+					logger.debug("[==DB==] Executing " + insertStatement);
 				}
-			} catch (final SQLException ex1) {
-				logger.debug("SQL Exception while closing connection", ex1);
-			}
-		}
-		return uuid;
+				insertStatement.executeUpdate();
 
+			} catch (final Exception e) {
+				logger.debug("SQL Exception in storeLanguageFeature", e);
+			} finally {
+				try {
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException ex1) {
+					logger.debug("SQL Exception while closing connection", ex1);
+				}
+			}
+			return uuid;
+		}
 	}
 
 	/**
@@ -565,32 +581,34 @@ public final class ClassManagerDB {
 	 * @return UUID of stored object
 	 */
 	public UUID storeArchitectureFeature(final ArchitectureFeature feature) {
-		Connection conn = null;
-		final UUID uuid = UUID.randomUUID();
-		try {
-			conn = dataSource.getConnection();
-			final PreparedStatement insertStatement = conn.prepareStatement(ClassManagerSQLStatements.SqlStatements.INSERT_ARCH_FEATURE.getSqlStatement());
-			insertStatement.setObject(1, uuid);
-			// CHECKSTYLE:OFF
-			insertStatement.setString(2, feature.getArchitectureName());
-			// CHECKSTYLE:ON
-			if (DEBUG_ENABLED) {
-				logger.debug("[==DB==] Executing " + insertStatement);
-			}
-			insertStatement.executeUpdate();
-
-		} catch (final Exception e) {
-			logger.debug("SQL Exception in storeArchitectureFeature", e);
-		} finally {
+		synchronized (dataSource) {
+			Connection conn = null;
+			final UUID uuid = UUID.randomUUID();
 			try {
-				if (conn != null) {
-					conn.close();
+				conn = dataSource.getConnection();
+				final PreparedStatement insertStatement = conn.prepareStatement(ClassManagerSQLStatements.SqlStatements.INSERT_ARCH_FEATURE.getSqlStatement());
+				insertStatement.setObject(1, uuid);
+				// CHECKSTYLE:OFF
+				insertStatement.setString(2, feature.getArchitectureName());
+				// CHECKSTYLE:ON
+				if (DEBUG_ENABLED) {
+					logger.debug("[==DB==] Executing " + insertStatement);
 				}
-			} catch (final SQLException ex1) {
-				logger.debug("SQL Exception while closing connection", ex1);
+				insertStatement.executeUpdate();
+
+			} catch (final Exception e) {
+				logger.debug("SQL Exception in storeArchitectureFeature", e);
+			} finally {
+				try {
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException ex1) {
+					logger.debug("SQL Exception while closing connection", ex1);
+				}
 			}
+			return uuid;
 		}
-		return uuid;
 
 	}
 
@@ -601,70 +619,71 @@ public final class ClassManagerDB {
 	 * @return UUID of stored object
 	 */
 	public UUID storePrefecthingInfo(final PrefetchingInformation prefetchingInfo) {
-		Connection conn = null;
-		final UUID uuid = UUID.randomUUID();
-		try {
-			conn = dataSource.getConnection();
-			final PreparedStatement insertStatement = conn.prepareStatement(ClassManagerSQLStatements.SqlStatements.INSERT_PREFETCHING_INFO.getSqlStatement());
-			insertStatement.setObject(1, uuid);
-			// CHECKSTYLE:OFF
-			insertStatement.setBoolean(2, prefetchingInfo.getDisableDynamicPrefetching());
-			insertStatement.setBoolean(3, prefetchingInfo.getInjectPrefetchingCall());
-			insertStatement.setString(4, prefetchingInfo.getPrefetchingNameSpace());
-			insertStatement.setString(5, prefetchingInfo.getPrefetchingClassName());
-			insertStatement.setString(6, prefetchingInfo.getPrefetchingMethodSignature());
-			if (prefetchingInfo.getPrefetchingImplementationID() != null) {
-				insertStatement.setObject(7, prefetchingInfo.getPrefetchingImplementationID().getId());
-			} else {
-				insertStatement.setObject(7, null);
-			}
-			if (prefetchingInfo.getPrefetchingClassID() != null) {
-				insertStatement.setObject(8, prefetchingInfo.getPrefetchingClassID().getId());
-			} else {
-				insertStatement.setObject(8, null);
-			}
-			if (prefetchingInfo.getPropertiesToPrefetch() != null) {
-				final UUID[][] accProps = new UUID[prefetchingInfo.getPropertiesToPrefetch().size()][];
-				int i = 0;
-				for (final List<Property> accPropsList : prefetchingInfo.getPropertiesToPrefetch()) {
-					int j = 0;
-					accProps[i] = new UUID[accPropsList.size()];
-					for (final Property prop : accPropsList) {
-						accProps[i][j] = prop.getDataClayID().getId();
-						j++;
-					}
-					i++;
+		synchronized (dataSource) {
+			Connection conn = null;
+			final UUID uuid = UUID.randomUUID();
+			try {
+				conn = dataSource.getConnection();
+				final PreparedStatement insertStatement = conn.prepareStatement(ClassManagerSQLStatements.SqlStatements.INSERT_PREFETCHING_INFO.getSqlStatement());
+				insertStatement.setObject(1, uuid);
+				// CHECKSTYLE:OFF
+				insertStatement.setBoolean(2, prefetchingInfo.getDisableDynamicPrefetching());
+				insertStatement.setBoolean(3, prefetchingInfo.getInjectPrefetchingCall());
+				insertStatement.setString(4, prefetchingInfo.getPrefetchingNameSpace());
+				insertStatement.setString(5, prefetchingInfo.getPrefetchingClassName());
+				insertStatement.setString(6, prefetchingInfo.getPrefetchingMethodSignature());
+				if (prefetchingInfo.getPrefetchingImplementationID() != null) {
+					insertStatement.setObject(7, prefetchingInfo.getPrefetchingImplementationID().getId());
+				} else {
+					insertStatement.setObject(7, null);
 				}
+				if (prefetchingInfo.getPrefetchingClassID() != null) {
+					insertStatement.setObject(8, prefetchingInfo.getPrefetchingClassID().getId());
+				} else {
+					insertStatement.setObject(8, null);
+				}
+				if (prefetchingInfo.getPropertiesToPrefetch() != null) {
+					final UUID[][] accProps = new UUID[prefetchingInfo.getPropertiesToPrefetch().size()][];
+					int i = 0;
+					for (final List<Property> accPropsList : prefetchingInfo.getPropertiesToPrefetch()) {
+						int j = 0;
+						accProps[i] = new UUID[accPropsList.size()];
+						for (final Property prop : accPropsList) {
+							accProps[i][j] = prop.getDataClayID().getId();
+							j++;
+						}
+						i++;
+					}
 
-				if (accProps.length > 0) {
-					final Array sqlArray = insertStatement.getConnection().createArrayOf("uuid", accProps);
-					insertStatement.setArray(9, sqlArray);
+					if (accProps.length > 0) {
+						final Array sqlArray = insertStatement.getConnection().createArrayOf("uuid", accProps);
+						insertStatement.setArray(9, sqlArray);
+					} else {
+						insertStatement.setArray(9, null);
+					}
 				} else {
 					insertStatement.setArray(9, null);
 				}
-			} else {
-				insertStatement.setArray(9, null);
-			}
 
-			// CHECKSTYLE:ON
-			if (DEBUG_ENABLED) {
-				logger.debug("[==DB==] Executing " + insertStatement);
-			}
-			insertStatement.executeUpdate();
-
-		} catch (final Exception e) {
-			logger.debug("SQL Exception in storePrefetchingInfo", e);
-		} finally {
-			try {
-				if (conn != null) {
-					conn.close();
+				// CHECKSTYLE:ON
+				if (DEBUG_ENABLED) {
+					logger.debug("[==DB==] Executing " + insertStatement);
 				}
-			} catch (final SQLException ex1) {
-				logger.debug("SQL Exception while closing connection", ex1);
-			}
-		}
-		return uuid;
+				insertStatement.executeUpdate();
 
+			} catch (final Exception e) {
+				logger.debug("SQL Exception in storePrefetchingInfo", e);
+			} finally {
+				try {
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException ex1) {
+					logger.debug("SQL Exception while closing connection", ex1);
+				}
+			}
+			return uuid;
+		}
 	}
 
 	/**
@@ -674,117 +693,118 @@ public final class ClassManagerDB {
 	 * @return UUID of stored object
 	 */
 	public UUID storeJavaImplementation(final JavaImplementation implementation) {
-		Connection conn = null;
-		final UUID uuid = implementation.getDataClayID().getId();
-		try {
-
-			final UUID[] includes = new UUID[implementation.getIncludes().size()];
-			int i = 0;
-			for (final Type include : implementation.getIncludes()) {
-				includes[i] = this.storeType(include);
-				i++;
-			}
-
-			final UUID[] accessedProps = new UUID[implementation.getAccessedProperties().size()];
-			i = 0;
-			for (final AccessedProperty accProp : implementation.getAccessedProperties()) {
-				accessedProps[i] = this.storeAccessedProperty(accProp);
-				i++;
-			}
-
-			final UUID[] accessedImpls = new UUID[implementation.getAccessedImplementations().size()];
-			i = 0;
-			for (final AccessedImplementation accImpl : implementation.getAccessedImplementations()) {
-				accessedImpls[i] = this.storeAccessedImplementation(accImpl);
-				i++;
-			}
-
-			final String[] featureTypes = new String[implementation.getRequiredQualitativeFeatures().size()
-					+ implementation.getRequiredQuantitativeFeatures().size()];
-			final UUID[] features = new UUID[featureTypes.length];
-			i = 0;
-			for (final Entry<FeatureType, QualitativeFeature> entry : implementation.getRequiredQualitativeFeatures().entrySet()) {
-				featureTypes[i] = entry.getKey().name();
-				switch (entry.getKey()) {
-				case ARCHITECTURE:
-					features[i] = this.storeArchitectureFeature((ArchitectureFeature) entry.getValue());
-					break;
-				case LANGUAGE:
-					features[i] = this.storeLanguageFeature((LanguageFeature) entry.getValue());
-					break;
-				default:
-					break;
-
-				}
-				i++;
-			}
-			for (final Entry<FeatureType, QuantitativeFeature> entry : implementation.getRequiredQuantitativeFeatures().entrySet()) {
-				featureTypes[i] = entry.getKey().name();
-				switch (entry.getKey()) {
-				case CPU:
-					features[i] = this.storeCPUFeature((CPUFeature) entry.getValue());
-					break;
-				case MEMORY:
-					features[i] = this.storeMemoryFeature((MemoryFeature) entry.getValue());
-					break;
-				default:
-					break;
-
-				}
-				i++;
-			}
-
-			UUID prefetchingInfoUUID = null;
-			if (implementation.getPrefetchingInfo() != null) {
-				prefetchingInfoUUID = this.storePrefecthingInfo(implementation.getPrefetchingInfo());
-			}
-
-			conn = dataSource.getConnection();
-			final PreparedStatement insertStatement = conn.prepareStatement(ClassManagerSQLStatements.SqlStatements.INSERT_JAVA_IMPLEMENTATION.getSqlStatement());
-			insertStatement.setObject(1, uuid);
-			// CHECKSTYLE:OFF
-			insertStatement.setString(2, implementation.getResponsibleAccountName());
-			insertStatement.setString(3, implementation.getNamespace());
-			insertStatement.setString(4, implementation.getClassName());
-			insertStatement.setString(5, implementation.getOpNameAndDescriptor());
-			insertStatement.setInt(6, implementation.getPosition());
-
-			Array sqlArray = insertStatement.getConnection().createArrayOf("uuid", includes);
-			insertStatement.setArray(7, sqlArray);
-			sqlArray = insertStatement.getConnection().createArrayOf("uuid", accessedProps);
-			insertStatement.setArray(8, sqlArray);
-			sqlArray = insertStatement.getConnection().createArrayOf("uuid", accessedImpls);
-			insertStatement.setArray(9, sqlArray);
-			sqlArray = insertStatement.getConnection().createArrayOf("varchar", featureTypes);
-			insertStatement.setArray(10, sqlArray);
-			sqlArray = insertStatement.getConnection().createArrayOf("uuid", features);
-			insertStatement.setArray(11, sqlArray);
-
-			insertStatement.setObject(12, implementation.getOperationID().getId());
-			insertStatement.setObject(13, implementation.getMetaClassID().getId());
-			insertStatement.setObject(14, implementation.getResponsibleAccountID().getId());
-			insertStatement.setObject(15, implementation.getNamespaceID().getId());
-			insertStatement.setObject(16, prefetchingInfoUUID);
-
-			// CHECKSTYLE:ON
-			if (DEBUG_ENABLED) {
-				logger.debug("[==DB==] Executing " + insertStatement);
-			}
-			insertStatement.executeUpdate();
-
-		} catch (final Exception e) {
-			logger.debug("SQL Exception in storeJavaImplementation", e);
-		} finally {
+		synchronized (dataSource) {
+			Connection conn = null;
+			final UUID uuid = implementation.getDataClayID().getId();
 			try {
-				if (conn != null) {
-					conn.close();
-				}
-			} catch (final SQLException ex1) {
-				logger.debug("SQL Exception while closing connection", ex1);
-			}
-		}
-		return uuid;
 
+				final UUID[] includes = new UUID[implementation.getIncludes().size()];
+				int i = 0;
+				for (final Type include : implementation.getIncludes()) {
+					includes[i] = this.storeType(include);
+					i++;
+				}
+
+				final UUID[] accessedProps = new UUID[implementation.getAccessedProperties().size()];
+				i = 0;
+				for (final AccessedProperty accProp : implementation.getAccessedProperties()) {
+					accessedProps[i] = this.storeAccessedProperty(accProp);
+					i++;
+				}
+
+				final UUID[] accessedImpls = new UUID[implementation.getAccessedImplementations().size()];
+				i = 0;
+				for (final AccessedImplementation accImpl : implementation.getAccessedImplementations()) {
+					accessedImpls[i] = this.storeAccessedImplementation(accImpl);
+					i++;
+				}
+
+				final String[] featureTypes = new String[implementation.getRequiredQualitativeFeatures().size()
+						+ implementation.getRequiredQuantitativeFeatures().size()];
+				final UUID[] features = new UUID[featureTypes.length];
+				i = 0;
+				for (final Entry<FeatureType, QualitativeFeature> entry : implementation.getRequiredQualitativeFeatures().entrySet()) {
+					featureTypes[i] = entry.getKey().name();
+					switch (entry.getKey()) {
+						case ARCHITECTURE:
+							features[i] = this.storeArchitectureFeature((ArchitectureFeature) entry.getValue());
+							break;
+						case LANGUAGE:
+							features[i] = this.storeLanguageFeature((LanguageFeature) entry.getValue());
+							break;
+						default:
+							break;
+
+					}
+					i++;
+				}
+				for (final Entry<FeatureType, QuantitativeFeature> entry : implementation.getRequiredQuantitativeFeatures().entrySet()) {
+					featureTypes[i] = entry.getKey().name();
+					switch (entry.getKey()) {
+						case CPU:
+							features[i] = this.storeCPUFeature((CPUFeature) entry.getValue());
+							break;
+						case MEMORY:
+							features[i] = this.storeMemoryFeature((MemoryFeature) entry.getValue());
+							break;
+						default:
+							break;
+
+					}
+					i++;
+				}
+
+				UUID prefetchingInfoUUID = null;
+				if (implementation.getPrefetchingInfo() != null) {
+					prefetchingInfoUUID = this.storePrefecthingInfo(implementation.getPrefetchingInfo());
+				}
+
+				conn = dataSource.getConnection();
+				final PreparedStatement insertStatement = conn.prepareStatement(ClassManagerSQLStatements.SqlStatements.INSERT_JAVA_IMPLEMENTATION.getSqlStatement());
+				insertStatement.setObject(1, uuid);
+				// CHECKSTYLE:OFF
+				insertStatement.setString(2, implementation.getResponsibleAccountName());
+				insertStatement.setString(3, implementation.getNamespace());
+				insertStatement.setString(4, implementation.getClassName());
+				insertStatement.setString(5, implementation.getOpNameAndDescriptor());
+				insertStatement.setInt(6, implementation.getPosition());
+
+				Array sqlArray = insertStatement.getConnection().createArrayOf("uuid", includes);
+				insertStatement.setArray(7, sqlArray);
+				sqlArray = insertStatement.getConnection().createArrayOf("uuid", accessedProps);
+				insertStatement.setArray(8, sqlArray);
+				sqlArray = insertStatement.getConnection().createArrayOf("uuid", accessedImpls);
+				insertStatement.setArray(9, sqlArray);
+				sqlArray = insertStatement.getConnection().createArrayOf("varchar", featureTypes);
+				insertStatement.setArray(10, sqlArray);
+				sqlArray = insertStatement.getConnection().createArrayOf("uuid", features);
+				insertStatement.setArray(11, sqlArray);
+
+				insertStatement.setObject(12, implementation.getOperationID().getId());
+				insertStatement.setObject(13, implementation.getMetaClassID().getId());
+				insertStatement.setObject(14, implementation.getResponsibleAccountID().getId());
+				insertStatement.setObject(15, implementation.getNamespaceID().getId());
+				insertStatement.setObject(16, prefetchingInfoUUID);
+
+				// CHECKSTYLE:ON
+				if (DEBUG_ENABLED) {
+					logger.debug("[==DB==] Executing " + insertStatement);
+				}
+				insertStatement.executeUpdate();
+
+			} catch (final Exception e) {
+				logger.debug("SQL Exception in storeJavaImplementation", e);
+			} finally {
+				try {
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException ex1) {
+					logger.debug("SQL Exception while closing connection", ex1);
+				}
+			}
+			return uuid;
+		}
 	}
 
 	/**
@@ -794,119 +814,121 @@ public final class ClassManagerDB {
 	 * @return UUID of stored object
 	 */
 	public UUID storePythonImplementation(final PythonImplementation implementation) {
-		Connection conn = null;
-		final UUID uuid = implementation.getDataClayID().getId();
-		try {
-
-			final UUID[] includes = new UUID[implementation.getIncludes().size()];
-			int i = 0;
-			for (final Type include : implementation.getIncludes()) {
-				includes[i] = this.storeType(include);
-				i++;
-			}
-
-			final UUID[] accessedProps = new UUID[implementation.getAccessedProperties().size()];
-			i = 0;
-			for (final AccessedProperty accProp : implementation.getAccessedProperties()) {
-				accessedProps[i] = this.storeAccessedProperty(accProp);
-				i++;
-			}
-
-			final UUID[] accessedImpls = new UUID[implementation.getAccessedImplementations().size()];
-			i = 0;
-			for (final AccessedImplementation accImpl : implementation.getAccessedImplementations()) {
-				accessedImpls[i] = this.storeAccessedImplementation(accImpl);
-				i++;
-			}
-
-			final String[] featureTypes = new String[implementation.getRequiredQualitativeFeatures().size()
-					+ implementation.getRequiredQuantitativeFeatures().size()];
-			final UUID[] features = new UUID[featureTypes.length];
-			i = 0;
-			for (final Entry<FeatureType, QualitativeFeature> entry : implementation.getRequiredQualitativeFeatures().entrySet()) {
-				featureTypes[i] = entry.getKey().name();
-				switch (entry.getKey()) {
-				case ARCHITECTURE:
-					features[i] = this.storeArchitectureFeature((ArchitectureFeature) entry.getValue());
-					break;
-				case LANGUAGE:
-					features[i] = this.storeLanguageFeature((LanguageFeature) entry.getValue());
-					break;
-				default:
-					break;
-
-				}
-				i++;
-			}
-			for (final Entry<FeatureType, QuantitativeFeature> entry : implementation.getRequiredQuantitativeFeatures().entrySet()) {
-				featureTypes[i] = entry.getKey().name();
-				switch (entry.getKey()) {
-				case CPU:
-					features[i] = this.storeCPUFeature((CPUFeature) entry.getValue());
-					break;
-				case MEMORY:
-					features[i] = this.storeMemoryFeature((MemoryFeature) entry.getValue());
-					break;
-				default:
-					break;
-
-				}
-				i++;
-			}
-
-			UUID prefetchingInfoUUID = null;
-			if (implementation.getPrefetchingInfo() != null) {
-				prefetchingInfoUUID = this.storePrefecthingInfo(implementation.getPrefetchingInfo());
-			}
-
-			conn = dataSource.getConnection();
-			final PreparedStatement insertStatement = conn.prepareStatement(
-					ClassManagerSQLStatements.SqlStatements.INSERT_PYTHON_IMPLEMENTATION.getSqlStatement());
-			insertStatement.setObject(1, uuid);
-			// CHECKSTYLE:OFF
-			insertStatement.setString(2, implementation.getResponsibleAccountName());
-			insertStatement.setString(3, implementation.getNamespace());
-			insertStatement.setString(4, implementation.getClassName());
-			insertStatement.setString(5, implementation.getOpNameAndDescriptor());
-			insertStatement.setInt(6, implementation.getPosition());
-
-			Array sqlArray = insertStatement.getConnection().createArrayOf("uuid", includes);
-			insertStatement.setArray(7, sqlArray);
-			sqlArray = insertStatement.getConnection().createArrayOf("uuid", accessedProps);
-			insertStatement.setArray(8, sqlArray);
-			sqlArray = insertStatement.getConnection().createArrayOf("uuid", accessedImpls);
-			insertStatement.setArray(9, sqlArray);
-			sqlArray = insertStatement.getConnection().createArrayOf("varchar", featureTypes);
-			insertStatement.setArray(10, sqlArray);
-			sqlArray = insertStatement.getConnection().createArrayOf("uuid", features);
-			insertStatement.setArray(11, sqlArray);
-
-			insertStatement.setObject(12, implementation.getOperationID().getId());
-			insertStatement.setObject(13, implementation.getMetaClassID().getId());
-			insertStatement.setObject(14, implementation.getResponsibleAccountID().getId());
-			insertStatement.setObject(15, implementation.getNamespaceID().getId());
-			insertStatement.setObject(16, prefetchingInfoUUID);
-			insertStatement.setString(17, implementation.getCode());
-
-			// CHECKSTYLE:ON
-			if (DEBUG_ENABLED) {
-				logger.debug("[==DB==] Executing " + insertStatement);
-			}
-			insertStatement.executeUpdate();
-
-		} catch (final Exception e) {
-			logger.debug("SQL Exception in storePythonImplementation", e);
-		} finally {
+		synchronized (dataSource) {
+			Connection conn = null;
+			final UUID uuid = implementation.getDataClayID().getId();
 			try {
-				if (conn != null) {
-					conn.close();
-				}
-			} catch (final SQLException ex1) {
-				logger.debug("SQL Exception while closing connection", ex1);
-			}
-		}
-		return uuid;
 
+				final UUID[] includes = new UUID[implementation.getIncludes().size()];
+				int i = 0;
+				for (final Type include : implementation.getIncludes()) {
+					includes[i] = this.storeType(include);
+					i++;
+				}
+
+				final UUID[] accessedProps = new UUID[implementation.getAccessedProperties().size()];
+				i = 0;
+				for (final AccessedProperty accProp : implementation.getAccessedProperties()) {
+					accessedProps[i] = this.storeAccessedProperty(accProp);
+					i++;
+				}
+
+				final UUID[] accessedImpls = new UUID[implementation.getAccessedImplementations().size()];
+				i = 0;
+				for (final AccessedImplementation accImpl : implementation.getAccessedImplementations()) {
+					accessedImpls[i] = this.storeAccessedImplementation(accImpl);
+					i++;
+				}
+
+				final String[] featureTypes = new String[implementation.getRequiredQualitativeFeatures().size()
+						+ implementation.getRequiredQuantitativeFeatures().size()];
+				final UUID[] features = new UUID[featureTypes.length];
+				i = 0;
+				for (final Entry<FeatureType, QualitativeFeature> entry : implementation.getRequiredQualitativeFeatures().entrySet()) {
+					featureTypes[i] = entry.getKey().name();
+					switch (entry.getKey()) {
+						case ARCHITECTURE:
+							features[i] = this.storeArchitectureFeature((ArchitectureFeature) entry.getValue());
+							break;
+						case LANGUAGE:
+							features[i] = this.storeLanguageFeature((LanguageFeature) entry.getValue());
+							break;
+						default:
+							break;
+
+					}
+					i++;
+				}
+				for (final Entry<FeatureType, QuantitativeFeature> entry : implementation.getRequiredQuantitativeFeatures().entrySet()) {
+					featureTypes[i] = entry.getKey().name();
+					switch (entry.getKey()) {
+						case CPU:
+							features[i] = this.storeCPUFeature((CPUFeature) entry.getValue());
+							break;
+						case MEMORY:
+							features[i] = this.storeMemoryFeature((MemoryFeature) entry.getValue());
+							break;
+						default:
+							break;
+
+					}
+					i++;
+				}
+
+				UUID prefetchingInfoUUID = null;
+				if (implementation.getPrefetchingInfo() != null) {
+					prefetchingInfoUUID = this.storePrefecthingInfo(implementation.getPrefetchingInfo());
+				}
+
+				conn = dataSource.getConnection();
+				final PreparedStatement insertStatement = conn.prepareStatement(
+						ClassManagerSQLStatements.SqlStatements.INSERT_PYTHON_IMPLEMENTATION.getSqlStatement());
+				insertStatement.setObject(1, uuid);
+				// CHECKSTYLE:OFF
+				insertStatement.setString(2, implementation.getResponsibleAccountName());
+				insertStatement.setString(3, implementation.getNamespace());
+				insertStatement.setString(4, implementation.getClassName());
+				insertStatement.setString(5, implementation.getOpNameAndDescriptor());
+				insertStatement.setInt(6, implementation.getPosition());
+
+				Array sqlArray = insertStatement.getConnection().createArrayOf("uuid", includes);
+				insertStatement.setArray(7, sqlArray);
+				sqlArray = insertStatement.getConnection().createArrayOf("uuid", accessedProps);
+				insertStatement.setArray(8, sqlArray);
+				sqlArray = insertStatement.getConnection().createArrayOf("uuid", accessedImpls);
+				insertStatement.setArray(9, sqlArray);
+				sqlArray = insertStatement.getConnection().createArrayOf("varchar", featureTypes);
+				insertStatement.setArray(10, sqlArray);
+				sqlArray = insertStatement.getConnection().createArrayOf("uuid", features);
+				insertStatement.setArray(11, sqlArray);
+
+				insertStatement.setObject(12, implementation.getOperationID().getId());
+				insertStatement.setObject(13, implementation.getMetaClassID().getId());
+				insertStatement.setObject(14, implementation.getResponsibleAccountID().getId());
+				insertStatement.setObject(15, implementation.getNamespaceID().getId());
+				insertStatement.setObject(16, prefetchingInfoUUID);
+				insertStatement.setString(17, implementation.getCode());
+
+				// CHECKSTYLE:ON
+				if (DEBUG_ENABLED) {
+					logger.debug("[==DB==] Executing " + insertStatement);
+				}
+				insertStatement.executeUpdate();
+
+			} catch (final Exception e) {
+				logger.debug("SQL Exception in storePythonImplementation", e);
+			} finally {
+				try {
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException ex1) {
+					logger.debug("SQL Exception while closing connection", ex1);
+				}
+			}
+
+			return uuid;
+		}
 	}
 
 	/**
@@ -916,115 +938,116 @@ public final class ClassManagerDB {
 	 * @return UUID of stored object
 	 */
 	public UUID storeProperty(final Property property) {
-		Connection conn = null;
-		final UUID uuid = property.getDataClayID().getId();
-		try {
-
-			final UUID typeID = this.storeType(property.getType());
-
-			conn = dataSource.getConnection();
-			final PreparedStatement insertStatement = conn.prepareStatement(ClassManagerSQLStatements.SqlStatements.INSERT_PROPERTY.getSqlStatement());
-			insertStatement.setObject(1, uuid);
-			// CHECKSTYLE:OFF
-			insertStatement.setString(2, property.getNamespace());
-			insertStatement.setString(3, property.getClassName());
-			insertStatement.setString(4, property.getName());
-			insertStatement.setInt(5, property.getPosition());
-
-			insertStatement.setObject(6, typeID);
-			if (property.getGetterOperationID() != null) {
-				insertStatement.setObject(7, property.getGetterOperationID().getId());
-			} else {
-				insertStatement.setObject(7, null);
-			}
-			if (property.getGetterImplementationID() != null) {
-				insertStatement.setObject(8, property.getGetterImplementationID().getId());
-			} else {
-				insertStatement.setObject(8, null);
-			}
-			if (property.getSetterOperationID() != null) {
-				insertStatement.setObject(9, property.getSetterOperationID().getId());
-			} else {
-				insertStatement.setObject(9, null);
-			}
-			if (property.getSetterImplementationID() != null) {
-				insertStatement.setObject(10, property.getSetterImplementationID().getId());
-			} else {
-				insertStatement.setObject(10, null);
-			}
-
-			insertStatement.setObject(11, property.getNamespaceID().getId());
-			insertStatement.setObject(12, property.getMetaClassID().getId());
-
-			if (property.getLanguageDepInfos() != null) {
-				final String[] extensionsTypeArray = new String[property.getLanguageDepInfos().size()];
-				final UUID[] extensionsArray = new UUID[property.getLanguageDepInfos().size()];
-				int i = 0;
-				for (final Entry<Langs, LanguageDependantPropertyInfo> entry : property.getLanguageDepInfos().entrySet()) {
-					extensionsTypeArray[i] = entry.getKey().name();
-					if (entry.getKey().equals(Langs.LANG_JAVA)) {
-						extensionsArray[i] = storeJavaPropertyInfo((JavaPropertyInfo) entry.getValue());
-					} else if (entry.getKey().equals(Langs.LANG_PYTHON)) {
-						extensionsArray[i] = storePythonPropertyInfo((PythonPropertyInfo) entry.getValue());
-					}
-					i++;
-				}
-
-				Array sqlArray = insertStatement.getConnection().createArrayOf("varchar", extensionsTypeArray);
-				insertStatement.setArray(13, sqlArray);
-				sqlArray = insertStatement.getConnection().createArrayOf("uuid", extensionsArray);
-				insertStatement.setArray(14, sqlArray);
-			} else {
-				insertStatement.setArray(13, null);
-				insertStatement.setArray(14, null);
-			}
-
-			final List<Annotation> annotations = property.getAnnotations();
-			if (annotations != null && annotations.size() > 0) {
-				final UUID[] annotationsUUIDArray = new UUID[annotations.size()];
-				for (int i = 0; i < annotations.size(); i++) {
-					annotationsUUIDArray[i] = storeAnnotation(annotations.get(i));
-				}
-				final Array sqlArray = insertStatement.getConnection().createArrayOf("uuid", annotationsUUIDArray);
-				insertStatement.setArray(15, sqlArray);
-			} else {
-				insertStatement.setArray(15, null);
-			}
-
-			if (property.getUpdateImplementationID() != null) {
-				insertStatement.setObject(16, property.getUpdateImplementationID().getId());
-			} else {
-				insertStatement.setObject(16, null);
-			}
-			if (property.getUpdateOperationID() != null) {
-				insertStatement.setObject(17, property.getUpdateOperationID().getId());
-			} else {
-				insertStatement.setObject(17, null);
-			}
-
-			insertStatement.setString(18, property.getBeforeUpdate());
-			insertStatement.setString(19, property.getAfterUpdate());
-			insertStatement.setBoolean(20, property.getInMaster());
-
-			// CHECKSTYLE:ON
-			if (DEBUG_ENABLED) {
-				logger.debug("[==DB==] Executing " + insertStatement);
-			}
-			insertStatement.executeUpdate();
-
-		} catch (final Exception e) {
-			logger.debug("SQL Exception in storeProperty", e);
-		} finally {
+		synchronized (dataSource) {
+			Connection conn = null;
+			final UUID uuid = property.getDataClayID().getId();
 			try {
-				if (conn != null) {
-					conn.close();
-				}
-			} catch (final SQLException ex1) {
-				logger.debug("SQL Exception while closing connection", ex1);
-			}
-		}
-		return uuid;
 
+				final UUID typeID = this.storeType(property.getType());
+
+				conn = dataSource.getConnection();
+				final PreparedStatement insertStatement = conn.prepareStatement(ClassManagerSQLStatements.SqlStatements.INSERT_PROPERTY.getSqlStatement());
+				insertStatement.setObject(1, uuid);
+				// CHECKSTYLE:OFF
+				insertStatement.setString(2, property.getNamespace());
+				insertStatement.setString(3, property.getClassName());
+				insertStatement.setString(4, property.getName());
+				insertStatement.setInt(5, property.getPosition());
+
+				insertStatement.setObject(6, typeID);
+				if (property.getGetterOperationID() != null) {
+					insertStatement.setObject(7, property.getGetterOperationID().getId());
+				} else {
+					insertStatement.setObject(7, null);
+				}
+				if (property.getGetterImplementationID() != null) {
+					insertStatement.setObject(8, property.getGetterImplementationID().getId());
+				} else {
+					insertStatement.setObject(8, null);
+				}
+				if (property.getSetterOperationID() != null) {
+					insertStatement.setObject(9, property.getSetterOperationID().getId());
+				} else {
+					insertStatement.setObject(9, null);
+				}
+				if (property.getSetterImplementationID() != null) {
+					insertStatement.setObject(10, property.getSetterImplementationID().getId());
+				} else {
+					insertStatement.setObject(10, null);
+				}
+
+				insertStatement.setObject(11, property.getNamespaceID().getId());
+				insertStatement.setObject(12, property.getMetaClassID().getId());
+
+				if (property.getLanguageDepInfos() != null) {
+					final String[] extensionsTypeArray = new String[property.getLanguageDepInfos().size()];
+					final UUID[] extensionsArray = new UUID[property.getLanguageDepInfos().size()];
+					int i = 0;
+					for (final Entry<Langs, LanguageDependantPropertyInfo> entry : property.getLanguageDepInfos().entrySet()) {
+						extensionsTypeArray[i] = entry.getKey().name();
+						if (entry.getKey().equals(Langs.LANG_JAVA)) {
+							extensionsArray[i] = storeJavaPropertyInfo((JavaPropertyInfo) entry.getValue());
+						} else if (entry.getKey().equals(Langs.LANG_PYTHON)) {
+							extensionsArray[i] = storePythonPropertyInfo((PythonPropertyInfo) entry.getValue());
+						}
+						i++;
+					}
+
+					Array sqlArray = insertStatement.getConnection().createArrayOf("varchar", extensionsTypeArray);
+					insertStatement.setArray(13, sqlArray);
+					sqlArray = insertStatement.getConnection().createArrayOf("uuid", extensionsArray);
+					insertStatement.setArray(14, sqlArray);
+				} else {
+					insertStatement.setArray(13, null);
+					insertStatement.setArray(14, null);
+				}
+
+				final List<Annotation> annotations = property.getAnnotations();
+				if (annotations != null && annotations.size() > 0) {
+					final UUID[] annotationsUUIDArray = new UUID[annotations.size()];
+					for (int i = 0; i < annotations.size(); i++) {
+						annotationsUUIDArray[i] = storeAnnotation(annotations.get(i));
+					}
+					final Array sqlArray = insertStatement.getConnection().createArrayOf("uuid", annotationsUUIDArray);
+					insertStatement.setArray(15, sqlArray);
+				} else {
+					insertStatement.setArray(15, null);
+				}
+
+				if (property.getUpdateImplementationID() != null) {
+					insertStatement.setObject(16, property.getUpdateImplementationID().getId());
+				} else {
+					insertStatement.setObject(16, null);
+				}
+				if (property.getUpdateOperationID() != null) {
+					insertStatement.setObject(17, property.getUpdateOperationID().getId());
+				} else {
+					insertStatement.setObject(17, null);
+				}
+
+				insertStatement.setString(18, property.getBeforeUpdate());
+				insertStatement.setString(19, property.getAfterUpdate());
+				insertStatement.setBoolean(20, property.getInMaster());
+
+				// CHECKSTYLE:ON
+				if (DEBUG_ENABLED) {
+					logger.debug("[==DB==] Executing " + insertStatement);
+				}
+				insertStatement.executeUpdate();
+
+			} catch (final Exception e) {
+				logger.debug("SQL Exception in storeProperty", e);
+			} finally {
+				try {
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException ex1) {
+					logger.debug("SQL Exception while closing connection", ex1);
+				}
+			}
+			return uuid;
+		}
 	}
 
 	/**
@@ -1034,34 +1057,35 @@ public final class ClassManagerDB {
 	 * @return UUID of stored object
 	 */
 	public UUID storeJavaPropertyInfo(final JavaPropertyInfo type) {
-		Connection conn = null;
-		final UUID uuid = UUID.randomUUID();
-		try {
-
-			conn = dataSource.getConnection();
-			final PreparedStatement insertStatement = conn.prepareStatement(ClassManagerSQLStatements.SqlStatements.INSERT_JAVA_PROPERTY.getSqlStatement());
-			insertStatement.setObject(1, uuid);
-			insertStatement.setInt(2, type.getModifier());
-			// CHECKSTYLE:OFF
-			// CHECKSTYLE:ON
-			if (DEBUG_ENABLED) {
-				logger.debug("[==DB==] Executing " + insertStatement);
-			}
-			insertStatement.executeUpdate();
-
-		} catch (final Exception e) {
-			logger.debug("SQL Exception in storeJavaPropertyInfo", e);
-		} finally {
+		synchronized (dataSource) {
+			Connection conn = null;
+			final UUID uuid = UUID.randomUUID();
 			try {
-				if (conn != null) {
-					conn.close();
-				}
-			} catch (final SQLException ex1) {
-				logger.debug("SQL Exception while closing connection", ex1);
-			}
-		}
-		return uuid;
 
+				conn = dataSource.getConnection();
+				final PreparedStatement insertStatement = conn.prepareStatement(ClassManagerSQLStatements.SqlStatements.INSERT_JAVA_PROPERTY.getSqlStatement());
+				insertStatement.setObject(1, uuid);
+				insertStatement.setInt(2, type.getModifier());
+				// CHECKSTYLE:OFF
+				// CHECKSTYLE:ON
+				if (DEBUG_ENABLED) {
+					logger.debug("[==DB==] Executing " + insertStatement);
+				}
+				insertStatement.executeUpdate();
+
+			} catch (final Exception e) {
+				logger.debug("SQL Exception in storeJavaPropertyInfo", e);
+			} finally {
+				try {
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException ex1) {
+					logger.debug("SQL Exception while closing connection", ex1);
+				}
+			}
+			return uuid;
+		}
 	}
 
 	/**
@@ -1071,52 +1095,54 @@ public final class ClassManagerDB {
 	 * @return UUID of stored object
 	 */
 	public UUID storeAnnotation(final Annotation annotation) {
-		Connection conn = null;
-		final UUID uuid = UUID.randomUUID();
-		try {
-
-			conn = dataSource.getConnection();
-			final PreparedStatement insertStatement = conn.prepareStatement(ClassManagerSQLStatements.SqlStatements.INSERT_ANNOTATION.getSqlStatement());
-			insertStatement.setObject(1, uuid);
-			insertStatement.setString(2, annotation.getDescr());
-
-			Array sqlKeys = null, sqlValues = null;
-			final Map<String, String> parameters = annotation.getParameters();
-			if (parameters != null && parameters.size() > 0) {
-				final String[] keys = new String[parameters.size()];
-				final String[] values = new String[parameters.size()];
-				int i = 0;
-				final Iterator<String> iterator = annotation.getParameters().keySet().iterator();
-				while (iterator.hasNext()) {
-					keys[i] = iterator.next();
-					values[i] = parameters.get(keys[i]);
-					i++;
-				}
-				sqlKeys = insertStatement.getConnection().createArrayOf("varchar", keys);
-				sqlValues = insertStatement.getConnection().createArrayOf("varchar", values);
-			}
-			insertStatement.setArray(3, sqlKeys);
-			insertStatement.setArray(4, sqlValues);
-
-			// CHECKSTYLE:OFF
-			// CHECKSTYLE:ON
-			if (DEBUG_ENABLED) {
-				logger.debug("[==DB==] Executing " + insertStatement);
-			}
-			insertStatement.executeUpdate();
-
-		} catch (final Exception e) {
-			logger.debug("SQL Exception in storeAnnotation", e);
-		} finally {
+		synchronized (dataSource) {
+			Connection conn = null;
+			final UUID uuid = UUID.randomUUID();
 			try {
-				if (conn != null) {
-					conn.close();
+
+				conn = dataSource.getConnection();
+				final PreparedStatement insertStatement = conn.prepareStatement(ClassManagerSQLStatements.SqlStatements.INSERT_ANNOTATION.getSqlStatement());
+				insertStatement.setObject(1, uuid);
+				insertStatement.setString(2, annotation.getDescr());
+
+				Array sqlKeys = null, sqlValues = null;
+				final Map<String, String> parameters = annotation.getParameters();
+				if (parameters != null && parameters.size() > 0) {
+					final String[] keys = new String[parameters.size()];
+					final String[] values = new String[parameters.size()];
+					int i = 0;
+					final Iterator<String> iterator = annotation.getParameters().keySet().iterator();
+					while (iterator.hasNext()) {
+						keys[i] = iterator.next();
+						values[i] = parameters.get(keys[i]);
+						i++;
+					}
+					sqlKeys = insertStatement.getConnection().createArrayOf("varchar", keys);
+					sqlValues = insertStatement.getConnection().createArrayOf("varchar", values);
 				}
-			} catch (final SQLException ex1) {
-				logger.debug("SQL Exception while closing connection", ex1);
+				insertStatement.setArray(3, sqlKeys);
+				insertStatement.setArray(4, sqlValues);
+
+				// CHECKSTYLE:OFF
+				// CHECKSTYLE:ON
+				if (DEBUG_ENABLED) {
+					logger.debug("[==DB==] Executing " + insertStatement);
+				}
+				insertStatement.executeUpdate();
+
+			} catch (final Exception e) {
+				logger.debug("SQL Exception in storeAnnotation", e);
+			} finally {
+				try {
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException ex1) {
+					logger.debug("SQL Exception while closing connection", ex1);
+				}
 			}
+			return uuid;
 		}
-		return uuid;
 	}
 
 	/**
@@ -1126,33 +1152,34 @@ public final class ClassManagerDB {
 	 * @return UUID of stored object
 	 */
 	public UUID storePythonPropertyInfo(final PythonPropertyInfo type) {
-		Connection conn = null;
-		final UUID uuid = UUID.randomUUID();
-		try {
-
-			conn = dataSource.getConnection();
-			final PreparedStatement insertStatement = conn.prepareStatement(ClassManagerSQLStatements.SqlStatements.INSERT_PYTHON_PROPERTY.getSqlStatement());
-			insertStatement.setObject(1, uuid);
-			// CHECKSTYLE:OFF
-			// CHECKSTYLE:ON
-			if (DEBUG_ENABLED) {
-				logger.debug("[==DB==] Executing " + insertStatement);
-			}
-			insertStatement.executeUpdate();
-
-		} catch (final Exception e) {
-			logger.debug("SQL Exception in storePythonPropertyInfo", e);
-		} finally {
+		synchronized (dataSource) {
+			Connection conn = null;
+			final UUID uuid = UUID.randomUUID();
 			try {
-				if (conn != null) {
-					conn.close();
-				}
-			} catch (final SQLException ex1) {
-				logger.debug("SQL Exception while closing connection", ex1);
-			}
-		}
-		return uuid;
 
+				conn = dataSource.getConnection();
+				final PreparedStatement insertStatement = conn.prepareStatement(ClassManagerSQLStatements.SqlStatements.INSERT_PYTHON_PROPERTY.getSqlStatement());
+				insertStatement.setObject(1, uuid);
+				// CHECKSTYLE:OFF
+				// CHECKSTYLE:ON
+				if (DEBUG_ENABLED) {
+					logger.debug("[==DB==] Executing " + insertStatement);
+				}
+				insertStatement.executeUpdate();
+
+			} catch (final Exception e) {
+				logger.debug("SQL Exception in storePythonPropertyInfo", e);
+			} finally {
+				try {
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException ex1) {
+					logger.debug("SQL Exception while closing connection", ex1);
+				}
+			}
+			return uuid;
+		}
 	}
 
 	/**
@@ -1162,106 +1189,108 @@ public final class ClassManagerDB {
 	 * @return UUID of stored object
 	 */
 	public UUID storeOperation(final Operation operation) {
-		Connection conn = null;
-		final UUID uuid = operation.getDataClayID().getId();
-		try {
-			// Params
-			final UUID[] paramsTypes = new UUID[operation.getParams().size()];
-			int i = 0;
-			for (final Type paramType : operation.getParams().values()) {
-				paramsTypes[i] = this.storeType(paramType);
-				i++;
-			}
-			// Return
-			final UUID returnTypeID = this.storeType(operation.getReturnType());
-
-			// Implementations
-			final UUID[] implementationsIDs = new UUID[operation.getImplementations().size()];
-			i = 0;
-			for (final Implementation impl : operation.getImplementations()) {
-				if (impl instanceof JavaImplementation) {
-					implementationsIDs[i] = this.storeJavaImplementation((JavaImplementation) impl);
-				} else if (impl instanceof PythonImplementation) {
-					implementationsIDs[i] = this.storePythonImplementation((PythonImplementation) impl);
+		synchronized (dataSource) {
+			Connection conn = null;
+			final UUID uuid = operation.getDataClayID().getId();
+			try {
+				// Params
+				final UUID[] paramsTypes = new UUID[operation.getParams().size()];
+				int i = 0;
+				for (final Type paramType : operation.getParams().values()) {
+					paramsTypes[i] = this.storeType(paramType);
+					i++;
 				}
-				i++;
-			}
+				// Return
+				final UUID returnTypeID = this.storeType(operation.getReturnType());
 
-			conn = dataSource.getConnection();
-			final PreparedStatement insertStatement = conn.prepareStatement(ClassManagerSQLStatements.SqlStatements.INSERT_OPERATION.getSqlStatement());
-			insertStatement.setObject(1, uuid);
-			// CHECKSTYLE:OFF
-			insertStatement.setString(2, operation.getNamespace());
-			insertStatement.setString(3, operation.getClassName());
-			insertStatement.setString(4, operation.getDescriptor());
-			insertStatement.setString(5, operation.getSignature());
-			insertStatement.setString(6, operation.getName());
-			insertStatement.setString(7, operation.getNameAndDescriptor());
-
-			final String[] paramsNames = operation.getParams().keySet().toArray(new String[] {});
-			Array sqlArray = insertStatement.getConnection().createArrayOf("varchar", paramsNames);
-			insertStatement.setArray(8, sqlArray);
-
-			sqlArray = insertStatement.getConnection().createArrayOf("uuid", paramsTypes);
-			insertStatement.setArray(9, sqlArray);
-
-			final String[] paramsOrder = operation.getParamsOrder().toArray(new String[] {});
-			sqlArray = insertStatement.getConnection().createArrayOf("varchar", paramsOrder);
-			insertStatement.setArray(10, sqlArray);
-
-			insertStatement.setObject(11, returnTypeID);
-
-			sqlArray = insertStatement.getConnection().createArrayOf("uuid", implementationsIDs);
-			insertStatement.setArray(12, sqlArray);
-
-			insertStatement.setBoolean(13, operation.getIsAbstract());
-			insertStatement.setBoolean(14, operation.getIsStaticConstructor());
-
-			insertStatement.setObject(15, operation.getMetaClassID().getId());
-			insertStatement.setObject(16, operation.getNamespaceID().getId());
-
-			if (operation.getLanguageDepInfos() != null) {
-				final String[] extensionsTypeArray = new String[operation.getLanguageDepInfos().size()];
-				final UUID[] extensionsArray = new UUID[operation.getLanguageDepInfos().size()];
+				// Implementations
+				final UUID[] implementationsIDs = new UUID[operation.getImplementations().size()];
 				i = 0;
-				for (final Entry<Langs, LanguageDependantOperationInfo> entry : operation.getLanguageDepInfos().entrySet()) {
-					extensionsTypeArray[i] = entry.getKey().name();
-					if (entry.getKey().equals(Langs.LANG_JAVA)) {
-						extensionsArray[i] = storeJavaOperationInfo((JavaOperationInfo) entry.getValue());
-					} else if (entry.getKey().equals(Langs.LANG_PYTHON)) {
-						extensionsArray[i] = storePythonOperationInfo((PythonOperationInfo) entry.getValue());
+				for (final Implementation impl : operation.getImplementations()) {
+					if (impl instanceof JavaImplementation) {
+						implementationsIDs[i] = this.storeJavaImplementation((JavaImplementation) impl);
+					} else if (impl instanceof PythonImplementation) {
+						implementationsIDs[i] = this.storePythonImplementation((PythonImplementation) impl);
 					}
 					i++;
 				}
 
-				sqlArray = insertStatement.getConnection().createArrayOf("varchar", extensionsTypeArray);
-				insertStatement.setArray(17, sqlArray);
+				conn = dataSource.getConnection();
+				final PreparedStatement insertStatement = conn.prepareStatement(ClassManagerSQLStatements.SqlStatements.INSERT_OPERATION.getSqlStatement());
+				insertStatement.setObject(1, uuid);
+				// CHECKSTYLE:OFF
+				insertStatement.setString(2, operation.getNamespace());
+				insertStatement.setString(3, operation.getClassName());
+				insertStatement.setString(4, operation.getDescriptor());
+				insertStatement.setString(5, operation.getSignature());
+				insertStatement.setString(6, operation.getName());
+				insertStatement.setString(7, operation.getNameAndDescriptor());
 
-				sqlArray = insertStatement.getConnection().createArrayOf("uuid", extensionsArray);
-				insertStatement.setArray(18, sqlArray);
-			} else {
-				insertStatement.setArray(17, null);
-				insertStatement.setArray(18, null);
-			}
+				final String[] paramsNames = operation.getParams().keySet().toArray(new String[]{});
+				Array sqlArray = insertStatement.getConnection().createArrayOf("varchar", paramsNames);
+				insertStatement.setArray(8, sqlArray);
 
-			// CHECKSTYLE:ON
-			if (DEBUG_ENABLED) {
-				logger.debug("[==DB==] Executing " + insertStatement + "(" + uuid + ")");
-			}
-			insertStatement.executeUpdate();
+				sqlArray = insertStatement.getConnection().createArrayOf("uuid", paramsTypes);
+				insertStatement.setArray(9, sqlArray);
 
-		} catch (final Exception e) {
-			logger.debug("SQL Exception in storeOperation", e);
-		} finally {
-			try {
-				if (conn != null) {
-					conn.close();
+				final String[] paramsOrder = operation.getParamsOrder().toArray(new String[]{});
+				sqlArray = insertStatement.getConnection().createArrayOf("varchar", paramsOrder);
+				insertStatement.setArray(10, sqlArray);
+
+				insertStatement.setObject(11, returnTypeID);
+
+				sqlArray = insertStatement.getConnection().createArrayOf("uuid", implementationsIDs);
+				insertStatement.setArray(12, sqlArray);
+
+				insertStatement.setBoolean(13, operation.getIsAbstract());
+				insertStatement.setBoolean(14, operation.getIsStaticConstructor());
+
+				insertStatement.setObject(15, operation.getMetaClassID().getId());
+				insertStatement.setObject(16, operation.getNamespaceID().getId());
+
+				if (operation.getLanguageDepInfos() != null) {
+					final String[] extensionsTypeArray = new String[operation.getLanguageDepInfos().size()];
+					final UUID[] extensionsArray = new UUID[operation.getLanguageDepInfos().size()];
+					i = 0;
+					for (final Entry<Langs, LanguageDependantOperationInfo> entry : operation.getLanguageDepInfos().entrySet()) {
+						extensionsTypeArray[i] = entry.getKey().name();
+						if (entry.getKey().equals(Langs.LANG_JAVA)) {
+							extensionsArray[i] = storeJavaOperationInfo((JavaOperationInfo) entry.getValue());
+						} else if (entry.getKey().equals(Langs.LANG_PYTHON)) {
+							extensionsArray[i] = storePythonOperationInfo((PythonOperationInfo) entry.getValue());
+						}
+						i++;
+					}
+
+					sqlArray = insertStatement.getConnection().createArrayOf("varchar", extensionsTypeArray);
+					insertStatement.setArray(17, sqlArray);
+
+					sqlArray = insertStatement.getConnection().createArrayOf("uuid", extensionsArray);
+					insertStatement.setArray(18, sqlArray);
+				} else {
+					insertStatement.setArray(17, null);
+					insertStatement.setArray(18, null);
 				}
-			} catch (final SQLException ex1) {
-				logger.debug("SQL Exception while closing connection", ex1);
+
+				// CHECKSTYLE:ON
+				if (DEBUG_ENABLED) {
+					logger.debug("[==DB==] Executing " + insertStatement + "(" + uuid + ")");
+				}
+				insertStatement.executeUpdate();
+
+			} catch (final Exception e) {
+				logger.debug("SQL Exception in storeOperation", e);
+			} finally {
+				try {
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException ex1) {
+					logger.debug("SQL Exception while closing connection", ex1);
+				}
 			}
+			return uuid;
 		}
-		return uuid;
 
 	}
 
@@ -1272,34 +1301,35 @@ public final class ClassManagerDB {
 	 * @return UUID of stored object
 	 */
 	public UUID storeJavaOperationInfo(final JavaOperationInfo type) {
-		Connection conn = null;
-		final UUID uuid = UUID.randomUUID();
-		try {
-
-			conn = dataSource.getConnection();
-			final PreparedStatement insertStatement = conn.prepareStatement(ClassManagerSQLStatements.SqlStatements.INSERT_JAVA_OPERATION.getSqlStatement());
-			insertStatement.setObject(1, uuid);
-			insertStatement.setInt(2, type.getModifier());
-			// CHECKSTYLE:OFF
-			// CHECKSTYLE:ON
-			if (DEBUG_ENABLED) {
-				logger.debug("[==DB==] Executing " + insertStatement);
-			}
-			insertStatement.executeUpdate();
-
-		} catch (final Exception e) {
-			logger.debug("SQL Exception in storeJavaOperationInfo", e);
-		} finally {
+		synchronized (dataSource) {
+			Connection conn = null;
+			final UUID uuid = UUID.randomUUID();
 			try {
-				if (conn != null) {
-					conn.close();
-				}
-			} catch (final SQLException ex1) {
-				logger.debug("SQL Exception while closing connection", ex1);
-			}
-		}
-		return uuid;
 
+				conn = dataSource.getConnection();
+				final PreparedStatement insertStatement = conn.prepareStatement(ClassManagerSQLStatements.SqlStatements.INSERT_JAVA_OPERATION.getSqlStatement());
+				insertStatement.setObject(1, uuid);
+				insertStatement.setInt(2, type.getModifier());
+				// CHECKSTYLE:OFF
+				// CHECKSTYLE:ON
+				if (DEBUG_ENABLED) {
+					logger.debug("[==DB==] Executing " + insertStatement);
+				}
+				insertStatement.executeUpdate();
+
+			} catch (final Exception e) {
+				logger.debug("SQL Exception in storeJavaOperationInfo", e);
+			} finally {
+				try {
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException ex1) {
+					logger.debug("SQL Exception while closing connection", ex1);
+				}
+			}
+			return uuid;
+		}
 	}
 
 	/**
@@ -1309,32 +1339,34 @@ public final class ClassManagerDB {
 	 * @return UUID of stored object
 	 */
 	public UUID storePythonOperationInfo(final PythonOperationInfo type) {
-		Connection conn = null;
-		final UUID uuid = UUID.randomUUID();
-		try {
-
-			conn = dataSource.getConnection();
-			final PreparedStatement insertStatement = conn.prepareStatement(ClassManagerSQLStatements.SqlStatements.INSERT_PYTHON_OPERATION.getSqlStatement());
-			insertStatement.setObject(1, uuid);
-			// CHECKSTYLE:OFF
-			// CHECKSTYLE:ON
-			if (DEBUG_ENABLED) {
-				logger.debug("[==DB==] Executing " + insertStatement);
-			}
-			insertStatement.executeUpdate();
-
-		} catch (final Exception e) {
-			logger.debug("SQL Exception in storePythonOperationInfo", e);
-		} finally {
+		synchronized (dataSource) {
+			Connection conn = null;
+			final UUID uuid = UUID.randomUUID();
 			try {
-				if (conn != null) {
-					conn.close();
+
+				conn = dataSource.getConnection();
+				final PreparedStatement insertStatement = conn.prepareStatement(ClassManagerSQLStatements.SqlStatements.INSERT_PYTHON_OPERATION.getSqlStatement());
+				insertStatement.setObject(1, uuid);
+				// CHECKSTYLE:OFF
+				// CHECKSTYLE:ON
+				if (DEBUG_ENABLED) {
+					logger.debug("[==DB==] Executing " + insertStatement);
 				}
-			} catch (final SQLException ex1) {
-				logger.debug("SQL Exception while closing connection", ex1);
+				insertStatement.executeUpdate();
+
+			} catch (final Exception e) {
+				logger.debug("SQL Exception in storePythonOperationInfo", e);
+			} finally {
+				try {
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException ex1) {
+					logger.debug("SQL Exception while closing connection", ex1);
+				}
 			}
+			return uuid;
 		}
-		return uuid;
 
 	}
 
@@ -1345,83 +1377,84 @@ public final class ClassManagerDB {
 	 * @return UUID of stored object
 	 */
 	public UUID storeMetaClass(final MetaClass metaclass) {
-		Connection conn = null;
-		final UUID uuid = metaclass.getDataClayID().getId();
-		try {
-
-			final UUID[] properties = new UUID[metaclass.getProperties().size()];
-			int i = 0;
-			for (final Property prop : metaclass.getProperties()) {
-				properties[i] = this.storeProperty(prop);
-				i++;
-			}
-
-			final UUID[] operations = new UUID[metaclass.getOperations().size()];
-			i = 0;
-			for (final Operation op : metaclass.getOperations()) {
-				operations[i] = this.storeOperation(op);
-				i++;
-			}
-
-			UUID parentTypeID = null;
-			if (metaclass.getParentType() != null) {
-				parentTypeID = this.storeType(metaclass.getParentType());
-			}
-			conn = dataSource.getConnection();
-			final PreparedStatement insertStatement = conn.prepareStatement(ClassManagerSQLStatements.SqlStatements.INSERT_METACLASS.getSqlStatement());
-			insertStatement.setObject(1, uuid);
-			// CHECKSTYLE:OFF
-			insertStatement.setString(2, metaclass.getNamespace());
-			insertStatement.setString(3, metaclass.getName());
-			insertStatement.setObject(4, parentTypeID);
-
-			Array sqlArray = insertStatement.getConnection().createArrayOf("uuid", properties);
-			insertStatement.setArray(5, sqlArray);
-
-			sqlArray = insertStatement.getConnection().createArrayOf("uuid", operations);
-			insertStatement.setArray(6, sqlArray);
-
-			insertStatement.setBoolean(7, metaclass.getIsAbstract());
-			insertStatement.setObject(8, metaclass.getNamespaceID().getId());
-
-			final String[] extensionsTypeArray = new String[metaclass.getLanguageDepInfos().size()];
-			final UUID[] extensionsArray = new UUID[metaclass.getLanguageDepInfos().size()];
-			i = 0;
-			for (final Entry<Langs, LanguageDependantClassInfo> entry : metaclass.getLanguageDepInfos().entrySet()) {
-				extensionsTypeArray[i] = entry.getKey().name();
-				if (entry.getKey().equals(Langs.LANG_JAVA)) {
-					extensionsArray[i] = storeJavaClassInfo((JavaClassInfo) entry.getValue());
-				} else if (entry.getKey().equals(Langs.LANG_PYTHON)) {
-					extensionsArray[i] = storePythonClassInfo((PythonClassInfo) entry.getValue());
-				}
-				i++;
-			}
-
-			sqlArray = insertStatement.getConnection().createArrayOf("varchar", extensionsTypeArray);
-			insertStatement.setArray(9, sqlArray);
-
-			sqlArray = insertStatement.getConnection().createArrayOf("uuid", extensionsArray);
-			insertStatement.setArray(10, sqlArray);
-
-			// CHECKSTYLE:ON
-			if (DEBUG_ENABLED) {
-				logger.debug("[==DB==] Executing " + insertStatement);
-			}
-			insertStatement.executeUpdate();
-
-		} catch (final Exception e) {
-			logger.debug("SQL Exception in storeMetaClass", e);
-		} finally {
+		synchronized (dataSource) {
+			Connection conn = null;
+			final UUID uuid = metaclass.getDataClayID().getId();
 			try {
-				if (conn != null) {
-					conn.close();
-				}
-			} catch (final SQLException ex1) {
-				logger.debug("SQL Exception while closing connection", ex1);
-			}
-		}
-		return uuid;
 
+				final UUID[] properties = new UUID[metaclass.getProperties().size()];
+				int i = 0;
+				for (final Property prop : metaclass.getProperties()) {
+					properties[i] = this.storeProperty(prop);
+					i++;
+				}
+
+				final UUID[] operations = new UUID[metaclass.getOperations().size()];
+				i = 0;
+				for (final Operation op : metaclass.getOperations()) {
+					operations[i] = this.storeOperation(op);
+					i++;
+				}
+
+				UUID parentTypeID = null;
+				if (metaclass.getParentType() != null) {
+					parentTypeID = this.storeType(metaclass.getParentType());
+				}
+				conn = dataSource.getConnection();
+				final PreparedStatement insertStatement = conn.prepareStatement(ClassManagerSQLStatements.SqlStatements.INSERT_METACLASS.getSqlStatement());
+				insertStatement.setObject(1, uuid);
+				// CHECKSTYLE:OFF
+				insertStatement.setString(2, metaclass.getNamespace());
+				insertStatement.setString(3, metaclass.getName());
+				insertStatement.setObject(4, parentTypeID);
+
+				Array sqlArray = insertStatement.getConnection().createArrayOf("uuid", properties);
+				insertStatement.setArray(5, sqlArray);
+
+				sqlArray = insertStatement.getConnection().createArrayOf("uuid", operations);
+				insertStatement.setArray(6, sqlArray);
+
+				insertStatement.setBoolean(7, metaclass.getIsAbstract());
+				insertStatement.setObject(8, metaclass.getNamespaceID().getId());
+
+				final String[] extensionsTypeArray = new String[metaclass.getLanguageDepInfos().size()];
+				final UUID[] extensionsArray = new UUID[metaclass.getLanguageDepInfos().size()];
+				i = 0;
+				for (final Entry<Langs, LanguageDependantClassInfo> entry : metaclass.getLanguageDepInfos().entrySet()) {
+					extensionsTypeArray[i] = entry.getKey().name();
+					if (entry.getKey().equals(Langs.LANG_JAVA)) {
+						extensionsArray[i] = storeJavaClassInfo((JavaClassInfo) entry.getValue());
+					} else if (entry.getKey().equals(Langs.LANG_PYTHON)) {
+						extensionsArray[i] = storePythonClassInfo((PythonClassInfo) entry.getValue());
+					}
+					i++;
+				}
+
+				sqlArray = insertStatement.getConnection().createArrayOf("varchar", extensionsTypeArray);
+				insertStatement.setArray(9, sqlArray);
+
+				sqlArray = insertStatement.getConnection().createArrayOf("uuid", extensionsArray);
+				insertStatement.setArray(10, sqlArray);
+
+				// CHECKSTYLE:ON
+				if (DEBUG_ENABLED) {
+					logger.debug("[==DB==] Executing " + insertStatement);
+				}
+				insertStatement.executeUpdate();
+
+			} catch (final Exception e) {
+				logger.debug("SQL Exception in storeMetaClass", e);
+			} finally {
+				try {
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException ex1) {
+					logger.debug("SQL Exception while closing connection", ex1);
+				}
+			}
+			return uuid;
+		}
 	}
 
 	/**
@@ -1431,44 +1464,45 @@ public final class ClassManagerDB {
 	 * @return UUID of stored object
 	 */
 	public UUID storeJavaClassInfo(final JavaClassInfo info) {
-		Connection conn = null;
-		final UUID uuid = UUID.randomUUID();
-		try {
-
-			conn = dataSource.getConnection();
-			final PreparedStatement insertStatement = conn.prepareStatement(ClassManagerSQLStatements.SqlStatements.INSERT_JAVA_METACLASS.getSqlStatement());
-			// CHECKSTYLE:OFF
-
-			insertStatement.setObject(1, uuid);
-			insertStatement.setString(2, info.getSignature());
-			if (info.getJavaParentInterfaces() != null) {
-				final Array sqlArray = insertStatement.getConnection().createArrayOf("varchar", info.getJavaParentInterfaces());
-				insertStatement.setArray(3, sqlArray);
-			} else {
-				insertStatement.setArray(3, null);
-			}
-
-			insertStatement.setBytes(4, info.getClassByteCode());
-			insertStatement.setInt(5, info.getModifier());
-			// CHECKSTYLE:ON
-			if (DEBUG_ENABLED) {
-				logger.debug("[==DB==] Executing " + insertStatement);
-			}
-			insertStatement.executeUpdate();
-
-		} catch (final Exception e) {
-			logger.debug("SQL Exception in storeJavaClassInfo", e);
-		} finally {
+		synchronized (dataSource) {
+			Connection conn = null;
+			final UUID uuid = UUID.randomUUID();
 			try {
-				if (conn != null) {
-					conn.close();
-				}
-			} catch (final SQLException ex1) {
-				logger.debug("SQL Exception while closing connection", ex1);
-			}
-		}
-		return uuid;
 
+				conn = dataSource.getConnection();
+				final PreparedStatement insertStatement = conn.prepareStatement(ClassManagerSQLStatements.SqlStatements.INSERT_JAVA_METACLASS.getSqlStatement());
+				// CHECKSTYLE:OFF
+
+				insertStatement.setObject(1, uuid);
+				insertStatement.setString(2, info.getSignature());
+				if (info.getJavaParentInterfaces() != null) {
+					final Array sqlArray = insertStatement.getConnection().createArrayOf("varchar", info.getJavaParentInterfaces());
+					insertStatement.setArray(3, sqlArray);
+				} else {
+					insertStatement.setArray(3, null);
+				}
+
+				insertStatement.setBytes(4, info.getClassByteCode());
+				insertStatement.setInt(5, info.getModifier());
+				// CHECKSTYLE:ON
+				if (DEBUG_ENABLED) {
+					logger.debug("[==DB==] Executing " + insertStatement);
+				}
+				insertStatement.executeUpdate();
+
+			} catch (final Exception e) {
+				logger.debug("SQL Exception in storeJavaClassInfo", e);
+			} finally {
+				try {
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException ex1) {
+					logger.debug("SQL Exception while closing connection", ex1);
+				}
+			}
+			return uuid;
+		}
 	}
 
 	/**
@@ -1478,45 +1512,46 @@ public final class ClassManagerDB {
 	 * @return UUID of stored object
 	 */
 	public UUID storePythonClassInfo(final PythonClassInfo info) {
-		Connection conn = null;
-		final UUID uuid = UUID.randomUUID();
-		try {
-
-			conn = dataSource.getConnection();
-			final PreparedStatement insertStatement = conn.prepareStatement(ClassManagerSQLStatements.SqlStatements.INSERT_PYTHON_METACLASS.getSqlStatement());
-			insertStatement.setObject(1, uuid);
-
-			final String[] importx = new String[info.getImports().size()];
-
-			int i = 0;
-			for (final String entry : info.getImports()) {
-				importx[i] = entry;
-				i++;
-			}
-
-			final Array sqlArray = insertStatement.getConnection().createArrayOf("varchar", importx);
-			insertStatement.setArray(2, sqlArray);
-			// CHECKSTYLE:OFF
-
-			// CHECKSTYLE:ON
-			if (DEBUG_ENABLED) {
-				logger.debug("[==DB==] Executing " + insertStatement);
-			}
-			insertStatement.executeUpdate();
-
-		} catch (final Exception e) {
-			logger.debug("SQL Exception in storePythonClassInfo", e);
-		} finally {
+		synchronized (dataSource) {
+			Connection conn = null;
+			final UUID uuid = UUID.randomUUID();
 			try {
-				if (conn != null) {
-					conn.close();
-				}
-			} catch (final SQLException ex1) {
-				logger.debug("SQL Exception while closing connection", ex1);
-			}
-		}
-		return uuid;
 
+				conn = dataSource.getConnection();
+				final PreparedStatement insertStatement = conn.prepareStatement(ClassManagerSQLStatements.SqlStatements.INSERT_PYTHON_METACLASS.getSqlStatement());
+				insertStatement.setObject(1, uuid);
+
+				final String[] importx = new String[info.getImports().size()];
+
+				int i = 0;
+				for (final String entry : info.getImports()) {
+					importx[i] = entry;
+					i++;
+				}
+
+				final Array sqlArray = insertStatement.getConnection().createArrayOf("varchar", importx);
+				insertStatement.setArray(2, sqlArray);
+				// CHECKSTYLE:OFF
+
+				// CHECKSTYLE:ON
+				if (DEBUG_ENABLED) {
+					logger.debug("[==DB==] Executing " + insertStatement);
+				}
+				insertStatement.executeUpdate();
+
+			} catch (final Exception e) {
+				logger.debug("SQL Exception in storePythonClassInfo", e);
+			} finally {
+				try {
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException ex1) {
+					logger.debug("SQL Exception while closing connection", ex1);
+				}
+			}
+			return uuid;
+		}
 	}
 
 	/**
@@ -1526,65 +1561,67 @@ public final class ClassManagerDB {
 	 * @return Type
 	 */
 	private Type deserializeType(final ResultSet rs) {
-		Type type = null;
-		try {
-			boolean isUserType = false;
+		synchronized (dataSource) {
+			Type type = null;
+			try {
+				boolean isUserType = false;
 
-			final UUID id = (UUID)rs.getObject("id");
+				final UUID id = (UUID) rs.getObject("id");
 
-			final String namespace = rs.getString("namespace");
-			MetaClassID classID = null;
-			if (namespace != null) {
-				// it's user type
-				isUserType = true;
-				classID = new MetaClassID((UUID)rs.getObject("classID"));
-			}
-			final String descriptor = rs.getString("descriptor");
-			final String signature = rs.getString("signature");
-			final String typeName = rs.getString("typeName");
-			Array sqlArray = rs.getArray("includes");
-			final List<Type> includes = new ArrayList<>();
-			if (sqlArray != null) {
-				final UUID[] uuidArray = (UUID[]) sqlArray.getArray();
-				for (final UUID includedUUID : uuidArray) {
-					final Type include = getTypeByID(includedUUID);
-					includes.add(include);
+				final String namespace = rs.getString("namespace");
+				MetaClassID classID = null;
+				if (namespace != null) {
+					// it's user type
+					isUserType = true;
+					classID = new MetaClassID((UUID) rs.getObject("classID"));
 				}
-			}
-
-			final Map<Langs, LanguageDependantTypeInfo> extensions = new HashMap<>();
-			sqlArray = rs.getArray("extendedtypes");
-			if (sqlArray != null) {
-				final Array extensionsArray = rs.getArray("extensions");
-				final String[] typesNames = (String[]) sqlArray.getArray();
-				final UUID[] uuidArray = (UUID[]) extensionsArray.getArray();
-				for (int i = 0; i < typesNames.length; ++i) {
-					if (typesNames[i].equals(Langs.LANG_JAVA.name())) {
-						final JavaTypeInfo info = this.getJavaTypeByID(uuidArray[i]);
-						extensions.put(Langs.LANG_JAVA, info);
-					} else if (typesNames[i].equals(Langs.LANG_PYTHON.name())) {
-						final PythonTypeInfo info = this.getPythonTypeByID(uuidArray[i]);
-						extensions.put(Langs.LANG_PYTHON, info);
+				final String descriptor = rs.getString("descriptor");
+				final String signature = rs.getString("signature");
+				final String typeName = rs.getString("typeName");
+				Array sqlArray = rs.getArray("includes");
+				final List<Type> includes = new ArrayList<>();
+				if (sqlArray != null) {
+					final UUID[] uuidArray = (UUID[]) sqlArray.getArray();
+					for (final UUID includedUUID : uuidArray) {
+						final Type include = getTypeByID(includedUUID);
+						includes.add(include);
 					}
 				}
+
+				final Map<Langs, LanguageDependantTypeInfo> extensions = new HashMap<>();
+				sqlArray = rs.getArray("extendedtypes");
+				if (sqlArray != null) {
+					final Array extensionsArray = rs.getArray("extensions");
+					final String[] typesNames = (String[]) sqlArray.getArray();
+					final UUID[] uuidArray = (UUID[]) extensionsArray.getArray();
+					for (int i = 0; i < typesNames.length; ++i) {
+						if (typesNames[i].equals(Langs.LANG_JAVA.name())) {
+							final JavaTypeInfo info = this.getJavaTypeByID(uuidArray[i]);
+							extensions.put(Langs.LANG_JAVA, info);
+						} else if (typesNames[i].equals(Langs.LANG_PYTHON.name())) {
+							final PythonTypeInfo info = this.getPythonTypeByID(uuidArray[i]);
+							extensions.put(Langs.LANG_PYTHON, info);
+						}
+					}
+				}
+
+				if (isUserType) {
+					final UserType utype = new UserType(namespace,
+							typeName, descriptor, signature, includes);
+					utype.setClassID(classID);
+					type = utype;
+				} else {
+					type = new Type(descriptor, signature, typeName, includes);
+				}
+
+				type.setId(id);
+				type.setLanguageDepInfos(extensions);
+
+			} catch (final SQLException e) {
+				logger.debug("SQL Exception in deserializeType", e);
 			}
-
-			if (isUserType) {
-				final UserType utype = new UserType(namespace,
-						typeName, descriptor, signature, includes);
-				utype.setClassID(classID);
-				type = utype;
-			} else {
-				type = new Type(descriptor, signature, typeName, includes);
-			}
-
-			type.setId(id);
-			type.setLanguageDepInfos(extensions);
-
-		} catch (final SQLException e) {
-			logger.debug("SQL Exception in deserializeType", e);
+			return type;
 		}
-		return type;
 	}
 
 	/**
@@ -2401,35 +2438,37 @@ public final class ClassManagerDB {
 	 *             if type not found
 	 */
 	public Type getTypeByID(final UUID typeID) throws SQLException {
-		ResultSet rs = null;
-		Type type = null;
-		Connection conn = null;
-		try {
-			conn = dataSource.getConnection();
-			final PreparedStatement selectStatement = conn.prepareStatement(ClassManagerSQLStatements.SqlStatements.SELECT_TYPE_BY_ID.getSqlStatement());
-
-			selectStatement.setObject(1, typeID);
-			if (DEBUG_ENABLED) {
-				logger.debug("[==DB==] Executing " + selectStatement + "(" + typeID + ")");
-			}
-			rs = selectStatement.executeQuery();
-			if (rs.next()) {
-				type = deserializeType(rs);
-			}
-		} catch (final SQLException e) {
-			throw e;
-		} finally {
+		synchronized (dataSource) {
+			ResultSet rs = null;
+			Type type = null;
+			Connection conn = null;
 			try {
-				rs.close();
-				if (conn != null) {
-					conn.close();
+				conn = dataSource.getConnection();
+				final PreparedStatement selectStatement = conn.prepareStatement(ClassManagerSQLStatements.SqlStatements.SELECT_TYPE_BY_ID.getSqlStatement());
+
+				selectStatement.setObject(1, typeID);
+				if (DEBUG_ENABLED) {
+					logger.debug("[==DB==] Executing " + selectStatement + "(" + typeID + ")");
+				}
+				rs = selectStatement.executeQuery();
+				if (rs.next()) {
+					type = deserializeType(rs);
 				}
 			} catch (final SQLException e) {
-				logger.debug("SQL Exception in getTypeByID", e);
+				throw e;
+			} finally {
+				try {
+					rs.close();
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException e) {
+					logger.debug("SQL Exception in getTypeByID", e);
+				}
 			}
-		}
 
-		return type;
+			return type;
+		}
 	}
 
 	/**
@@ -2514,7 +2553,7 @@ public final class ClassManagerDB {
 
 	/**
 	 * Get Property by ID
-	 * @param typeID
+	 * @param propertyID
 	 *            ID of the Property
 	 * @return The Property
 	 * @throws SQLException
@@ -3294,10 +3333,12 @@ public final class ClassManagerDB {
 	 * @return The MetaClass
 	 */
 	public MetaClass getMetaClassByID(final MetaClassID metaClassID) {
-		try {
-			return getMetaClassByID(metaClassID.getId());
-		} catch (final SQLException e) {
-			throw new DbObjectNotExistException(metaClassID);
+		synchronized (dataSource) {
+			try {
+				return getMetaClassByID(metaClassID.getId());
+			} catch (final SQLException e) {
+				throw new DbObjectNotExistException(metaClassID);
+			}
 		}
 	}
 
@@ -3308,10 +3349,12 @@ public final class ClassManagerDB {
 	 * @return The Operation
 	 */
 	public Operation getOperationByID(final OperationID id) {
-		try {
-			return getOperationByID(id.getId());
-		} catch (final SQLException e) {
-			throw new DbObjectNotExistException(id);
+		synchronized (dataSource) {
+			try {
+				return getOperationByID(id.getId());
+			} catch (final SQLException e) {
+				throw new DbObjectNotExistException(id);
+			}
 		}
 	}
 
@@ -3322,10 +3365,12 @@ public final class ClassManagerDB {
 	 * @return The Property
 	 */
 	public Property getPropertyByID(final PropertyID id) {
-		try {
-			return getPropertyByID(id.getId());
-		} catch (final SQLException e) {
-			throw new DbObjectNotExistException(id);
+		synchronized (dataSource) {
+			try {
+				return getPropertyByID(id.getId());
+			} catch (final SQLException e) {
+				throw new DbObjectNotExistException(id);
+			}
 		}
 	}
 
@@ -3336,10 +3381,12 @@ public final class ClassManagerDB {
 	 * @return The Property
 	 */
 	public Implementation getImplementationByID(final ImplementationID id) {
-		try {
-			return getImplementationByID(id.getId());
-		} catch (final SQLException e) {
-			throw new DbObjectNotExistException(id);
+		synchronized (dataSource) {
+			try {
+				return getImplementationByID(id.getId());
+			} catch (final SQLException e) {
+				throw new DbObjectNotExistException(id);
+			}
 		}
 	}
 
@@ -4291,7 +4338,9 @@ public final class ClassManagerDB {
 	 *            ID of object to delete
 	 */
 	public void deleteClass(final MetaClassID classID) {
-		this.deleteMetaClass(classID.getId());
+		synchronized (dataSource) {
+			this.deleteMetaClass(classID.getId());
+		}
 	}
 
 	/**
@@ -4303,28 +4352,29 @@ public final class ClassManagerDB {
 	 */
 	public void updateJavaClassByteCode(final UUID javaClassInfoUUID,
 			final byte[] newByteCode) {
-
-		Connection conn = null;
-		try {
-			conn = dataSource.getConnection();
-			final PreparedStatement stmt = conn.prepareStatement(ClassManagerSQLStatements.SqlStatements.UPDATE_JAVA_CLASS_BYTECODE_BY_ID.getSqlStatement());
-			stmt.setBytes(1, newByteCode);
-			stmt.setObject(2, javaClassInfoUUID);
-			// CHECKSTYLE:ON
-			if (DEBUG_ENABLED) {
-				logger.debug("[==DB==] Executing " + stmt);
-			}
-			stmt.executeUpdate();
-
-		} catch (final Exception e) {
-			e.printStackTrace();
-		} finally {
+		synchronized (dataSource) {
+			Connection conn = null;
 			try {
-				if (conn != null) {
-					conn.close();
+				conn = dataSource.getConnection();
+				final PreparedStatement stmt = conn.prepareStatement(ClassManagerSQLStatements.SqlStatements.UPDATE_JAVA_CLASS_BYTECODE_BY_ID.getSqlStatement());
+				stmt.setBytes(1, newByteCode);
+				stmt.setObject(2, javaClassInfoUUID);
+				// CHECKSTYLE:ON
+				if (DEBUG_ENABLED) {
+					logger.debug("[==DB==] Executing " + stmt);
 				}
-			} catch (final SQLException ex1) {
-				logger.debug("SQL Exception while closing connection", ex1);
+				stmt.executeUpdate();
+
+			} catch (final Exception e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException ex1) {
+					logger.debug("SQL Exception while closing connection", ex1);
+				}
 			}
 		}
 
@@ -4337,34 +4387,36 @@ public final class ClassManagerDB {
 	 * @return TRUE if exists.
 	 */
 	public boolean existsClassInNamespace(final NamespaceID namespaceID) {
-		ResultSet rs = null;
-		boolean exists = false;
-		Connection conn = null;
-		try {
-			conn = dataSource.getConnection();
-			final PreparedStatement existsStatement = conn.prepareStatement(ClassManagerSQLStatements.SqlStatements.EXISTS_CLASS_IN_NAMESPACE.getSqlStatement());
-
-			existsStatement.setObject(1, namespaceID.getId());
-			if (DEBUG_ENABLED) {
-				logger.debug("[==DB==] Executing " + existsStatement);
-			}
-			rs = existsStatement.executeQuery();
-			rs.next();
-			exists = rs.getBoolean(1);
-		} catch (final Exception e) {
-			e.printStackTrace();
-		} finally {
+		synchronized (dataSource) {
+			ResultSet rs = null;
+			boolean exists = false;
+			Connection conn = null;
 			try {
-				rs.close();
-				if (conn != null) {
-					conn.close();
-				}
-			} catch (final SQLException ex1) {
-				logger.debug("SQL Exception while closing connection", ex1);
-			}
-		}
+				conn = dataSource.getConnection();
+				final PreparedStatement existsStatement = conn.prepareStatement(ClassManagerSQLStatements.SqlStatements.EXISTS_CLASS_IN_NAMESPACE.getSqlStatement());
 
-		return exists;
+				existsStatement.setObject(1, namespaceID.getId());
+				if (DEBUG_ENABLED) {
+					logger.debug("[==DB==] Executing " + existsStatement);
+				}
+				rs = existsStatement.executeQuery();
+				rs.next();
+				exists = rs.getBoolean(1);
+			} catch (final Exception e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					rs.close();
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException ex1) {
+					logger.debug("SQL Exception while closing connection", ex1);
+				}
+			}
+
+			return exists;
+		}
 
 	}
 
@@ -4382,44 +4434,45 @@ public final class ClassManagerDB {
 	public void updateClassPropertiesAndOperations(final MetaClassID classID,
 			final Property newProperty, final Operation newSetter,
 			final Operation newGetter, final Operation newUpdate) {
+		synchronized (dataSource) {
+			final UUID newPropertyUUID = this.storeProperty(newProperty);
+			final UUID setterUUID = this.storeOperation(newSetter);
+			final UUID getterUUID = this.storeOperation(newGetter);
 
-		final UUID newPropertyUUID = this.storeProperty(newProperty);
-		final UUID setterUUID = this.storeOperation(newSetter);
-		final UUID getterUUID = this.storeOperation(newGetter);
-
-		UUID updateUUID = null;
-		if (newUpdate != null) {
-			updateUUID = this.storeOperation(newUpdate);
-		}
-		Connection conn = null;
-		try {
-			// CHECKSTYLE:OFF
-			conn = dataSource.getConnection();
-			final PreparedStatement stmt = conn.prepareStatement(ClassManagerSQLStatements.SqlStatements.UPDATE_CLASS_ADD_PROPERTY_BY_ID.getSqlStatement());
-			stmt.setObject(1, newPropertyUUID);
-			stmt.setObject(2, setterUUID);
-			stmt.setObject(3, getterUUID);
-			if (updateUUID != null) {
-				stmt.setObject(4, updateUUID);
-			} else {
-				stmt.setObject(4, null);
+			UUID updateUUID = null;
+			if (newUpdate != null) {
+				updateUUID = this.storeOperation(newUpdate);
 			}
-			stmt.setObject(5, classID.getId());
-			// CHECKSTYLE:ON
-			if (DEBUG_ENABLED) {
-				logger.debug("[==DB==] Executing " + stmt);
-			}
-			stmt.executeUpdate();
-
-		} catch (final Exception e) {
-			e.printStackTrace();
-		} finally {
+			Connection conn = null;
 			try {
-				if (conn != null) {
-					conn.close();
+				// CHECKSTYLE:OFF
+				conn = dataSource.getConnection();
+				final PreparedStatement stmt = conn.prepareStatement(ClassManagerSQLStatements.SqlStatements.UPDATE_CLASS_ADD_PROPERTY_BY_ID.getSqlStatement());
+				stmt.setObject(1, newPropertyUUID);
+				stmt.setObject(2, setterUUID);
+				stmt.setObject(3, getterUUID);
+				if (updateUUID != null) {
+					stmt.setObject(4, updateUUID);
+				} else {
+					stmt.setObject(4, null);
 				}
-			} catch (final SQLException ex1) {
-				logger.debug("SQL Exception while closing connection", ex1);
+				stmt.setObject(5, classID.getId());
+				// CHECKSTYLE:ON
+				if (DEBUG_ENABLED) {
+					logger.debug("[==DB==] Executing " + stmt);
+				}
+				stmt.executeUpdate();
+
+			} catch (final Exception e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException ex1) {
+					logger.debug("SQL Exception while closing connection", ex1);
+				}
 			}
 		}
 
@@ -4439,37 +4492,37 @@ public final class ClassManagerDB {
 	public void updateClassPropertiesAndOperations(final MetaClassID classID,
 			final Property newProperty, final OperationID newSetter,
 			final OperationID newGetter) {
-
-		final UUID newPropertyUUID = this.storeProperty(newProperty);
-		final UUID setterUUID = newSetter.getId();
-		final UUID getterUUID = newGetter.getId();
-		Connection conn = null;
-		try {
-			// CHECKSTYLE:OFF
-			conn = dataSource.getConnection();
-			final PreparedStatement stmt = conn.prepareStatement(ClassManagerSQLStatements.SqlStatements.UPDATE_CLASS_ADD_PROPERTY_BY_ID.getSqlStatement());
-			stmt.setObject(1, newPropertyUUID);
-			stmt.setObject(2, setterUUID);
-			stmt.setObject(3, getterUUID);
-			stmt.setObject(4, classID.getId());
-			// CHECKSTYLE:ON
-			if (DEBUG_ENABLED) {
-				logger.debug("[==DB==] Executing " + stmt);
-			}
-			stmt.executeUpdate();
-
-		} catch (final Exception e) {
-			e.printStackTrace();
-		} finally {
+		synchronized (dataSource) {
+			final UUID newPropertyUUID = this.storeProperty(newProperty);
+			final UUID setterUUID = newSetter.getId();
+			final UUID getterUUID = newGetter.getId();
+			Connection conn = null;
 			try {
-				if (conn != null) {
-					conn.close();
+				// CHECKSTYLE:OFF
+				conn = dataSource.getConnection();
+				final PreparedStatement stmt = conn.prepareStatement(ClassManagerSQLStatements.SqlStatements.UPDATE_CLASS_ADD_PROPERTY_BY_ID.getSqlStatement());
+				stmt.setObject(1, newPropertyUUID);
+				stmt.setObject(2, setterUUID);
+				stmt.setObject(3, getterUUID);
+				stmt.setObject(4, classID.getId());
+				// CHECKSTYLE:ON
+				if (DEBUG_ENABLED) {
+					logger.debug("[==DB==] Executing " + stmt);
 				}
-			} catch (final SQLException ex1) {
-				logger.debug("SQL Exception while closing connection", ex1);
+				stmt.executeUpdate();
+
+			} catch (final Exception e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException ex1) {
+					logger.debug("SQL Exception while closing connection", ex1);
+				}
 			}
 		}
-
 	}
 
 	/**
@@ -4481,33 +4534,33 @@ public final class ClassManagerDB {
 	 */
 	public void updateClassAddOperation(final MetaClassID classID,
 			final Operation newoperation) {
-
-		final UUID newOpUUID = this.storeOperation(newoperation);
-		Connection conn = null;
-		try {
-			// CHECKSTYLE:OFF
-			conn = dataSource.getConnection();
-			final PreparedStatement stmt = conn.prepareStatement(ClassManagerSQLStatements.SqlStatements.UPDATE_CLASS_ADD_OPERATION_BY_ID.getSqlStatement());
-			stmt.setObject(1, newOpUUID);
-			stmt.setObject(2, classID.getId());
-			// CHECKSTYLE:ON
-			if (DEBUG_ENABLED) {
-				logger.debug("[==DB==] Executing " + stmt);
-			}
-			stmt.executeUpdate();
-
-		} catch (final Exception e) {
-			e.printStackTrace();
-		} finally {
+		synchronized (dataSource) {
+			final UUID newOpUUID = this.storeOperation(newoperation);
+			Connection conn = null;
 			try {
-				if (conn != null) {
-					conn.close();
+				// CHECKSTYLE:OFF
+				conn = dataSource.getConnection();
+				final PreparedStatement stmt = conn.prepareStatement(ClassManagerSQLStatements.SqlStatements.UPDATE_CLASS_ADD_OPERATION_BY_ID.getSqlStatement());
+				stmt.setObject(1, newOpUUID);
+				stmt.setObject(2, classID.getId());
+				// CHECKSTYLE:ON
+				if (DEBUG_ENABLED) {
+					logger.debug("[==DB==] Executing " + stmt);
 				}
-			} catch (final SQLException ex1) {
-				logger.debug("SQL Exception while closing connection", ex1);
+				stmt.executeUpdate();
+
+			} catch (final Exception e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException ex1) {
+					logger.debug("SQL Exception while closing connection", ex1);
+				}
 			}
 		}
-
 	}
 
 	/**
@@ -4519,32 +4572,32 @@ public final class ClassManagerDB {
 	 */
 	public void updateClassRemoveOperation(final MetaClassID classID,
 			final OperationID opID) {
-
-		Connection conn = null;
-		try {
-			// CHECKSTYLE:OFF
-			conn = dataSource.getConnection();
-			final PreparedStatement stmt = conn.prepareStatement(ClassManagerSQLStatements.SqlStatements.UPDATE_CLASS_REMOVE_OPERATION_BY_ID.getSqlStatement());
-			stmt.setObject(1, opID.getId());
-			stmt.setObject(2, classID.getId());
-			// CHECKSTYLE:ON
-			if (DEBUG_ENABLED) {
-				logger.debug("[==DB==] Executing " + stmt);
-			}
-			stmt.executeUpdate();
-
-		} catch (final Exception e) {
-			e.printStackTrace();
-		} finally {
+		synchronized (dataSource) {
+			Connection conn = null;
 			try {
-				if (conn != null) {
-					conn.close();
+				// CHECKSTYLE:OFF
+				conn = dataSource.getConnection();
+				final PreparedStatement stmt = conn.prepareStatement(ClassManagerSQLStatements.SqlStatements.UPDATE_CLASS_REMOVE_OPERATION_BY_ID.getSqlStatement());
+				stmt.setObject(1, opID.getId());
+				stmt.setObject(2, classID.getId());
+				// CHECKSTYLE:ON
+				if (DEBUG_ENABLED) {
+					logger.debug("[==DB==] Executing " + stmt);
 				}
-			} catch (final SQLException ex1) {
-				logger.debug("SQL Exception while closing connection", ex1);
+				stmt.executeUpdate();
+
+			} catch (final Exception e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException ex1) {
+					logger.debug("SQL Exception while closing connection", ex1);
+				}
 			}
 		}
-
 	}
 
 	/**
@@ -4556,32 +4609,32 @@ public final class ClassManagerDB {
 	 */
 	public void updateOperationRemoveImplementation(final OperationID opID,
 			final ImplementationID implID) {
-
-		Connection conn = null;
-		try {
-			// CHECKSTYLE:OFF
-			conn = dataSource.getConnection();
-			final PreparedStatement stmt = conn.prepareStatement(ClassManagerSQLStatements.SqlStatements.UPDATE_OPERATION_REMOVE_IMPLEMENTATION_BY_ID.getSqlStatement());
-			stmt.setObject(1, implID.getId());
-			stmt.setObject(2, opID.getId());
-			// CHECKSTYLE:ON
-			if (DEBUG_ENABLED) {
-				logger.debug("[==DB==] Executing " + stmt);
-			}
-			stmt.executeUpdate();
-
-		} catch (final Exception e) {
-			e.printStackTrace();
-		} finally {
+		synchronized (dataSource) {
+			Connection conn = null;
 			try {
-				if (conn != null) {
-					conn.close();
+				// CHECKSTYLE:OFF
+				conn = dataSource.getConnection();
+				final PreparedStatement stmt = conn.prepareStatement(ClassManagerSQLStatements.SqlStatements.UPDATE_OPERATION_REMOVE_IMPLEMENTATION_BY_ID.getSqlStatement());
+				stmt.setObject(1, implID.getId());
+				stmt.setObject(2, opID.getId());
+				// CHECKSTYLE:ON
+				if (DEBUG_ENABLED) {
+					logger.debug("[==DB==] Executing " + stmt);
 				}
-			} catch (final SQLException ex1) {
-				logger.debug("SQL Exception while closing connection", ex1);
+				stmt.executeUpdate();
+
+			} catch (final Exception e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException ex1) {
+					logger.debug("SQL Exception while closing connection", ex1);
+				}
 			}
 		}
-
 	}
 
 	/**
@@ -4593,39 +4646,39 @@ public final class ClassManagerDB {
 	 */
 	public void updateOperationAddImplementation(final OperationID opID,
 			final Implementation impl) {
-
-		UUID implUUID = null;
-		if (impl instanceof JavaImplementation) {
-			implUUID = this.storeJavaImplementation((JavaImplementation) impl);
-		} else if (impl instanceof PythonImplementation) {
-			implUUID = this.storePythonImplementation((PythonImplementation) impl);
-		}
-
-		Connection conn = null;
-		try {
-			// CHECKSTYLE:OFF
-			conn = dataSource.getConnection();
-			final PreparedStatement stmt = conn.prepareStatement(ClassManagerSQLStatements.SqlStatements.UPDATE_OPERATION_ADD_IMPLEMENTATION_BY_ID.getSqlStatement());
-			stmt.setObject(1, implUUID);
-			stmt.setObject(2, opID.getId());
-			// CHECKSTYLE:ON
-			if (DEBUG_ENABLED) {
-				logger.debug("[==DB==] Executing " + stmt);
+		synchronized (dataSource) {
+			UUID implUUID = null;
+			if (impl instanceof JavaImplementation) {
+				implUUID = this.storeJavaImplementation((JavaImplementation) impl);
+			} else if (impl instanceof PythonImplementation) {
+				implUUID = this.storePythonImplementation((PythonImplementation) impl);
 			}
-			stmt.executeUpdate();
 
-		} catch (final Exception e) {
-			e.printStackTrace();
-		} finally {
+			Connection conn = null;
 			try {
-				if (conn != null) {
-					conn.close();
+				// CHECKSTYLE:OFF
+				conn = dataSource.getConnection();
+				final PreparedStatement stmt = conn.prepareStatement(ClassManagerSQLStatements.SqlStatements.UPDATE_OPERATION_ADD_IMPLEMENTATION_BY_ID.getSqlStatement());
+				stmt.setObject(1, implUUID);
+				stmt.setObject(2, opID.getId());
+				// CHECKSTYLE:ON
+				if (DEBUG_ENABLED) {
+					logger.debug("[==DB==] Executing " + stmt);
 				}
-			} catch (final SQLException ex1) {
-				logger.debug("SQL Exception while closing connection", ex1);
+				stmt.executeUpdate();
+
+			} catch (final Exception e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException ex1) {
+					logger.debug("SQL Exception while closing connection", ex1);
+				}
 			}
 		}
-
 	}
 
 	/**
@@ -4634,7 +4687,9 @@ public final class ClassManagerDB {
 	 *            ID of operation
 	 */
 	public void deleteOperation(final OperationID dataClayID) {
-		this.deleteOperation(dataClayID.getId());
+		synchronized (dataSource) {
+			this.deleteOperation(dataClayID.getId());
+		}
 	}
 
 	/**
@@ -4643,10 +4698,12 @@ public final class ClassManagerDB {
 	 *            implementation
 	 */
 	public void deleteImplementation(final Implementation impl) {
-		if (impl instanceof JavaImplementation) {
-			deleteJavaImplementation(impl.getDataClayID().getId());
-		} else if (impl instanceof PythonImplementation) {
-			deletePythonImplementation(impl.getDataClayID().getId());
+		synchronized (dataSource) {
+			if (impl instanceof JavaImplementation) {
+				deleteJavaImplementation(impl.getDataClayID().getId());
+			} else if (impl instanceof PythonImplementation) {
+				deletePythonImplementation(impl.getDataClayID().getId());
+			}
 		}
 	}
 
@@ -4657,35 +4714,36 @@ public final class ClassManagerDB {
 	 * @return TRUE if exists.
 	 */
 	public boolean existsClassInSomeType(final MetaClassID classID) {
-		ResultSet rs = null;
-		boolean exists = false;
-		Connection conn = null;
-		try {
-			conn = dataSource.getConnection();
-			final PreparedStatement existsStatement = conn.prepareStatement(ClassManagerSQLStatements.SqlStatements.EXISTS_TYPE_CLASS_ID.getSqlStatement());
-
-			existsStatement.setObject(1, classID.getId());
-			if (DEBUG_ENABLED) {
-				logger.debug("[==DB==] Executing " + existsStatement);
-			}
-			rs = existsStatement.executeQuery();
-			rs.next();
-			exists = rs.getBoolean(1);
-		} catch (final Exception e) {
-			e.printStackTrace();
-		} finally {
+		synchronized (dataSource) {
+			ResultSet rs = null;
+			boolean exists = false;
+			Connection conn = null;
 			try {
-				rs.close();
-				if (conn != null) {
-					conn.close();
+				conn = dataSource.getConnection();
+				final PreparedStatement existsStatement = conn.prepareStatement(ClassManagerSQLStatements.SqlStatements.EXISTS_TYPE_CLASS_ID.getSqlStatement());
+
+				existsStatement.setObject(1, classID.getId());
+				if (DEBUG_ENABLED) {
+					logger.debug("[==DB==] Executing " + existsStatement);
 				}
-			} catch (final SQLException ex1) {
-				logger.debug("SQL Exception while closing connection", ex1);
+				rs = existsStatement.executeQuery();
+				rs.next();
+				exists = rs.getBoolean(1);
+			} catch (final Exception e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					rs.close();
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException ex1) {
+					logger.debug("SQL Exception while closing connection", ex1);
+				}
 			}
+
+			return exists;
 		}
-
-		return exists;
-
 	}
 
 	/**
@@ -4695,35 +4753,36 @@ public final class ClassManagerDB {
 	 * @return TRUE if exists.
 	 */
 	public boolean existsAccessedImplementationWithID(final ImplementationID implID) {
-		ResultSet rs = null;
-		boolean exists = false;
-		Connection conn = null;
-		try {
-			conn = dataSource.getConnection();
-			final PreparedStatement existsStatement = conn.prepareStatement(ClassManagerSQLStatements.SqlStatements.EXISTS_ACCESSED_IMPLEMENTATION_ID.getSqlStatement());
-
-			existsStatement.setObject(1, implID.getId());
-			if (DEBUG_ENABLED) {
-				logger.debug("[==DB==] Executing " + existsStatement);
-			}
-			rs = existsStatement.executeQuery();
-			rs.next();
-			exists = rs.getBoolean(1);
-		} catch (final Exception e) {
-			e.printStackTrace();
-		} finally {
+		synchronized (dataSource) {
+			ResultSet rs = null;
+			boolean exists = false;
+			Connection conn = null;
 			try {
-				rs.close();
-				if (conn != null) {
-					conn.close();
+				conn = dataSource.getConnection();
+				final PreparedStatement existsStatement = conn.prepareStatement(ClassManagerSQLStatements.SqlStatements.EXISTS_ACCESSED_IMPLEMENTATION_ID.getSqlStatement());
+
+				existsStatement.setObject(1, implID.getId());
+				if (DEBUG_ENABLED) {
+					logger.debug("[==DB==] Executing " + existsStatement);
 				}
-			} catch (final SQLException ex1) {
-				logger.debug("SQL Exception while closing connection", ex1);
+				rs = existsStatement.executeQuery();
+				rs.next();
+				exists = rs.getBoolean(1);
+			} catch (final Exception e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					rs.close();
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException ex1) {
+					logger.debug("SQL Exception while closing connection", ex1);
+				}
 			}
+
+			return exists;
 		}
-
-		return exists;
-
 	}
 
 	/**
@@ -4736,38 +4795,40 @@ public final class ClassManagerDB {
 	 */
 	public MetaClass getClassByNameAndNamespaceID(final String className,
 			final NamespaceID namespaceID) {
-		ResultSet rs = null;
-		MetaClass result = null;
-		Connection conn = null;
-		try {
-			conn = dataSource.getConnection();
-			final PreparedStatement selectStatement = conn.prepareStatement(ClassManagerSQLStatements.SqlStatements.SELECT_CLASS_BY_NAME_AND_NAMESPACEID.getSqlStatement());
-
-			selectStatement.setString(1, className);
-			selectStatement.setObject(2, namespaceID.getId());
-			if (DEBUG_ENABLED) {
-				logger.debug("[==DB==] Executing " + selectStatement);
-			}
-			rs = selectStatement.executeQuery();
-			if (rs.next()) {
-				result = deserializeMetaClass(rs);
-			}
-		} catch (final SQLException e) {
-			e.printStackTrace();
-		} finally {
+		synchronized (dataSource) {
+			ResultSet rs = null;
+			MetaClass result = null;
+			Connection conn = null;
 			try {
-				if (rs != null) {
-					rs.close();
-				}
-				if (conn != null) {
-					conn.close();
-				}
-			} catch (final SQLException ex1) {
-				logger.debug("SQL Exception while closing connection", ex1);
-			}
-		}
+				conn = dataSource.getConnection();
+				final PreparedStatement selectStatement = conn.prepareStatement(ClassManagerSQLStatements.SqlStatements.SELECT_CLASS_BY_NAME_AND_NAMESPACEID.getSqlStatement());
 
-		return result;
+				selectStatement.setString(1, className);
+				selectStatement.setObject(2, namespaceID.getId());
+				if (DEBUG_ENABLED) {
+					logger.debug("[==DB==] Executing " + selectStatement);
+				}
+				rs = selectStatement.executeQuery();
+				if (rs.next()) {
+					result = deserializeMetaClass(rs);
+				}
+			} catch (final SQLException e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					if (rs != null) {
+						rs.close();
+					}
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException ex1) {
+					logger.debug("SQL Exception while closing connection", ex1);
+				}
+			}
+
+			return result;
+		}
 	}
 
 	/**
@@ -4780,38 +4841,40 @@ public final class ClassManagerDB {
 	 */
 	public MetaClass getClassByNameAndNamespace(final String className,
 			final String namespace) {
-		ResultSet rs = null;
-		MetaClass result = null;
-		Connection conn = null;
-		try {
-			conn = dataSource.getConnection();
-			final PreparedStatement selectStatement = conn.prepareStatement(ClassManagerSQLStatements.SqlStatements.SELECT_CLASS_BY_NAME_AND_NAMESPACE.getSqlStatement());
-
-			selectStatement.setString(1, className);
-			selectStatement.setString(2, namespace);
-			if (DEBUG_ENABLED) {
-				logger.debug("[==DB==] Executing " + selectStatement);
-			}
-			rs = selectStatement.executeQuery();
-			if (rs.next()) {
-				result = deserializeMetaClass(rs);
-			}
-		} catch (final SQLException e) {
-			e.printStackTrace();
-		} finally {
+		synchronized (dataSource) {
+			ResultSet rs = null;
+			MetaClass result = null;
+			Connection conn = null;
 			try {
-				if (rs != null) {
-					rs.close();
-				}
-				if (conn != null) {
-					conn.close();
-				}
-			} catch (final SQLException ex1) {
-				logger.debug("SQL Exception while closing connection", ex1);
-			}
-		}
+				conn = dataSource.getConnection();
+				final PreparedStatement selectStatement = conn.prepareStatement(ClassManagerSQLStatements.SqlStatements.SELECT_CLASS_BY_NAME_AND_NAMESPACE.getSqlStatement());
 
-		return result;
+				selectStatement.setString(1, className);
+				selectStatement.setString(2, namespace);
+				if (DEBUG_ENABLED) {
+					logger.debug("[==DB==] Executing " + selectStatement);
+				}
+				rs = selectStatement.executeQuery();
+				if (rs.next()) {
+					result = deserializeMetaClass(rs);
+				}
+			} catch (final SQLException e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					if (rs != null) {
+						rs.close();
+					}
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException ex1) {
+					logger.debug("SQL Exception while closing connection", ex1);
+				}
+			}
+
+			return result;
+		}
 	}
 
 	/**
@@ -4826,40 +4889,42 @@ public final class ClassManagerDB {
 	 */
 	public Property getPropertyByNames(final String propertyName, final String className,
 			final String namespace) {
-		ResultSet rs = null;
-		Property result = null;
-		Connection conn = null;
-		try {
-			conn = dataSource.getConnection();
-			final PreparedStatement selectStatement = conn.prepareStatement(ClassManagerSQLStatements.SqlStatements.SELECT_PROPERTY_BY_NAMES.getSqlStatement());
-			selectStatement.setString(1, propertyName);
-			// CHECKSTYLE:OFF
-			selectStatement.setString(2, className);
-			selectStatement.setString(3, namespace);
-			// CHECKSTYLE:ON
-			if (DEBUG_ENABLED) {
-				logger.debug("[==DB==] Executing " + selectStatement);
-			}
-			rs = selectStatement.executeQuery();
-			if (rs.next()) {
-				result = deserializeProperty(rs);
-			}
-		} catch (final SQLException e) {
-			e.printStackTrace();
-		} finally {
+		synchronized (dataSource) {
+			ResultSet rs = null;
+			Property result = null;
+			Connection conn = null;
 			try {
-				if (rs != null) {
-					rs.close();
+				conn = dataSource.getConnection();
+				final PreparedStatement selectStatement = conn.prepareStatement(ClassManagerSQLStatements.SqlStatements.SELECT_PROPERTY_BY_NAMES.getSqlStatement());
+				selectStatement.setString(1, propertyName);
+				// CHECKSTYLE:OFF
+				selectStatement.setString(2, className);
+				selectStatement.setString(3, namespace);
+				// CHECKSTYLE:ON
+				if (DEBUG_ENABLED) {
+					logger.debug("[==DB==] Executing " + selectStatement);
 				}
-				if (conn != null) {
-					conn.close();
+				rs = selectStatement.executeQuery();
+				if (rs.next()) {
+					result = deserializeProperty(rs);
 				}
-			} catch (final SQLException ex1) {
-				logger.debug("SQL Exception while closing connection", ex1);
+			} catch (final SQLException e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					if (rs != null) {
+						rs.close();
+					}
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException ex1) {
+					logger.debug("SQL Exception while closing connection", ex1);
+				}
 			}
-		}
 
-		return result;
+			return result;
+		}
 	}
 
 	/**
@@ -4874,40 +4939,42 @@ public final class ClassManagerDB {
 	 */
 	public Operation getOperationByNames(final String operationSignature, final String className,
 			final String namespace) {
-		ResultSet rs = null;
-		Operation result = null;
-		Connection conn = null;
-		try {
-			conn = dataSource.getConnection();
-			final PreparedStatement selectStatement = conn.prepareStatement(ClassManagerSQLStatements.SqlStatements.SELECT_OPERATION_BY_NAMES.getSqlStatement());
-			selectStatement.setString(1, operationSignature);
-			selectStatement.setString(2, className);
-			// CHECKSTYLE:OFF
-			selectStatement.setString(3, namespace);
-			// CHECKSTYLE:ON
-			if (DEBUG_ENABLED) {
-				logger.debug("[==DB==] Executing " + selectStatement);
-			}
-			rs = selectStatement.executeQuery();
-			if (rs.next()) {
-				result = deserializeOperation(rs);
-			}
-		} catch (final SQLException e) {
-			e.printStackTrace();
-		} finally {
+		synchronized (dataSource) {
+			ResultSet rs = null;
+			Operation result = null;
+			Connection conn = null;
 			try {
-				if (rs != null) {
-					rs.close();
+				conn = dataSource.getConnection();
+				final PreparedStatement selectStatement = conn.prepareStatement(ClassManagerSQLStatements.SqlStatements.SELECT_OPERATION_BY_NAMES.getSqlStatement());
+				selectStatement.setString(1, operationSignature);
+				selectStatement.setString(2, className);
+				// CHECKSTYLE:OFF
+				selectStatement.setString(3, namespace);
+				// CHECKSTYLE:ON
+				if (DEBUG_ENABLED) {
+					logger.debug("[==DB==] Executing " + selectStatement);
 				}
-				if (conn != null) {
-					conn.close();
+				rs = selectStatement.executeQuery();
+				if (rs.next()) {
+					result = deserializeOperation(rs);
 				}
-			} catch (final SQLException ex1) {
-				logger.debug("SQL Exception while closing connection", ex1);
+			} catch (final SQLException e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					if (rs != null) {
+						rs.close();
+					}
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException ex1) {
+					logger.debug("SQL Exception while closing connection", ex1);
+				}
 			}
-		}
 
-		return result;
+			return result;
+		}
 	}
 
 	/**
@@ -4920,38 +4987,40 @@ public final class ClassManagerDB {
 	 */
 	public List<Property> getPropertiesByClassIDAndNamespaceID(final MetaClassID classID,
 			final NamespaceID namespaceID) {
-		ResultSet rs = null;
-		final List<Property> result = new ArrayList<>();
-		Connection conn = null;
-		try {
-			conn = dataSource.getConnection();
-			final PreparedStatement selectStatement = conn.prepareStatement(ClassManagerSQLStatements.SqlStatements.SELECT_PROPERTY_OF_ENRICHMENT.getSqlStatement());
-
-			selectStatement.setObject(1, classID.getId());
-			selectStatement.setObject(2, namespaceID.getId());
-			if (DEBUG_ENABLED) {
-				logger.debug("[==DB==] Executing " + selectStatement);
-			}
-			rs = selectStatement.executeQuery();
-			while (rs.next()) {
-				result.add(deserializeProperty(rs));
-			}
-		} catch (final SQLException e) {
-			e.printStackTrace();
-		} finally {
+		synchronized (dataSource) {
+			ResultSet rs = null;
+			final List<Property> result = new ArrayList<>();
+			Connection conn = null;
 			try {
-				if (rs != null) {
-					rs.close();
-				}
-				if (conn != null) {
-					conn.close();
-				}
-			} catch (final SQLException ex1) {
-				logger.debug("SQL Exception while closing connection", ex1);
-			}
-		}
+				conn = dataSource.getConnection();
+				final PreparedStatement selectStatement = conn.prepareStatement(ClassManagerSQLStatements.SqlStatements.SELECT_PROPERTY_OF_ENRICHMENT.getSqlStatement());
 
-		return result;
+				selectStatement.setObject(1, classID.getId());
+				selectStatement.setObject(2, namespaceID.getId());
+				if (DEBUG_ENABLED) {
+					logger.debug("[==DB==] Executing " + selectStatement);
+				}
+				rs = selectStatement.executeQuery();
+				while (rs.next()) {
+					result.add(deserializeProperty(rs));
+				}
+			} catch (final SQLException e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					if (rs != null) {
+						rs.close();
+					}
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException ex1) {
+					logger.debug("SQL Exception while closing connection", ex1);
+				}
+			}
+
+			return result;
+		}
 	}
 
 	/**
@@ -4964,38 +5033,40 @@ public final class ClassManagerDB {
 	 */
 	public List<Operation> getOperationsByClassIDAndNamespaceID(final MetaClassID classID,
 			final NamespaceID namespaceID) {
-		ResultSet rs = null;
-		final List<Operation> result = new ArrayList<>();
-		Connection conn = null;
-		try {
-			conn = dataSource.getConnection();
-			final PreparedStatement selectStatement = conn.prepareStatement(ClassManagerSQLStatements.SqlStatements.SELECT_OPERATION_OF_ENRICHMENT.getSqlStatement());
-
-			selectStatement.setObject(1, classID.getId());
-			selectStatement.setObject(2, namespaceID.getId());
-			if (DEBUG_ENABLED) {
-				logger.debug("[==DB==] Executing " + selectStatement);
-			}
-			rs = selectStatement.executeQuery();
-			while (rs.next()) {
-				result.add(deserializeOperation(rs));
-			}
-		} catch (final SQLException e) {
-			e.printStackTrace();
-		} finally {
+		synchronized (dataSource) {
+			ResultSet rs = null;
+			final List<Operation> result = new ArrayList<>();
+			Connection conn = null;
 			try {
-				if (rs != null) {
-					rs.close();
-				}
-				if (conn != null) {
-					conn.close();
-				}
-			} catch (final SQLException ex1) {
-				logger.debug("SQL Exception while closing connection", ex1);
-			}
-		}
+				conn = dataSource.getConnection();
+				final PreparedStatement selectStatement = conn.prepareStatement(ClassManagerSQLStatements.SqlStatements.SELECT_OPERATION_OF_ENRICHMENT.getSqlStatement());
 
-		return result;
+				selectStatement.setObject(1, classID.getId());
+				selectStatement.setObject(2, namespaceID.getId());
+				if (DEBUG_ENABLED) {
+					logger.debug("[==DB==] Executing " + selectStatement);
+				}
+				rs = selectStatement.executeQuery();
+				while (rs.next()) {
+					result.add(deserializeOperation(rs));
+				}
+			} catch (final SQLException e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					if (rs != null) {
+						rs.close();
+					}
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException ex1) {
+					logger.debug("SQL Exception while closing connection", ex1);
+				}
+			}
+
+			return result;
+		}
 	}
 
 	/**
@@ -5006,72 +5077,76 @@ public final class ClassManagerDB {
 	 */
 	public List<MetaClass> getClassesInNamespace(
 			final NamespaceID namespaceID) {
-		ResultSet rs = null;
-		final List<MetaClass> result = new ArrayList<>();
-		Connection conn = null;
-		try {
-			conn = dataSource.getConnection();
-			final PreparedStatement selectStatement = conn.prepareStatement(ClassManagerSQLStatements.SqlStatements.SELECT_CLASSES_IN_NAMESPACE.getSqlStatement());
-
-			selectStatement.setObject(1, namespaceID.getId());
-			if (DEBUG_ENABLED) {
-				logger.debug("[==DB==] Executing " + selectStatement);
-			}
-			rs = selectStatement.executeQuery();
-			while (rs.next()) {
-				result.add(deserializeMetaClass(rs));
-			}
-		} catch (final SQLException e) {
-			e.printStackTrace();
-		} finally {
+		synchronized (dataSource) {
+			ResultSet rs = null;
+			final List<MetaClass> result = new ArrayList<>();
+			Connection conn = null;
 			try {
-				if (rs != null) {
-					rs.close();
-				}
-				if (conn != null) {
-					conn.close();
-				}
-			} catch (final SQLException ex1) {
-				logger.debug("SQL Exception while closing connection", ex1);
-			}
-		}
+				conn = dataSource.getConnection();
+				final PreparedStatement selectStatement = conn.prepareStatement(ClassManagerSQLStatements.SqlStatements.SELECT_CLASSES_IN_NAMESPACE.getSqlStatement());
 
-		return result;
-	}
-
-	public MetaClassID getClassIDByNameAndNamespaceID(final String className, final NamespaceID nspaceID) {
-		ResultSet rs = null;
-		MetaClassID result = null;
-		Connection conn = null;
-		try {
-			conn = dataSource.getConnection();
-			final PreparedStatement selectStatement = conn.prepareStatement(ClassManagerSQLStatements.SqlStatements.SELECT_CLASSID_BY_NAME_AND_NAMESPACEID.getSqlStatement());
-
-			selectStatement.setString(1, className);
-			selectStatement.setObject(2, nspaceID.getId());
-			if (DEBUG_ENABLED) {
-				logger.debug("[==DB==] Executing " + selectStatement);
-			}
-			rs = selectStatement.executeQuery();
-			if (rs.next()) {
-				result = new MetaClassID((UUID)rs.getObject("id"));
-			}
-		} catch (final SQLException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if (rs != null) {
-					rs.close();
+				selectStatement.setObject(1, namespaceID.getId());
+				if (DEBUG_ENABLED) {
+					logger.debug("[==DB==] Executing " + selectStatement);
 				}
-				if (conn != null) {
-					conn.close();
+				rs = selectStatement.executeQuery();
+				while (rs.next()) {
+					result.add(deserializeMetaClass(rs));
 				}
 			} catch (final SQLException e) {
 				e.printStackTrace();
+			} finally {
+				try {
+					if (rs != null) {
+						rs.close();
+					}
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException ex1) {
+					logger.debug("SQL Exception while closing connection", ex1);
+				}
 			}
-		}
 
-		return result;
+			return result;
+		}
+	}
+
+	public MetaClassID getClassIDByNameAndNamespaceID(final String className, final NamespaceID nspaceID) {
+		synchronized (dataSource) {
+			ResultSet rs = null;
+			MetaClassID result = null;
+			Connection conn = null;
+			try {
+				conn = dataSource.getConnection();
+				final PreparedStatement selectStatement = conn.prepareStatement(ClassManagerSQLStatements.SqlStatements.SELECT_CLASSID_BY_NAME_AND_NAMESPACEID.getSqlStatement());
+
+				selectStatement.setString(1, className);
+				selectStatement.setObject(2, nspaceID.getId());
+				if (DEBUG_ENABLED) {
+					logger.debug("[==DB==] Executing " + selectStatement);
+				}
+				rs = selectStatement.executeQuery();
+				if (rs.next()) {
+					result = new MetaClassID((UUID) rs.getObject("id"));
+				}
+			} catch (final SQLException e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					if (rs != null) {
+						rs.close();
+					}
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException e) {
+					e.printStackTrace();
+				}
+			}
+
+			return result;
+		}
 	}
 	
 	/**

@@ -19,6 +19,7 @@ import es.bsc.dataclay.util.ids.AccountID;
 import es.bsc.dataclay.util.ids.DataSetID;
 import es.bsc.dataclay.util.management.AbstractManager;
 import es.bsc.dataclay.util.management.datasetmgr.DataSet;
+import es.bsc.dataclay.dbhandler.sql.sqlite.SQLiteDataSource;
 
 /**
  * This class is responsible for managing datasets (add and remove).
@@ -37,7 +38,7 @@ public final class DataSetManager extends AbstractManager {
 	 * @post Creates a DataSet manager and initializes the datasetDB in the path
 	 *       provided.
 	 */
-	public DataSetManager(final BasicDataSource dataSource) {
+	public DataSetManager(final SQLiteDataSource dataSource) {
 		super(dataSource);
 		this.datasetDB = new DataSetManagerDB(dataSource);
 		this.datasetDB.createTables();

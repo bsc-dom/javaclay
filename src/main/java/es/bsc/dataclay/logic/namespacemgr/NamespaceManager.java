@@ -40,6 +40,7 @@ import es.bsc.dataclay.util.management.namespacemgr.ImportedInterface;
 import es.bsc.dataclay.util.management.namespacemgr.Namespace;
 import es.bsc.dataclay.util.structs.LruCache;
 import es.bsc.dataclay.util.structs.Tuple;
+import es.bsc.dataclay.dbhandler.sql.sqlite.SQLiteDataSource;
 
 /**
  * This class is responsible for managing namespaces (add and remove).
@@ -61,11 +62,11 @@ public final class NamespaceManager extends AbstractManager {
 	/**
 	 * Instantiates a Namespace Manager that uses the Namespace DB in the provided path.
 	 * 
-	 * @param managerName
+	 * @param dataSource
 	 *            Manager/service name.
 	 * @post Creates a Namespace manager and initializes the namespaceDB in the path provided.
 	 */
-	public NamespaceManager(final BasicDataSource dataSource) {
+	public NamespaceManager(final SQLiteDataSource dataSource) {
 		super(dataSource);
 		this.namespaceDB = new NamespaceManagerDB(dataSource);
 		this.namespaceDB.createTables();

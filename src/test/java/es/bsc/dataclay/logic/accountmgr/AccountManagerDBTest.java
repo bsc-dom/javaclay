@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import es.bsc.dataclay.dbhandler.sql.sqlite.SQLiteDataSource;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.junit.After;
 import org.junit.Before;
@@ -24,7 +26,7 @@ public class AccountManagerDBTest {
     private PreparedStatement preparedStatement;
 
     @Mock
-    private BasicDataSource dataSource;
+    private SQLiteDataSource dataSource;
 
     @Mock
     private Connection connection;

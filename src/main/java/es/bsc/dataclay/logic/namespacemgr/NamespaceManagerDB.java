@@ -32,6 +32,7 @@ import es.bsc.dataclay.util.ids.PropertyID;
 import es.bsc.dataclay.util.management.namespacemgr.ImportedInterface;
 import es.bsc.dataclay.util.management.namespacemgr.Namespace;
 import es.bsc.dataclay.util.structs.Tuple;
+import es.bsc.dataclay.dbhandler.sql.sqlite.SQLiteDataSource;
 
 /**
  * Data base connection.
@@ -45,7 +46,7 @@ public final class NamespaceManagerDB {
 	private static final boolean DEBUG_ENABLED = Configuration.isDebugEnabled();
 
 	/** SingleConnection. */
-	private final BasicDataSource dataSource;
+	private final SQLiteDataSource dataSource;
 
 	/**
 	 * MetaDataServiceDB constructor.
@@ -53,7 +54,7 @@ public final class NamespaceManagerDB {
 	 * @param managerName
 	 *            Name of the LM service managing.
 	 */
-	public NamespaceManagerDB(final BasicDataSource dataSource) {
+	public NamespaceManagerDB(final SQLiteDataSource dataSource) {
 		this.dataSource = dataSource;
 		if (DEBUG_ENABLED) {
 			logger = LogManager.getLogger("LMDB");
@@ -64,25 +65,27 @@ public final class NamespaceManagerDB {
 	 * Create tables of MDS.
 	 */
 	public void createTables() {
+		synchronized (dataSource) {
 
-		Connection conn = null;
-		try {
-			conn = dataSource.getConnection();
-			for (final NamespaceManagerSQLStatements.SqlStatements stmt : NamespaceManagerSQLStatements.SqlStatements.values()) {
-				if (stmt.name().startsWith("CREATE_TABLE")) {
-					final PreparedStatement updateStatement = conn.prepareStatement(stmt.getSqlStatement());
-					updateStatement.execute();
-				}
-			}
-		} catch (final SQLException e) {
-			e.printStackTrace();
-		} finally {
+			Connection conn = null;
 			try {
-				if (conn != null) {
-					conn.close();
+				conn = dataSource.getConnection();
+				for (final NamespaceManagerSQLStatements.SqlStatements stmt : NamespaceManagerSQLStatements.SqlStatements.values()) {
+					if (stmt.name().startsWith("CREATE_TABLE")) {
+						final PreparedStatement updateStatement = conn.prepareStatement(stmt.getSqlStatement());
+						updateStatement.execute();
+					}
 				}
-			} catch (final SQLException ex1) {
-				ex1.printStackTrace();
+			} catch (final SQLException e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException ex1) {
+					ex1.printStackTrace();
+				}
 			}
 		}
 	}
@@ -91,25 +94,27 @@ public final class NamespaceManagerDB {
 	 * Delete the tables of MDS. Just the other way around of createTables --much simpler.
 	 */
 	public void dropTables() {
+		synchronized (dataSource) {
 
-		Connection conn = null;
-		try {
-			conn = dataSource.getConnection();
-			for (final NamespaceManagerSQLStatements.SqlStatements stmt : NamespaceManagerSQLStatements.SqlStatements.values()) {
-				if (stmt.name().startsWith("DROP_TABLE")) {
-					final PreparedStatement updateStatement = conn.prepareStatement(stmt.getSqlStatement());
-					updateStatement.execute();
-				}
-			}
-		} catch (final SQLException e) {
-			e.printStackTrace();
-		} finally {
+			Connection conn = null;
 			try {
-				if (conn != null) {
-					conn.close();
+				conn = dataSource.getConnection();
+				for (final NamespaceManagerSQLStatements.SqlStatements stmt : NamespaceManagerSQLStatements.SqlStatements.values()) {
+					if (stmt.name().startsWith("DROP_TABLE")) {
+						final PreparedStatement updateStatement = conn.prepareStatement(stmt.getSqlStatement());
+						updateStatement.execute();
+					}
 				}
-			} catch (final SQLException ex1) {
-				ex1.printStackTrace();
+			} catch (final SQLException e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException ex1) {
+					ex1.printStackTrace();
+				}
 			}
 		}
 	}
@@ -200,69 +205,71 @@ public final class NamespaceManagerDB {
 	 *            namespace
 	 */
 	public void store(final Namespace namespace) {
+		synchronized (dataSource) {
 
-		UUID[] importedIfaces = null;
-		UUID[] importedIfacesKeysFirst = null;
-		UUID[] importedIfacesKeysSecond = null;
-		if (namespace.getImportedInterfaces() != null) {
-			importedIfaces = new UUID[namespace.getImportedInterfaces().size()];
-			importedIfacesKeysFirst = new UUID[importedIfaces.length];
-			importedIfacesKeysSecond = new UUID[importedIfaces.length];
+			UUID[] importedIfaces = null;
+			UUID[] importedIfacesKeysFirst = null;
+			UUID[] importedIfacesKeysSecond = null;
+			if (namespace.getImportedInterfaces() != null) {
+				importedIfaces = new UUID[namespace.getImportedInterfaces().size()];
+				importedIfacesKeysFirst = new UUID[importedIfaces.length];
+				importedIfacesKeysSecond = new UUID[importedIfaces.length];
 
-			int i = 0;
-			for (final Entry<Tuple<InterfaceID, ContractID>, ImportedInterface> curEntry : namespace.getImportedInterfaces().entrySet()) {
-				final InterfaceID ifaceID = curEntry.getKey().getFirst();
-				final ContractID contractID = curEntry.getKey().getSecond();
-				final ImportedInterface importedIface = curEntry.getValue();
-				final UUID importedIfaceUUID = this.store(importedIface);
-				importedIfaces[i] = importedIfaceUUID;
-				importedIfacesKeysFirst[i] = ifaceID.getId();
-				importedIfacesKeysSecond[i] = contractID.getId();
-				i++;
-			}
-		}
-
-		Connection conn = null;
-		try {
-			conn = dataSource.getConnection();
-			final PreparedStatement insertStatement = conn.prepareStatement(NamespaceManagerSQLStatements.SqlStatements.INSERT_NAMESPACE.getSqlStatement());
-			insertStatement.setObject(1, namespace.getDataClayID().getId());
-			// CHECKSTYLE:OFF
-			insertStatement.setString(2, namespace.getProviderAccountName());
-			insertStatement.setString(3, namespace.getName());
-			insertStatement.setObject(4, namespace.getProviderAccountID().getId());
-
-			if (importedIfaces != null) {
-				Array tArray = insertStatement.getConnection().createArrayOf("uuid", importedIfacesKeysFirst);
-				insertStatement.setArray(5, tArray);
-				tArray = insertStatement.getConnection().createArrayOf("uuid", importedIfacesKeysSecond);
-				insertStatement.setArray(6, tArray);
-				tArray = insertStatement.getConnection().createArrayOf("uuid", importedIfaces);
-				insertStatement.setArray(7, tArray);
-			} else {
-				insertStatement.setArray(5, null);
-				insertStatement.setArray(6, null);
-				insertStatement.setArray(7, null);
-
-			}
-
-			insertStatement.setString(8, namespace.getLanguage().name());
-
-			// CHECKSTYLE:ON
-			if (DEBUG_ENABLED) {
-				logger.debug("[==DB==] Executing " + insertStatement);
-			}
-			insertStatement.executeUpdate();
-
-		} catch (final Exception e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if (conn != null) {
-					conn.close();
+				int i = 0;
+				for (final Entry<Tuple<InterfaceID, ContractID>, ImportedInterface> curEntry : namespace.getImportedInterfaces().entrySet()) {
+					final InterfaceID ifaceID = curEntry.getKey().getFirst();
+					final ContractID contractID = curEntry.getKey().getSecond();
+					final ImportedInterface importedIface = curEntry.getValue();
+					final UUID importedIfaceUUID = this.store(importedIface);
+					importedIfaces[i] = importedIfaceUUID;
+					importedIfacesKeysFirst[i] = ifaceID.getId();
+					importedIfacesKeysSecond[i] = contractID.getId();
+					i++;
 				}
-			} catch (final SQLException ex1) {
-				ex1.printStackTrace();
+			}
+
+			Connection conn = null;
+			try {
+				conn = dataSource.getConnection();
+				final PreparedStatement insertStatement = conn.prepareStatement(NamespaceManagerSQLStatements.SqlStatements.INSERT_NAMESPACE.getSqlStatement());
+				insertStatement.setObject(1, namespace.getDataClayID().getId());
+				// CHECKSTYLE:OFF
+				insertStatement.setString(2, namespace.getProviderAccountName());
+				insertStatement.setString(3, namespace.getName());
+				insertStatement.setObject(4, namespace.getProviderAccountID().getId());
+
+				if (importedIfaces != null) {
+					Array tArray = insertStatement.getConnection().createArrayOf("uuid", importedIfacesKeysFirst);
+					insertStatement.setArray(5, tArray);
+					tArray = insertStatement.getConnection().createArrayOf("uuid", importedIfacesKeysSecond);
+					insertStatement.setArray(6, tArray);
+					tArray = insertStatement.getConnection().createArrayOf("uuid", importedIfaces);
+					insertStatement.setArray(7, tArray);
+				} else {
+					insertStatement.setArray(5, null);
+					insertStatement.setArray(6, null);
+					insertStatement.setArray(7, null);
+
+				}
+
+				insertStatement.setString(8, namespace.getLanguage().name());
+
+				// CHECKSTYLE:ON
+				if (DEBUG_ENABLED) {
+					logger.debug("[==DB==] Executing " + insertStatement);
+				}
+				insertStatement.executeUpdate();
+
+			} catch (final Exception e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException ex1) {
+					ex1.printStackTrace();
+				}
 			}
 		}
 	}
@@ -422,39 +429,42 @@ public final class NamespaceManagerDB {
 	 *             if not found
 	 */
 	public Namespace getNamespaceByID(final NamespaceID namespaceID) {
-		ResultSet rs = null;
-		Namespace result = null;
-		Connection conn = null;
-		try {
-			conn = dataSource.getConnection();
-			final PreparedStatement selectStatement = conn.prepareStatement(NamespaceManagerSQLStatements.SqlStatements.SELECT_NAMESPACE.getSqlStatement());
+		synchronized (dataSource) {
 
-			selectStatement.setObject(1, namespaceID.getId());
-			if (DEBUG_ENABLED) {
-				logger.debug("[==DB==] Executing " + selectStatement);
-			}
-			rs = selectStatement.executeQuery();
-			if (rs.next()) {
-				result = deserializeNamespace(rs);
-
-			}
-		} catch (final SQLException e) {
-			// ignore
-
-		} finally {
+			ResultSet rs = null;
+			Namespace result = null;
+			Connection conn = null;
 			try {
-				if (rs != null) {
-					rs.close();
+				conn = dataSource.getConnection();
+				final PreparedStatement selectStatement = conn.prepareStatement(NamespaceManagerSQLStatements.SqlStatements.SELECT_NAMESPACE.getSqlStatement());
+
+				selectStatement.setObject(1, namespaceID.getId());
+				if (DEBUG_ENABLED) {
+					logger.debug("[==DB==] Executing " + selectStatement);
 				}
-				if (conn != null) {
-					conn.close();
+				rs = selectStatement.executeQuery();
+				if (rs.next()) {
+					result = deserializeNamespace(rs);
+
 				}
 			} catch (final SQLException e) {
-				e.printStackTrace();
-			}
-		}
+				// ignore
 
-		return result;
+			} finally {
+				try {
+					if (rs != null) {
+						rs.close();
+					}
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException e) {
+					e.printStackTrace();
+				}
+			}
+
+			return result;
+		}
 	}
 
 	/**
@@ -495,32 +505,34 @@ public final class NamespaceManagerDB {
 	 *            ID of object
 	 */
 	public void deleteNamespaceByID(final NamespaceID namespaceID) {
+		synchronized (dataSource) {
 
-		final Namespace namespace = this.getNamespaceByID(namespaceID);
-		for (final ImportedInterface importedIface : namespace.getImportedInterfaces().values()) {
-			this.deleteImportedInterfaceByID(importedIface.getId());
-		}
-
-		Connection conn = null;
-		try {
-			conn = dataSource.getConnection();
-			final PreparedStatement selectStatement = conn.prepareStatement(NamespaceManagerSQLStatements.SqlStatements.DELETE_NAMESPACE.getSqlStatement());
-			selectStatement.setObject(1, namespaceID.getId());
-			if (DEBUG_ENABLED) {
-				logger.debug("[==DB==] Executing " + selectStatement);
+			final Namespace namespace = this.getNamespaceByID(namespaceID);
+			for (final ImportedInterface importedIface : namespace.getImportedInterfaces().values()) {
+				this.deleteImportedInterfaceByID(importedIface.getId());
 			}
-			selectStatement.executeUpdate();
 
-		} catch (final SQLException e) {
-			// not found, ignore
-			// e.printStackTrace();
-		} finally {
+			Connection conn = null;
 			try {
-				if (conn != null) {
-					conn.close();
+				conn = dataSource.getConnection();
+				final PreparedStatement selectStatement = conn.prepareStatement(NamespaceManagerSQLStatements.SqlStatements.DELETE_NAMESPACE.getSqlStatement());
+				selectStatement.setObject(1, namespaceID.getId());
+				if (DEBUG_ENABLED) {
+					logger.debug("[==DB==] Executing " + selectStatement);
 				}
+				selectStatement.executeUpdate();
+
 			} catch (final SQLException e) {
-				e.printStackTrace();
+				// not found, ignore
+				// e.printStackTrace();
+			} finally {
+				try {
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 
@@ -535,36 +547,39 @@ public final class NamespaceManagerDB {
 	 *             if not found
 	 */
 	public Set<String> getNamespacesNames() {
-		ResultSet rs = null;
-		final Set<String> result = new HashSet<>();
-		Connection conn = null;
-		try {
-			conn = dataSource.getConnection();
-			final PreparedStatement selectStatement = conn.prepareStatement(NamespaceManagerSQLStatements.SqlStatements.SELECT_NAMESPACES_NAMES.getSqlStatement());
+		synchronized (dataSource) {
 
-			if (DEBUG_ENABLED) {
-				logger.debug("[==DB==] Executing " + selectStatement);
-			}
-			rs = selectStatement.executeQuery();
-			while (rs.next()) {
-				result.add(rs.getString(1));
-			}
-		} catch (final SQLException e) {
-			// ignore
-		} finally {
+			ResultSet rs = null;
+			final Set<String> result = new HashSet<>();
+			Connection conn = null;
 			try {
-				if (rs != null) {
-					rs.close();
+				conn = dataSource.getConnection();
+				final PreparedStatement selectStatement = conn.prepareStatement(NamespaceManagerSQLStatements.SqlStatements.SELECT_NAMESPACES_NAMES.getSqlStatement());
+
+				if (DEBUG_ENABLED) {
+					logger.debug("[==DB==] Executing " + selectStatement);
 				}
-				if (conn != null) {
-					conn.close();
+				rs = selectStatement.executeQuery();
+				while (rs.next()) {
+					result.add(rs.getString(1));
 				}
 			} catch (final SQLException e) {
-				e.printStackTrace();
+				// ignore
+			} finally {
+				try {
+					if (rs != null) {
+						rs.close();
+					}
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException e) {
+					e.printStackTrace();
+				}
 			}
-		}
 
-		return result;
+			return result;
+		}
 	}
 
 	/**
@@ -576,38 +591,41 @@ public final class NamespaceManagerDB {
 	 *             if not found
 	 */
 	public Namespace getNamespaceByName(final String name) {
-		ResultSet rs = null;
-		Namespace result = null;
-		Connection conn = null;
-		try {
-			conn = dataSource.getConnection();
-			final PreparedStatement selectStatement = conn.prepareStatement(NamespaceManagerSQLStatements.SqlStatements.SELECT_NAMESPACE_BY_NAME.getSqlStatement());
+		synchronized (dataSource) {
 
-			selectStatement.setString(1, name);
-			if (DEBUG_ENABLED) {
-				logger.debug("[==DB==] Executing " + selectStatement);
-			}
-			rs = selectStatement.executeQuery();
-			if (rs.next()) {
-				result = deserializeNamespace(rs);
-
-			}
-		} catch (final SQLException e) {
-			// ignore
-		} finally {
+			ResultSet rs = null;
+			Namespace result = null;
+			Connection conn = null;
 			try {
-				if (rs != null) {
-					rs.close();
+				conn = dataSource.getConnection();
+				final PreparedStatement selectStatement = conn.prepareStatement(NamespaceManagerSQLStatements.SqlStatements.SELECT_NAMESPACE_BY_NAME.getSqlStatement());
+
+				selectStatement.setString(1, name);
+				if (DEBUG_ENABLED) {
+					logger.debug("[==DB==] Executing " + selectStatement);
 				}
-				if (conn != null) {
-					conn.close();
+				rs = selectStatement.executeQuery();
+				if (rs.next()) {
+					result = deserializeNamespace(rs);
+
 				}
 			} catch (final SQLException e) {
-				e.printStackTrace();
+				// ignore
+			} finally {
+				try {
+					if (rs != null) {
+						rs.close();
+					}
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException e) {
+					e.printStackTrace();
+				}
 			}
-		}
 
-		return result;
+			return result;
+		}
 	}
 
 	/**
@@ -621,39 +639,42 @@ public final class NamespaceManagerDB {
 	 *             if not found
 	 */
 	public Namespace getNamespaceByNameAndID(final String name, final NamespaceID namespaceID) {
-		ResultSet rs = null;
-		Namespace result = null;
-		Connection conn = null;
-		try {
-			conn = dataSource.getConnection();
-			final PreparedStatement selectStatement = conn.prepareStatement(NamespaceManagerSQLStatements.SqlStatements.SELECT_ALL_NAMESPACES_OF_ACCOUNT_AND_ID.getSqlStatement());
+		synchronized (dataSource) {
 
-			selectStatement.setString(1, name);
-			selectStatement.setObject(2, namespaceID.getId());
-			if (DEBUG_ENABLED) {
-				logger.debug("[==DB==] Executing " + selectStatement);
-			}
-			rs = selectStatement.executeQuery();
-			if (rs.next()) {
-				result = deserializeNamespace(rs);
-
-			}
-		} catch (final SQLException e) {
-			// ignore
-		} finally {
+			ResultSet rs = null;
+			Namespace result = null;
+			Connection conn = null;
 			try {
-				if (rs != null) {
-					rs.close();
+				conn = dataSource.getConnection();
+				final PreparedStatement selectStatement = conn.prepareStatement(NamespaceManagerSQLStatements.SqlStatements.SELECT_ALL_NAMESPACES_OF_ACCOUNT_AND_ID.getSqlStatement());
+
+				selectStatement.setString(1, name);
+				selectStatement.setObject(2, namespaceID.getId());
+				if (DEBUG_ENABLED) {
+					logger.debug("[==DB==] Executing " + selectStatement);
 				}
-				if (conn != null) {
-					conn.close();
+				rs = selectStatement.executeQuery();
+				if (rs.next()) {
+					result = deserializeNamespace(rs);
+
 				}
 			} catch (final SQLException e) {
-				e.printStackTrace();
+				// ignore
+			} finally {
+				try {
+					if (rs != null) {
+						rs.close();
+					}
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException e) {
+					e.printStackTrace();
+				}
 			}
-		}
 
-		return result;
+			return result;
+		}
 	}
 
 	/**
@@ -664,35 +685,36 @@ public final class NamespaceManagerDB {
 	 *            Iface added
 	 */
 	public void updateNamespaceAddImport(final NamespaceID namespaceID, final ImportedInterface importedIface) {
+		synchronized (dataSource) {
 
-		final UUID importedIfaceUUID = this.store(importedIface);
-		Connection conn = null;
-		try {
-			conn = dataSource.getConnection();
-			final PreparedStatement stmt = conn.prepareStatement(NamespaceManagerSQLStatements.SqlStatements.UPDATE_NAMESPACE_ADD_IMPORTEDIFACE.getSqlStatement());
-
-			stmt.setObject(1, importedIface.getInterfaceID().getId());
-			stmt.setObject(2, importedIface.getContractID().getId());
-			stmt.setObject(3, importedIfaceUUID);
-			stmt.setObject(4, namespaceID.getId());
-			if (DEBUG_ENABLED) {
-				logger.debug("[==DB==] Executing " + stmt);
-			}
-			stmt.executeUpdate();
-
-		} catch (final SQLException e) {
-			// not found, ignore
-			// e.printStackTrace();
-		} finally {
+			final UUID importedIfaceUUID = this.store(importedIface);
+			Connection conn = null;
 			try {
-				if (conn != null) {
-					conn.close();
+				conn = dataSource.getConnection();
+				final PreparedStatement stmt = conn.prepareStatement(NamespaceManagerSQLStatements.SqlStatements.UPDATE_NAMESPACE_ADD_IMPORTEDIFACE.getSqlStatement());
+
+				stmt.setObject(1, importedIface.getInterfaceID().getId());
+				stmt.setObject(2, importedIface.getContractID().getId());
+				stmt.setObject(3, importedIfaceUUID);
+				stmt.setObject(4, namespaceID.getId());
+				if (DEBUG_ENABLED) {
+					logger.debug("[==DB==] Executing " + stmt);
 				}
+				stmt.executeUpdate();
+
 			} catch (final SQLException e) {
-				e.printStackTrace();
+				// not found, ignore
+				// e.printStackTrace();
+			} finally {
+				try {
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException e) {
+					e.printStackTrace();
+				}
 			}
 		}
-
 	}
 
 	/**
@@ -705,35 +727,37 @@ public final class NamespaceManagerDB {
 	 *            Contract ID
 	 */
 	public void updateNamespaceRemoveImport(final NamespaceID namespaceID, final InterfaceID ifaceID, final ContractID contractID) {
+		synchronized (dataSource) {
 
-		final Namespace namespace = this.getNamespaceByID(namespaceID);
-		final ImportedInterface importedIface = namespace.getImportedInterface(ifaceID, contractID);
-		this.deleteImportedInterfaceByID(importedIface.getId());
+			final Namespace namespace = this.getNamespaceByID(namespaceID);
+			final ImportedInterface importedIface = namespace.getImportedInterface(ifaceID, contractID);
+			this.deleteImportedInterfaceByID(importedIface.getId());
 
-		Connection conn = null;
-		try {
-			conn = dataSource.getConnection();
-			final PreparedStatement stmt = conn.prepareStatement(NamespaceManagerSQLStatements.SqlStatements.UPDATE_NAMESPACE_REMOVE_IMPORTEDIFACE.getSqlStatement());
-
-			stmt.setObject(1, ifaceID.getId());
-			stmt.setObject(2, contractID.getId());
-			stmt.setObject(3, importedIface.getId());
-			stmt.setObject(4, namespaceID.getId());
-			if (DEBUG_ENABLED) {
-				logger.debug("[==DB==] Executing " + stmt);
-			}
-			stmt.executeUpdate();
-
-		} catch (final SQLException e) {
-			// not found, ignore
-			// e.printStackTrace();
-		} finally {
+			Connection conn = null;
 			try {
-				if (conn != null) {
-					conn.close();
+				conn = dataSource.getConnection();
+				final PreparedStatement stmt = conn.prepareStatement(NamespaceManagerSQLStatements.SqlStatements.UPDATE_NAMESPACE_REMOVE_IMPORTEDIFACE.getSqlStatement());
+
+				stmt.setObject(1, ifaceID.getId());
+				stmt.setObject(2, contractID.getId());
+				stmt.setObject(3, importedIface.getId());
+				stmt.setObject(4, namespaceID.getId());
+				if (DEBUG_ENABLED) {
+					logger.debug("[==DB==] Executing " + stmt);
 				}
+				stmt.executeUpdate();
+
 			} catch (final SQLException e) {
-				e.printStackTrace();
+				// not found, ignore
+				// e.printStackTrace();
+			} finally {
+				try {
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 
@@ -746,36 +770,39 @@ public final class NamespaceManagerDB {
 	 * @return The Namespace
 	 */
 	public List<Namespace> getNamespacesWithProvider(final AccountID providerAccountID) {
-		ResultSet rs = null;
-		final List<Namespace> result = new ArrayList<>();
-		Connection conn = null;
-		try {
-			conn = dataSource.getConnection();
-			final PreparedStatement selectStatement = conn.prepareStatement(NamespaceManagerSQLStatements.SqlStatements.SELECT_ALL_NAMESPACES_OF_ACCOUNT.getSqlStatement());
-			selectStatement.setObject(1, providerAccountID.getId());
-			if (DEBUG_ENABLED) {
-				logger.debug("[==DB==] Executing " + selectStatement);
-			}
-			rs = selectStatement.executeQuery();
-			while (rs.next()) {
-				result.add(deserializeNamespace(rs));
-			}
-		} catch (final SQLException e) {
-			e.printStackTrace();
-		} finally {
+		synchronized (dataSource) {
+
+			ResultSet rs = null;
+			final List<Namespace> result = new ArrayList<>();
+			Connection conn = null;
 			try {
-				if (rs != null) {
-					rs.close();
+				conn = dataSource.getConnection();
+				final PreparedStatement selectStatement = conn.prepareStatement(NamespaceManagerSQLStatements.SqlStatements.SELECT_ALL_NAMESPACES_OF_ACCOUNT.getSqlStatement());
+				selectStatement.setObject(1, providerAccountID.getId());
+				if (DEBUG_ENABLED) {
+					logger.debug("[==DB==] Executing " + selectStatement);
 				}
-				if (conn != null) {
-					conn.close();
+				rs = selectStatement.executeQuery();
+				while (rs.next()) {
+					result.add(deserializeNamespace(rs));
 				}
 			} catch (final SQLException e) {
 				e.printStackTrace();
+			} finally {
+				try {
+					if (rs != null) {
+						rs.close();
+					}
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException e) {
+					e.printStackTrace();
+				}
 			}
-		}
 
-		return result;
+			return result;
+		}
 	}
 
 	/**
@@ -785,36 +812,39 @@ public final class NamespaceManagerDB {
 	 * @return The Namespace
 	 */
 	public List<Namespace> getAllNamespacesImportingClass(final MetaClassID classID) {
-		ResultSet rs = null;
-		final List<Namespace> result = new ArrayList<>();
-		Connection conn = null;
-		try {
-			conn = dataSource.getConnection();
-			final PreparedStatement selectStatement = conn.prepareStatement(NamespaceManagerSQLStatements.SqlStatements.SELECT_ALL_NAMESPACES_IMPORT_IFACE.getSqlStatement());
-			selectStatement.setObject(1, classID.getId());
-			if (DEBUG_ENABLED) {
-				logger.debug("[==DB==] Executing " + selectStatement);
-			}
-			rs = selectStatement.executeQuery();
-			while (rs.next()) {
-				result.add(deserializeNamespace(rs));
-			}
-		} catch (final SQLException e) {
-			e.printStackTrace();
-		} finally {
+		synchronized (dataSource) {
+
+			ResultSet rs = null;
+			final List<Namespace> result = new ArrayList<>();
+			Connection conn = null;
 			try {
-				if (rs != null) {
-					rs.close();
+				conn = dataSource.getConnection();
+				final PreparedStatement selectStatement = conn.prepareStatement(NamespaceManagerSQLStatements.SqlStatements.SELECT_ALL_NAMESPACES_IMPORT_IFACE.getSqlStatement());
+				selectStatement.setObject(1, classID.getId());
+				if (DEBUG_ENABLED) {
+					logger.debug("[==DB==] Executing " + selectStatement);
 				}
-				if (conn != null) {
-					conn.close();
+				rs = selectStatement.executeQuery();
+				while (rs.next()) {
+					result.add(deserializeNamespace(rs));
 				}
 			} catch (final SQLException e) {
 				e.printStackTrace();
+			} finally {
+				try {
+					if (rs != null) {
+						rs.close();
+					}
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException e) {
+					e.printStackTrace();
+				}
 			}
-		}
 
-		return result;
+			return result;
+		}
 	}
 
 	/**
@@ -830,32 +860,34 @@ public final class NamespaceManagerDB {
 	 */
 	public void updateImportedInterfaceAddProperty(final NamespaceID namespaceID, final InterfaceID ifaceID, final ContractID contractID,
 			final PropertyID propertyID) {
+		synchronized (dataSource) {
 
-		final Namespace namespace = this.getNamespaceByID(namespaceID);
-		final ImportedInterface importedIface = namespace.getImportedInterface(ifaceID, contractID);
-		final UUID importedIfaceUUID = importedIface.getId();
+			final Namespace namespace = this.getNamespaceByID(namespaceID);
+			final ImportedInterface importedIface = namespace.getImportedInterface(ifaceID, contractID);
+			final UUID importedIfaceUUID = importedIface.getId();
 
-		Connection conn = null;
-		try {
-			conn = dataSource.getConnection();
-			final PreparedStatement stmt = conn.prepareStatement(NamespaceManagerSQLStatements.SqlStatements.UPDATE_IMPORTEDIFACE_ADD_PROPERTY.getSqlStatement());
-			stmt.setObject(1, propertyID.getId());
-			stmt.setObject(2, importedIfaceUUID);
-			if (DEBUG_ENABLED) {
-				logger.debug("[==DB==] Executing " + stmt);
-			}
-			stmt.executeUpdate();
-
-		} catch (final SQLException e) {
-			// not found, ignore
-			// e.printStackTrace();
-		} finally {
+			Connection conn = null;
 			try {
-				if (conn != null) {
-					conn.close();
+				conn = dataSource.getConnection();
+				final PreparedStatement stmt = conn.prepareStatement(NamespaceManagerSQLStatements.SqlStatements.UPDATE_IMPORTEDIFACE_ADD_PROPERTY.getSqlStatement());
+				stmt.setObject(1, propertyID.getId());
+				stmt.setObject(2, importedIfaceUUID);
+				if (DEBUG_ENABLED) {
+					logger.debug("[==DB==] Executing " + stmt);
 				}
+				stmt.executeUpdate();
+
 			} catch (final SQLException e) {
-				e.printStackTrace();
+				// not found, ignore
+				// e.printStackTrace();
+			} finally {
+				try {
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 
@@ -874,35 +906,36 @@ public final class NamespaceManagerDB {
 	 */
 	public void updateImportedInterfaceAddOperation(final NamespaceID namespaceID, final InterfaceID ifaceID, final ContractID contractID,
 			final OperationID operationID) {
+		synchronized (dataSource) {
 
-		final Namespace namespace = this.getNamespaceByID(namespaceID);
-		final ImportedInterface importedIface = namespace.getImportedInterface(ifaceID, contractID);
-		final UUID importedIfaceUUID = importedIface.getId();
+			final Namespace namespace = this.getNamespaceByID(namespaceID);
+			final ImportedInterface importedIface = namespace.getImportedInterface(ifaceID, contractID);
+			final UUID importedIfaceUUID = importedIface.getId();
 
-		Connection conn = null;
-		try {
-			conn = dataSource.getConnection();
-			final PreparedStatement stmt = conn.prepareStatement(NamespaceManagerSQLStatements.SqlStatements.UPDATE_IMPORTEDIFACE_ADD_OPERATION.getSqlStatement());
-			stmt.setObject(1, operationID.getId());
-			stmt.setObject(2, importedIfaceUUID);
-			if (DEBUG_ENABLED) {
-				logger.debug("[==DB==] Executing " + stmt);
-			}
-			stmt.executeUpdate();
-
-		} catch (final SQLException e) {
-			// not found, ignore
-			// e.printStackTrace();
-		} finally {
+			Connection conn = null;
 			try {
-				if (conn != null) {
-					conn.close();
+				conn = dataSource.getConnection();
+				final PreparedStatement stmt = conn.prepareStatement(NamespaceManagerSQLStatements.SqlStatements.UPDATE_IMPORTEDIFACE_ADD_OPERATION.getSqlStatement());
+				stmt.setObject(1, operationID.getId());
+				stmt.setObject(2, importedIfaceUUID);
+				if (DEBUG_ENABLED) {
+					logger.debug("[==DB==] Executing " + stmt);
 				}
+				stmt.executeUpdate();
+
 			} catch (final SQLException e) {
-				e.printStackTrace();
+				// not found, ignore
+				// e.printStackTrace();
+			} finally {
+				try {
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException e) {
+					e.printStackTrace();
+				}
 			}
 		}
-
 	}
 
 	/**
@@ -918,32 +951,34 @@ public final class NamespaceManagerDB {
 	 */
 	public void updateImportedInterfaceAddImplementation(final NamespaceID namespaceID, final InterfaceID ifaceID, final ContractID contractID,
 			final ImplementationID implementationID) {
+		synchronized (dataSource) {
 
-		final Namespace namespace = this.getNamespaceByID(namespaceID);
-		final ImportedInterface importedIface = namespace.getImportedInterface(ifaceID, contractID);
-		final UUID importedIfaceUUID = importedIface.getId();
+			final Namespace namespace = this.getNamespaceByID(namespaceID);
+			final ImportedInterface importedIface = namespace.getImportedInterface(ifaceID, contractID);
+			final UUID importedIfaceUUID = importedIface.getId();
 
-		Connection conn = null;
-		try {
-			conn = dataSource.getConnection();
-			final PreparedStatement stmt = conn.prepareStatement(NamespaceManagerSQLStatements.SqlStatements.UPDATE_IMPORTEDIFACE_ADD_IMPLEMENTATION.getSqlStatement());
-			stmt.setObject(1, implementationID.getId());
-			stmt.setObject(2, importedIfaceUUID);
-			if (DEBUG_ENABLED) {
-				logger.debug("[==DB==] Executing " + stmt);
-			}
-			stmt.executeUpdate();
-
-		} catch (final SQLException e) {
-			// not found, ignore
-			// e.printStackTrace();
-		} finally {
+			Connection conn = null;
 			try {
-				if (conn != null) {
-					conn.close();
+				conn = dataSource.getConnection();
+				final PreparedStatement stmt = conn.prepareStatement(NamespaceManagerSQLStatements.SqlStatements.UPDATE_IMPORTEDIFACE_ADD_IMPLEMENTATION.getSqlStatement());
+				stmt.setObject(1, implementationID.getId());
+				stmt.setObject(2, importedIfaceUUID);
+				if (DEBUG_ENABLED) {
+					logger.debug("[==DB==] Executing " + stmt);
 				}
+				stmt.executeUpdate();
+
 			} catch (final SQLException e) {
-				e.printStackTrace();
+				// not found, ignore
+				// e.printStackTrace();
+			} finally {
+				try {
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 
@@ -962,35 +997,36 @@ public final class NamespaceManagerDB {
 	 */
 	public void updateImportedInterfaceAddSubClass(final NamespaceID namespaceID, final InterfaceID ifaceID, final ContractID contractID,
 			final MetaClassID subClassID) {
+		synchronized (dataSource) {
 
-		final Namespace namespace = this.getNamespaceByID(namespaceID);
-		final ImportedInterface importedIface = namespace.getImportedInterface(ifaceID, contractID);
-		final UUID importedIfaceUUID = importedIface.getId();
+			final Namespace namespace = this.getNamespaceByID(namespaceID);
+			final ImportedInterface importedIface = namespace.getImportedInterface(ifaceID, contractID);
+			final UUID importedIfaceUUID = importedIface.getId();
 
-		Connection conn = null;
-		try {
-			conn = dataSource.getConnection();
-			final PreparedStatement stmt = conn.prepareStatement(NamespaceManagerSQLStatements.SqlStatements.UPDATE_IMPORTEDIFACE_ADD_SUBCLASS.getSqlStatement());
-			stmt.setObject(1, subClassID.getId());
-			stmt.setObject(2, importedIfaceUUID);
-			if (DEBUG_ENABLED) {
-				logger.debug("[==DB==] Executing " + stmt);
-			}
-			stmt.executeUpdate();
-
-		} catch (final SQLException e) {
-			// not found, ignore
-			// e.printStackTrace();
-		} finally {
+			Connection conn = null;
 			try {
-				if (conn != null) {
-					conn.close();
+				conn = dataSource.getConnection();
+				final PreparedStatement stmt = conn.prepareStatement(NamespaceManagerSQLStatements.SqlStatements.UPDATE_IMPORTEDIFACE_ADD_SUBCLASS.getSqlStatement());
+				stmt.setObject(1, subClassID.getId());
+				stmt.setObject(2, importedIfaceUUID);
+				if (DEBUG_ENABLED) {
+					logger.debug("[==DB==] Executing " + stmt);
 				}
+				stmt.executeUpdate();
+
 			} catch (final SQLException e) {
-				e.printStackTrace();
+				// not found, ignore
+				// e.printStackTrace();
+			} finally {
+				try {
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException e) {
+					e.printStackTrace();
+				}
 			}
 		}
-
 	}
 
 	/**
@@ -1006,32 +1042,34 @@ public final class NamespaceManagerDB {
 	 */
 	public void updateImportedInterfaceRemoveProperty(final NamespaceID namespaceID, final InterfaceID ifaceID, final ContractID contractID,
 			final PropertyID propertyID) {
+		synchronized (dataSource) {
 
-		final Namespace namespace = this.getNamespaceByID(namespaceID);
-		final ImportedInterface importedIface = namespace.getImportedInterface(ifaceID, contractID);
-		final UUID importedIfaceUUID = importedIface.getId();
+			final Namespace namespace = this.getNamespaceByID(namespaceID);
+			final ImportedInterface importedIface = namespace.getImportedInterface(ifaceID, contractID);
+			final UUID importedIfaceUUID = importedIface.getId();
 
-		Connection conn = null;
-		try {
-			conn = dataSource.getConnection();
-			final PreparedStatement stmt = conn.prepareStatement(NamespaceManagerSQLStatements.SqlStatements.UPDATE_IMPORTEDIFACE_REMOVE_PROPERTY.getSqlStatement());
-			stmt.setObject(1, propertyID.getId());
-			stmt.setObject(2, importedIfaceUUID);
-			if (DEBUG_ENABLED) {
-				logger.debug("[==DB==] Executing " + stmt);
-			}
-			stmt.executeUpdate();
-
-		} catch (final SQLException e) {
-			// not found, ignore
-			// e.printStackTrace();
-		} finally {
+			Connection conn = null;
 			try {
-				if (conn != null) {
-					conn.close();
+				conn = dataSource.getConnection();
+				final PreparedStatement stmt = conn.prepareStatement(NamespaceManagerSQLStatements.SqlStatements.UPDATE_IMPORTEDIFACE_REMOVE_PROPERTY.getSqlStatement());
+				stmt.setObject(1, propertyID.getId());
+				stmt.setObject(2, importedIfaceUUID);
+				if (DEBUG_ENABLED) {
+					logger.debug("[==DB==] Executing " + stmt);
 				}
+				stmt.executeUpdate();
+
 			} catch (final SQLException e) {
-				e.printStackTrace();
+				// not found, ignore
+				// e.printStackTrace();
+			} finally {
+				try {
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 
@@ -1050,35 +1088,36 @@ public final class NamespaceManagerDB {
 	 */
 	public void updateImportedInterfaceRemoveOperation(final NamespaceID namespaceID, final InterfaceID ifaceID, final ContractID contractID,
 			final OperationID operationID) {
+		synchronized (dataSource) {
 
-		final Namespace namespace = this.getNamespaceByID(namespaceID);
-		final ImportedInterface importedIface = namespace.getImportedInterface(ifaceID, contractID);
-		final UUID importedIfaceUUID = importedIface.getId();
+			final Namespace namespace = this.getNamespaceByID(namespaceID);
+			final ImportedInterface importedIface = namespace.getImportedInterface(ifaceID, contractID);
+			final UUID importedIfaceUUID = importedIface.getId();
 
-		Connection conn = null;
-		try {
-			conn = dataSource.getConnection();
-			final PreparedStatement stmt = conn.prepareStatement(NamespaceManagerSQLStatements.SqlStatements.UPDATE_IMPORTEDIFACE_REMOVE_OPERATION.getSqlStatement());
-			stmt.setObject(1, operationID.getId());
-			stmt.setObject(2, importedIfaceUUID);
-			if (DEBUG_ENABLED) {
-				logger.debug("[==DB==] Executing " + stmt);
-			}
-			stmt.executeUpdate();
-
-		} catch (final SQLException e) {
-			// not found, ignore
-			// e.printStackTrace();
-		} finally {
+			Connection conn = null;
 			try {
-				if (conn != null) {
-					conn.close();
+				conn = dataSource.getConnection();
+				final PreparedStatement stmt = conn.prepareStatement(NamespaceManagerSQLStatements.SqlStatements.UPDATE_IMPORTEDIFACE_REMOVE_OPERATION.getSqlStatement());
+				stmt.setObject(1, operationID.getId());
+				stmt.setObject(2, importedIfaceUUID);
+				if (DEBUG_ENABLED) {
+					logger.debug("[==DB==] Executing " + stmt);
 				}
+				stmt.executeUpdate();
+
 			} catch (final SQLException e) {
-				e.printStackTrace();
+				// not found, ignore
+				// e.printStackTrace();
+			} finally {
+				try {
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException e) {
+					e.printStackTrace();
+				}
 			}
 		}
-
 	}
 
 	/**
@@ -1094,32 +1133,34 @@ public final class NamespaceManagerDB {
 	 */
 	public void updateImportedInterfaceRemoveImplementation(final NamespaceID namespaceID, final InterfaceID ifaceID, final ContractID contractID,
 			final ImplementationID implementationID) {
+		synchronized (dataSource) {
 
-		final Namespace namespace = this.getNamespaceByID(namespaceID);
-		final ImportedInterface importedIface = namespace.getImportedInterface(ifaceID, contractID);
-		final UUID importedIfaceUUID = importedIface.getId();
+			final Namespace namespace = this.getNamespaceByID(namespaceID);
+			final ImportedInterface importedIface = namespace.getImportedInterface(ifaceID, contractID);
+			final UUID importedIfaceUUID = importedIface.getId();
 
-		Connection conn = null;
-		try {
-			conn = dataSource.getConnection();
-			final PreparedStatement stmt = conn.prepareStatement(NamespaceManagerSQLStatements.SqlStatements.UPDATE_IMPORTEDIFACE_REMOVE_IMPLEMENTATION.getSqlStatement());
-			stmt.setObject(1, implementationID.getId());
-			stmt.setObject(2, importedIfaceUUID);
-			if (DEBUG_ENABLED) {
-				logger.debug("[==DB==] Executing " + stmt);
-			}
-			stmt.executeUpdate();
-
-		} catch (final SQLException e) {
-			// not found, ignore
-			// e.printStackTrace();
-		} finally {
+			Connection conn = null;
 			try {
-				if (conn != null) {
-					conn.close();
+				conn = dataSource.getConnection();
+				final PreparedStatement stmt = conn.prepareStatement(NamespaceManagerSQLStatements.SqlStatements.UPDATE_IMPORTEDIFACE_REMOVE_IMPLEMENTATION.getSqlStatement());
+				stmt.setObject(1, implementationID.getId());
+				stmt.setObject(2, importedIfaceUUID);
+				if (DEBUG_ENABLED) {
+					logger.debug("[==DB==] Executing " + stmt);
 				}
+				stmt.executeUpdate();
+
 			} catch (final SQLException e) {
-				e.printStackTrace();
+				// not found, ignore
+				// e.printStackTrace();
+			} finally {
+				try {
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 
@@ -1138,35 +1179,36 @@ public final class NamespaceManagerDB {
 	 */
 	public void updateImportedInterfaceRemoveSubClass(final NamespaceID namespaceID, final InterfaceID ifaceID, final ContractID contractID,
 			final MetaClassID subClassID) {
+		synchronized (dataSource) {
 
-		final Namespace namespace = this.getNamespaceByID(namespaceID);
-		final ImportedInterface importedIface = namespace.getImportedInterface(ifaceID, contractID);
-		final UUID importedIfaceUUID = importedIface.getId();
+			final Namespace namespace = this.getNamespaceByID(namespaceID);
+			final ImportedInterface importedIface = namespace.getImportedInterface(ifaceID, contractID);
+			final UUID importedIfaceUUID = importedIface.getId();
 
-		Connection conn = null;
-		try {
-			conn = dataSource.getConnection();
-			final PreparedStatement stmt = conn.prepareStatement(NamespaceManagerSQLStatements.SqlStatements.UPDATE_IMPORTEDIFACE_REMOVE_SUBCLASS.getSqlStatement());
-			stmt.setObject(1, subClassID.getId());
-			stmt.setObject(2, importedIfaceUUID);
-			if (DEBUG_ENABLED) {
-				logger.debug("[==DB==] Executing " + stmt);
-			}
-			stmt.executeUpdate();
-
-		} catch (final SQLException e) {
-			// not found, ignore
-			// e.printStackTrace();
-		} finally {
+			Connection conn = null;
 			try {
-				if (conn != null) {
-					conn.close();
+				conn = dataSource.getConnection();
+				final PreparedStatement stmt = conn.prepareStatement(NamespaceManagerSQLStatements.SqlStatements.UPDATE_IMPORTEDIFACE_REMOVE_SUBCLASS.getSqlStatement());
+				stmt.setObject(1, subClassID.getId());
+				stmt.setObject(2, importedIfaceUUID);
+				if (DEBUG_ENABLED) {
+					logger.debug("[==DB==] Executing " + stmt);
 				}
+				stmt.executeUpdate();
+
 			} catch (final SQLException e) {
-				e.printStackTrace();
+				// not found, ignore
+				// e.printStackTrace();
+			} finally {
+				try {
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException e) {
+					e.printStackTrace();
+				}
 			}
 		}
-
 	}
 
 	/**

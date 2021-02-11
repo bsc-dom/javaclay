@@ -26,6 +26,7 @@ import es.bsc.dataclay.util.ids.OperationID;
 import es.bsc.dataclay.util.ids.SessionID;
 import es.bsc.dataclay.util.management.metadataservice.MetaDataInfo;
 import es.bsc.dataclay.util.structs.LruCache;
+import es.bsc.dataclay.dbhandler.sql.sqlite.SQLiteDataSource;
 
 /**
  * Class responsible to handle events and notifications.
@@ -70,7 +71,7 @@ public final class NotificationManager {
 	 * @param thelogicModule
 	 *            Reference to logic module for executing actions
 	 */
-	public NotificationManager(final LogicModule thelogicModule, final BasicDataSource dataSource) {
+	public NotificationManager(final LogicModule thelogicModule, final SQLiteDataSource dataSource) {
 		this.logicModule = thelogicModule;
 		this.notificationDB = new NotificationManagerDB(dataSource);
 		notificationDB.createTables();
