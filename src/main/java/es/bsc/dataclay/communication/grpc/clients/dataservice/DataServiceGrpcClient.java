@@ -15,6 +15,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import es.bsc.dataclay.api.BackendID;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -42,20 +43,14 @@ import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessag
 import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.ExistsRequest;
 import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.ExistsResponse;
 import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.FederateRequest;
-import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.FilterObjectRequest;
-import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.FilterObjectResponse;
 import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetClassIDFromObjectInMemoryRequest;
 import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetClassIDFromObjectInMemoryResponse;
 import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetCopyOfObjectRequest;
 import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetCopyOfObjectResponse;
-import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetFederatedObjectsRequest;
-import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetFederatedObjectsResponse;
 import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetFromDBRequest;
 import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetFromDBResponse;
 import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetObjectsRequest;
 import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetObjectsResponse;
-import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetReferencedObjectIDsRequest;
-import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetReferencedObjectIDsResponse;
 import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetRetainedReferencesResponse;
 import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.InitBackendIDRequest;
 import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.MakePersistentRequest;
@@ -64,7 +59,6 @@ import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessag
 import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.MigratedObjects;
 import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.MoveObjectsRequest;
 import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.MoveObjectsResponse;
-import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NewMetaDataRequest;
 import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NewPersistentInstanceRequest;
 import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NewPersistentInstanceResponse;
 import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NewReplicaRequest;
@@ -459,9 +453,10 @@ public final class DataServiceGrpcClient implements DataServiceAPI {
 		Utils.checkIsExc(response.getExcInfo());
 
 		final Map<ObjectID, ObjectWithDataParamOrReturn> result = new HashMap<>();
-		for (final es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn entry : response
-				.getObjectsList()) {
-			result.put(Utils.getObjectWithDataParamOrReturn(entry));
+		for (final Entry<String, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn> entry : response.getObjectsMap().entrySet()) {
+			ObjectID objectID = Utils.getObjectID(entry.getKey());
+			ObjectWithDataParamOrReturn objectWithDataParamOrReturn = Utils.getObjectWithDataParamOrReturn(entry.getValue());
+			result.put(objectID, objectWithDataParamOrReturn);
 		}
 		return result;
 	}
@@ -473,9 +468,9 @@ public final class DataServiceGrpcClient implements DataServiceAPI {
 
 		builder.setSessionID(Utils.getMsgID(sessionID));
 		if (params != null) {
-			final es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn paramsMgs = Utils
-					.getParamsOrReturn(params);
-			builder.setParams(paramsMgs);
+			for (final ObjectWithDataParamOrReturn obj : params) {
+				builder.addObjects(Utils.getObjectWithDataParamOrReturn(obj));
+			}
 		}
 		final MakePersistentRequest request = builder.build();
 		ExceptionInfo response;
@@ -502,9 +497,9 @@ public final class DataServiceGrpcClient implements DataServiceAPI {
 
 		builder.setSessionID(Utils.getMsgID(sessionID));
 		if (params != null) {
-			final es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn paramsMgs = Utils
-					.getParamsOrReturn(params);
-			builder.setParams(paramsMgs);
+			for (final ObjectWithDataParamOrReturn obj : params) {
+				builder.addObjects(Utils.getObjectWithDataParamOrReturn(obj));
+			}
 		}
 		final FederateRequest request = builder.build();
 		ExceptionInfo response;
@@ -666,9 +661,14 @@ public final class DataServiceGrpcClient implements DataServiceAPI {
 	}
 
 	@Override
-	public Set<ObjectID> newReplica(final SessionID sessionID, final ObjectID objectID, final boolean recursive) {
-		final NewReplicaRequest request = NewReplicaRequest.newBuilder().setSessionID(Utils.getMsgID(sessionID))
-				.setObjectID(Utils.getMsgID(objectID)).setRecursive(recursive).build();
+	public Set<ObjectID> newReplica(final SessionID sessionID, final ObjectID objectID,
+									final ExecutionEnvironmentID destBackendID,
+									final boolean recursive) {
+		final NewReplicaRequest request = NewReplicaRequest.newBuilder()
+				.setSessionID(Utils.getMsgID(sessionID))
+				.setObjectID(Utils.getMsgID(objectID))
+				.setDestBackendID(Utils.getMsgID(destBackendID))
+				.setRecursive(recursive).build();
 		NewReplicaResponse response;
 		try {
 

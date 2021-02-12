@@ -1158,20 +1158,6 @@ public final class DataService implements DataServiceAPI {
         return result;
     }
 
-    @Override
-    public SerializedParametersOrReturn filterObject(final SessionID sessionID, final ObjectID objectID,
-                                                     final String conditions) {
-        final ObjectWithDataParamOrReturn objData = getObjectInternal(objectID, false);
-        final DataClayExecutionObject objectToFilter = (DataClayExecutionObject) objData.getDataClayObject();
-        if (Configuration.Flags.CHECK_SESSION.getBooleanValue()) {
-            this.runtime.checkSession(objectToFilter.getDataSetID(), sessionID);
-        }
-        final List<Object> filtered = objectToFilter.filter(conditions);
-        final List<DataClaySerializable> returns = new ArrayList<>();
-        returns.add(new CollectionWrapper(filtered));
-        return DataClaySerializationLib.serializeParamsOrReturn(returns, null, runtime, false, null, false);
-    }
-
     /**
      * Get object internal function
      *
@@ -1488,7 +1474,6 @@ public final class DataService implements DataServiceAPI {
     @Override
     public Set<ObjectID> newReplica(final SessionID sessionID, final ObjectID objectID,
                                                       final ExecutionEnvironmentID destBackendID,
-                                                      final boolean registerMetaData,
                                                       final boolean recursive) {
         LOGGER.debug("----> Starting new replica of " + objectID);
 
@@ -1504,7 +1489,7 @@ public final class DataService implements DataServiceAPI {
         objectIDs.addAll(serializedObjs.keySet());
 
         // Send registration info to LogicModule if required
-        if (registerMetaData) {
+        /*if (registerMetaData) {
             List<RegistrationInfo> registrationInfos = new ArrayList<>();
             // All objects are forced to be registered before sending them
             for (final ObjectWithDataParamOrReturn objectToRegister : serializedObjs.values()) {
@@ -1514,7 +1499,7 @@ public final class DataService implements DataServiceAPI {
             }
             runtime.getLogicModuleAPI().registerObjects(registrationInfos,
                     destBackendID, Langs.LANG_JAVA);
-        }
+        }*/
         LOGGER.debug("<---- Finished new replica of " + objectID);
         return objectIDs;
     }

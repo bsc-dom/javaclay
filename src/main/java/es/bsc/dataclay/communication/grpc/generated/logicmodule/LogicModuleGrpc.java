@@ -1891,28 +1891,28 @@ public final class LogicModuleGrpc {
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationInfoRequest,
-      es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationInfoResponse> getGetExecutionEnvironmentInfoMethod;
+      es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentInfoResponse> getGetExecutionEnvironmentInfoMethod;
 
   @io.grpc.stub.annotations.RpcMethod(
       fullMethodName = SERVICE_NAME + '/' + "getExecutionEnvironmentInfo",
       requestType = es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationInfoRequest.class,
-      responseType = es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationInfoResponse.class,
+      responseType = es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentInfoResponse.class,
       methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
   public static io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationInfoRequest,
-      es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationInfoResponse> getGetExecutionEnvironmentInfoMethod() {
-    io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationInfoRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationInfoResponse> getGetExecutionEnvironmentInfoMethod;
+      es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentInfoResponse> getGetExecutionEnvironmentInfoMethod() {
+    io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationInfoRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentInfoResponse> getGetExecutionEnvironmentInfoMethod;
     if ((getGetExecutionEnvironmentInfoMethod = LogicModuleGrpc.getGetExecutionEnvironmentInfoMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getGetExecutionEnvironmentInfoMethod = LogicModuleGrpc.getGetExecutionEnvironmentInfoMethod) == null) {
           LogicModuleGrpc.getGetExecutionEnvironmentInfoMethod = getGetExecutionEnvironmentInfoMethod =
-              io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationInfoRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationInfoResponse>newBuilder()
+              io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationInfoRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentInfoResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
               .setFullMethodName(generateFullMethodName(SERVICE_NAME, "getExecutionEnvironmentInfo"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationInfoRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationInfoResponse.getDefaultInstance()))
+                  es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentInfoResponse.getDefaultInstance()))
               .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getExecutionEnvironmentInfo"))
               .build();
         }
@@ -4168,7 +4168,7 @@ public final class LogicModuleGrpc {
     /**
      */
     public void getExecutionEnvironmentInfo(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationInfoRequest request,
-        io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationInfoResponse> responseObserver) {
+        io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentInfoResponse> responseObserver) {
       asyncUnimplementedUnaryCall(getGetExecutionEnvironmentInfoMethod(), responseObserver);
     }
 
@@ -5031,7 +5031,7 @@ public final class LogicModuleGrpc {
             asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationInfoRequest,
-                es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationInfoResponse>(
+                es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentInfoResponse>(
                   this, METHODID_GET_EXECUTION_ENVIRONMENT_INFO)))
           .addMethod(
             getGetObjectInfoMethod(),
@@ -5967,7 +5967,7 @@ public final class LogicModuleGrpc {
     /**
      */
     public void getExecutionEnvironmentInfo(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationInfoRequest request,
-        io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationInfoResponse> responseObserver) {
+        io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentInfoResponse> responseObserver) {
       asyncUnaryCall(
           getChannel().newCall(getGetExecutionEnvironmentInfoMethod(), getCallOptions()), request, responseObserver);
     }
@@ -6932,7 +6932,7 @@ public final class LogicModuleGrpc {
 
     /**
      */
-    public es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationInfoResponse getExecutionEnvironmentInfo(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationInfoRequest request) {
+    public es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentInfoResponse getExecutionEnvironmentInfo(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationInfoRequest request) {
       return blockingUnaryCall(
           getChannel(), getGetExecutionEnvironmentInfoMethod(), getCallOptions(), request);
     }
@@ -7900,7 +7900,7 @@ public final class LogicModuleGrpc {
 
     /**
      */
-    public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationInfoResponse> getExecutionEnvironmentInfo(
+    public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentInfoResponse> getExecutionEnvironmentInfo(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationInfoRequest request) {
       return futureUnaryCall(
           getChannel().newCall(getGetExecutionEnvironmentInfoMethod(), getCallOptions()), request);
@@ -8774,7 +8774,7 @@ public final class LogicModuleGrpc {
           break;
         case METHODID_GET_EXECUTION_ENVIRONMENT_INFO:
           serviceImpl.getExecutionEnvironmentInfo((es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationInfoRequest) request,
-              (io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationInfoResponse>) responseObserver);
+              (io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentInfoResponse>) responseObserver);
           break;
         case METHODID_GET_OBJECT_INFO:
           serviceImpl.getObjectInfo((es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetObjectInfoRequest) request,

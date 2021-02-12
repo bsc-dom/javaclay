@@ -1855,7 +1855,7 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 			final StreamObserver<GetObjectsMetaDataInfoOfClassForNMResponse> responseObserver) {
 		try {
 			final Map<ObjectID, MetaDataInfo> result = logicModule
-					.getObjectsMetaDataInfoOfClassForNM(Utils.getID(request.getClassID()));
+					.getObjectsMetaDataInfoOfClassForNM(Utils.getMetaClassID(request.getClassID()));
 
 			final GetObjectsMetaDataInfoOfClassForNMResponse.Builder builder = GetObjectsMetaDataInfoOfClassForNMResponse
 					.newBuilder();
@@ -1880,7 +1880,7 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 	public void newVersion(final NewVersionRequest request, final StreamObserver<NewVersionResponse> responseObserver) {
 		try {
 			final VersionInfo vinfo = logicModule.newVersion(Utils.getSessionID(request.getSessionID()),
-					Utils.getObjectID(request.getObjectID()), Utils.getID(request.getOptDestBackendID()));
+					Utils.getObjectID(request.getObjectID()), Utils.getExecutionEnvironmentID(request.getOptDestBackendID()));
 
 			final NewVersionResponse resp = NewVersionResponse.newBuilder()
 					.setVersionInfoYaml(CommonYAML.getYamlObject().dump(vinfo)).build();
@@ -1920,7 +1920,7 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 		try {
 
 			final ExecutionEnvironmentID result = logicModule.newReplica(Utils.getSessionID(request.getSessionID()),
-					Utils.getObjectID(request.getObjectID()), Utils.getID(request.getDestBackendID()),
+					Utils.getObjectID(request.getObjectID()), Utils.getExecutionEnvironmentID(request.getDestBackendID()),
 					request.getRecursive());
 
 			final NewReplicaResponse resp = NewReplicaResponse.newBuilder().setDestBackendID(Utils.getMsgID(result))
@@ -1944,8 +1944,8 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 		try {
 
 			final List<ObjectID> result = logicModule.moveObject(Utils.getSessionID(request.getSessionID()),
-					Utils.getObjectID(request.getObjectID()), Utils.getID(request.getSrcBackendID()),
-					Utils.getID(request.getDestBackendID()), request.getRecursive());
+					Utils.getObjectID(request.getObjectID()), Utils.getExecutionEnvironmentID(request.getSrcBackendID()),
+					Utils.getExecutionEnvironmentID(request.getDestBackendID()), request.getRecursive());
 
 			final MoveObjectResponse.Builder builder = es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.MoveObjectResponse
 					.newBuilder();
@@ -2072,7 +2072,7 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 				params = Utils.getParamsOrReturn(request.getParams());
 			}
 			final SerializedParametersOrReturn result = logicModule
-					.executeImplementation(Utils.getSessionID(request.getSessionID()), Utils.getID(request.getOperationID()),
+					.executeImplementation(Utils.getSessionID(request.getSessionID()), Utils.getOperationID(request.getOperationID()),
 							new Triple<>(Utils.getImplementationID(request.getImplementationID()),
 									Utils.getContractID(request.getContractID()), Utils.getInterfaceID(request.getInterfaceID())),
 							Utils.getObjectID(request.getObjectID()), params);
@@ -2105,7 +2105,8 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 			}
 			final SerializedParametersOrReturn result = logicModule.executeMethodOnTarget(
 					Utils.getSessionID(request.getSessionID()), Utils.getObjectID(request.getObjectID()),
-					request.getOperationNameAndSignature(), params, Utils.getID(request.getTargetBackendID()));
+					request.getOperationNameAndSignature(), params,
+					Utils.getExecutionEnvironmentID(request.getTargetBackendID()));
 
 			final ExecuteMethodOnTargetResponse.Builder builder = ExecuteMethodOnTargetResponse.newBuilder();
 			if (result != null) {
@@ -2156,11 +2157,11 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 		try {
 
 			final List<ContractID> contractsIDs = new LinkedList<>();
-			for (final CommonMessages.ContractID cID : request.getContractIDsList()) {
-				contractsIDs.add(Utils.getID(cID));
+			for (final String cID : request.getContractIDsList()) {
+				contractsIDs.add(Utils.getContractID(cID));
 			}
 
-			final Map<String, byte[]> stubs = logicModule.getStubs(Utils.getID(request.getApplicantAccountID()),
+			final Map<String, byte[]> stubs = logicModule.getStubs(Utils.getAccountID(request.getApplicantAccountID()),
 					Utils.getCredential(request.getCredentials()), request.getLanguage(), contractsIDs);
 
 			final GetStubsResponse.Builder builder = GetStubsResponse.newBuilder();
@@ -2188,8 +2189,8 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 		try {
 
 			final List<ContractID> contractsIDs = new LinkedList<>();
-			for (final CommonMessages.ContractID cID : request.getContractIDsList()) {
-				contractsIDs.add(Utils.getID(cID));
+			for (final String cID : request.getContractIDsList()) {
+				contractsIDs.add(Utils.getContractID(cID));
 			}
 
 			final byte[] result = logicModule.getBabelStubs(Utils.getAccountID(request.getAccountID()),
@@ -2220,7 +2221,7 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 		try {
 
 			final ECA eca = (ECA) CommonYAML.getYamlObject().load(request.getEca());
-			logicModule.registerEventListenerImplementation(Utils.getID(request.getApplicantAccountID()),
+			logicModule.registerEventListenerImplementation(Utils.getAccountID(request.getApplicantAccountID()),
 					Utils.getCredential(request.getCredentials()), eca);
 
 			Utils.returnExceptionInfoMessage(responseObserver);
@@ -2260,7 +2261,7 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 			final StreamObserver<GetClassNameForDSResponse> responseObserver) {
 		try {
 
-			final String className = logicModule.getClassNameForDS(Utils.getID(request.getClassID()));
+			final String className = logicModule.getClassNameForDS(Utils.getMetaClassID(request.getClassID()));
 			final GetClassNameForDSResponse resp = GetClassNameForDSResponse.newBuilder().setClassName(className)
 					.build();
 			responseObserver.onNext(resp);
@@ -2281,7 +2282,7 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 		try {
 
 			final Tuple<String, String> result = logicModule
-					.getClassNameAndNamespaceForDS(Utils.getID(request.getClassID()));
+					.getClassNameAndNamespaceForDS(Utils.getMetaClassID(request.getClassID()));
 			final GetClassNameAndNamespaceForDSResponse resp = GetClassNameAndNamespaceForDSResponse.newBuilder()
 					.setClassName(result.getFirst()).setNamespace(result.getSecond()).build();
 			responseObserver.onNext(resp);
@@ -2306,7 +2307,7 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 		try {
 
 			final ContractID result = logicModule.getContractIDOfDataClayProvider(
-					Utils.getID(request.getApplicantAccountID()), Utils.getCredential(request.getCredentials()));
+					Utils.getAccountID(request.getApplicantAccountID()), Utils.getCredential(request.getCredentials()));
 			final GetContractIDOfDataClayProviderResponse resp = GetContractIDOfDataClayProviderResponse.newBuilder()
 					.setContractID(Utils.getMsgID(result)).build();
 			responseObserver.onNext(resp);
@@ -2456,9 +2457,9 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 			final StreamObserver<ExceptionInfo> responseObserver) {
 		try {
 			final Set<ObjectID> objectsToUnregister = new HashSet<>();
-			for (final es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID oid : request
+			for (final String oid : request
 					.getObjectsToUnregisterList()) {
-				objectsToUnregister.add(Utils.getID(oid));
+				objectsToUnregister.add(Utils.getObjectID(oid));
 			}
 			logicModule.unregisterObjects(objectsToUnregister);
 
@@ -2504,7 +2505,7 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 									   final StreamObserver<ExceptionInfo> responseObserver) {
 		try {
 			logicModule.importModelsFromExternalDataClay(request.getNamespaceName(),
-					Utils.getID(request.getDataClayID()));
+					Utils.getDataClayInstanceID(request.getDataClayID()));
 			Utils.returnExceptionInfoMessage(responseObserver);
 			responseObserver.onCompleted();
 
@@ -2557,7 +2558,7 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 												   final StreamObserver<ExceptionInfo> responseObserver) {
 		try {
 			logicModule.notifyStorageLocationShutdown(
-					Utils.getID(request.getStorageLocationID()));
+					Utils.getStorageLocationID(request.getStorageLocationID()));
 			Utils.returnExceptionInfoMessage(responseObserver);
 			responseObserver.onCompleted();
 
@@ -2573,7 +2574,7 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 									 final StreamObserver<ExistsActiveEnvironmentsForSLResponse> responseObserver) {
 		try {
 
-			boolean result = logicModule.existsActiveEnvironmentsForSL(Utils.getID(request.getStorageLocationID()));
+			boolean result = logicModule.existsActiveEnvironmentsForSL(Utils.getStorageLocationID(request.getStorageLocationID()));
 			final ExistsActiveEnvironmentsForSLResponse resp = ExistsActiveEnvironmentsForSLResponse.newBuilder()
 					.setExists(result).build();
 			responseObserver.onNext(resp);

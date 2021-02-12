@@ -170,20 +170,6 @@ public interface DataServiceAPI extends CommonManager {
 			final boolean recursive, final boolean removeHints, final boolean getOnlyRefs);
 
 
-	/**
-	 * Retrieve the elements contained in the given object that match with specified conditions.
-	 * 
-	 * @param sessionID
-	 *            id of the session
-	 * @param objectID
-	 *            id of the iterable object
-	 * @param conditions
-	 *            conditions to be checked
-	 * @return list of objects that match the specified conditions
-	 */
-	SerializedParametersOrReturn filterObject(final SessionID sessionID, final ObjectID objectID,
-			final String conditions);
-
 
 	/**
 	 * This function will deserialize make persistent "parameters" (i.e. object to persist and subobjects if needed) into
@@ -282,14 +268,12 @@ public interface DataServiceAPI extends CommonManager {
 	 *            ID of the object
 	 * @param destBackendID
 	 * 			  ID of destination backend
-	 * @param registerMetaData Indicates that registration of metadata of replica must be forced
 	 * @param recursive
 	 *            Indicates if all sub-objects must be replicated as well.
 	 * @return ids of replicated objects
 	 */
 	Set<ObjectID> newReplica(final SessionID sessionID, final ObjectID objectID,
 					final ExecutionEnvironmentID destBackendID,
-					final boolean registerMetaData,
 					final boolean recursive);
 
 	/**

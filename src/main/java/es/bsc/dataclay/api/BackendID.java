@@ -1,5 +1,7 @@
 package es.bsc.dataclay.api;
 
+import es.bsc.dataclay.util.ids.ID;
+
 import java.io.Serializable;
 import java.util.UUID;
 
