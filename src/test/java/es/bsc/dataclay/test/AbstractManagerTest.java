@@ -1,6 +1,7 @@
 
 package es.bsc.dataclay.test;
 
+import es.bsc.dataclay.dbhandler.sql.sqlite.SQLiteDataSource;
 import org.apache.commons.dbcp2.BasicDataSource;
 
 import es.bsc.dataclay.dbhandler.DBHandlerFactory.DBHandlerType;
@@ -10,7 +11,7 @@ import es.bsc.dataclay.util.Configuration.Flags;
 
 public class AbstractManagerTest {
 	protected SQLHandler<?> dbHandler;
-	protected BasicDataSource dataSource;
+	protected SQLiteDataSource dataSource;
 
 	private final static String POSTGRES_HOST = "127.0.0.1";
 	private final static int POSTGRES_PORT = 5432;

@@ -20,6 +20,7 @@ import es.bsc.dataclay.util.ids.DataContractID;
 import es.bsc.dataclay.util.ids.DataSetID;
 import es.bsc.dataclay.util.management.AbstractManager;
 import es.bsc.dataclay.util.management.datacontractmgr.DataContract;
+import es.bsc.dataclay.dbhandler.sql.sqlite.SQLiteDataSource;
 
 /**
  * This class is responsible to manage datacontracts: add, remove and modify.
@@ -38,7 +39,7 @@ public final class DataContractManager extends AbstractManager {
 	 *            Manager/service name.
 	 * @post Creates an DataContract manager and hash initializes the backend.
 	 */
-	public DataContractManager(final BasicDataSource dataSource) {
+	public DataContractManager(final SQLiteDataSource dataSource) {
 		super(dataSource);
 
 		this.datacontractDB = new DataContractManagerDB(dataSource);

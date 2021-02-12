@@ -34,6 +34,7 @@ import es.bsc.dataclay.util.management.contractmgr.Contract;
 import es.bsc.dataclay.util.management.contractmgr.InterfaceInContract;
 import es.bsc.dataclay.util.management.contractmgr.OpImplementations;
 import es.bsc.dataclay.util.management.interfacemgr.Interface;
+import es.bsc.dataclay.dbhandler.sql.sqlite.SQLiteDataSource;
 
 /**
  * Data base connection.
@@ -47,7 +48,7 @@ public final class ContractManagerDB {
 	private static final boolean DEBUG_ENABLED = Configuration.isDebugEnabled();
 
 	/** SingleConnection. */
-	private final BasicDataSource dataSource;
+	private final SQLiteDataSource dataSource;
 
 	/** Interface Manager DB needed for InterfaceInContract. TODO: this should be not together. */
 	private final InterfaceManagerDB ifaceManagerDB;
@@ -55,10 +56,10 @@ public final class ContractManagerDB {
 	/**
 	 * MetaDataServiceDB constructor.
 	 * 
-	 * @param managerName
+	 * @param dataSource
 	 *            Name of the LM service managing.
 	 */
-	public ContractManagerDB(final BasicDataSource dataSource) {
+	public ContractManagerDB(final SQLiteDataSource dataSource) {
 		this.dataSource = dataSource;
 		ifaceManagerDB = new InterfaceManagerDB(dataSource);
 		if (DEBUG_ENABLED) {
@@ -70,25 +71,26 @@ public final class ContractManagerDB {
 	 * Create tables of MDS.
 	 */
 	public void createTables() {
-
-		Connection conn = null;
-		try {
-			conn = dataSource.getConnection();
-			for (final ContractManagerSQLStatements.SqlStatements stmt : ContractManagerSQLStatements.SqlStatements.values()) {
-				if (stmt.name().startsWith("CREATE_TABLE")) {
-					final PreparedStatement updateStatement = conn.prepareStatement(stmt.getSqlStatement());
-					updateStatement.execute();
-				}
-			}
-		} catch (final SQLException e) {
-			e.printStackTrace();
-		} finally {
+		synchronized (dataSource) {
+			Connection conn = null;
 			try {
-				if (conn != null) {
-					conn.close();
+				conn = dataSource.getConnection();
+				for (final ContractManagerSQLStatements.SqlStatements stmt : ContractManagerSQLStatements.SqlStatements.values()) {
+					if (stmt.name().startsWith("CREATE_TABLE")) {
+						final PreparedStatement updateStatement = conn.prepareStatement(stmt.getSqlStatement());
+						updateStatement.execute();
+					}
 				}
-			} catch (final SQLException ex1) {
-				ex1.printStackTrace();
+			} catch (final SQLException e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException ex1) {
+					ex1.printStackTrace();
+				}
 			}
 		}
 	}
@@ -97,25 +99,26 @@ public final class ContractManagerDB {
 	 * Delete the tables of MDS. Just the other way around of createTables --much simpler.
 	 */
 	public void dropTables() {
-
-		Connection conn = null;
-		try {
-			conn = dataSource.getConnection();
-			for (final ContractManagerSQLStatements.SqlStatements stmt : ContractManagerSQLStatements.SqlStatements.values()) {
-				if (stmt.name().startsWith("DROP_TABLE")) {
-					final PreparedStatement updateStatement = conn.prepareStatement(stmt.getSqlStatement());
-					updateStatement.execute();
-				}
-			}
-		} catch (final SQLException e) {
-			e.printStackTrace();
-		} finally {
+		synchronized (dataSource) {
+			Connection conn = null;
 			try {
-				if (conn != null) {
-					conn.close();
+				conn = dataSource.getConnection();
+				for (final ContractManagerSQLStatements.SqlStatements stmt : ContractManagerSQLStatements.SqlStatements.values()) {
+					if (stmt.name().startsWith("DROP_TABLE")) {
+						final PreparedStatement updateStatement = conn.prepareStatement(stmt.getSqlStatement());
+						updateStatement.execute();
+					}
 				}
-			} catch (final SQLException ex1) {
-				ex1.printStackTrace();
+			} catch (final SQLException e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException ex1) {
+					ex1.printStackTrace();
+				}
 			}
 		}
 	}
@@ -127,38 +130,39 @@ public final class ContractManagerDB {
 	 * @return uuid of stored object
 	 */
 	public UUID store(final OpImplementations opImplementations) {
-		Connection conn = null;
-		final UUID uuid = UUID.randomUUID();
-		opImplementations.setId(uuid);
-		try {
-			conn = dataSource.getConnection();
-			final PreparedStatement insertStatement = conn.prepareStatement(ContractManagerSQLStatements.SqlStatements.INSERT_OPIMPLEMENTATIONS.getSqlStatement());
-			insertStatement.setObject(1, uuid);
-			// CHECKSTYLE:OFF
-			insertStatement.setString(2, opImplementations.getOperationSignature());
-			insertStatement.setInt(3, opImplementations.getNumLocalImpl());
-			insertStatement.setInt(4, opImplementations.getNumRemoteImpl());
-			insertStatement.setObject(5, opImplementations.getLocalImplementationID().getId());
-			insertStatement.setObject(6, opImplementations.getRemoteImplementationID().getId());
-			if (DEBUG_ENABLED) {
-				logger.debug("[==DB==] Executing " + insertStatement);
-			}
-			// CHECKSTYLE:ON
-			insertStatement.executeUpdate();
-
-		} catch (final Exception e) {
-			e.printStackTrace();
-		} finally {
+		synchronized (dataSource) {
+			Connection conn = null;
+			final UUID uuid = UUID.randomUUID();
+			opImplementations.setId(uuid);
 			try {
-				if (conn != null) {
-					conn.close();
+				conn = dataSource.getConnection();
+				final PreparedStatement insertStatement = conn.prepareStatement(ContractManagerSQLStatements.SqlStatements.INSERT_OPIMPLEMENTATIONS.getSqlStatement());
+				insertStatement.setObject(1, uuid);
+				// CHECKSTYLE:OFF
+				insertStatement.setString(2, opImplementations.getOperationSignature());
+				insertStatement.setInt(3, opImplementations.getNumLocalImpl());
+				insertStatement.setInt(4, opImplementations.getNumRemoteImpl());
+				insertStatement.setObject(5, opImplementations.getLocalImplementationID().getId());
+				insertStatement.setObject(6, opImplementations.getRemoteImplementationID().getId());
+				if (DEBUG_ENABLED) {
+					logger.debug("[==DB==] Executing " + insertStatement);
 				}
-			} catch (final SQLException ex1) {
-				ex1.printStackTrace();
-			}
-		}
-		return uuid;
+				// CHECKSTYLE:ON
+				insertStatement.executeUpdate();
 
+			} catch (final Exception e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException ex1) {
+					ex1.printStackTrace();
+				}
+			}
+			return uuid;
+		}
 	}
 
 	/**
@@ -168,80 +172,81 @@ public final class ContractManagerDB {
 	 * @return uuid of stored object
 	 */
 	public UUID store(final InterfaceInContract ifaceInContract) {
+		synchronized (dataSource) {
+			final UUID uuid = UUID.randomUUID();
+			ifaceInContract.setId(uuid);
 
-		final UUID uuid = UUID.randomUUID();
-		ifaceInContract.setId(uuid);
-
-		UUID[] implsSpecs = null;
-		if (ifaceInContract.getImplementationsSpecPerOperation() != null) {
-			implsSpecs = new UUID[ifaceInContract.getImplementationsSpecPerOperation().size()];
-			int i = 0;
-			for (final OpImplementations opImpls : ifaceInContract.getImplementationsSpecPerOperation()) {
-				implsSpecs[i] = this.store(opImpls);
-				i++;
-			}
-		}
-
-		UUID[] accessibleImplementationsUUIDsKeys = null;
-		UUID[] accessibleImplementationsUUIDsValues = null;
-		if (ifaceInContract.getAccessibleImplementations() != null) {
-			accessibleImplementationsUUIDsKeys = new UUID[ifaceInContract.getAccessibleImplementations().size()];
-			accessibleImplementationsUUIDsValues = new UUID[ifaceInContract.getAccessibleImplementations().size()];
-			int i = 0;
-			for (final Entry<OperationID, OpImplementations> entry : ifaceInContract.getAccessibleImplementations().entrySet()) {
-				accessibleImplementationsUUIDsKeys[i] = entry.getKey().getId();
-				accessibleImplementationsUUIDsValues[i] = this.store(entry.getValue());
-				i++;
-			}
-		}
-
-		Connection conn = null;
-		try {
-			conn = dataSource.getConnection();
-			final PreparedStatement insertStatement = conn.prepareStatement(ContractManagerSQLStatements.SqlStatements.INSERT_IFACEINCONTRACT.getSqlStatement());
-			insertStatement.setObject(1, uuid);
-			// CHECKSTYLE:OFF
-			insertStatement.setObject(2, ifaceInContract.getInterfaceID().getId());
-
-			if (implsSpecs != null) {
-				final Array tArray = insertStatement.getConnection().createArrayOf("uuid", implsSpecs);
-				insertStatement.setArray(3, tArray);
-			} else {
-				insertStatement.setArray(3, null);
-			}
-
-			if (accessibleImplementationsUUIDsKeys != null) {
-				final Array tArray = insertStatement.getConnection().createArrayOf("uuid", accessibleImplementationsUUIDsKeys);
-				insertStatement.setArray(4, tArray);
-			} else {
-				insertStatement.setArray(4, null);
-			}
-
-			if (accessibleImplementationsUUIDsValues != null) {
-				final Array tArray = insertStatement.getConnection().createArrayOf("uuid", accessibleImplementationsUUIDsValues);
-				insertStatement.setArray(5, tArray);
-			} else {
-				insertStatement.setArray(5, null);
-			}
-
-			// CHECKSTYLE:ON
-			if (DEBUG_ENABLED) {
-				logger.debug("[==DB==] Executing " + insertStatement);
-			}
-			insertStatement.executeUpdate();
-
-		} catch (final Exception e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if (conn != null) {
-					conn.close();
+			UUID[] implsSpecs = null;
+			if (ifaceInContract.getImplementationsSpecPerOperation() != null) {
+				implsSpecs = new UUID[ifaceInContract.getImplementationsSpecPerOperation().size()];
+				int i = 0;
+				for (final OpImplementations opImpls : ifaceInContract.getImplementationsSpecPerOperation()) {
+					implsSpecs[i] = this.store(opImpls);
+					i++;
 				}
-			} catch (final SQLException ex1) {
-				ex1.printStackTrace();
 			}
+
+			UUID[] accessibleImplementationsUUIDsKeys = null;
+			UUID[] accessibleImplementationsUUIDsValues = null;
+			if (ifaceInContract.getAccessibleImplementations() != null) {
+				accessibleImplementationsUUIDsKeys = new UUID[ifaceInContract.getAccessibleImplementations().size()];
+				accessibleImplementationsUUIDsValues = new UUID[ifaceInContract.getAccessibleImplementations().size()];
+				int i = 0;
+				for (final Entry<OperationID, OpImplementations> entry : ifaceInContract.getAccessibleImplementations().entrySet()) {
+					accessibleImplementationsUUIDsKeys[i] = entry.getKey().getId();
+					accessibleImplementationsUUIDsValues[i] = this.store(entry.getValue());
+					i++;
+				}
+			}
+
+			Connection conn = null;
+			try {
+				conn = dataSource.getConnection();
+				final PreparedStatement insertStatement = conn.prepareStatement(ContractManagerSQLStatements.SqlStatements.INSERT_IFACEINCONTRACT.getSqlStatement());
+				insertStatement.setObject(1, uuid);
+				// CHECKSTYLE:OFF
+				insertStatement.setObject(2, ifaceInContract.getInterfaceID().getId());
+
+				if (implsSpecs != null) {
+					final Array tArray = insertStatement.getConnection().createArrayOf("uuid", implsSpecs);
+					insertStatement.setArray(3, tArray);
+				} else {
+					insertStatement.setArray(3, null);
+				}
+
+				if (accessibleImplementationsUUIDsKeys != null) {
+					final Array tArray = insertStatement.getConnection().createArrayOf("uuid", accessibleImplementationsUUIDsKeys);
+					insertStatement.setArray(4, tArray);
+				} else {
+					insertStatement.setArray(4, null);
+				}
+
+				if (accessibleImplementationsUUIDsValues != null) {
+					final Array tArray = insertStatement.getConnection().createArrayOf("uuid", accessibleImplementationsUUIDsValues);
+					insertStatement.setArray(5, tArray);
+				} else {
+					insertStatement.setArray(5, null);
+				}
+
+				// CHECKSTYLE:ON
+				if (DEBUG_ENABLED) {
+					logger.debug("[==DB==] Executing " + insertStatement);
+				}
+				insertStatement.executeUpdate();
+
+			} catch (final Exception e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException ex1) {
+					ex1.printStackTrace();
+				}
+			}
+			return uuid;
 		}
-		return uuid;
 
 	}
 
@@ -251,81 +256,82 @@ public final class ContractManagerDB {
 	 *            contract
 	 */
 	public void store(final Contract contract) {
-
-		UUID[] ifaces = null;
-		UUID[] ifacesKeys = null;
-		if (contract.getInterfacesInContract() != null) {
-			ifaces = new UUID[contract.getInterfacesInContract().size()];
-			ifacesKeys = new UUID[contract.getInterfacesInContract().size()];
-			int i = 0;
-			for (final InterfaceInContract ifaceInContract : contract.getInterfacesInContract().values()) {
-				ifaces[i] = this.store(ifaceInContract);
-				ifacesKeys[i] = ifaceInContract.getIface().getDataClayID().getId();
-				i++;
-			}
-		}
-
-		UUID[] accountsUUIDs = null;
-		if (contract.getApplicantsAccountsIDs() != null) {
-			accountsUUIDs = new UUID[contract.getApplicantsAccountsIDs().size()];
-			int i = 0;
-			for (final AccountID accountID : contract.getApplicantsAccountsIDs()) {
-				accountsUUIDs[i] = accountID.getId();
-				i++;
-			}
-		}
-
-		Connection conn = null;
-		try {
-			conn = dataSource.getConnection();
-			final PreparedStatement insertStatement = conn.prepareStatement(ContractManagerSQLStatements.SqlStatements.INSERT_CONTRACT.getSqlStatement());
-			insertStatement.setObject(1, contract.getDataClayID().getId());
-			// CHECKSTYLE:OFF
-			insertStatement.setString(2, contract.getNamespace());
-
-			insertStatement.setTimestamp(3, new java.sql.Timestamp(contract.getBeginDate().getTimeInMillis()));
-			insertStatement.setTimestamp(4, new java.sql.Timestamp(contract.getEndDate().getTimeInMillis()));
-			insertStatement.setBoolean(5, contract.isPublicAvailable());
-			insertStatement.setObject(6, contract.getProviderAccountID().getId());
-			insertStatement.setObject(7, contract.getNamespaceID().getId());
-
-			if (accountsUUIDs != null) {
-				final Array tArray = insertStatement.getConnection().createArrayOf("uuid", accountsUUIDs);
-				insertStatement.setArray(8, tArray);
-			} else {
-				insertStatement.setArray(8, null);
-			}
-
-			if (ifacesKeys != null) {
-				final Array tArray = insertStatement.getConnection().createArrayOf("uuid", ifacesKeys);
-				insertStatement.setArray(9, tArray);
-			} else {
-				insertStatement.setArray(9, null);
-			}
-
-			if (ifaces != null) {
-				final Array tArray = insertStatement.getConnection().createArrayOf("uuid", ifaces);
-				insertStatement.setArray(10, tArray);
-			} else {
-				insertStatement.setArray(10, null);
-			}
-
-			// CHECKSTYLE:ON
-			if (DEBUG_ENABLED) {
-				logger.debug("[==DB==] Executing " + insertStatement);
-			}
-			insertStatement.executeUpdate();
-
-		} catch (final Exception e) {
-			e.printStackTrace();
-			throw new DbObjectAlreadyExistException(contract.getDataClayID());
-		} finally {
-			try {
-				if (conn != null) {
-					conn.close();
+		synchronized (dataSource) {
+			UUID[] ifaces = null;
+			UUID[] ifacesKeys = null;
+			if (contract.getInterfacesInContract() != null) {
+				ifaces = new UUID[contract.getInterfacesInContract().size()];
+				ifacesKeys = new UUID[contract.getInterfacesInContract().size()];
+				int i = 0;
+				for (final InterfaceInContract ifaceInContract : contract.getInterfacesInContract().values()) {
+					ifaces[i] = this.store(ifaceInContract);
+					ifacesKeys[i] = ifaceInContract.getIface().getDataClayID().getId();
+					i++;
 				}
-			} catch (final SQLException ex1) {
-				ex1.printStackTrace();
+			}
+
+			UUID[] accountsUUIDs = null;
+			if (contract.getApplicantsAccountsIDs() != null) {
+				accountsUUIDs = new UUID[contract.getApplicantsAccountsIDs().size()];
+				int i = 0;
+				for (final AccountID accountID : contract.getApplicantsAccountsIDs()) {
+					accountsUUIDs[i] = accountID.getId();
+					i++;
+				}
+			}
+
+			Connection conn = null;
+			try {
+				conn = dataSource.getConnection();
+				final PreparedStatement insertStatement = conn.prepareStatement(ContractManagerSQLStatements.SqlStatements.INSERT_CONTRACT.getSqlStatement());
+				insertStatement.setObject(1, contract.getDataClayID().getId());
+				// CHECKSTYLE:OFF
+				insertStatement.setString(2, contract.getNamespace());
+
+				insertStatement.setTimestamp(3, new java.sql.Timestamp(contract.getBeginDate().getTimeInMillis()));
+				insertStatement.setTimestamp(4, new java.sql.Timestamp(contract.getEndDate().getTimeInMillis()));
+				insertStatement.setBoolean(5, contract.isPublicAvailable());
+				insertStatement.setObject(6, contract.getProviderAccountID().getId());
+				insertStatement.setObject(7, contract.getNamespaceID().getId());
+
+				if (accountsUUIDs != null) {
+					final Array tArray = insertStatement.getConnection().createArrayOf("uuid", accountsUUIDs);
+					insertStatement.setArray(8, tArray);
+				} else {
+					insertStatement.setArray(8, null);
+				}
+
+				if (ifacesKeys != null) {
+					final Array tArray = insertStatement.getConnection().createArrayOf("uuid", ifacesKeys);
+					insertStatement.setArray(9, tArray);
+				} else {
+					insertStatement.setArray(9, null);
+				}
+
+				if (ifaces != null) {
+					final Array tArray = insertStatement.getConnection().createArrayOf("uuid", ifaces);
+					insertStatement.setArray(10, tArray);
+				} else {
+					insertStatement.setArray(10, null);
+				}
+
+				// CHECKSTYLE:ON
+				if (DEBUG_ENABLED) {
+					logger.debug("[==DB==] Executing " + insertStatement);
+				}
+				insertStatement.executeUpdate();
+
+			} catch (final Exception e) {
+				e.printStackTrace();
+				throw new DbObjectAlreadyExistException(contract.getDataClayID());
+			} finally {
+				try {
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException ex1) {
+					ex1.printStackTrace();
+				}
 			}
 		}
 	}
@@ -567,38 +573,40 @@ public final class ContractManagerDB {
 	 *             if not found
 	 */
 	public Contract getContractByID(final ContractID contractID) {
-		ResultSet rs = null;
-		Contract result = null;
-		Connection conn = null;
-		try {
-			conn = dataSource.getConnection();
-			final PreparedStatement selectStatement = conn.prepareStatement(ContractManagerSQLStatements.SqlStatements.SELECT_CONTRACT.getSqlStatement());
-
-			selectStatement.setObject(1, contractID.getId());
-			if (DEBUG_ENABLED) {
-				logger.debug("[==DB==] Executing " + selectStatement);
-			}
-			rs = selectStatement.executeQuery();
-			if (rs.next()) {
-				result = deserializeContract(rs);
-
-			}
-		} catch (final SQLException e) {
-			throw new DbObjectNotExistException(contractID);
-		} finally {
+		synchronized (dataSource) {
+			ResultSet rs = null;
+			Contract result = null;
+			Connection conn = null;
 			try {
-				if (rs != null) {
-					rs.close();
+				conn = dataSource.getConnection();
+				final PreparedStatement selectStatement = conn.prepareStatement(ContractManagerSQLStatements.SqlStatements.SELECT_CONTRACT.getSqlStatement());
+
+				selectStatement.setObject(1, contractID.getId());
+				if (DEBUG_ENABLED) {
+					logger.debug("[==DB==] Executing " + selectStatement);
 				}
-				if (conn != null) {
-					conn.close();
+				rs = selectStatement.executeQuery();
+				if (rs.next()) {
+					result = deserializeContract(rs);
+
 				}
 			} catch (final SQLException e) {
-				e.printStackTrace();
+				throw new DbObjectNotExistException(contractID);
+			} finally {
+				try {
+					if (rs != null) {
+						rs.close();
+					}
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException e) {
+					e.printStackTrace();
+				}
 			}
-		}
 
-		return result;
+			return result;
+		}
 	}
 
 	/**
@@ -687,36 +695,36 @@ public final class ContractManagerDB {
 	 *            ID of object
 	 */
 	public void deleteContractByID(final ContractID contractID) {
-
-		final Contract contract = this.getContractByID(contractID);
-		for (final InterfaceInContract ifaceInContract : contract.getInterfacesInContractSpecs()) {
-			this.deleteInterfaceInContractByID(ifaceInContract.getId());
-		}
-
-		Connection conn = null;
-		try {
-			conn = dataSource.getConnection();
-			final PreparedStatement selectStatement = conn.prepareStatement(ContractManagerSQLStatements.SqlStatements.DELETE_CONTRACT.getSqlStatement());
-
-			selectStatement.setObject(1, contractID.getId());
-			if (DEBUG_ENABLED) {
-				logger.debug("[==DB==] Executing " + selectStatement);
+		synchronized (dataSource) {
+			final Contract contract = this.getContractByID(contractID);
+			for (final InterfaceInContract ifaceInContract : contract.getInterfacesInContractSpecs()) {
+				this.deleteInterfaceInContractByID(ifaceInContract.getId());
 			}
-			selectStatement.executeUpdate();
 
-		} catch (final SQLException e) {
-			// not found, ignore
-			// e.printStackTrace();
-		} finally {
+			Connection conn = null;
 			try {
-				if (conn != null) {
-					conn.close();
+				conn = dataSource.getConnection();
+				final PreparedStatement selectStatement = conn.prepareStatement(ContractManagerSQLStatements.SqlStatements.DELETE_CONTRACT.getSqlStatement());
+
+				selectStatement.setObject(1, contractID.getId());
+				if (DEBUG_ENABLED) {
+					logger.debug("[==DB==] Executing " + selectStatement);
 				}
+				selectStatement.executeUpdate();
+
 			} catch (final SQLException e) {
-				e.printStackTrace();
+				// not found, ignore
+				// e.printStackTrace();
+			} finally {
+				try {
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException e) {
+					e.printStackTrace();
+				}
 			}
 		}
-
 	}
 
 	/**
@@ -725,31 +733,31 @@ public final class ContractManagerDB {
 	 *            ID of object
 	 */
 	public void updateContractsAddApplicant(final ContractID contractID, final AccountID applicantAccountID) {
-
-		Connection conn = null;
-		try {
-			conn = dataSource.getConnection();
-			final PreparedStatement stmt = conn.prepareStatement(ContractManagerSQLStatements.SqlStatements.UPDATE_CONTRACT_ADD_APPLICANT.getSqlStatement());
-			stmt.setObject(1, applicantAccountID.getId());
-			stmt.setObject(2, contractID.getId());
-			if (DEBUG_ENABLED) {
-				logger.debug("[==DB==] Executing " + stmt);
-			}
-			stmt.executeUpdate();
-
-		} catch (final SQLException e) {
-			// not found, ignore
-			// e.printStackTrace();
-		} finally {
+		synchronized (dataSource) {
+			Connection conn = null;
 			try {
-				if (conn != null) {
-					conn.close();
+				conn = dataSource.getConnection();
+				final PreparedStatement stmt = conn.prepareStatement(ContractManagerSQLStatements.SqlStatements.UPDATE_CONTRACT_ADD_APPLICANT.getSqlStatement());
+				stmt.setObject(1, applicantAccountID.getId());
+				stmt.setObject(2, contractID.getId());
+				if (DEBUG_ENABLED) {
+					logger.debug("[==DB==] Executing " + stmt);
 				}
+				stmt.executeUpdate();
+
 			} catch (final SQLException e) {
-				e.printStackTrace();
+				// not found, ignore
+				// e.printStackTrace();
+			} finally {
+				try {
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException e) {
+					e.printStackTrace();
+				}
 			}
 		}
-
 	}
 
 	/**
@@ -759,36 +767,38 @@ public final class ContractManagerDB {
 	 * @return The Contracts
 	 */
 	public List<Contract> getContractsOfNamespace(final NamespaceID namespaceID) {
-		ResultSet rs = null;
-		final List<Contract> result = new ArrayList<>();
-		Connection conn = null;
-		try {
-			conn = dataSource.getConnection();
-			final PreparedStatement selectStatement = conn.prepareStatement(ContractManagerSQLStatements.SqlStatements.SELECT_ALL_CONTRACTS_OF_NAMESPACE.getSqlStatement());
-			selectStatement.setObject(1, namespaceID.getId());
-			if (DEBUG_ENABLED) {
-				logger.debug("[==DB==] Executing " + selectStatement);
-			}
-			rs = selectStatement.executeQuery();
-			while (rs.next()) {
-				result.add(deserializeContract(rs));
-			}
-		} catch (final SQLException e) {
-			e.printStackTrace();
-		} finally {
+		synchronized (dataSource) {
+			ResultSet rs = null;
+			final List<Contract> result = new ArrayList<>();
+			Connection conn = null;
 			try {
-				if (rs != null) {
-					rs.close();
+				conn = dataSource.getConnection();
+				final PreparedStatement selectStatement = conn.prepareStatement(ContractManagerSQLStatements.SqlStatements.SELECT_ALL_CONTRACTS_OF_NAMESPACE.getSqlStatement());
+				selectStatement.setObject(1, namespaceID.getId());
+				if (DEBUG_ENABLED) {
+					logger.debug("[==DB==] Executing " + selectStatement);
 				}
-				if (conn != null) {
-					conn.close();
+				rs = selectStatement.executeQuery();
+				while (rs.next()) {
+					result.add(deserializeContract(rs));
 				}
 			} catch (final SQLException e) {
 				e.printStackTrace();
+			} finally {
+				try {
+					if (rs != null) {
+						rs.close();
+					}
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException e) {
+					e.printStackTrace();
+				}
 			}
-		}
 
-		return result;
+			return result;
+		}
 	}
 
 	/**
@@ -798,39 +808,41 @@ public final class ContractManagerDB {
 	 * @return The Contracts
 	 */
 	public List<Contract> getContractsContainingInterface(final InterfaceID interfaceID) {
-		ResultSet rs = null;
-		final List<Contract> result = new ArrayList<>();
-		Connection conn = null;
-		try {
-			conn = dataSource.getConnection();
-			final PreparedStatement selectStatement = conn.prepareStatement(ContractManagerSQLStatements.SqlStatements.SELECT_ALL_CONTRACTS_WITH_INTERFACE.getSqlStatement());
-
-			final Array tArray = selectStatement.getConnection().createArrayOf("uuid", new UUID[] { interfaceID.getId() });
-			selectStatement.setArray(1, tArray);
-
-			if (DEBUG_ENABLED) {
-				logger.debug("[==DB==] Executing " + selectStatement);
-			}
-			rs = selectStatement.executeQuery();
-			while (rs.next()) {
-				result.add(deserializeContract(rs));
-			}
-		} catch (final SQLException e) {
-			e.printStackTrace();
-		} finally {
+		synchronized (dataSource) {
+			ResultSet rs = null;
+			final List<Contract> result = new ArrayList<>();
+			Connection conn = null;
 			try {
-				if (rs != null) {
-					rs.close();
+				conn = dataSource.getConnection();
+				final PreparedStatement selectStatement = conn.prepareStatement(ContractManagerSQLStatements.SqlStatements.SELECT_ALL_CONTRACTS_WITH_INTERFACE.getSqlStatement());
+
+				final Array tArray = selectStatement.getConnection().createArrayOf("uuid", new UUID[]{interfaceID.getId()});
+				selectStatement.setArray(1, tArray);
+
+				if (DEBUG_ENABLED) {
+					logger.debug("[==DB==] Executing " + selectStatement);
 				}
-				if (conn != null) {
-					conn.close();
+				rs = selectStatement.executeQuery();
+				while (rs.next()) {
+					result.add(deserializeContract(rs));
 				}
 			} catch (final SQLException e) {
 				e.printStackTrace();
+			} finally {
+				try {
+					if (rs != null) {
+						rs.close();
+					}
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException e) {
+					e.printStackTrace();
+				}
 			}
-		}
 
-		return result;
+			return result;
+		}
 	}
 
 	/**
@@ -840,38 +852,40 @@ public final class ContractManagerDB {
 	 * @return The Contracts
 	 */
 	public List<Contract> getContractsWithApplicant(final AccountID applicantAccountID) {
-		ResultSet rs = null;
-		final List<Contract> result = new ArrayList<>();
-		Connection conn = null;
-		try {
-			conn = dataSource.getConnection();
-			final PreparedStatement selectStatement = conn.prepareStatement(ContractManagerSQLStatements.SqlStatements.SELECT_ALL_CONTRACTS_WITH_APPLICANT.getSqlStatement());
-			final Array tArray = selectStatement.getConnection().createArrayOf("uuid", new UUID[] { applicantAccountID.getId() });
-			selectStatement.setArray(1, tArray);
-
-			if (DEBUG_ENABLED) {
-				logger.debug("[==DB==] Executing " + selectStatement);
-			}
-			rs = selectStatement.executeQuery();
-			while (rs.next()) {
-				result.add(deserializeContract(rs));
-			}
-		} catch (final SQLException e) {
-			e.printStackTrace();
-		} finally {
+		synchronized (dataSource) {
+			ResultSet rs = null;
+			final List<Contract> result = new ArrayList<>();
+			Connection conn = null;
 			try {
-				if (rs != null) {
-					rs.close();
+				conn = dataSource.getConnection();
+				final PreparedStatement selectStatement = conn.prepareStatement(ContractManagerSQLStatements.SqlStatements.SELECT_ALL_CONTRACTS_WITH_APPLICANT.getSqlStatement());
+				final Array tArray = selectStatement.getConnection().createArrayOf("uuid", new UUID[]{applicantAccountID.getId()});
+				selectStatement.setArray(1, tArray);
+
+				if (DEBUG_ENABLED) {
+					logger.debug("[==DB==] Executing " + selectStatement);
 				}
-				if (conn != null) {
-					conn.close();
+				rs = selectStatement.executeQuery();
+				while (rs.next()) {
+					result.add(deserializeContract(rs));
 				}
 			} catch (final SQLException e) {
 				e.printStackTrace();
+			} finally {
+				try {
+					if (rs != null) {
+						rs.close();
+					}
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException e) {
+					e.printStackTrace();
+				}
 			}
-		}
 
-		return result;
+			return result;
+		}
 	}
 
 	/**
@@ -881,36 +895,38 @@ public final class ContractManagerDB {
 	 * @return The Contracts
 	 */
 	public List<Contract> getContractsWithProvider(final AccountID providerAccountID) {
-		ResultSet rs = null;
-		final List<Contract> result = new ArrayList<>();
-		Connection conn = null;
-		try {
-			conn = dataSource.getConnection();
-			final PreparedStatement selectStatement = conn.prepareStatement(ContractManagerSQLStatements.SqlStatements.SELECT_ALL_CONTRACTS_WITH_PROVIDER.getSqlStatement());
-			selectStatement.setObject(1, providerAccountID.getId());
-			if (DEBUG_ENABLED) {
-				logger.debug("[==DB==] Executing " + selectStatement);
-			}
-			rs = selectStatement.executeQuery();
-			while (rs.next()) {
-				result.add(deserializeContract(rs));
-			}
-		} catch (final SQLException e) {
-			e.printStackTrace();
-		} finally {
+		synchronized (dataSource) {
+			ResultSet rs = null;
+			final List<Contract> result = new ArrayList<>();
+			Connection conn = null;
 			try {
-				if (rs != null) {
-					rs.close();
+				conn = dataSource.getConnection();
+				final PreparedStatement selectStatement = conn.prepareStatement(ContractManagerSQLStatements.SqlStatements.SELECT_ALL_CONTRACTS_WITH_PROVIDER.getSqlStatement());
+				selectStatement.setObject(1, providerAccountID.getId());
+				if (DEBUG_ENABLED) {
+					logger.debug("[==DB==] Executing " + selectStatement);
 				}
-				if (conn != null) {
-					conn.close();
+				rs = selectStatement.executeQuery();
+				while (rs.next()) {
+					result.add(deserializeContract(rs));
 				}
 			} catch (final SQLException e) {
 				e.printStackTrace();
+			} finally {
+				try {
+					if (rs != null) {
+						rs.close();
+					}
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException e) {
+					e.printStackTrace();
+				}
 			}
-		}
 
-		return result;
+			return result;
+		}
 	}
 
 	/**
@@ -920,37 +936,39 @@ public final class ContractManagerDB {
 	 * @return The OpImplementations
 	 */
 	public List<OpImplementations> getOpImplementationsWithImpl(final ImplementationID implementationID) {
-		ResultSet rs = null;
-		final List<OpImplementations> result = new ArrayList<>();
-		Connection conn = null;
-		try {
-			conn = dataSource.getConnection();
-			final PreparedStatement selectStatement = conn.prepareStatement(ContractManagerSQLStatements.SqlStatements.SELECT_ALL_OPIMPLS_WITH_IMPL.getSqlStatement());
-			selectStatement.setObject(1, implementationID.getId());
-			selectStatement.setObject(2, implementationID.getId());
-			if (DEBUG_ENABLED) {
-				logger.debug("[==DB==] Executing " + selectStatement);
-			}
-			rs = selectStatement.executeQuery();
-			while (rs.next()) {
-				result.add(deserializeOpImplementations(rs));
-			}
-		} catch (final SQLException e) {
-			e.printStackTrace();
-		} finally {
+		synchronized (dataSource) {
+			ResultSet rs = null;
+			final List<OpImplementations> result = new ArrayList<>();
+			Connection conn = null;
 			try {
-				if (rs != null) {
-					rs.close();
+				conn = dataSource.getConnection();
+				final PreparedStatement selectStatement = conn.prepareStatement(ContractManagerSQLStatements.SqlStatements.SELECT_ALL_OPIMPLS_WITH_IMPL.getSqlStatement());
+				selectStatement.setObject(1, implementationID.getId());
+				selectStatement.setObject(2, implementationID.getId());
+				if (DEBUG_ENABLED) {
+					logger.debug("[==DB==] Executing " + selectStatement);
 				}
-				if (conn != null) {
-					conn.close();
+				rs = selectStatement.executeQuery();
+				while (rs.next()) {
+					result.add(deserializeOpImplementations(rs));
 				}
 			} catch (final SQLException e) {
 				e.printStackTrace();
+			} finally {
+				try {
+					if (rs != null) {
+						rs.close();
+					}
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException e) {
+					e.printStackTrace();
+				}
 			}
-		}
 
-		return result;
+			return result;
+		}
 	}
 
 	/**
@@ -963,39 +981,41 @@ public final class ContractManagerDB {
 	 */
 	public List<Contract> getContractsWithApplicantAndNamespace(final AccountID applicantAccountID,
 			final NamespaceID namespaceID) {
-		ResultSet rs = null;
-		final List<Contract> result = new ArrayList<>();
-		Connection conn = null;
-		try {
-			conn = dataSource.getConnection();
-			final PreparedStatement selectStatement = conn
-					.prepareStatement(ContractManagerSQLStatements.SqlStatements.SELECT_ALL_CONTRACTS_WITH_APPLICANT_AND_NAMESPACE.getSqlStatement());
-			final Array tArray = selectStatement.getConnection().createArrayOf("uuid", new UUID[] { applicantAccountID.getId() });
-			selectStatement.setArray(1, tArray);
-			selectStatement.setObject(2, namespaceID.getId());
-			if (DEBUG_ENABLED) {
-				logger.debug("[==DB==] Executing " + selectStatement);
-			}
-			rs = selectStatement.executeQuery();
-			while (rs.next()) {
-				result.add(deserializeContract(rs));
-			}
-		} catch (final SQLException e) {
-			e.printStackTrace();
-		} finally {
+		synchronized (dataSource) {
+			ResultSet rs = null;
+			final List<Contract> result = new ArrayList<>();
+			Connection conn = null;
 			try {
-				if (rs != null) {
-					rs.close();
+				conn = dataSource.getConnection();
+				final PreparedStatement selectStatement = conn
+						.prepareStatement(ContractManagerSQLStatements.SqlStatements.SELECT_ALL_CONTRACTS_WITH_APPLICANT_AND_NAMESPACE.getSqlStatement());
+				final Array tArray = selectStatement.getConnection().createArrayOf("uuid", new UUID[]{applicantAccountID.getId()});
+				selectStatement.setArray(1, tArray);
+				selectStatement.setObject(2, namespaceID.getId());
+				if (DEBUG_ENABLED) {
+					logger.debug("[==DB==] Executing " + selectStatement);
 				}
-				if (conn != null) {
-					conn.close();
+				rs = selectStatement.executeQuery();
+				while (rs.next()) {
+					result.add(deserializeContract(rs));
 				}
 			} catch (final SQLException e) {
 				e.printStackTrace();
+			} finally {
+				try {
+					if (rs != null) {
+						rs.close();
+					}
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException e) {
+					e.printStackTrace();
+				}
 			}
-		}
 
-		return result;
+			return result;
+		}
 	}
 
 	/**

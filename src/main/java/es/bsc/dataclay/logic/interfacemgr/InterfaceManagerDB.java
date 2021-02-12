@@ -27,6 +27,7 @@ import es.bsc.dataclay.util.ids.NamespaceID;
 import es.bsc.dataclay.util.ids.OperationID;
 import es.bsc.dataclay.util.ids.PropertyID;
 import es.bsc.dataclay.util.management.interfacemgr.Interface;
+import es.bsc.dataclay.dbhandler.sql.sqlite.SQLiteDataSource;
 
 /**
  * Data base connection.
@@ -34,7 +35,7 @@ import es.bsc.dataclay.util.management.interfacemgr.Interface;
 public final class InterfaceManagerDB {
 
 	/** Data source. */
-	private final BasicDataSource dataSource;
+	private final SQLiteDataSource dataSource;
 
 	/** Logger. */
 	private Logger logger;
@@ -48,7 +49,7 @@ public final class InterfaceManagerDB {
 	 * @param managerName
 	 *            Name of the LM service managing.
 	 */
-	public InterfaceManagerDB(final BasicDataSource dataSource) {
+	public InterfaceManagerDB(final SQLiteDataSource dataSource) {
 		this.dataSource = dataSource;
 		if (DEBUG_ENABLED) {
 			logger = LogManager.getLogger("LMDB");
@@ -59,25 +60,27 @@ public final class InterfaceManagerDB {
 	 * Create tables of MDS.
 	 */
 	public void createTables() {
+		synchronized (dataSource) {
 
-		Connection conn = null;
-		try {
-			conn = dataSource.getConnection();
-			for (final InterfaceManagerSQLStatements.SqlStatements stmt : InterfaceManagerSQLStatements.SqlStatements.values()) {
-				if (stmt.name().startsWith("CREATE_TABLE")) {
-					final PreparedStatement updateStatement = conn.prepareStatement(stmt.getSqlStatement());
-					updateStatement.execute();
-				}
-			}
-		} catch (final SQLException e) {
-			e.printStackTrace();
-		} finally {
+			Connection conn = null;
 			try {
-				if (conn != null) {
-					conn.close();
+				conn = dataSource.getConnection();
+				for (final InterfaceManagerSQLStatements.SqlStatements stmt : InterfaceManagerSQLStatements.SqlStatements.values()) {
+					if (stmt.name().startsWith("CREATE_TABLE")) {
+						final PreparedStatement updateStatement = conn.prepareStatement(stmt.getSqlStatement());
+						updateStatement.execute();
+					}
 				}
-			} catch (final SQLException ex1) {
-				ex1.printStackTrace();
+			} catch (final SQLException e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException ex1) {
+					ex1.printStackTrace();
+				}
 			}
 		}
 	}
@@ -86,25 +89,27 @@ public final class InterfaceManagerDB {
 	 * Delete the tables of MDS. Just the other way around of createTables --much simpler.
 	 */
 	public void dropTables() {
+		synchronized (dataSource) {
 
-		Connection conn = null;
-		try {
-			conn = dataSource.getConnection();
-			for (final InterfaceManagerSQLStatements.SqlStatements stmt : InterfaceManagerSQLStatements.SqlStatements.values()) {
-				if (stmt.name().startsWith("DROP_TABLE")) {
-					final PreparedStatement updateStatement = conn.prepareStatement(stmt.getSqlStatement());
-					updateStatement.execute();
-				}
-			}
-		} catch (final SQLException e) {
-			e.printStackTrace();
-		} finally {
+			Connection conn = null;
 			try {
-				if (conn != null) {
-					conn.close();
+				conn = dataSource.getConnection();
+				for (final InterfaceManagerSQLStatements.SqlStatements stmt : InterfaceManagerSQLStatements.SqlStatements.values()) {
+					if (stmt.name().startsWith("DROP_TABLE")) {
+						final PreparedStatement updateStatement = conn.prepareStatement(stmt.getSqlStatement());
+						updateStatement.execute();
+					}
 				}
-			} catch (final SQLException ex1) {
-				ex1.printStackTrace();
+			} catch (final SQLException e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException ex1) {
+					ex1.printStackTrace();
+				}
 			}
 		}
 	}
@@ -115,73 +120,75 @@ public final class InterfaceManagerDB {
 	 *            Interface to store
 	 */
 	public void store(final Interface iface) {
-		Connection conn = null;
-		try {
-			conn = dataSource.getConnection();
-			final PreparedStatement insertStatement = conn.prepareStatement(InterfaceManagerSQLStatements.SqlStatements.INSERT_INTERFACE.getSqlStatement());
-			insertStatement.setObject(1, iface.getDataClayID().getId());
-			// CHECKSTYLE:OFF
-			insertStatement.setString(2, iface.getProviderAccountName());
-			insertStatement.setString(3, iface.getNamespace());
-			insertStatement.setString(4, iface.getClassNamespace());
-			insertStatement.setString(5, iface.getClassName());
-			Array tArray = insertStatement.getConnection().createArrayOf("varchar", iface.getPropertiesInIface().toArray());
-			insertStatement.setArray(6, tArray);
-			tArray = insertStatement.getConnection().createArrayOf("varchar", iface.getOperationsSignatureInIface().toArray());
-			insertStatement.setArray(7, tArray);
-			insertStatement.setObject(8, iface.getProviderAccountID().getId());
-			insertStatement.setObject(9, iface.getNamespaceID().getId());
-			insertStatement.setObject(10, iface.getClassNamespaceID().getId());
-			insertStatement.setObject(11, iface.getMetaClassID().getId());
+		synchronized (dataSource) {
 
-			if (iface.getOperationsIDs() != null) {
-				final UUID[] opsUUIDs = new UUID[iface.getOperationsIDs().size()];
-				int i = 0;
-				for (final OperationID opID : iface.getOperationsIDs()) {
-					opsUUIDs[i] = opID.getId();
-					i++;
-				}
-
-				tArray = insertStatement.getConnection().createArrayOf("uuid", opsUUIDs);
-				insertStatement.setArray(12, tArray);
-			} else {
-				insertStatement.setArray(12, null);
-			}
-
-			if (iface.getPropertiesIDs() != null) {
-
-				final UUID[] propsUUIDs = new UUID[iface.getPropertiesIDs().size()];
-				int i = 0;
-				for (final PropertyID propID : iface.getPropertiesIDs()) {
-					propsUUIDs[i] = propID.getId();
-					i++;
-				}
-
-				tArray = insertStatement.getConnection().createArrayOf("uuid", propsUUIDs);
-				insertStatement.setArray(13, tArray);
-			} else {
-				insertStatement.setArray(13, null);
-			}
-
-			// CHECKSTYLE:ON
-			if (DEBUG_ENABLED) {
-				logger.debug("[==DB==] Executing " + insertStatement);
-			}
-			insertStatement.executeUpdate();
-
-		} catch (final Exception e) {
-			e.printStackTrace();
-			throw new DbObjectAlreadyExistException(iface.getDataClayID());
-		} finally {
+			Connection conn = null;
 			try {
-				if (conn != null) {
-					conn.close();
+				conn = dataSource.getConnection();
+				final PreparedStatement insertStatement = conn.prepareStatement(InterfaceManagerSQLStatements.SqlStatements.INSERT_INTERFACE.getSqlStatement());
+				insertStatement.setObject(1, iface.getDataClayID().getId());
+				// CHECKSTYLE:OFF
+				insertStatement.setString(2, iface.getProviderAccountName());
+				insertStatement.setString(3, iface.getNamespace());
+				insertStatement.setString(4, iface.getClassNamespace());
+				insertStatement.setString(5, iface.getClassName());
+				Array tArray = insertStatement.getConnection().createArrayOf("varchar", iface.getPropertiesInIface().toArray());
+				insertStatement.setArray(6, tArray);
+				tArray = insertStatement.getConnection().createArrayOf("varchar", iface.getOperationsSignatureInIface().toArray());
+				insertStatement.setArray(7, tArray);
+				insertStatement.setObject(8, iface.getProviderAccountID().getId());
+				insertStatement.setObject(9, iface.getNamespaceID().getId());
+				insertStatement.setObject(10, iface.getClassNamespaceID().getId());
+				insertStatement.setObject(11, iface.getMetaClassID().getId());
+
+				if (iface.getOperationsIDs() != null) {
+					final UUID[] opsUUIDs = new UUID[iface.getOperationsIDs().size()];
+					int i = 0;
+					for (final OperationID opID : iface.getOperationsIDs()) {
+						opsUUIDs[i] = opID.getId();
+						i++;
+					}
+
+					tArray = insertStatement.getConnection().createArrayOf("uuid", opsUUIDs);
+					insertStatement.setArray(12, tArray);
+				} else {
+					insertStatement.setArray(12, null);
 				}
-			} catch (final SQLException ex1) {
-				ex1.printStackTrace();
+
+				if (iface.getPropertiesIDs() != null) {
+
+					final UUID[] propsUUIDs = new UUID[iface.getPropertiesIDs().size()];
+					int i = 0;
+					for (final PropertyID propID : iface.getPropertiesIDs()) {
+						propsUUIDs[i] = propID.getId();
+						i++;
+					}
+
+					tArray = insertStatement.getConnection().createArrayOf("uuid", propsUUIDs);
+					insertStatement.setArray(13, tArray);
+				} else {
+					insertStatement.setArray(13, null);
+				}
+
+				// CHECKSTYLE:ON
+				if (DEBUG_ENABLED) {
+					logger.debug("[==DB==] Executing " + insertStatement);
+				}
+				insertStatement.executeUpdate();
+
+			} catch (final Exception e) {
+				e.printStackTrace();
+				throw new DbObjectAlreadyExistException(iface.getDataClayID());
+			} finally {
+				try {
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException ex1) {
+					ex1.printStackTrace();
+				}
 			}
 		}
-
 	}
 
 	/**
@@ -257,38 +264,41 @@ public final class InterfaceManagerDB {
 	 * @return The interface
 	 */
 	public Interface getInterfaceByID(final InterfaceID ifaceID) {
-		ResultSet rs = null;
-		Interface iface = null;
-		Connection conn = null;
-		try {
-			conn = dataSource.getConnection();
-			final PreparedStatement selectStatement = conn.prepareStatement(InterfaceManagerSQLStatements.SqlStatements.SELECT_INTERFACE.getSqlStatement());
+		synchronized (dataSource) {
 
-			selectStatement.setObject(1, ifaceID.getId());
-			if (DEBUG_ENABLED) {
-				logger.debug("[==DB==] Executing " + selectStatement);
-			}
-			rs = selectStatement.executeQuery();
-			if (rs.next()) {
-				iface = deserializeInterface(rs);
-			}
-
-		} catch (final SQLException e) {
-			throw new DbObjectNotExistException(ifaceID);
-		} finally {
+			ResultSet rs = null;
+			Interface iface = null;
+			Connection conn = null;
 			try {
-				if (rs != null) {
-					rs.close();
-				}
-				if (conn != null) {
-					conn.close();
-				}
-			} catch (final SQLException e) {
-				e.printStackTrace();
-			}
-		}
+				conn = dataSource.getConnection();
+				final PreparedStatement selectStatement = conn.prepareStatement(InterfaceManagerSQLStatements.SqlStatements.SELECT_INTERFACE.getSqlStatement());
 
-		return iface;
+				selectStatement.setObject(1, ifaceID.getId());
+				if (DEBUG_ENABLED) {
+					logger.debug("[==DB==] Executing " + selectStatement);
+				}
+				rs = selectStatement.executeQuery();
+				if (rs.next()) {
+					iface = deserializeInterface(rs);
+				}
+
+			} catch (final SQLException e) {
+				throw new DbObjectNotExistException(ifaceID);
+			} finally {
+				try {
+					if (rs != null) {
+						rs.close();
+					}
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException e) {
+					e.printStackTrace();
+				}
+			}
+
+			return iface;
+		}
 	}
 
 	/**
@@ -297,26 +307,29 @@ public final class InterfaceManagerDB {
 	 *            ID of object to delete
 	 */
 	public void deleteInterface(final InterfaceID id) {
-		Connection conn = null;
-		try {
-			conn = dataSource.getConnection();
-			final PreparedStatement stmt = conn.prepareStatement(InterfaceManagerSQLStatements.SqlStatements.DELETE_INTERFACE.getSqlStatement());
-			stmt.setObject(1, id.getId());
-			// CHECKSTYLE:ON
-			if (DEBUG_ENABLED) {
-				logger.debug("[==DB==] Executing " + stmt);
-			}
-			stmt.executeUpdate();
+		synchronized (dataSource) {
 
-		} catch (final Exception e) {
-			e.printStackTrace();
-		} finally {
+			Connection conn = null;
 			try {
-				if (conn != null) {
-					conn.close();
+				conn = dataSource.getConnection();
+				final PreparedStatement stmt = conn.prepareStatement(InterfaceManagerSQLStatements.SqlStatements.DELETE_INTERFACE.getSqlStatement());
+				stmt.setObject(1, id.getId());
+				// CHECKSTYLE:ON
+				if (DEBUG_ENABLED) {
+					logger.debug("[==DB==] Executing " + stmt);
 				}
-			} catch (final SQLException ex1) {
-				ex1.printStackTrace();
+				stmt.executeUpdate();
+
+			} catch (final Exception e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException ex1) {
+					ex1.printStackTrace();
+				}
 			}
 		}
 	}
@@ -331,39 +344,42 @@ public final class InterfaceManagerDB {
 	 */
 	public List<Interface> getInterfacesOfClass(
 			final NamespaceID namespaceID, final MetaClassID classID) {
-		ResultSet rs = null;
-		final List<Interface> result = new ArrayList<>();
-		Connection conn = null;
-		try {
-			conn = dataSource.getConnection();
-			final PreparedStatement selectStatement = conn.prepareStatement(InterfaceManagerSQLStatements.SqlStatements.SELECT_IFACES_OF_CLASS.getSqlStatement());
+		synchronized (dataSource) {
 
-			selectStatement.setObject(1, namespaceID.getId());
-			selectStatement.setObject(2, classID.getId());
-
-			if (DEBUG_ENABLED) {
-				logger.debug("[==DB==] Executing " + selectStatement);
-			}
-			rs = selectStatement.executeQuery();
-			while (rs.next()) {
-				result.add(deserializeInterface(rs));
-			}
-		} catch (final SQLException e) {
-			e.printStackTrace();
-		} finally {
+			ResultSet rs = null;
+			final List<Interface> result = new ArrayList<>();
+			Connection conn = null;
 			try {
-				if (rs != null) {
-					rs.close();
+				conn = dataSource.getConnection();
+				final PreparedStatement selectStatement = conn.prepareStatement(InterfaceManagerSQLStatements.SqlStatements.SELECT_IFACES_OF_CLASS.getSqlStatement());
+
+				selectStatement.setObject(1, namespaceID.getId());
+				selectStatement.setObject(2, classID.getId());
+
+				if (DEBUG_ENABLED) {
+					logger.debug("[==DB==] Executing " + selectStatement);
 				}
-				if (conn != null) {
-					conn.close();
+				rs = selectStatement.executeQuery();
+				while (rs.next()) {
+					result.add(deserializeInterface(rs));
 				}
 			} catch (final SQLException e) {
 				e.printStackTrace();
+			} finally {
+				try {
+					if (rs != null) {
+						rs.close();
+					}
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException e) {
+					e.printStackTrace();
+				}
 			}
-		}
 
-		return result;
+			return result;
+		}
 	}
 
 	/**
@@ -382,47 +398,50 @@ public final class InterfaceManagerDB {
 	 */
 	public Interface getInterfaceByNames(final String providerAccount, final String namespace, final String classname,
 			final Set<String> propertiesInIface, final Set<String> operationsSignatureInIface) {
-		ResultSet rs = null;
-		Interface iface = null;
-		Connection conn = null;
-		try {
-			conn = dataSource.getConnection();
-			final PreparedStatement selectStatement = conn.prepareStatement(InterfaceManagerSQLStatements.SqlStatements.SELECT_IFACE_FROM_NAMES.getSqlStatement());
+		synchronized (dataSource) {
 
-			selectStatement.setString(1, providerAccount);
-			selectStatement.setString(2, namespace);
-			// CHECKSTYLE:OFF
-			selectStatement.setString(3, classname);
-
-			Array tArray = selectStatement.getConnection().createArrayOf("varchar", propertiesInIface.toArray());
-			selectStatement.setArray(4, tArray);
-			tArray = selectStatement.getConnection().createArrayOf("varchar", operationsSignatureInIface.toArray());
-			selectStatement.setArray(5, tArray);
-			// CHECKSTYLE:ON
-			if (DEBUG_ENABLED) {
-				logger.debug("[==DB==] Executing " + selectStatement);
-			}
-			rs = selectStatement.executeQuery();
-			if (rs.next()) {
-				iface = deserializeInterface(rs);
-			}
-
-		} catch (final SQLException e) {
-			throw new DbObjectNotExistException();
-		} finally {
+			ResultSet rs = null;
+			Interface iface = null;
+			Connection conn = null;
 			try {
-				if (rs != null) {
-					rs.close();
-				}
-				if (conn != null) {
-					conn.close();
-				}
-			} catch (final SQLException e) {
-				e.printStackTrace();
-			}
-		}
+				conn = dataSource.getConnection();
+				final PreparedStatement selectStatement = conn.prepareStatement(InterfaceManagerSQLStatements.SqlStatements.SELECT_IFACE_FROM_NAMES.getSqlStatement());
 
-		return iface;
+				selectStatement.setString(1, providerAccount);
+				selectStatement.setString(2, namespace);
+				// CHECKSTYLE:OFF
+				selectStatement.setString(3, classname);
+
+				Array tArray = selectStatement.getConnection().createArrayOf("varchar", propertiesInIface.toArray());
+				selectStatement.setArray(4, tArray);
+				tArray = selectStatement.getConnection().createArrayOf("varchar", operationsSignatureInIface.toArray());
+				selectStatement.setArray(5, tArray);
+				// CHECKSTYLE:ON
+				if (DEBUG_ENABLED) {
+					logger.debug("[==DB==] Executing " + selectStatement);
+				}
+				rs = selectStatement.executeQuery();
+				if (rs.next()) {
+					iface = deserializeInterface(rs);
+				}
+
+			} catch (final SQLException e) {
+				throw new DbObjectNotExistException();
+			} finally {
+				try {
+					if (rs != null) {
+						rs.close();
+					}
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException e) {
+					e.printStackTrace();
+				}
+			}
+
+			return iface;
+		}
 	}
 
 	/**

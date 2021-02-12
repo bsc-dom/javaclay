@@ -20,6 +20,7 @@ import es.bsc.dataclay.util.ids.CredentialID;
 import es.bsc.dataclay.util.management.accountmgr.Account;
 import es.bsc.dataclay.util.management.accountmgr.AccountRole;
 import es.bsc.dataclay.util.management.accountmgr.PasswordCredential;
+import es.bsc.dataclay.dbhandler.sql.sqlite.SQLiteDataSource;
 
 /**
  * Data base connection.
@@ -28,7 +29,7 @@ public final class AccountManagerDB {
 	private static final Logger logger = LogManager.getLogger("managers.AccountManager.DB");
 	
 	/** DataSource. */
-	private final BasicDataSource dataSource;
+	private final SQLiteDataSource dataSource;
 
 	/**
 	 * Constructor.
@@ -36,7 +37,7 @@ public final class AccountManagerDB {
 	 * @param dataSource
 	 *            Data base source.
 	 */
-	public AccountManagerDB(final BasicDataSource dataSource) {
+	public AccountManagerDB(final SQLiteDataSource dataSource) {
 		this.dataSource = dataSource;
 	}
 
@@ -44,25 +45,27 @@ public final class AccountManagerDB {
 	 * Create tables of MDS.
 	 */
 	public void createTables() {
-		Connection conn = null;
+		synchronized (dataSource) {
+			Connection conn = null;
 
-		try {
-			conn = dataSource.getConnection();
-			for (final AccountMgrSQLStatements.SqlStatements stmt : AccountMgrSQLStatements.SqlStatements.values()) {
-				if (stmt.name().startsWith("CREATE_TABLE")) {
-					final PreparedStatement updateStatement = conn.prepareStatement(stmt.getSqlStatement());
-					updateStatement.execute();
-				}
-			}
-		} catch (final SQLException e) {
-			logger.debug("SQL error in createTables operation", e);
-		} finally {
 			try {
-				if (conn != null) {
-					conn.close();
+				conn = dataSource.getConnection();
+				for (final AccountMgrSQLStatements.SqlStatements stmt : AccountMgrSQLStatements.SqlStatements.values()) {
+					if (stmt.name().startsWith("CREATE_TABLE")) {
+						final PreparedStatement updateStatement = conn.prepareStatement(stmt.getSqlStatement());
+						updateStatement.execute();
+					}
 				}
-			} catch (final SQLException ex1) {
-				logger.debug("SQL Exception while closing connection", ex1);
+			} catch (final SQLException e) {
+				logger.debug("SQL error in createTables operation", e);
+			} finally {
+				try {
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException ex1) {
+					logger.debug("SQL Exception while closing connection", ex1);
+				}
 			}
 		}
 	}
@@ -71,25 +74,28 @@ public final class AccountManagerDB {
 	 * Delete the tables of MDS. Just the other way around of createTables --much simpler.
 	 */
 	public void dropTables() {
-		Connection conn = null;
+		synchronized (dataSource) {
 
-		try {
-			conn = dataSource.getConnection();
-			for (final AccountMgrSQLStatements.SqlStatements stmt : AccountMgrSQLStatements.SqlStatements.values()) {
-				if (stmt.name().startsWith("DROP_TABLE")) {
-					final PreparedStatement updateStatement = conn.prepareStatement(stmt.getSqlStatement());
-					updateStatement.execute();
-				}
-			}
-		} catch (final SQLException e) {
-			logger.debug("SQL error in dropTables operation", e);
-		} finally {
+			Connection conn = null;
+
 			try {
-				if (conn != null) {
-					conn.close();
+				conn = dataSource.getConnection();
+				for (final AccountMgrSQLStatements.SqlStatements stmt : AccountMgrSQLStatements.SqlStatements.values()) {
+					if (stmt.name().startsWith("DROP_TABLE")) {
+						final PreparedStatement updateStatement = conn.prepareStatement(stmt.getSqlStatement());
+						updateStatement.execute();
+					}
 				}
-			} catch (final SQLException ex1) {
-				logger.debug("SQL Exception while closing connection", ex1);
+			} catch (final SQLException e) {
+				logger.debug("SQL error in dropTables operation", e);
+			} finally {
+				try {
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException ex1) {
+					logger.debug("SQL Exception while closing connection", ex1);
+				}
 			}
 		}
 	}
@@ -100,26 +106,29 @@ public final class AccountManagerDB {
 	 *            Password credential
 	 */
 	public void store(final PasswordCredential passwordCredential) {
-		Connection conn = null;
-		try {
-			conn = dataSource.getConnection();
-			final PreparedStatement insertStatement = conn.prepareStatement(AccountMgrSQLStatements.SqlStatements.INSERT_CREDENTIAL.getSqlStatement());
-			insertStatement.setObject(1, passwordCredential.getDataClayID().getId());
-			// CHECKSTYLE:OFF
-			insertStatement.setString(2, passwordCredential.getPassword());
-			// CHECKSTYLE:ON
-			insertStatement.executeUpdate();
+		synchronized (dataSource) {
 
-		} catch (final Exception e) {
-			logger.debug("SQL error in store passwordCredential", e);
-			throw new DbObjectAlreadyExistException(passwordCredential.getDataClayID());
-		} finally {
+			Connection conn = null;
 			try {
-				if (conn != null) {
-					conn.close();
+				conn = dataSource.getConnection();
+				final PreparedStatement insertStatement = conn.prepareStatement(AccountMgrSQLStatements.SqlStatements.INSERT_CREDENTIAL.getSqlStatement());
+				insertStatement.setObject(1, passwordCredential.getDataClayID().getId());
+				// CHECKSTYLE:OFF
+				insertStatement.setString(2, passwordCredential.getPassword());
+				// CHECKSTYLE:ON
+				insertStatement.executeUpdate();
+
+			} catch (final Exception e) {
+				logger.debug("SQL error in store passwordCredential", e);
+				throw new DbObjectAlreadyExistException(passwordCredential.getDataClayID());
+			} finally {
+				try {
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException ex1) {
+					logger.debug("SQL Exception while closing connection", ex1);
 				}
-			} catch (final SQLException ex1) {
-				logger.debug("SQL Exception while closing connection", ex1);
 			}
 		}
 
@@ -131,38 +140,39 @@ public final class AccountManagerDB {
 	 *            The account
 	 */
 	public void store(final Account account) {
+		synchronized (dataSource) {
 
-		if (account.getCredential().getDataClayID() == null) {
-			account.getCredential().setDataClayID(new CredentialID());
-		}
-		this.store((PasswordCredential) account.getCredential());
+			if (account.getCredential().getDataClayID() == null) {
+				account.getCredential().setDataClayID(new CredentialID());
+			}
+			this.store((PasswordCredential) account.getCredential());
 
-		Connection conn = null;
-		try {
-			conn = dataSource.getConnection();
-			final PreparedStatement insertStatement = conn.prepareStatement(AccountMgrSQLStatements.SqlStatements.INSERT_ACCOUNT.getSqlStatement());
-			insertStatement.setObject(1, account.getDataClayID().getId());
-			// CHECKSTYLE:OFF
-			insertStatement.setString(2, account.getUsername());
-			insertStatement.setObject(3, account.getCredential().getDataClayID().getId());
-			insertStatement.setString(4, account.getRole().name());
-
-			// CHECKSTYLE:ON
-			insertStatement.executeUpdate();
-
-		} catch (final Exception e) {
-			logger.debug("SQL error in store account", e);
-			throw new DbObjectAlreadyExistException(account.getDataClayID());
-		} finally {
+			Connection conn = null;
 			try {
-				if (conn != null) {
-					conn.close();
+				conn = dataSource.getConnection();
+				final PreparedStatement insertStatement = conn.prepareStatement(AccountMgrSQLStatements.SqlStatements.INSERT_ACCOUNT.getSqlStatement());
+				insertStatement.setObject(1, account.getDataClayID().getId());
+				// CHECKSTYLE:OFF
+				insertStatement.setString(2, account.getUsername());
+				insertStatement.setObject(3, account.getCredential().getDataClayID().getId());
+				insertStatement.setString(4, account.getRole().name());
+
+				// CHECKSTYLE:ON
+				insertStatement.executeUpdate();
+
+			} catch (final Exception e) {
+				logger.debug("SQL error in store account", e);
+				throw new DbObjectAlreadyExistException(account.getDataClayID());
+			} finally {
+				try {
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException ex1) {
+					logger.debug("SQL Exception while closing connection", ex1);
 				}
-			} catch (final SQLException ex1) {
-				logger.debug("SQL Exception while closing connection", ex1);
 			}
 		}
-
 	}
 
 	/**
@@ -256,75 +266,80 @@ public final class AccountManagerDB {
 	 * @return The Account
 	 */
 	public Account getByID(final AccountID accountID) {
-		ResultSet rs = null;
-		Account account = null;
-		Connection conn = null;
-		try {
-			conn = dataSource.getConnection();
-			final PreparedStatement selectStatement = conn.prepareStatement(AccountMgrSQLStatements.SqlStatements.SELECT_ACCOUNT.getSqlStatement());
-
-			selectStatement.setObject(1, accountID.getId());
-			rs = selectStatement.executeQuery();
-			if (rs.next()) {
-				account = deserializeAccount(rs);
-
-			}
-		} catch (final SQLException e) {
-			logger.debug("SQL error in getByID", e);
-			throw new DbObjectNotExistException(accountID);
-		} finally {
+		synchronized (dataSource) {
+			ResultSet rs = null;
+			Account account = null;
+			Connection conn = null;
 			try {
-				if (rs != null) {
-					rs.close();
-				}
-				if (conn != null) {
-					conn.close();
-				}
-			} catch (final SQLException ex1) {
-				logger.debug("SQL Exception while closing connection", ex1);
-			}
-		}
+				conn = dataSource.getConnection();
+				final PreparedStatement selectStatement = conn.prepareStatement(AccountMgrSQLStatements.SqlStatements.SELECT_ACCOUNT.getSqlStatement());
 
-		return account;
+				selectStatement.setObject(1, accountID.getId());
+				rs = selectStatement.executeQuery();
+				if (rs.next()) {
+					account = deserializeAccount(rs);
+
+				}
+			} catch (final SQLException e) {
+				logger.debug("SQL error in getByID", e);
+				throw new DbObjectNotExistException(accountID);
+			} finally {
+				try {
+					if (rs != null) {
+						rs.close();
+					}
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException ex1) {
+					logger.debug("SQL Exception while closing connection", ex1);
+				}
+			}
+
+			return account;
+		}
 	}
 
 	/**
-	 * Get Account by ID
-	 * @param accountID
-	 *            ID of the Account
+	 * Get Account by name
+	 * @param accountName
+	 *            Name of the Account
 	 * @return The Account
 	 */
 	public Account getByName(final String accountName) {
-		ResultSet rs = null;
-		Account account = null;
-		Connection conn = null;
-		try {
-			conn = dataSource.getConnection();
-			final PreparedStatement selectStatement = conn.prepareStatement(AccountMgrSQLStatements.SqlStatements.SELECT_ACCOUNT_BY_NAME.getSqlStatement());
+		synchronized (dataSource) {
 
-			selectStatement.setString(1, accountName);
-			rs = selectStatement.executeQuery();
-			if (rs.next()) {
-				account = deserializeAccount(rs);
-			}
-
-		} catch (final SQLException e) {
-			logger.debug("SQL error in getByName", e);
-			throw new DbObjectNotExistException();
-		} finally {
+			ResultSet rs = null;
+			Account account = null;
+			Connection conn = null;
 			try {
-				if (rs != null) {
-					rs.close();
-				}
-				if (conn != null) {
-					conn.close();
-				}
-			} catch (final SQLException ex1) {
-				logger.debug("SQL Exception while closing connection", ex1);
-			}
-		}
+				conn = dataSource.getConnection();
+				final PreparedStatement selectStatement = conn.prepareStatement(AccountMgrSQLStatements.SqlStatements.SELECT_ACCOUNT_BY_NAME.getSqlStatement());
 
-		return account;
+				selectStatement.setString(1, accountName);
+				rs = selectStatement.executeQuery();
+				if (rs.next()) {
+					account = deserializeAccount(rs);
+				}
+
+			} catch (final SQLException e) {
+				logger.debug("SQL error in getByName", e);
+				throw new DbObjectNotExistException();
+			} finally {
+				try {
+					if (rs != null) {
+						rs.close();
+					}
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException ex1) {
+					logger.debug("SQL Exception while closing connection", ex1);
+				}
+			}
+
+			return account;
+		}
 	}
 
 	/**
@@ -335,32 +350,34 @@ public final class AccountManagerDB {
 	 */
 	public boolean existsAccountByName(final String accountName) {
 
-		ResultSet rs = null;
-		boolean exists = false;
-		Connection conn = null;
-		try {
-			conn = dataSource.getConnection();
-			final PreparedStatement existsStatement = conn.prepareStatement(AccountMgrSQLStatements.SqlStatements.EXISTS_ACCOUNT_BY_NAME.getSqlStatement());
-
-			existsStatement.setString(1, accountName);
-			rs = existsStatement.executeQuery();
-			rs.next();
-			exists = rs.getBoolean(1);
-
-		} catch (final Exception e) {
-			logger.debug("existsAccountByName error", e);
-		} finally {
+		synchronized (dataSource) {
+			ResultSet rs = null;
+			boolean exists = false;
+			Connection conn = null;
 			try {
-				rs.close();
-				if (conn != null) {
-					conn.close();
-				}
-			} catch (final SQLException ex1) {
-				logger.debug("SQL Exception while closing connection", ex1);
-			}
-		}
+				conn = dataSource.getConnection();
+				final PreparedStatement existsStatement = conn.prepareStatement(AccountMgrSQLStatements.SqlStatements.EXISTS_ACCOUNT_BY_NAME.getSqlStatement());
 
-		return exists;
+				existsStatement.setString(1, accountName);
+				rs = existsStatement.executeQuery();
+				rs.next();
+				exists = rs.getBoolean(1);
+
+			} catch (final Exception e) {
+				logger.debug("existsAccountByName error", e);
+			} finally {
+				try {
+					rs.close();
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException ex1) {
+					logger.debug("SQL Exception while closing connection", ex1);
+				}
+			}
+
+			return exists;
+		}
 	}
 
 	/**
@@ -370,33 +387,34 @@ public final class AccountManagerDB {
 	 * @return TRUE if exists. FALSE otherwise
 	 */
 	public boolean existsAccountByID(final AccountID accountID) {
-
-		ResultSet rs = null;
-		boolean exists = false;
-		Connection conn = null;
-		try {
-			conn = dataSource.getConnection();
-			final PreparedStatement existsStatement = conn.prepareStatement(AccountMgrSQLStatements.SqlStatements.EXISTS_ACCOUNT_BY_ID.getSqlStatement());
-
-			existsStatement.setObject(1, accountID.getId());
-			rs = existsStatement.executeQuery();
-			rs.next();
-			exists = rs.getBoolean(1);
-
-		} catch (final Exception e) {
-			logger.debug("existsAccountByID error", e);
-		} finally {
+		synchronized (dataSource) {
+			ResultSet rs = null;
+			boolean exists = false;
+			Connection conn = null;
 			try {
-				rs.close();
-				if (conn != null) {
-					conn.close();
-				}
-			} catch (final SQLException ex1) {
-				logger.debug("SQL Exception while closing connection", ex1);
-			}
-		}
+				conn = dataSource.getConnection();
+				final PreparedStatement existsStatement = conn.prepareStatement(AccountMgrSQLStatements.SqlStatements.EXISTS_ACCOUNT_BY_ID.getSqlStatement());
 
-		return exists;
+				existsStatement.setObject(1, accountID.getId());
+				rs = existsStatement.executeQuery();
+				rs.next();
+				exists = rs.getBoolean(1);
+
+			} catch (final Exception e) {
+				logger.debug("existsAccountByID error", e);
+			} finally {
+				try {
+					rs.close();
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException ex1) {
+					logger.debug("SQL Exception while closing connection", ex1);
+				}
+			}
+
+			return exists;
+		}
 	}
 
 	/**
@@ -404,33 +422,35 @@ public final class AccountManagerDB {
 	 * @return The accounts with normal role.
 	 */
 	public List<Account> getAllNormalAccounts() {
-		ResultSet rs = null;
-		final ArrayList<Account> resultList = new ArrayList<>();
-		Connection conn = null;
-		try {
-			conn = dataSource.getConnection();
-			final PreparedStatement selectStatement = conn.prepareStatement(AccountMgrSQLStatements.SqlStatements.SELECT_ALL_NORMAL_ACCOUNTS.getSqlStatement());
-
-			rs = selectStatement.executeQuery();
-			while (rs.next()) {
-				final Account account = deserializeAccount(rs);
-				resultList.add(account);
-			}
-
-		} catch (final SQLException e) {
-			logger.debug("SQL error in getAllNormalAccounts", e);
-		} finally {
+		synchronized (dataSource) {
+			ResultSet rs = null;
+			final ArrayList<Account> resultList = new ArrayList<>();
+			Connection conn = null;
 			try {
-				rs.close();
-				if (conn != null) {
-					conn.close();
-				}
-			} catch (final SQLException ex1) {
-				logger.debug("SQL Exception while closing connection", ex1);
-			}
-		}
+				conn = dataSource.getConnection();
+				final PreparedStatement selectStatement = conn.prepareStatement(AccountMgrSQLStatements.SqlStatements.SELECT_ALL_NORMAL_ACCOUNTS.getSqlStatement());
 
-		return resultList;
+				rs = selectStatement.executeQuery();
+				while (rs.next()) {
+					final Account account = deserializeAccount(rs);
+					resultList.add(account);
+				}
+
+			} catch (final SQLException e) {
+				logger.debug("SQL error in getAllNormalAccounts", e);
+			} finally {
+				try {
+					rs.close();
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException ex1) {
+					logger.debug("SQL Exception while closing connection", ex1);
+				}
+			}
+
+			return resultList;
+		}
 	}
 
 	/**

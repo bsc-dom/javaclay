@@ -19,6 +19,7 @@ import es.bsc.dataclay.exceptions.metadataservice.*;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import es.bsc.dataclay.dbhandler.sql.sqlite.SQLiteDataSource;
 import org.yaml.snakeyaml.Yaml;
 
 import es.bsc.dataclay.commonruntime.DataServiceRuntime;
@@ -263,10 +264,10 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
         // all needed ids (including DataClayInstanceID) and others.
         this.name = lmName;
 
-        dbConf = initDBConf();
-        logicModuleHandler = initDBHandler();
-        // TODO generalize when dbhandler will not be sql-based
-        final BasicDataSource dataSource = ((SQLHandler<?>) logicModuleHandler).getDataSource();
+		dbConf = initDBConf();
+		logicModuleHandler = initDBHandler();
+		// TODO generalize when dbhandler will not be sql-based
+		final SQLiteDataSource dataSource = ((SQLHandler<?>) logicModuleHandler).getDataSource();
 
         hostname = thehostname;
         port = theport;

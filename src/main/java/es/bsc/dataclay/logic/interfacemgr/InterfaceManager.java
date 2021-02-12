@@ -25,6 +25,7 @@ import es.bsc.dataclay.util.ids.PropertyID;
 import es.bsc.dataclay.util.management.AbstractManager;
 import es.bsc.dataclay.util.management.interfacemgr.Interface;
 import es.bsc.dataclay.util.structs.LruCache;
+import es.bsc.dataclay.dbhandler.sql.sqlite.SQLiteDataSource;
 
 /**
  * This class is responsible to manage interfaces: add, remove and modify.
@@ -47,7 +48,7 @@ public final class InterfaceManager extends AbstractManager {
 	 *            Manager/service name.
 	 * @post Creates an Interface manager with the provided db path.
 	 */
-	public InterfaceManager(final BasicDataSource dataSource) {
+	public InterfaceManager(final SQLiteDataSource dataSource) {
 		super(dataSource);
 		this.interfaceDB = new InterfaceManagerDB(dataSource);
 		this.interfaceDB.createTables();

@@ -359,7 +359,8 @@ public final class DataService implements DataServiceAPI {
 			final String className = curEntry.getKey().getFirst();
 			final String finalClassName = namespaceName + "." + className;
 			final byte[] classToDeploy = curEntry.getValue();
-			//  Verify class 
+			//  Verify class
+			LOGGER.debug("Checking class " + finalClassName);
 			checkGeneratedClass(classToDeploy);
 			DataClayClassLoaderSrv.getClass(finalClassName);
 		}

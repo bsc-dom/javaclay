@@ -21,7 +21,7 @@ import es.bsc.dataclay.util.Configuration;
 import es.bsc.dataclay.util.ids.AccountID;
 import es.bsc.dataclay.util.ids.DataSetID;
 import es.bsc.dataclay.util.management.datasetmgr.DataSet;
-
+import es.bsc.dataclay.dbhandler.sql.sqlite.SQLiteDataSource;
 /**
  * Data base connection.
  */
@@ -34,15 +34,15 @@ public final class DataSetManagerDB {
 	private static final boolean DEBUG_ENABLED = Configuration.isDebugEnabled();
 
 	/** SingleConnection. */
-	private final BasicDataSource dataSource;
+	private final SQLiteDataSource dataSource;
 
 	/**
 	 * MetaDataServiceDB constructor.
 	 * 
-	 * @param managerName
+	 * @param dataSource
 	 *            Name of the LM service managing.
 	 */
-	public DataSetManagerDB(final BasicDataSource dataSource) {
+	public DataSetManagerDB(final SQLiteDataSource dataSource) {
 		this.dataSource = dataSource;
 		if (DEBUG_ENABLED) {
 			logger = LogManager.getLogger("LMDB");
@@ -53,25 +53,27 @@ public final class DataSetManagerDB {
 	 * Create tables of MDS.
 	 */
 	public void createTables() {
+		synchronized (dataSource) {
 
-		Connection conn = null;
-		try {
-			conn = dataSource.getConnection();
-			for (final DataSetManagerSQLStatements.SqlStatements stmt : DataSetManagerSQLStatements.SqlStatements.values()) {
-				if (stmt.name().startsWith("CREATE_TABLE")) {
-					final PreparedStatement updateStatement = conn.prepareStatement(stmt.getSqlStatement());
-					updateStatement.execute();
-				}
-			}
-		} catch (final SQLException e) {
-			e.printStackTrace();
-		} finally {
+			Connection conn = null;
 			try {
-				if (conn != null) {
-					conn.close();
+				conn = dataSource.getConnection();
+				for (final DataSetManagerSQLStatements.SqlStatements stmt : DataSetManagerSQLStatements.SqlStatements.values()) {
+					if (stmt.name().startsWith("CREATE_TABLE")) {
+						final PreparedStatement updateStatement = conn.prepareStatement(stmt.getSqlStatement());
+						updateStatement.execute();
+					}
 				}
-			} catch (final SQLException ex1) {
-				ex1.printStackTrace();
+			} catch (final SQLException e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException ex1) {
+					ex1.printStackTrace();
+				}
 			}
 		}
 	}
@@ -80,25 +82,27 @@ public final class DataSetManagerDB {
 	 * Delete the tables of MDS. Just the other way around of createTables --much simpler.
 	 */
 	public void dropTables() {
+		synchronized (dataSource) {
 
-		Connection conn = null;
-		try {
-			conn = dataSource.getConnection();
-			for (final DataSetManagerSQLStatements.SqlStatements stmt : DataSetManagerSQLStatements.SqlStatements.values()) {
-				if (stmt.name().startsWith("DROP_TABLE")) {
-					final PreparedStatement updateStatement = conn.prepareStatement(stmt.getSqlStatement());
-					updateStatement.execute();
-				}
-			}
-		} catch (final SQLException e) {
-			e.printStackTrace();
-		} finally {
+			Connection conn = null;
 			try {
-				if (conn != null) {
-					conn.close();
+				conn = dataSource.getConnection();
+				for (final DataSetManagerSQLStatements.SqlStatements stmt : DataSetManagerSQLStatements.SqlStatements.values()) {
+					if (stmt.name().startsWith("DROP_TABLE")) {
+						final PreparedStatement updateStatement = conn.prepareStatement(stmt.getSqlStatement());
+						updateStatement.execute();
+					}
 				}
-			} catch (final SQLException ex1) {
-				ex1.printStackTrace();
+			} catch (final SQLException e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException ex1) {
+					ex1.printStackTrace();
+				}
 			}
 		}
 	}
@@ -109,34 +113,36 @@ public final class DataSetManagerDB {
 	 *            dataSet
 	 */
 	public void store(final DataSet dataSet) {
+		synchronized (dataSource) {
 
-		Connection conn = null;
-		try {
-			conn = dataSource.getConnection();
-			final PreparedStatement insertStatement = conn.prepareStatement(
-					DataSetManagerSQLStatements.SqlStatements.INSERT_DATASET.getSqlStatement());
-			insertStatement.setObject(1, dataSet.getDataClayID().getId());
-			// CHECKSTYLE:OFF
-			insertStatement.setString(2, dataSet.getName());
-			insertStatement.setObject(3, dataSet.getProviderAccountID().getId());
-			insertStatement.setBoolean(4, dataSet.getIsPublic());
-
-			// CHECKSTYLE:ON
-			if (DEBUG_ENABLED) {
-				logger.debug("[==DB==] Executing " + insertStatement);
-			}
-			insertStatement.executeUpdate();
-
-		} catch (final Exception e) {
-			e.printStackTrace();
-			throw new DbObjectAlreadyExistException(dataSet.getDataClayID());
-		} finally {
+			Connection conn = null;
 			try {
-				if (conn != null) {
-					conn.close();
+				conn = dataSource.getConnection();
+				final PreparedStatement insertStatement = conn.prepareStatement(
+						DataSetManagerSQLStatements.SqlStatements.INSERT_DATASET.getSqlStatement());
+				insertStatement.setObject(1, dataSet.getDataClayID().getId());
+				// CHECKSTYLE:OFF
+				insertStatement.setString(2, dataSet.getName());
+				insertStatement.setObject(3, dataSet.getProviderAccountID().getId());
+				insertStatement.setBoolean(4, dataSet.getIsPublic());
+
+				// CHECKSTYLE:ON
+				if (DEBUG_ENABLED) {
+					logger.debug("[==DB==] Executing " + insertStatement);
 				}
-			} catch (final SQLException ex1) {
-				ex1.printStackTrace();
+				insertStatement.executeUpdate();
+
+			} catch (final Exception e) {
+				e.printStackTrace();
+				throw new DbObjectAlreadyExistException(dataSet.getDataClayID());
+			} finally {
+				try {
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException ex1) {
+					ex1.printStackTrace();
+				}
 			}
 		}
 
@@ -179,39 +185,42 @@ public final class DataSetManagerDB {
 	 *             if not found
 	 */
 	public DataSet getDataSetByID(final DataSetID datasetID) {
-		ResultSet rs = null;
-		DataSet result = null;
-		Connection conn = null;
-		try {
-			conn = dataSource.getConnection();
-			final PreparedStatement selectStatement = conn.prepareStatement(
-					DataSetManagerSQLStatements.SqlStatements.SELECT_DATASET.getSqlStatement());
+		synchronized (dataSource) {
 
-			selectStatement.setObject(1, datasetID.getId());
-			if (DEBUG_ENABLED) {
-				logger.debug("[==DB==] Executing " + selectStatement);
-			}
-			rs = selectStatement.executeQuery();
-			if (rs.next()) {
-				result = deserializeDataSet(rs);
-
-			}
-		} catch (final SQLException e) {
-			throw new DbObjectNotExistException(datasetID);
-		} finally {
+			ResultSet rs = null;
+			DataSet result = null;
+			Connection conn = null;
 			try {
-				if (rs != null) {
-					rs.close();
+				conn = dataSource.getConnection();
+				final PreparedStatement selectStatement = conn.prepareStatement(
+						DataSetManagerSQLStatements.SqlStatements.SELECT_DATASET.getSqlStatement());
+
+				selectStatement.setObject(1, datasetID.getId());
+				if (DEBUG_ENABLED) {
+					logger.debug("[==DB==] Executing " + selectStatement);
 				}
-				if (conn != null) {
-					conn.close();
+				rs = selectStatement.executeQuery();
+				if (rs.next()) {
+					result = deserializeDataSet(rs);
+
 				}
 			} catch (final SQLException e) {
-				e.printStackTrace();
+				throw new DbObjectNotExistException(datasetID);
+			} finally {
+				try {
+					if (rs != null) {
+						rs.close();
+					}
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException e) {
+					e.printStackTrace();
+				}
 			}
-		}
 
-		return result;
+			return result;
+		}
 	}
 
 	/**
@@ -220,31 +229,32 @@ public final class DataSetManagerDB {
 	 *            ID of object
 	 */
 	public void deleteDataSetByID(final DataSetID dataSetID) {
+		synchronized (dataSource) {
 
-		Connection conn = null;
-		try {
-			conn = dataSource.getConnection();
-			final PreparedStatement selectStatement = conn.prepareStatement(
-					DataSetManagerSQLStatements.SqlStatements.DELETE_DATASET.getSqlStatement());
-			selectStatement.setObject(1, dataSetID.getId());
-			if (DEBUG_ENABLED) {
-				logger.debug("[==DB==] Executing " + selectStatement);
-			}
-			selectStatement.executeUpdate();
-
-		} catch (final SQLException e) {
-			// not found, ignore
-			// e.printStackTrace();
-		} finally {
+			Connection conn = null;
 			try {
-				if (conn != null) {
-					conn.close();
+				conn = dataSource.getConnection();
+				final PreparedStatement selectStatement = conn.prepareStatement(
+						DataSetManagerSQLStatements.SqlStatements.DELETE_DATASET.getSqlStatement());
+				selectStatement.setObject(1, dataSetID.getId());
+				if (DEBUG_ENABLED) {
+					logger.debug("[==DB==] Executing " + selectStatement);
 				}
+				selectStatement.executeUpdate();
+
 			} catch (final SQLException e) {
-				e.printStackTrace();
+				// not found, ignore
+				// e.printStackTrace();
+			} finally {
+				try {
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException e) {
+					e.printStackTrace();
+				}
 			}
 		}
-
 	}
 
 	/**
@@ -254,37 +264,40 @@ public final class DataSetManagerDB {
 	 * @return The DataSets
 	 */
 	public List<DataSet> getDataSetsWithProvider(final AccountID providerAccountID) {
-		ResultSet rs = null;
-		final List<DataSet> result = new ArrayList<>();
-		Connection conn = null;
-		try {
-			conn = dataSource.getConnection();
-			final PreparedStatement selectStatement = conn.prepareStatement(
-					DataSetManagerSQLStatements.SqlStatements.SELECT_ACCOUNT_DATASETS.getSqlStatement());
-			selectStatement.setObject(1, providerAccountID.getId());
-			if (DEBUG_ENABLED) {
-				logger.debug("[==DB==] Executing " + selectStatement);
-			}
-			rs = selectStatement.executeQuery();
-			while (rs.next()) {
-				result.add(deserializeDataSet(rs));
-			}
-		} catch (final SQLException e) {
-			e.printStackTrace();
-		} finally {
+		synchronized (dataSource) {
+
+			ResultSet rs = null;
+			final List<DataSet> result = new ArrayList<>();
+			Connection conn = null;
 			try {
-				if (rs != null) {
-					rs.close();
+				conn = dataSource.getConnection();
+				final PreparedStatement selectStatement = conn.prepareStatement(
+						DataSetManagerSQLStatements.SqlStatements.SELECT_ACCOUNT_DATASETS.getSqlStatement());
+				selectStatement.setObject(1, providerAccountID.getId());
+				if (DEBUG_ENABLED) {
+					logger.debug("[==DB==] Executing " + selectStatement);
 				}
-				if (conn != null) {
-					conn.close();
+				rs = selectStatement.executeQuery();
+				while (rs.next()) {
+					result.add(deserializeDataSet(rs));
 				}
 			} catch (final SQLException e) {
 				e.printStackTrace();
+			} finally {
+				try {
+					if (rs != null) {
+						rs.close();
+					}
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException e) {
+					e.printStackTrace();
+				}
 			}
-		}
 
-		return result;
+			return result;
+		}
 	}
 
 	/**
@@ -296,39 +309,42 @@ public final class DataSetManagerDB {
 	 *             if not found
 	 */
 	public DataSet getDataSetByName(final String name) {
-		ResultSet rs = null;
-		DataSet result = null;
-		Connection conn = null;
-		try {
-			conn = dataSource.getConnection();
-			final PreparedStatement selectStatement = conn.prepareStatement(
-					DataSetManagerSQLStatements.SqlStatements.SELECT_DATASET_BY_NAME.getSqlStatement());
+		synchronized (dataSource) {
 
-			selectStatement.setString(1, name);
-			if (DEBUG_ENABLED) {
-				logger.debug("[==DB==] Executing " + selectStatement);
-			}
-			rs = selectStatement.executeQuery();
-			if (rs.next()) {
-				result = deserializeDataSet(rs);
-
-			}
-		} catch (final SQLException e) {
-			// ignore
-		} finally {
+			ResultSet rs = null;
+			DataSet result = null;
+			Connection conn = null;
 			try {
-				if (rs != null) {
-					rs.close();
+				conn = dataSource.getConnection();
+				final PreparedStatement selectStatement = conn.prepareStatement(
+						DataSetManagerSQLStatements.SqlStatements.SELECT_DATASET_BY_NAME.getSqlStatement());
+
+				selectStatement.setString(1, name);
+				if (DEBUG_ENABLED) {
+					logger.debug("[==DB==] Executing " + selectStatement);
 				}
-				if (conn != null) {
-					conn.close();
+				rs = selectStatement.executeQuery();
+				if (rs.next()) {
+					result = deserializeDataSet(rs);
+
 				}
 			} catch (final SQLException e) {
-				e.printStackTrace();
+				// ignore
+			} finally {
+				try {
+					if (rs != null) {
+						rs.close();
+					}
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException e) {
+					e.printStackTrace();
+				}
 			}
-		}
 
-		return result;
+			return result;
+		}
 	}
 
 	/**
@@ -336,36 +352,39 @@ public final class DataSetManagerDB {
 	 * @return Set of datasets
 	 */
 	public Set<DataSet> getPublicDataSets() {
-		ResultSet rs = null;
-		final Set<DataSet> result = new HashSet<>();
-		Connection conn = null;
-		try {
-			conn = dataSource.getConnection();
-			final PreparedStatement selectStatement = conn.prepareStatement(
-					DataSetManagerSQLStatements.SqlStatements.SELECT_PUBLIC_DATASETS.getSqlStatement());
-			if (DEBUG_ENABLED) {
-				logger.debug("[==DB==] Executing " + selectStatement);
-			}
-			rs = selectStatement.executeQuery();
-			while (rs.next()) {
-				result.add(deserializeDataSet(rs));
-			}
-		} catch (final SQLException e) {
-			// ignore
-		} finally {
+		synchronized (dataSource) {
+
+			ResultSet rs = null;
+			final Set<DataSet> result = new HashSet<>();
+			Connection conn = null;
 			try {
-				if (rs != null) {
-					rs.close();
+				conn = dataSource.getConnection();
+				final PreparedStatement selectStatement = conn.prepareStatement(
+						DataSetManagerSQLStatements.SqlStatements.SELECT_PUBLIC_DATASETS.getSqlStatement());
+				if (DEBUG_ENABLED) {
+					logger.debug("[==DB==] Executing " + selectStatement);
 				}
-				if (conn != null) {
-					conn.close();
+				rs = selectStatement.executeQuery();
+				while (rs.next()) {
+					result.add(deserializeDataSet(rs));
 				}
 			} catch (final SQLException e) {
-				e.printStackTrace();
+				// ignore
+			} finally {
+				try {
+					if (rs != null) {
+						rs.close();
+					}
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException e) {
+					e.printStackTrace();
+				}
 			}
-		}
 
-		return result;
+			return result;
+		}
 	}
 
 	/**
