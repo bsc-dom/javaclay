@@ -37,6 +37,7 @@ public class SQLiteHandlerConfig extends DBHandlerConf {
 		return folder;
 	}
 
+
 	@Override
 	public DBHandler getDBHandler() {
 		// create directory

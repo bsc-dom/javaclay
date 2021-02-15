@@ -503,11 +503,7 @@ public final class TestUtils {
 	}
 
 	public static void cleanDirectory(final String dirName) {
-		try {
-			FileUtils.cleanDirectory(new File(dirName));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+
 	}
 
 	public static void deleteDirectory(final String dirName) {

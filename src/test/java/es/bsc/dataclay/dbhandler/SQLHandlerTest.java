@@ -9,6 +9,9 @@ package es.bsc.dataclay.dbhandler;
 
 import static org.junit.Assert.assertTrue;
 
+import es.bsc.dataclay.dbhandler.sql.sqlite.SQLiteHandler;
+import es.bsc.dataclay.util.Configuration;
+import es.bsc.dataclay.util.FileAndAspectsUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,13 +22,15 @@ import es.bsc.dataclay.dbhandler.sql.SQLHandler;
 import es.bsc.dataclay.dbhandler.sql.sqlite.SQLiteHandlerConfig;
 import es.bsc.dataclay.util.Configuration.Flags;
 
+import java.io.File;
+
 /**
  * @brief This class tests the openings, closes and basic operations of the DbHandler class.
  */
 public final class SQLHandlerTest {
 
 	/** Tested database. */
-	private SQLHandler testDb;
+	private SQLiteHandler testDb;
 
 	/** DbHandler common tester. */
 	private DbHandlerCommonTester commonTester;
@@ -38,7 +43,7 @@ public final class SQLHandlerTest {
 	private SQLHandler<?> initDBHandler() {
 		switch (dbHandlerType) {
 		case SQLITE:
-			return (SQLHandler<?>) new SQLiteHandlerConfig("test", true).getDBHandler();
+			return (SQLHandler<?>) new SQLiteHandlerConfig("test", false).getDBHandler();
 		default:
 			throw new IllegalArgumentException(dbHandlerType + " not yet supported");
 		}
@@ -46,17 +51,18 @@ public final class SQLHandlerTest {
 
 	@Before
 	public void before() {
-		testDb = initDBHandler();
+		Configuration.Flags.STORAGE_PATH.setValue(System.getProperty("user.dir") + "/dbfiles");
+		testDb = (SQLiteHandler) initDBHandler();
 		testDb.open();
-		testDb.dropAllDatabases();
-		testDb.createTables();
+		//testDb.dropAllDatabases();
 		commonTester = new DbHandlerCommonTester(testDb);
 	}
 
 	@After
 	public void after() throws Exception {
+		testDb.dropAllDatabases();
 		testDb.close();
-		// testDb.dropDatabase();
+		FileAndAspectsUtils.deleteFolderContent(new File(Configuration.Flags.STORAGE_PATH.getStringValue()));
 	}
 
 	@Test
