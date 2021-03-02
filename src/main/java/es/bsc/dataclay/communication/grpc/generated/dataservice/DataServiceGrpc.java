@@ -340,37 +340,6 @@ public final class DataServiceGrpc {
     return getGetObjectsMethod;
   }
 
-  private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NewMetaDataRequest,
-      es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> getNewMetaDataMethod;
-
-  @io.grpc.stub.annotations.RpcMethod(
-      fullMethodName = SERVICE_NAME + '/' + "newMetaData",
-      requestType = es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NewMetaDataRequest.class,
-      responseType = es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.class,
-      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
-  public static io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NewMetaDataRequest,
-      es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> getNewMetaDataMethod() {
-    io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NewMetaDataRequest, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> getNewMetaDataMethod;
-    if ((getNewMetaDataMethod = DataServiceGrpc.getNewMetaDataMethod) == null) {
-      synchronized (DataServiceGrpc.class) {
-        if ((getNewMetaDataMethod = DataServiceGrpc.getNewMetaDataMethod) == null) {
-          DataServiceGrpc.getNewMetaDataMethod = getNewMetaDataMethod =
-              io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NewMetaDataRequest, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>newBuilder()
-              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "newMetaData"))
-              .setSampledToLocalTracing(true)
-              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NewMetaDataRequest.getDefaultInstance()))
-              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.getDefaultInstance()))
-              .setSchemaDescriptor(new DataServiceMethodDescriptorSupplier("newMetaData"))
-              .build();
-        }
-      }
-    }
-    return getNewMetaDataMethod;
-  }
-
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NewVersionRequest,
       es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NewVersionResponse> getNewVersionMethod;
 
@@ -743,6 +712,68 @@ public final class DataServiceGrpc {
     return getUnfederateMethod;
   }
 
+  private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyFederationRequest,
+      es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> getNotifyFederationMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "notifyFederation",
+      requestType = es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyFederationRequest.class,
+      responseType = es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyFederationRequest,
+      es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> getNotifyFederationMethod() {
+    io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyFederationRequest, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> getNotifyFederationMethod;
+    if ((getNotifyFederationMethod = DataServiceGrpc.getNotifyFederationMethod) == null) {
+      synchronized (DataServiceGrpc.class) {
+        if ((getNotifyFederationMethod = DataServiceGrpc.getNotifyFederationMethod) == null) {
+          DataServiceGrpc.getNotifyFederationMethod = getNotifyFederationMethod =
+              io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyFederationRequest, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "notifyFederation"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyFederationRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.getDefaultInstance()))
+              .setSchemaDescriptor(new DataServiceMethodDescriptorSupplier("notifyFederation"))
+              .build();
+        }
+      }
+    }
+    return getNotifyFederationMethod;
+  }
+
+  private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyUnfederationRequest,
+      es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> getNotifyUnfederationMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "notifyUnfederation",
+      requestType = es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyUnfederationRequest.class,
+      responseType = es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyUnfederationRequest,
+      es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> getNotifyUnfederationMethod() {
+    io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyUnfederationRequest, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> getNotifyUnfederationMethod;
+    if ((getNotifyUnfederationMethod = DataServiceGrpc.getNotifyUnfederationMethod) == null) {
+      synchronized (DataServiceGrpc.class) {
+        if ((getNotifyUnfederationMethod = DataServiceGrpc.getNotifyUnfederationMethod) == null) {
+          DataServiceGrpc.getNotifyUnfederationMethod = getNotifyUnfederationMethod =
+              io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyUnfederationRequest, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "notifyUnfederation"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyUnfederationRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.getDefaultInstance()))
+              .setSchemaDescriptor(new DataServiceMethodDescriptorSupplier("notifyUnfederation"))
+              .build();
+        }
+      }
+    }
+    return getNotifyUnfederationMethod;
+  }
+
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.ExistsRequest,
       es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.ExistsResponse> getExistsMethod;
 
@@ -774,97 +805,35 @@ public final class DataServiceGrpc {
     return getExistsMethod;
   }
 
-  private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetFederatedObjectsRequest,
-      es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetFederatedObjectsResponse> getGetFederatedObjectsMethod;
+  private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.SynchronizeRequest,
+      es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> getSynchronizeMethod;
 
   @io.grpc.stub.annotations.RpcMethod(
-      fullMethodName = SERVICE_NAME + '/' + "getFederatedObjects",
-      requestType = es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetFederatedObjectsRequest.class,
-      responseType = es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetFederatedObjectsResponse.class,
+      fullMethodName = SERVICE_NAME + '/' + "synchronize",
+      requestType = es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.SynchronizeRequest.class,
+      responseType = es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.class,
       methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
-  public static io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetFederatedObjectsRequest,
-      es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetFederatedObjectsResponse> getGetFederatedObjectsMethod() {
-    io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetFederatedObjectsRequest, es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetFederatedObjectsResponse> getGetFederatedObjectsMethod;
-    if ((getGetFederatedObjectsMethod = DataServiceGrpc.getGetFederatedObjectsMethod) == null) {
+  public static io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.SynchronizeRequest,
+      es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> getSynchronizeMethod() {
+    io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.SynchronizeRequest, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> getSynchronizeMethod;
+    if ((getSynchronizeMethod = DataServiceGrpc.getSynchronizeMethod) == null) {
       synchronized (DataServiceGrpc.class) {
-        if ((getGetFederatedObjectsMethod = DataServiceGrpc.getGetFederatedObjectsMethod) == null) {
-          DataServiceGrpc.getGetFederatedObjectsMethod = getGetFederatedObjectsMethod =
-              io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetFederatedObjectsRequest, es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetFederatedObjectsResponse>newBuilder()
+        if ((getSynchronizeMethod = DataServiceGrpc.getSynchronizeMethod) == null) {
+          DataServiceGrpc.getSynchronizeMethod = getSynchronizeMethod =
+              io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.SynchronizeRequest, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "getFederatedObjects"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "synchronize"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetFederatedObjectsRequest.getDefaultInstance()))
+                  es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.SynchronizeRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetFederatedObjectsResponse.getDefaultInstance()))
-              .setSchemaDescriptor(new DataServiceMethodDescriptorSupplier("getFederatedObjects"))
+                  es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.getDefaultInstance()))
+              .setSchemaDescriptor(new DataServiceMethodDescriptorSupplier("synchronize"))
               .build();
         }
       }
     }
-    return getGetFederatedObjectsMethod;
-  }
-
-  private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetReferencedObjectIDsRequest,
-      es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetReferencedObjectIDsResponse> getGetReferencedObjectsIDsMethod;
-
-  @io.grpc.stub.annotations.RpcMethod(
-      fullMethodName = SERVICE_NAME + '/' + "getReferencedObjectsIDs",
-      requestType = es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetReferencedObjectIDsRequest.class,
-      responseType = es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetReferencedObjectIDsResponse.class,
-      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
-  public static io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetReferencedObjectIDsRequest,
-      es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetReferencedObjectIDsResponse> getGetReferencedObjectsIDsMethod() {
-    io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetReferencedObjectIDsRequest, es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetReferencedObjectIDsResponse> getGetReferencedObjectsIDsMethod;
-    if ((getGetReferencedObjectsIDsMethod = DataServiceGrpc.getGetReferencedObjectsIDsMethod) == null) {
-      synchronized (DataServiceGrpc.class) {
-        if ((getGetReferencedObjectsIDsMethod = DataServiceGrpc.getGetReferencedObjectsIDsMethod) == null) {
-          DataServiceGrpc.getGetReferencedObjectsIDsMethod = getGetReferencedObjectsIDsMethod =
-              io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetReferencedObjectIDsRequest, es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetReferencedObjectIDsResponse>newBuilder()
-              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "getReferencedObjectsIDs"))
-              .setSampledToLocalTracing(true)
-              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetReferencedObjectIDsRequest.getDefaultInstance()))
-              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetReferencedObjectIDsResponse.getDefaultInstance()))
-              .setSchemaDescriptor(new DataServiceMethodDescriptorSupplier("getReferencedObjectsIDs"))
-              .build();
-        }
-      }
-    }
-    return getGetReferencedObjectsIDsMethod;
-  }
-
-  private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.FilterObjectRequest,
-      es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.FilterObjectResponse> getFilterObjectMethod;
-
-  @io.grpc.stub.annotations.RpcMethod(
-      fullMethodName = SERVICE_NAME + '/' + "filterObject",
-      requestType = es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.FilterObjectRequest.class,
-      responseType = es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.FilterObjectResponse.class,
-      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
-  public static io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.FilterObjectRequest,
-      es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.FilterObjectResponse> getFilterObjectMethod() {
-    io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.FilterObjectRequest, es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.FilterObjectResponse> getFilterObjectMethod;
-    if ((getFilterObjectMethod = DataServiceGrpc.getFilterObjectMethod) == null) {
-      synchronized (DataServiceGrpc.class) {
-        if ((getFilterObjectMethod = DataServiceGrpc.getFilterObjectMethod) == null) {
-          DataServiceGrpc.getFilterObjectMethod = getFilterObjectMethod =
-              io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.FilterObjectRequest, es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.FilterObjectResponse>newBuilder()
-              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "filterObject"))
-              .setSampledToLocalTracing(true)
-              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.FilterObjectRequest.getDefaultInstance()))
-              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.FilterObjectResponse.getDefaultInstance()))
-              .setSchemaDescriptor(new DataServiceMethodDescriptorSupplier("filterObject"))
-              .build();
-        }
-      }
-    }
-    return getFilterObjectMethod;
+    return getSynchronizeMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.StoreToDBRequest,
@@ -1502,13 +1471,6 @@ public final class DataServiceGrpc {
 
     /**
      */
-    public void newMetaData(es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NewMetaDataRequest request,
-        io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
-      asyncUnimplementedUnaryCall(getNewMetaDataMethod(), responseObserver);
-    }
-
-    /**
-     */
     public void newVersion(es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NewVersionRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NewVersionResponse> responseObserver) {
       asyncUnimplementedUnaryCall(getNewVersionMethod(), responseObserver);
@@ -1593,36 +1555,30 @@ public final class DataServiceGrpc {
 
     /**
      */
+    public void notifyFederation(es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyFederationRequest request,
+        io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
+      asyncUnimplementedUnaryCall(getNotifyFederationMethod(), responseObserver);
+    }
+
+    /**
+     */
+    public void notifyUnfederation(es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyUnfederationRequest request,
+        io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
+      asyncUnimplementedUnaryCall(getNotifyUnfederationMethod(), responseObserver);
+    }
+
+    /**
+     */
     public void exists(es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.ExistsRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.ExistsResponse> responseObserver) {
       asyncUnimplementedUnaryCall(getExistsMethod(), responseObserver);
     }
 
     /**
-     * <pre>
-     * Federation
-     * </pre>
      */
-    public void getFederatedObjects(es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetFederatedObjectsRequest request,
-        io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetFederatedObjectsResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getGetFederatedObjectsMethod(), responseObserver);
-    }
-
-    /**
-     */
-    public void getReferencedObjectsIDs(es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetReferencedObjectIDsRequest request,
-        io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetReferencedObjectIDsResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getGetReferencedObjectsIDsMethod(), responseObserver);
-    }
-
-    /**
-     * <pre>
-     * Filtering
-     * </pre>
-     */
-    public void filterObject(es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.FilterObjectRequest request,
-        io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.FilterObjectResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getFilterObjectMethod(), responseObserver);
+    public void synchronize(es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.SynchronizeRequest request,
+        io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
+      asyncUnimplementedUnaryCall(getSynchronizeMethod(), responseObserver);
     }
 
     /**
@@ -1829,13 +1785,6 @@ public final class DataServiceGrpc {
                 es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetObjectsResponse>(
                   this, METHODID_GET_OBJECTS)))
           .addMethod(
-            getNewMetaDataMethod(),
-            asyncUnaryCall(
-              new MethodHandlers<
-                es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NewMetaDataRequest,
-                es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>(
-                  this, METHODID_NEW_META_DATA)))
-          .addMethod(
             getNewVersionMethod(),
             asyncUnaryCall(
               new MethodHandlers<
@@ -1920,6 +1869,20 @@ public final class DataServiceGrpc {
                 es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>(
                   this, METHODID_UNFEDERATE)))
           .addMethod(
+            getNotifyFederationMethod(),
+            asyncUnaryCall(
+              new MethodHandlers<
+                es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyFederationRequest,
+                es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>(
+                  this, METHODID_NOTIFY_FEDERATION)))
+          .addMethod(
+            getNotifyUnfederationMethod(),
+            asyncUnaryCall(
+              new MethodHandlers<
+                es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyUnfederationRequest,
+                es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>(
+                  this, METHODID_NOTIFY_UNFEDERATION)))
+          .addMethod(
             getExistsMethod(),
             asyncUnaryCall(
               new MethodHandlers<
@@ -1927,26 +1890,12 @@ public final class DataServiceGrpc {
                 es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.ExistsResponse>(
                   this, METHODID_EXISTS)))
           .addMethod(
-            getGetFederatedObjectsMethod(),
+            getSynchronizeMethod(),
             asyncUnaryCall(
               new MethodHandlers<
-                es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetFederatedObjectsRequest,
-                es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetFederatedObjectsResponse>(
-                  this, METHODID_GET_FEDERATED_OBJECTS)))
-          .addMethod(
-            getGetReferencedObjectsIDsMethod(),
-            asyncUnaryCall(
-              new MethodHandlers<
-                es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetReferencedObjectIDsRequest,
-                es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetReferencedObjectIDsResponse>(
-                  this, METHODID_GET_REFERENCED_OBJECTS_IDS)))
-          .addMethod(
-            getFilterObjectMethod(),
-            asyncUnaryCall(
-              new MethodHandlers<
-                es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.FilterObjectRequest,
-                es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.FilterObjectResponse>(
-                  this, METHODID_FILTER_OBJECT)))
+                es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.SynchronizeRequest,
+                es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>(
+                  this, METHODID_SYNCHRONIZE)))
           .addMethod(
             getStoreToDBMethod(),
             asyncUnaryCall(
@@ -2179,14 +2128,6 @@ public final class DataServiceGrpc {
 
     /**
      */
-    public void newMetaData(es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NewMetaDataRequest request,
-        io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
-      asyncUnaryCall(
-          getChannel().newCall(getNewMetaDataMethod(), getCallOptions()), request, responseObserver);
-    }
-
-    /**
-     */
     public void newVersion(es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NewVersionRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NewVersionResponse> responseObserver) {
       asyncUnaryCall(
@@ -2283,6 +2224,22 @@ public final class DataServiceGrpc {
 
     /**
      */
+    public void notifyFederation(es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyFederationRequest request,
+        io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(getNotifyFederationMethod(), getCallOptions()), request, responseObserver);
+    }
+
+    /**
+     */
+    public void notifyUnfederation(es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyUnfederationRequest request,
+        io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(getNotifyUnfederationMethod(), getCallOptions()), request, responseObserver);
+    }
+
+    /**
+     */
     public void exists(es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.ExistsRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.ExistsResponse> responseObserver) {
       asyncUnaryCall(
@@ -2290,33 +2247,11 @@ public final class DataServiceGrpc {
     }
 
     /**
-     * <pre>
-     * Federation
-     * </pre>
      */
-    public void getFederatedObjects(es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetFederatedObjectsRequest request,
-        io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetFederatedObjectsResponse> responseObserver) {
+    public void synchronize(es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.SynchronizeRequest request,
+        io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
       asyncUnaryCall(
-          getChannel().newCall(getGetFederatedObjectsMethod(), getCallOptions()), request, responseObserver);
-    }
-
-    /**
-     */
-    public void getReferencedObjectsIDs(es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetReferencedObjectIDsRequest request,
-        io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetReferencedObjectIDsResponse> responseObserver) {
-      asyncUnaryCall(
-          getChannel().newCall(getGetReferencedObjectsIDsMethod(), getCallOptions()), request, responseObserver);
-    }
-
-    /**
-     * <pre>
-     * Filtering
-     * </pre>
-     */
-    public void filterObject(es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.FilterObjectRequest request,
-        io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.FilterObjectResponse> responseObserver) {
-      asyncUnaryCall(
-          getChannel().newCall(getFilterObjectMethod(), getCallOptions()), request, responseObserver);
+          getChannel().newCall(getSynchronizeMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
@@ -2567,13 +2502,6 @@ public final class DataServiceGrpc {
 
     /**
      */
-    public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo newMetaData(es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NewMetaDataRequest request) {
-      return blockingUnaryCall(
-          getChannel(), getNewMetaDataMethod(), getCallOptions(), request);
-    }
-
-    /**
-     */
     public es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NewVersionResponse newVersion(es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NewVersionRequest request) {
       return blockingUnaryCall(
           getChannel(), getNewVersionMethod(), getCallOptions(), request);
@@ -2658,36 +2586,30 @@ public final class DataServiceGrpc {
 
     /**
      */
+    public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo notifyFederation(es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyFederationRequest request) {
+      return blockingUnaryCall(
+          getChannel(), getNotifyFederationMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
+    public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo notifyUnfederation(es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyUnfederationRequest request) {
+      return blockingUnaryCall(
+          getChannel(), getNotifyUnfederationMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
     public es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.ExistsResponse exists(es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.ExistsRequest request) {
       return blockingUnaryCall(
           getChannel(), getExistsMethod(), getCallOptions(), request);
     }
 
     /**
-     * <pre>
-     * Federation
-     * </pre>
      */
-    public es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetFederatedObjectsResponse getFederatedObjects(es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetFederatedObjectsRequest request) {
+    public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo synchronize(es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.SynchronizeRequest request) {
       return blockingUnaryCall(
-          getChannel(), getGetFederatedObjectsMethod(), getCallOptions(), request);
-    }
-
-    /**
-     */
-    public es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetReferencedObjectIDsResponse getReferencedObjectsIDs(es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetReferencedObjectIDsRequest request) {
-      return blockingUnaryCall(
-          getChannel(), getGetReferencedObjectsIDsMethod(), getCallOptions(), request);
-    }
-
-    /**
-     * <pre>
-     * Filtering
-     * </pre>
-     */
-    public es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.FilterObjectResponse filterObject(es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.FilterObjectRequest request) {
-      return blockingUnaryCall(
-          getChannel(), getFilterObjectMethod(), getCallOptions(), request);
+          getChannel(), getSynchronizeMethod(), getCallOptions(), request);
     }
 
     /**
@@ -2931,14 +2853,6 @@ public final class DataServiceGrpc {
 
     /**
      */
-    public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> newMetaData(
-        es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NewMetaDataRequest request) {
-      return futureUnaryCall(
-          getChannel().newCall(getNewMetaDataMethod(), getCallOptions()), request);
-    }
-
-    /**
-     */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NewVersionResponse> newVersion(
         es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NewVersionRequest request) {
       return futureUnaryCall(
@@ -3035,6 +2949,22 @@ public final class DataServiceGrpc {
 
     /**
      */
+    public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> notifyFederation(
+        es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyFederationRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(getNotifyFederationMethod(), getCallOptions()), request);
+    }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> notifyUnfederation(
+        es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyUnfederationRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(getNotifyUnfederationMethod(), getCallOptions()), request);
+    }
+
+    /**
+     */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.ExistsResponse> exists(
         es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.ExistsRequest request) {
       return futureUnaryCall(
@@ -3042,33 +2972,11 @@ public final class DataServiceGrpc {
     }
 
     /**
-     * <pre>
-     * Federation
-     * </pre>
      */
-    public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetFederatedObjectsResponse> getFederatedObjects(
-        es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetFederatedObjectsRequest request) {
+    public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> synchronize(
+        es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.SynchronizeRequest request) {
       return futureUnaryCall(
-          getChannel().newCall(getGetFederatedObjectsMethod(), getCallOptions()), request);
-    }
-
-    /**
-     */
-    public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetReferencedObjectIDsResponse> getReferencedObjectsIDs(
-        es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetReferencedObjectIDsRequest request) {
-      return futureUnaryCall(
-          getChannel().newCall(getGetReferencedObjectsIDsMethod(), getCallOptions()), request);
-    }
-
-    /**
-     * <pre>
-     * Filtering
-     * </pre>
-     */
-    public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.FilterObjectResponse> filterObject(
-        es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.FilterObjectRequest request) {
-      return futureUnaryCall(
-          getChannel().newCall(getFilterObjectMethod(), getCallOptions()), request);
+          getChannel().newCall(getSynchronizeMethod(), getCallOptions()), request);
     }
 
     /**
@@ -3230,40 +3138,39 @@ public final class DataServiceGrpc {
   private static final int METHODID_GET_COPY_OF_OBJECT = 7;
   private static final int METHODID_UPDATE_OBJECT = 8;
   private static final int METHODID_GET_OBJECTS = 9;
-  private static final int METHODID_NEW_META_DATA = 10;
-  private static final int METHODID_NEW_VERSION = 11;
-  private static final int METHODID_CONSOLIDATE_VERSION = 12;
-  private static final int METHODID_UPSERT_OBJECTS = 13;
-  private static final int METHODID_NEW_REPLICA = 14;
-  private static final int METHODID_MOVE_OBJECTS = 15;
-  private static final int METHODID_REMOVE_OBJECTS = 16;
-  private static final int METHODID_MIGRATE_OBJECTS_TO_BACKENDS = 17;
-  private static final int METHODID_GET_CLASS_IDFROM_OBJECT_IN_MEMORY = 18;
-  private static final int METHODID_EXECUTE_IMPLEMENTATION = 19;
-  private static final int METHODID_MAKE_PERSISTENT = 20;
-  private static final int METHODID_FEDERATE = 21;
-  private static final int METHODID_UNFEDERATE = 22;
-  private static final int METHODID_EXISTS = 23;
-  private static final int METHODID_GET_FEDERATED_OBJECTS = 24;
-  private static final int METHODID_GET_REFERENCED_OBJECTS_IDS = 25;
-  private static final int METHODID_FILTER_OBJECT = 26;
-  private static final int METHODID_STORE_TO_DB = 27;
-  private static final int METHODID_GET_FROM_DB = 28;
-  private static final int METHODID_UPDATE_TO_DB = 29;
-  private static final int METHODID_DELETE_TO_DB = 30;
-  private static final int METHODID_EXISTS_IN_DB = 31;
-  private static final int METHODID_CLEAN_EXECUTION_CLASS_DIRECTORY = 32;
-  private static final int METHODID_CLOSE_DB_HANDLER = 33;
-  private static final int METHODID_SHUT_DOWN = 34;
-  private static final int METHODID_DISCONNECT_FROM_OTHERS = 35;
-  private static final int METHODID_REGISTER_PENDING_OBJECTS = 36;
-  private static final int METHODID_CLEAN_CACHES = 37;
-  private static final int METHODID_ACTIVATE_TRACING = 38;
-  private static final int METHODID_DEACTIVATE_TRACING = 39;
-  private static final int METHODID_GET_TRACES = 40;
-  private static final int METHODID_CLOSE_SESSION_IN_DS = 41;
-  private static final int METHODID_UPDATE_REFS = 42;
-  private static final int METHODID_GET_RETAINED_REFERENCES = 43;
+  private static final int METHODID_NEW_VERSION = 10;
+  private static final int METHODID_CONSOLIDATE_VERSION = 11;
+  private static final int METHODID_UPSERT_OBJECTS = 12;
+  private static final int METHODID_NEW_REPLICA = 13;
+  private static final int METHODID_MOVE_OBJECTS = 14;
+  private static final int METHODID_REMOVE_OBJECTS = 15;
+  private static final int METHODID_MIGRATE_OBJECTS_TO_BACKENDS = 16;
+  private static final int METHODID_GET_CLASS_IDFROM_OBJECT_IN_MEMORY = 17;
+  private static final int METHODID_EXECUTE_IMPLEMENTATION = 18;
+  private static final int METHODID_MAKE_PERSISTENT = 19;
+  private static final int METHODID_FEDERATE = 20;
+  private static final int METHODID_UNFEDERATE = 21;
+  private static final int METHODID_NOTIFY_FEDERATION = 22;
+  private static final int METHODID_NOTIFY_UNFEDERATION = 23;
+  private static final int METHODID_EXISTS = 24;
+  private static final int METHODID_SYNCHRONIZE = 25;
+  private static final int METHODID_STORE_TO_DB = 26;
+  private static final int METHODID_GET_FROM_DB = 27;
+  private static final int METHODID_UPDATE_TO_DB = 28;
+  private static final int METHODID_DELETE_TO_DB = 29;
+  private static final int METHODID_EXISTS_IN_DB = 30;
+  private static final int METHODID_CLEAN_EXECUTION_CLASS_DIRECTORY = 31;
+  private static final int METHODID_CLOSE_DB_HANDLER = 32;
+  private static final int METHODID_SHUT_DOWN = 33;
+  private static final int METHODID_DISCONNECT_FROM_OTHERS = 34;
+  private static final int METHODID_REGISTER_PENDING_OBJECTS = 35;
+  private static final int METHODID_CLEAN_CACHES = 36;
+  private static final int METHODID_ACTIVATE_TRACING = 37;
+  private static final int METHODID_DEACTIVATE_TRACING = 38;
+  private static final int METHODID_GET_TRACES = 39;
+  private static final int METHODID_CLOSE_SESSION_IN_DS = 40;
+  private static final int METHODID_UPDATE_REFS = 41;
+  private static final int METHODID_GET_RETAINED_REFERENCES = 42;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -3322,10 +3229,6 @@ public final class DataServiceGrpc {
           serviceImpl.getObjects((es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetObjectsRequest) request,
               (io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetObjectsResponse>) responseObserver);
           break;
-        case METHODID_NEW_META_DATA:
-          serviceImpl.newMetaData((es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NewMetaDataRequest) request,
-              (io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>) responseObserver);
-          break;
         case METHODID_NEW_VERSION:
           serviceImpl.newVersion((es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NewVersionRequest) request,
               (io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NewVersionResponse>) responseObserver);
@@ -3374,21 +3277,21 @@ public final class DataServiceGrpc {
           serviceImpl.unfederate((es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.UnfederateRequest) request,
               (io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>) responseObserver);
           break;
+        case METHODID_NOTIFY_FEDERATION:
+          serviceImpl.notifyFederation((es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyFederationRequest) request,
+              (io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>) responseObserver);
+          break;
+        case METHODID_NOTIFY_UNFEDERATION:
+          serviceImpl.notifyUnfederation((es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyUnfederationRequest) request,
+              (io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>) responseObserver);
+          break;
         case METHODID_EXISTS:
           serviceImpl.exists((es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.ExistsRequest) request,
               (io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.ExistsResponse>) responseObserver);
           break;
-        case METHODID_GET_FEDERATED_OBJECTS:
-          serviceImpl.getFederatedObjects((es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetFederatedObjectsRequest) request,
-              (io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetFederatedObjectsResponse>) responseObserver);
-          break;
-        case METHODID_GET_REFERENCED_OBJECTS_IDS:
-          serviceImpl.getReferencedObjectsIDs((es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetReferencedObjectIDsRequest) request,
-              (io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetReferencedObjectIDsResponse>) responseObserver);
-          break;
-        case METHODID_FILTER_OBJECT:
-          serviceImpl.filterObject((es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.FilterObjectRequest) request,
-              (io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.FilterObjectResponse>) responseObserver);
+        case METHODID_SYNCHRONIZE:
+          serviceImpl.synchronize((es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.SynchronizeRequest) request,
+              (io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>) responseObserver);
           break;
         case METHODID_STORE_TO_DB:
           serviceImpl.storeToDB((es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.StoreToDBRequest) request,
@@ -3529,7 +3432,6 @@ public final class DataServiceGrpc {
               .addMethod(getGetCopyOfObjectMethod())
               .addMethod(getUpdateObjectMethod())
               .addMethod(getGetObjectsMethod())
-              .addMethod(getNewMetaDataMethod())
               .addMethod(getNewVersionMethod())
               .addMethod(getConsolidateVersionMethod())
               .addMethod(getUpsertObjectsMethod())
@@ -3542,10 +3444,10 @@ public final class DataServiceGrpc {
               .addMethod(getMakePersistentMethod())
               .addMethod(getFederateMethod())
               .addMethod(getUnfederateMethod())
+              .addMethod(getNotifyFederationMethod())
+              .addMethod(getNotifyUnfederationMethod())
               .addMethod(getExistsMethod())
-              .addMethod(getGetFederatedObjectsMethod())
-              .addMethod(getGetReferencedObjectsIDsMethod())
-              .addMethod(getFilterObjectMethod())
+              .addMethod(getSynchronizeMethod())
               .addMethod(getStoreToDBMethod())
               .addMethod(getGetFromDBMethod())
               .addMethod(getUpdateToDBMethod())

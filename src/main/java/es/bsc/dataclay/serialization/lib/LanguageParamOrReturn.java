@@ -68,7 +68,9 @@ public final class LanguageParamOrReturn implements DataClaySerializable {
 		wrapper.serialize(dcBuffer, false, ifaceBitMaps, curSerializedObjs, pendingObjs, referenceCounting);
 
 		// Set metadata
-		setMetaData(SerializationLibUtils.createMetaData(curSerializedObjs, null, 0));
+		setMetaData(SerializationLibUtils.createMetaData(curSerializedObjs, null,
+				0, null, null, null, null,
+				null, false));
 
 	}
 

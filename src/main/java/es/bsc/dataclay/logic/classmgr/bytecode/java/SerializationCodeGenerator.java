@@ -910,7 +910,6 @@ public final class SerializationCodeGenerator {
 		}
 		final String typePreffix = "es.bsc.dataclay.serialization.";
 		String wrapperTypeName = typePreffix + actualTypeName + "Wrapper";
-
 		// Check if wrapper exists
 		try {
 			if (Class.forName(wrapperTypeName) == null) {

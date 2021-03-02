@@ -14,6 +14,7 @@ import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+import es.bsc.dataclay.util.management.metadataservice.*;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -41,10 +42,6 @@ import es.bsc.dataclay.util.ids.MetaClassID;
 import es.bsc.dataclay.util.ids.ObjectID;
 import es.bsc.dataclay.util.ids.StorageLocationID;
 import es.bsc.dataclay.util.management.AbstractManager;
-import es.bsc.dataclay.util.management.metadataservice.DataClayInstance;
-import es.bsc.dataclay.util.management.metadataservice.ExecutionEnvironment;
-import es.bsc.dataclay.util.management.metadataservice.MetaDataInfo;
-import es.bsc.dataclay.util.management.metadataservice.StorageLocation;
 import es.bsc.dataclay.util.structs.LruCache;
 import es.bsc.dataclay.util.structs.Tuple;
 import es.bsc.dataclay.dbhandler.sql.sqlite.SQLiteDataSource;
@@ -88,8 +85,8 @@ public final class MetaDataService extends AbstractManager {
 	/**
 	 * Instantiates an MetaDataService that uses the Backend configuration provided.
 	 * 
-	 * @param managerName
-	 *            Manager/service name.
+	 * @param dataSource
+	 *            Data source.
 	 * @post Creates MetaDataService and initializes the backend.
 	 */
 	public MetaDataService(final SQLiteDataSource dataSource) {
@@ -101,6 +98,7 @@ public final class MetaDataService extends AbstractManager {
 		this.objectMDCache = new LruCache<>(Configuration.Flags.MAX_ENTRIES_METADATASERVICE_CACHE.getIntValue());
 		this.objectMDCacheByAlias = new LruCache<>(Configuration.Flags.MAX_ENTRIES_METADATASERVICE_CACHE.getIntValue());
 		this.externalDataClaysCache = new LruCache<>(Configuration.Flags.MAX_ENTRIES_METADATASERVICE_CACHE.getIntValue());
+
 		this.dataClaysPerHostPortCache = new LruCache<>(Configuration.Flags.MAX_ENTRIES_METADATASERVICE_CACHE.getIntValue());
 
 
@@ -200,9 +198,7 @@ public final class MetaDataService extends AbstractManager {
 
 	/**
 	 * Get object ID from alias
-	 * 
-	 * @param metaClassID
-	 *            ID of the class of the object
+	 *
 	 * @param alias
 	 *            Alias of the object
 	 * @return the ID of the object if it is found and its metadata
@@ -304,8 +300,8 @@ public final class MetaDataService extends AbstractManager {
 	 *            IDs of the backeds where the object is stored (replicas)
 	 * @param isReadOnly
 	 *            whether the object is readonly or not
-	 * @param aliases
-	 *            aliases for the object
+	 * @param alias
+	 *            alias for the object
 	 * @param lang
 	 *            Object language
 	 * @param ownerID
@@ -334,33 +330,48 @@ public final class MetaDataService extends AbstractManager {
 			newObjectID = DataClayRuntime.getObjectIDFromAlias(alias);
 		}
 
+		ObjectMetaData objectMDInfo = this.getObjectBasicMetaData(objectID);
+		if (objectMDInfo == null) {
+			final ObjectMetaData objectMD = new ObjectMetaData(newObjectID, metaClassID, datasetIDofProvider, backendIDs,
+					isReadOnly, alias, lang, ownerID);
 
-
-		final ObjectMetaData objectMD = new ObjectMetaData(newObjectID, metaClassID, datasetIDofProvider, backendIDs,
-				isReadOnly, alias, lang, ownerID);
-
-		if (DEBUG_ENABLED) {
-			logger.debug("Registering object " + objectID + " with alias: " + alias + " and language " + lang + ".");
-		}
-
-		try {
-			metadataDB.store(objectMD);
-		} catch (final DbObjectAlreadyExistException e) {
 			if (DEBUG_ENABLED) {
-				logger.debug("Object " + objectID + " already registered");
+				logger.debug("Registering object " + objectID + " with alias: " + alias + " and language " + lang + ".");
 			}
-			throw new ObjectAlreadyRegisteredException(objectID);
-		}
 
-		final ObjectID result = objectMD.getDataClayID(); // which now equals to objectID
+			try {
+				metadataDB.store(objectMD);
+			} catch (final DbObjectAlreadyExistException e) {
+				if (DEBUG_ENABLED) {
+					logger.debug("Object " + objectID + " already registered");
+				}
+				throw new ObjectAlreadyRegisteredException(objectID);
+			}
 
-		// Update cache
-		if (DEBUG_ENABLED) {
-			logger.debug("[==Register object==] Updating cache of metadatas: {} -> {}", objectID, objectMD);
+
+			final ObjectID result = objectMD.getDataClayID(); // which now equals to objectID
+
+			// Update cache
+			if (DEBUG_ENABLED) {
+				logger.debug("[==Register object==] Updating cache of metadatas: {} -> {}", objectID, objectMD);
+			}
+			objectMDCache.put(result, objectMD);
+			objectMDCacheByAlias.put(alias, objectMD);
+
+			return buildMetaDataInfo(objectMD);
+		} else {
+			// object is already registered, check if backend ids are different
+			// new registration caused by a new replica
+			Set<ExecutionEnvironmentID> currentLocations = objectMDInfo.getExecutionEnvironmentIDs();
+			if (currentLocations.containsAll(backendIDs)) {
+				throw new ObjectAlreadyRegisteredException(objectID);
+			} else {
+				logger.debug("[==Register object==] Updating locations of object {}, probably due to a new replica", objectID);
+				currentLocations.addAll(backendIDs);
+				metadataDB.updateLocationIDsByID(objectID, currentLocations);
+			}
+			return buildMetaDataInfo(objectMDInfo);
 		}
-		objectMDCache.put(result, objectMD);
-		objectMDCacheByAlias.put(alias, objectMD);
-		return buildMetaDataInfo(objectMD);
 	}
 
 	/**
@@ -495,65 +506,6 @@ public final class MetaDataService extends AbstractManager {
 			objectMDCacheByAlias.put(alias, versionMD);
 		}
 		return result;
-	}
-
-	/**
-	 * This operation registers a new replica of an object
-	 * 
-	 * @param objectID
-	 *            the object ID
-	 * @param newBackendID
-	 *            the location of the new replica
-	 * @throws Exception
-	 *             if an exception occurs: <br>
-	 *             ObjectNotRegisteredException: if object does not exist ExecutionEnvironmentNotExistException: if destination
-	 *             backend does not exist
-	 */
-	public void registerReplica(final ObjectID objectID, final ExecutionEnvironmentID newBackendID)
-			throws ObjectNotRegisteredException, ExecutionEnvironmentNotExistException {
-
-		// Verify dest. backend exists
-		final boolean backendExists = metadataDB.existsByID(newBackendID);
-		if (!backendExists) {
-			throw new ExecutionEnvironmentNotExistException(newBackendID);
-		}
-
-		// Query object info
-		final ObjectMetaData objectMD = getObjectBasicMetaData(objectID);
-		if (objectMD == null) {
-			// TODO: Need new design for this. since getObjectBasicMetadata is in critical
-			// path, it is returning
-			// null instead of exception to avoid penalty for serializing an exception.
-			throw new ObjectNotRegisteredException(objectID);
-		}
-		// CHECKSTYLE:OFF
-		// Check it is not present in destBackend
-		if (objectMD.getExecutionEnvironmentIDs().contains(newBackendID)) {
-			// We do nothing in this case, since we want to replicate all the possible
-			// objects, i.e. if we find a replica
-			// of a subobject in the backend, go to the next subobject instead of throwing
-			// exception.
-			// throw new ReplicaAlreadyRegisteredException(objectID, newBackendID);
-			// CHECKSTYLE:ON
-		} else {
-			// Migrate
-			try {
-				final Set<ExecutionEnvironmentID> newBackendIDs = new HashSet<>(objectMD.getExecutionEnvironmentIDs());
-				newBackendIDs.add(newBackendID);
-				metadataDB.updateForReplicaByID(objectID, newBackendIDs, true);
-			} catch (final DbObjectNotExistException e) {
-				throw new ObjectNotRegisteredException(objectID);
-			}
-
-			// Update cache if necessary
-			if (objectMDCache.containsKey(objectID)) {
-				objectMDCache.get(objectID).getExecutionEnvironmentIDs().add(newBackendID);
-				objectMDCache.get(objectID).setReadOnly(true);
-				final String alias = objectMD.getAlias();
-				objectMDCacheByAlias.put(alias, objectMDCache.get(objectID));
-			}
-		}
-
 	}
 
 	/**
@@ -906,7 +858,7 @@ public final class MetaDataService extends AbstractManager {
 	/**
 	 * Updates host and port of a execution environment
 	 * 
-	 * @param id
+	 * @param eeID
 	 *            id of the execution environment to be updated
 	 * @param newhost New host 
 	 * @param newport New port
@@ -1122,9 +1074,9 @@ public final class MetaDataService extends AbstractManager {
 			final DataClayInstance dClayInfo = metadataDB.getDataClayInfo(dataClay.getDcID());
 			externalDataClaysCache.put(dataClay.getDcID(), dClayInfo);
 
-			for (int i = 0; i < dClayInfo.getHosts().length; ++i) { 
-				final String host = dClayInfo.getHosts()[i];
-				final Integer port = dClayInfo.getPorts()[i];
+			for (int i = 0; i < dClayInfo.getHosts().size(); ++i) {
+				final String host = dClayInfo.getHosts().get(i);
+				final Integer port = dClayInfo.getPorts().get(i);
 				final Tuple<String, Integer> key = new Tuple<>(host, port);
 				final DataClayInstanceID id = dataClaysPerHostPortCache.get(key);
 				if (id == null) {
@@ -1451,10 +1403,9 @@ public final class MetaDataService extends AbstractManager {
 	 * @return MetaDataInfo representation of the given object metadata
 	 */
 	private MetaDataInfo buildMetaDataInfo(final ObjectMetaData objectMD) {
-		final Map<ExecutionEnvironmentID, ExecutionEnvironment> objectMDlocations = new ConcurrentHashMap<>();
+		final Set<ExecutionEnvironmentID> objectMDlocations = ConcurrentHashMap.newKeySet();
 		for (final ExecutionEnvironmentID curLocID : objectMD.getExecutionEnvironmentIDs()) {
-			final ExecutionEnvironment loc = getExecutionEnvironment(curLocID);
-			objectMDlocations.put(curLocID, loc);
+			objectMDlocations.add(curLocID);
 		}
 		final MetaDataInfo result = new MetaDataInfo(objectMD.getDataClayID(), objectMD.getDataSetID(),
 				objectMD.getMetaClassID(), objectMD.isReadOnly(), objectMDlocations, objectMD.getAlias(),

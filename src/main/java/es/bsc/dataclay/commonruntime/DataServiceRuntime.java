@@ -1,12 +1,6 @@
 package es.bsc.dataclay.commonruntime;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
@@ -421,14 +415,17 @@ public final class DataServiceRuntime extends DataClayRuntime {
 		}
 
 		if (alias != null && execObject.isPendingToRegister()) {
+
 			final RegistrationInfo regInfo = new RegistrationInfo(execObject.getObjectID(),
-					execObject.getMetaClassID(), sessionID, execObject.getDataSetID());
+					execObject.getMetaClassID(), sessionID, execObject.getDataSetID(), alias);
+			List<RegistrationInfo> regInfos = new ArrayList<>();
+			regInfos.add(regInfo);
 			// Location of object is 'this' EE.
 			// TODO: Review if we use hint of the object or the hint of the runtime.
-			final ObjectID newID = logicModule.registerObject(regInfo, (ExecutionEnvironmentID) dcObject.getHint(), alias,
-					Langs.LANG_JAVA);
-			this.updateObjectID(dcObject, newID);
+			final List<ObjectID> newID = logicModule.registerObjects(regInfos, (ExecutionEnvironmentID) dcObject.getHint(), Langs.LANG_JAVA);
+			this.updateObjectID(dcObject, newID.get(0));
 			execObject.setPendingToRegister(false);
+			execObject.setAlias(alias);
 		}
 
 		return location;
@@ -441,9 +438,7 @@ public final class DataServiceRuntime extends DataClayRuntime {
 
 	/**
 	 * Set session ID for thread
-	 * 
-	 * @param threadID
-	 *            ID of the thread
+	 *
 	 * @param sessionID
 	 *            ID of session
 	 */
@@ -455,9 +450,6 @@ public final class DataServiceRuntime extends DataClayRuntime {
 
 	/**
 	 * Remove session ID for thread
-	 * 
-	 * @param threadID
-	 *            ID of thread
 	 */
 	public void removeCurrentThreadSessionID() {
 		dsSessionIDs.remove();

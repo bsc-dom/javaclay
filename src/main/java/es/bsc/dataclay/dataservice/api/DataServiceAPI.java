@@ -22,6 +22,7 @@ import es.bsc.dataclay.util.ids.StorageLocationID;
 import es.bsc.dataclay.util.info.VersionInfo;
 import es.bsc.dataclay.util.management.classmgr.MetaClass;
 import es.bsc.dataclay.util.management.metadataservice.MetaDataInfo;
+import es.bsc.dataclay.util.management.metadataservice.RegistrationInfo;
 import es.bsc.dataclay.util.management.metadataservice.StorageLocation;
 import es.bsc.dataclay.util.structs.Tuple;
 
@@ -122,13 +123,6 @@ public interface DataServiceAPI extends CommonManager {
 	void storeObjects(final SessionID sessionID, final List<ObjectWithDataParamOrReturn> objects, final boolean moving,
 			final Set<ObjectID> idsWithAlias);
 
-	/**
-	 * Method that allows LM to communicate registered objects to DS.
-	 * 
-	 * @param mdInfos
-	 *            metadata info of the given objects
-	 */
-	void newMetaData(final Map<ObjectID, MetaDataInfo> mdInfos);
 
 	/**
 	 * Retrieves the given object and all subobjects as volatile new objects with new OIDs
@@ -167,50 +161,13 @@ public interface DataServiceAPI extends CommonManager {
 	 *            IDs of the objects to get
 	 * @param recursive
 	 *            Indicates if, per each object to get, also obtain its associated objects.
-	 * @param moving
-	 *            Indicates we are getting object for a move
-	 * @return List of serialized objects with ids provided
+	 * @param replicaDestBackendID Destination backend of objects being obtained for replica or NULL if going to client
+	 * @return Map of serialized object where key is the objectID. Object is not serialized if flag getOnlyRefs=true
 	 */
 	List<ObjectWithDataParamOrReturn> getObjects(final SessionID sessionID, final Set<ObjectID> objectIDs,
-			final boolean recursive, final boolean moving);
+			final boolean recursive, final ExecutionEnvironmentID replicaDestBackendID);
 
-	/**
-	 * Get the serialized objects with id provided
-	 * 
-	 * @param extDataClayID
-	 *            ID of external dataClay
-	 * @param objectIDs
-	 *            IDs of the objects to get
-	 * @return List of serialized objects with ids provided
-	 */
-	List<ObjectWithDataParamOrReturn> getFederatedObjects(final DataClayInstanceID extDataClayID,
-			final Set<ObjectID> objectIDs);
 
-	/**
-	 * Retrieve the elements contained in the given object that match with specified conditions.
-	 * 
-	 * @param sessionID
-	 *            id of the session
-	 * @param objectID
-	 *            id of the iterable object
-	 * @param conditions
-	 *            conditions to be checked
-	 * @return list of objects that match the specified conditions
-	 */
-	SerializedParametersOrReturn filterObject(final SessionID sessionID, final ObjectID objectID,
-			final String conditions);
-
-	/**
-	 * Method that traverses those objects from the given set that are stored locally and retrieves the IDs of the references
-	 * they have
-	 * 
-	 * @param sessionID
-	 *            id of the session
-	 * @param objectIDs
-	 *            ids of the entry set
-	 * @return set of objects ids of the references
-	 */
-	Set<ObjectID> getReferencedObjectsIDs(final SessionID sessionID, final Set<ObjectID> objectIDs);
 
 	/**
 	 * This function will deserialize make persistent "parameters" (i.e. object to persist and subobjects if needed) into
@@ -223,9 +180,21 @@ public interface DataServiceAPI extends CommonManager {
 	 * @param objectsToPersist
 	 *            objects to store.
 	 */
-	void makePersistent(final SessionID sessionID, final SerializedParametersOrReturn objectsToPersist);
+	void makePersistent(final SessionID sessionID, final List<ObjectWithDataParamOrReturn> objectsToPersist);
 
 	// ==================== FEDERATION ====================//
+
+	/**
+	 * Federate object with ID provided to external EE specified
+	 * @param sessionID ID of the session sending the object
+	 * @param objectID ID of the object to federate
+	 * @param externalExecutionEnvironmentID ID of external execution environment to federate
+	 * @param recursive
+	 *            Indicates if all sub-objects must be replicated as well.
+	 */
+	void federate(final SessionID sessionID, final ObjectID objectID,
+				  final ExecutionEnvironmentID externalExecutionEnvironmentID,
+				  final boolean recursive);
 
 	/**
 	 * New federated object arrives and must be stored in current backend.
@@ -235,7 +204,20 @@ public interface DataServiceAPI extends CommonManager {
 	 * @param objectsToPersist
 	 *            Data of the object to persist
 	 */
-	void federate(final SessionID sessionID, final SerializedParametersOrReturn objectsToPersist);
+	void notifyFederation(final SessionID sessionID, final List<ObjectWithDataParamOrReturn> objectsToPersist);
+
+
+	/**
+	 * Unfederate object with ID provided to external EE specified
+	 * @param sessionID ID of the session
+	 * @param objectID ID of the object to unfederate
+	 * @param externalExecutionEnvironmentID ID of external execution environment to unfederate
+	 * @param recursive
+	 *            Indicates if all sub-objects must be unfederated as well.
+	 */
+	void unfederate(final SessionID sessionID, final ObjectID objectID,
+			   final ExecutionEnvironmentID externalExecutionEnvironmentID,
+			   final boolean recursive);
 
 	/**
 	 * Unfederate objects with ID provided.
@@ -245,7 +227,7 @@ public interface DataServiceAPI extends CommonManager {
 	 * @param objectIDs
 	 *            ID of the objects to unfederate.
 	 */
-	void unfederate(final SessionID sessionID, final Set<ObjectID> objectIDs);
+	void notifyUnfederation(final SessionID sessionID, final Set<ObjectID> objectIDs);
 
 	/**
 	 * This function executes a method.
@@ -263,6 +245,25 @@ public interface DataServiceAPI extends CommonManager {
 	SerializedParametersOrReturn executeImplementation(final ObjectID objectID, final ImplementationID implID,
 			final SerializedParametersOrReturn params, final SessionID sessionID);
 
+
+	/**
+	 * This function synchronizes changes in object field
+	 *
+	 * @param objectID
+	 *            ID of the object with the information to use by the implementation
+	 * @param implID
+	 *            Implementation ID of operation to execute
+	 * @param params
+	 *            Serialized parameter values used while invoking the operation
+	 * @param sessionID
+	 *            ID of the session of the execution
+	 * @param callingBackend ID of calling backend or Null if called by client
+	 * @return Serialized operation result (all objects serialized, sepparately).
+	 */
+	void synchronize(final SessionID sessionID, final ObjectID objectID, final ImplementationID implID,
+					 final SerializedParametersOrReturn params,
+					 final ExecutionEnvironmentID callingBackend);
+
 	/**
 	 * This operation creates a new version of the object with ID provided in the backend specified
 	 * 
@@ -270,24 +271,22 @@ public interface DataServiceAPI extends CommonManager {
 	 *            Session
 	 * @param objectID
 	 *            ID of the object
-	 * @param metadataInfo
-	 *            Metadata of the object, including the backends where the root object to be versioned is located
-	 * @return The OID of the version root and the mapping from version OID to original OID for each versioned object
+	 * @param destBackendID
+	 * 			  ID of destination backend
+	 * @return ID of the version created
 	 */
-	Tuple<ObjectID, Map<ObjectID, ObjectID>> newVersion(final SessionID sessionID, final ObjectID objectID,
-			final MetaDataInfo metadataInfo);
+ 	ObjectID newVersion(final SessionID sessionID, final ObjectID objectID,
+					final ExecutionEnvironmentID destBackendID);
 
 	/**
-	 * Consolidates all the objects in versionInfo, being the current data service the one containing all the versioned objects.
-	 * For each versioned object, its OID is set to the original one according to the mapping in versionInfo, and the
-	 * consolidated object is stored in the same locations as the original one (before versioning). The versions are deleted.
+	 * Consolidates object with ID provided
 	 * 
 	 * @param sessionID
 	 *            ID of session
-	 * @param versionInfo
-	 *            info of the version
+	 * @param versionObjectID
+	 *            ID of the object of the version
 	 */
-	void consolidateVersion(final SessionID sessionID, final VersionInfo versionInfo);
+	void consolidateVersion(final SessionID sessionID, final ObjectID versionObjectID);
 
 	/**
 	 * Updates objects or insert if they do not exist with the values in objectBytes. NOTE: This function is recursive, it is
@@ -307,11 +306,15 @@ public interface DataServiceAPI extends CommonManager {
 	 *            Session
 	 * @param objectID
 	 *            ID of the object
+	 * @param destBackendID
+	 * 			  ID of destination backend
 	 * @param recursive
 	 *            Indicates if all sub-objects must be replicated as well.
-	 * @return Set of IDs of replicated objects
+	 * @return ids of replicated objects
 	 */
-	Set<ObjectID> newReplica(final SessionID sessionID, final ObjectID objectID, final boolean recursive);
+	Set<ObjectID> newReplica(final SessionID sessionID, final ObjectID objectID,
+					final ExecutionEnvironmentID destBackendID,
+					final boolean recursive);
 
 	/**
 	 * Move object from this location to the one specified

@@ -2,6 +2,7 @@
 package es.bsc.dataclay.util.management.metadataservice;
 
 import java.util.Map;
+import java.util.Set;
 
 import es.bsc.dataclay.util.MgrObject;
 import es.bsc.dataclay.util.ids.AccountID;
@@ -26,7 +27,7 @@ public final class MetaDataInfo
 	private MetaClassID metaclassID;
 
 	/** Info of [execution] environments of the object. */
-	private Map<ExecutionEnvironmentID, ExecutionEnvironment> locations;
+	private Set<ExecutionEnvironmentID> locations;
 
 	/** User Aliases for the object. */
 	private String alias;
@@ -59,7 +60,7 @@ public final class MetaDataInfo
 	 *            New owner id
 	 */
 	public MetaDataInfo(final ObjectID newdataClayID, final DataSetID newdatasetID, final MetaClassID newmetaClassID, final boolean readOnly,
-			final Map<ExecutionEnvironmentID, ExecutionEnvironment> newlocations, final String newAlias, final AccountID newownerID) {
+						final Set<ExecutionEnvironmentID> newlocations, final String newAlias, final AccountID newownerID) {
 		this.setDataClayID(newdataClayID);
 		this.setDatasetID(newdatasetID);
 		this.setMetaclassID(newmetaClassID);
@@ -124,7 +125,7 @@ public final class MetaDataInfo
 	 * Get the MetaDataInfo::environments
 	 * @return the environments
 	 */
-	public Map<ExecutionEnvironmentID, ExecutionEnvironment> getLocations() {
+	public Set<ExecutionEnvironmentID> getLocations() {
 		return locations;
 	}
 
@@ -133,7 +134,7 @@ public final class MetaDataInfo
 	 * @param newlocations
 	 *            the locations to set
 	 */
-	public void setLocations(final Map<ExecutionEnvironmentID, ExecutionEnvironment> newlocations) {
+	public void setLocations(final Set<ExecutionEnvironmentID> newlocations) {
 		this.locations = newlocations;
 	}
 
@@ -169,5 +170,18 @@ public final class MetaDataInfo
 	 */
 	public void setOwnerID(final AccountID theOwnerID) {
 		this.ownerID = theOwnerID;
+	}
+
+	public String toString() {
+		StringBuilder strb = new StringBuilder();
+		strb.append("{\n");
+		strb.append("alias = " + this.alias + "\n");
+		strb.append("datasetID = " + this.datasetID + "\n");
+		strb.append("metaClassID = " + this.metaclassID + "\n");
+		strb.append("locations = " + this.locations + "\n");
+		strb.append("ownerID = " + this.ownerID + "\n");
+		strb.append("isReadOnly = " + this.isReadOnly + "\n");
+		strb.append("}\n");
+		return strb.toString();
 	}
 }

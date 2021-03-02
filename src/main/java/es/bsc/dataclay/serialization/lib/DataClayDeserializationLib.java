@@ -2,6 +2,7 @@
 package es.bsc.dataclay.serialization.lib;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -169,6 +170,11 @@ public final class DataClayDeserializationLib {
 		DataClayDeserializationLib.createBufferAndDeserialize(byteArray, instance, null, metadata, curDeSerJavaObjs);
 		instance.setLoaded(true);
 		instance.setIsPersistent(true);
+		instance.setOriginalObjectID(metadata.getOriginalObjectID());
+		instance.setOriginLocation(metadata.getOriginLocation());
+		instance.setRootLocation(metadata.getRootLocation());
+		instance.setReplicaLocations(metadata.getReplicaLocations());
+		instance.setAlias(metadata.getAlias());
 
 		// GARBAGE COLLECTOR RACE CONDITION
 		// ================================
@@ -266,6 +272,11 @@ public final class DataClayDeserializationLib {
 				// Now object is loaded
 				object.setLoaded(true);
 				object.setIsPersistent(true);
+				object.setOriginalObjectID(metadata.getOriginalObjectID());
+				object.setOriginLocation(metadata.getOriginLocation());
+				object.setRootLocation(metadata.getRootLocation());
+				object.setReplicaLocations(metadata.getReplicaLocations());
+				object.setAlias(metadata.getAlias());
 				if (ownerSessionID != null) {
 					object.setOwnerSessionIDforVolatiles(ownerSessionID);
 				}
@@ -307,7 +318,11 @@ public final class DataClayDeserializationLib {
 			// force the deserialization to set this flag to false (and hint to null)
 			object.setIsPersistent(false);
 			object.setHint(null);
-
+			object.setOriginalObjectID(metadata.getOriginalObjectID());
+			object.setOriginLocation(metadata.getOriginLocation());
+			object.setRootLocation(metadata.getRootLocation());
+			object.setReplicaLocations(metadata.getReplicaLocations());
+			object.setAlias(metadata.getAlias());
 		} finally {
 			theLib.unlock(object.getObjectID());
 		}

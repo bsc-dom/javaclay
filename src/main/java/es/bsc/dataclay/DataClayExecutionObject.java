@@ -197,11 +197,6 @@ public class DataClayExecutionObject extends DataClayObject {
 		this.numRefs = thenumRefs;
 	}
 
-	@Override
-	public List<Object> filter(final String conditions) {
-		return filterObject(conditions);
-	}
-
 	/**
 	 * @return the pendingToRegister
 	 */

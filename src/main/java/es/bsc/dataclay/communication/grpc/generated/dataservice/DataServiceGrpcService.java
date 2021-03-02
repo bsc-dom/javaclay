@@ -29,7 +29,7 @@ public final class DataServiceGrpcService {
       "/communication/grpc/messages/dataservice" +
       "/dataservice_messages.proto\032Adataclay/co" +
       "mmunication/grpc/messages/common/common_" +
-      "messages.proto2\362/\n\013DataService\022\203\001\n\rinitB" +
+      "messages.proto2\252.\n\013DataService\022\203\001\n\rinitB" +
       "ackendID\022=.dataclay.communication.grpc.d" +
       "ataservice.InitBackendIDRequest\0321.datacl" +
       "ay.communication.grpc.common.ExceptionIn" +
@@ -65,69 +65,64 @@ public final class DataServiceGrpcService {
       "o\"\000\022\207\001\n\ngetObjects\022:.dataclay.communicat" +
       "ion.grpc.dataservice.GetObjectsRequest\032;" +
       ".dataclay.communication.grpc.dataservice" +
-      ".GetObjectsResponse\"\000\022\177\n\013newMetaData\022;.d" +
+      ".GetObjectsResponse\"\000\022\207\001\n\nnewVersion\022:.d" +
       "ataclay.communication.grpc.dataservice.N" +
-      "ewMetaDataRequest\0321.dataclay.communicati" +
-      "on.grpc.common.ExceptionInfo\"\000\022\207\001\n\nnewVe" +
-      "rsion\022:.dataclay.communication.grpc.data" +
-      "service.NewVersionRequest\032;.dataclay.com" +
-      "munication.grpc.dataservice.NewVersionRe" +
-      "sponse\"\000\022\215\001\n\022consolidateVersion\022B.datacl" +
-      "ay.communication.grpc.dataservice.Consol" +
-      "idateVersionRequest\0321.dataclay.communica" +
-      "tion.grpc.common.ExceptionInfo\"\000\022\203\001\n\rups" +
-      "ertObjects\022=.dataclay.communication.grpc" +
-      ".dataservice.UpsertObjectsRequest\0321.data" +
-      "clay.communication.grpc.common.Exception" +
-      "Info\"\000\022\207\001\n\nnewReplica\022:.dataclay.communi" +
-      "cation.grpc.dataservice.NewReplicaReques" +
-      "t\032;.dataclay.communication.grpc.dataserv" +
-      "ice.NewReplicaResponse\"\000\022\212\001\n\013moveObjects" +
-      "\022;.dataclay.communication.grpc.dataservi" +
-      "ce.MoveObjectsRequest\032<.dataclay.communi" +
-      "cation.grpc.dataservice.MoveObjectsRespo" +
-      "nse\"\000\022\220\001\n\rremoveObjects\022=.dataclay.commu" +
-      "nication.grpc.dataservice.RemoveObjectsR" +
-      "equest\032>.dataclay.communication.grpc.dat" +
-      "aservice.RemoveObjectsResponse\"\000\022\235\001\n\030mig" +
-      "rateObjectsToBackends\022>.dataclay.communi" +
-      "cation.grpc.dataservice.MigrateObjectsRe" +
-      "quest\032?.dataclay.communication.grpc.data" +
-      "service.MigrateObjectsResponse\"\000\022\275\001\n\034get" +
-      "ClassIDFromObjectInMemory\022L.dataclay.com" +
-      "munication.grpc.dataservice.GetClassIDFr" +
-      "omObjectInMemoryRequest\032M.dataclay.commu" +
-      "nication.grpc.dataservice.GetClassIDFrom" +
-      "ObjectInMemoryResponse\"\000\022\250\001\n\025executeImpl" +
-      "ementation\022E.dataclay.communication.grpc" +
-      ".dataservice.ExecuteImplementationReques" +
-      "t\032F.dataclay.communication.grpc.dataserv" +
-      "ice.ExecuteImplementationResponse\"\000\022\205\001\n\016" +
-      "makePersistent\022>.dataclay.communication." +
-      "grpc.dataservice.MakePersistentRequest\0321" +
-      ".dataclay.communication.grpc.common.Exce" +
-      "ptionInfo\"\000\022y\n\010federate\0228.dataclay.commu" +
-      "nication.grpc.dataservice.FederateReques" +
-      "t\0321.dataclay.communication.grpc.common.E" +
-      "xceptionInfo\"\000\022}\n\nunfederate\022:.dataclay." +
-      "communication.grpc.dataservice.Unfederat" +
-      "eRequest\0321.dataclay.communication.grpc.c" +
-      "ommon.ExceptionInfo\"\000\022{\n\006exists\0226.datacl" +
-      "ay.communication.grpc.dataservice.Exists" +
-      "Request\0327.dataclay.communication.grpc.da" +
-      "taservice.ExistsResponse\"\000\022\242\001\n\023getFedera" +
-      "tedObjects\022C.dataclay.communication.grpc" +
-      ".dataservice.GetFederatedObjectsRequest\032" +
-      "D.dataclay.communication.grpc.dataservic" +
-      "e.GetFederatedObjectsResponse\"\000\022\254\001\n\027getR" +
-      "eferencedObjectsIDs\022F.dataclay.communica" +
-      "tion.grpc.dataservice.GetReferencedObjec" +
-      "tIDsRequest\032G.dataclay.communication.grp" +
-      "c.dataservice.GetReferencedObjectIDsResp" +
-      "onse\"\000\022\215\001\n\014filterObject\022<.dataclay.commu" +
-      "nication.grpc.dataservice.FilterObjectRe" +
-      "quest\032=.dataclay.communication.grpc.data" +
-      "service.FilterObjectResponse\"\000\022{\n\tstoreT" +
+      "ewVersionRequest\032;.dataclay.communicatio" +
+      "n.grpc.dataservice.NewVersionResponse\"\000\022" +
+      "\215\001\n\022consolidateVersion\022B.dataclay.commun" +
+      "ication.grpc.dataservice.ConsolidateVers" +
+      "ionRequest\0321.dataclay.communication.grpc" +
+      ".common.ExceptionInfo\"\000\022\203\001\n\rupsertObject" +
+      "s\022=.dataclay.communication.grpc.dataserv" +
+      "ice.UpsertObjectsRequest\0321.dataclay.comm" +
+      "unication.grpc.common.ExceptionInfo\"\000\022\207\001" +
+      "\n\nnewReplica\022:.dataclay.communication.gr" +
+      "pc.dataservice.NewReplicaRequest\032;.datac" +
+      "lay.communication.grpc.dataservice.NewRe" +
+      "plicaResponse\"\000\022\212\001\n\013moveObjects\022;.datacl" +
+      "ay.communication.grpc.dataservice.MoveOb" +
+      "jectsRequest\032<.dataclay.communication.gr" +
+      "pc.dataservice.MoveObjectsResponse\"\000\022\220\001\n" +
+      "\rremoveObjects\022=.dataclay.communication." +
+      "grpc.dataservice.RemoveObjectsRequest\032>." +
+      "dataclay.communication.grpc.dataservice." +
+      "RemoveObjectsResponse\"\000\022\235\001\n\030migrateObjec" +
+      "tsToBackends\022>.dataclay.communication.gr" +
+      "pc.dataservice.MigrateObjectsRequest\032?.d" +
+      "ataclay.communication.grpc.dataservice.M" +
+      "igrateObjectsResponse\"\000\022\275\001\n\034getClassIDFr" +
+      "omObjectInMemory\022L.dataclay.communicatio" +
+      "n.grpc.dataservice.GetClassIDFromObjectI" +
+      "nMemoryRequest\032M.dataclay.communication." +
+      "grpc.dataservice.GetClassIDFromObjectInM" +
+      "emoryResponse\"\000\022\250\001\n\025executeImplementatio" +
+      "n\022E.dataclay.communication.grpc.dataserv" +
+      "ice.ExecuteImplementationRequest\032F.datac" +
+      "lay.communication.grpc.dataservice.Execu" +
+      "teImplementationResponse\"\000\022\205\001\n\016makePersi" +
+      "stent\022>.dataclay.communication.grpc.data" +
+      "service.MakePersistentRequest\0321.dataclay" +
+      ".communication.grpc.common.ExceptionInfo" +
+      "\"\000\022y\n\010federate\0228.dataclay.communication." +
+      "grpc.dataservice.FederateRequest\0321.datac" +
+      "lay.communication.grpc.common.ExceptionI" +
+      "nfo\"\000\022}\n\nunfederate\022:.dataclay.communica" +
+      "tion.grpc.dataservice.UnfederateRequest\032" +
+      "1.dataclay.communication.grpc.common.Exc" +
+      "eptionInfo\"\000\022\211\001\n\020notifyFederation\022@.data" +
+      "clay.communication.grpc.dataservice.Noti" +
+      "fyFederationRequest\0321.dataclay.communica" +
+      "tion.grpc.common.ExceptionInfo\"\000\022\215\001\n\022not" +
+      "ifyUnfederation\022B.dataclay.communication" +
+      ".grpc.dataservice.NotifyUnfederationRequ" +
+      "est\0321.dataclay.communication.grpc.common" +
+      ".ExceptionInfo\"\000\022{\n\006exists\0226.dataclay.co" +
+      "mmunication.grpc.dataservice.ExistsReque" +
+      "st\0327.dataclay.communication.grpc.dataser" +
+      "vice.ExistsResponse\"\000\022\177\n\013synchronize\022;.d" +
+      "ataclay.communication.grpc.dataservice.S" +
+      "ynchronizeRequest\0321.dataclay.communicati" +
+      "on.grpc.common.ExceptionInfo\"\000\022{\n\tstoreT" +
       "oDB\0229.dataclay.communication.grpc.datase" +
       "rvice.StoreToDBRequest\0321.dataclay.commun" +
       "ication.grpc.common.ExceptionInfo\"\000\022\204\001\n\t" +

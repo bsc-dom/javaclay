@@ -296,7 +296,7 @@ public final class StorageLocationService {
 			}
 
 			// Check if object exists in EE memory
-			final DataServiceAPI dsAPI = runtime.getRemoteExecutionEnvironmentForDS(associatedExecutionEnvironmentID);
+			final DataServiceAPI dsAPI = runtime.getRemoteDSAPI(associatedExecutionEnvironmentID);
 			if (dsAPI.existsInEE(objectID)) { 
 				return true;
 			}

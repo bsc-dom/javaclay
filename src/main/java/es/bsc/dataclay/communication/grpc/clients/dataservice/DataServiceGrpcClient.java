@@ -15,6 +15,9 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import es.bsc.dataclay.api.BackendID;
+import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages;
+import es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -42,20 +45,14 @@ import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessag
 import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.ExistsRequest;
 import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.ExistsResponse;
 import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.FederateRequest;
-import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.FilterObjectRequest;
-import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.FilterObjectResponse;
 import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetClassIDFromObjectInMemoryRequest;
 import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetClassIDFromObjectInMemoryResponse;
 import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetCopyOfObjectRequest;
 import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetCopyOfObjectResponse;
-import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetFederatedObjectsRequest;
-import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetFederatedObjectsResponse;
 import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetFromDBRequest;
 import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetFromDBResponse;
 import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetObjectsRequest;
 import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetObjectsResponse;
-import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetReferencedObjectIDsRequest;
-import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetReferencedObjectIDsResponse;
 import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetRetainedReferencesResponse;
 import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.InitBackendIDRequest;
 import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.MakePersistentRequest;
@@ -64,7 +61,6 @@ import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessag
 import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.MigratedObjects;
 import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.MoveObjectsRequest;
 import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.MoveObjectsResponse;
-import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NewMetaDataRequest;
 import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NewPersistentInstanceRequest;
 import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NewPersistentInstanceResponse;
 import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NewReplicaRequest;
@@ -364,7 +360,7 @@ public final class DataServiceGrpcClient implements DataServiceAPI {
 		}
 		Utils.checkIsExc(response.getExcInfo());
 
-		return Utils.getID(response.getObjectID());
+		return Utils.getObjectID(response.getObjectID());
 	}
 
 	@Override
@@ -395,24 +391,6 @@ public final class DataServiceGrpcClient implements DataServiceAPI {
 		} catch (final StatusRuntimeException ex) {
 			logger.debug("storeObjects error", ex);
 			throw new RuntimeException(ex.getMessage());
-		}
-		Utils.checkIsExc(response);
-	}
-
-	@Override
-	public void newMetaData(final Map<ObjectID, MetaDataInfo> mdInfos) {
-		final NewMetaDataRequest.Builder builder = NewMetaDataRequest.newBuilder();
-		for (final Entry<ObjectID, MetaDataInfo> entry : mdInfos.entrySet()) {
-			builder.putMdInfos(entry.getKey().getId().toString(), CommonYAML.getYamlObject().dump(entry.getValue()));
-		}
-		final NewMetaDataRequest request = builder.build();
-		ExceptionInfo response;
-		try {
-
-			response = blockingStub.newMetaData(request);
-
-		} catch (final StatusRuntimeException e) {
-			throw new RuntimeException(e.getMessage());
 		}
 		Utils.checkIsExc(response);
 	}
@@ -456,14 +434,14 @@ public final class DataServiceGrpcClient implements DataServiceAPI {
 
 	@Override
 	public List<ObjectWithDataParamOrReturn> getObjects(final SessionID sessionID, final Set<ObjectID> objectIDs,
-			final boolean recursive, final boolean moving) {
+			final boolean recursive, final ExecutionEnvironmentID destBackendID) {
 		final GetObjectsRequest.Builder builder = GetObjectsRequest.newBuilder();
 		for (final ObjectID oid : objectIDs) {
 			builder.addObjectIDS(Utils.getMsgID(oid));
 		}
 		builder.setRecursive(recursive);
 		builder.setSessionID(Utils.getMsgID(sessionID));
-		builder.setMoving(moving);
+		builder.setDestBackendID(Utils.getMsgID(destBackendID));
 		final GetObjectsRequest request = builder.build();
 		GetObjectsResponse response;
 		try {
@@ -476,98 +454,23 @@ public final class DataServiceGrpcClient implements DataServiceAPI {
 		Utils.checkIsExc(response.getExcInfo());
 
 		final List<ObjectWithDataParamOrReturn> result = new ArrayList<>();
-		for (final es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn entry : response
-				.getObjectsList()) {
-			result.add(Utils.getObjectWithDataParamOrReturn(entry));
+		for (final es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn entry : response.getObjectsList()) {
+			ObjectWithDataParamOrReturn objectWithDataParamOrReturn = Utils.getObjectWithDataParamOrReturn(entry);
+			result.add(objectWithDataParamOrReturn);
 		}
 		return result;
 	}
 
 	@Override
-	public Set<ObjectID> getReferencedObjectsIDs(final SessionID sessionID, final Set<ObjectID> objectIDs) {
-		final GetReferencedObjectIDsRequest.Builder builder = GetReferencedObjectIDsRequest.newBuilder();
-		for (final ObjectID oid : objectIDs) {
-			builder.addObjectIDS(Utils.getMsgID(oid));
-		}
-		builder.setSessionID(Utils.getMsgID(sessionID));
-		final GetReferencedObjectIDsRequest request = builder.build();
-		GetReferencedObjectIDsResponse response;
-		try {
-
-			response = blockingStub.getReferencedObjectsIDs(request);
-
-		} catch (final StatusRuntimeException e) {
-			throw new RuntimeException(e.getMessage());
-		}
-		Utils.checkIsExc(response.getExcInfo());
-
-		final Set<ObjectID> result = new HashSet<>();
-		for (final es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID entry : response
-				.getObjectIDsList()) {
-			result.add(Utils.getID(entry));
-		}
-		return result;
-	}
-
-	@Override
-	public List<ObjectWithDataParamOrReturn> getFederatedObjects(final DataClayInstanceID extDataClayID,
-			final Set<ObjectID> objectIDs) {
-		final GetFederatedObjectsRequest.Builder builder = GetFederatedObjectsRequest.newBuilder();
-		builder.setExtDataClayID(Utils.getMsgID(extDataClayID));
-		for (final ObjectID oid : objectIDs) {
-			builder.addObjectIDS(Utils.getMsgID(oid));
-		}
-		final GetFederatedObjectsRequest request = builder.build();
-		GetFederatedObjectsResponse response;
-		try {
-
-			response = blockingStub.getFederatedObjects(request);
-
-		} catch (final StatusRuntimeException e) {
-			throw new RuntimeException(e.getMessage());
-		}
-		Utils.checkIsExc(response.getExcInfo());
-
-		final List<ObjectWithDataParamOrReturn> result = new ArrayList<>();
-		for (final es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn entry : response
-				.getObjectsList()) {
-			result.add(Utils.getObjectWithDataParamOrReturn(entry));
-		}
-		return result;
-	}
-
-	@Override
-	public SerializedParametersOrReturn filterObject(final SessionID sessionID, final ObjectID objectID,
-			final String conditions) {
-		final FilterObjectRequest.Builder builder = FilterObjectRequest.newBuilder();
-		builder.setSessionID(Utils.getMsgID(sessionID));
-		builder.setObjectID(Utils.getMsgID(objectID));
-		builder.setConditions(conditions);
-		final FilterObjectRequest request = builder.build();
-		FilterObjectResponse response;
-		try {
-
-			response = blockingStub.filterObject(request);
-
-		} catch (final StatusRuntimeException e) {
-			throw new RuntimeException(e.getMessage());
-		}
-		Utils.checkIsExc(response.getExcInfo());
-
-		final SerializedParametersOrReturn result = Utils.getParamsOrReturn(response.getRet());
-		return result;
-	}
-
-	@Override
-	public void makePersistent(final SessionID sessionID, final SerializedParametersOrReturn params) {
+	public void makePersistent(final SessionID sessionID, final List<ObjectWithDataParamOrReturn> params) {
 
 		final MakePersistentRequest.Builder builder = MakePersistentRequest.newBuilder();
 
 		builder.setSessionID(Utils.getMsgID(sessionID));
 		if (params != null) {
-			final es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn paramsMgs = Utils
-					.getParamsOrReturn(params);
-			builder.setParams(paramsMgs);
+			for (final ObjectWithDataParamOrReturn obj : params) {
+				builder.addObjects(Utils.getObjectWithDataParamOrReturn(obj));
+			}
 		}
 		final MakePersistentRequest request = builder.build();
 		ExceptionInfo response;
@@ -587,25 +490,71 @@ public final class DataServiceGrpcClient implements DataServiceAPI {
 		Utils.checkIsExc(response);
 	}
 
-	@Override
-	public void federate(final SessionID sessionID, final SerializedParametersOrReturn params) {
 
-		final FederateRequest.Builder builder = FederateRequest.newBuilder();
+	@Override
+	public void federate(final SessionID sessionID, final ObjectID objectID,
+						 final ExecutionEnvironmentID externalExecutionEnvironmentID,
+						 final boolean recursive) {
+		final DataserviceMessages.FederateRequest.Builder builder = DataserviceMessages.FederateRequest.newBuilder();
+
+		builder.setSessionID(Utils.getMsgID(sessionID));
+		builder.setObjectID(Utils.getMsgID(objectID));
+		builder.setExternalExecutionEnvironmentID(Utils.getMsgID(externalExecutionEnvironmentID));
+		builder.setRecursive(recursive);
+		final DataserviceMessages.FederateRequest request = builder.build();
+		ExceptionInfo response;
+		try {
+			response = blockingStub.federate(request);
+		} catch (final StatusRuntimeException ex) {
+			logger.debug("** CAUGHT EXCEPTION **", ex);
+			throw ex;
+		} catch (final Exception ex) {
+			logger.debug("federate error", ex);
+			throw ex;
+		}
+		Utils.checkIsExc(response);
+	}
+
+	@Override
+	public void unfederate(final SessionID sessionID, final ObjectID objectID,
+						 final ExecutionEnvironmentID externalExecutionEnvironmentID,
+						 final boolean recursive) {
+		final DataserviceMessages.UnfederateRequest.Builder builder = DataserviceMessages.UnfederateRequest.newBuilder();
+
+		builder.setSessionID(Utils.getMsgID(sessionID));
+		builder.setObjectID(Utils.getMsgID(objectID));
+		builder.setExternalExecutionEnvironmentID(Utils.getMsgID(externalExecutionEnvironmentID));
+		builder.setRecursive(recursive);
+		final DataserviceMessages.UnfederateRequest request = builder.build();
+		ExceptionInfo response;
+		try {
+			response = blockingStub.unfederate(request);
+		} catch (final StatusRuntimeException ex) {
+			logger.debug("** CAUGHT EXCEPTION **", ex);
+			throw ex;
+		} catch (final Exception ex) {
+			logger.debug("federate error", ex);
+			throw ex;
+		}
+		Utils.checkIsExc(response);
+	}
+
+	@Override
+	public void notifyFederation(final SessionID sessionID, final List<ObjectWithDataParamOrReturn> params) {
+
+		final DataserviceMessages.NotifyFederationRequest.Builder builder = DataserviceMessages.NotifyFederationRequest.newBuilder();
 
 		builder.setSessionID(Utils.getMsgID(sessionID));
 		if (params != null) {
-			final es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn paramsMgs = Utils
-					.getParamsOrReturn(params);
-			builder.setParams(paramsMgs);
+			for (final ObjectWithDataParamOrReturn obj : params) {
+				builder.addObjects(Utils.getObjectWithDataParamOrReturn(obj));
+			}
 		}
-		final FederateRequest request = builder.build();
+		final DataserviceMessages.NotifyFederationRequest request = builder.build();
 		ExceptionInfo response;
 		try {
 			response = blockingStub.withMaxInboundMessageSize(Integer.MAX_VALUE)
-					.withMaxOutboundMessageSize(Integer.MAX_VALUE).federate(request);
-			if (Configuration.Flags.PRETTY_PRINT_MESSAGES.getBooleanValue()) {
-				Utils.printMsg(response);
-			}
+					.withMaxOutboundMessageSize(Integer.MAX_VALUE).notifyFederation(request);
 		} catch (final StatusRuntimeException ex) {
 			logger.debug("** CAUGHT EXCEPTION **", ex);
 			throw ex;
@@ -618,18 +567,18 @@ public final class DataServiceGrpcClient implements DataServiceAPI {
 	}
 
 	@Override
-	public void unfederate(final SessionID sessionID, final Set<ObjectID> objectIDs) {
+	public void notifyUnfederation(final SessionID sessionID, final Set<ObjectID> objectIDs) {
 
-		final UnfederateRequest.Builder builder = UnfederateRequest.newBuilder();
+		final DataserviceMessages.NotifyUnfederationRequest.Builder builder = DataserviceMessages.NotifyUnfederationRequest.newBuilder();
 
 		builder.setSessionID(Utils.getMsgID(sessionID));
 		for (final ObjectID oid : objectIDs) {
 			builder.addObjectIDs(Utils.getMsgID(oid));
 		}
-		final UnfederateRequest request = builder.build();
+		final DataserviceMessages.NotifyUnfederationRequest request = builder.build();
 		ExceptionInfo response;
 		try {
-			response = blockingStub.unfederate(request);
+			response = blockingStub.notifyUnfederation(request);
 		} catch (final Exception ex) {
 			logger.debug("unfederate exception", ex);
 			throw ex;
@@ -695,41 +644,66 @@ public final class DataServiceGrpcClient implements DataServiceAPI {
 
 	}
 
+
 	@Override
-	public Tuple<ObjectID, Map<ObjectID, ObjectID>> newVersion(final SessionID sessionID, final ObjectID objectID,
-			final MetaDataInfo metadataInfo) {
+	public void synchronize(final SessionID sessionID, final ObjectID objectID, final ImplementationID implID,
+							final SerializedParametersOrReturn params, final ExecutionEnvironmentID callingBackendID) {
+
+		final DataserviceMessages.SynchronizeRequest.Builder builder = DataserviceMessages.SynchronizeRequest.newBuilder();
+
+		builder.setSessionID(Utils.getMsgID(sessionID));
+		builder.setObjectID(Utils.getMsgID(objectID));
+		builder.setImplementationID(Utils.getMsgID(implID));
+		builder.setCallingBackendID(Utils.getMsgID(callingBackendID));
+		if (params != null) {
+			final es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn paramsMgs = Utils
+					.getParamsOrReturn(params);
+			builder.setParams(paramsMgs);
+		}
+
+		final DataserviceMessages.SynchronizeRequest request = builder.build();
+		ExceptionInfo response;
+		try {
+			response = blockingStub.withMaxInboundMessageSize(Integer.MAX_VALUE)
+					.withMaxOutboundMessageSize(Integer.MAX_VALUE).synchronize(request);
+		} catch (final StatusRuntimeException ex) {
+			logger.debug("** CAUGHT EXCEPTION possibly due to volatile controlled race condition **", ex);
+			throw ex;
+		} catch (final Exception ex) {
+			logger.debug("executeImplementation error", ex);
+			throw ex;
+		}
+		Utils.checkIsExc(response);
+	}
+
+	@Override
+	public ObjectID newVersion(final SessionID sessionID, final ObjectID objectID,
+			final ExecutionEnvironmentID destBackendID) {
 		final NewVersionRequest request = NewVersionRequest.newBuilder().setObjectID(Utils.getMsgID(objectID))
-				.setSessionID(Utils.getMsgID(sessionID)).setMetadataInfo(CommonYAML.getYamlObject().dump(metadataInfo))
+				.setSessionID(Utils.getMsgID(sessionID))
+				.setDestBackendID(Utils.getMsgID(destBackendID))
 				.build();
 		NewVersionResponse response;
 		try {
 
 			response = blockingStub.newVersion(request);
 
-		} catch (final StatusRuntimeException ex) {
-			logger.debug("newVersion error", ex);
-			throw new RuntimeException(ex.getMessage());
+		} catch (final StatusRuntimeException e) {
+			throw new RuntimeException(e.getMessage());
 		}
 		Utils.checkIsExc(response.getExcInfo());
-
-		final Map<ObjectID, ObjectID> result = new ConcurrentHashMap<>();
-		final ObjectID oid = Utils.getID(response.getObjectID());
-		for (final Entry<String, String> entry : response.getVersionedIDsMap().entrySet()) {
-			result.put(Utils.getObjectIDFromUUID(entry.getKey()), Utils.getObjectIDFromUUID(entry.getValue()));
-		}
-
-		return new Tuple<>(oid, result);
+		return Utils.getObjectID(response.getObjectID());
 
 	}
 
 	@Override
-	public void consolidateVersion(final SessionID sessionID, final VersionInfo versionInfo) {
-		final ConsolidateVersionRequest request = ConsolidateVersionRequest.newBuilder()
-				.setSessionID(Utils.getMsgID(sessionID)).setVersionInfo(CommonYAML.getYamlObject().dump(versionInfo))
-				.build();
+	public void consolidateVersion(final SessionID sessionID, final ObjectID versionObjectID) {
+		final ConsolidateVersionRequest.Builder builder = ConsolidateVersionRequest.newBuilder();
+		builder.setSessionID(Utils.getMsgID(sessionID));
+		builder.setVersionObjectID(Utils.getMsgID(versionObjectID));
+		final ConsolidateVersionRequest request = builder.build();
 		ExceptionInfo response;
 		try {
-
 			response = blockingStub.consolidateVersion(request);
 
 		} catch (final StatusRuntimeException e) {
@@ -758,9 +732,14 @@ public final class DataServiceGrpcClient implements DataServiceAPI {
 	}
 
 	@Override
-	public Set<ObjectID> newReplica(final SessionID sessionID, final ObjectID objectID, final boolean recursive) {
-		final NewReplicaRequest request = NewReplicaRequest.newBuilder().setSessionID(Utils.getMsgID(sessionID))
-				.setObjectID(Utils.getMsgID(objectID)).setRecursive(recursive).build();
+	public Set<ObjectID> newReplica(final SessionID sessionID, final ObjectID objectID,
+									final ExecutionEnvironmentID destBackendID,
+									final boolean recursive) {
+		final NewReplicaRequest request = NewReplicaRequest.newBuilder()
+				.setSessionID(Utils.getMsgID(sessionID))
+				.setObjectID(Utils.getMsgID(objectID))
+				.setDestBackendID(Utils.getMsgID(destBackendID))
+				.setRecursive(recursive).build();
 		NewReplicaResponse response;
 		try {
 
@@ -772,9 +751,8 @@ public final class DataServiceGrpcClient implements DataServiceAPI {
 		Utils.checkIsExc(response.getExcInfo());
 
 		final Set<ObjectID> result = new HashSet<>();
-		for (final es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID oid : response
-				.getReplicatedIDsList()) {
-			result.add(Utils.getID(oid));
+		for (final String oid : response.getReplicatedObjectsList()) {
+			result.add(Utils.getObjectID(oid));
 		}
 		return result;
 	}
@@ -796,9 +774,9 @@ public final class DataServiceGrpcClient implements DataServiceAPI {
 		Utils.checkIsExc(response.getExcInfo());
 
 		final Set<ObjectID> result = new HashSet<>();
-		for (final es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID oid : response
+		for (final String oid : response
 				.getMovedObjectsList()) {
-			result.add(Utils.getID(oid));
+			result.add(Utils.getObjectID(oid));
 		}
 		return result;
 	}
@@ -827,8 +805,8 @@ public final class DataServiceGrpcClient implements DataServiceAPI {
 
 		final Map<ObjectID, ExecutionEnvironmentID> result = new ConcurrentHashMap<>();
 		for (final Entry<String, String> entry : response.getRemovedObjectsMap().entrySet()) {
-			result.put(Utils.getObjectIDFromUUID(entry.getKey()),
-					Utils.getExecutionEnvironmentIDFromUUID(entry.getValue()));
+			result.put(Utils.getObjectID(entry.getKey()),
+					Utils.getExecutionEnvironmentID(entry.getValue()));
 		}
 		return result;
 	}
@@ -840,7 +818,7 @@ public final class DataServiceGrpcClient implements DataServiceAPI {
 		final MigrateObjectsRequest.Builder builder = MigrateObjectsRequest.newBuilder();
 		for (final Entry<StorageLocationID, StorageLocation> entry : backends.entrySet()) {
 			builder.putDestStorageLocs(entry.getKey().getId().toString(),
-					CommonYAML.getYamlObject().dump(entry.getValue()));
+					Utils.getStorageLocation(entry.getValue()));
 		}
 		final MigrateObjectsRequest request = builder.build();
 		MigrateObjectsResponse response;
@@ -857,17 +835,17 @@ public final class DataServiceGrpcClient implements DataServiceAPI {
 		for (final Entry<String, MigratedObjects> entry : response.getMigratedObjsMap().entrySet()) {
 			final MigratedObjects mObj = entry.getValue();
 			final Set<ObjectID> oids = new HashSet<>();
-			for (final es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID oid : mObj.getObjsList()) {
-				oids.add(Utils.getID(oid));
+			for (final String oid : mObj.getObjsList()) {
+				oids.add(Utils.getObjectID(oid));
 			}
-			result.put(Utils.getStorageLocationIDFromUUID(entry.getKey()), oids);
+			result.put(Utils.getStorageLocationID(entry.getKey()), oids);
 
 		}
 
 		final Set<ObjectID> nonmigrated = new HashSet<>();
-		for (final es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID oid : response
+		for (final String oid : response
 				.getNonMigratedObjs().getObjsList()) {
-			nonmigrated.add(Utils.getID(oid));
+			nonmigrated.add(Utils.getObjectID(oid));
 		}
 		return new Tuple<>(result, nonmigrated);
 	}
@@ -886,11 +864,7 @@ public final class DataServiceGrpcClient implements DataServiceAPI {
 		}
 		Utils.checkIsExc(response.getExcInfo());
 
-		if (response.hasClassID()) {
-			return Utils.getID(response.getClassID());
-		} else {
-			return null;
-		}
+		return Utils.getMetaClassID(response.getClassID());
 	}
 
 	@Override
@@ -1003,9 +977,9 @@ public final class DataServiceGrpcClient implements DataServiceAPI {
 		Utils.checkIsExc(response.getExcInfo());
 
 		final Set<ObjectID> result = new HashSet<>();
-		for (final es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID oid : response
+		for (final String oid : response
 				.getRetainedReferencesList()) {
-			result.add(Utils.getID(oid));
+			result.add(Utils.getObjectID(oid));
 		}
 		return result;
 	}

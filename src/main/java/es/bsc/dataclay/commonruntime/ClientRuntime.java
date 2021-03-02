@@ -1,8 +1,6 @@
 package es.bsc.dataclay.commonruntime;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
@@ -24,11 +22,7 @@ import es.bsc.dataclay.serialization.lib.ObjectWithDataParamOrReturn;
 import es.bsc.dataclay.serialization.lib.SerializedParametersOrReturn;
 import es.bsc.dataclay.util.Configuration;
 import es.bsc.dataclay.util.classloaders.DataClayClassLoader;
-import es.bsc.dataclay.util.ids.ExecutionEnvironmentID;
-import es.bsc.dataclay.util.ids.ImplementationID;
-import es.bsc.dataclay.util.ids.MetaClassID;
-import es.bsc.dataclay.util.ids.ObjectID;
-import es.bsc.dataclay.util.ids.SessionID;
+import es.bsc.dataclay.util.ids.*;
 import es.bsc.dataclay.util.management.metadataservice.MetaDataInfo;
 import es.bsc.dataclay.util.management.metadataservice.RegistrationInfo;
 import es.bsc.dataclay.util.management.sessionmgr.SessionInfo;
@@ -208,22 +202,26 @@ public final class ClientRuntime extends DataClayRuntime {
 			// Force registration due to alias
 			if (alias != null) {
 				final RegistrationInfo regInfo = new RegistrationInfo(dcObject.getObjectID(), dcObject.getMetaClassID(),
-						sessionID, dcObject.getDataSetID());
+						sessionID, dcObject.getDataSetID(), alias);
 				// TODO ask DANI
 				// it is important to register the object once we are sure it is in EE.
-				final ObjectID newID = logicModule.registerObject(regInfo, (ExecutionEnvironmentID) location, alias, Langs.LANG_JAVA);
+				List<RegistrationInfo> regInfos = new ArrayList<>();
+				regInfos.add(regInfo);
+				final List<ObjectID> newIDs = logicModule.registerObjects(regInfos,
+						(ExecutionEnvironmentID) location, Langs.LANG_JAVA);
+				ObjectID newID = newIDs.get(0);
 				this.updateObjectID(dcObject, newID);
 			}
 
 			// Serialize objects
 			dcObject.setMasterLocation(location);
-
-			final SerializedParametersOrReturn objectsToPersist = this.serializeMakePersistent(location, dcObject, null, recursive);
+			dcObject.setAlias(alias);
+			List<ObjectWithDataParamOrReturn> objectsToPersist = this.serializeMakePersistent(location, dcObject, null, recursive);
 
 			// Avoid some race-conditions in communication (make persistent + execute where
 			// execute arrives before).
-			for (final Entry<Integer, ObjectWithDataParamOrReturn> param : objectsToPersist.getVolatileObjs().entrySet()) {
-				super.volatileParametersBeingSend.add(param.getValue().getObjectID());
+			for (final ObjectWithDataParamOrReturn param : objectsToPersist) {
+				super.volatileParametersBeingSend.add(param.getObjectID());
 			}
 
 			// Call EE
@@ -232,11 +230,19 @@ public final class ClientRuntime extends DataClayRuntime {
 
 			// Avoid some race-conditions in communication (make persistent + execute where
 			// execute arrives before).
-			for (final Entry<Integer, ObjectWithDataParamOrReturn> param : objectsToPersist.getVolatileObjs().entrySet()) {
-				super.volatileParametersBeingSend.remove(param.getValue().getObjectID());
+			for (final ObjectWithDataParamOrReturn param : objectsToPersist) {
+				super.volatileParametersBeingSend.remove(param.getObjectID());
 			}
 			// =========================== //
 		}
+
+		// update cache of metadata info
+		Set<ExecutionEnvironmentID> locations = new HashSet<>();
+		locations.add((ExecutionEnvironmentID) location);
+		MetaDataInfo newMetaDataInfo = new MetaDataInfo(dcObject.getObjectID(),
+				dcObject.getDataSetID(), dcObject.getMetaClassID(), false,
+				locations, alias, null);
+		this.metaDataCache.put(dcObject.getObjectID(), newMetaDataInfo);
 
 		return location;
 	}
@@ -254,9 +260,9 @@ public final class ClientRuntime extends DataClayRuntime {
 	 *            Indicates if sub-objects must be serialized also.
 	 * @return Serialized parameters
 	 */
-	public final SerializedParametersOrReturn serializeMakePersistent(final BackendID location,
-			final DataClayObject objectToPersist, final Map<MetaClassID, byte[]> ifaceBitMaps,
-			final boolean recursive) {
+	public final List<ObjectWithDataParamOrReturn> serializeMakePersistent(final BackendID location,
+																				 final DataClayObject objectToPersist, final Map<MetaClassID, byte[]> ifaceBitMaps,
+																				 final boolean recursive) {
 		if (DEBUG_ENABLED) {
 			LOGGER.debug("[==Serialization==] Serializing for make persistent.");
 		}
@@ -273,8 +279,8 @@ public final class ClientRuntime extends DataClayRuntime {
 			LOGGER.debug("[==Serialization==] Serialized " + serObject);
 		}
 
-		// client
-		return serObject;
+		//
+		return new ArrayList<>(serObject.getVolatileObjs().values());
 	}
 
 	@Override

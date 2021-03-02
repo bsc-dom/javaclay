@@ -1,6 +1,7 @@
 
 package es.bsc.dataclay.serialization.lib;
 
+import java.util.Arrays;
 import java.util.IdentityHashMap;
 import java.util.ListIterator;
 import java.util.Map;
@@ -85,7 +86,11 @@ public final class ObjectWithDataParamOrReturn implements DataClaySerializable {
 		dataClayObject.serialize(dcBuffer, ignoreUserTypes, null, curSerializedObjs, pendingObjs, referenceCounting);
 
 		// Prepare metaData structures
-		setMetaData(SerializationLibUtils.createMetaData(curSerializedObjs, null, 0));
+		setMetaData(SerializationLibUtils.createMetaData(curSerializedObjs,
+				null, 0, dataClayObject.getOriginalObjectID(),
+				dataClayObject.getRootLocation(),
+				dataClayObject.getOriginLocation(), dataClayObject.getReplicaLocations(),
+				dataClayObject.getAlias(), dataClayObject.isReadOnly()));
 
 	}
 
@@ -179,10 +184,16 @@ public final class ObjectWithDataParamOrReturn implements DataClaySerializable {
 	
 	public String toString() { 
 		StringBuilder strb = new StringBuilder();
-		strb.append("OBJECTID = " + objectID + "\n");
-		strb.append("CLASSID = " + classID + "\n");
-		strb.append("METADATA = " + metaData + "\n");
-		strb.append("DATA = " + serializedBytes + "\n");
+		strb.append("{");
+		strb.append("	OBJECTID : " + objectID + "\n");
+		strb.append("	CLASSID : " + classID + "\n");
+		strb.append("	DATA : " + Arrays.toString(serializedBytes.getByteString().toByteArray()) + "\n");
+		strb.append("	METADATA : " + metaData + "\n");
+		strb.append("}");
 		return strb.toString();
+	}
+
+	public int hashCode() {
+		return this.objectID.hashCode();
 	}
 }

@@ -1,14 +1,8 @@
 
 package es.bsc.dataclay.communication.grpc.services.logicmodule;
 
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Set;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -104,7 +98,7 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 			final StreamObserver<AutoRegisterEEResponse> responseObserver) {
 
 		try {
-			final StorageLocationID result = logicModule.autoregisterEE(Utils.getID(request.getExecutionEnvironmentID()),
+			final StorageLocationID result = logicModule.autoregisterEE(Utils.getExecutionEnvironmentID(request.getExecutionEnvironmentID()),
 					request.getEeName(), request.getEeHostname(), request.getEePort(),
 					Langs.values()[request.getLangValue()]);
 			final AutoRegisterEEResponse resp = AutoRegisterEEResponse.newBuilder()
@@ -126,7 +120,7 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 			final StreamObserver<ExceptionInfo> responseObserver) {
 
 		try {
-			logicModule.autoregisterSL(Utils.getID(request.getStorageLocationID()),
+			logicModule.autoregisterSL(Utils.getStorageLocationID(request.getStorageLocationID()),
 					request.getDsName(), request.getDsHostname(), request.getDsPort());
 			Utils.returnExceptionInfoMessage(responseObserver);
 			responseObserver.onCompleted();
@@ -141,7 +135,7 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 	public void unregisterStorageLocation(final UnregisterStorageLocationRequest request,
 			final StreamObserver<ExceptionInfo> responseObserver) {
 		try {
-			logicModule.unregisterStorageLocation(Utils.getID(request.getStorageLocationID()));
+			logicModule.unregisterStorageLocation(Utils.getStorageLocationID(request.getStorageLocationID()));
 			Utils.returnExceptionInfoMessage(responseObserver);
 
 			responseObserver.onCompleted();
@@ -157,7 +151,7 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 	public void unregisterExecutionEnvironment(final UnregisterExecutionEnvironmentRequest request,
 			final StreamObserver<ExceptionInfo> responseObserver) {
 		try {
-			logicModule.unregisterExecutionEnvironment(Utils.getID(request.getExecutionEnvironmentID()));
+			logicModule.unregisterExecutionEnvironment(Utils.getExecutionEnvironmentID(request.getExecutionEnvironmentID()));
 			Utils.returnExceptionInfoMessage(responseObserver);
 
 			responseObserver.onCompleted();
@@ -188,7 +182,7 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 			final StreamObserver<PerformSetAccountsResponse> responseObserver) {
 
 		try {
-			final byte[] result = logicModule.performSetOfNewAccounts(Utils.getID(request.getAccountID()),
+			final byte[] result = logicModule.performSetOfNewAccounts(Utils.getAccountID(request.getAccountID()),
 					Utils.getCredential(request.getCredential()), request.getYaml().getBytes());
 			final PerformSetAccountsResponse resp = PerformSetAccountsResponse.newBuilder()
 					.setResultYaml(new String(result)).build();
@@ -209,7 +203,7 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 	public void performSetOfOperations(final PerformSetOperationsRequest request,
 			final StreamObserver<PerformSetOperationsResponse> responseObserver) {
 		try {
-			final byte[] result = logicModule.performSetOfOperations(Utils.getID(request.getAccountID()),
+			final byte[] result = logicModule.performSetOfOperations(Utils.getAccountID(request.getAccountID()),
 					Utils.getCredential(request.getCredential()), request.getYaml().getBytes());
 			final PerformSetOperationsResponse resp = PerformSetOperationsResponse.newBuilder()
 					.setResultYaml(new String(result)).build();
@@ -267,7 +261,7 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 		try {
 			// String yamlStr = CommonYAML.getYamlObject().dump(params[0]);
 			final Account acc = (Account) CommonYAML.getYamlObject().load(request.getYamlNewAccount());
-			final AccountID result = logicModule.newAccount(Utils.getID(request.getAdminID()),
+			final AccountID result = logicModule.newAccount(Utils.getAccountID(request.getAdminID()),
 					Utils.getCredential(request.getAdmincredential()), acc);
 			final NewAccountResponse resp = NewAccountResponse.newBuilder().setNewAccountID(Utils.getMsgID(result))
 					.build();
@@ -308,7 +302,7 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 	public void getAccountList(final GetAccountListRequest request,
 			final StreamObserver<GetAccountListResponse> responseObserver) {
 		try {
-			final HashSet<AccountID> result = logicModule.getAccountList(Utils.getID(request.getAdminID()),
+			final HashSet<AccountID> result = logicModule.getAccountList(Utils.getAccountID(request.getAdminID()),
 					Utils.getCredential(request.getAdmincredential()));
 
 			final GetAccountListResponse.Builder builder = GetAccountListResponse.newBuilder();
@@ -337,16 +331,17 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 	public void newSession(final NewSessionRequest request, final StreamObserver<NewSessionResponse> responseObserver) {
 		try {
 			final Set<ContractID> contracts = new HashSet<>();
-			for (final CommonMessages.ContractID cID : request.getContractIDsList()) {
-				contracts.add(Utils.getID(cID));
+			for (final String cID : request.getContractIDsList()) {
+				contracts.add(Utils.getContractID(cID));
 			}
 			final Set<DataSetID> dataSetIDs = new HashSet<>();
-			for (final CommonMessages.DataSetID dsID : request.getDataSetIDsList()) {
-				dataSetIDs.add(Utils.getID(dsID));
+			for (final String dsID : request.getDataSetIDsList()) {
+				dataSetIDs.add(Utils.getDataSetID(dsID));
 			}
-			final SessionInfo result = logicModule.newSession(Utils.getID(request.getAccountID()),
+			final SessionInfo result = logicModule.newSession(Utils.getAccountID(request.getAccountID()),
 					Utils.getCredential(request.getCredential()), contracts, dataSetIDs,
-					Utils.getID(request.getStoreDataSet()), Langs.values()[request.getSessionLangValue()]);
+					Utils.getDataSetID(request.getStoreDataSet()),
+					Langs.values()[request.getSessionLangValue()]);
 
 			final NewSessionResponse resp = NewSessionResponse.newBuilder()
 					.setSessionInfo(CommonYAML.getYamlObject().dump(result)).build();
@@ -369,7 +364,7 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 	public void closeSession(final CloseSessionRequest request, final StreamObserver<ExceptionInfo> responseObserver) {
 		try {
 
-			logicModule.closeSession(Utils.getID(request.getSessionID()));
+			logicModule.closeSession(Utils.getSessionID(request.getSessionID()));
 
 			Utils.returnExceptionInfoMessage(responseObserver);
 
@@ -388,7 +383,7 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 
 		try {
 			final Tuple<Tuple<DataSetID, Set<DataSetID>>, Calendar> result = logicModule
-					.getInfoOfSessionForDS(Utils.getID(request.getSessionID()));
+					.getInfoOfSessionForDS(Utils.getSessionID(request.getSessionID()));
 
 			final GetInfoOfSessionForDSResponse.Builder builder = GetInfoOfSessionForDSResponse.newBuilder()
 					.setDataSetID(Utils.getMsgID(result.getFirst().getFirst()))
@@ -419,7 +414,7 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 			final StreamObserver<NewNamespaceResponse> responseObserver) {
 		try {
 			final Namespace newNamespace = (Namespace) CommonYAML.getYamlObject().load(request.getNewNamespaceYaml());
-			final NamespaceID domID = logicModule.newNamespace(Utils.getID(request.getAccountID()),
+			final NamespaceID domID = logicModule.newNamespace(Utils.getAccountID(request.getAccountID()),
 					Utils.getCredential(request.getCredential()), newNamespace);
 
 			final NewNamespaceResponse resp = NewNamespaceResponse.newBuilder().setNamespaceID(Utils.getMsgID(domID))
@@ -441,7 +436,7 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 	public void removeNamespace(final RemoveNamespaceRequest request,
 			final StreamObserver<ExceptionInfo> responseObserver) {
 		try {
-			logicModule.removeNamespace(Utils.getID(request.getAccountID()),
+			logicModule.removeNamespace(Utils.getAccountID(request.getAccountID()),
 					Utils.getCredential(request.getCredential()), request.getNamespaceName());
 
 			Utils.returnExceptionInfoMessage(responseObserver);
@@ -459,7 +454,7 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 	public void getNamespaces(final GetNamespacesRequest request,
 			final StreamObserver<GetNamespacesResponse> responseObserver) {
 		try {
-			final Set<String> result = logicModule.getNamespaces(Utils.getID(request.getAccountID()),
+			final Set<String> result = logicModule.getNamespaces(Utils.getAccountID(request.getAccountID()),
 					Utils.getCredential(request.getCredential()));
 			final GetNamespacesResponse resp = GetNamespacesResponse.newBuilder().addAllNamespaces(result).build();
 			responseObserver.onNext(resp);
@@ -478,7 +473,7 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 	public void getNamespaceID(final GetNamespaceIDRequest request,
 			final StreamObserver<GetNamespaceIDResponse> responseObserver) {
 		try {
-			final NamespaceID namespaceID = logicModule.getNamespaceID(Utils.getID(request.getAccountID()),
+			final NamespaceID namespaceID = logicModule.getNamespaceID(Utils.getAccountID(request.getAccountID()),
 					Utils.getCredential(request.getCredential()), request.getNamespaceName());
 			final GetNamespaceIDResponse resp = GetNamespaceIDResponse.newBuilder()
 					.setNamespaceID(Utils.getMsgID(namespaceID)).build();
@@ -498,7 +493,7 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 	public void getNamespaceLang(final GetNamespaceLangRequest request,
 			final StreamObserver<GetNamespaceLangResponse> responseObserver) {
 		try {
-			final Langs language = logicModule.getNamespaceLang(Utils.getID(request.getAccountID()),
+			final Langs language = logicModule.getNamespaceLang(Utils.getAccountID(request.getAccountID()),
 					Utils.getCredential(request.getCredential()), request.getNamespaceName());
 			final GetNamespaceLangResponse resp = GetNamespaceLangResponse.newBuilder().setLanguage(language).build();
 			responseObserver.onNext(resp);
@@ -517,8 +512,8 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 	public void getObjectDataSetID(final GetObjectDataSetIDRequest request,
 			final StreamObserver<GetObjectDataSetIDResponse> responseObserver) {
 		try {
-			final DataSetID result = logicModule.getObjectDataSetID(Utils.getID(request.getSessionID()),
-					Utils.getID(request.getObjectID()));
+			final DataSetID result = logicModule.getObjectDataSetID(Utils.getSessionID(request.getSessionID()),
+					Utils.getObjectID(request.getObjectID()));
 			final GetObjectDataSetIDResponse resp = GetObjectDataSetIDResponse.newBuilder()
 					.setDataSetID(Utils.getMsgID(result)).build();
 			responseObserver.onNext(resp);
@@ -537,9 +532,9 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 	public void importInterface(final ImportInterfaceRequest request,
 			final StreamObserver<ExceptionInfo> responseObserver) {
 		try {
-			logicModule.importInterface(Utils.getID(request.getAccountID()),
-					Utils.getCredential(request.getCredential()), Utils.getID(request.getNamespaceID()),
-					Utils.getID(request.getContractID()), Utils.getID(request.getInterfaceID()));
+			logicModule.importInterface(Utils.getAccountID(request.getAccountID()),
+					Utils.getCredential(request.getCredential()), Utils.getNamespaceID(request.getNamespaceID()),
+					Utils.getContractID(request.getContractID()), Utils.getInterfaceID(request.getInterfaceID()));
 
 			Utils.returnExceptionInfoMessage(responseObserver);
 
@@ -557,9 +552,9 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 			final StreamObserver<ExceptionInfo> responseObserver) {
 
 		try {
-			logicModule.importContract(Utils.getID(request.getAccountID()),
-					Utils.getCredential(request.getCredential()), Utils.getID(request.getNamespaceID()),
-					Utils.getID(request.getContractID()));
+			logicModule.importContract(Utils.getAccountID(request.getAccountID()),
+					Utils.getCredential(request.getCredential()), Utils.getNamespaceID(request.getNamespaceID()),
+					Utils.getContractID(request.getContractID()));
 
 			Utils.returnExceptionInfoMessage(responseObserver);
 
@@ -577,8 +572,8 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 			final StreamObserver<GetInfoOfClassesInNamespaceResponse> responseObserver) {
 		try {
 			final Map<MetaClassID, MetaClass> result = logicModule.getInfoOfClassesInNamespace(
-					Utils.getID(request.getAccountID()), Utils.getCredential(request.getCredential()),
-					Utils.getID(request.getNamespaceID()));
+					Utils.getAccountID(request.getAccountID()), Utils.getCredential(request.getCredential()),
+					Utils.getNamespaceID(request.getNamespaceID()));
 
 			final GetInfoOfClassesInNamespaceResponse.Builder builder = GetInfoOfClassesInNamespaceResponse
 					.newBuilder();
@@ -610,7 +605,7 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 	public void newDataSet(final NewDataSetRequest request, final StreamObserver<NewDataSetResponse> responseObserver) {
 		try {
 			final DataSet newDataSet = (DataSet) CommonYAML.getYamlObject().load(request.getDataSetYaml());
-			final DataSetID result = logicModule.newDataSet(Utils.getID(request.getAccountID()),
+			final DataSetID result = logicModule.newDataSet(Utils.getAccountID(request.getAccountID()),
 					Utils.getCredential(request.getCredential()), newDataSet);
 			final NewDataSetResponse resp = NewDataSetResponse.newBuilder().setDataSetID(Utils.getMsgID(result))
 					.build();
@@ -631,7 +626,7 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 	public void removeDataSet(final RemoveDataSetRequest request,
 			final StreamObserver<ExceptionInfo> responseObserver) {
 		try {
-			logicModule.removeDataSet(Utils.getID(request.getAccountID()), Utils.getCredential(request.getCredential()),
+			logicModule.removeDataSet(Utils.getAccountID(request.getAccountID()), Utils.getCredential(request.getCredential()),
 					request.getDataSetName());
 
 			Utils.returnExceptionInfoMessage(responseObserver);
@@ -649,7 +644,7 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 	public void getDataSetID(final GetDataSetIDRequest request,
 			final StreamObserver<GetDataSetIDResponse> responseObserver) {
 		try {
-			final DataSetID result = logicModule.getDataSetID(Utils.getID(request.getAccountID()),
+			final DataSetID result = logicModule.getDataSetID(Utils.getAccountID(request.getAccountID()),
 					Utils.getCredential(request.getCredential()), request.getDataSetName());
 			final GetDataSetIDResponse resp = GetDataSetIDResponse.newBuilder().setDataSetID(Utils.getMsgID(result))
 					.build();
@@ -669,7 +664,7 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 	public void checkDataSetIsPublic(final CheckDataSetIsPublicRequest request,
 			final StreamObserver<CheckDataSetIsPublicResponse> responseObserver) {
 		try {
-			final boolean result = logicModule.checkDataSetIsPublic(Utils.getID(request.getDataSetID()));
+			final boolean result = logicModule.checkDataSetIsPublic(Utils.getDataSetID(request.getDataSetID()));
 			final CheckDataSetIsPublicResponse resp = CheckDataSetIsPublicResponse.newBuilder().setIsPublic(result)
 					.build();
 			responseObserver.onNext(resp);
@@ -707,7 +702,7 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 	public void objectExistsInDataClay(final ObjectExistsInDataClayRequest request,
 			final StreamObserver<ObjectExistsInDataClayResponse> responseObserver) {
 		try {
-			final boolean result = logicModule.objectExistsInDataClay(Utils.getID(request.getObjectID()));
+			final boolean result = logicModule.objectExistsInDataClay(Utils.getObjectID(request.getObjectID()));
 			final ObjectExistsInDataClayResponse resp = ObjectExistsInDataClayResponse.newBuilder().setExists(result)
 					.build();
 			responseObserver.onNext(resp);
@@ -726,7 +721,7 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 	public void getPublicDataSets(final GetPublicDataSetsRequest request,
 			final StreamObserver<GetPublicDataSetsResponse> responseObserver) {
 		try {
-			final Set<String> result = logicModule.getPublicDataSets(Utils.getID(request.getAccountID()),
+			final Set<String> result = logicModule.getPublicDataSets(Utils.getAccountID(request.getAccountID()),
 					Utils.getCredential(request.getCredential()));
 			final GetPublicDataSetsResponse resp = GetPublicDataSetsResponse.newBuilder().addAllDataSets(result)
 					.build();
@@ -746,7 +741,7 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 	public void getAccountDataSets(final GetAccountDataSetsRequest request,
 			final StreamObserver<GetAccountDataSetsResponse> responseObserver) {
 		try {
-			final Set<String> result = logicModule.getAccountDataSets(Utils.getID(request.getAccountID()),
+			final Set<String> result = logicModule.getAccountDataSets(Utils.getAccountID(request.getAccountID()),
 					Utils.getCredential(request.getCredential()));
 			final GetAccountDataSetsResponse resp = GetAccountDataSetsResponse.newBuilder().addAllDataSets(result)
 					.build();
@@ -776,7 +771,7 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 				final MetaClass mClass = (MetaClass) CommonYAML.getYamlObject().load(clazz.getValue());
 				newClasses.put(clazz.getKey(), mClass);
 			}
-			final Map<String, MetaClass> result = logicModule.newClass(Utils.getID(request.getAccountID()),
+			final Map<String, MetaClass> result = logicModule.newClass(Utils.getAccountID(request.getAccountID()),
 					Utils.getCredential(request.getCredential()), Langs.values()[request.getLanguageValue()],
 					newClasses);
 
@@ -804,37 +799,10 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 	}
 
 	@Override
-	public void newClassID(final NewClassIDRequest request, final StreamObserver<NewClassIDResponse> responseObserver) {
-		try {
-			final Map<String, MetaClass> newClasses = new HashMap<>();
-			for (final Entry<String, String> clazz : request.getNewClassesMap().entrySet()) {
-				final MetaClass mClass = (MetaClass) CommonYAML.getYamlObject().load(clazz.getValue());
-				newClasses.put(clazz.getKey(), mClass);
-			}
-			final MetaClassID result = logicModule.newClassID(Utils.getID(request.getAccountID()),
-					Utils.getCredential(request.getCredential()), request.getClassName(),
-					Langs.values()[request.getLanguageValue()], newClasses);
-
-			final NewClassIDResponse resp = NewClassIDResponse.newBuilder().setClassID(Utils.getMsgID(result)).build();
-
-			responseObserver.onNext(resp);
-			responseObserver.onCompleted();
-
-		} catch (final Exception e) {
-			final NewClassIDResponse.Builder builder = NewClassIDResponse.newBuilder();
-			builder.setExcInfo(Utils.serializeException(e));
-			final NewClassIDResponse resp = builder.build();
-			responseObserver.onNext(resp);
-			responseObserver.onCompleted();
-		}
-
-	}
-
-	@Override
 	public void removeClass(final RemoveClassRequest request, final StreamObserver<ExceptionInfo> responseObserver) {
 		try {
-			logicModule.removeClass(Utils.getID(request.getAccountID()), Utils.getCredential(request.getCredential()),
-					Utils.getID(request.getNamespaceID()), request.getClassName());
+			logicModule.removeClass(Utils.getAccountID(request.getAccountID()), Utils.getCredential(request.getCredential()),
+					Utils.getNamespaceID(request.getNamespaceID()), request.getClassName());
 
 			Utils.returnExceptionInfoMessage(responseObserver);
 
@@ -851,8 +819,8 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 	public void removeOperation(final RemoveOperationRequest request,
 			final StreamObserver<ExceptionInfo> responseObserver) {
 		try {
-			logicModule.removeOperation(Utils.getID(request.getAccountID()),
-					Utils.getCredential(request.getCredential()), Utils.getID(request.getNamespaceID()),
+			logicModule.removeOperation(Utils.getAccountID(request.getAccountID()),
+					Utils.getCredential(request.getCredential()), Utils.getNamespaceID(request.getNamespaceID()),
 					request.getClassName(), request.getOperationNameAndSignature());
 
 			Utils.returnExceptionInfoMessage(responseObserver);
@@ -870,9 +838,9 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 	public void removeImplementation(final RemoveImplementationRequest request,
 			final StreamObserver<ExceptionInfo> responseObserver) {
 		try {
-			logicModule.removeImplementation(Utils.getID(request.getAccountID()),
-					Utils.getCredential(request.getCredential()), Utils.getID(request.getNamespaceID()),
-					Utils.getID(request.getImplementationID()));
+			logicModule.removeImplementation(Utils.getAccountID(request.getAccountID()),
+					Utils.getCredential(request.getCredential()), Utils.getNamespaceID(request.getNamespaceID()),
+					Utils.getImplementationID(request.getImplementationID()));
 
 			Utils.returnExceptionInfoMessage(responseObserver);
 
@@ -889,8 +857,8 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 	public void getOperationID(final GetOperationIDRequest request,
 			final StreamObserver<GetOperationIDResponse> responseObserver) {
 		try {
-			final OperationID opID = logicModule.getOperationID(Utils.getID(request.getAccountID()),
-					Utils.getCredential(request.getCredential()), Utils.getID(request.getNamespaceID()),
+			final OperationID opID = logicModule.getOperationID(Utils.getAccountID(request.getAccountID()),
+					Utils.getCredential(request.getCredential()), Utils.getNamespaceID(request.getNamespaceID()),
 					request.getClassName(), request.getOperationNameAndSignature());
 
 			final GetOperationIDResponse resp = GetOperationIDResponse.newBuilder().setOperationID(Utils.getMsgID(opID))
@@ -912,8 +880,8 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 	public void getPropertyID(final GetPropertyIDRequest request,
 			final StreamObserver<GetPropertyIDResponse> responseObserver) {
 		try {
-			final PropertyID result = logicModule.getPropertyID(Utils.getID(request.getAccountID()),
-					Utils.getCredential(request.getCredential()), Utils.getID(request.getNamespaceID()),
+			final PropertyID result = logicModule.getPropertyID(Utils.getAccountID(request.getAccountID()),
+					Utils.getCredential(request.getCredential()), Utils.getNamespaceID(request.getNamespaceID()),
 					request.getClassName(), request.getPropertyName());
 			final GetPropertyIDResponse resp = GetPropertyIDResponse.newBuilder().setPropertyID(Utils.getMsgID(result))
 					.build();
@@ -933,8 +901,8 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 	public void getClassID(final GetClassIDRequest request, final StreamObserver<GetClassIDResponse> responseObserver) {
 
 		try {
-			final MetaClassID result = logicModule.getClassID(Utils.getID(request.getAccountID()),
-					Utils.getCredential(request.getCredential()), Utils.getID(request.getNamespaceID()),
+			final MetaClassID result = logicModule.getClassID(Utils.getAccountID(request.getAccountID()),
+					Utils.getCredential(request.getCredential()), Utils.getNamespaceID(request.getNamespaceID()),
 					request.getClassName());
 			final GetClassIDResponse resp = GetClassIDResponse.newBuilder().setClassID(Utils.getMsgID(result)).build();
 			responseObserver.onNext(resp);
@@ -953,8 +921,8 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 	public void getClassInfo(final GetClassInfoRequest request,
 			final StreamObserver<GetClassInfoResponse> responseObserver) {
 		try {
-			final MetaClass result = logicModule.getClassInfo(Utils.getID(request.getAccountID()),
-					Utils.getCredential(request.getCredential()), Utils.getID(request.getNamespaceID()),
+			final MetaClass result = logicModule.getClassInfo(Utils.getAccountID(request.getAccountID()),
+					Utils.getCredential(request.getCredential()), Utils.getNamespaceID(request.getNamespaceID()),
 					request.getClassName());
 			final String yaml = CommonYAML.getYamlObject().dump(result);
 			final GetClassInfoResponse resp = GetClassInfoResponse.newBuilder().setMetaClassYaml(yaml).build();
@@ -980,7 +948,7 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 			final StreamObserver<NewContractResponse> responseObserver) {
 		try {
 			final Contract newContract = (Contract) CommonYAML.getYamlObject().load(request.getNewContractYaml());
-			final ContractID cID = logicModule.newContract(Utils.getID(request.getAccountID()),
+			final ContractID cID = logicModule.newContract(Utils.getAccountID(request.getAccountID()),
 					Utils.getCredential(request.getCredential()), newContract);
 
 			final NewContractResponse resp = NewContractResponse.newBuilder().setContractID(Utils.getMsgID(cID))
@@ -1005,8 +973,8 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 	public void registerToPublicContract(final RegisterToPublicContractRequest request,
 			final StreamObserver<ExceptionInfo> responseObserver) {
 		try {
-			logicModule.registerToPublicContract(Utils.getID(request.getAccountID()),
-					Utils.getCredential(request.getCredential()), Utils.getID(request.getContractID()));
+			logicModule.registerToPublicContract(Utils.getAccountID(request.getAccountID()),
+					Utils.getCredential(request.getCredential()), Utils.getContractID(request.getContractID()));
 
 			Utils.returnExceptionInfoMessage(responseObserver);
 			responseObserver.onCompleted();
@@ -1022,8 +990,8 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 	public void registerToPublicContractOfNamespace(final RegisterToPublicContractOfNamespaceRequest request,
 			final StreamObserver<RegisterToPublicContractOfNamespaceResponse> responseObserver) {
 		try {
-			final ContractID cID = logicModule.registerToPublicContractOfNamespace(Utils.getID(request.getAccountID()),
-					Utils.getCredential(request.getCredential()), Utils.getID(request.getNamespaceID()));
+			final ContractID cID = logicModule.registerToPublicContractOfNamespace(Utils.getAccountID(request.getAccountID()),
+					Utils.getCredential(request.getCredential()), Utils.getNamespaceID(request.getNamespaceID()));
 
 			final RegisterToPublicContractOfNamespaceResponse resp = RegisterToPublicContractOfNamespaceResponse
 					.newBuilder().setContractID(Utils.getMsgID(cID)).build();
@@ -1046,7 +1014,7 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 			final StreamObserver<GetContractIDsOfApplicantResponse> responseObserver) {
 		try {
 			final Map<ContractID, Contract> result = logicModule.getContractIDsOfApplicant(
-					Utils.getID(request.getApplicantID()), Utils.getCredential(request.getCredential()));
+					Utils.getAccountID(request.getApplicantID()), Utils.getCredential(request.getCredential()));
 
 			final GetContractIDsOfApplicantResponse.Builder builder = GetContractIDsOfApplicantResponse.newBuilder();
 			for (final Entry<ContractID, Contract> entry : result.entrySet()) {
@@ -1072,8 +1040,8 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 
 		try {
 			final Map<ContractID, Contract> result = logicModule.getContractIDsOfProvider(
-					Utils.getID(request.getProviderID()), Utils.getCredential(request.getCredential()),
-					Utils.getID(request.getNamespaceIDOfProvider()));
+					Utils.getAccountID(request.getProviderID()), Utils.getCredential(request.getCredential()),
+					Utils.getNamespaceID(request.getNamespaceIDOfProvider()));
 
 			final GetContractIDsOfProviderResponse.Builder builder = GetContractIDsOfProviderResponse.newBuilder();
 			for (final Entry<ContractID, Contract> entry : result.entrySet()) {
@@ -1098,8 +1066,8 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 			final StreamObserver<GetContractsOfApplicantWithProvResponse> responseObserver) {
 		try {
 			final Map<ContractID, Contract> result = logicModule.getContractIDsOfApplicantWithProvider(
-					Utils.getID(request.getApplicantID()), Utils.getCredential(request.getCredential()),
-					Utils.getID(request.getNamespaceIDOfProvider()));
+					Utils.getAccountID(request.getApplicantID()), Utils.getCredential(request.getCredential()),
+					Utils.getNamespaceID(request.getNamespaceIDOfProvider()));
 			final GetContractsOfApplicantWithProvResponse.Builder builder = GetContractsOfApplicantWithProvResponse
 					.newBuilder();
 			for (final Entry<ContractID, Contract> entry : result.entrySet()) {
@@ -1132,7 +1100,7 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 		try {
 			final DataContract newContract = (DataContract) CommonYAML.getYamlObject()
 					.load(request.getDataContractYaml());
-			final DataContractID cID = logicModule.newDataContract(Utils.getID(request.getAccountID()),
+			final DataContractID cID = logicModule.newDataContract(Utils.getAccountID(request.getAccountID()),
 					Utils.getCredential(request.getCredential()), newContract);
 
 			final NewDataContractResponse resp = NewDataContractResponse.newBuilder()
@@ -1154,8 +1122,8 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 	public void registerToPublicDataContract(final RegisterToPublicDataContractRequest request,
 			final StreamObserver<ExceptionInfo> responseObserver) {
 		try {
-			logicModule.registerToPublicDataContract(Utils.getID(request.getAccountID()),
-					Utils.getCredential(request.getCredential()), Utils.getID(request.getDataContractID()));
+			logicModule.registerToPublicDataContract(Utils.getAccountID(request.getAccountID()),
+					Utils.getCredential(request.getCredential()), Utils.getDataContractID(request.getDataContractID()));
 
 			Utils.returnExceptionInfoMessage(responseObserver);
 			responseObserver.onCompleted();
@@ -1172,7 +1140,7 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 			final StreamObserver<GetDataContractIDsOfApplicantResponse> responseObserver) {
 		try {
 			final Map<DataContractID, DataContract> result = logicModule.getDataContractIDsOfApplicant(
-					Utils.getID(request.getApplicantID()), Utils.getCredential(request.getCredential()));
+					Utils.getAccountID(request.getApplicantID()), Utils.getCredential(request.getCredential()));
 
 			final GetDataContractIDsOfApplicantResponse.Builder builder = GetDataContractIDsOfApplicantResponse
 					.newBuilder();
@@ -1200,8 +1168,8 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 			final StreamObserver<GetDataContractIDsOfProviderResponse> responseObserver) {
 		try {
 			final Map<DataContractID, DataContract> result = logicModule.getDataContractIDsOfProvider(
-					Utils.getID(request.getProviderID()), Utils.getCredential(request.getCredential()),
-					Utils.getID(request.getDataSetIDOfProvider()));
+					Utils.getAccountID(request.getProviderID()), Utils.getCredential(request.getCredential()),
+					Utils.getDataSetID(request.getDataSetIDOfProvider()));
 
 			final GetDataContractIDsOfProviderResponse.Builder builder = GetDataContractIDsOfProviderResponse
 					.newBuilder();
@@ -1229,8 +1197,8 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 			final StreamObserver<GetDataContractInfoOfApplicantWithProvResponse> responseObserver) {
 		try {
 			final DataContract result = logicModule.getDataContractInfoOfApplicantWithProvider(
-					Utils.getID(request.getApplicantID()), Utils.getCredential(request.getCredential()),
-					Utils.getID(request.getDataSetIDOfProvider()));
+					Utils.getAccountID(request.getApplicantID()), Utils.getCredential(request.getCredential()),
+					Utils.getDataSetID(request.getDataSetIDOfProvider()));
 
 			final GetDataContractInfoOfApplicantWithProvResponse.Builder builder = GetDataContractInfoOfApplicantWithProvResponse
 					.newBuilder().setDataContractInfo(CommonYAML.getYamlObject().dump(result));
@@ -1259,7 +1227,7 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 			final StreamObserver<NewInterfaceResponse> responseObserver) {
 		try {
 			final Interface newInterface = (Interface) CommonYAML.getYamlObject().load(request.getInterfaceYaml());
-			final InterfaceID result = logicModule.newInterface(Utils.getID(request.getApplicantID()),
+			final InterfaceID result = logicModule.newInterface(Utils.getAccountID(request.getApplicantID()),
 					Utils.getCredential(request.getCredential()), newInterface);
 
 			final NewInterfaceResponse resp = NewInterfaceResponse.newBuilder().setInterfaceID(Utils.getMsgID(result))
@@ -1282,8 +1250,8 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 	public void getInterfaceInfo(final GetInterfaceInfoRequest request,
 			final StreamObserver<GetInterfaceInfoResponse> responseObserver) {
 		try {
-			final Interface iface = logicModule.getInterfaceInfo(Utils.getID(request.getApplicantID()),
-					Utils.getCredential(request.getCredential()), Utils.getID(request.getInterfaceID()));
+			final Interface iface = logicModule.getInterfaceInfo(Utils.getAccountID(request.getApplicantID()),
+					Utils.getCredential(request.getCredential()), Utils.getInterfaceID(request.getInterfaceID()));
 
 			final GetInterfaceInfoResponse resp = GetInterfaceInfoResponse.newBuilder()
 					.setInterfaceYaml(CommonYAML.getYamlObject().dump(iface)).build();
@@ -1303,9 +1271,9 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 	public void removeInterface(final RemoveInterfaceRequest request,
 			final StreamObserver<ExceptionInfo> responseObserver) {
 		try {
-			logicModule.removeInterface(Utils.getID(request.getApplicantID()),
-					Utils.getCredential(request.getCredential()), Utils.getID(request.getNamespaceID()),
-					Utils.getID(request.getInterfaceID()));
+			logicModule.removeInterface(Utils.getAccountID(request.getApplicantID()),
+					Utils.getCredential(request.getCredential()), Utils.getNamespaceID(request.getNamespaceID()),
+					Utils.getInterfaceID(request.getInterfaceID()));
 
 			Utils.returnExceptionInfoMessage(responseObserver);
 			responseObserver.onCompleted();
@@ -1319,43 +1287,43 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 	}
 
 	@Override
-	public void getStorageLocationForDS(final GetStorageLocationForDSRequest request,
-			final StreamObserver<GetStorageLocationForDSResponse> responseObserver) {
+	public void getStorageLocationInfo(final GetStorageLocationInfoRequest request,
+			final StreamObserver<GetStorageLocationInfoResponse> responseObserver) {
 		try {
 			final StorageLocation stLoc = logicModule
-					.getStorageLocationForDS(Utils.getID(request.getStorageLocationID()));
+					.getStorageLocationInfo(Utils.getStorageLocationID(request.getStorageLocationID()));
 
-			final GetStorageLocationForDSResponse resp = GetStorageLocationForDSResponse.newBuilder()
-					.setStorageLocationYaml(CommonYAML.getYamlObject().dump(stLoc)).build();
+			final GetStorageLocationInfoResponse resp = GetStorageLocationInfoResponse.newBuilder()
+					.setStorageLocationInfo(Utils.getStorageLocation(stLoc)).build();
 			responseObserver.onNext(resp);
 			responseObserver.onCompleted();
 
 		} catch (final Exception e) {
-			final GetStorageLocationForDSResponse.Builder builder = GetStorageLocationForDSResponse.newBuilder();
+			final GetStorageLocationInfoResponse.Builder builder = GetStorageLocationInfoResponse.newBuilder();
 			builder.setExcInfo(Utils.serializeException(e));
-			final GetStorageLocationForDSResponse resp = builder.build();
+			final GetStorageLocationInfoResponse resp = builder.build();
 			responseObserver.onNext(resp);
 			responseObserver.onCompleted();
 		}
 	}
 
 	@Override
-	public void getExecutionEnvironmentForDS(final GetExecutionEnvironmentForDSRequest request,
-			final StreamObserver<GetExecutionEnvironmentForDSResponse> responseObserver) {
+	public void getExecutionEnvironmentInfo(final GetExecutionEnvironmentInfoRequest request,
+			final StreamObserver<GetExecutionEnvironmentInfoResponse> responseObserver) {
 		try {
 			final ExecutionEnvironment result = logicModule
-					.getExecutionEnvironmentForDS(Utils.getID(request.getExecEnvID()));
+					.getExecutionEnvironmentInfo(Utils.getExecutionEnvironmentID(request.getExecEnvID()));
 
-			final GetExecutionEnvironmentForDSResponse resp = GetExecutionEnvironmentForDSResponse.newBuilder()
-					.setExecEnvYaml(CommonYAML.getYamlObject().dump(result)).build();
+			final GetExecutionEnvironmentInfoResponse resp = GetExecutionEnvironmentInfoResponse.newBuilder()
+					.setExecutionEnvironmentInfo(Utils.getExecutionEnvironment(result)).build();
 			responseObserver.onNext(resp);
 			responseObserver.onCompleted();
 
 		} catch (final Exception e) {
-			final GetExecutionEnvironmentForDSResponse.Builder builder = GetExecutionEnvironmentForDSResponse
+			final GetExecutionEnvironmentInfoResponse.Builder builder = GetExecutionEnvironmentInfoResponse
 					.newBuilder();
 			builder.setExcInfo(Utils.serializeException(e));
-			final GetExecutionEnvironmentForDSResponse resp = builder.build();
+			final GetExecutionEnvironmentInfoResponse resp = builder.build();
 			responseObserver.onNext(resp);
 			responseObserver.onCompleted();
 		}
@@ -1405,7 +1373,7 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 			final StreamObserver<RegisterExternalDataClayResponse> responseObserver) {
 		final RegisterExternalDataClayResponse.Builder builder = RegisterExternalDataClayResponse.newBuilder();
 		try {
-			final DataClayInstanceID result = logicModule.registerExternalDataClayOverrideAuthority(Utils.getID(request.getAdminAccountID()), 
+			final DataClayInstanceID result = logicModule.registerExternalDataClayOverrideAuthority(Utils.getAccountID(request.getAdminAccountID()), 
 					Utils.getCredential(request.getAdminCredential()), request.getHostname(),
 					request.getPort(), request.getAuthority());
 
@@ -1428,7 +1396,7 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 				.newBuilder();
 		try {
 			final DataClayInstanceID result = logicModule.notifyRegistrationOfExternalDataClay(
-					Utils.getID(request.getExtDataClayID()), request.getHostname(), request.getPort());
+					Utils.getDataClayInstanceID(request.getExtDataClayID()), request.getHostname(), request.getPort());
 
 			final NotifyRegistrationOfExternalDataClayResponse resp = builder.setExtDataClayID(Utils.getMsgID(result))
 					.build();
@@ -1449,8 +1417,8 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 		final GetExtDataClayInfoResponse.Builder builder = GetExtDataClayInfoResponse.newBuilder();
 		try {
 			final DataClayInstance result = logicModule
-					.getExternalDataClayInfo(Utils.getID(request.getExtDataClayID()));
-			final GetExtDataClayInfoResponse resp = builder.setExtDataClayYaml(CommonYAML.getYamlObject().dump(result))
+					.getExternalDataClayInfo(Utils.getDataClayInstanceID(request.getExtDataClayID()));
+			final GetExtDataClayInfoResponse resp = builder.setExtDataClayInfo(Utils.getDataClayInstance(result))
 					.build();
 			responseObserver.onNext(resp);
 			responseObserver.onCompleted();
@@ -1482,247 +1450,18 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 	}
 
 	@Override
-	public void federateObject(final FederateObjectRequest request,
-			final StreamObserver<ExceptionInfo> responseObserver) {
-		try {
-			logicModule.federateObject(Utils.getID(request.getSessionID()), Utils.getID(request.getObjectID()),
-					Utils.getID(request.getExtDataClayID()), request.getRecursive());
-
-			Utils.returnExceptionInfoMessage(responseObserver);
-			responseObserver.onCompleted();
-
-		} catch (final Exception e) {
-			final ExceptionInfo resp = Utils.serializeException(e);
-			responseObserver.onNext(resp);
-			responseObserver.onCompleted();
-		}
-	}
-
-	@Override
-	public void unfederateObject(final UnfederateObjectRequest request,
-			final StreamObserver<ExceptionInfo> responseObserver) {
-		try {
-			logicModule.unfederateObject(Utils.getID(request.getSessionID()), Utils.getID(request.getObjectID()),
-					Utils.getID(request.getExtDataClayID()), request.getRecursive());
-
-			Utils.returnExceptionInfoMessage(responseObserver);
-			responseObserver.onCompleted();
-
-		} catch (final Exception e) {
-			final ExceptionInfo resp = Utils.serializeException(e);
-			responseObserver.onNext(resp);
-			responseObserver.onCompleted();
-		}
-	}
-
-	@Override
-	public void unfederateAllObjects(final UnfederateAllObjectsRequest request,
-			final StreamObserver<ExceptionInfo> responseObserver) {
-		try {
-			logicModule.unfederateAllObjects(Utils.getID(request.getSessionID()), 
-					Utils.getID(request.getExtDataClayID()));
-			Utils.returnExceptionInfoMessage(responseObserver);
-			responseObserver.onCompleted();
-
-		} catch (final Exception e) {
-			final ExceptionInfo resp = Utils.serializeException(e);
-			responseObserver.onNext(resp);
-			responseObserver.onCompleted();
-		}
-	}
-	
-	@Override
-	public void unfederateAllObjectsWithAllDCs(final UnfederateAllObjectsWithAllDCsRequest request,
-			final StreamObserver<ExceptionInfo> responseObserver) {
-		try {
-			logicModule.unfederateAllObjectsWithAllDCs(Utils.getID(request.getSessionID()));
-			Utils.returnExceptionInfoMessage(responseObserver);
-			responseObserver.onCompleted();
-
-		} catch (final Exception e) {
-			final ExceptionInfo resp = Utils.serializeException(e);
-			responseObserver.onNext(resp);
-			responseObserver.onCompleted();
-		}
-	}
-	
-	@Override
-	public void unfederateObjectWithAllDCs(final UnfederateObjectWithAllDCsRequest request,
-			final StreamObserver<ExceptionInfo> responseObserver) {
-		try {
-			logicModule.unfederateObjectWithAllDCs(Utils.getID(request.getSessionID()), 
-					Utils.getID(request.getObjectID()), request.getRecursive());
-			Utils.returnExceptionInfoMessage(responseObserver);
-			responseObserver.onCompleted();
-
-		} catch (final Exception e) {
-			final ExceptionInfo resp = Utils.serializeException(e);
-			responseObserver.onNext(resp);
-			responseObserver.onCompleted();
-		}
-	}
-	
-	@Override
-	public void federateAllObjects(final FederateAllObjectsRequest request,
-			final StreamObserver<ExceptionInfo> responseObserver) {
-		try {
-			logicModule.federateAllObjects(Utils.getID(request.getSessionID()), 
-					Utils.getID(request.getExternalDestinationDataClayID()));
-			Utils.returnExceptionInfoMessage(responseObserver);
-			responseObserver.onCompleted();
-
-		} catch (final Exception e) {
-			final ExceptionInfo resp = Utils.serializeException(e);
-			responseObserver.onNext(resp);
-			responseObserver.onCompleted();
-		}
-	}
-	
-	@Override
-	public void migrateFederatedObjects(final MigrateFederatedObjectsRequest request,
-			final StreamObserver<ExceptionInfo> responseObserver) {
-		try {
-			logicModule.migrateFederatedObjects(Utils.getID(request.getSessionID()), 
-					Utils.getID(request.getExternalOriginDataClayID()), 
-					Utils.getID(request.getExternalDestinationDataClayID()));
-			Utils.returnExceptionInfoMessage(responseObserver);
-			responseObserver.onCompleted();
-
-		} catch (final Exception e) {
-			final ExceptionInfo resp = Utils.serializeException(e);
-			responseObserver.onNext(resp);
-			responseObserver.onCompleted();
-		}
-	}
-	
-	@Override
-	public void notifyFederatedObjects(final NotifyFederatedObjectsRequest request,
-			final StreamObserver<ExceptionInfo> responseObserver) {
-		try {
-			final Map<Langs, SerializedParametersOrReturn> federatedObjects = new HashMap<>();
-			final Map<ObjectID, MetaDataInfo> objectsInfo = new HashMap<>();
-
-			final Map<String, String> fedObjectsInfo = request.getObjectsInfoMap();
-			final Map<String, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn> fedObjsReq = 
-					request.getFederatedObjectsMap();
-
-			for (final Entry<String, String> fedObjectInfo : fedObjectsInfo.entrySet()) {
-				objectsInfo.put(Utils.getObjectIDFromUUID(fedObjectInfo.getKey()),
-						(MetaDataInfo) CommonYAML.getYamlObject().load(fedObjectInfo.getValue()));
-			}
-			for (final Entry<String, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn> fedObj : fedObjsReq.entrySet()) {
-				final Langs language = Langs.valueOf(fedObj.getKey());
-				final SerializedParametersOrReturn fedObjs = Utils.getParamsOrReturn(fedObj.getValue());
-				federatedObjects.put(language, fedObjs);
-			}
-			logicModule.notifyFederatedObjects(Utils.getID(request.getSrcDcID()),
-					request.getSrcDcHost(), request.getSrcDcPort(), objectsInfo, 
-					federatedObjects);
-
-			Utils.returnExceptionInfoMessage(responseObserver);
-			responseObserver.onCompleted();
-
-		} catch (final Exception e) {
-			final ExceptionInfo resp = Utils.serializeException(e);
-			responseObserver.onNext(resp);
-			responseObserver.onCompleted();
-		}
-	}
-
-	@Override
-	public void notifyUnfederatedObjects(final NotifyUnfederatedObjectsRequest request,
-			final StreamObserver<ExceptionInfo> responseObserver) {
-		try {
-			final Set<ObjectID> oids = new HashSet<>();
-			for (final CommonMessages.ObjectID oid : request.getObjectsIDsList()) {
-				oids.add(Utils.getID(oid));
-			}
-			logicModule.notifyUnfederatedObjects(Utils.getID(request.getSrcDcID()),
-					oids);
-
-			Utils.returnExceptionInfoMessage(responseObserver);
-			responseObserver.onCompleted();
-
-		} catch (final Exception e) {
-			final ExceptionInfo resp = Utils.serializeException(e);
-			responseObserver.onNext(resp);
-			responseObserver.onCompleted();
-		}
-	}
-
-	@Override
-	public void checkObjectIsFederatedWithDataClayInstance(
-			final CheckObjectFederatedWithDataClayInstanceRequest request,
-			final StreamObserver<CheckObjectFederatedWithDataClayInstanceResponse> responseObserver) {
-		final CheckObjectFederatedWithDataClayInstanceResponse.Builder builder = CheckObjectFederatedWithDataClayInstanceResponse
-				.newBuilder();
-		try {
-			final boolean result = logicModule.checkObjectIsFederatedWithDataClayInstance(
-					Utils.getID(request.getObjectID()), Utils.getID(request.getExtDataClayID()));
-			final CheckObjectFederatedWithDataClayInstanceResponse resp = builder.setIsFederated(result).build();
-			responseObserver.onNext(resp);
-			responseObserver.onCompleted();
-
-		} catch (final Exception e) {
-			builder.setExcInfo(Utils.serializeException(e));
-			final CheckObjectFederatedWithDataClayInstanceResponse resp = builder.build();
-			responseObserver.onNext(resp);
-			responseObserver.onCompleted();
-		}
-	}
-
-	
-	@Override
-	public void getDataClaysObjectIsFederatedWith(final GetDataClaysObjectIsFederatedWithRequest request,
-			final StreamObserver<GetDataClaysObjectIsFederatedWithResponse> responseObserver) {
-		final GetDataClaysObjectIsFederatedWithResponse.Builder builder = GetDataClaysObjectIsFederatedWithResponse.newBuilder();
-		try {
-			final Set<DataClayInstanceID> result = logicModule.getDataClaysObjectIsFederatedWith(Utils.getID(request.getObjectID()));
-			for (final DataClayInstanceID di : result) {
-				builder.addExtDataClayIDs(Utils.getMsgID(di));
-			}
-			final GetDataClaysObjectIsFederatedWithResponse resp = builder.build();
-			responseObserver.onNext(resp);
-			responseObserver.onCompleted();
-
-		} catch (final Exception e) {
-			builder.setExcInfo(Utils.serializeException(e));
-			final GetDataClaysObjectIsFederatedWithResponse resp = builder.build();
-			responseObserver.onNext(resp);
-			responseObserver.onCompleted();
-		}
-	}
-
-	@Override
-	public void getExternalSourceDataClayOfObject(final GetExternalSourceDataClayOfObjectRequest request,
-			final StreamObserver<GetExternalSourceDataClayOfObjectResponse> responseObserver) {
-		final GetExternalSourceDataClayOfObjectResponse.Builder builder = GetExternalSourceDataClayOfObjectResponse.newBuilder();
-		try {
-			final DataClayInstanceID result = logicModule.getExternalSourceDataClayOfObject(Utils.getID(request.getObjectID()));
-			builder.setExtDataClayID(Utils.getMsgID(result));
-			
-			final GetExternalSourceDataClayOfObjectResponse resp = builder.build();
-			responseObserver.onNext(resp);
-			responseObserver.onCompleted();
-
-		} catch (final Exception e) {
-			builder.setExcInfo(Utils.serializeException(e));
-			final GetExternalSourceDataClayOfObjectResponse resp = builder.build();
-			responseObserver.onNext(resp);
-			responseObserver.onCompleted();
-		}
-	}
-	
-	@Override
 	public void registerObjectFromGC(final RegisterObjectForGCRequest request,
 			final StreamObserver<ExceptionInfo> responseObserver) {
 		try {
 			final CommonMessages.RegistrationInfo regInfoMsg = request.getRegInfo();
-			final RegistrationInfo regInfo = new RegistrationInfo(Utils.getID(regInfoMsg.getObjectID()),
-					Utils.getID(regInfoMsg.getClassID()), Utils.getID(regInfoMsg.getSessionID()),
-					Utils.getID(regInfoMsg.getDataSetID()));
+			final RegistrationInfo regInfo = new RegistrationInfo(
+					Utils.getObjectID(regInfoMsg.getObjectID()),
+					Utils.getMetaClassID(regInfoMsg.getClassID()),
+					Utils.getSessionID(regInfoMsg.getSessionID()),
+					Utils.getDataSetID(regInfoMsg.getDataSetID()),
+					regInfoMsg.getAlias());
 
-			logicModule.registerObjectFromGC(regInfo, Utils.getID(request.getBackendID()), null);
+			logicModule.registerObjectFromGC(regInfo, Utils.getExecutionEnvironmentID(request.getBackendID()), null);
 
 			Utils.returnExceptionInfoMessage(responseObserver);
 			responseObserver.onCompleted();
@@ -1736,32 +1475,39 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 	}
 
 	@Override
-	public void registerObject(final RegisterObjectRequest request,
-			final StreamObserver<RegisterObjectResponse> responseObserver) {
+	public void registerObjects(final RegisterObjectsRequest request,
+			final StreamObserver<RegisterObjectsResponse> responseObserver) {
 		try {
 
-			final CommonMessages.RegistrationInfo regInfoMsg = request.getRegInfo();
-			final RegistrationInfo regInfo = new RegistrationInfo(Utils.getID(regInfoMsg.getObjectID()),
-					Utils.getID(regInfoMsg.getClassID()), Utils.getID(regInfoMsg.getSessionID()),
-					Utils.getID(regInfoMsg.getDataSetID()));
-
-			String alias = null; 
-
-			if (request.getAlias() != null && !request.getAlias().isEmpty()) { 
-				alias = request.getAlias();
+			List<RegistrationInfo> regInfos = new ArrayList<>();
+			for (CommonMessages.RegistrationInfo regInfoMsg : request.getRegInfosList()) {
+				String alias = null;
+				if (regInfoMsg.getAlias() != null && !regInfoMsg.getAlias().isEmpty()) {
+					alias = regInfoMsg.getAlias();
+				}
+				final RegistrationInfo regInfo = new RegistrationInfo(Utils.getObjectID(regInfoMsg.getObjectID()),
+						Utils.getMetaClassID(regInfoMsg.getClassID()), Utils.getSessionID(regInfoMsg.getSessionID()),
+						Utils.getDataSetID(regInfoMsg.getDataSetID()), alias);
+				regInfos.add(regInfo);
 			}
-			final ObjectID oid = logicModule.registerObject(regInfo, Utils.getID(request.getBackendID()), alias, request.getLang());
 
-			final RegisterObjectResponse.Builder builder = RegisterObjectResponse.newBuilder();
-			builder.setObjectID(Utils.getMsgID(oid));
-			final RegisterObjectResponse resp = builder.build();
+
+			List<ObjectID> registeredObjects = logicModule.registerObjects(regInfos,
+					Utils.getExecutionEnvironmentID(request.getBackendID()),
+					request.getLang());
+
+			final RegisterObjectsResponse.Builder builder = RegisterObjectsResponse.newBuilder();
+			for (ObjectID registeredObjectID : registeredObjects) {
+				builder.addObjectIDs(Utils.getMsgID(registeredObjectID));
+			}
+			final RegisterObjectsResponse resp = builder.build();
 			responseObserver.onNext(resp);
 			responseObserver.onCompleted();
 
 		} catch (final Exception e) {
-			final RegisterObjectResponse.Builder builder = RegisterObjectResponse.newBuilder();
+			final RegisterObjectsResponse.Builder builder = RegisterObjectsResponse.newBuilder();
 			builder.setExcInfo(Utils.serializeException(e));
-			final RegisterObjectResponse resp = builder.build();
+			final RegisterObjectsResponse resp = builder.build();
 			responseObserver.onNext(resp);
 			responseObserver.onCompleted();
 		}
@@ -1769,49 +1515,25 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 	}
 
 	@Override
-	public void getExecutionEnvironmentsInfo(final GetExecutionEnvironmentsInfoRequest request,
-			final StreamObserver<GetExecutionEnvironmentsInfoResponse> responseObserver) {
+	public void getAllExecutionEnvironmentsInfo(final GetAllExecutionEnvironmentsInfoRequest request,
+			final StreamObserver<GetAllExecutionEnvironmentsInfoResponse> responseObserver) {
 		try {
 			final Map<ExecutionEnvironmentID, ExecutionEnvironment> result = logicModule
-					.getExecutionEnvironmentsInfo(Utils.getID(request.getSessionID()), 
-							request.getExecEnvLang(), request.getFromClient());
-			final GetExecutionEnvironmentsInfoResponse.Builder builder = GetExecutionEnvironmentsInfoResponse
+					.getAllExecutionEnvironmentsInfo(request.getExecEnvLang(), request.getGetExternal());
+			final GetAllExecutionEnvironmentsInfoResponse.Builder builder = GetAllExecutionEnvironmentsInfoResponse
 					.newBuilder();
 			for (final Entry<ExecutionEnvironmentID, ExecutionEnvironment> entry : result.entrySet()) {
-				builder.putExecEnvs(entry.getKey().toString(), CommonYAML.getYamlObject().dump(entry.getValue()));
+				builder.putExecEnvs(entry.getKey().toString(), Utils.getExecutionEnvironment(entry.getValue()));
 			}
-			final GetExecutionEnvironmentsInfoResponse resp = builder.build();
+			final GetAllExecutionEnvironmentsInfoResponse resp = builder.build();
 			responseObserver.onNext(resp);
 			responseObserver.onCompleted();
 
 		} catch (final Exception e) {
-			final GetExecutionEnvironmentsInfoResponse.Builder builder = GetExecutionEnvironmentsInfoResponse
+			final GetAllExecutionEnvironmentsInfoResponse.Builder builder = GetAllExecutionEnvironmentsInfoResponse
 					.newBuilder();
 			builder.setExcInfo(Utils.serializeException(e));
-			final GetExecutionEnvironmentsInfoResponse resp = builder.build();
-			responseObserver.onNext(resp);
-			responseObserver.onCompleted();
-		}
-	}
-
-	@Override
-	public void getExecutionEnvironmentsNames(final GetExecutionEnvironmentsNamesRequest request,
-			final StreamObserver<GetExecutionEnvironmentsNamesResponse> responseObserver) {
-		try {
-			final Set<String> result = logicModule.getExecutionEnvironmentsNames(Utils.getID(request.getAccountID()),
-					Utils.getCredential(request.getCredential()), request.getExecEnvLang());
-			final GetExecutionEnvironmentsNamesResponse.Builder builder = GetExecutionEnvironmentsNamesResponse
-					.newBuilder();
-			builder.addAllExecEnvs(result);
-			final GetExecutionEnvironmentsNamesResponse resp = builder.build();
-			responseObserver.onNext(resp);
-			responseObserver.onCompleted();
-
-		} catch (final Exception e) {
-			final GetExecutionEnvironmentsNamesResponse.Builder builder = GetExecutionEnvironmentsNamesResponse
-					.newBuilder();
-			builder.setExcInfo(Utils.serializeException(e));
-			final GetExecutionEnvironmentsNamesResponse resp = builder.build();
+			final GetAllExecutionEnvironmentsInfoResponse resp = builder.build();
 			responseObserver.onNext(resp);
 			responseObserver.onCompleted();
 		}
@@ -1821,8 +1543,8 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 	public void getObjectInfo(final GetObjectInfoRequest request,
 			final StreamObserver<GetObjectInfoResponse> responseObserver) {
 		try {
-			final Tuple<String, String> objInfo = logicModule.getObjectInfo(Utils.getID(request.getSessionID()),
-					Utils.getID(request.getObjectID()));
+			final Tuple<String, String> objInfo = logicModule.getObjectInfo(Utils.getSessionID(request.getSessionID()),
+					Utils.getObjectID(request.getObjectID()));
 			final GetObjectInfoResponse resp = GetObjectInfoResponse.newBuilder().setClassname(objInfo.getFirst())
 					.setNamespace(objInfo.getSecond()).build();
 			responseObserver.onNext(resp);
@@ -1842,7 +1564,7 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 			final StreamObserver<GetObjectFromAliasResponse> responseObserver) {
 		try {
 			final Triple<ObjectID, MetaClassID, ExecutionEnvironmentID> result = logicModule
-					.getObjectFromAlias(Utils.getID(request.getSessionID()), request.getAlias());
+					.getObjectFromAlias(Utils.getSessionID(request.getSessionID()), request.getAlias());
 			final GetObjectFromAliasResponse resp = GetObjectFromAliasResponse.newBuilder()
 					.setObjectID(Utils.getMsgID(result.getFirst())).setClassID(Utils.getMsgID(result.getSecond()))
 					.setHint(Utils.getMsgID(result.getThird())).build();
@@ -1861,7 +1583,7 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 	@Override
 	public void deleteAlias(final DeleteAliasRequest request, final StreamObserver<ExceptionInfo> responseObserver) {
 		try {
-			logicModule.deleteAlias(Utils.getID(request.getSessionID()), request.getAlias());
+			logicModule.deleteAlias(Utils.getSessionID(request.getSessionID()), request.getAlias());
 
 			Utils.returnExceptionInfoMessage(responseObserver);
 			responseObserver.onCompleted();
@@ -1878,12 +1600,12 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 			final StreamObserver<GetObjectsMetaDataInfoOfClassForNMResponse> responseObserver) {
 		try {
 			final Map<ObjectID, MetaDataInfo> result = logicModule
-					.getObjectsMetaDataInfoOfClassForNM(Utils.getID(request.getClassID()));
+					.getObjectsMetaDataInfoOfClassForNM(Utils.getMetaClassID(request.getClassID()));
 
 			final GetObjectsMetaDataInfoOfClassForNMResponse.Builder builder = GetObjectsMetaDataInfoOfClassForNMResponse
 					.newBuilder();
 			for (final Entry<ObjectID, MetaDataInfo> entry : result.entrySet()) {
-				builder.putMdataInfo(entry.getKey().toString(), CommonYAML.getYamlObject().dump(entry.getValue()));
+				builder.putMdataInfo(entry.getKey().toString(), Utils.getMetaDataInfo(entry.getValue()));
 			}
 			final GetObjectsMetaDataInfoOfClassForNMResponse resp = builder.build();
 			responseObserver.onNext(resp);
@@ -1900,75 +1622,12 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 	}
 
 	@Override
-	public void newVersion(final NewVersionRequest request, final StreamObserver<NewVersionResponse> responseObserver) {
-		try {
-			final VersionInfo vinfo = logicModule.newVersion(Utils.getID(request.getSessionID()),
-					Utils.getID(request.getObjectID()), Utils.getID(request.getOptDestBackendID()));
-
-			final NewVersionResponse resp = NewVersionResponse.newBuilder()
-					.setVersionInfoYaml(CommonYAML.getYamlObject().dump(vinfo)).build();
-
-			responseObserver.onNext(resp);
-			responseObserver.onCompleted();
-
-		} catch (final Exception e) {
-			final NewVersionResponse.Builder builder = NewVersionResponse.newBuilder();
-			builder.setExcInfo(Utils.serializeException(e));
-			final NewVersionResponse resp = builder.build();
-			responseObserver.onNext(resp);
-			responseObserver.onCompleted();
-		}
-	}
-
-	@Override
-	public void consolidateVersion(final ConsolidateVersionRequest request,
-			final StreamObserver<ExceptionInfo> responseObserver) {
-
-		try {
-			final VersionInfo vinfo = (VersionInfo) CommonYAML.getYamlObject().load(request.getVersionInfoYaml());
-			logicModule.consolidateVersion(Utils.getID(request.getSessionID()), vinfo);
-
-			Utils.returnExceptionInfoMessage(responseObserver);
-			responseObserver.onCompleted();
-
-		} catch (final Exception e) {
-			final ExceptionInfo resp = Utils.serializeException(e);
-			responseObserver.onNext(resp);
-			responseObserver.onCompleted();
-		}
-	}
-
-	@Override
-	public void newReplica(final NewReplicaRequest request, final StreamObserver<NewReplicaResponse> responseObserver) {
-		try {
-
-			final ExecutionEnvironmentID result = logicModule.newReplica(Utils.getID(request.getSessionID()),
-					Utils.getID(request.getObjectID()), Utils.getID(request.getDestBackendID()),
-					request.getRecursive());
-
-			final NewReplicaResponse resp = NewReplicaResponse.newBuilder().setDestBackendID(Utils.getMsgID(result))
-					.build();
-
-			responseObserver.onNext(resp);
-			responseObserver.onCompleted();
-
-		} catch (final Exception e) {
-			final NewReplicaResponse.Builder builder = NewReplicaResponse.newBuilder();
-			builder.setExcInfo(Utils.serializeException(e));
-			final NewReplicaResponse resp = builder.build();
-			responseObserver.onNext(resp);
-			responseObserver.onCompleted();
-		}
-
-	}
-
-	@Override
 	public void moveObject(final MoveObjectRequest request, final StreamObserver<MoveObjectResponse> responseObserver) {
 		try {
 
-			final List<ObjectID> result = logicModule.moveObject(Utils.getID(request.getSessionID()),
-					Utils.getID(request.getObjectID()), Utils.getID(request.getSrcBackendID()),
-					Utils.getID(request.getDestBackendID()), request.getRecursive());
+			final List<ObjectID> result = logicModule.moveObject(Utils.getSessionID(request.getSessionID()),
+					Utils.getObjectID(request.getObjectID()), Utils.getExecutionEnvironmentID(request.getSrcBackendID()),
+					Utils.getExecutionEnvironmentID(request.getDestBackendID()), request.getRecursive());
 
 			final MoveObjectResponse.Builder builder = es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.MoveObjectResponse
 					.newBuilder();
@@ -1998,7 +1657,7 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 
 		try {
 
-			logicModule.setObjectReadOnly(Utils.getID(request.getSessionID()), Utils.getID(request.getObjectID()));
+			logicModule.setObjectReadOnly(Utils.getSessionID(request.getSessionID()), Utils.getObjectID(request.getObjectID()));
 
 			Utils.returnExceptionInfoMessage(responseObserver);
 			responseObserver.onCompleted();
@@ -2015,7 +1674,7 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 			final StreamObserver<ExceptionInfo> responseObserver) {
 		try {
 
-			logicModule.setObjectReadWrite(Utils.getID(request.getSessionID()), Utils.getID(request.getObjectID()));
+			logicModule.setObjectReadWrite(Utils.getSessionID(request.getSessionID()), Utils.getObjectID(request.getObjectID()));
 
 			Utils.returnExceptionInfoMessage(responseObserver);
 			responseObserver.onCompleted();
@@ -2033,15 +1692,11 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 
 		try {
 
-			final MetaDataInfo result = logicModule.getMetadataByOID(Utils.getID(request.getSessionID()),
-					Utils.getID(request.getObjectID()));
+			final MetaDataInfo result = logicModule.getMetadataByOID(Utils.getSessionID(request.getSessionID()),
+					Utils.getObjectID(request.getObjectID()));
 			final GetMetadataByOIDResponse.Builder builder = GetMetadataByOIDResponse.newBuilder();
-			if (result != null) {
-				builder.setObjMdataYaml(CommonYAML.getYamlObject().dump(result));
-			}
-			if (DEBUG_ENABLED) {
-				logger.debug("Sending " + builder.getObjMdataYaml());
-			}
+			builder.setMdInfo(Utils.getMetaDataInfo(result));
+
 			final GetMetadataByOIDResponse resp = builder.build();
 			responseObserver.onNext(resp);
 			responseObserver.onCompleted();
@@ -2062,10 +1717,10 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 
 		try {
 
-			final MetaDataInfo result = logicModule.getMetadataByOIDForDS(Utils.getID(request.getObjectID()));
+			final MetaDataInfo result = logicModule.getMetadataByOIDForDS(Utils.getObjectID(request.getObjectID()));
 
 			final GetMetadataByOIDForDSResponse.Builder builder = GetMetadataByOIDForDSResponse.newBuilder();
-			builder.setObjMdataYaml(CommonYAML.getYamlObject().dump(result));
+			builder.setMdInfo(Utils.getMetaDataInfo(result));
 			final GetMetadataByOIDForDSResponse resp = builder.build();
 			responseObserver.onNext(resp);
 			responseObserver.onCompleted();
@@ -2095,10 +1750,10 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 				params = Utils.getParamsOrReturn(request.getParams());
 			}
 			final SerializedParametersOrReturn result = logicModule
-					.executeImplementation(Utils.getID(request.getSessionID()), Utils.getID(request.getOperationID()),
-							new Triple<>(Utils.getID(request.getImplementationID()),
-									Utils.getID(request.getContractID()), Utils.getID(request.getInterfaceID())),
-							Utils.getID(request.getObjectID()), params);
+					.executeImplementation(Utils.getSessionID(request.getSessionID()), Utils.getOperationID(request.getOperationID()),
+							new Triple<>(Utils.getImplementationID(request.getImplementationID()),
+									Utils.getContractID(request.getContractID()), Utils.getInterfaceID(request.getInterfaceID())),
+							Utils.getObjectID(request.getObjectID()), params);
 
 			final ExecuteImplementationResponse.Builder builder = ExecuteImplementationResponse.newBuilder();
 			if (result != null) {
@@ -2127,8 +1782,9 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 				params = Utils.getParamsOrReturn(request.getParams());
 			}
 			final SerializedParametersOrReturn result = logicModule.executeMethodOnTarget(
-					Utils.getID(request.getSessionID()), Utils.getID(request.getObjectID()),
-					request.getOperationNameAndSignature(), params, Utils.getID(request.getTargetBackendID()));
+					Utils.getSessionID(request.getSessionID()), Utils.getObjectID(request.getObjectID()),
+					request.getOperationNameAndSignature(), params,
+					Utils.getExecutionEnvironmentID(request.getTargetBackendID()));
 
 			final ExecuteMethodOnTargetResponse.Builder builder = ExecuteMethodOnTargetResponse.newBuilder();
 			if (result != null) {
@@ -2147,28 +1803,6 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 		}
 	}
 
-	@Override
-	public void synchronizeFederatedObject(final SynchronizeFederatedObjectRequest request,
-			final StreamObserver<ExceptionInfo> responseObserver) {
-		try {
-			SerializedParametersOrReturn params = null;
-			if (request.hasParams()) {
-				params = Utils.getParamsOrReturn(request.getParams());
-			}
-			logicModule.synchronizeFederatedObject(
-					Utils.getID(request.getExtDataClayID()), Utils.getID(request.getObjectID()),
-					Utils.getID(request.getImplementationID()), params, request.getAllBackends());
-
-			Utils.returnExceptionInfoMessage(responseObserver);
-			responseObserver.onCompleted();
-
-		} catch (final Exception e) {
-			final ExceptionInfo resp = Utils.serializeException(e);
-			responseObserver.onNext(resp);
-			responseObserver.onCompleted();
-		}
-	}
-
 	/**
 	 * <pre>
 	 * Stubs.
@@ -2179,11 +1813,11 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 		try {
 
 			final List<ContractID> contractsIDs = new LinkedList<>();
-			for (final CommonMessages.ContractID cID : request.getContractIDsList()) {
-				contractsIDs.add(Utils.getID(cID));
+			for (final String cID : request.getContractIDsList()) {
+				contractsIDs.add(Utils.getContractID(cID));
 			}
 
-			final Map<String, byte[]> stubs = logicModule.getStubs(Utils.getID(request.getApplicantAccountID()),
+			final Map<String, byte[]> stubs = logicModule.getStubs(Utils.getAccountID(request.getApplicantAccountID()),
 					Utils.getCredential(request.getCredentials()), request.getLanguage(), contractsIDs);
 
 			final GetStubsResponse.Builder builder = GetStubsResponse.newBuilder();
@@ -2211,11 +1845,11 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 		try {
 
 			final List<ContractID> contractsIDs = new LinkedList<>();
-			for (final CommonMessages.ContractID cID : request.getContractIDsList()) {
-				contractsIDs.add(Utils.getID(cID));
+			for (final String cID : request.getContractIDsList()) {
+				contractsIDs.add(Utils.getContractID(cID));
 			}
 
-			final byte[] result = logicModule.getBabelStubs(Utils.getID(request.getAccountID()),
+			final byte[] result = logicModule.getBabelStubs(Utils.getAccountID(request.getAccountID()),
 					Utils.getCredential(request.getCredentials()), contractsIDs);
 
 			final GetBabelStubsResponse.Builder builder = GetBabelStubsResponse.newBuilder();
@@ -2243,7 +1877,7 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 		try {
 
 			final ECA eca = (ECA) CommonYAML.getYamlObject().load(request.getEca());
-			logicModule.registerEventListenerImplementation(Utils.getID(request.getApplicantAccountID()),
+			logicModule.registerEventListenerImplementation(Utils.getAccountID(request.getApplicantAccountID()),
 					Utils.getCredential(request.getCredentials()), eca);
 
 			Utils.returnExceptionInfoMessage(responseObserver);
@@ -2283,7 +1917,7 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 			final StreamObserver<GetClassNameForDSResponse> responseObserver) {
 		try {
 
-			final String className = logicModule.getClassNameForDS(Utils.getID(request.getClassID()));
+			final String className = logicModule.getClassNameForDS(Utils.getMetaClassID(request.getClassID()));
 			final GetClassNameForDSResponse resp = GetClassNameForDSResponse.newBuilder().setClassName(className)
 					.build();
 			responseObserver.onNext(resp);
@@ -2304,7 +1938,7 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 		try {
 
 			final Tuple<String, String> result = logicModule
-					.getClassNameAndNamespaceForDS(Utils.getID(request.getClassID()));
+					.getClassNameAndNamespaceForDS(Utils.getMetaClassID(request.getClassID()));
 			final GetClassNameAndNamespaceForDSResponse resp = GetClassNameAndNamespaceForDSResponse.newBuilder()
 					.setClassName(result.getFirst()).setNamespace(result.getSecond()).build();
 			responseObserver.onNext(resp);
@@ -2329,7 +1963,7 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 		try {
 
 			final ContractID result = logicModule.getContractIDOfDataClayProvider(
-					Utils.getID(request.getApplicantAccountID()), Utils.getCredential(request.getCredentials()));
+					Utils.getAccountID(request.getApplicantAccountID()), Utils.getCredential(request.getCredentials()));
 			final GetContractIDOfDataClayProviderResponse resp = GetContractIDOfDataClayProviderResponse.newBuilder()
 					.setContractID(Utils.getMsgID(result)).build();
 			responseObserver.onNext(resp);
@@ -2444,8 +2078,9 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 
 		try {
 
-			logicModule.setDataSetID(Utils.getID(request.getSessionID()), Utils.getID(request.getObjectID()),
-					Utils.getID(request.getDatasetID()));
+			logicModule.setDataSetID(Utils.getSessionID(request.getSessionID()),
+					Utils.getObjectID(request.getObjectID()),
+					Utils.getDataSetID(request.getDatasetID()));
 
 			Utils.returnExceptionInfoMessage(responseObserver);
 			responseObserver.onCompleted();
@@ -2462,8 +2097,8 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 
 		try {
 
-			logicModule.setDataSetIDFromGarbageCollector(Utils.getID(request.getObjectID()),
-					Utils.getID(request.getDatasetID()));
+			logicModule.setDataSetIDFromGarbageCollector(Utils.getObjectID(request.getObjectID()),
+					Utils.getDataSetID(request.getDatasetID()));
 
 			Utils.returnExceptionInfoMessage(responseObserver);
 			responseObserver.onCompleted();
@@ -2479,9 +2114,9 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 			final StreamObserver<ExceptionInfo> responseObserver) {
 		try {
 			final Set<ObjectID> objectsToUnregister = new HashSet<>();
-			for (final es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectID oid : request
+			for (final String oid : request
 					.getObjectsToUnregisterList()) {
-				objectsToUnregister.add(Utils.getID(oid));
+				objectsToUnregister.add(Utils.getObjectID(oid));
 			}
 			logicModule.unregisterObjects(objectsToUnregister);
 
@@ -2527,7 +2162,7 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 									   final StreamObserver<ExceptionInfo> responseObserver) {
 		try {
 			logicModule.importModelsFromExternalDataClay(request.getNamespaceName(),
-					Utils.getID(request.getDataClayID()));
+					Utils.getDataClayInstanceID(request.getDataClayID()));
 			Utils.returnExceptionInfoMessage(responseObserver);
 			responseObserver.onCompleted();
 
@@ -2564,7 +2199,7 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 												 final StreamObserver<ExceptionInfo> responseObserver) {
 		try {
 			logicModule.notifyExecutionEnvironmentShutdown(
-					Utils.getID(request.getExecutionEnvironmentID()));
+					Utils.getExecutionEnvironmentID(request.getExecutionEnvironmentID()));
 			Utils.returnExceptionInfoMessage(responseObserver);
 			responseObserver.onCompleted();
 
@@ -2580,7 +2215,7 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 												   final StreamObserver<ExceptionInfo> responseObserver) {
 		try {
 			logicModule.notifyStorageLocationShutdown(
-					Utils.getID(request.getStorageLocationID()));
+					Utils.getStorageLocationID(request.getStorageLocationID()));
 			Utils.returnExceptionInfoMessage(responseObserver);
 			responseObserver.onCompleted();
 
@@ -2596,7 +2231,7 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 									 final StreamObserver<ExistsActiveEnvironmentsForSLResponse> responseObserver) {
 		try {
 
-			boolean result = logicModule.existsActiveEnvironmentsForSL(Utils.getID(request.getStorageLocationID()));
+			boolean result = logicModule.existsActiveEnvironmentsForSL(Utils.getStorageLocationID(request.getStorageLocationID()));
 			final ExistsActiveEnvironmentsForSLResponse resp = ExistsActiveEnvironmentsForSLResponse.newBuilder()
 					.setExists(result).build();
 			responseObserver.onNext(resp);
