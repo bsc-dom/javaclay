@@ -12,9 +12,12 @@ import java.util.HashMap;
 import java.util.IdentityHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 import es.bsc.dataclay.DataClayObject;
 import es.bsc.dataclay.commonruntime.DataClayRuntime;
+import es.bsc.dataclay.communication.grpc.Utils;
 import es.bsc.dataclay.serialization.buffer.DataClayByteArray;
 import es.bsc.dataclay.serialization.buffer.DataClayByteBuffer;
 import es.bsc.dataclay.serialization.buffer.HeapNettyBuffer;
@@ -68,18 +71,27 @@ public final class SerializationLibUtils {
 	 *            Hint for associations without hint (for MakePersistent)
 	 * @param numRefsPointingToObj
 	 *            Number of references pointing to object.
+	 * @param thealias Alias of the object or null if none
+	 * @param origObjectID Original object id in case of new version
+	 * @param rootLocation root location of the object
+	 * @param theoriginLocation origin location of the object in case of replica
+	 * @param thereplicaLocations IDs of locations this object was replicated to
+	 * @param theisReadOnly indicates if object is read only
 	 * @return MetaData created.
 	 */
 	public static DataClayObjectMetaData createMetaData(
 			final IdentityHashMap<Object, Integer> curSerObjs,
 			final ExecutionEnvironmentID hintForMissing,
-			final int numRefsPointingToObj) {
+			final int numRefsPointingToObj, final ObjectID origObjectID,
+			final ExecutionEnvironmentID rootLocation,
+			final ExecutionEnvironmentID theoriginLocation,
+			final Set<ExecutionEnvironmentID> thereplicaLocations,
+			final String thealias, final boolean theisReadOnly) {
 
 		// Prepare metaData structures
 		final Map<Integer, ObjectID> tagsToOids = new HashMap<>();
 		final Map<Integer, MetaClassID> tagsToClassIDs = new HashMap<>();
 		final Map<Integer, ExecutionEnvironmentID> tagsToHint = new HashMap<>();
-		final Map<Integer, DataClayInstanceID> tagsToDataClayIDs = new HashMap<>();
 
 		for (final Entry<Object, Integer> foundObj : curSerObjs.entrySet()) {
 			if (foundObj.getKey() instanceof DataClayObject) {
@@ -88,7 +100,6 @@ public final class SerializationLibUtils {
 				final MetaClassID classID = obj.getMetaClassID();
 				final ObjectID objectID = obj.getObjectID();
 				final ExecutionEnvironmentID hint = (ExecutionEnvironmentID) obj.getHint();
-				final DataClayInstanceID externalDataClayID = obj.getExternalDataClayID();
 
 				tagsToOids.put(tag, objectID);
 				tagsToClassIDs.put(tag, classID);
@@ -109,21 +120,12 @@ public final class SerializationLibUtils {
 						tagsToHint.put(tag, hintForMissing);
 					}
 				}
-
-				if (externalDataClayID != null) {
-					if (DEBUG_ENABLED) {
-						DataClayObject.getLib();
-						DataClayRuntime.LOGGER.debug("[==Ext dcID==] Setting dcID " +
-								externalDataClayID
-								+ " association for tag " + tag);
-					}
-					tagsToDataClayIDs.put(tag, externalDataClayID);
-				}
 			}
 
 		}
-		final DataClayObjectMetaData objData = new DataClayObjectMetaData(tagsToOids,
-				tagsToClassIDs, tagsToHint, tagsToDataClayIDs, numRefsPointingToObj);
+		final DataClayObjectMetaData objData = new DataClayObjectMetaData(thealias, theisReadOnly,
+				tagsToOids, tagsToClassIDs, tagsToHint, numRefsPointingToObj,
+				origObjectID, rootLocation, theoriginLocation, thereplicaLocations);
 		return objData;
 	}
 

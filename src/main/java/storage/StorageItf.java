@@ -20,12 +20,14 @@ import es.bsc.dataclay.api.DataClayException;
 import es.bsc.dataclay.commonruntime.ClientRuntime;
 import es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.Langs;
 import es.bsc.dataclay.util.Configuration;
+import es.bsc.dataclay.util.ids.ExecutionEnvironmentID;
 import es.bsc.dataclay.util.ids.MetaClassID;
 import es.bsc.dataclay.util.ids.ObjectID;
 import es.bsc.dataclay.util.ids.SessionID;
 import es.bsc.dataclay.util.info.VersionInfo;
 import es.bsc.dataclay.util.management.metadataservice.MetaDataInfo;
 import es.bsc.dataclay.util.structs.Triple;
+import es.bsc.dataclay.util.structs.Tuple;
 
 /**
  * This class intends to offer a basic API based on Severo Ochoa project needs.
@@ -33,11 +35,9 @@ import es.bsc.dataclay.util.structs.Triple;
  * @author jmarti
  */
 public final class StorageItf {
+
 	/** Indicates if debug is enabled. */
 	protected static final boolean DEBUG_ENABLED = Configuration.isDebugEnabled();
-
-	/** Mapping from version "ObjectID" to the original object of its version sequence. */
-	private static final Map<ObjectID, VersionInfo> versions = new ConcurrentHashMap<>();
 
 	/**
 	 * @brief Forbidden constructor
@@ -101,48 +101,12 @@ public final class StorageItf {
 			final BackendID originalHint = ids.getSecond();
 			final MetaClassID originalClassID = ids.getThird();
 
-			final VersionInfo versionInfo = commonLib.newVersion(originalObjectID,
-					originalClassID, originalHint, null, optDestHost);
-			if (versionInfo == null) {
-				throw new StorageException("Cannot create version of object " + originalObjectID + " in " + destBackendID
-						+ " with session " + commonLib.getSessionID());
-
-			}
-			final ObjectID versionOID = versionInfo.getVersionOID();
-			final ObjectID previousVersionOID = versionInfo.getVersionsMapping().get(versionOID);
-			boolean alreadyVersioned = false;
-			if (!versions.containsKey(previousVersionOID)) {
-				// No previous version of the same original object exists, add it to the versions list
-				versions.put(versionOID, versionInfo);
-			} else {
-				// Update the version info to map from the last version to the original object
-				alreadyVersioned = true;
-				final Map<ObjectID, ObjectID> oldVersionToOriginal = versions.get(previousVersionOID).getVersionsMapping();
-				final LinkedHashMap<ObjectID, ObjectID> newVersionToOriginal = new LinkedHashMap<>();
-				for (final Entry<ObjectID, ObjectID> newToPrevious : versionInfo.getVersionsMapping().entrySet()) {
-					final ObjectID previousOID = newToPrevious.getValue();
-					if (oldVersionToOriginal.containsKey(previousOID)) {
-						newVersionToOriginal.put(newToPrevious.getKey(), oldVersionToOriginal.get(previousOID));
-					} else {
-						newVersionToOriginal.put(newToPrevious.getKey(), previousOID);
-					}
-				}
-				final VersionInfo newVersionInfo = new VersionInfo();
-				newVersionInfo.setVersionOID(versionOID);
-				newVersionInfo.setVersionsMapping(newVersionToOriginal);
-				final Map<ObjectID, MetaDataInfo> originalMD = versions.get(previousVersionOID).getOriginalMD();
-				newVersionInfo.setOriginalMD(originalMD);
-				versions.put(versionOID, newVersionInfo);
-				// Here we remove the previous version info, since COMPSs will always consolidate the last one.
-				versions.remove(previousVersionOID);
-			}
-
+			Tuple<ObjectID, BackendID> result = commonLib.newVersion(originalObjectID,
+					(ExecutionEnvironmentID) originalHint, originalClassID, null, null, optDestHost);
+			ObjectID versionOID = result.getFirst();
+			BackendID destBackendID = result.getSecond();
 			if (DEBUG_ENABLED) {
-				if (alreadyVersioned) {
-					System.out.println("[DATACLAY] Object " + originalObjectID + " already versioned in " + destBackendID);
-				} else {
-					System.out.println("[DATACLAY] Object " + originalObjectID + " versioned in " + destBackendID);
-				}
+				System.out.println("[DATACLAY] Object " + originalObjectID + " versioned in " + destBackendID);
 				// System.out.println("[DATACLAY] Current versions " + versions.toString());
 			}
 
@@ -162,50 +126,16 @@ public final class StorageItf {
 	 */
 	public static void consolidateVersion(final String finalVersionIDstr) throws StorageException {
 		try {
-			final ObjectID versionOID = DataClay.string2IDandHintID(finalVersionIDstr).getFirst();
-
-			final VersionInfo versionInfo = versions.get(versionOID);
-			if (versionInfo == null) {
-				throw new StorageException("There is no version with ID " + versionOID);
-			}
-			DataClay.getCommonLib().consolidateVersion(versionInfo);
-			versions.remove(versionOID);
-
+			final Triple<ObjectID, BackendID, MetaClassID> ids = DataClay.string2IDandHintID(finalVersionIDstr);
+			final ObjectID versionOID = ids.getFirst();
+			final BackendID versionHint = ids.getSecond();
+			DataClay.getCommonLib().consolidateVersion(versionOID, (ExecutionEnvironmentID) versionHint);
 			System.out.println("[DATACLAY] Consolidated version " + versionOID);
 			// System.out.println("[DATACLAY] Current versions " + versions.toString());
 
 		} catch (final Exception ex) {
 			throw new StorageException(ex);
 		}
-	}
-
-	/**
-	 * @brief Returns all the current versions. This method is only used for testing.
-	 * @return For each version, returns the mapping to the original object and subobjects.
-	 * @throws StorageException
-	 *             if an exception occurs
-	 */
-	public static Map<ObjectID, VersionInfo> getVersions() throws StorageException {
-		return versions;
-	}
-
-	/**
-	 * @brief Retrieves a random backend from the given set of backends.
-	 * @param possibleObjects
-	 *            set of backends.
-	 * @return
-	 * @return the randomly selected backend.
-	 */
-	private static <T> T getRandom(final Collection<T> possibleObjects) {
-		final int position = new Random().nextInt(possibleObjects.size());
-		int i = 0;
-		for (final T id : possibleObjects) {
-			if (i == position) {
-				return id;
-			}
-			i++;
-		}
-		return null;
 	}
 
 	/**

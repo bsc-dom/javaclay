@@ -37,11 +37,7 @@ import es.bsc.dataclay.util.management.contractmgr.Contract;
 import es.bsc.dataclay.util.management.datacontractmgr.DataContract;
 import es.bsc.dataclay.util.management.datasetmgr.DataSet;
 import es.bsc.dataclay.util.management.interfacemgr.Interface;
-import es.bsc.dataclay.util.management.metadataservice.DataClayInstance;
-import es.bsc.dataclay.util.management.metadataservice.ExecutionEnvironment;
-import es.bsc.dataclay.util.management.metadataservice.MetaDataInfo;
-import es.bsc.dataclay.util.management.metadataservice.RegistrationInfo;
-import es.bsc.dataclay.util.management.metadataservice.StorageLocation;
+import es.bsc.dataclay.util.management.metadataservice.*;
 import es.bsc.dataclay.util.management.namespacemgr.Namespace;
 import es.bsc.dataclay.util.management.sessionmgr.SessionInfo;
 import es.bsc.dataclay.util.structs.Triple;
@@ -447,24 +443,6 @@ public interface LogicModuleAPI {
 	Map<String, MetaClass> newClass(final AccountID accountID, final PasswordCredential credential,
 			final Langs language, final Map<String, MetaClass> newClasses);
 
-	/**
-	 * This operation creates a new metaclass in the system with the provided specifications and associate it to the Namespace
-	 * provided.
-	 * 
-	 * @param accountID
-	 *            ID of the account of the user that calls the operation
-	 * @param credential
-	 *            Credential of the account provided
-	 * @param className
-	 *            Name of the class from which to get ID
-	 * @param language
-	 *            Language of the classes provided
-	 * @param newClasses
-	 *            Specifications of classes to create
-	 * @return metaClassID of the new MetaClass if it was successfully created.
-	 */
-	MetaClassID newClassID(final AccountID accountID, final PasswordCredential credential, final String className,
-			final Langs language, final Map<String, MetaClass> newClasses);
 
 	/**
 	 * Method that removes a class given its name and the name of the namespace where it belongs to
@@ -823,9 +801,11 @@ public interface LogicModuleAPI {
 	 * Method that retrieves the info of all the registered backends
 	 *
 	 * @param exeEnvLang Language of execution environments to get information of
+	 * @param getExternal Indicates if external execution environments must be also obtained
 	 * @return the info of the registered Storage Locations in a table indexed by their IDs
 	 */
-	Map<ExecutionEnvironmentID, ExecutionEnvironment> getAllExecutionEnvironmentsInfo(final Langs exeEnvLang);
+	Map<ExecutionEnvironmentID, ExecutionEnvironment> getAllExecutionEnvironmentsInfo(final Langs exeEnvLang,
+																					  final boolean getExternal);
 
 
 	/**
@@ -922,177 +902,6 @@ public interface LogicModuleAPI {
 	void importModelsFromExternalDataClay(final String extNamespaceName, final DataClayInstanceID extDataClayID);
 
 
-	/**
-	 * Method that federates an object with an external dataClay instance
-	 * 
-	 * @param sessionID
-	 *            id of the current session
-	 * @param objectID
-	 *            id of the object to be federated
-	 * @param classID id of the class of the object to federate
-	 * @param hint hint of the object to federate
-	 * @param extDataClayID
-	 *            ID of the external dataClay instance
-	 * @param recursive
-	 *            whether subobjects should be also federated or not
-	 */
-	void federateObject(final SessionID sessionID, final ObjectID objectID, final MetaClassID classID,
-						final BackendID hint,
-						final DataClayInstanceID extDataClayID, final boolean recursive);
-
-	/**
-	 * Method that notifies current dataClay instance of a federated object from another dataClay
-	 * 
-	 * @param srcDataClayID
-	 *            id of source dataClay instance
-	 * @param srcDcHost
-	 *            hostname of source dataClay instance
-	 * @param srcDcPort
-	 *            port of source dataClay instance
-
-	 * @param providedobjectsInfo
-	 *            metadata of objects to federate
-	 * @param federatedObjectsPerLanguage Serialized data of objects to federate
-	 * 
-	 */
-	void notifyFederatedObjects(final DataClayInstanceID srcDataClayID, final String srcDcHost,
-			final int srcDcPort, final Map<ObjectID, Tuple<MetaClassID, String>> providedobjectsInfo,
-								final Map<Langs, List<ObjectWithDataParamOrReturn>> federatedObjectsPerLanguage);
-
-	/**
-	 * Checks if the given object is federated with given external dataClay instance
-	 * 
-	 * @param objectID
-	 *            id of the object
-	 * @param extDataClayID
-	 *            id of the dataClay instance
-	 * @return TRUE if the object is federated with the given external dataClay instance. FALSE otherwise.
-	 */
-	boolean checkObjectIsFederatedWithDataClayInstance(final ObjectID objectID, final DataClayInstanceID extDataClayID);
-
-	/**
-	 * Method that allows an external dataClay instance to request the execution of an implementation on a given object. This
-	 * object must be a valid object shared with such an external dataClay.
-	 * 
-	 * @param extDataClayID
-	 *            id of the external dataClay instance
-	 * @param objectID
-	 *            id of the target object
-	 * @param implID
-	 *            ID of the implementation to be executed
-	 * @param params
-	 *            parameters for the execution
-	 * @param allBackends Indicates if execution must be done in all replicas
-	 */
-	void synchronizeFederatedObject(final DataClayInstanceID extDataClayID,
-			final ObjectID objectID, final ImplementationID implID, final SerializedParametersOrReturn params,
-			final boolean allBackends);
-
-	/**
-	 * Retrieve external dataClays which the given object has been federated with.
-	 * 
-	 * @param objectID
-	 *            id of the federated object to be checked
-	 * @return known dataClay instances having this federated object
-	 */
-	Set<DataClayInstanceID> getDataClaysObjectIsFederatedWith(final ObjectID objectID); 
-	
-	/**
-	 * Retrieve source dataClay
-	 * 
-	 * @param objectID
-	 *            id of the federated object to be checked
-	 * @return origin dataClay or null if object does not come from federation.
-	 */
-	DataClayInstanceID getExternalSourceDataClayOfObject(final ObjectID objectID); 
-
-
-	/**
-	 * Method that unfederates an object
-	 * 
-	 * @param sessionID
-	 *            id of the current session
-	 * @param objectID
-	 *            id of the object to be unfederated
-	 * @param externalDataClayID
-	 *            ID of the external dataClay to unfederate the object with.
-	 * @param recursive
-	 *            whether subobjects should be also unfederated or not
-	 */
-	void unfederateObject(final SessionID sessionID, final ObjectID objectID,
-			final DataClayInstanceID externalDataClayID,
-			final boolean recursive);
-	
-	
-	/**
-	 * Method that unfederates all objects belonging/shared with external dataClay provided.
-	 * 
-	 * @param sessionID
-	 *            id of the current session
-	 * @param externalDataClayID
-	 *            ID of the external dataClay to unfederate the object with.
-	 */
-	void unfederateAllObjects(final SessionID sessionID,
-			final DataClayInstanceID externalDataClayID);
-
-	/**
-	 * Federate all objects belonging to current dataClay with external dataClay provided
-	 * @param sessionID
-	 *            id of the current session
-	 * @param externalDestinationDataClayID ID of external dataClay to federated the objects
-	 */
-	public void federateAllObjects(final SessionID sessionID,
-			final DataClayInstanceID externalDestinationDataClayID);
-	
-	/**
-	 * Method that moves all objects (belonging to current dataClay) and 
-	 * federated TO a certain external dataClay to another external dataClay.
-	 * 
-	 * @param sessionID
-	 *            id of the current session
-	 * @param externalOriginDataClayID ID of external dataClay objects are federated to
-	 * @param externalDestinationDataClayID ID of external dataClay to federated the objects
-	 *            
-	 */
-	void migrateFederatedObjects(final SessionID sessionID,
-			final DataClayInstanceID externalOriginDataClayID, 
-			final DataClayInstanceID externalDestinationDataClayID);
-	
-
-	/**
-	 * Method that unfederates all objects belonging/shared with ANY external dataClay provided.
-	 * 
-	 * @param sessionID
-	 *            id of the current session
-	 */
-	void unfederateAllObjectsWithAllDCs(final SessionID sessionID);
-
-	
-	/**
-	 * Method that unfederates a concrete object belonging/shared with ANY external dataClay provided.
-	 * 
-	 * @param sessionID
-	 *            id of the current session
-	 * @param objectID id of the object to unfederate with all DCs   
-	 * @param recursive Indicates to unfederate all sub-objects with any external dataClay also.       
-	 */
-	void unfederateObjectWithAllDCs(final SessionID sessionID, final ObjectID objectID, 
-			final boolean recursive);
-	
-	
-	
-	/**
-	 * Method that notifies current dataClay instance to unfederate objects with source dataclay provided.
-	 * 
-	 * @param srcDataClayID
-	 *            id of source dataClay instance
-	 * @param objectsIDs
-	 *            ids of objects to federate
-	 * 
-	 */
-	void notifyUnfederatedObjects(final DataClayInstanceID srcDataClayID,
-			final Set<ObjectID> objectsIDs);
-
 	// ============== Data Service ==============//
 
 	/**
@@ -1160,38 +969,6 @@ public interface LogicModuleAPI {
 	 */
 	void setDataSetID(final SessionID sessionID, final ObjectID objectID, final DataSetID dataSetID);
 
-	/**
-	 * Method that creates a persistent new version of the object. If a destination backend is given, it tries to store the
-	 * object in it.
-	 * 
-	 * @param sessionID
-	 *            ID of the session
-	 * @param objectID
-	 *            ID of the object
-	 * @param classID
-	 *            Class ID of the object
-	 * @param hint
-	 *            Hint of the object
-	 * @param optionalDestBackendID
-	 *            optionally a preferred destination backend
-	 * @param optDestHostname Hostname of the backend in which to replicate the object (optional)
-	 * @return the information about the new version required for consolidate
-	 */
-	VersionInfo newVersion(final SessionID sessionID, final ObjectID objectID,
-						   final MetaClassID classID, final BackendID hint,
-			final ExecutionEnvironmentID optionalDestBackendID, final String optDestHostname);
-
-	/**
-	 * Makes the object with finalVersionID the definitive version of the object with originalObjectID. The original version is
-	 * deleted.
-	 * 
-	 * @param sessionID
-	 *            ID of the session
-	 * @param version
-	 *            Info about the version containing ID of the root of the version and mapping versionID-originalID for all the
-	 *            versioned objects
-	 */
-	void consolidateVersion(final SessionID sessionID, final VersionInfo version);
 
 	/**
 	 * Method that moves an object from location to location.
@@ -1255,7 +1032,7 @@ public interface LogicModuleAPI {
 
 	/**
 	 * Method that executes an implementation
-	 * 
+	 *
 	 * @param sessionID
 	 *            ID of the session
 	 * @param operationID

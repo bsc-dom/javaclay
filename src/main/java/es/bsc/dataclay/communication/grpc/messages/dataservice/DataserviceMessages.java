@@ -10588,16 +10588,16 @@ public final class DataserviceMessages {
     boolean getRecursive();
 
     /**
-     * <code>bool removeHints = 4;</code>
-     * @return The removeHints.
+     * <code>string destBackendID = 4;</code>
+     * @return The destBackendID.
      */
-    boolean getRemoveHints();
-
+    java.lang.String getDestBackendID();
     /**
-     * <code>bool getOnlyRefs = 5;</code>
-     * @return The getOnlyRefs.
+     * <code>string destBackendID = 4;</code>
+     * @return The bytes for destBackendID.
      */
-    boolean getGetOnlyRefs();
+    com.google.protobuf.ByteString
+        getDestBackendIDBytes();
   }
   /**
    * Protobuf type {@code dataclay.communication.grpc.dataservice.GetObjectsRequest}
@@ -10614,6 +10614,7 @@ public final class DataserviceMessages {
     private GetObjectsRequest() {
       sessionID_ = "";
       objectIDS_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      destBackendID_ = "";
     }
 
     @java.lang.Override
@@ -10667,14 +10668,10 @@ public final class DataserviceMessages {
               recursive_ = input.readBool();
               break;
             }
-            case 32: {
+            case 34: {
+              java.lang.String s = input.readStringRequireUtf8();
 
-              removeHints_ = input.readBool();
-              break;
-            }
-            case 40: {
-
-              getOnlyRefs_ = input.readBool();
+              destBackendID_ = s;
               break;
             }
             default: {
@@ -10793,24 +10790,40 @@ public final class DataserviceMessages {
       return recursive_;
     }
 
-    public static final int REMOVEHINTS_FIELD_NUMBER = 4;
-    private boolean removeHints_;
+    public static final int DESTBACKENDID_FIELD_NUMBER = 4;
+    private volatile java.lang.Object destBackendID_;
     /**
-     * <code>bool removeHints = 4;</code>
-     * @return The removeHints.
+     * <code>string destBackendID = 4;</code>
+     * @return The destBackendID.
      */
-    public boolean getRemoveHints() {
-      return removeHints_;
+    public java.lang.String getDestBackendID() {
+      java.lang.Object ref = destBackendID_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        destBackendID_ = s;
+        return s;
+      }
     }
-
-    public static final int GETONLYREFS_FIELD_NUMBER = 5;
-    private boolean getOnlyRefs_;
     /**
-     * <code>bool getOnlyRefs = 5;</code>
-     * @return The getOnlyRefs.
+     * <code>string destBackendID = 4;</code>
+     * @return The bytes for destBackendID.
      */
-    public boolean getGetOnlyRefs() {
-      return getOnlyRefs_;
+    public com.google.protobuf.ByteString
+        getDestBackendIDBytes() {
+      java.lang.Object ref = destBackendID_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        destBackendID_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
     }
 
     private byte memoizedIsInitialized = -1;
@@ -10836,11 +10849,8 @@ public final class DataserviceMessages {
       if (recursive_ != false) {
         output.writeBool(3, recursive_);
       }
-      if (removeHints_ != false) {
-        output.writeBool(4, removeHints_);
-      }
-      if (getOnlyRefs_ != false) {
-        output.writeBool(5, getOnlyRefs_);
+      if (!getDestBackendIDBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 4, destBackendID_);
       }
       unknownFields.writeTo(output);
     }
@@ -10866,13 +10876,8 @@ public final class DataserviceMessages {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(3, recursive_);
       }
-      if (removeHints_ != false) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeBoolSize(4, removeHints_);
-      }
-      if (getOnlyRefs_ != false) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeBoolSize(5, getOnlyRefs_);
+      if (!getDestBackendIDBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, destBackendID_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -10895,10 +10900,8 @@ public final class DataserviceMessages {
           .equals(other.getObjectIDSList())) return false;
       if (getRecursive()
           != other.getRecursive()) return false;
-      if (getRemoveHints()
-          != other.getRemoveHints()) return false;
-      if (getGetOnlyRefs()
-          != other.getGetOnlyRefs()) return false;
+      if (!getDestBackendID()
+          .equals(other.getDestBackendID())) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -10919,12 +10922,8 @@ public final class DataserviceMessages {
       hash = (37 * hash) + RECURSIVE_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
           getRecursive());
-      hash = (37 * hash) + REMOVEHINTS_FIELD_NUMBER;
-      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
-          getRemoveHints());
-      hash = (37 * hash) + GETONLYREFS_FIELD_NUMBER;
-      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
-          getGetOnlyRefs());
+      hash = (37 * hash) + DESTBACKENDID_FIELD_NUMBER;
+      hash = (53 * hash) + getDestBackendID().hashCode();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -11064,9 +11063,7 @@ public final class DataserviceMessages {
         bitField0_ = (bitField0_ & ~0x00000001);
         recursive_ = false;
 
-        removeHints_ = false;
-
-        getOnlyRefs_ = false;
+        destBackendID_ = "";
 
         return this;
       }
@@ -11102,8 +11099,7 @@ public final class DataserviceMessages {
         }
         result.objectIDS_ = objectIDS_;
         result.recursive_ = recursive_;
-        result.removeHints_ = removeHints_;
-        result.getOnlyRefs_ = getOnlyRefs_;
+        result.destBackendID_ = destBackendID_;
         onBuilt();
         return result;
       }
@@ -11169,11 +11165,9 @@ public final class DataserviceMessages {
         if (other.getRecursive() != false) {
           setRecursive(other.getRecursive());
         }
-        if (other.getRemoveHints() != false) {
-          setRemoveHints(other.getRemoveHints());
-        }
-        if (other.getGetOnlyRefs() != false) {
-          setGetOnlyRefs(other.getGetOnlyRefs());
+        if (!other.getDestBackendID().isEmpty()) {
+          destBackendID_ = other.destBackendID_;
+          onChanged();
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -11421,62 +11415,78 @@ public final class DataserviceMessages {
         return this;
       }
 
-      private boolean removeHints_ ;
+      private java.lang.Object destBackendID_ = "";
       /**
-       * <code>bool removeHints = 4;</code>
-       * @return The removeHints.
+       * <code>string destBackendID = 4;</code>
+       * @return The destBackendID.
        */
-      public boolean getRemoveHints() {
-        return removeHints_;
+      public java.lang.String getDestBackendID() {
+        java.lang.Object ref = destBackendID_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          destBackendID_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
       }
       /**
-       * <code>bool removeHints = 4;</code>
-       * @param value The removeHints to set.
+       * <code>string destBackendID = 4;</code>
+       * @return The bytes for destBackendID.
+       */
+      public com.google.protobuf.ByteString
+          getDestBackendIDBytes() {
+        java.lang.Object ref = destBackendID_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          destBackendID_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string destBackendID = 4;</code>
+       * @param value The destBackendID to set.
        * @return This builder for chaining.
        */
-      public Builder setRemoveHints(boolean value) {
-        
-        removeHints_ = value;
+      public Builder setDestBackendID(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        destBackendID_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>bool removeHints = 4;</code>
+       * <code>string destBackendID = 4;</code>
        * @return This builder for chaining.
        */
-      public Builder clearRemoveHints() {
+      public Builder clearDestBackendID() {
         
-        removeHints_ = false;
-        onChanged();
-        return this;
-      }
-
-      private boolean getOnlyRefs_ ;
-      /**
-       * <code>bool getOnlyRefs = 5;</code>
-       * @return The getOnlyRefs.
-       */
-      public boolean getGetOnlyRefs() {
-        return getOnlyRefs_;
-      }
-      /**
-       * <code>bool getOnlyRefs = 5;</code>
-       * @param value The getOnlyRefs to set.
-       * @return This builder for chaining.
-       */
-      public Builder setGetOnlyRefs(boolean value) {
-        
-        getOnlyRefs_ = value;
+        destBackendID_ = getDefaultInstance().getDestBackendID();
         onChanged();
         return this;
       }
       /**
-       * <code>bool getOnlyRefs = 5;</code>
+       * <code>string destBackendID = 4;</code>
+       * @param value The bytes for destBackendID to set.
        * @return This builder for chaining.
        */
-      public Builder clearGetOnlyRefs() {
+      public Builder setDestBackendIDBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
         
-        getOnlyRefs_ = false;
+        destBackendID_ = value;
         onChanged();
         return this;
       }
@@ -11538,38 +11548,28 @@ public final class DataserviceMessages {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>map&lt;string, .dataclay.communication.grpc.common.ObjectWithDataParamOrReturn&gt; objects = 1;</code>
+     * <code>repeated .dataclay.communication.grpc.common.ObjectWithDataParamOrReturn objects = 1;</code>
+     */
+    java.util.List<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn> 
+        getObjectsList();
+    /**
+     * <code>repeated .dataclay.communication.grpc.common.ObjectWithDataParamOrReturn objects = 1;</code>
+     */
+    es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn getObjects(int index);
+    /**
+     * <code>repeated .dataclay.communication.grpc.common.ObjectWithDataParamOrReturn objects = 1;</code>
      */
     int getObjectsCount();
     /**
-     * <code>map&lt;string, .dataclay.communication.grpc.common.ObjectWithDataParamOrReturn&gt; objects = 1;</code>
+     * <code>repeated .dataclay.communication.grpc.common.ObjectWithDataParamOrReturn objects = 1;</code>
      */
-    boolean containsObjects(
-        java.lang.String key);
+    java.util.List<? extends es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturnOrBuilder> 
+        getObjectsOrBuilderList();
     /**
-     * Use {@link #getObjectsMap()} instead.
+     * <code>repeated .dataclay.communication.grpc.common.ObjectWithDataParamOrReturn objects = 1;</code>
      */
-    @java.lang.Deprecated
-    java.util.Map<java.lang.String, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn>
-    getObjects();
-    /**
-     * <code>map&lt;string, .dataclay.communication.grpc.common.ObjectWithDataParamOrReturn&gt; objects = 1;</code>
-     */
-    java.util.Map<java.lang.String, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn>
-    getObjectsMap();
-    /**
-     * <code>map&lt;string, .dataclay.communication.grpc.common.ObjectWithDataParamOrReturn&gt; objects = 1;</code>
-     */
-
-    es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn getObjectsOrDefault(
-        java.lang.String key,
-        es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn defaultValue);
-    /**
-     * <code>map&lt;string, .dataclay.communication.grpc.common.ObjectWithDataParamOrReturn&gt; objects = 1;</code>
-     */
-
-    es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn getObjectsOrThrow(
-        java.lang.String key);
+    es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturnOrBuilder getObjectsOrBuilder(
+        int index);
 
     /**
      * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
@@ -11599,6 +11599,7 @@ public final class DataserviceMessages {
       super(builder);
     }
     private GetObjectsResponse() {
+      objects_ = java.util.Collections.emptyList();
     }
 
     @java.lang.Override
@@ -11634,15 +11635,11 @@ public final class DataserviceMessages {
               break;
             case 10: {
               if (!((mutable_bitField0_ & 0x00000001) != 0)) {
-                objects_ = com.google.protobuf.MapField.newMapField(
-                    ObjectsDefaultEntryHolder.defaultEntry);
+                objects_ = new java.util.ArrayList<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn>();
                 mutable_bitField0_ |= 0x00000001;
               }
-              com.google.protobuf.MapEntry<java.lang.String, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn>
-              objects__ = input.readMessage(
-                  ObjectsDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistry);
-              objects_.getMutableMap().put(
-                  objects__.getKey(), objects__.getValue());
+              objects_.add(
+                  input.readMessage(es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn.parser(), extensionRegistry));
               break;
             }
             case 18: {
@@ -11673,6 +11670,9 @@ public final class DataserviceMessages {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
+          objects_ = java.util.Collections.unmodifiableList(objects_);
+        }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
@@ -11682,18 +11682,6 @@ public final class DataserviceMessages {
       return es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.internal_static_dataclay_communication_grpc_dataservice_GetObjectsResponse_descriptor;
     }
 
-    @SuppressWarnings({"rawtypes"})
-    @java.lang.Override
-    protected com.google.protobuf.MapField internalGetMapField(
-        int number) {
-      switch (number) {
-        case 1:
-          return internalGetObjects();
-        default:
-          throw new RuntimeException(
-              "Invalid map field number: " + number);
-      }
-    }
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
@@ -11703,79 +11691,38 @@ public final class DataserviceMessages {
     }
 
     public static final int OBJECTS_FIELD_NUMBER = 1;
-    private static final class ObjectsDefaultEntryHolder {
-      static final com.google.protobuf.MapEntry<
-          java.lang.String, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn> defaultEntry =
-              com.google.protobuf.MapEntry
-              .<java.lang.String, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn>newDefaultInstance(
-                  es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.internal_static_dataclay_communication_grpc_dataservice_GetObjectsResponse_ObjectsEntry_descriptor, 
-                  com.google.protobuf.WireFormat.FieldType.STRING,
-                  "",
-                  com.google.protobuf.WireFormat.FieldType.MESSAGE,
-                  es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn.getDefaultInstance());
-    }
-    private com.google.protobuf.MapField<
-        java.lang.String, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn> objects_;
-    private com.google.protobuf.MapField<java.lang.String, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn>
-    internalGetObjects() {
-      if (objects_ == null) {
-        return com.google.protobuf.MapField.emptyMapField(
-            ObjectsDefaultEntryHolder.defaultEntry);
-      }
+    private java.util.List<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn> objects_;
+    /**
+     * <code>repeated .dataclay.communication.grpc.common.ObjectWithDataParamOrReturn objects = 1;</code>
+     */
+    public java.util.List<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn> getObjectsList() {
       return objects_;
     }
-
+    /**
+     * <code>repeated .dataclay.communication.grpc.common.ObjectWithDataParamOrReturn objects = 1;</code>
+     */
+    public java.util.List<? extends es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturnOrBuilder> 
+        getObjectsOrBuilderList() {
+      return objects_;
+    }
+    /**
+     * <code>repeated .dataclay.communication.grpc.common.ObjectWithDataParamOrReturn objects = 1;</code>
+     */
     public int getObjectsCount() {
-      return internalGetObjects().getMap().size();
+      return objects_.size();
     }
     /**
-     * <code>map&lt;string, .dataclay.communication.grpc.common.ObjectWithDataParamOrReturn&gt; objects = 1;</code>
+     * <code>repeated .dataclay.communication.grpc.common.ObjectWithDataParamOrReturn objects = 1;</code>
      */
-
-    public boolean containsObjects(
-        java.lang.String key) {
-      if (key == null) { throw new java.lang.NullPointerException(); }
-      return internalGetObjects().getMap().containsKey(key);
+    public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn getObjects(int index) {
+      return objects_.get(index);
     }
     /**
-     * Use {@link #getObjectsMap()} instead.
+     * <code>repeated .dataclay.communication.grpc.common.ObjectWithDataParamOrReturn objects = 1;</code>
      */
-    @java.lang.Deprecated
-    public java.util.Map<java.lang.String, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn> getObjects() {
-      return getObjectsMap();
-    }
-    /**
-     * <code>map&lt;string, .dataclay.communication.grpc.common.ObjectWithDataParamOrReturn&gt; objects = 1;</code>
-     */
-
-    public java.util.Map<java.lang.String, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn> getObjectsMap() {
-      return internalGetObjects().getMap();
-    }
-    /**
-     * <code>map&lt;string, .dataclay.communication.grpc.common.ObjectWithDataParamOrReturn&gt; objects = 1;</code>
-     */
-
-    public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn getObjectsOrDefault(
-        java.lang.String key,
-        es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn defaultValue) {
-      if (key == null) { throw new java.lang.NullPointerException(); }
-      java.util.Map<java.lang.String, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn> map =
-          internalGetObjects().getMap();
-      return map.containsKey(key) ? map.get(key) : defaultValue;
-    }
-    /**
-     * <code>map&lt;string, .dataclay.communication.grpc.common.ObjectWithDataParamOrReturn&gt; objects = 1;</code>
-     */
-
-    public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn getObjectsOrThrow(
-        java.lang.String key) {
-      if (key == null) { throw new java.lang.NullPointerException(); }
-      java.util.Map<java.lang.String, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn> map =
-          internalGetObjects().getMap();
-      if (!map.containsKey(key)) {
-        throw new java.lang.IllegalArgumentException();
-      }
-      return map.get(key);
+    public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturnOrBuilder getObjectsOrBuilder(
+        int index) {
+      return objects_.get(index);
     }
 
     public static final int EXCINFO_FIELD_NUMBER = 2;
@@ -11815,12 +11762,9 @@ public final class DataserviceMessages {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      com.google.protobuf.GeneratedMessageV3
-        .serializeStringMapTo(
-          output,
-          internalGetObjects(),
-          ObjectsDefaultEntryHolder.defaultEntry,
-          1);
+      for (int i = 0; i < objects_.size(); i++) {
+        output.writeMessage(1, objects_.get(i));
+      }
       if (excInfo_ != null) {
         output.writeMessage(2, getExcInfo());
       }
@@ -11833,15 +11777,9 @@ public final class DataserviceMessages {
       if (size != -1) return size;
 
       size = 0;
-      for (java.util.Map.Entry<java.lang.String, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn> entry
-           : internalGetObjects().getMap().entrySet()) {
-        com.google.protobuf.MapEntry<java.lang.String, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn>
-        objects__ = ObjectsDefaultEntryHolder.defaultEntry.newBuilderForType()
-            .setKey(entry.getKey())
-            .setValue(entry.getValue())
-            .build();
+      for (int i = 0; i < objects_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
-            .computeMessageSize(1, objects__);
+          .computeMessageSize(1, objects_.get(i));
       }
       if (excInfo_ != null) {
         size += com.google.protobuf.CodedOutputStream
@@ -11862,8 +11800,8 @@ public final class DataserviceMessages {
       }
       es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetObjectsResponse other = (es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetObjectsResponse) obj;
 
-      if (!internalGetObjects().equals(
-          other.internalGetObjects())) return false;
+      if (!getObjectsList()
+          .equals(other.getObjectsList())) return false;
       if (hasExcInfo() != other.hasExcInfo()) return false;
       if (hasExcInfo()) {
         if (!getExcInfo()
@@ -11880,9 +11818,9 @@ public final class DataserviceMessages {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
-      if (!internalGetObjects().getMap().isEmpty()) {
+      if (getObjectsCount() > 0) {
         hash = (37 * hash) + OBJECTS_FIELD_NUMBER;
-        hash = (53 * hash) + internalGetObjects().hashCode();
+        hash = (53 * hash) + getObjectsList().hashCode();
       }
       if (hasExcInfo()) {
         hash = (37 * hash) + EXCINFO_FIELD_NUMBER;
@@ -11995,28 +11933,6 @@ public final class DataserviceMessages {
         return es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.internal_static_dataclay_communication_grpc_dataservice_GetObjectsResponse_descriptor;
       }
 
-      @SuppressWarnings({"rawtypes"})
-      protected com.google.protobuf.MapField internalGetMapField(
-          int number) {
-        switch (number) {
-          case 1:
-            return internalGetObjects();
-          default:
-            throw new RuntimeException(
-                "Invalid map field number: " + number);
-        }
-      }
-      @SuppressWarnings({"rawtypes"})
-      protected com.google.protobuf.MapField internalGetMutableMapField(
-          int number) {
-        switch (number) {
-          case 1:
-            return internalGetMutableObjects();
-          default:
-            throw new RuntimeException(
-                "Invalid map field number: " + number);
-        }
-      }
       @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
@@ -12038,12 +11954,18 @@ public final class DataserviceMessages {
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessageV3
                 .alwaysUseFieldBuilders) {
+          getObjectsFieldBuilder();
         }
       }
       @java.lang.Override
       public Builder clear() {
         super.clear();
-        internalGetMutableObjects().clear();
+        if (objectsBuilder_ == null) {
+          objects_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+        } else {
+          objectsBuilder_.clear();
+        }
         if (excInfoBuilder_ == null) {
           excInfo_ = null;
         } else {
@@ -12077,8 +11999,15 @@ public final class DataserviceMessages {
       public es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetObjectsResponse buildPartial() {
         es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetObjectsResponse result = new es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetObjectsResponse(this);
         int from_bitField0_ = bitField0_;
-        result.objects_ = internalGetObjects();
-        result.objects_.makeImmutable();
+        if (objectsBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) != 0)) {
+            objects_ = java.util.Collections.unmodifiableList(objects_);
+            bitField0_ = (bitField0_ & ~0x00000001);
+          }
+          result.objects_ = objects_;
+        } else {
+          result.objects_ = objectsBuilder_.build();
+        }
         if (excInfoBuilder_ == null) {
           result.excInfo_ = excInfo_;
         } else {
@@ -12132,8 +12061,32 @@ public final class DataserviceMessages {
 
       public Builder mergeFrom(es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetObjectsResponse other) {
         if (other == es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetObjectsResponse.getDefaultInstance()) return this;
-        internalGetMutableObjects().mergeFrom(
-            other.internalGetObjects());
+        if (objectsBuilder_ == null) {
+          if (!other.objects_.isEmpty()) {
+            if (objects_.isEmpty()) {
+              objects_ = other.objects_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+            } else {
+              ensureObjectsIsMutable();
+              objects_.addAll(other.objects_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.objects_.isEmpty()) {
+            if (objectsBuilder_.isEmpty()) {
+              objectsBuilder_.dispose();
+              objectsBuilder_ = null;
+              objects_ = other.objects_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+              objectsBuilder_ = 
+                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
+                   getObjectsFieldBuilder() : null;
+            } else {
+              objectsBuilder_.addAllMessages(other.objects_);
+            }
+          }
+        }
         if (other.hasExcInfo()) {
           mergeExcInfo(other.getExcInfo());
         }
@@ -12167,127 +12120,244 @@ public final class DataserviceMessages {
       }
       private int bitField0_;
 
-      private com.google.protobuf.MapField<
-          java.lang.String, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn> objects_;
-      private com.google.protobuf.MapField<java.lang.String, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn>
-      internalGetObjects() {
-        if (objects_ == null) {
-          return com.google.protobuf.MapField.emptyMapField(
-              ObjectsDefaultEntryHolder.defaultEntry);
-        }
-        return objects_;
-      }
-      private com.google.protobuf.MapField<java.lang.String, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn>
-      internalGetMutableObjects() {
-        onChanged();;
-        if (objects_ == null) {
-          objects_ = com.google.protobuf.MapField.newMapField(
-              ObjectsDefaultEntryHolder.defaultEntry);
-        }
-        if (!objects_.isMutable()) {
-          objects_ = objects_.copy();
-        }
-        return objects_;
+      private java.util.List<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn> objects_ =
+        java.util.Collections.emptyList();
+      private void ensureObjectsIsMutable() {
+        if (!((bitField0_ & 0x00000001) != 0)) {
+          objects_ = new java.util.ArrayList<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn>(objects_);
+          bitField0_ |= 0x00000001;
+         }
       }
 
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturnOrBuilder> objectsBuilder_;
+
+      /**
+       * <code>repeated .dataclay.communication.grpc.common.ObjectWithDataParamOrReturn objects = 1;</code>
+       */
+      public java.util.List<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn> getObjectsList() {
+        if (objectsBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(objects_);
+        } else {
+          return objectsBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .dataclay.communication.grpc.common.ObjectWithDataParamOrReturn objects = 1;</code>
+       */
       public int getObjectsCount() {
-        return internalGetObjects().getMap().size();
-      }
-      /**
-       * <code>map&lt;string, .dataclay.communication.grpc.common.ObjectWithDataParamOrReturn&gt; objects = 1;</code>
-       */
-
-      public boolean containsObjects(
-          java.lang.String key) {
-        if (key == null) { throw new java.lang.NullPointerException(); }
-        return internalGetObjects().getMap().containsKey(key);
-      }
-      /**
-       * Use {@link #getObjectsMap()} instead.
-       */
-      @java.lang.Deprecated
-      public java.util.Map<java.lang.String, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn> getObjects() {
-        return getObjectsMap();
-      }
-      /**
-       * <code>map&lt;string, .dataclay.communication.grpc.common.ObjectWithDataParamOrReturn&gt; objects = 1;</code>
-       */
-
-      public java.util.Map<java.lang.String, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn> getObjectsMap() {
-        return internalGetObjects().getMap();
-      }
-      /**
-       * <code>map&lt;string, .dataclay.communication.grpc.common.ObjectWithDataParamOrReturn&gt; objects = 1;</code>
-       */
-
-      public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn getObjectsOrDefault(
-          java.lang.String key,
-          es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn defaultValue) {
-        if (key == null) { throw new java.lang.NullPointerException(); }
-        java.util.Map<java.lang.String, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn> map =
-            internalGetObjects().getMap();
-        return map.containsKey(key) ? map.get(key) : defaultValue;
-      }
-      /**
-       * <code>map&lt;string, .dataclay.communication.grpc.common.ObjectWithDataParamOrReturn&gt; objects = 1;</code>
-       */
-
-      public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn getObjectsOrThrow(
-          java.lang.String key) {
-        if (key == null) { throw new java.lang.NullPointerException(); }
-        java.util.Map<java.lang.String, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn> map =
-            internalGetObjects().getMap();
-        if (!map.containsKey(key)) {
-          throw new java.lang.IllegalArgumentException();
+        if (objectsBuilder_ == null) {
+          return objects_.size();
+        } else {
+          return objectsBuilder_.getCount();
         }
-        return map.get(key);
       }
-
+      /**
+       * <code>repeated .dataclay.communication.grpc.common.ObjectWithDataParamOrReturn objects = 1;</code>
+       */
+      public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn getObjects(int index) {
+        if (objectsBuilder_ == null) {
+          return objects_.get(index);
+        } else {
+          return objectsBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .dataclay.communication.grpc.common.ObjectWithDataParamOrReturn objects = 1;</code>
+       */
+      public Builder setObjects(
+          int index, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn value) {
+        if (objectsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureObjectsIsMutable();
+          objects_.set(index, value);
+          onChanged();
+        } else {
+          objectsBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .dataclay.communication.grpc.common.ObjectWithDataParamOrReturn objects = 1;</code>
+       */
+      public Builder setObjects(
+          int index, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn.Builder builderForValue) {
+        if (objectsBuilder_ == null) {
+          ensureObjectsIsMutable();
+          objects_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          objectsBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .dataclay.communication.grpc.common.ObjectWithDataParamOrReturn objects = 1;</code>
+       */
+      public Builder addObjects(es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn value) {
+        if (objectsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureObjectsIsMutable();
+          objects_.add(value);
+          onChanged();
+        } else {
+          objectsBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .dataclay.communication.grpc.common.ObjectWithDataParamOrReturn objects = 1;</code>
+       */
+      public Builder addObjects(
+          int index, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn value) {
+        if (objectsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureObjectsIsMutable();
+          objects_.add(index, value);
+          onChanged();
+        } else {
+          objectsBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .dataclay.communication.grpc.common.ObjectWithDataParamOrReturn objects = 1;</code>
+       */
+      public Builder addObjects(
+          es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn.Builder builderForValue) {
+        if (objectsBuilder_ == null) {
+          ensureObjectsIsMutable();
+          objects_.add(builderForValue.build());
+          onChanged();
+        } else {
+          objectsBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .dataclay.communication.grpc.common.ObjectWithDataParamOrReturn objects = 1;</code>
+       */
+      public Builder addObjects(
+          int index, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn.Builder builderForValue) {
+        if (objectsBuilder_ == null) {
+          ensureObjectsIsMutable();
+          objects_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          objectsBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .dataclay.communication.grpc.common.ObjectWithDataParamOrReturn objects = 1;</code>
+       */
+      public Builder addAllObjects(
+          java.lang.Iterable<? extends es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn> values) {
+        if (objectsBuilder_ == null) {
+          ensureObjectsIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, objects_);
+          onChanged();
+        } else {
+          objectsBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .dataclay.communication.grpc.common.ObjectWithDataParamOrReturn objects = 1;</code>
+       */
       public Builder clearObjects() {
-        internalGetMutableObjects().getMutableMap()
-            .clear();
+        if (objectsBuilder_ == null) {
+          objects_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+          onChanged();
+        } else {
+          objectsBuilder_.clear();
+        }
         return this;
       }
       /**
-       * <code>map&lt;string, .dataclay.communication.grpc.common.ObjectWithDataParamOrReturn&gt; objects = 1;</code>
+       * <code>repeated .dataclay.communication.grpc.common.ObjectWithDataParamOrReturn objects = 1;</code>
        */
-
-      public Builder removeObjects(
-          java.lang.String key) {
-        if (key == null) { throw new java.lang.NullPointerException(); }
-        internalGetMutableObjects().getMutableMap()
-            .remove(key);
+      public Builder removeObjects(int index) {
+        if (objectsBuilder_ == null) {
+          ensureObjectsIsMutable();
+          objects_.remove(index);
+          onChanged();
+        } else {
+          objectsBuilder_.remove(index);
+        }
         return this;
       }
       /**
-       * Use alternate mutation accessors instead.
+       * <code>repeated .dataclay.communication.grpc.common.ObjectWithDataParamOrReturn objects = 1;</code>
        */
-      @java.lang.Deprecated
-      public java.util.Map<java.lang.String, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn>
-      getMutableObjects() {
-        return internalGetMutableObjects().getMutableMap();
+      public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn.Builder getObjectsBuilder(
+          int index) {
+        return getObjectsFieldBuilder().getBuilder(index);
       }
       /**
-       * <code>map&lt;string, .dataclay.communication.grpc.common.ObjectWithDataParamOrReturn&gt; objects = 1;</code>
+       * <code>repeated .dataclay.communication.grpc.common.ObjectWithDataParamOrReturn objects = 1;</code>
        */
-      public Builder putObjects(
-          java.lang.String key,
-          es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn value) {
-        if (key == null) { throw new java.lang.NullPointerException(); }
-        if (value == null) { throw new java.lang.NullPointerException(); }
-        internalGetMutableObjects().getMutableMap()
-            .put(key, value);
-        return this;
+      public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturnOrBuilder getObjectsOrBuilder(
+          int index) {
+        if (objectsBuilder_ == null) {
+          return objects_.get(index);  } else {
+          return objectsBuilder_.getMessageOrBuilder(index);
+        }
       }
       /**
-       * <code>map&lt;string, .dataclay.communication.grpc.common.ObjectWithDataParamOrReturn&gt; objects = 1;</code>
+       * <code>repeated .dataclay.communication.grpc.common.ObjectWithDataParamOrReturn objects = 1;</code>
        */
-
-      public Builder putAllObjects(
-          java.util.Map<java.lang.String, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn> values) {
-        internalGetMutableObjects().getMutableMap()
-            .putAll(values);
-        return this;
+      public java.util.List<? extends es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturnOrBuilder> 
+           getObjectsOrBuilderList() {
+        if (objectsBuilder_ != null) {
+          return objectsBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(objects_);
+        }
+      }
+      /**
+       * <code>repeated .dataclay.communication.grpc.common.ObjectWithDataParamOrReturn objects = 1;</code>
+       */
+      public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn.Builder addObjectsBuilder() {
+        return getObjectsFieldBuilder().addBuilder(
+            es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .dataclay.communication.grpc.common.ObjectWithDataParamOrReturn objects = 1;</code>
+       */
+      public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn.Builder addObjectsBuilder(
+          int index) {
+        return getObjectsFieldBuilder().addBuilder(
+            index, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .dataclay.communication.grpc.common.ObjectWithDataParamOrReturn objects = 1;</code>
+       */
+      public java.util.List<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn.Builder> 
+           getObjectsBuilderList() {
+        return getObjectsFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturnOrBuilder> 
+          getObjectsFieldBuilder() {
+        if (objectsBuilder_ == null) {
+          objectsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
+              es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturnOrBuilder>(
+                  objects_,
+                  ((bitField0_ & 0x00000001) != 0),
+                  getParentForChildren(),
+                  isClean());
+          objects_ = null;
+        }
+        return objectsBuilder_;
       }
 
       private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo excInfo_;
@@ -13414,28 +13484,34 @@ public final class DataserviceMessages {
         getSessionIDBytes();
 
     /**
-     * <code>repeated .dataclay.communication.grpc.common.ObjectWithDataParamOrReturn objects = 2;</code>
+     * <code>string objectID = 2;</code>
+     * @return The objectID.
      */
-    java.util.List<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn> 
-        getObjectsList();
+    java.lang.String getObjectID();
     /**
-     * <code>repeated .dataclay.communication.grpc.common.ObjectWithDataParamOrReturn objects = 2;</code>
+     * <code>string objectID = 2;</code>
+     * @return The bytes for objectID.
      */
-    es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn getObjects(int index);
+    com.google.protobuf.ByteString
+        getObjectIDBytes();
+
     /**
-     * <code>repeated .dataclay.communication.grpc.common.ObjectWithDataParamOrReturn objects = 2;</code>
+     * <code>string externalExecutionEnvironmentID = 3;</code>
+     * @return The externalExecutionEnvironmentID.
      */
-    int getObjectsCount();
+    java.lang.String getExternalExecutionEnvironmentID();
     /**
-     * <code>repeated .dataclay.communication.grpc.common.ObjectWithDataParamOrReturn objects = 2;</code>
+     * <code>string externalExecutionEnvironmentID = 3;</code>
+     * @return The bytes for externalExecutionEnvironmentID.
      */
-    java.util.List<? extends es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturnOrBuilder> 
-        getObjectsOrBuilderList();
+    com.google.protobuf.ByteString
+        getExternalExecutionEnvironmentIDBytes();
+
     /**
-     * <code>repeated .dataclay.communication.grpc.common.ObjectWithDataParamOrReturn objects = 2;</code>
+     * <code>bool recursive = 4;</code>
+     * @return The recursive.
      */
-    es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturnOrBuilder getObjectsOrBuilder(
-        int index);
+    boolean getRecursive();
   }
   /**
    * Protobuf type {@code dataclay.communication.grpc.dataservice.FederateRequest}
@@ -13451,7 +13527,8 @@ public final class DataserviceMessages {
     }
     private FederateRequest() {
       sessionID_ = "";
-      objects_ = java.util.Collections.emptyList();
+      objectID_ = "";
+      externalExecutionEnvironmentID_ = "";
     }
 
     @java.lang.Override
@@ -13474,7 +13551,6 @@ public final class DataserviceMessages {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -13492,12 +13568,20 @@ public final class DataserviceMessages {
               break;
             }
             case 18: {
-              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
-                objects_ = new java.util.ArrayList<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn>();
-                mutable_bitField0_ |= 0x00000001;
-              }
-              objects_.add(
-                  input.readMessage(es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn.parser(), extensionRegistry));
+              java.lang.String s = input.readStringRequireUtf8();
+
+              objectID_ = s;
+              break;
+            }
+            case 26: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              externalExecutionEnvironmentID_ = s;
+              break;
+            }
+            case 32: {
+
+              recursive_ = input.readBool();
               break;
             }
             default: {
@@ -13515,9 +13599,6 @@ public final class DataserviceMessages {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000001) != 0)) {
-          objects_ = java.util.Collections.unmodifiableList(objects_);
-        }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
@@ -13571,39 +13652,86 @@ public final class DataserviceMessages {
       }
     }
 
-    public static final int OBJECTS_FIELD_NUMBER = 2;
-    private java.util.List<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn> objects_;
+    public static final int OBJECTID_FIELD_NUMBER = 2;
+    private volatile java.lang.Object objectID_;
     /**
-     * <code>repeated .dataclay.communication.grpc.common.ObjectWithDataParamOrReturn objects = 2;</code>
+     * <code>string objectID = 2;</code>
+     * @return The objectID.
      */
-    public java.util.List<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn> getObjectsList() {
-      return objects_;
+    public java.lang.String getObjectID() {
+      java.lang.Object ref = objectID_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        objectID_ = s;
+        return s;
+      }
     }
     /**
-     * <code>repeated .dataclay.communication.grpc.common.ObjectWithDataParamOrReturn objects = 2;</code>
+     * <code>string objectID = 2;</code>
+     * @return The bytes for objectID.
      */
-    public java.util.List<? extends es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturnOrBuilder> 
-        getObjectsOrBuilderList() {
-      return objects_;
+    public com.google.protobuf.ByteString
+        getObjectIDBytes() {
+      java.lang.Object ref = objectID_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        objectID_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int EXTERNALEXECUTIONENVIRONMENTID_FIELD_NUMBER = 3;
+    private volatile java.lang.Object externalExecutionEnvironmentID_;
+    /**
+     * <code>string externalExecutionEnvironmentID = 3;</code>
+     * @return The externalExecutionEnvironmentID.
+     */
+    public java.lang.String getExternalExecutionEnvironmentID() {
+      java.lang.Object ref = externalExecutionEnvironmentID_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        externalExecutionEnvironmentID_ = s;
+        return s;
+      }
     }
     /**
-     * <code>repeated .dataclay.communication.grpc.common.ObjectWithDataParamOrReturn objects = 2;</code>
+     * <code>string externalExecutionEnvironmentID = 3;</code>
+     * @return The bytes for externalExecutionEnvironmentID.
      */
-    public int getObjectsCount() {
-      return objects_.size();
+    public com.google.protobuf.ByteString
+        getExternalExecutionEnvironmentIDBytes() {
+      java.lang.Object ref = externalExecutionEnvironmentID_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        externalExecutionEnvironmentID_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
     }
+
+    public static final int RECURSIVE_FIELD_NUMBER = 4;
+    private boolean recursive_;
     /**
-     * <code>repeated .dataclay.communication.grpc.common.ObjectWithDataParamOrReturn objects = 2;</code>
+     * <code>bool recursive = 4;</code>
+     * @return The recursive.
      */
-    public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn getObjects(int index) {
-      return objects_.get(index);
-    }
-    /**
-     * <code>repeated .dataclay.communication.grpc.common.ObjectWithDataParamOrReturn objects = 2;</code>
-     */
-    public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturnOrBuilder getObjectsOrBuilder(
-        int index) {
-      return objects_.get(index);
+    public boolean getRecursive() {
+      return recursive_;
     }
 
     private byte memoizedIsInitialized = -1;
@@ -13623,8 +13751,14 @@ public final class DataserviceMessages {
       if (!getSessionIDBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 1, sessionID_);
       }
-      for (int i = 0; i < objects_.size(); i++) {
-        output.writeMessage(2, objects_.get(i));
+      if (!getObjectIDBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, objectID_);
+      }
+      if (!getExternalExecutionEnvironmentIDBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, externalExecutionEnvironmentID_);
+      }
+      if (recursive_ != false) {
+        output.writeBool(4, recursive_);
       }
       unknownFields.writeTo(output);
     }
@@ -13638,9 +13772,15 @@ public final class DataserviceMessages {
       if (!getSessionIDBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, sessionID_);
       }
-      for (int i = 0; i < objects_.size(); i++) {
+      if (!getObjectIDBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, objectID_);
+      }
+      if (!getExternalExecutionEnvironmentIDBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, externalExecutionEnvironmentID_);
+      }
+      if (recursive_ != false) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(2, objects_.get(i));
+          .computeBoolSize(4, recursive_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -13659,8 +13799,12 @@ public final class DataserviceMessages {
 
       if (!getSessionID()
           .equals(other.getSessionID())) return false;
-      if (!getObjectsList()
-          .equals(other.getObjectsList())) return false;
+      if (!getObjectID()
+          .equals(other.getObjectID())) return false;
+      if (!getExternalExecutionEnvironmentID()
+          .equals(other.getExternalExecutionEnvironmentID())) return false;
+      if (getRecursive()
+          != other.getRecursive()) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -13674,10 +13818,13 @@ public final class DataserviceMessages {
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + SESSIONID_FIELD_NUMBER;
       hash = (53 * hash) + getSessionID().hashCode();
-      if (getObjectsCount() > 0) {
-        hash = (37 * hash) + OBJECTS_FIELD_NUMBER;
-        hash = (53 * hash) + getObjectsList().hashCode();
-      }
+      hash = (37 * hash) + OBJECTID_FIELD_NUMBER;
+      hash = (53 * hash) + getObjectID().hashCode();
+      hash = (37 * hash) + EXTERNALEXECUTIONENVIRONMENTID_FIELD_NUMBER;
+      hash = (53 * hash) + getExternalExecutionEnvironmentID().hashCode();
+      hash = (37 * hash) + RECURSIVE_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getRecursive());
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -13806,7 +13953,6 @@ public final class DataserviceMessages {
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessageV3
                 .alwaysUseFieldBuilders) {
-          getObjectsFieldBuilder();
         }
       }
       @java.lang.Override
@@ -13814,12 +13960,12 @@ public final class DataserviceMessages {
         super.clear();
         sessionID_ = "";
 
-        if (objectsBuilder_ == null) {
-          objects_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000001);
-        } else {
-          objectsBuilder_.clear();
-        }
+        objectID_ = "";
+
+        externalExecutionEnvironmentID_ = "";
+
+        recursive_ = false;
+
         return this;
       }
 
@@ -13846,17 +13992,10 @@ public final class DataserviceMessages {
       @java.lang.Override
       public es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.FederateRequest buildPartial() {
         es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.FederateRequest result = new es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.FederateRequest(this);
-        int from_bitField0_ = bitField0_;
         result.sessionID_ = sessionID_;
-        if (objectsBuilder_ == null) {
-          if (((bitField0_ & 0x00000001) != 0)) {
-            objects_ = java.util.Collections.unmodifiableList(objects_);
-            bitField0_ = (bitField0_ & ~0x00000001);
-          }
-          result.objects_ = objects_;
-        } else {
-          result.objects_ = objectsBuilder_.build();
-        }
+        result.objectID_ = objectID_;
+        result.externalExecutionEnvironmentID_ = externalExecutionEnvironmentID_;
+        result.recursive_ = recursive_;
         onBuilt();
         return result;
       }
@@ -13909,6 +14048,868 @@ public final class DataserviceMessages {
           sessionID_ = other.sessionID_;
           onChanged();
         }
+        if (!other.getObjectID().isEmpty()) {
+          objectID_ = other.objectID_;
+          onChanged();
+        }
+        if (!other.getExternalExecutionEnvironmentID().isEmpty()) {
+          externalExecutionEnvironmentID_ = other.externalExecutionEnvironmentID_;
+          onChanged();
+        }
+        if (other.getRecursive() != false) {
+          setRecursive(other.getRecursive());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.FederateRequest parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.FederateRequest) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private java.lang.Object sessionID_ = "";
+      /**
+       * <code>string sessionID = 1;</code>
+       * @return The sessionID.
+       */
+      public java.lang.String getSessionID() {
+        java.lang.Object ref = sessionID_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          sessionID_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string sessionID = 1;</code>
+       * @return The bytes for sessionID.
+       */
+      public com.google.protobuf.ByteString
+          getSessionIDBytes() {
+        java.lang.Object ref = sessionID_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          sessionID_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string sessionID = 1;</code>
+       * @param value The sessionID to set.
+       * @return This builder for chaining.
+       */
+      public Builder setSessionID(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        sessionID_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string sessionID = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearSessionID() {
+        
+        sessionID_ = getDefaultInstance().getSessionID();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string sessionID = 1;</code>
+       * @param value The bytes for sessionID to set.
+       * @return This builder for chaining.
+       */
+      public Builder setSessionIDBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        sessionID_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object objectID_ = "";
+      /**
+       * <code>string objectID = 2;</code>
+       * @return The objectID.
+       */
+      public java.lang.String getObjectID() {
+        java.lang.Object ref = objectID_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          objectID_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string objectID = 2;</code>
+       * @return The bytes for objectID.
+       */
+      public com.google.protobuf.ByteString
+          getObjectIDBytes() {
+        java.lang.Object ref = objectID_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          objectID_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string objectID = 2;</code>
+       * @param value The objectID to set.
+       * @return This builder for chaining.
+       */
+      public Builder setObjectID(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        objectID_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string objectID = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearObjectID() {
+        
+        objectID_ = getDefaultInstance().getObjectID();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string objectID = 2;</code>
+       * @param value The bytes for objectID to set.
+       * @return This builder for chaining.
+       */
+      public Builder setObjectIDBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        objectID_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object externalExecutionEnvironmentID_ = "";
+      /**
+       * <code>string externalExecutionEnvironmentID = 3;</code>
+       * @return The externalExecutionEnvironmentID.
+       */
+      public java.lang.String getExternalExecutionEnvironmentID() {
+        java.lang.Object ref = externalExecutionEnvironmentID_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          externalExecutionEnvironmentID_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string externalExecutionEnvironmentID = 3;</code>
+       * @return The bytes for externalExecutionEnvironmentID.
+       */
+      public com.google.protobuf.ByteString
+          getExternalExecutionEnvironmentIDBytes() {
+        java.lang.Object ref = externalExecutionEnvironmentID_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          externalExecutionEnvironmentID_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string externalExecutionEnvironmentID = 3;</code>
+       * @param value The externalExecutionEnvironmentID to set.
+       * @return This builder for chaining.
+       */
+      public Builder setExternalExecutionEnvironmentID(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        externalExecutionEnvironmentID_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string externalExecutionEnvironmentID = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearExternalExecutionEnvironmentID() {
+        
+        externalExecutionEnvironmentID_ = getDefaultInstance().getExternalExecutionEnvironmentID();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string externalExecutionEnvironmentID = 3;</code>
+       * @param value The bytes for externalExecutionEnvironmentID to set.
+       * @return This builder for chaining.
+       */
+      public Builder setExternalExecutionEnvironmentIDBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        externalExecutionEnvironmentID_ = value;
+        onChanged();
+        return this;
+      }
+
+      private boolean recursive_ ;
+      /**
+       * <code>bool recursive = 4;</code>
+       * @return The recursive.
+       */
+      public boolean getRecursive() {
+        return recursive_;
+      }
+      /**
+       * <code>bool recursive = 4;</code>
+       * @param value The recursive to set.
+       * @return This builder for chaining.
+       */
+      public Builder setRecursive(boolean value) {
+        
+        recursive_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>bool recursive = 4;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearRecursive() {
+        
+        recursive_ = false;
+        onChanged();
+        return this;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:dataclay.communication.grpc.dataservice.FederateRequest)
+    }
+
+    // @@protoc_insertion_point(class_scope:dataclay.communication.grpc.dataservice.FederateRequest)
+    private static final es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.FederateRequest DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.FederateRequest();
+    }
+
+    public static es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.FederateRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<FederateRequest>
+        PARSER = new com.google.protobuf.AbstractParser<FederateRequest>() {
+      @java.lang.Override
+      public FederateRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new FederateRequest(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<FederateRequest> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<FederateRequest> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.FederateRequest getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface NotifyFederationRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:dataclay.communication.grpc.dataservice.NotifyFederationRequest)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>string sessionID = 1;</code>
+     * @return The sessionID.
+     */
+    java.lang.String getSessionID();
+    /**
+     * <code>string sessionID = 1;</code>
+     * @return The bytes for sessionID.
+     */
+    com.google.protobuf.ByteString
+        getSessionIDBytes();
+
+    /**
+     * <code>repeated .dataclay.communication.grpc.common.ObjectWithDataParamOrReturn objects = 2;</code>
+     */
+    java.util.List<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn> 
+        getObjectsList();
+    /**
+     * <code>repeated .dataclay.communication.grpc.common.ObjectWithDataParamOrReturn objects = 2;</code>
+     */
+    es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn getObjects(int index);
+    /**
+     * <code>repeated .dataclay.communication.grpc.common.ObjectWithDataParamOrReturn objects = 2;</code>
+     */
+    int getObjectsCount();
+    /**
+     * <code>repeated .dataclay.communication.grpc.common.ObjectWithDataParamOrReturn objects = 2;</code>
+     */
+    java.util.List<? extends es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturnOrBuilder> 
+        getObjectsOrBuilderList();
+    /**
+     * <code>repeated .dataclay.communication.grpc.common.ObjectWithDataParamOrReturn objects = 2;</code>
+     */
+    es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturnOrBuilder getObjectsOrBuilder(
+        int index);
+  }
+  /**
+   * Protobuf type {@code dataclay.communication.grpc.dataservice.NotifyFederationRequest}
+   */
+  public  static final class NotifyFederationRequest extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:dataclay.communication.grpc.dataservice.NotifyFederationRequest)
+      NotifyFederationRequestOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use NotifyFederationRequest.newBuilder() to construct.
+    private NotifyFederationRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private NotifyFederationRequest() {
+      sessionID_ = "";
+      objects_ = java.util.Collections.emptyList();
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new NotifyFederationRequest();
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private NotifyFederationRequest(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 10: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              sessionID_ = s;
+              break;
+            }
+            case 18: {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
+                objects_ = new java.util.ArrayList<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn>();
+                mutable_bitField0_ |= 0x00000001;
+              }
+              objects_.add(
+                  input.readMessage(es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn.parser(), extensionRegistry));
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
+          objects_ = java.util.Collections.unmodifiableList(objects_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.internal_static_dataclay_communication_grpc_dataservice_NotifyFederationRequest_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.internal_static_dataclay_communication_grpc_dataservice_NotifyFederationRequest_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyFederationRequest.class, es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyFederationRequest.Builder.class);
+    }
+
+    public static final int SESSIONID_FIELD_NUMBER = 1;
+    private volatile java.lang.Object sessionID_;
+    /**
+     * <code>string sessionID = 1;</code>
+     * @return The sessionID.
+     */
+    public java.lang.String getSessionID() {
+      java.lang.Object ref = sessionID_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        sessionID_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string sessionID = 1;</code>
+     * @return The bytes for sessionID.
+     */
+    public com.google.protobuf.ByteString
+        getSessionIDBytes() {
+      java.lang.Object ref = sessionID_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        sessionID_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int OBJECTS_FIELD_NUMBER = 2;
+    private java.util.List<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn> objects_;
+    /**
+     * <code>repeated .dataclay.communication.grpc.common.ObjectWithDataParamOrReturn objects = 2;</code>
+     */
+    public java.util.List<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn> getObjectsList() {
+      return objects_;
+    }
+    /**
+     * <code>repeated .dataclay.communication.grpc.common.ObjectWithDataParamOrReturn objects = 2;</code>
+     */
+    public java.util.List<? extends es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturnOrBuilder> 
+        getObjectsOrBuilderList() {
+      return objects_;
+    }
+    /**
+     * <code>repeated .dataclay.communication.grpc.common.ObjectWithDataParamOrReturn objects = 2;</code>
+     */
+    public int getObjectsCount() {
+      return objects_.size();
+    }
+    /**
+     * <code>repeated .dataclay.communication.grpc.common.ObjectWithDataParamOrReturn objects = 2;</code>
+     */
+    public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturn getObjects(int index) {
+      return objects_.get(index);
+    }
+    /**
+     * <code>repeated .dataclay.communication.grpc.common.ObjectWithDataParamOrReturn objects = 2;</code>
+     */
+    public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectWithDataParamOrReturnOrBuilder getObjectsOrBuilder(
+        int index) {
+      return objects_.get(index);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (!getSessionIDBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, sessionID_);
+      }
+      for (int i = 0; i < objects_.size(); i++) {
+        output.writeMessage(2, objects_.get(i));
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (!getSessionIDBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, sessionID_);
+      }
+      for (int i = 0; i < objects_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, objects_.get(i));
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyFederationRequest)) {
+        return super.equals(obj);
+      }
+      es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyFederationRequest other = (es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyFederationRequest) obj;
+
+      if (!getSessionID()
+          .equals(other.getSessionID())) return false;
+      if (!getObjectsList()
+          .equals(other.getObjectsList())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + SESSIONID_FIELD_NUMBER;
+      hash = (53 * hash) + getSessionID().hashCode();
+      if (getObjectsCount() > 0) {
+        hash = (37 * hash) + OBJECTS_FIELD_NUMBER;
+        hash = (53 * hash) + getObjectsList().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyFederationRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyFederationRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyFederationRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyFederationRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyFederationRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyFederationRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyFederationRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyFederationRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyFederationRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyFederationRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyFederationRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyFederationRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyFederationRequest prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code dataclay.communication.grpc.dataservice.NotifyFederationRequest}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:dataclay.communication.grpc.dataservice.NotifyFederationRequest)
+        es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyFederationRequestOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.internal_static_dataclay_communication_grpc_dataservice_NotifyFederationRequest_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.internal_static_dataclay_communication_grpc_dataservice_NotifyFederationRequest_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyFederationRequest.class, es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyFederationRequest.Builder.class);
+      }
+
+      // Construct using es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyFederationRequest.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+          getObjectsFieldBuilder();
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        sessionID_ = "";
+
+        if (objectsBuilder_ == null) {
+          objects_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+        } else {
+          objectsBuilder_.clear();
+        }
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.internal_static_dataclay_communication_grpc_dataservice_NotifyFederationRequest_descriptor;
+      }
+
+      @java.lang.Override
+      public es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyFederationRequest getDefaultInstanceForType() {
+        return es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyFederationRequest.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyFederationRequest build() {
+        es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyFederationRequest result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyFederationRequest buildPartial() {
+        es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyFederationRequest result = new es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyFederationRequest(this);
+        int from_bitField0_ = bitField0_;
+        result.sessionID_ = sessionID_;
+        if (objectsBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) != 0)) {
+            objects_ = java.util.Collections.unmodifiableList(objects_);
+            bitField0_ = (bitField0_ & ~0x00000001);
+          }
+          result.objects_ = objects_;
+        } else {
+          result.objects_ = objectsBuilder_.build();
+        }
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyFederationRequest) {
+          return mergeFrom((es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyFederationRequest)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyFederationRequest other) {
+        if (other == es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyFederationRequest.getDefaultInstance()) return this;
+        if (!other.getSessionID().isEmpty()) {
+          sessionID_ = other.sessionID_;
+          onChanged();
+        }
         if (objectsBuilder_ == null) {
           if (!other.objects_.isEmpty()) {
             if (objects_.isEmpty()) {
@@ -13950,11 +14951,11 @@ public final class DataserviceMessages {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.FederateRequest parsedMessage = null;
+        es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyFederationRequest parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.FederateRequest) e.getUnfinishedMessage();
+          parsedMessage = (es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyFederationRequest) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -14293,41 +15294,41 @@ public final class DataserviceMessages {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:dataclay.communication.grpc.dataservice.FederateRequest)
+      // @@protoc_insertion_point(builder_scope:dataclay.communication.grpc.dataservice.NotifyFederationRequest)
     }
 
-    // @@protoc_insertion_point(class_scope:dataclay.communication.grpc.dataservice.FederateRequest)
-    private static final es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.FederateRequest DEFAULT_INSTANCE;
+    // @@protoc_insertion_point(class_scope:dataclay.communication.grpc.dataservice.NotifyFederationRequest)
+    private static final es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyFederationRequest DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.FederateRequest();
+      DEFAULT_INSTANCE = new es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyFederationRequest();
     }
 
-    public static es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.FederateRequest getDefaultInstance() {
+    public static es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyFederationRequest getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    private static final com.google.protobuf.Parser<FederateRequest>
-        PARSER = new com.google.protobuf.AbstractParser<FederateRequest>() {
+    private static final com.google.protobuf.Parser<NotifyFederationRequest>
+        PARSER = new com.google.protobuf.AbstractParser<NotifyFederationRequest>() {
       @java.lang.Override
-      public FederateRequest parsePartialFrom(
+      public NotifyFederationRequest parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new FederateRequest(input, extensionRegistry);
+        return new NotifyFederationRequest(input, extensionRegistry);
       }
     };
 
-    public static com.google.protobuf.Parser<FederateRequest> parser() {
+    public static com.google.protobuf.Parser<NotifyFederationRequest> parser() {
       return PARSER;
     }
 
     @java.lang.Override
-    public com.google.protobuf.Parser<FederateRequest> getParserForType() {
+    public com.google.protobuf.Parser<NotifyFederationRequest> getParserForType() {
       return PARSER;
     }
 
     @java.lang.Override
-    public es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.FederateRequest getDefaultInstanceForType() {
+    public es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyFederationRequest getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -14350,29 +15351,34 @@ public final class DataserviceMessages {
         getSessionIDBytes();
 
     /**
-     * <code>repeated string objectIDs = 2;</code>
-     * @return A list containing the objectIDs.
+     * <code>string objectID = 2;</code>
+     * @return The objectID.
      */
-    java.util.List<java.lang.String>
-        getObjectIDsList();
+    java.lang.String getObjectID();
     /**
-     * <code>repeated string objectIDs = 2;</code>
-     * @return The count of objectIDs.
-     */
-    int getObjectIDsCount();
-    /**
-     * <code>repeated string objectIDs = 2;</code>
-     * @param index The index of the element to return.
-     * @return The objectIDs at the given index.
-     */
-    java.lang.String getObjectIDs(int index);
-    /**
-     * <code>repeated string objectIDs = 2;</code>
-     * @param index The index of the value to return.
-     * @return The bytes of the objectIDs at the given index.
+     * <code>string objectID = 2;</code>
+     * @return The bytes for objectID.
      */
     com.google.protobuf.ByteString
-        getObjectIDsBytes(int index);
+        getObjectIDBytes();
+
+    /**
+     * <code>string externalExecutionEnvironmentID = 3;</code>
+     * @return The externalExecutionEnvironmentID.
+     */
+    java.lang.String getExternalExecutionEnvironmentID();
+    /**
+     * <code>string externalExecutionEnvironmentID = 3;</code>
+     * @return The bytes for externalExecutionEnvironmentID.
+     */
+    com.google.protobuf.ByteString
+        getExternalExecutionEnvironmentIDBytes();
+
+    /**
+     * <code>bool recursive = 4;</code>
+     * @return The recursive.
+     */
+    boolean getRecursive();
   }
   /**
    * Protobuf type {@code dataclay.communication.grpc.dataservice.UnfederateRequest}
@@ -14388,7 +15394,8 @@ public final class DataserviceMessages {
     }
     private UnfederateRequest() {
       sessionID_ = "";
-      objectIDs_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      objectID_ = "";
+      externalExecutionEnvironmentID_ = "";
     }
 
     @java.lang.Override
@@ -14411,7 +15418,6 @@ public final class DataserviceMessages {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -14430,11 +15436,19 @@ public final class DataserviceMessages {
             }
             case 18: {
               java.lang.String s = input.readStringRequireUtf8();
-              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
-                objectIDs_ = new com.google.protobuf.LazyStringArrayList();
-                mutable_bitField0_ |= 0x00000001;
-              }
-              objectIDs_.add(s);
+
+              objectID_ = s;
+              break;
+            }
+            case 26: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              externalExecutionEnvironmentID_ = s;
+              break;
+            }
+            case 32: {
+
+              recursive_ = input.readBool();
               break;
             }
             default: {
@@ -14452,9 +15466,6 @@ public final class DataserviceMessages {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000001) != 0)) {
-          objectIDs_ = objectIDs_.getUnmodifiableView();
-        }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
@@ -14508,39 +15519,86 @@ public final class DataserviceMessages {
       }
     }
 
-    public static final int OBJECTIDS_FIELD_NUMBER = 2;
-    private com.google.protobuf.LazyStringList objectIDs_;
+    public static final int OBJECTID_FIELD_NUMBER = 2;
+    private volatile java.lang.Object objectID_;
     /**
-     * <code>repeated string objectIDs = 2;</code>
-     * @return A list containing the objectIDs.
+     * <code>string objectID = 2;</code>
+     * @return The objectID.
      */
-    public com.google.protobuf.ProtocolStringList
-        getObjectIDsList() {
-      return objectIDs_;
+    public java.lang.String getObjectID() {
+      java.lang.Object ref = objectID_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        objectID_ = s;
+        return s;
+      }
     }
     /**
-     * <code>repeated string objectIDs = 2;</code>
-     * @return The count of objectIDs.
-     */
-    public int getObjectIDsCount() {
-      return objectIDs_.size();
-    }
-    /**
-     * <code>repeated string objectIDs = 2;</code>
-     * @param index The index of the element to return.
-     * @return The objectIDs at the given index.
-     */
-    public java.lang.String getObjectIDs(int index) {
-      return objectIDs_.get(index);
-    }
-    /**
-     * <code>repeated string objectIDs = 2;</code>
-     * @param index The index of the value to return.
-     * @return The bytes of the objectIDs at the given index.
+     * <code>string objectID = 2;</code>
+     * @return The bytes for objectID.
      */
     public com.google.protobuf.ByteString
-        getObjectIDsBytes(int index) {
-      return objectIDs_.getByteString(index);
+        getObjectIDBytes() {
+      java.lang.Object ref = objectID_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        objectID_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int EXTERNALEXECUTIONENVIRONMENTID_FIELD_NUMBER = 3;
+    private volatile java.lang.Object externalExecutionEnvironmentID_;
+    /**
+     * <code>string externalExecutionEnvironmentID = 3;</code>
+     * @return The externalExecutionEnvironmentID.
+     */
+    public java.lang.String getExternalExecutionEnvironmentID() {
+      java.lang.Object ref = externalExecutionEnvironmentID_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        externalExecutionEnvironmentID_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string externalExecutionEnvironmentID = 3;</code>
+     * @return The bytes for externalExecutionEnvironmentID.
+     */
+    public com.google.protobuf.ByteString
+        getExternalExecutionEnvironmentIDBytes() {
+      java.lang.Object ref = externalExecutionEnvironmentID_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        externalExecutionEnvironmentID_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int RECURSIVE_FIELD_NUMBER = 4;
+    private boolean recursive_;
+    /**
+     * <code>bool recursive = 4;</code>
+     * @return The recursive.
+     */
+    public boolean getRecursive() {
+      return recursive_;
     }
 
     private byte memoizedIsInitialized = -1;
@@ -14560,8 +15618,14 @@ public final class DataserviceMessages {
       if (!getSessionIDBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 1, sessionID_);
       }
-      for (int i = 0; i < objectIDs_.size(); i++) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, objectIDs_.getRaw(i));
+      if (!getObjectIDBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, objectID_);
+      }
+      if (!getExternalExecutionEnvironmentIDBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, externalExecutionEnvironmentID_);
+      }
+      if (recursive_ != false) {
+        output.writeBool(4, recursive_);
       }
       unknownFields.writeTo(output);
     }
@@ -14575,13 +15639,15 @@ public final class DataserviceMessages {
       if (!getSessionIDBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, sessionID_);
       }
-      {
-        int dataSize = 0;
-        for (int i = 0; i < objectIDs_.size(); i++) {
-          dataSize += computeStringSizeNoTag(objectIDs_.getRaw(i));
-        }
-        size += dataSize;
-        size += 1 * getObjectIDsList().size();
+      if (!getObjectIDBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, objectID_);
+      }
+      if (!getExternalExecutionEnvironmentIDBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, externalExecutionEnvironmentID_);
+      }
+      if (recursive_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(4, recursive_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -14600,8 +15666,12 @@ public final class DataserviceMessages {
 
       if (!getSessionID()
           .equals(other.getSessionID())) return false;
-      if (!getObjectIDsList()
-          .equals(other.getObjectIDsList())) return false;
+      if (!getObjectID()
+          .equals(other.getObjectID())) return false;
+      if (!getExternalExecutionEnvironmentID()
+          .equals(other.getExternalExecutionEnvironmentID())) return false;
+      if (getRecursive()
+          != other.getRecursive()) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -14615,10 +15685,13 @@ public final class DataserviceMessages {
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + SESSIONID_FIELD_NUMBER;
       hash = (53 * hash) + getSessionID().hashCode();
-      if (getObjectIDsCount() > 0) {
-        hash = (37 * hash) + OBJECTIDS_FIELD_NUMBER;
-        hash = (53 * hash) + getObjectIDsList().hashCode();
-      }
+      hash = (37 * hash) + OBJECTID_FIELD_NUMBER;
+      hash = (53 * hash) + getObjectID().hashCode();
+      hash = (37 * hash) + EXTERNALEXECUTIONENVIRONMENTID_FIELD_NUMBER;
+      hash = (53 * hash) + getExternalExecutionEnvironmentID().hashCode();
+      hash = (37 * hash) + RECURSIVE_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getRecursive());
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -14754,8 +15827,12 @@ public final class DataserviceMessages {
         super.clear();
         sessionID_ = "";
 
-        objectIDs_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000001);
+        objectID_ = "";
+
+        externalExecutionEnvironmentID_ = "";
+
+        recursive_ = false;
+
         return this;
       }
 
@@ -14782,13 +15859,10 @@ public final class DataserviceMessages {
       @java.lang.Override
       public es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.UnfederateRequest buildPartial() {
         es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.UnfederateRequest result = new es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.UnfederateRequest(this);
-        int from_bitField0_ = bitField0_;
         result.sessionID_ = sessionID_;
-        if (((bitField0_ & 0x00000001) != 0)) {
-          objectIDs_ = objectIDs_.getUnmodifiableView();
-          bitField0_ = (bitField0_ & ~0x00000001);
-        }
-        result.objectIDs_ = objectIDs_;
+        result.objectID_ = objectID_;
+        result.externalExecutionEnvironmentID_ = externalExecutionEnvironmentID_;
+        result.recursive_ = recursive_;
         onBuilt();
         return result;
       }
@@ -14841,6 +15915,864 @@ public final class DataserviceMessages {
           sessionID_ = other.sessionID_;
           onChanged();
         }
+        if (!other.getObjectID().isEmpty()) {
+          objectID_ = other.objectID_;
+          onChanged();
+        }
+        if (!other.getExternalExecutionEnvironmentID().isEmpty()) {
+          externalExecutionEnvironmentID_ = other.externalExecutionEnvironmentID_;
+          onChanged();
+        }
+        if (other.getRecursive() != false) {
+          setRecursive(other.getRecursive());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.UnfederateRequest parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.UnfederateRequest) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private java.lang.Object sessionID_ = "";
+      /**
+       * <code>string sessionID = 1;</code>
+       * @return The sessionID.
+       */
+      public java.lang.String getSessionID() {
+        java.lang.Object ref = sessionID_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          sessionID_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string sessionID = 1;</code>
+       * @return The bytes for sessionID.
+       */
+      public com.google.protobuf.ByteString
+          getSessionIDBytes() {
+        java.lang.Object ref = sessionID_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          sessionID_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string sessionID = 1;</code>
+       * @param value The sessionID to set.
+       * @return This builder for chaining.
+       */
+      public Builder setSessionID(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        sessionID_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string sessionID = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearSessionID() {
+        
+        sessionID_ = getDefaultInstance().getSessionID();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string sessionID = 1;</code>
+       * @param value The bytes for sessionID to set.
+       * @return This builder for chaining.
+       */
+      public Builder setSessionIDBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        sessionID_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object objectID_ = "";
+      /**
+       * <code>string objectID = 2;</code>
+       * @return The objectID.
+       */
+      public java.lang.String getObjectID() {
+        java.lang.Object ref = objectID_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          objectID_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string objectID = 2;</code>
+       * @return The bytes for objectID.
+       */
+      public com.google.protobuf.ByteString
+          getObjectIDBytes() {
+        java.lang.Object ref = objectID_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          objectID_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string objectID = 2;</code>
+       * @param value The objectID to set.
+       * @return This builder for chaining.
+       */
+      public Builder setObjectID(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        objectID_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string objectID = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearObjectID() {
+        
+        objectID_ = getDefaultInstance().getObjectID();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string objectID = 2;</code>
+       * @param value The bytes for objectID to set.
+       * @return This builder for chaining.
+       */
+      public Builder setObjectIDBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        objectID_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object externalExecutionEnvironmentID_ = "";
+      /**
+       * <code>string externalExecutionEnvironmentID = 3;</code>
+       * @return The externalExecutionEnvironmentID.
+       */
+      public java.lang.String getExternalExecutionEnvironmentID() {
+        java.lang.Object ref = externalExecutionEnvironmentID_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          externalExecutionEnvironmentID_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string externalExecutionEnvironmentID = 3;</code>
+       * @return The bytes for externalExecutionEnvironmentID.
+       */
+      public com.google.protobuf.ByteString
+          getExternalExecutionEnvironmentIDBytes() {
+        java.lang.Object ref = externalExecutionEnvironmentID_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          externalExecutionEnvironmentID_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string externalExecutionEnvironmentID = 3;</code>
+       * @param value The externalExecutionEnvironmentID to set.
+       * @return This builder for chaining.
+       */
+      public Builder setExternalExecutionEnvironmentID(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        externalExecutionEnvironmentID_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string externalExecutionEnvironmentID = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearExternalExecutionEnvironmentID() {
+        
+        externalExecutionEnvironmentID_ = getDefaultInstance().getExternalExecutionEnvironmentID();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string externalExecutionEnvironmentID = 3;</code>
+       * @param value The bytes for externalExecutionEnvironmentID to set.
+       * @return This builder for chaining.
+       */
+      public Builder setExternalExecutionEnvironmentIDBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        externalExecutionEnvironmentID_ = value;
+        onChanged();
+        return this;
+      }
+
+      private boolean recursive_ ;
+      /**
+       * <code>bool recursive = 4;</code>
+       * @return The recursive.
+       */
+      public boolean getRecursive() {
+        return recursive_;
+      }
+      /**
+       * <code>bool recursive = 4;</code>
+       * @param value The recursive to set.
+       * @return This builder for chaining.
+       */
+      public Builder setRecursive(boolean value) {
+        
+        recursive_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>bool recursive = 4;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearRecursive() {
+        
+        recursive_ = false;
+        onChanged();
+        return this;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:dataclay.communication.grpc.dataservice.UnfederateRequest)
+    }
+
+    // @@protoc_insertion_point(class_scope:dataclay.communication.grpc.dataservice.UnfederateRequest)
+    private static final es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.UnfederateRequest DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.UnfederateRequest();
+    }
+
+    public static es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.UnfederateRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<UnfederateRequest>
+        PARSER = new com.google.protobuf.AbstractParser<UnfederateRequest>() {
+      @java.lang.Override
+      public UnfederateRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new UnfederateRequest(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<UnfederateRequest> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<UnfederateRequest> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.UnfederateRequest getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface NotifyUnfederationRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:dataclay.communication.grpc.dataservice.NotifyUnfederationRequest)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>string sessionID = 1;</code>
+     * @return The sessionID.
+     */
+    java.lang.String getSessionID();
+    /**
+     * <code>string sessionID = 1;</code>
+     * @return The bytes for sessionID.
+     */
+    com.google.protobuf.ByteString
+        getSessionIDBytes();
+
+    /**
+     * <code>repeated string objectIDs = 2;</code>
+     * @return A list containing the objectIDs.
+     */
+    java.util.List<java.lang.String>
+        getObjectIDsList();
+    /**
+     * <code>repeated string objectIDs = 2;</code>
+     * @return The count of objectIDs.
+     */
+    int getObjectIDsCount();
+    /**
+     * <code>repeated string objectIDs = 2;</code>
+     * @param index The index of the element to return.
+     * @return The objectIDs at the given index.
+     */
+    java.lang.String getObjectIDs(int index);
+    /**
+     * <code>repeated string objectIDs = 2;</code>
+     * @param index The index of the value to return.
+     * @return The bytes of the objectIDs at the given index.
+     */
+    com.google.protobuf.ByteString
+        getObjectIDsBytes(int index);
+  }
+  /**
+   * Protobuf type {@code dataclay.communication.grpc.dataservice.NotifyUnfederationRequest}
+   */
+  public  static final class NotifyUnfederationRequest extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:dataclay.communication.grpc.dataservice.NotifyUnfederationRequest)
+      NotifyUnfederationRequestOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use NotifyUnfederationRequest.newBuilder() to construct.
+    private NotifyUnfederationRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private NotifyUnfederationRequest() {
+      sessionID_ = "";
+      objectIDs_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new NotifyUnfederationRequest();
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private NotifyUnfederationRequest(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 10: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              sessionID_ = s;
+              break;
+            }
+            case 18: {
+              java.lang.String s = input.readStringRequireUtf8();
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
+                objectIDs_ = new com.google.protobuf.LazyStringArrayList();
+                mutable_bitField0_ |= 0x00000001;
+              }
+              objectIDs_.add(s);
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
+          objectIDs_ = objectIDs_.getUnmodifiableView();
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.internal_static_dataclay_communication_grpc_dataservice_NotifyUnfederationRequest_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.internal_static_dataclay_communication_grpc_dataservice_NotifyUnfederationRequest_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyUnfederationRequest.class, es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyUnfederationRequest.Builder.class);
+    }
+
+    public static final int SESSIONID_FIELD_NUMBER = 1;
+    private volatile java.lang.Object sessionID_;
+    /**
+     * <code>string sessionID = 1;</code>
+     * @return The sessionID.
+     */
+    public java.lang.String getSessionID() {
+      java.lang.Object ref = sessionID_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        sessionID_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string sessionID = 1;</code>
+     * @return The bytes for sessionID.
+     */
+    public com.google.protobuf.ByteString
+        getSessionIDBytes() {
+      java.lang.Object ref = sessionID_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        sessionID_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int OBJECTIDS_FIELD_NUMBER = 2;
+    private com.google.protobuf.LazyStringList objectIDs_;
+    /**
+     * <code>repeated string objectIDs = 2;</code>
+     * @return A list containing the objectIDs.
+     */
+    public com.google.protobuf.ProtocolStringList
+        getObjectIDsList() {
+      return objectIDs_;
+    }
+    /**
+     * <code>repeated string objectIDs = 2;</code>
+     * @return The count of objectIDs.
+     */
+    public int getObjectIDsCount() {
+      return objectIDs_.size();
+    }
+    /**
+     * <code>repeated string objectIDs = 2;</code>
+     * @param index The index of the element to return.
+     * @return The objectIDs at the given index.
+     */
+    public java.lang.String getObjectIDs(int index) {
+      return objectIDs_.get(index);
+    }
+    /**
+     * <code>repeated string objectIDs = 2;</code>
+     * @param index The index of the value to return.
+     * @return The bytes of the objectIDs at the given index.
+     */
+    public com.google.protobuf.ByteString
+        getObjectIDsBytes(int index) {
+      return objectIDs_.getByteString(index);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (!getSessionIDBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, sessionID_);
+      }
+      for (int i = 0; i < objectIDs_.size(); i++) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, objectIDs_.getRaw(i));
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (!getSessionIDBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, sessionID_);
+      }
+      {
+        int dataSize = 0;
+        for (int i = 0; i < objectIDs_.size(); i++) {
+          dataSize += computeStringSizeNoTag(objectIDs_.getRaw(i));
+        }
+        size += dataSize;
+        size += 1 * getObjectIDsList().size();
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyUnfederationRequest)) {
+        return super.equals(obj);
+      }
+      es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyUnfederationRequest other = (es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyUnfederationRequest) obj;
+
+      if (!getSessionID()
+          .equals(other.getSessionID())) return false;
+      if (!getObjectIDsList()
+          .equals(other.getObjectIDsList())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + SESSIONID_FIELD_NUMBER;
+      hash = (53 * hash) + getSessionID().hashCode();
+      if (getObjectIDsCount() > 0) {
+        hash = (37 * hash) + OBJECTIDS_FIELD_NUMBER;
+        hash = (53 * hash) + getObjectIDsList().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyUnfederationRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyUnfederationRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyUnfederationRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyUnfederationRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyUnfederationRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyUnfederationRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyUnfederationRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyUnfederationRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyUnfederationRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyUnfederationRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyUnfederationRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyUnfederationRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyUnfederationRequest prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code dataclay.communication.grpc.dataservice.NotifyUnfederationRequest}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:dataclay.communication.grpc.dataservice.NotifyUnfederationRequest)
+        es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyUnfederationRequestOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.internal_static_dataclay_communication_grpc_dataservice_NotifyUnfederationRequest_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.internal_static_dataclay_communication_grpc_dataservice_NotifyUnfederationRequest_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyUnfederationRequest.class, es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyUnfederationRequest.Builder.class);
+      }
+
+      // Construct using es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyUnfederationRequest.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        sessionID_ = "";
+
+        objectIDs_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.internal_static_dataclay_communication_grpc_dataservice_NotifyUnfederationRequest_descriptor;
+      }
+
+      @java.lang.Override
+      public es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyUnfederationRequest getDefaultInstanceForType() {
+        return es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyUnfederationRequest.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyUnfederationRequest build() {
+        es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyUnfederationRequest result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyUnfederationRequest buildPartial() {
+        es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyUnfederationRequest result = new es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyUnfederationRequest(this);
+        int from_bitField0_ = bitField0_;
+        result.sessionID_ = sessionID_;
+        if (((bitField0_ & 0x00000001) != 0)) {
+          objectIDs_ = objectIDs_.getUnmodifiableView();
+          bitField0_ = (bitField0_ & ~0x00000001);
+        }
+        result.objectIDs_ = objectIDs_;
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyUnfederationRequest) {
+          return mergeFrom((es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyUnfederationRequest)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyUnfederationRequest other) {
+        if (other == es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyUnfederationRequest.getDefaultInstance()) return this;
+        if (!other.getSessionID().isEmpty()) {
+          sessionID_ = other.sessionID_;
+          onChanged();
+        }
         if (!other.objectIDs_.isEmpty()) {
           if (objectIDs_.isEmpty()) {
             objectIDs_ = other.objectIDs_;
@@ -14866,11 +16798,11 @@ public final class DataserviceMessages {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.UnfederateRequest parsedMessage = null;
+        es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyUnfederationRequest parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.UnfederateRequest) e.getUnfinishedMessage();
+          parsedMessage = (es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyUnfederationRequest) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -15079,41 +17011,41 @@ public final class DataserviceMessages {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:dataclay.communication.grpc.dataservice.UnfederateRequest)
+      // @@protoc_insertion_point(builder_scope:dataclay.communication.grpc.dataservice.NotifyUnfederationRequest)
     }
 
-    // @@protoc_insertion_point(class_scope:dataclay.communication.grpc.dataservice.UnfederateRequest)
-    private static final es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.UnfederateRequest DEFAULT_INSTANCE;
+    // @@protoc_insertion_point(class_scope:dataclay.communication.grpc.dataservice.NotifyUnfederationRequest)
+    private static final es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyUnfederationRequest DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.UnfederateRequest();
+      DEFAULT_INSTANCE = new es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyUnfederationRequest();
     }
 
-    public static es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.UnfederateRequest getDefaultInstance() {
+    public static es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyUnfederationRequest getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    private static final com.google.protobuf.Parser<UnfederateRequest>
-        PARSER = new com.google.protobuf.AbstractParser<UnfederateRequest>() {
+    private static final com.google.protobuf.Parser<NotifyUnfederationRequest>
+        PARSER = new com.google.protobuf.AbstractParser<NotifyUnfederationRequest>() {
       @java.lang.Override
-      public UnfederateRequest parsePartialFrom(
+      public NotifyUnfederationRequest parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new UnfederateRequest(input, extensionRegistry);
+        return new NotifyUnfederationRequest(input, extensionRegistry);
       }
     };
 
-    public static com.google.protobuf.Parser<UnfederateRequest> parser() {
+    public static com.google.protobuf.Parser<NotifyUnfederationRequest> parser() {
       return PARSER;
     }
 
     @java.lang.Override
-    public com.google.protobuf.Parser<UnfederateRequest> getParserForType() {
+    public com.google.protobuf.Parser<NotifyUnfederationRequest> getParserForType() {
       return PARSER;
     }
 
     @java.lang.Override
-    public es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.UnfederateRequest getDefaultInstanceForType() {
+    public es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyUnfederationRequest getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -17028,16 +18960,16 @@ public final class DataserviceMessages {
         getObjectIDBytes();
 
     /**
-     * <code>string metadataInfo = 3;</code>
-     * @return The metadataInfo.
+     * <code>string destBackendID = 3;</code>
+     * @return The destBackendID.
      */
-    java.lang.String getMetadataInfo();
+    java.lang.String getDestBackendID();
     /**
-     * <code>string metadataInfo = 3;</code>
-     * @return The bytes for metadataInfo.
+     * <code>string destBackendID = 3;</code>
+     * @return The bytes for destBackendID.
      */
     com.google.protobuf.ByteString
-        getMetadataInfoBytes();
+        getDestBackendIDBytes();
   }
   /**
    * Protobuf type {@code dataclay.communication.grpc.dataservice.NewVersionRequest}
@@ -17054,7 +18986,7 @@ public final class DataserviceMessages {
     private NewVersionRequest() {
       sessionID_ = "";
       objectID_ = "";
-      metadataInfo_ = "";
+      destBackendID_ = "";
     }
 
     @java.lang.Override
@@ -17102,7 +19034,7 @@ public final class DataserviceMessages {
             case 26: {
               java.lang.String s = input.readStringRequireUtf8();
 
-              metadataInfo_ = s;
+              destBackendID_ = s;
               break;
             }
             default: {
@@ -17209,36 +19141,36 @@ public final class DataserviceMessages {
       }
     }
 
-    public static final int METADATAINFO_FIELD_NUMBER = 3;
-    private volatile java.lang.Object metadataInfo_;
+    public static final int DESTBACKENDID_FIELD_NUMBER = 3;
+    private volatile java.lang.Object destBackendID_;
     /**
-     * <code>string metadataInfo = 3;</code>
-     * @return The metadataInfo.
+     * <code>string destBackendID = 3;</code>
+     * @return The destBackendID.
      */
-    public java.lang.String getMetadataInfo() {
-      java.lang.Object ref = metadataInfo_;
+    public java.lang.String getDestBackendID() {
+      java.lang.Object ref = destBackendID_;
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
         com.google.protobuf.ByteString bs = 
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
-        metadataInfo_ = s;
+        destBackendID_ = s;
         return s;
       }
     }
     /**
-     * <code>string metadataInfo = 3;</code>
-     * @return The bytes for metadataInfo.
+     * <code>string destBackendID = 3;</code>
+     * @return The bytes for destBackendID.
      */
     public com.google.protobuf.ByteString
-        getMetadataInfoBytes() {
-      java.lang.Object ref = metadataInfo_;
+        getDestBackendIDBytes() {
+      java.lang.Object ref = destBackendID_;
       if (ref instanceof java.lang.String) {
         com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
-        metadataInfo_ = b;
+        destBackendID_ = b;
         return b;
       } else {
         return (com.google.protobuf.ByteString) ref;
@@ -17265,8 +19197,8 @@ public final class DataserviceMessages {
       if (!getObjectIDBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 2, objectID_);
       }
-      if (!getMetadataInfoBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, metadataInfo_);
+      if (!getDestBackendIDBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, destBackendID_);
       }
       unknownFields.writeTo(output);
     }
@@ -17283,8 +19215,8 @@ public final class DataserviceMessages {
       if (!getObjectIDBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, objectID_);
       }
-      if (!getMetadataInfoBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, metadataInfo_);
+      if (!getDestBackendIDBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, destBackendID_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -17305,8 +19237,8 @@ public final class DataserviceMessages {
           .equals(other.getSessionID())) return false;
       if (!getObjectID()
           .equals(other.getObjectID())) return false;
-      if (!getMetadataInfo()
-          .equals(other.getMetadataInfo())) return false;
+      if (!getDestBackendID()
+          .equals(other.getDestBackendID())) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -17322,8 +19254,8 @@ public final class DataserviceMessages {
       hash = (53 * hash) + getSessionID().hashCode();
       hash = (37 * hash) + OBJECTID_FIELD_NUMBER;
       hash = (53 * hash) + getObjectID().hashCode();
-      hash = (37 * hash) + METADATAINFO_FIELD_NUMBER;
-      hash = (53 * hash) + getMetadataInfo().hashCode();
+      hash = (37 * hash) + DESTBACKENDID_FIELD_NUMBER;
+      hash = (53 * hash) + getDestBackendID().hashCode();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -17461,7 +19393,7 @@ public final class DataserviceMessages {
 
         objectID_ = "";
 
-        metadataInfo_ = "";
+        destBackendID_ = "";
 
         return this;
       }
@@ -17491,7 +19423,7 @@ public final class DataserviceMessages {
         es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NewVersionRequest result = new es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NewVersionRequest(this);
         result.sessionID_ = sessionID_;
         result.objectID_ = objectID_;
-        result.metadataInfo_ = metadataInfo_;
+        result.destBackendID_ = destBackendID_;
         onBuilt();
         return result;
       }
@@ -17548,8 +19480,8 @@ public final class DataserviceMessages {
           objectID_ = other.objectID_;
           onChanged();
         }
-        if (!other.getMetadataInfo().isEmpty()) {
-          metadataInfo_ = other.metadataInfo_;
+        if (!other.getDestBackendID().isEmpty()) {
+          destBackendID_ = other.destBackendID_;
           onChanged();
         }
         this.mergeUnknownFields(other.unknownFields);
@@ -17733,78 +19665,78 @@ public final class DataserviceMessages {
         return this;
       }
 
-      private java.lang.Object metadataInfo_ = "";
+      private java.lang.Object destBackendID_ = "";
       /**
-       * <code>string metadataInfo = 3;</code>
-       * @return The metadataInfo.
+       * <code>string destBackendID = 3;</code>
+       * @return The destBackendID.
        */
-      public java.lang.String getMetadataInfo() {
-        java.lang.Object ref = metadataInfo_;
+      public java.lang.String getDestBackendID() {
+        java.lang.Object ref = destBackendID_;
         if (!(ref instanceof java.lang.String)) {
           com.google.protobuf.ByteString bs =
               (com.google.protobuf.ByteString) ref;
           java.lang.String s = bs.toStringUtf8();
-          metadataInfo_ = s;
+          destBackendID_ = s;
           return s;
         } else {
           return (java.lang.String) ref;
         }
       }
       /**
-       * <code>string metadataInfo = 3;</code>
-       * @return The bytes for metadataInfo.
+       * <code>string destBackendID = 3;</code>
+       * @return The bytes for destBackendID.
        */
       public com.google.protobuf.ByteString
-          getMetadataInfoBytes() {
-        java.lang.Object ref = metadataInfo_;
+          getDestBackendIDBytes() {
+        java.lang.Object ref = destBackendID_;
         if (ref instanceof String) {
           com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
-          metadataInfo_ = b;
+          destBackendID_ = b;
           return b;
         } else {
           return (com.google.protobuf.ByteString) ref;
         }
       }
       /**
-       * <code>string metadataInfo = 3;</code>
-       * @param value The metadataInfo to set.
+       * <code>string destBackendID = 3;</code>
+       * @param value The destBackendID to set.
        * @return This builder for chaining.
        */
-      public Builder setMetadataInfo(
+      public Builder setDestBackendID(
           java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
   
-        metadataInfo_ = value;
+        destBackendID_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>string metadataInfo = 3;</code>
+       * <code>string destBackendID = 3;</code>
        * @return This builder for chaining.
        */
-      public Builder clearMetadataInfo() {
+      public Builder clearDestBackendID() {
         
-        metadataInfo_ = getDefaultInstance().getMetadataInfo();
+        destBackendID_ = getDefaultInstance().getDestBackendID();
         onChanged();
         return this;
       }
       /**
-       * <code>string metadataInfo = 3;</code>
-       * @param value The bytes for metadataInfo to set.
+       * <code>string destBackendID = 3;</code>
+       * @param value The bytes for destBackendID to set.
        * @return This builder for chaining.
        */
-      public Builder setMetadataInfoBytes(
+      public Builder setDestBackendIDBytes(
           com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
         
-        metadataInfo_ = value;
+        destBackendID_ = value;
         onChanged();
         return this;
       }
@@ -17878,51 +19810,17 @@ public final class DataserviceMessages {
         getObjectIDBytes();
 
     /**
-     * <code>map&lt;string, string&gt; versionedIDs = 2;</code>
-     */
-    int getVersionedIDsCount();
-    /**
-     * <code>map&lt;string, string&gt; versionedIDs = 2;</code>
-     */
-    boolean containsVersionedIDs(
-        java.lang.String key);
-    /**
-     * Use {@link #getVersionedIDsMap()} instead.
-     */
-    @java.lang.Deprecated
-    java.util.Map<java.lang.String, java.lang.String>
-    getVersionedIDs();
-    /**
-     * <code>map&lt;string, string&gt; versionedIDs = 2;</code>
-     */
-    java.util.Map<java.lang.String, java.lang.String>
-    getVersionedIDsMap();
-    /**
-     * <code>map&lt;string, string&gt; versionedIDs = 2;</code>
-     */
-
-    java.lang.String getVersionedIDsOrDefault(
-        java.lang.String key,
-        java.lang.String defaultValue);
-    /**
-     * <code>map&lt;string, string&gt; versionedIDs = 2;</code>
-     */
-
-    java.lang.String getVersionedIDsOrThrow(
-        java.lang.String key);
-
-    /**
-     * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 3;</code>
+     * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
      * @return Whether the excInfo field is set.
      */
     boolean hasExcInfo();
     /**
-     * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 3;</code>
+     * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
      * @return The excInfo.
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo getExcInfo();
     /**
-     * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 3;</code>
+     * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
      */
     es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfoOrBuilder getExcInfoOrBuilder();
   }
@@ -17962,7 +19860,6 @@ public final class DataserviceMessages {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -17980,19 +19877,6 @@ public final class DataserviceMessages {
               break;
             }
             case 18: {
-              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
-                versionedIDs_ = com.google.protobuf.MapField.newMapField(
-                    VersionedIDsDefaultEntryHolder.defaultEntry);
-                mutable_bitField0_ |= 0x00000001;
-              }
-              com.google.protobuf.MapEntry<java.lang.String, java.lang.String>
-              versionedIDs__ = input.readMessage(
-                  VersionedIDsDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistry);
-              versionedIDs_.getMutableMap().put(
-                  versionedIDs__.getKey(), versionedIDs__.getValue());
-              break;
-            }
-            case 26: {
               es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.Builder subBuilder = null;
               if (excInfo_ != null) {
                 subBuilder = excInfo_.toBuilder();
@@ -18029,18 +19913,6 @@ public final class DataserviceMessages {
       return es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.internal_static_dataclay_communication_grpc_dataservice_NewVersionResponse_descriptor;
     }
 
-    @SuppressWarnings({"rawtypes"})
-    @java.lang.Override
-    protected com.google.protobuf.MapField internalGetMapField(
-        int number) {
-      switch (number) {
-        case 2:
-          return internalGetVersionedIDs();
-        default:
-          throw new RuntimeException(
-              "Invalid map field number: " + number);
-      }
-    }
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
@@ -18085,100 +19957,24 @@ public final class DataserviceMessages {
       }
     }
 
-    public static final int VERSIONEDIDS_FIELD_NUMBER = 2;
-    private static final class VersionedIDsDefaultEntryHolder {
-      static final com.google.protobuf.MapEntry<
-          java.lang.String, java.lang.String> defaultEntry =
-              com.google.protobuf.MapEntry
-              .<java.lang.String, java.lang.String>newDefaultInstance(
-                  es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.internal_static_dataclay_communication_grpc_dataservice_NewVersionResponse_VersionedIDsEntry_descriptor, 
-                  com.google.protobuf.WireFormat.FieldType.STRING,
-                  "",
-                  com.google.protobuf.WireFormat.FieldType.STRING,
-                  "");
-    }
-    private com.google.protobuf.MapField<
-        java.lang.String, java.lang.String> versionedIDs_;
-    private com.google.protobuf.MapField<java.lang.String, java.lang.String>
-    internalGetVersionedIDs() {
-      if (versionedIDs_ == null) {
-        return com.google.protobuf.MapField.emptyMapField(
-            VersionedIDsDefaultEntryHolder.defaultEntry);
-      }
-      return versionedIDs_;
-    }
-
-    public int getVersionedIDsCount() {
-      return internalGetVersionedIDs().getMap().size();
-    }
-    /**
-     * <code>map&lt;string, string&gt; versionedIDs = 2;</code>
-     */
-
-    public boolean containsVersionedIDs(
-        java.lang.String key) {
-      if (key == null) { throw new java.lang.NullPointerException(); }
-      return internalGetVersionedIDs().getMap().containsKey(key);
-    }
-    /**
-     * Use {@link #getVersionedIDsMap()} instead.
-     */
-    @java.lang.Deprecated
-    public java.util.Map<java.lang.String, java.lang.String> getVersionedIDs() {
-      return getVersionedIDsMap();
-    }
-    /**
-     * <code>map&lt;string, string&gt; versionedIDs = 2;</code>
-     */
-
-    public java.util.Map<java.lang.String, java.lang.String> getVersionedIDsMap() {
-      return internalGetVersionedIDs().getMap();
-    }
-    /**
-     * <code>map&lt;string, string&gt; versionedIDs = 2;</code>
-     */
-
-    public java.lang.String getVersionedIDsOrDefault(
-        java.lang.String key,
-        java.lang.String defaultValue) {
-      if (key == null) { throw new java.lang.NullPointerException(); }
-      java.util.Map<java.lang.String, java.lang.String> map =
-          internalGetVersionedIDs().getMap();
-      return map.containsKey(key) ? map.get(key) : defaultValue;
-    }
-    /**
-     * <code>map&lt;string, string&gt; versionedIDs = 2;</code>
-     */
-
-    public java.lang.String getVersionedIDsOrThrow(
-        java.lang.String key) {
-      if (key == null) { throw new java.lang.NullPointerException(); }
-      java.util.Map<java.lang.String, java.lang.String> map =
-          internalGetVersionedIDs().getMap();
-      if (!map.containsKey(key)) {
-        throw new java.lang.IllegalArgumentException();
-      }
-      return map.get(key);
-    }
-
-    public static final int EXCINFO_FIELD_NUMBER = 3;
+    public static final int EXCINFO_FIELD_NUMBER = 2;
     private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo excInfo_;
     /**
-     * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 3;</code>
+     * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
      * @return Whether the excInfo field is set.
      */
     public boolean hasExcInfo() {
       return excInfo_ != null;
     }
     /**
-     * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 3;</code>
+     * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
      * @return The excInfo.
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo getExcInfo() {
       return excInfo_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.getDefaultInstance() : excInfo_;
     }
     /**
-     * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 3;</code>
+     * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfoOrBuilder getExcInfoOrBuilder() {
       return getExcInfo();
@@ -18201,14 +19997,8 @@ public final class DataserviceMessages {
       if (!getObjectIDBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 1, objectID_);
       }
-      com.google.protobuf.GeneratedMessageV3
-        .serializeStringMapTo(
-          output,
-          internalGetVersionedIDs(),
-          VersionedIDsDefaultEntryHolder.defaultEntry,
-          2);
       if (excInfo_ != null) {
-        output.writeMessage(3, getExcInfo());
+        output.writeMessage(2, getExcInfo());
       }
       unknownFields.writeTo(output);
     }
@@ -18222,19 +20012,9 @@ public final class DataserviceMessages {
       if (!getObjectIDBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, objectID_);
       }
-      for (java.util.Map.Entry<java.lang.String, java.lang.String> entry
-           : internalGetVersionedIDs().getMap().entrySet()) {
-        com.google.protobuf.MapEntry<java.lang.String, java.lang.String>
-        versionedIDs__ = VersionedIDsDefaultEntryHolder.defaultEntry.newBuilderForType()
-            .setKey(entry.getKey())
-            .setValue(entry.getValue())
-            .build();
-        size += com.google.protobuf.CodedOutputStream
-            .computeMessageSize(2, versionedIDs__);
-      }
       if (excInfo_ != null) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(3, getExcInfo());
+          .computeMessageSize(2, getExcInfo());
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -18253,8 +20033,6 @@ public final class DataserviceMessages {
 
       if (!getObjectID()
           .equals(other.getObjectID())) return false;
-      if (!internalGetVersionedIDs().equals(
-          other.internalGetVersionedIDs())) return false;
       if (hasExcInfo() != other.hasExcInfo()) return false;
       if (hasExcInfo()) {
         if (!getExcInfo()
@@ -18273,10 +20051,6 @@ public final class DataserviceMessages {
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + OBJECTID_FIELD_NUMBER;
       hash = (53 * hash) + getObjectID().hashCode();
-      if (!internalGetVersionedIDs().getMap().isEmpty()) {
-        hash = (37 * hash) + VERSIONEDIDS_FIELD_NUMBER;
-        hash = (53 * hash) + internalGetVersionedIDs().hashCode();
-      }
       if (hasExcInfo()) {
         hash = (37 * hash) + EXCINFO_FIELD_NUMBER;
         hash = (53 * hash) + getExcInfo().hashCode();
@@ -18388,28 +20162,6 @@ public final class DataserviceMessages {
         return es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.internal_static_dataclay_communication_grpc_dataservice_NewVersionResponse_descriptor;
       }
 
-      @SuppressWarnings({"rawtypes"})
-      protected com.google.protobuf.MapField internalGetMapField(
-          int number) {
-        switch (number) {
-          case 2:
-            return internalGetVersionedIDs();
-          default:
-            throw new RuntimeException(
-                "Invalid map field number: " + number);
-        }
-      }
-      @SuppressWarnings({"rawtypes"})
-      protected com.google.protobuf.MapField internalGetMutableMapField(
-          int number) {
-        switch (number) {
-          case 2:
-            return internalGetMutableVersionedIDs();
-          default:
-            throw new RuntimeException(
-                "Invalid map field number: " + number);
-        }
-      }
       @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
@@ -18438,7 +20190,6 @@ public final class DataserviceMessages {
         super.clear();
         objectID_ = "";
 
-        internalGetMutableVersionedIDs().clear();
         if (excInfoBuilder_ == null) {
           excInfo_ = null;
         } else {
@@ -18471,10 +20222,7 @@ public final class DataserviceMessages {
       @java.lang.Override
       public es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NewVersionResponse buildPartial() {
         es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NewVersionResponse result = new es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NewVersionResponse(this);
-        int from_bitField0_ = bitField0_;
         result.objectID_ = objectID_;
-        result.versionedIDs_ = internalGetVersionedIDs();
-        result.versionedIDs_.makeImmutable();
         if (excInfoBuilder_ == null) {
           result.excInfo_ = excInfo_;
         } else {
@@ -18532,8 +20280,6 @@ public final class DataserviceMessages {
           objectID_ = other.objectID_;
           onChanged();
         }
-        internalGetMutableVersionedIDs().mergeFrom(
-            other.internalGetVersionedIDs());
         if (other.hasExcInfo()) {
           mergeExcInfo(other.getExcInfo());
         }
@@ -18565,7 +20311,6 @@ public final class DataserviceMessages {
         }
         return this;
       }
-      private int bitField0_;
 
       private java.lang.Object objectID_ = "";
       /**
@@ -18643,141 +20388,18 @@ public final class DataserviceMessages {
         return this;
       }
 
-      private com.google.protobuf.MapField<
-          java.lang.String, java.lang.String> versionedIDs_;
-      private com.google.protobuf.MapField<java.lang.String, java.lang.String>
-      internalGetVersionedIDs() {
-        if (versionedIDs_ == null) {
-          return com.google.protobuf.MapField.emptyMapField(
-              VersionedIDsDefaultEntryHolder.defaultEntry);
-        }
-        return versionedIDs_;
-      }
-      private com.google.protobuf.MapField<java.lang.String, java.lang.String>
-      internalGetMutableVersionedIDs() {
-        onChanged();;
-        if (versionedIDs_ == null) {
-          versionedIDs_ = com.google.protobuf.MapField.newMapField(
-              VersionedIDsDefaultEntryHolder.defaultEntry);
-        }
-        if (!versionedIDs_.isMutable()) {
-          versionedIDs_ = versionedIDs_.copy();
-        }
-        return versionedIDs_;
-      }
-
-      public int getVersionedIDsCount() {
-        return internalGetVersionedIDs().getMap().size();
-      }
-      /**
-       * <code>map&lt;string, string&gt; versionedIDs = 2;</code>
-       */
-
-      public boolean containsVersionedIDs(
-          java.lang.String key) {
-        if (key == null) { throw new java.lang.NullPointerException(); }
-        return internalGetVersionedIDs().getMap().containsKey(key);
-      }
-      /**
-       * Use {@link #getVersionedIDsMap()} instead.
-       */
-      @java.lang.Deprecated
-      public java.util.Map<java.lang.String, java.lang.String> getVersionedIDs() {
-        return getVersionedIDsMap();
-      }
-      /**
-       * <code>map&lt;string, string&gt; versionedIDs = 2;</code>
-       */
-
-      public java.util.Map<java.lang.String, java.lang.String> getVersionedIDsMap() {
-        return internalGetVersionedIDs().getMap();
-      }
-      /**
-       * <code>map&lt;string, string&gt; versionedIDs = 2;</code>
-       */
-
-      public java.lang.String getVersionedIDsOrDefault(
-          java.lang.String key,
-          java.lang.String defaultValue) {
-        if (key == null) { throw new java.lang.NullPointerException(); }
-        java.util.Map<java.lang.String, java.lang.String> map =
-            internalGetVersionedIDs().getMap();
-        return map.containsKey(key) ? map.get(key) : defaultValue;
-      }
-      /**
-       * <code>map&lt;string, string&gt; versionedIDs = 2;</code>
-       */
-
-      public java.lang.String getVersionedIDsOrThrow(
-          java.lang.String key) {
-        if (key == null) { throw new java.lang.NullPointerException(); }
-        java.util.Map<java.lang.String, java.lang.String> map =
-            internalGetVersionedIDs().getMap();
-        if (!map.containsKey(key)) {
-          throw new java.lang.IllegalArgumentException();
-        }
-        return map.get(key);
-      }
-
-      public Builder clearVersionedIDs() {
-        internalGetMutableVersionedIDs().getMutableMap()
-            .clear();
-        return this;
-      }
-      /**
-       * <code>map&lt;string, string&gt; versionedIDs = 2;</code>
-       */
-
-      public Builder removeVersionedIDs(
-          java.lang.String key) {
-        if (key == null) { throw new java.lang.NullPointerException(); }
-        internalGetMutableVersionedIDs().getMutableMap()
-            .remove(key);
-        return this;
-      }
-      /**
-       * Use alternate mutation accessors instead.
-       */
-      @java.lang.Deprecated
-      public java.util.Map<java.lang.String, java.lang.String>
-      getMutableVersionedIDs() {
-        return internalGetMutableVersionedIDs().getMutableMap();
-      }
-      /**
-       * <code>map&lt;string, string&gt; versionedIDs = 2;</code>
-       */
-      public Builder putVersionedIDs(
-          java.lang.String key,
-          java.lang.String value) {
-        if (key == null) { throw new java.lang.NullPointerException(); }
-        if (value == null) { throw new java.lang.NullPointerException(); }
-        internalGetMutableVersionedIDs().getMutableMap()
-            .put(key, value);
-        return this;
-      }
-      /**
-       * <code>map&lt;string, string&gt; versionedIDs = 2;</code>
-       */
-
-      public Builder putAllVersionedIDs(
-          java.util.Map<java.lang.String, java.lang.String> values) {
-        internalGetMutableVersionedIDs().getMutableMap()
-            .putAll(values);
-        return this;
-      }
-
       private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo excInfo_;
       private com.google.protobuf.SingleFieldBuilderV3<
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfoOrBuilder> excInfoBuilder_;
       /**
-       * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 3;</code>
+       * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
        * @return Whether the excInfo field is set.
        */
       public boolean hasExcInfo() {
         return excInfoBuilder_ != null || excInfo_ != null;
       }
       /**
-       * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 3;</code>
+       * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
        * @return The excInfo.
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo getExcInfo() {
@@ -18788,7 +20410,7 @@ public final class DataserviceMessages {
         }
       }
       /**
-       * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 3;</code>
+       * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
        */
       public Builder setExcInfo(es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo value) {
         if (excInfoBuilder_ == null) {
@@ -18804,7 +20426,7 @@ public final class DataserviceMessages {
         return this;
       }
       /**
-       * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 3;</code>
+       * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
        */
       public Builder setExcInfo(
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.Builder builderForValue) {
@@ -18818,7 +20440,7 @@ public final class DataserviceMessages {
         return this;
       }
       /**
-       * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 3;</code>
+       * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
        */
       public Builder mergeExcInfo(es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo value) {
         if (excInfoBuilder_ == null) {
@@ -18836,7 +20458,7 @@ public final class DataserviceMessages {
         return this;
       }
       /**
-       * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 3;</code>
+       * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
        */
       public Builder clearExcInfo() {
         if (excInfoBuilder_ == null) {
@@ -18850,7 +20472,7 @@ public final class DataserviceMessages {
         return this;
       }
       /**
-       * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 3;</code>
+       * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.Builder getExcInfoBuilder() {
         
@@ -18858,7 +20480,7 @@ public final class DataserviceMessages {
         return getExcInfoFieldBuilder().getBuilder();
       }
       /**
-       * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 3;</code>
+       * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
        */
       public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfoOrBuilder getExcInfoOrBuilder() {
         if (excInfoBuilder_ != null) {
@@ -18869,7 +20491,7 @@ public final class DataserviceMessages {
         }
       }
       /**
-       * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 3;</code>
+       * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
           es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfoOrBuilder> 
@@ -18954,16 +20576,16 @@ public final class DataserviceMessages {
         getSessionIDBytes();
 
     /**
-     * <code>string versionInfo = 2;</code>
-     * @return The versionInfo.
+     * <code>string versionObjectID = 2;</code>
+     * @return The versionObjectID.
      */
-    java.lang.String getVersionInfo();
+    java.lang.String getVersionObjectID();
     /**
-     * <code>string versionInfo = 2;</code>
-     * @return The bytes for versionInfo.
+     * <code>string versionObjectID = 2;</code>
+     * @return The bytes for versionObjectID.
      */
     com.google.protobuf.ByteString
-        getVersionInfoBytes();
+        getVersionObjectIDBytes();
   }
   /**
    * Protobuf type {@code dataclay.communication.grpc.dataservice.ConsolidateVersionRequest}
@@ -18979,7 +20601,7 @@ public final class DataserviceMessages {
     }
     private ConsolidateVersionRequest() {
       sessionID_ = "";
-      versionInfo_ = "";
+      versionObjectID_ = "";
     }
 
     @java.lang.Override
@@ -19021,7 +20643,7 @@ public final class DataserviceMessages {
             case 18: {
               java.lang.String s = input.readStringRequireUtf8();
 
-              versionInfo_ = s;
+              versionObjectID_ = s;
               break;
             }
             default: {
@@ -19092,36 +20714,36 @@ public final class DataserviceMessages {
       }
     }
 
-    public static final int VERSIONINFO_FIELD_NUMBER = 2;
-    private volatile java.lang.Object versionInfo_;
+    public static final int VERSIONOBJECTID_FIELD_NUMBER = 2;
+    private volatile java.lang.Object versionObjectID_;
     /**
-     * <code>string versionInfo = 2;</code>
-     * @return The versionInfo.
+     * <code>string versionObjectID = 2;</code>
+     * @return The versionObjectID.
      */
-    public java.lang.String getVersionInfo() {
-      java.lang.Object ref = versionInfo_;
+    public java.lang.String getVersionObjectID() {
+      java.lang.Object ref = versionObjectID_;
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
         com.google.protobuf.ByteString bs = 
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
-        versionInfo_ = s;
+        versionObjectID_ = s;
         return s;
       }
     }
     /**
-     * <code>string versionInfo = 2;</code>
-     * @return The bytes for versionInfo.
+     * <code>string versionObjectID = 2;</code>
+     * @return The bytes for versionObjectID.
      */
     public com.google.protobuf.ByteString
-        getVersionInfoBytes() {
-      java.lang.Object ref = versionInfo_;
+        getVersionObjectIDBytes() {
+      java.lang.Object ref = versionObjectID_;
       if (ref instanceof java.lang.String) {
         com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
-        versionInfo_ = b;
+        versionObjectID_ = b;
         return b;
       } else {
         return (com.google.protobuf.ByteString) ref;
@@ -19145,8 +20767,8 @@ public final class DataserviceMessages {
       if (!getSessionIDBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 1, sessionID_);
       }
-      if (!getVersionInfoBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, versionInfo_);
+      if (!getVersionObjectIDBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, versionObjectID_);
       }
       unknownFields.writeTo(output);
     }
@@ -19160,8 +20782,8 @@ public final class DataserviceMessages {
       if (!getSessionIDBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, sessionID_);
       }
-      if (!getVersionInfoBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, versionInfo_);
+      if (!getVersionObjectIDBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, versionObjectID_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -19180,8 +20802,8 @@ public final class DataserviceMessages {
 
       if (!getSessionID()
           .equals(other.getSessionID())) return false;
-      if (!getVersionInfo()
-          .equals(other.getVersionInfo())) return false;
+      if (!getVersionObjectID()
+          .equals(other.getVersionObjectID())) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -19195,8 +20817,8 @@ public final class DataserviceMessages {
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + SESSIONID_FIELD_NUMBER;
       hash = (53 * hash) + getSessionID().hashCode();
-      hash = (37 * hash) + VERSIONINFO_FIELD_NUMBER;
-      hash = (53 * hash) + getVersionInfo().hashCode();
+      hash = (37 * hash) + VERSIONOBJECTID_FIELD_NUMBER;
+      hash = (53 * hash) + getVersionObjectID().hashCode();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -19332,7 +20954,7 @@ public final class DataserviceMessages {
         super.clear();
         sessionID_ = "";
 
-        versionInfo_ = "";
+        versionObjectID_ = "";
 
         return this;
       }
@@ -19361,7 +20983,7 @@ public final class DataserviceMessages {
       public es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.ConsolidateVersionRequest buildPartial() {
         es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.ConsolidateVersionRequest result = new es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.ConsolidateVersionRequest(this);
         result.sessionID_ = sessionID_;
-        result.versionInfo_ = versionInfo_;
+        result.versionObjectID_ = versionObjectID_;
         onBuilt();
         return result;
       }
@@ -19414,8 +21036,8 @@ public final class DataserviceMessages {
           sessionID_ = other.sessionID_;
           onChanged();
         }
-        if (!other.getVersionInfo().isEmpty()) {
-          versionInfo_ = other.versionInfo_;
+        if (!other.getVersionObjectID().isEmpty()) {
+          versionObjectID_ = other.versionObjectID_;
           onChanged();
         }
         this.mergeUnknownFields(other.unknownFields);
@@ -19523,78 +21145,78 @@ public final class DataserviceMessages {
         return this;
       }
 
-      private java.lang.Object versionInfo_ = "";
+      private java.lang.Object versionObjectID_ = "";
       /**
-       * <code>string versionInfo = 2;</code>
-       * @return The versionInfo.
+       * <code>string versionObjectID = 2;</code>
+       * @return The versionObjectID.
        */
-      public java.lang.String getVersionInfo() {
-        java.lang.Object ref = versionInfo_;
+      public java.lang.String getVersionObjectID() {
+        java.lang.Object ref = versionObjectID_;
         if (!(ref instanceof java.lang.String)) {
           com.google.protobuf.ByteString bs =
               (com.google.protobuf.ByteString) ref;
           java.lang.String s = bs.toStringUtf8();
-          versionInfo_ = s;
+          versionObjectID_ = s;
           return s;
         } else {
           return (java.lang.String) ref;
         }
       }
       /**
-       * <code>string versionInfo = 2;</code>
-       * @return The bytes for versionInfo.
+       * <code>string versionObjectID = 2;</code>
+       * @return The bytes for versionObjectID.
        */
       public com.google.protobuf.ByteString
-          getVersionInfoBytes() {
-        java.lang.Object ref = versionInfo_;
+          getVersionObjectIDBytes() {
+        java.lang.Object ref = versionObjectID_;
         if (ref instanceof String) {
           com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
-          versionInfo_ = b;
+          versionObjectID_ = b;
           return b;
         } else {
           return (com.google.protobuf.ByteString) ref;
         }
       }
       /**
-       * <code>string versionInfo = 2;</code>
-       * @param value The versionInfo to set.
+       * <code>string versionObjectID = 2;</code>
+       * @param value The versionObjectID to set.
        * @return This builder for chaining.
        */
-      public Builder setVersionInfo(
+      public Builder setVersionObjectID(
           java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
   
-        versionInfo_ = value;
+        versionObjectID_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>string versionInfo = 2;</code>
+       * <code>string versionObjectID = 2;</code>
        * @return This builder for chaining.
        */
-      public Builder clearVersionInfo() {
+      public Builder clearVersionObjectID() {
         
-        versionInfo_ = getDefaultInstance().getVersionInfo();
+        versionObjectID_ = getDefaultInstance().getVersionObjectID();
         onChanged();
         return this;
       }
       /**
-       * <code>string versionInfo = 2;</code>
-       * @param value The bytes for versionInfo to set.
+       * <code>string versionObjectID = 2;</code>
+       * @param value The bytes for versionObjectID to set.
        * @return This builder for chaining.
        */
-      public Builder setVersionInfoBytes(
+      public Builder setVersionObjectIDBytes(
           com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
         
-        versionInfo_ = value;
+        versionObjectID_ = value;
         onChanged();
         return this;
       }
@@ -26130,11 +27752,11 @@ public final class DataserviceMessages {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>map&lt;string, string&gt; destStorageLocs = 1;</code>
+     * <code>map&lt;string, .dataclay.communication.grpc.common.StorageLocationInfo&gt; destStorageLocs = 1;</code>
      */
     int getDestStorageLocsCount();
     /**
-     * <code>map&lt;string, string&gt; destStorageLocs = 1;</code>
+     * <code>map&lt;string, .dataclay.communication.grpc.common.StorageLocationInfo&gt; destStorageLocs = 1;</code>
      */
     boolean containsDestStorageLocs(
         java.lang.String key);
@@ -26142,25 +27764,25 @@ public final class DataserviceMessages {
      * Use {@link #getDestStorageLocsMap()} instead.
      */
     @java.lang.Deprecated
-    java.util.Map<java.lang.String, java.lang.String>
+    java.util.Map<java.lang.String, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.StorageLocationInfo>
     getDestStorageLocs();
     /**
-     * <code>map&lt;string, string&gt; destStorageLocs = 1;</code>
+     * <code>map&lt;string, .dataclay.communication.grpc.common.StorageLocationInfo&gt; destStorageLocs = 1;</code>
      */
-    java.util.Map<java.lang.String, java.lang.String>
+    java.util.Map<java.lang.String, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.StorageLocationInfo>
     getDestStorageLocsMap();
     /**
-     * <code>map&lt;string, string&gt; destStorageLocs = 1;</code>
+     * <code>map&lt;string, .dataclay.communication.grpc.common.StorageLocationInfo&gt; destStorageLocs = 1;</code>
      */
 
-    java.lang.String getDestStorageLocsOrDefault(
+    es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.StorageLocationInfo getDestStorageLocsOrDefault(
         java.lang.String key,
-        java.lang.String defaultValue);
+        es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.StorageLocationInfo defaultValue);
     /**
-     * <code>map&lt;string, string&gt; destStorageLocs = 1;</code>
+     * <code>map&lt;string, .dataclay.communication.grpc.common.StorageLocationInfo&gt; destStorageLocs = 1;</code>
      */
 
-    java.lang.String getDestStorageLocsOrThrow(
+    es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.StorageLocationInfo getDestStorageLocsOrThrow(
         java.lang.String key);
   }
   /**
@@ -26215,7 +27837,7 @@ public final class DataserviceMessages {
                     DestStorageLocsDefaultEntryHolder.defaultEntry);
                 mutable_bitField0_ |= 0x00000001;
               }
-              com.google.protobuf.MapEntry<java.lang.String, java.lang.String>
+              com.google.protobuf.MapEntry<java.lang.String, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.StorageLocationInfo>
               destStorageLocs__ = input.readMessage(
                   DestStorageLocsDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistry);
               destStorageLocs_.getMutableMap().put(
@@ -26269,18 +27891,18 @@ public final class DataserviceMessages {
     public static final int DESTSTORAGELOCS_FIELD_NUMBER = 1;
     private static final class DestStorageLocsDefaultEntryHolder {
       static final com.google.protobuf.MapEntry<
-          java.lang.String, java.lang.String> defaultEntry =
+          java.lang.String, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.StorageLocationInfo> defaultEntry =
               com.google.protobuf.MapEntry
-              .<java.lang.String, java.lang.String>newDefaultInstance(
+              .<java.lang.String, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.StorageLocationInfo>newDefaultInstance(
                   es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.internal_static_dataclay_communication_grpc_dataservice_MigrateObjectsRequest_DestStorageLocsEntry_descriptor, 
                   com.google.protobuf.WireFormat.FieldType.STRING,
                   "",
-                  com.google.protobuf.WireFormat.FieldType.STRING,
-                  "");
+                  com.google.protobuf.WireFormat.FieldType.MESSAGE,
+                  es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.StorageLocationInfo.getDefaultInstance());
     }
     private com.google.protobuf.MapField<
-        java.lang.String, java.lang.String> destStorageLocs_;
-    private com.google.protobuf.MapField<java.lang.String, java.lang.String>
+        java.lang.String, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.StorageLocationInfo> destStorageLocs_;
+    private com.google.protobuf.MapField<java.lang.String, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.StorageLocationInfo>
     internalGetDestStorageLocs() {
       if (destStorageLocs_ == null) {
         return com.google.protobuf.MapField.emptyMapField(
@@ -26293,7 +27915,7 @@ public final class DataserviceMessages {
       return internalGetDestStorageLocs().getMap().size();
     }
     /**
-     * <code>map&lt;string, string&gt; destStorageLocs = 1;</code>
+     * <code>map&lt;string, .dataclay.communication.grpc.common.StorageLocationInfo&gt; destStorageLocs = 1;</code>
      */
 
     public boolean containsDestStorageLocs(
@@ -26305,36 +27927,36 @@ public final class DataserviceMessages {
      * Use {@link #getDestStorageLocsMap()} instead.
      */
     @java.lang.Deprecated
-    public java.util.Map<java.lang.String, java.lang.String> getDestStorageLocs() {
+    public java.util.Map<java.lang.String, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.StorageLocationInfo> getDestStorageLocs() {
       return getDestStorageLocsMap();
     }
     /**
-     * <code>map&lt;string, string&gt; destStorageLocs = 1;</code>
+     * <code>map&lt;string, .dataclay.communication.grpc.common.StorageLocationInfo&gt; destStorageLocs = 1;</code>
      */
 
-    public java.util.Map<java.lang.String, java.lang.String> getDestStorageLocsMap() {
+    public java.util.Map<java.lang.String, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.StorageLocationInfo> getDestStorageLocsMap() {
       return internalGetDestStorageLocs().getMap();
     }
     /**
-     * <code>map&lt;string, string&gt; destStorageLocs = 1;</code>
+     * <code>map&lt;string, .dataclay.communication.grpc.common.StorageLocationInfo&gt; destStorageLocs = 1;</code>
      */
 
-    public java.lang.String getDestStorageLocsOrDefault(
+    public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.StorageLocationInfo getDestStorageLocsOrDefault(
         java.lang.String key,
-        java.lang.String defaultValue) {
+        es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.StorageLocationInfo defaultValue) {
       if (key == null) { throw new java.lang.NullPointerException(); }
-      java.util.Map<java.lang.String, java.lang.String> map =
+      java.util.Map<java.lang.String, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.StorageLocationInfo> map =
           internalGetDestStorageLocs().getMap();
       return map.containsKey(key) ? map.get(key) : defaultValue;
     }
     /**
-     * <code>map&lt;string, string&gt; destStorageLocs = 1;</code>
+     * <code>map&lt;string, .dataclay.communication.grpc.common.StorageLocationInfo&gt; destStorageLocs = 1;</code>
      */
 
-    public java.lang.String getDestStorageLocsOrThrow(
+    public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.StorageLocationInfo getDestStorageLocsOrThrow(
         java.lang.String key) {
       if (key == null) { throw new java.lang.NullPointerException(); }
-      java.util.Map<java.lang.String, java.lang.String> map =
+      java.util.Map<java.lang.String, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.StorageLocationInfo> map =
           internalGetDestStorageLocs().getMap();
       if (!map.containsKey(key)) {
         throw new java.lang.IllegalArgumentException();
@@ -26371,9 +27993,9 @@ public final class DataserviceMessages {
       if (size != -1) return size;
 
       size = 0;
-      for (java.util.Map.Entry<java.lang.String, java.lang.String> entry
+      for (java.util.Map.Entry<java.lang.String, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.StorageLocationInfo> entry
            : internalGetDestStorageLocs().getMap().entrySet()) {
-        com.google.protobuf.MapEntry<java.lang.String, java.lang.String>
+        com.google.protobuf.MapEntry<java.lang.String, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.StorageLocationInfo>
         destStorageLocs__ = DestStorageLocsDefaultEntryHolder.defaultEntry.newBuilderForType()
             .setKey(entry.getKey())
             .setValue(entry.getValue())
@@ -26679,8 +28301,8 @@ public final class DataserviceMessages {
       private int bitField0_;
 
       private com.google.protobuf.MapField<
-          java.lang.String, java.lang.String> destStorageLocs_;
-      private com.google.protobuf.MapField<java.lang.String, java.lang.String>
+          java.lang.String, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.StorageLocationInfo> destStorageLocs_;
+      private com.google.protobuf.MapField<java.lang.String, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.StorageLocationInfo>
       internalGetDestStorageLocs() {
         if (destStorageLocs_ == null) {
           return com.google.protobuf.MapField.emptyMapField(
@@ -26688,7 +28310,7 @@ public final class DataserviceMessages {
         }
         return destStorageLocs_;
       }
-      private com.google.protobuf.MapField<java.lang.String, java.lang.String>
+      private com.google.protobuf.MapField<java.lang.String, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.StorageLocationInfo>
       internalGetMutableDestStorageLocs() {
         onChanged();;
         if (destStorageLocs_ == null) {
@@ -26705,7 +28327,7 @@ public final class DataserviceMessages {
         return internalGetDestStorageLocs().getMap().size();
       }
       /**
-       * <code>map&lt;string, string&gt; destStorageLocs = 1;</code>
+       * <code>map&lt;string, .dataclay.communication.grpc.common.StorageLocationInfo&gt; destStorageLocs = 1;</code>
        */
 
       public boolean containsDestStorageLocs(
@@ -26717,36 +28339,36 @@ public final class DataserviceMessages {
        * Use {@link #getDestStorageLocsMap()} instead.
        */
       @java.lang.Deprecated
-      public java.util.Map<java.lang.String, java.lang.String> getDestStorageLocs() {
+      public java.util.Map<java.lang.String, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.StorageLocationInfo> getDestStorageLocs() {
         return getDestStorageLocsMap();
       }
       /**
-       * <code>map&lt;string, string&gt; destStorageLocs = 1;</code>
+       * <code>map&lt;string, .dataclay.communication.grpc.common.StorageLocationInfo&gt; destStorageLocs = 1;</code>
        */
 
-      public java.util.Map<java.lang.String, java.lang.String> getDestStorageLocsMap() {
+      public java.util.Map<java.lang.String, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.StorageLocationInfo> getDestStorageLocsMap() {
         return internalGetDestStorageLocs().getMap();
       }
       /**
-       * <code>map&lt;string, string&gt; destStorageLocs = 1;</code>
+       * <code>map&lt;string, .dataclay.communication.grpc.common.StorageLocationInfo&gt; destStorageLocs = 1;</code>
        */
 
-      public java.lang.String getDestStorageLocsOrDefault(
+      public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.StorageLocationInfo getDestStorageLocsOrDefault(
           java.lang.String key,
-          java.lang.String defaultValue) {
+          es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.StorageLocationInfo defaultValue) {
         if (key == null) { throw new java.lang.NullPointerException(); }
-        java.util.Map<java.lang.String, java.lang.String> map =
+        java.util.Map<java.lang.String, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.StorageLocationInfo> map =
             internalGetDestStorageLocs().getMap();
         return map.containsKey(key) ? map.get(key) : defaultValue;
       }
       /**
-       * <code>map&lt;string, string&gt; destStorageLocs = 1;</code>
+       * <code>map&lt;string, .dataclay.communication.grpc.common.StorageLocationInfo&gt; destStorageLocs = 1;</code>
        */
 
-      public java.lang.String getDestStorageLocsOrThrow(
+      public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.StorageLocationInfo getDestStorageLocsOrThrow(
           java.lang.String key) {
         if (key == null) { throw new java.lang.NullPointerException(); }
-        java.util.Map<java.lang.String, java.lang.String> map =
+        java.util.Map<java.lang.String, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.StorageLocationInfo> map =
             internalGetDestStorageLocs().getMap();
         if (!map.containsKey(key)) {
           throw new java.lang.IllegalArgumentException();
@@ -26760,7 +28382,7 @@ public final class DataserviceMessages {
         return this;
       }
       /**
-       * <code>map&lt;string, string&gt; destStorageLocs = 1;</code>
+       * <code>map&lt;string, .dataclay.communication.grpc.common.StorageLocationInfo&gt; destStorageLocs = 1;</code>
        */
 
       public Builder removeDestStorageLocs(
@@ -26774,16 +28396,16 @@ public final class DataserviceMessages {
        * Use alternate mutation accessors instead.
        */
       @java.lang.Deprecated
-      public java.util.Map<java.lang.String, java.lang.String>
+      public java.util.Map<java.lang.String, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.StorageLocationInfo>
       getMutableDestStorageLocs() {
         return internalGetMutableDestStorageLocs().getMutableMap();
       }
       /**
-       * <code>map&lt;string, string&gt; destStorageLocs = 1;</code>
+       * <code>map&lt;string, .dataclay.communication.grpc.common.StorageLocationInfo&gt; destStorageLocs = 1;</code>
        */
       public Builder putDestStorageLocs(
           java.lang.String key,
-          java.lang.String value) {
+          es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.StorageLocationInfo value) {
         if (key == null) { throw new java.lang.NullPointerException(); }
         if (value == null) { throw new java.lang.NullPointerException(); }
         internalGetMutableDestStorageLocs().getMutableMap()
@@ -26791,11 +28413,11 @@ public final class DataserviceMessages {
         return this;
       }
       /**
-       * <code>map&lt;string, string&gt; destStorageLocs = 1;</code>
+       * <code>map&lt;string, .dataclay.communication.grpc.common.StorageLocationInfo&gt; destStorageLocs = 1;</code>
        */
 
       public Builder putAllDestStorageLocs(
-          java.util.Map<java.lang.String, java.lang.String> values) {
+          java.util.Map<java.lang.String, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.StorageLocationInfo> values) {
         internalGetMutableDestStorageLocs().getMutableMap()
             .putAll(values);
         return this;
@@ -37638,6 +39260,1216 @@ public final class DataserviceMessages {
 
   }
 
+  public interface SynchronizeRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:dataclay.communication.grpc.dataservice.SynchronizeRequest)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>string objectID = 1;</code>
+     * @return The objectID.
+     */
+    java.lang.String getObjectID();
+    /**
+     * <code>string objectID = 1;</code>
+     * @return The bytes for objectID.
+     */
+    com.google.protobuf.ByteString
+        getObjectIDBytes();
+
+    /**
+     * <code>string implementationID = 2;</code>
+     * @return The implementationID.
+     */
+    java.lang.String getImplementationID();
+    /**
+     * <code>string implementationID = 2;</code>
+     * @return The bytes for implementationID.
+     */
+    com.google.protobuf.ByteString
+        getImplementationIDBytes();
+
+    /**
+     * <code>string sessionID = 3;</code>
+     * @return The sessionID.
+     */
+    java.lang.String getSessionID();
+    /**
+     * <code>string sessionID = 3;</code>
+     * @return The bytes for sessionID.
+     */
+    com.google.protobuf.ByteString
+        getSessionIDBytes();
+
+    /**
+     * <code>.dataclay.communication.grpc.common.SerializedParametersOrReturn params = 4;</code>
+     * @return Whether the params field is set.
+     */
+    boolean hasParams();
+    /**
+     * <code>.dataclay.communication.grpc.common.SerializedParametersOrReturn params = 4;</code>
+     * @return The params.
+     */
+    es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn getParams();
+    /**
+     * <code>.dataclay.communication.grpc.common.SerializedParametersOrReturn params = 4;</code>
+     */
+    es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturnOrBuilder getParamsOrBuilder();
+
+    /**
+     * <code>string callingBackendID = 5;</code>
+     * @return The callingBackendID.
+     */
+    java.lang.String getCallingBackendID();
+    /**
+     * <code>string callingBackendID = 5;</code>
+     * @return The bytes for callingBackendID.
+     */
+    com.google.protobuf.ByteString
+        getCallingBackendIDBytes();
+  }
+  /**
+   * Protobuf type {@code dataclay.communication.grpc.dataservice.SynchronizeRequest}
+   */
+  public  static final class SynchronizeRequest extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:dataclay.communication.grpc.dataservice.SynchronizeRequest)
+      SynchronizeRequestOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use SynchronizeRequest.newBuilder() to construct.
+    private SynchronizeRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private SynchronizeRequest() {
+      objectID_ = "";
+      implementationID_ = "";
+      sessionID_ = "";
+      callingBackendID_ = "";
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new SynchronizeRequest();
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private SynchronizeRequest(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 10: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              objectID_ = s;
+              break;
+            }
+            case 18: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              implementationID_ = s;
+              break;
+            }
+            case 26: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              sessionID_ = s;
+              break;
+            }
+            case 34: {
+              es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn.Builder subBuilder = null;
+              if (params_ != null) {
+                subBuilder = params_.toBuilder();
+              }
+              params_ = input.readMessage(es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(params_);
+                params_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
+            case 42: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              callingBackendID_ = s;
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.internal_static_dataclay_communication_grpc_dataservice_SynchronizeRequest_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.internal_static_dataclay_communication_grpc_dataservice_SynchronizeRequest_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.SynchronizeRequest.class, es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.SynchronizeRequest.Builder.class);
+    }
+
+    public static final int OBJECTID_FIELD_NUMBER = 1;
+    private volatile java.lang.Object objectID_;
+    /**
+     * <code>string objectID = 1;</code>
+     * @return The objectID.
+     */
+    public java.lang.String getObjectID() {
+      java.lang.Object ref = objectID_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        objectID_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string objectID = 1;</code>
+     * @return The bytes for objectID.
+     */
+    public com.google.protobuf.ByteString
+        getObjectIDBytes() {
+      java.lang.Object ref = objectID_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        objectID_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int IMPLEMENTATIONID_FIELD_NUMBER = 2;
+    private volatile java.lang.Object implementationID_;
+    /**
+     * <code>string implementationID = 2;</code>
+     * @return The implementationID.
+     */
+    public java.lang.String getImplementationID() {
+      java.lang.Object ref = implementationID_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        implementationID_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string implementationID = 2;</code>
+     * @return The bytes for implementationID.
+     */
+    public com.google.protobuf.ByteString
+        getImplementationIDBytes() {
+      java.lang.Object ref = implementationID_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        implementationID_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int SESSIONID_FIELD_NUMBER = 3;
+    private volatile java.lang.Object sessionID_;
+    /**
+     * <code>string sessionID = 3;</code>
+     * @return The sessionID.
+     */
+    public java.lang.String getSessionID() {
+      java.lang.Object ref = sessionID_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        sessionID_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string sessionID = 3;</code>
+     * @return The bytes for sessionID.
+     */
+    public com.google.protobuf.ByteString
+        getSessionIDBytes() {
+      java.lang.Object ref = sessionID_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        sessionID_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int PARAMS_FIELD_NUMBER = 4;
+    private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn params_;
+    /**
+     * <code>.dataclay.communication.grpc.common.SerializedParametersOrReturn params = 4;</code>
+     * @return Whether the params field is set.
+     */
+    public boolean hasParams() {
+      return params_ != null;
+    }
+    /**
+     * <code>.dataclay.communication.grpc.common.SerializedParametersOrReturn params = 4;</code>
+     * @return The params.
+     */
+    public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn getParams() {
+      return params_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn.getDefaultInstance() : params_;
+    }
+    /**
+     * <code>.dataclay.communication.grpc.common.SerializedParametersOrReturn params = 4;</code>
+     */
+    public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturnOrBuilder getParamsOrBuilder() {
+      return getParams();
+    }
+
+    public static final int CALLINGBACKENDID_FIELD_NUMBER = 5;
+    private volatile java.lang.Object callingBackendID_;
+    /**
+     * <code>string callingBackendID = 5;</code>
+     * @return The callingBackendID.
+     */
+    public java.lang.String getCallingBackendID() {
+      java.lang.Object ref = callingBackendID_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        callingBackendID_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string callingBackendID = 5;</code>
+     * @return The bytes for callingBackendID.
+     */
+    public com.google.protobuf.ByteString
+        getCallingBackendIDBytes() {
+      java.lang.Object ref = callingBackendID_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        callingBackendID_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (!getObjectIDBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, objectID_);
+      }
+      if (!getImplementationIDBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, implementationID_);
+      }
+      if (!getSessionIDBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, sessionID_);
+      }
+      if (params_ != null) {
+        output.writeMessage(4, getParams());
+      }
+      if (!getCallingBackendIDBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 5, callingBackendID_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (!getObjectIDBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, objectID_);
+      }
+      if (!getImplementationIDBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, implementationID_);
+      }
+      if (!getSessionIDBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, sessionID_);
+      }
+      if (params_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(4, getParams());
+      }
+      if (!getCallingBackendIDBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(5, callingBackendID_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.SynchronizeRequest)) {
+        return super.equals(obj);
+      }
+      es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.SynchronizeRequest other = (es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.SynchronizeRequest) obj;
+
+      if (!getObjectID()
+          .equals(other.getObjectID())) return false;
+      if (!getImplementationID()
+          .equals(other.getImplementationID())) return false;
+      if (!getSessionID()
+          .equals(other.getSessionID())) return false;
+      if (hasParams() != other.hasParams()) return false;
+      if (hasParams()) {
+        if (!getParams()
+            .equals(other.getParams())) return false;
+      }
+      if (!getCallingBackendID()
+          .equals(other.getCallingBackendID())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + OBJECTID_FIELD_NUMBER;
+      hash = (53 * hash) + getObjectID().hashCode();
+      hash = (37 * hash) + IMPLEMENTATIONID_FIELD_NUMBER;
+      hash = (53 * hash) + getImplementationID().hashCode();
+      hash = (37 * hash) + SESSIONID_FIELD_NUMBER;
+      hash = (53 * hash) + getSessionID().hashCode();
+      if (hasParams()) {
+        hash = (37 * hash) + PARAMS_FIELD_NUMBER;
+        hash = (53 * hash) + getParams().hashCode();
+      }
+      hash = (37 * hash) + CALLINGBACKENDID_FIELD_NUMBER;
+      hash = (53 * hash) + getCallingBackendID().hashCode();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.SynchronizeRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.SynchronizeRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.SynchronizeRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.SynchronizeRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.SynchronizeRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.SynchronizeRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.SynchronizeRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.SynchronizeRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.SynchronizeRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.SynchronizeRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.SynchronizeRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.SynchronizeRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.SynchronizeRequest prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code dataclay.communication.grpc.dataservice.SynchronizeRequest}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:dataclay.communication.grpc.dataservice.SynchronizeRequest)
+        es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.SynchronizeRequestOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.internal_static_dataclay_communication_grpc_dataservice_SynchronizeRequest_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.internal_static_dataclay_communication_grpc_dataservice_SynchronizeRequest_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.SynchronizeRequest.class, es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.SynchronizeRequest.Builder.class);
+      }
+
+      // Construct using es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.SynchronizeRequest.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        objectID_ = "";
+
+        implementationID_ = "";
+
+        sessionID_ = "";
+
+        if (paramsBuilder_ == null) {
+          params_ = null;
+        } else {
+          params_ = null;
+          paramsBuilder_ = null;
+        }
+        callingBackendID_ = "";
+
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.internal_static_dataclay_communication_grpc_dataservice_SynchronizeRequest_descriptor;
+      }
+
+      @java.lang.Override
+      public es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.SynchronizeRequest getDefaultInstanceForType() {
+        return es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.SynchronizeRequest.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.SynchronizeRequest build() {
+        es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.SynchronizeRequest result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.SynchronizeRequest buildPartial() {
+        es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.SynchronizeRequest result = new es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.SynchronizeRequest(this);
+        result.objectID_ = objectID_;
+        result.implementationID_ = implementationID_;
+        result.sessionID_ = sessionID_;
+        if (paramsBuilder_ == null) {
+          result.params_ = params_;
+        } else {
+          result.params_ = paramsBuilder_.build();
+        }
+        result.callingBackendID_ = callingBackendID_;
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.SynchronizeRequest) {
+          return mergeFrom((es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.SynchronizeRequest)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.SynchronizeRequest other) {
+        if (other == es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.SynchronizeRequest.getDefaultInstance()) return this;
+        if (!other.getObjectID().isEmpty()) {
+          objectID_ = other.objectID_;
+          onChanged();
+        }
+        if (!other.getImplementationID().isEmpty()) {
+          implementationID_ = other.implementationID_;
+          onChanged();
+        }
+        if (!other.getSessionID().isEmpty()) {
+          sessionID_ = other.sessionID_;
+          onChanged();
+        }
+        if (other.hasParams()) {
+          mergeParams(other.getParams());
+        }
+        if (!other.getCallingBackendID().isEmpty()) {
+          callingBackendID_ = other.callingBackendID_;
+          onChanged();
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.SynchronizeRequest parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.SynchronizeRequest) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private java.lang.Object objectID_ = "";
+      /**
+       * <code>string objectID = 1;</code>
+       * @return The objectID.
+       */
+      public java.lang.String getObjectID() {
+        java.lang.Object ref = objectID_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          objectID_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string objectID = 1;</code>
+       * @return The bytes for objectID.
+       */
+      public com.google.protobuf.ByteString
+          getObjectIDBytes() {
+        java.lang.Object ref = objectID_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          objectID_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string objectID = 1;</code>
+       * @param value The objectID to set.
+       * @return This builder for chaining.
+       */
+      public Builder setObjectID(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        objectID_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string objectID = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearObjectID() {
+        
+        objectID_ = getDefaultInstance().getObjectID();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string objectID = 1;</code>
+       * @param value The bytes for objectID to set.
+       * @return This builder for chaining.
+       */
+      public Builder setObjectIDBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        objectID_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object implementationID_ = "";
+      /**
+       * <code>string implementationID = 2;</code>
+       * @return The implementationID.
+       */
+      public java.lang.String getImplementationID() {
+        java.lang.Object ref = implementationID_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          implementationID_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string implementationID = 2;</code>
+       * @return The bytes for implementationID.
+       */
+      public com.google.protobuf.ByteString
+          getImplementationIDBytes() {
+        java.lang.Object ref = implementationID_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          implementationID_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string implementationID = 2;</code>
+       * @param value The implementationID to set.
+       * @return This builder for chaining.
+       */
+      public Builder setImplementationID(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        implementationID_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string implementationID = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearImplementationID() {
+        
+        implementationID_ = getDefaultInstance().getImplementationID();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string implementationID = 2;</code>
+       * @param value The bytes for implementationID to set.
+       * @return This builder for chaining.
+       */
+      public Builder setImplementationIDBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        implementationID_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object sessionID_ = "";
+      /**
+       * <code>string sessionID = 3;</code>
+       * @return The sessionID.
+       */
+      public java.lang.String getSessionID() {
+        java.lang.Object ref = sessionID_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          sessionID_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string sessionID = 3;</code>
+       * @return The bytes for sessionID.
+       */
+      public com.google.protobuf.ByteString
+          getSessionIDBytes() {
+        java.lang.Object ref = sessionID_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          sessionID_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string sessionID = 3;</code>
+       * @param value The sessionID to set.
+       * @return This builder for chaining.
+       */
+      public Builder setSessionID(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        sessionID_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string sessionID = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearSessionID() {
+        
+        sessionID_ = getDefaultInstance().getSessionID();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string sessionID = 3;</code>
+       * @param value The bytes for sessionID to set.
+       * @return This builder for chaining.
+       */
+      public Builder setSessionIDBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        sessionID_ = value;
+        onChanged();
+        return this;
+      }
+
+      private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn params_;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturnOrBuilder> paramsBuilder_;
+      /**
+       * <code>.dataclay.communication.grpc.common.SerializedParametersOrReturn params = 4;</code>
+       * @return Whether the params field is set.
+       */
+      public boolean hasParams() {
+        return paramsBuilder_ != null || params_ != null;
+      }
+      /**
+       * <code>.dataclay.communication.grpc.common.SerializedParametersOrReturn params = 4;</code>
+       * @return The params.
+       */
+      public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn getParams() {
+        if (paramsBuilder_ == null) {
+          return params_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn.getDefaultInstance() : params_;
+        } else {
+          return paramsBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.dataclay.communication.grpc.common.SerializedParametersOrReturn params = 4;</code>
+       */
+      public Builder setParams(es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn value) {
+        if (paramsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          params_ = value;
+          onChanged();
+        } else {
+          paramsBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.dataclay.communication.grpc.common.SerializedParametersOrReturn params = 4;</code>
+       */
+      public Builder setParams(
+          es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn.Builder builderForValue) {
+        if (paramsBuilder_ == null) {
+          params_ = builderForValue.build();
+          onChanged();
+        } else {
+          paramsBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.dataclay.communication.grpc.common.SerializedParametersOrReturn params = 4;</code>
+       */
+      public Builder mergeParams(es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn value) {
+        if (paramsBuilder_ == null) {
+          if (params_ != null) {
+            params_ =
+              es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn.newBuilder(params_).mergeFrom(value).buildPartial();
+          } else {
+            params_ = value;
+          }
+          onChanged();
+        } else {
+          paramsBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.dataclay.communication.grpc.common.SerializedParametersOrReturn params = 4;</code>
+       */
+      public Builder clearParams() {
+        if (paramsBuilder_ == null) {
+          params_ = null;
+          onChanged();
+        } else {
+          params_ = null;
+          paramsBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.dataclay.communication.grpc.common.SerializedParametersOrReturn params = 4;</code>
+       */
+      public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn.Builder getParamsBuilder() {
+        
+        onChanged();
+        return getParamsFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.dataclay.communication.grpc.common.SerializedParametersOrReturn params = 4;</code>
+       */
+      public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturnOrBuilder getParamsOrBuilder() {
+        if (paramsBuilder_ != null) {
+          return paramsBuilder_.getMessageOrBuilder();
+        } else {
+          return params_ == null ?
+              es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn.getDefaultInstance() : params_;
+        }
+      }
+      /**
+       * <code>.dataclay.communication.grpc.common.SerializedParametersOrReturn params = 4;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturnOrBuilder> 
+          getParamsFieldBuilder() {
+        if (paramsBuilder_ == null) {
+          paramsBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturnOrBuilder>(
+                  getParams(),
+                  getParentForChildren(),
+                  isClean());
+          params_ = null;
+        }
+        return paramsBuilder_;
+      }
+
+      private java.lang.Object callingBackendID_ = "";
+      /**
+       * <code>string callingBackendID = 5;</code>
+       * @return The callingBackendID.
+       */
+      public java.lang.String getCallingBackendID() {
+        java.lang.Object ref = callingBackendID_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          callingBackendID_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string callingBackendID = 5;</code>
+       * @return The bytes for callingBackendID.
+       */
+      public com.google.protobuf.ByteString
+          getCallingBackendIDBytes() {
+        java.lang.Object ref = callingBackendID_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          callingBackendID_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string callingBackendID = 5;</code>
+       * @param value The callingBackendID to set.
+       * @return This builder for chaining.
+       */
+      public Builder setCallingBackendID(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        callingBackendID_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string callingBackendID = 5;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearCallingBackendID() {
+        
+        callingBackendID_ = getDefaultInstance().getCallingBackendID();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string callingBackendID = 5;</code>
+       * @param value The bytes for callingBackendID to set.
+       * @return This builder for chaining.
+       */
+      public Builder setCallingBackendIDBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        callingBackendID_ = value;
+        onChanged();
+        return this;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:dataclay.communication.grpc.dataservice.SynchronizeRequest)
+    }
+
+    // @@protoc_insertion_point(class_scope:dataclay.communication.grpc.dataservice.SynchronizeRequest)
+    private static final es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.SynchronizeRequest DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.SynchronizeRequest();
+    }
+
+    public static es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.SynchronizeRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<SynchronizeRequest>
+        PARSER = new com.google.protobuf.AbstractParser<SynchronizeRequest>() {
+      @java.lang.Override
+      public SynchronizeRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new SynchronizeRequest(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<SynchronizeRequest> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<SynchronizeRequest> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.SynchronizeRequest getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   public interface ExistsRequestOrBuilder extends
       // @@protoc_insertion_point(interface_extends:dataclay.communication.grpc.dataservice.ExistsRequest)
       com.google.protobuf.MessageOrBuilder {
@@ -40240,11 +43072,6 @@ public final class DataserviceMessages {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_dataclay_communication_grpc_dataservice_GetObjectsResponse_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_dataclay_communication_grpc_dataservice_GetObjectsResponse_ObjectsEntry_descriptor;
-  private static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_dataclay_communication_grpc_dataservice_GetObjectsResponse_ObjectsEntry_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_dataclay_communication_grpc_dataservice_MakePersistentRequest_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -40255,10 +43082,20 @@ public final class DataserviceMessages {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_dataclay_communication_grpc_dataservice_FederateRequest_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_dataclay_communication_grpc_dataservice_NotifyFederationRequest_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_dataclay_communication_grpc_dataservice_NotifyFederationRequest_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_dataclay_communication_grpc_dataservice_UnfederateRequest_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_dataclay_communication_grpc_dataservice_UnfederateRequest_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_dataclay_communication_grpc_dataservice_NotifyUnfederationRequest_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_dataclay_communication_grpc_dataservice_NotifyUnfederationRequest_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_dataclay_communication_grpc_dataservice_ExecuteImplementationRequest_descriptor;
   private static final 
@@ -40279,11 +43116,6 @@ public final class DataserviceMessages {
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_dataclay_communication_grpc_dataservice_NewVersionResponse_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_dataclay_communication_grpc_dataservice_NewVersionResponse_VersionedIDsEntry_descriptor;
-  private static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_dataclay_communication_grpc_dataservice_NewVersionResponse_VersionedIDsEntry_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_dataclay_communication_grpc_dataservice_ConsolidateVersionRequest_descriptor;
   private static final 
@@ -40425,6 +43257,11 @@ public final class DataserviceMessages {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_dataclay_communication_grpc_dataservice_GetRetainedReferencesResponse_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_dataclay_communication_grpc_dataservice_SynchronizeRequest_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_dataclay_communication_grpc_dataservice_SynchronizeRequest_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_dataclay_communication_grpc_dataservice_ExistsRequest_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -40510,123 +43347,128 @@ public final class DataserviceMessages {
       "\022\021\n\tsessionID\030\001 \001(\t\022\024\n\014intoObjectID\030\002 \001(" +
       "\t\022T\n\nfromObject\030\003 \001(\0132@.dataclay.communi" +
       "cation.grpc.common.SerializedParametersO" +
-      "rReturn\"v\n\021GetObjectsRequest\022\021\n\tsessionI" +
+      "rReturn\"c\n\021GetObjectsRequest\022\021\n\tsessionI" +
       "D\030\001 \001(\t\022\021\n\tobjectIDS\030\002 \003(\t\022\021\n\trecursive\030" +
-      "\003 \001(\010\022\023\n\013removeHints\030\004 \001(\010\022\023\n\013getOnlyRef" +
-      "s\030\005 \001(\010\"\244\002\n\022GetObjectsResponse\022Y\n\007object" +
-      "s\030\001 \003(\0132H.dataclay.communication.grpc.da" +
-      "taservice.GetObjectsResponse.ObjectsEntr" +
-      "y\022B\n\007excInfo\030\002 \001(\01321.dataclay.communicat" +
-      "ion.grpc.common.ExceptionInfo\032o\n\014Objects" +
-      "Entry\022\013\n\003key\030\001 \001(\t\022N\n\005value\030\002 \001(\0132?.data" +
-      "clay.communication.grpc.common.ObjectWit" +
-      "hDataParamOrReturn:\0028\001\"|\n\025MakePersistent" +
-      "Request\022\021\n\tsessionID\030\001 \001(\t\022P\n\007objects\030\002 " +
-      "\003(\0132?.dataclay.communication.grpc.common" +
-      ".ObjectWithDataParamOrReturn\"v\n\017Federate" +
-      "Request\022\021\n\tsessionID\030\001 \001(\t\022P\n\007objects\030\002 " +
-      "\003(\0132?.dataclay.communication.grpc.common" +
-      ".ObjectWithDataParamOrReturn\"9\n\021Unfedera" +
-      "teRequest\022\021\n\tsessionID\030\001 \001(\t\022\021\n\tobjectID" +
-      "s\030\002 \003(\t\"\257\001\n\034ExecuteImplementationRequest" +
-      "\022\020\n\010objectID\030\001 \001(\t\022\030\n\020implementationID\030\002" +
-      " \001(\t\022\021\n\tsessionID\030\003 \001(\t\022P\n\006params\030\004 \001(\0132" +
-      "@.dataclay.communication.grpc.common.Ser" +
-      "ializedParametersOrReturn\"\262\001\n\035ExecuteImp" +
-      "lementationResponse\022M\n\003ret\030\001 \001(\0132@.datac" +
-      "lay.communication.grpc.common.Serialized" +
-      "ParametersOrReturn\022B\n\007excInfo\030\002 \001(\01321.da" +
-      "taclay.communication.grpc.common.Excepti" +
-      "onInfo\"N\n\021NewVersionRequest\022\021\n\tsessionID" +
-      "\030\001 \001(\t\022\020\n\010objectID\030\002 \001(\t\022\024\n\014metadataInfo" +
-      "\030\003 \001(\t\"\204\002\n\022NewVersionResponse\022\020\n\010objectI" +
-      "D\030\001 \001(\t\022c\n\014versionedIDs\030\002 \003(\0132M.dataclay" +
-      ".communication.grpc.dataservice.NewVersi" +
-      "onResponse.VersionedIDsEntry\022B\n\007excInfo\030" +
-      "\003 \001(\01321.dataclay.communication.grpc.comm" +
-      "on.ExceptionInfo\0323\n\021VersionedIDsEntry\022\013\n" +
-      "\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"C\n\031Consoli" +
-      "dateVersionRequest\022\021\n\tsessionID\030\001 \001(\t\022\023\n" +
-      "\013versionInfo\030\002 \001(\t\"\177\n\024UpsertObjectsReque" +
-      "st\022\021\n\tsessionID\030\001 \001(\t\022T\n\013bytesUpdate\030\002 \003" +
-      "(\0132?.dataclay.communication.grpc.common." +
-      "ObjectWithDataParamOrReturn\"b\n\021NewReplic" +
-      "aRequest\022\021\n\tsessionID\030\001 \001(\t\022\020\n\010objectID\030" +
-      "\002 \001(\t\022\025\n\rdestBackendID\030\003 \001(\t\022\021\n\trecursiv" +
-      "e\030\004 \001(\010\"s\n\022NewReplicaResponse\022\031\n\021replica" +
-      "tedObjects\030\001 \003(\t\022B\n\007excInfo\030\002 \001(\01321.data" +
-      "clay.communication.grpc.common.Exception" +
-      "Info\"_\n\022MoveObjectsRequest\022\021\n\tsessionID\030" +
-      "\001 \001(\t\022\020\n\010objectID\030\002 \001(\t\022\021\n\tdestLocID\030\003 \001" +
-      "(\t\022\021\n\trecursive\030\004 \001(\010\"o\n\023MoveObjectsResp" +
-      "onse\022\024\n\014movedObjects\030\001 \003(\t\022B\n\007excInfo\030\002 " +
-      "\001(\01321.dataclay.communication.grpc.common" +
-      ".ExceptionInfo\"p\n\024RemoveObjectsRequest\022\021" +
-      "\n\tsessionID\030\001 \001(\t\022\021\n\tobjectIDs\030\002 \003(\t\022\021\n\t" +
-      "recursive\030\003 \001(\010\022\016\n\006moving\030\004 \001(\010\022\017\n\007newHi" +
-      "nt\030\005 \001(\t\"\376\001\n\025RemoveObjectsResponse\022j\n\016re" +
-      "movedObjects\030\001 \003(\0132R.dataclay.communicat" +
-      "ion.grpc.dataservice.RemoveObjectsRespon" +
-      "se.RemovedObjectsEntry\022B\n\007excInfo\030\002 \001(\0132" +
-      "1.dataclay.communication.grpc.common.Exc" +
-      "eptionInfo\0325\n\023RemovedObjectsEntry\022\013\n\003key" +
-      "\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"\275\001\n\025MigrateObj" +
-      "ectsRequest\022l\n\017destStorageLocs\030\001 \003(\0132S.d" +
+      "\003 \001(\010\022\025\n\rdestBackendID\030\004 \001(\t\"\252\001\n\022GetObje" +
+      "ctsResponse\022P\n\007objects\030\001 \003(\0132?.dataclay." +
+      "communication.grpc.common.ObjectWithData" +
+      "ParamOrReturn\022B\n\007excInfo\030\002 \001(\01321.datacla" +
+      "y.communication.grpc.common.ExceptionInf" +
+      "o\"|\n\025MakePersistentRequest\022\021\n\tsessionID\030" +
+      "\001 \001(\t\022P\n\007objects\030\002 \003(\0132?.dataclay.commun" +
+      "ication.grpc.common.ObjectWithDataParamO" +
+      "rReturn\"q\n\017FederateRequest\022\021\n\tsessionID\030" +
+      "\001 \001(\t\022\020\n\010objectID\030\002 \001(\t\022&\n\036externalExecu" +
+      "tionEnvironmentID\030\003 \001(\t\022\021\n\trecursive\030\004 \001" +
+      "(\010\"~\n\027NotifyFederationRequest\022\021\n\tsession" +
+      "ID\030\001 \001(\t\022P\n\007objects\030\002 \003(\0132?.dataclay.com" +
+      "munication.grpc.common.ObjectWithDataPar" +
+      "amOrReturn\"s\n\021UnfederateRequest\022\021\n\tsessi" +
+      "onID\030\001 \001(\t\022\020\n\010objectID\030\002 \001(\t\022&\n\036external" +
+      "ExecutionEnvironmentID\030\003 \001(\t\022\021\n\trecursiv" +
+      "e\030\004 \001(\010\"A\n\031NotifyUnfederationRequest\022\021\n\t" +
+      "sessionID\030\001 \001(\t\022\021\n\tobjectIDs\030\002 \003(\t\"\257\001\n\034E" +
+      "xecuteImplementationRequest\022\020\n\010objectID\030" +
+      "\001 \001(\t\022\030\n\020implementationID\030\002 \001(\t\022\021\n\tsessi" +
+      "onID\030\003 \001(\t\022P\n\006params\030\004 \001(\0132@.dataclay.co" +
+      "mmunication.grpc.common.SerializedParame" +
+      "tersOrReturn\"\262\001\n\035ExecuteImplementationRe" +
+      "sponse\022M\n\003ret\030\001 \001(\0132@.dataclay.communica" +
+      "tion.grpc.common.SerializedParametersOrR" +
+      "eturn\022B\n\007excInfo\030\002 \001(\01321.dataclay.commun" +
+      "ication.grpc.common.ExceptionInfo\"O\n\021New" +
+      "VersionRequest\022\021\n\tsessionID\030\001 \001(\t\022\020\n\010obj" +
+      "ectID\030\002 \001(\t\022\025\n\rdestBackendID\030\003 \001(\t\"j\n\022Ne" +
+      "wVersionResponse\022\020\n\010objectID\030\001 \001(\t\022B\n\007ex" +
+      "cInfo\030\002 \001(\01321.dataclay.communication.grp" +
+      "c.common.ExceptionInfo\"G\n\031ConsolidateVer" +
+      "sionRequest\022\021\n\tsessionID\030\001 \001(\t\022\027\n\017versio" +
+      "nObjectID\030\002 \001(\t\"\177\n\024UpsertObjectsRequest\022" +
+      "\021\n\tsessionID\030\001 \001(\t\022T\n\013bytesUpdate\030\002 \003(\0132" +
+      "?.dataclay.communication.grpc.common.Obj" +
+      "ectWithDataParamOrReturn\"b\n\021NewReplicaRe" +
+      "quest\022\021\n\tsessionID\030\001 \001(\t\022\020\n\010objectID\030\002 \001" +
+      "(\t\022\025\n\rdestBackendID\030\003 \001(\t\022\021\n\trecursive\030\004" +
+      " \001(\010\"s\n\022NewReplicaResponse\022\031\n\021replicated" +
+      "Objects\030\001 \003(\t\022B\n\007excInfo\030\002 \001(\01321.datacla" +
+      "y.communication.grpc.common.ExceptionInf" +
+      "o\"_\n\022MoveObjectsRequest\022\021\n\tsessionID\030\001 \001" +
+      "(\t\022\020\n\010objectID\030\002 \001(\t\022\021\n\tdestLocID\030\003 \001(\t\022" +
+      "\021\n\trecursive\030\004 \001(\010\"o\n\023MoveObjectsRespons" +
+      "e\022\024\n\014movedObjects\030\001 \003(\t\022B\n\007excInfo\030\002 \001(\013" +
+      "21.dataclay.communication.grpc.common.Ex" +
+      "ceptionInfo\"p\n\024RemoveObjectsRequest\022\021\n\ts" +
+      "essionID\030\001 \001(\t\022\021\n\tobjectIDs\030\002 \003(\t\022\021\n\trec" +
+      "ursive\030\003 \001(\010\022\016\n\006moving\030\004 \001(\010\022\017\n\007newHint\030" +
+      "\005 \001(\t\"\376\001\n\025RemoveObjectsResponse\022j\n\016remov" +
+      "edObjects\030\001 \003(\0132R.dataclay.communication" +
+      ".grpc.dataservice.RemoveObjectsResponse." +
+      "RemovedObjectsEntry\022B\n\007excInfo\030\002 \001(\01321.d" +
+      "ataclay.communication.grpc.common.Except" +
+      "ionInfo\0325\n\023RemovedObjectsEntry\022\013\n\003key\030\001 " +
+      "\001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"\366\001\n\025MigrateObject" +
+      "sRequest\022l\n\017destStorageLocs\030\001 \003(\0132S.data" +
+      "clay.communication.grpc.dataservice.Migr" +
+      "ateObjectsRequest.DestStorageLocsEntry\032o" +
+      "\n\024DestStorageLocsEntry\022\013\n\003key\030\001 \001(\t\022F\n\005v" +
+      "alue\030\002 \001(\01327.dataclay.communication.grpc" +
+      ".common.StorageLocationInfo:\0028\001\"\037\n\017Migra" +
+      "tedObjects\022\014\n\004objs\030\001 \003(\t\"\207\003\n\026MigrateObje" +
+      "ctsResponse\022g\n\014migratedObjs\030\001 \003(\0132Q.data" +
+      "clay.communication.grpc.dataservice.Migr" +
+      "ateObjectsResponse.MigratedObjsEntry\022Q\n\017" +
+      "nonMigratedObjs\030\002 \001(\01328.dataclay.communi" +
+      "cation.grpc.dataservice.MigratedObjects\022" +
+      "B\n\007excInfo\030\003 \001(\01321.dataclay.communicatio" +
+      "n.grpc.common.ExceptionInfo\032m\n\021MigratedO" +
+      "bjsEntry\022\013\n\003key\030\001 \001(\t\022G\n\005value\030\002 \001(\01328.d" +
       "ataclay.communication.grpc.dataservice.M" +
-      "igrateObjectsRequest.DestStorageLocsEntr" +
-      "y\0326\n\024DestStorageLocsEntry\022\013\n\003key\030\001 \001(\t\022\r" +
-      "\n\005value\030\002 \001(\t:\0028\001\"\037\n\017MigratedObjects\022\014\n\004" +
-      "objs\030\001 \003(\t\"\207\003\n\026MigrateObjectsResponse\022g\n" +
-      "\014migratedObjs\030\001 \003(\0132Q.dataclay.communica" +
-      "tion.grpc.dataservice.MigrateObjectsResp" +
-      "onse.MigratedObjsEntry\022Q\n\017nonMigratedObj" +
-      "s\030\002 \001(\01328.dataclay.communication.grpc.da" +
-      "taservice.MigratedObjects\022B\n\007excInfo\030\003 \001" +
-      "(\01321.dataclay.communication.grpc.common." +
-      "ExceptionInfo\032m\n\021MigratedObjsEntry\022\013\n\003ke" +
-      "y\030\001 \001(\t\022G\n\005value\030\002 \001(\01328.dataclay.commun" +
-      "ication.grpc.dataservice.MigratedObjects" +
-      ":\0028\001\"(\n\026ActivateTracingRequest\022\016\n\006taskid" +
-      "\030\001 \001(\005\",\n\027CloseSessionInDSRequest\022\021\n\tses" +
-      "sionID\030\001 \001(\t\"\351\001\n\022DiskCollectRequest\022\023\n\013e" +
-      "pochNodeID\030\001 \001(\t\022\020\n\010ringPath\030\002 \003(\t\022\022\n\nca" +
-      "ndidates\030\003 \003(\t\022c\n\014refsToUpdate\030\004 \003(\0132M.d" +
-      "ataclay.communication.grpc.dataservice.D" +
-      "iskCollectRequest.RefsToUpdateEntry\0323\n\021R" +
-      "efsToUpdateEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002" +
-      " \001(\005:\0028\001\"7\n#GetClassIDFromObjectInMemory" +
-      "Request\022\020\n\010objectID\030\001 \001(\t\"{\n$GetClassIDF" +
-      "romObjectInMemoryResponse\022\017\n\007classID\030\001 \001" +
-      "(\t\022B\n\007excInfo\030\002 \001(\01321.dataclay.communica" +
-      "tion.grpc.common.ExceptionInfo\"V\n\020StoreT" +
+      "igratedObjects:\0028\001\"(\n\026ActivateTracingReq" +
+      "uest\022\016\n\006taskid\030\001 \001(\005\",\n\027CloseSessionInDS" +
+      "Request\022\021\n\tsessionID\030\001 \001(\t\"\351\001\n\022DiskColle" +
+      "ctRequest\022\023\n\013epochNodeID\030\001 \001(\t\022\020\n\010ringPa" +
+      "th\030\002 \003(\t\022\022\n\ncandidates\030\003 \003(\t\022c\n\014refsToUp" +
+      "date\030\004 \003(\0132M.dataclay.communication.grpc" +
+      ".dataservice.DiskCollectRequest.RefsToUp" +
+      "dateEntry\0323\n\021RefsToUpdateEntry\022\013\n\003key\030\001 " +
+      "\001(\t\022\r\n\005value\030\002 \001(\005:\0028\001\"7\n#GetClassIDFrom" +
+      "ObjectInMemoryRequest\022\020\n\010objectID\030\001 \001(\t\"" +
+      "{\n$GetClassIDFromObjectInMemoryResponse\022" +
+      "\017\n\007classID\030\001 \001(\t\022B\n\007excInfo\030\002 \001(\01321.data" +
+      "clay.communication.grpc.common.Exception" +
+      "Info\"V\n\020StoreToDBRequest\022\036\n\026executionEnv" +
+      "ironmentID\030\001 \001(\t\022\020\n\010objectID\030\002 \001(\t\022\020\n\010ob" +
+      "jBytes\030\003 \001(\014\"D\n\020GetFromDBRequest\022\036\n\026exec" +
+      "utionEnvironmentID\030\001 \001(\t\022\020\n\010objectID\030\002 \001" +
+      "(\t\"i\n\021GetFromDBResponse\022\020\n\010objBytes\030\001 \001(" +
+      "\014\022B\n\007excInfo\030\002 \001(\01321.dataclay.communicat" +
+      "ion.grpc.common.ExceptionInfo\"f\n\021UpdateT" +
       "oDBRequest\022\036\n\026executionEnvironmentID\030\001 \001" +
-      "(\t\022\020\n\010objectID\030\002 \001(\t\022\020\n\010objBytes\030\003 \001(\014\"D" +
-      "\n\020GetFromDBRequest\022\036\n\026executionEnvironme" +
-      "ntID\030\001 \001(\t\022\020\n\010objectID\030\002 \001(\t\"i\n\021GetFromD" +
-      "BResponse\022\020\n\010objBytes\030\001 \001(\014\022B\n\007excInfo\030\002" +
-      " \001(\01321.dataclay.communication.grpc.commo" +
-      "n.ExceptionInfo\"f\n\021UpdateToDBRequest\022\036\n\026" +
-      "executionEnvironmentID\030\001 \001(\t\022\020\n\010objectID" +
-      "\030\002 \001(\t\022\020\n\010objBytes\030\003 \001(\014\022\r\n\005dirty\030\004 \001(\010\"" +
-      "E\n\021DeleteToDBRequest\022\036\n\026executionEnviron" +
-      "mentID\030\001 \001(\t\022\020\n\010objectID\030\002 \001(\t\"\254\001\n\021Updat" +
-      "eRefsRequest\022b\n\014refsToUpdate\030\001 \003(\0132L.dat" +
-      "aclay.communication.grpc.dataservice.Upd" +
-      "ateRefsRequest.RefsToUpdateEntry\0323\n\021Refs" +
-      "ToUpdateEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(" +
-      "\005:\0028\001\"\177\n\035GetRetainedReferencesResponse\022\032" +
-      "\n\022retainedReferences\030\001 \003(\t\022B\n\007excInfo\030\002 " +
-      "\001(\01321.dataclay.communication.grpc.common" +
-      ".ExceptionInfo\"!\n\rExistsRequest\022\020\n\010objec" +
-      "tID\030\001 \001(\t\"d\n\016ExistsResponse\022\016\n\006exists\030\001 " +
-      "\001(\010\022B\n\007excInfo\030\002 \001(\01321.dataclay.communic" +
-      "ation.grpc.common.ExceptionInfo\"%\n\021Exist" +
-      "sInDBRequest\022\020\n\010objectID\030\001 \001(\t\"h\n\022Exists" +
-      "InDBResponse\022\016\n\006exists\030\001 \001(\010\022B\n\007excInfo\030" +
-      "\002 \001(\01321.dataclay.communication.grpc.comm" +
-      "on.ExceptionInfoB;\n7es.bsc.dataclay.comm" +
-      "unication.grpc.messages.dataserviceP\000b\006p" +
-      "roto3"
+      "(\t\022\020\n\010objectID\030\002 \001(\t\022\020\n\010objBytes\030\003 \001(\014\022\r" +
+      "\n\005dirty\030\004 \001(\010\"E\n\021DeleteToDBRequest\022\036\n\026ex" +
+      "ecutionEnvironmentID\030\001 \001(\t\022\020\n\010objectID\030\002" +
+      " \001(\t\"\254\001\n\021UpdateRefsRequest\022b\n\014refsToUpda" +
+      "te\030\001 \003(\0132L.dataclay.communication.grpc.d" +
+      "ataservice.UpdateRefsRequest.RefsToUpdat" +
+      "eEntry\0323\n\021RefsToUpdateEntry\022\013\n\003key\030\001 \001(\t" +
+      "\022\r\n\005value\030\002 \001(\005:\0028\001\"\177\n\035GetRetainedRefere" +
+      "ncesResponse\022\032\n\022retainedReferences\030\001 \003(\t" +
+      "\022B\n\007excInfo\030\002 \001(\01321.dataclay.communicati" +
+      "on.grpc.common.ExceptionInfo\"\277\001\n\022Synchro" +
+      "nizeRequest\022\020\n\010objectID\030\001 \001(\t\022\030\n\020impleme" +
+      "ntationID\030\002 \001(\t\022\021\n\tsessionID\030\003 \001(\t\022P\n\006pa" +
+      "rams\030\004 \001(\0132@.dataclay.communication.grpc" +
+      ".common.SerializedParametersOrReturn\022\030\n\020" +
+      "callingBackendID\030\005 \001(\t\"!\n\rExistsRequest\022" +
+      "\020\n\010objectID\030\001 \001(\t\"d\n\016ExistsResponse\022\016\n\006e" +
+      "xists\030\001 \001(\010\022B\n\007excInfo\030\002 \001(\01321.dataclay." +
+      "communication.grpc.common.ExceptionInfo\"" +
+      "%\n\021ExistsInDBRequest\022\020\n\010objectID\030\001 \001(\t\"h" +
+      "\n\022ExistsInDBResponse\022\016\n\006exists\030\001 \001(\010\022B\n\007" +
+      "excInfo\030\002 \001(\01321.dataclay.communication.g" +
+      "rpc.common.ExceptionInfoB;\n7es.bsc.datac" +
+      "lay.communication.grpc.messages.dataserv" +
+      "iceP\000b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -40740,19 +43582,13 @@ public final class DataserviceMessages {
     internal_static_dataclay_communication_grpc_dataservice_GetObjectsRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_dataclay_communication_grpc_dataservice_GetObjectsRequest_descriptor,
-        new java.lang.String[] { "SessionID", "ObjectIDS", "Recursive", "RemoveHints", "GetOnlyRefs", });
+        new java.lang.String[] { "SessionID", "ObjectIDS", "Recursive", "DestBackendID", });
     internal_static_dataclay_communication_grpc_dataservice_GetObjectsResponse_descriptor =
       getDescriptor().getMessageTypes().get(12);
     internal_static_dataclay_communication_grpc_dataservice_GetObjectsResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_dataclay_communication_grpc_dataservice_GetObjectsResponse_descriptor,
         new java.lang.String[] { "Objects", "ExcInfo", });
-    internal_static_dataclay_communication_grpc_dataservice_GetObjectsResponse_ObjectsEntry_descriptor =
-      internal_static_dataclay_communication_grpc_dataservice_GetObjectsResponse_descriptor.getNestedTypes().get(0);
-    internal_static_dataclay_communication_grpc_dataservice_GetObjectsResponse_ObjectsEntry_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_dataclay_communication_grpc_dataservice_GetObjectsResponse_ObjectsEntry_descriptor,
-        new java.lang.String[] { "Key", "Value", });
     internal_static_dataclay_communication_grpc_dataservice_MakePersistentRequest_descriptor =
       getDescriptor().getMessageTypes().get(13);
     internal_static_dataclay_communication_grpc_dataservice_MakePersistentRequest_fieldAccessorTable = new
@@ -40764,87 +43600,93 @@ public final class DataserviceMessages {
     internal_static_dataclay_communication_grpc_dataservice_FederateRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_dataclay_communication_grpc_dataservice_FederateRequest_descriptor,
+        new java.lang.String[] { "SessionID", "ObjectID", "ExternalExecutionEnvironmentID", "Recursive", });
+    internal_static_dataclay_communication_grpc_dataservice_NotifyFederationRequest_descriptor =
+      getDescriptor().getMessageTypes().get(15);
+    internal_static_dataclay_communication_grpc_dataservice_NotifyFederationRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_dataclay_communication_grpc_dataservice_NotifyFederationRequest_descriptor,
         new java.lang.String[] { "SessionID", "Objects", });
     internal_static_dataclay_communication_grpc_dataservice_UnfederateRequest_descriptor =
-      getDescriptor().getMessageTypes().get(15);
+      getDescriptor().getMessageTypes().get(16);
     internal_static_dataclay_communication_grpc_dataservice_UnfederateRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_dataclay_communication_grpc_dataservice_UnfederateRequest_descriptor,
+        new java.lang.String[] { "SessionID", "ObjectID", "ExternalExecutionEnvironmentID", "Recursive", });
+    internal_static_dataclay_communication_grpc_dataservice_NotifyUnfederationRequest_descriptor =
+      getDescriptor().getMessageTypes().get(17);
+    internal_static_dataclay_communication_grpc_dataservice_NotifyUnfederationRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_dataclay_communication_grpc_dataservice_NotifyUnfederationRequest_descriptor,
         new java.lang.String[] { "SessionID", "ObjectIDs", });
     internal_static_dataclay_communication_grpc_dataservice_ExecuteImplementationRequest_descriptor =
-      getDescriptor().getMessageTypes().get(16);
+      getDescriptor().getMessageTypes().get(18);
     internal_static_dataclay_communication_grpc_dataservice_ExecuteImplementationRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_dataclay_communication_grpc_dataservice_ExecuteImplementationRequest_descriptor,
         new java.lang.String[] { "ObjectID", "ImplementationID", "SessionID", "Params", });
     internal_static_dataclay_communication_grpc_dataservice_ExecuteImplementationResponse_descriptor =
-      getDescriptor().getMessageTypes().get(17);
+      getDescriptor().getMessageTypes().get(19);
     internal_static_dataclay_communication_grpc_dataservice_ExecuteImplementationResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_dataclay_communication_grpc_dataservice_ExecuteImplementationResponse_descriptor,
         new java.lang.String[] { "Ret", "ExcInfo", });
     internal_static_dataclay_communication_grpc_dataservice_NewVersionRequest_descriptor =
-      getDescriptor().getMessageTypes().get(18);
+      getDescriptor().getMessageTypes().get(20);
     internal_static_dataclay_communication_grpc_dataservice_NewVersionRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_dataclay_communication_grpc_dataservice_NewVersionRequest_descriptor,
-        new java.lang.String[] { "SessionID", "ObjectID", "MetadataInfo", });
+        new java.lang.String[] { "SessionID", "ObjectID", "DestBackendID", });
     internal_static_dataclay_communication_grpc_dataservice_NewVersionResponse_descriptor =
-      getDescriptor().getMessageTypes().get(19);
+      getDescriptor().getMessageTypes().get(21);
     internal_static_dataclay_communication_grpc_dataservice_NewVersionResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_dataclay_communication_grpc_dataservice_NewVersionResponse_descriptor,
-        new java.lang.String[] { "ObjectID", "VersionedIDs", "ExcInfo", });
-    internal_static_dataclay_communication_grpc_dataservice_NewVersionResponse_VersionedIDsEntry_descriptor =
-      internal_static_dataclay_communication_grpc_dataservice_NewVersionResponse_descriptor.getNestedTypes().get(0);
-    internal_static_dataclay_communication_grpc_dataservice_NewVersionResponse_VersionedIDsEntry_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_dataclay_communication_grpc_dataservice_NewVersionResponse_VersionedIDsEntry_descriptor,
-        new java.lang.String[] { "Key", "Value", });
+        new java.lang.String[] { "ObjectID", "ExcInfo", });
     internal_static_dataclay_communication_grpc_dataservice_ConsolidateVersionRequest_descriptor =
-      getDescriptor().getMessageTypes().get(20);
+      getDescriptor().getMessageTypes().get(22);
     internal_static_dataclay_communication_grpc_dataservice_ConsolidateVersionRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_dataclay_communication_grpc_dataservice_ConsolidateVersionRequest_descriptor,
-        new java.lang.String[] { "SessionID", "VersionInfo", });
+        new java.lang.String[] { "SessionID", "VersionObjectID", });
     internal_static_dataclay_communication_grpc_dataservice_UpsertObjectsRequest_descriptor =
-      getDescriptor().getMessageTypes().get(21);
+      getDescriptor().getMessageTypes().get(23);
     internal_static_dataclay_communication_grpc_dataservice_UpsertObjectsRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_dataclay_communication_grpc_dataservice_UpsertObjectsRequest_descriptor,
         new java.lang.String[] { "SessionID", "BytesUpdate", });
     internal_static_dataclay_communication_grpc_dataservice_NewReplicaRequest_descriptor =
-      getDescriptor().getMessageTypes().get(22);
+      getDescriptor().getMessageTypes().get(24);
     internal_static_dataclay_communication_grpc_dataservice_NewReplicaRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_dataclay_communication_grpc_dataservice_NewReplicaRequest_descriptor,
         new java.lang.String[] { "SessionID", "ObjectID", "DestBackendID", "Recursive", });
     internal_static_dataclay_communication_grpc_dataservice_NewReplicaResponse_descriptor =
-      getDescriptor().getMessageTypes().get(23);
+      getDescriptor().getMessageTypes().get(25);
     internal_static_dataclay_communication_grpc_dataservice_NewReplicaResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_dataclay_communication_grpc_dataservice_NewReplicaResponse_descriptor,
         new java.lang.String[] { "ReplicatedObjects", "ExcInfo", });
     internal_static_dataclay_communication_grpc_dataservice_MoveObjectsRequest_descriptor =
-      getDescriptor().getMessageTypes().get(24);
+      getDescriptor().getMessageTypes().get(26);
     internal_static_dataclay_communication_grpc_dataservice_MoveObjectsRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_dataclay_communication_grpc_dataservice_MoveObjectsRequest_descriptor,
         new java.lang.String[] { "SessionID", "ObjectID", "DestLocID", "Recursive", });
     internal_static_dataclay_communication_grpc_dataservice_MoveObjectsResponse_descriptor =
-      getDescriptor().getMessageTypes().get(25);
+      getDescriptor().getMessageTypes().get(27);
     internal_static_dataclay_communication_grpc_dataservice_MoveObjectsResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_dataclay_communication_grpc_dataservice_MoveObjectsResponse_descriptor,
         new java.lang.String[] { "MovedObjects", "ExcInfo", });
     internal_static_dataclay_communication_grpc_dataservice_RemoveObjectsRequest_descriptor =
-      getDescriptor().getMessageTypes().get(26);
+      getDescriptor().getMessageTypes().get(28);
     internal_static_dataclay_communication_grpc_dataservice_RemoveObjectsRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_dataclay_communication_grpc_dataservice_RemoveObjectsRequest_descriptor,
         new java.lang.String[] { "SessionID", "ObjectIDs", "Recursive", "Moving", "NewHint", });
     internal_static_dataclay_communication_grpc_dataservice_RemoveObjectsResponse_descriptor =
-      getDescriptor().getMessageTypes().get(27);
+      getDescriptor().getMessageTypes().get(29);
     internal_static_dataclay_communication_grpc_dataservice_RemoveObjectsResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_dataclay_communication_grpc_dataservice_RemoveObjectsResponse_descriptor,
@@ -40856,7 +43698,7 @@ public final class DataserviceMessages {
         internal_static_dataclay_communication_grpc_dataservice_RemoveObjectsResponse_RemovedObjectsEntry_descriptor,
         new java.lang.String[] { "Key", "Value", });
     internal_static_dataclay_communication_grpc_dataservice_MigrateObjectsRequest_descriptor =
-      getDescriptor().getMessageTypes().get(28);
+      getDescriptor().getMessageTypes().get(30);
     internal_static_dataclay_communication_grpc_dataservice_MigrateObjectsRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_dataclay_communication_grpc_dataservice_MigrateObjectsRequest_descriptor,
@@ -40868,13 +43710,13 @@ public final class DataserviceMessages {
         internal_static_dataclay_communication_grpc_dataservice_MigrateObjectsRequest_DestStorageLocsEntry_descriptor,
         new java.lang.String[] { "Key", "Value", });
     internal_static_dataclay_communication_grpc_dataservice_MigratedObjects_descriptor =
-      getDescriptor().getMessageTypes().get(29);
+      getDescriptor().getMessageTypes().get(31);
     internal_static_dataclay_communication_grpc_dataservice_MigratedObjects_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_dataclay_communication_grpc_dataservice_MigratedObjects_descriptor,
         new java.lang.String[] { "Objs", });
     internal_static_dataclay_communication_grpc_dataservice_MigrateObjectsResponse_descriptor =
-      getDescriptor().getMessageTypes().get(30);
+      getDescriptor().getMessageTypes().get(32);
     internal_static_dataclay_communication_grpc_dataservice_MigrateObjectsResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_dataclay_communication_grpc_dataservice_MigrateObjectsResponse_descriptor,
@@ -40886,19 +43728,19 @@ public final class DataserviceMessages {
         internal_static_dataclay_communication_grpc_dataservice_MigrateObjectsResponse_MigratedObjsEntry_descriptor,
         new java.lang.String[] { "Key", "Value", });
     internal_static_dataclay_communication_grpc_dataservice_ActivateTracingRequest_descriptor =
-      getDescriptor().getMessageTypes().get(31);
+      getDescriptor().getMessageTypes().get(33);
     internal_static_dataclay_communication_grpc_dataservice_ActivateTracingRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_dataclay_communication_grpc_dataservice_ActivateTracingRequest_descriptor,
         new java.lang.String[] { "Taskid", });
     internal_static_dataclay_communication_grpc_dataservice_CloseSessionInDSRequest_descriptor =
-      getDescriptor().getMessageTypes().get(32);
+      getDescriptor().getMessageTypes().get(34);
     internal_static_dataclay_communication_grpc_dataservice_CloseSessionInDSRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_dataclay_communication_grpc_dataservice_CloseSessionInDSRequest_descriptor,
         new java.lang.String[] { "SessionID", });
     internal_static_dataclay_communication_grpc_dataservice_DiskCollectRequest_descriptor =
-      getDescriptor().getMessageTypes().get(33);
+      getDescriptor().getMessageTypes().get(35);
     internal_static_dataclay_communication_grpc_dataservice_DiskCollectRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_dataclay_communication_grpc_dataservice_DiskCollectRequest_descriptor,
@@ -40910,49 +43752,49 @@ public final class DataserviceMessages {
         internal_static_dataclay_communication_grpc_dataservice_DiskCollectRequest_RefsToUpdateEntry_descriptor,
         new java.lang.String[] { "Key", "Value", });
     internal_static_dataclay_communication_grpc_dataservice_GetClassIDFromObjectInMemoryRequest_descriptor =
-      getDescriptor().getMessageTypes().get(34);
+      getDescriptor().getMessageTypes().get(36);
     internal_static_dataclay_communication_grpc_dataservice_GetClassIDFromObjectInMemoryRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_dataclay_communication_grpc_dataservice_GetClassIDFromObjectInMemoryRequest_descriptor,
         new java.lang.String[] { "ObjectID", });
     internal_static_dataclay_communication_grpc_dataservice_GetClassIDFromObjectInMemoryResponse_descriptor =
-      getDescriptor().getMessageTypes().get(35);
+      getDescriptor().getMessageTypes().get(37);
     internal_static_dataclay_communication_grpc_dataservice_GetClassIDFromObjectInMemoryResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_dataclay_communication_grpc_dataservice_GetClassIDFromObjectInMemoryResponse_descriptor,
         new java.lang.String[] { "ClassID", "ExcInfo", });
     internal_static_dataclay_communication_grpc_dataservice_StoreToDBRequest_descriptor =
-      getDescriptor().getMessageTypes().get(36);
+      getDescriptor().getMessageTypes().get(38);
     internal_static_dataclay_communication_grpc_dataservice_StoreToDBRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_dataclay_communication_grpc_dataservice_StoreToDBRequest_descriptor,
         new java.lang.String[] { "ExecutionEnvironmentID", "ObjectID", "ObjBytes", });
     internal_static_dataclay_communication_grpc_dataservice_GetFromDBRequest_descriptor =
-      getDescriptor().getMessageTypes().get(37);
+      getDescriptor().getMessageTypes().get(39);
     internal_static_dataclay_communication_grpc_dataservice_GetFromDBRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_dataclay_communication_grpc_dataservice_GetFromDBRequest_descriptor,
         new java.lang.String[] { "ExecutionEnvironmentID", "ObjectID", });
     internal_static_dataclay_communication_grpc_dataservice_GetFromDBResponse_descriptor =
-      getDescriptor().getMessageTypes().get(38);
+      getDescriptor().getMessageTypes().get(40);
     internal_static_dataclay_communication_grpc_dataservice_GetFromDBResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_dataclay_communication_grpc_dataservice_GetFromDBResponse_descriptor,
         new java.lang.String[] { "ObjBytes", "ExcInfo", });
     internal_static_dataclay_communication_grpc_dataservice_UpdateToDBRequest_descriptor =
-      getDescriptor().getMessageTypes().get(39);
+      getDescriptor().getMessageTypes().get(41);
     internal_static_dataclay_communication_grpc_dataservice_UpdateToDBRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_dataclay_communication_grpc_dataservice_UpdateToDBRequest_descriptor,
         new java.lang.String[] { "ExecutionEnvironmentID", "ObjectID", "ObjBytes", "Dirty", });
     internal_static_dataclay_communication_grpc_dataservice_DeleteToDBRequest_descriptor =
-      getDescriptor().getMessageTypes().get(40);
+      getDescriptor().getMessageTypes().get(42);
     internal_static_dataclay_communication_grpc_dataservice_DeleteToDBRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_dataclay_communication_grpc_dataservice_DeleteToDBRequest_descriptor,
         new java.lang.String[] { "ExecutionEnvironmentID", "ObjectID", });
     internal_static_dataclay_communication_grpc_dataservice_UpdateRefsRequest_descriptor =
-      getDescriptor().getMessageTypes().get(41);
+      getDescriptor().getMessageTypes().get(43);
     internal_static_dataclay_communication_grpc_dataservice_UpdateRefsRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_dataclay_communication_grpc_dataservice_UpdateRefsRequest_descriptor,
@@ -40964,31 +43806,37 @@ public final class DataserviceMessages {
         internal_static_dataclay_communication_grpc_dataservice_UpdateRefsRequest_RefsToUpdateEntry_descriptor,
         new java.lang.String[] { "Key", "Value", });
     internal_static_dataclay_communication_grpc_dataservice_GetRetainedReferencesResponse_descriptor =
-      getDescriptor().getMessageTypes().get(42);
+      getDescriptor().getMessageTypes().get(44);
     internal_static_dataclay_communication_grpc_dataservice_GetRetainedReferencesResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_dataclay_communication_grpc_dataservice_GetRetainedReferencesResponse_descriptor,
         new java.lang.String[] { "RetainedReferences", "ExcInfo", });
+    internal_static_dataclay_communication_grpc_dataservice_SynchronizeRequest_descriptor =
+      getDescriptor().getMessageTypes().get(45);
+    internal_static_dataclay_communication_grpc_dataservice_SynchronizeRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_dataclay_communication_grpc_dataservice_SynchronizeRequest_descriptor,
+        new java.lang.String[] { "ObjectID", "ImplementationID", "SessionID", "Params", "CallingBackendID", });
     internal_static_dataclay_communication_grpc_dataservice_ExistsRequest_descriptor =
-      getDescriptor().getMessageTypes().get(43);
+      getDescriptor().getMessageTypes().get(46);
     internal_static_dataclay_communication_grpc_dataservice_ExistsRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_dataclay_communication_grpc_dataservice_ExistsRequest_descriptor,
         new java.lang.String[] { "ObjectID", });
     internal_static_dataclay_communication_grpc_dataservice_ExistsResponse_descriptor =
-      getDescriptor().getMessageTypes().get(44);
+      getDescriptor().getMessageTypes().get(47);
     internal_static_dataclay_communication_grpc_dataservice_ExistsResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_dataclay_communication_grpc_dataservice_ExistsResponse_descriptor,
         new java.lang.String[] { "Exists", "ExcInfo", });
     internal_static_dataclay_communication_grpc_dataservice_ExistsInDBRequest_descriptor =
-      getDescriptor().getMessageTypes().get(45);
+      getDescriptor().getMessageTypes().get(48);
     internal_static_dataclay_communication_grpc_dataservice_ExistsInDBRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_dataclay_communication_grpc_dataservice_ExistsInDBRequest_descriptor,
         new java.lang.String[] { "ObjectID", });
     internal_static_dataclay_communication_grpc_dataservice_ExistsInDBResponse_descriptor =
-      getDescriptor().getMessageTypes().get(46);
+      getDescriptor().getMessageTypes().get(49);
     internal_static_dataclay_communication_grpc_dataservice_ExistsInDBResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_dataclay_communication_grpc_dataservice_ExistsInDBResponse_descriptor,

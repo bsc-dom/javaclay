@@ -425,6 +425,7 @@ public final class DataServiceRuntime extends DataClayRuntime {
 			final List<ObjectID> newID = logicModule.registerObjects(regInfos, (ExecutionEnvironmentID) dcObject.getHint(), Langs.LANG_JAVA);
 			this.updateObjectID(dcObject, newID.get(0));
 			execObject.setPendingToRegister(false);
+			execObject.setAlias(alias);
 		}
 
 		return location;

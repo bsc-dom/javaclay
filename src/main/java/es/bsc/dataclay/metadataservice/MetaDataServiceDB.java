@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+import es.bsc.dataclay.util.management.metadataservice.ExternalExecutionEnvironment;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -46,8 +47,7 @@ public final class MetaDataServiceDB {
 	/**
 	 * MetaDataServiceDB constructor.
 	 * 
-	 * @param managerName
-	 *            Name of the LM service managing.
+	 * @param dataSource data source
 	 */
 	public MetaDataServiceDB(final SQLiteDataSource dataSource) {
 		this.dataSource = dataSource;
@@ -193,6 +193,7 @@ public final class MetaDataServiceDB {
 				ps.setString(3, exeEnv.getName());
 				ps.setInt(4, exeEnv.getLang().getNumber());
 				ps.setInt(5, exeEnv.getPort());
+				ps.setObject(6, exeEnv.getDataClayInstanceID().getId());
 
 				ps.executeUpdate();
 			} catch (final Exception e) {
@@ -1122,11 +1123,11 @@ public final class MetaDataServiceDB {
 
 				ps.setObject(1, dataClayInstance.getDcID().getId());
 				try {
-					final String[] hosts = dataClayInstance.getHosts();
-					final Integer[] ports = dataClayInstance.getPorts();
-					for (int i = 0; i < hosts.length; i++) {
-						ps.setString(2, hosts[i]);
-						ps.setInt(3, ports[i]);
+					final List<String> hosts = dataClayInstance.getHosts();
+					final List<Integer> ports = dataClayInstance.getPorts();
+					for (int i = 0; i < hosts.size(); i++) {
+						ps.setString(2, hosts.get(i));
+						ps.setInt(3, ports.get(i));
 						ps.executeUpdate();
 						logger.debug(ps.toString());
 					}
@@ -1205,8 +1206,8 @@ public final class MetaDataServiceDB {
 							hosts.add(rs.getString("hostname"));
 							ports.add(rs.getInt("port"));
 						}
-						dcInstance.setHosts(hosts.toArray(new String[0]));
-						dcInstance.setPorts(ports.toArray(new Integer[0]));
+						dcInstance.setHosts(hosts);
+						dcInstance.setPorts(ports);
 						return dcInstance;
 					} else {
 						return null;
@@ -1722,6 +1723,7 @@ public final class MetaDataServiceDB {
 		ExecutionEnvironment executionEnv = null;
 		try {
 			final ExecutionEnvironmentID executionEnvironmentID = new ExecutionEnvironmentID((UUID) rs.getObject("id"));
+			final DataClayInstanceID dataClayInstanceID = new DataClayInstanceID((UUID) rs.getObject("dataClayInstanceID"));
 			final String hostname = rs.getString("hostname");
 			final String name = rs.getString("name");
 			final int port = rs.getInt("port");
@@ -1734,7 +1736,7 @@ public final class MetaDataServiceDB {
 			} else {
 				lang = Langs.LANG_NONE;
 			}
-			executionEnv = new ExecutionEnvironment(hostname, name, port, lang);
+			executionEnv = new ExecutionEnvironment(hostname, name, port, lang, dataClayInstanceID);
 			executionEnv.setDataClayID(executionEnvironmentID);
 
 			return executionEnv;

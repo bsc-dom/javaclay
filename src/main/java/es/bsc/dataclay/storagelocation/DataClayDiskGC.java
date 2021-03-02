@@ -617,7 +617,7 @@ public final class DataClayDiskGC {
 						LOGGER.debug("[==GGC notifier==] Get location of object " + oid);
 					}
 					final MetaDataInfo mdInfo = runtime.getLogicModuleAPI().getMetadataByOIDForDS(oid);
-					final BackendID execEnvID = mdInfo.getLocations().keySet().iterator().next();
+					final BackendID execEnvID = mdInfo.getLocations().iterator().next();
 
 					LOGGER.trace("After getting location, references to " + oid + "(" + counting + ")");
 					addRefs(oid, execEnvID, counting, false);

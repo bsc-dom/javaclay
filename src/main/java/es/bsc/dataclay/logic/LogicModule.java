@@ -16,6 +16,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import es.bsc.dataclay.api.BackendID;
 import es.bsc.dataclay.exceptions.metadataservice.*;
+import es.bsc.dataclay.util.management.metadataservice.*;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -110,11 +111,6 @@ import es.bsc.dataclay.util.management.contractmgr.OpImplementations;
 import es.bsc.dataclay.util.management.datacontractmgr.DataContract;
 import es.bsc.dataclay.util.management.datasetmgr.DataSet;
 import es.bsc.dataclay.util.management.interfacemgr.Interface;
-import es.bsc.dataclay.util.management.metadataservice.DataClayInstance;
-import es.bsc.dataclay.util.management.metadataservice.ExecutionEnvironment;
-import es.bsc.dataclay.util.management.metadataservice.MetaDataInfo;
-import es.bsc.dataclay.util.management.metadataservice.RegistrationInfo;
-import es.bsc.dataclay.util.management.metadataservice.StorageLocation;
 import es.bsc.dataclay.util.management.namespacemgr.ImportedInterface;
 import es.bsc.dataclay.util.management.namespacemgr.Namespace;
 import es.bsc.dataclay.util.management.sessionmgr.SessionContract;
@@ -671,7 +667,8 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
                                                                    final String dsName, final String dsHostname,
                                                                    final int dsTCPPort, final Langs dsLang) throws InterruptedException {
         final DataServiceAPI dsApi = grpcClient.getDataServiceAPI(dsHostname, dsTCPPort);
-        final ExecutionEnvironment dsEE = new ExecutionEnvironment(dsHostname, dsName, dsTCPPort, dsLang);
+        final ExecutionEnvironment dsEE = new ExecutionEnvironment(dsHostname, dsName, dsTCPPort, dsLang,
+                this.getDataClayID());
         dsEE.setDataClayID(execID);
         execEnvironments.get(dsLang).put(execID, new Tuple<>(dsApi, dsEE));
         return dsEE;
@@ -728,8 +725,10 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
 		final StorageLocationID slID = metaDataSrvApi.getStorageLocationID(slName);
 		if (!this.activeBackends.containsKey(slID)) {
 			// Still not active
-			throw new StorageLocationNotExistException(slName);
+            LOGGER.debug("==> Not active storage location with name " + slName + " and id " + slID);
+            throw new StorageLocationNotExistException(slName);
 		}
+        LOGGER.debug("==> Got StorageLocationID with name " + slName + " = " + slID);
 		return slID;
 	}
 
@@ -1861,19 +1860,6 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
     public Map<String, MetaClass> newClass(final AccountID accountID, final PasswordCredential credential,
                                            final Langs language, final Map<String, MetaClass> newClasses) {
         return registerAndUpdateDependencies(accountID, credential, language, newClasses, null, null);
-    }
-
-    @Override
-    public MetaClassID newClassID(final AccountID accountID, final PasswordCredential credential,
-                                  final String className, final Langs language, final Map<String, MetaClass> newClasses) {
-        final MetaClass result = registerAndUpdateDependencies(accountID, credential, language, newClasses, null, null)
-                .get(className);
-
-        if (result == null) {
-            return null;
-        } else {
-            return result.getDataClayID();
-        }
     }
 
 	/**
@@ -3516,20 +3502,21 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
 	@Override
 	public List<ObjectID> registerObjects(final List<RegistrationInfo> regInfos, final ExecutionEnvironmentID backendID,
 			final Langs lang) {
+        LOGGER.debug("==> Registering " + regInfos.size() + " objects on EE " + backendID + " of language " + lang);
         List<ObjectID> newObjectIDs = new ArrayList<>();
         for (RegistrationInfo regInfo : regInfos) {
             ObjectID newOID = registerObject(regInfo, backendID, lang);
             newObjectIDs.add(newOID);
         }
+        LOGGER.debug("==> Finished registration of objects ");
         return newObjectIDs;
     }
 
     private ObjectID registerObject(final RegistrationInfo regInfo, final ExecutionEnvironmentID backendID,
                                     final Langs lang) {
 
-		if (DEBUG_ENABLED) {
-			LOGGER.debug("==> Registering object explicit call: " + regInfo);
-		}
+		LOGGER.debug("==> Registering object explicit call: " + regInfo);
+
 		// Register the object in the metadataservice
 		final HashSet<ExecutionEnvironmentID> backendIDs = new HashSet<>();
 		backendIDs.add(backendID);
@@ -3562,15 +3549,17 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
         final MetaDataInfo info = metaDataSrvApi.registerObject(objectIDofNewObject, metaClassID, datasetIDforStore,
                 backendIDs, Configuration.Flags.READONLY_BY_DEFAULT.getBooleanValue(), alias, lang, ownerAccountID);
         objectIDofNewObject = info.getDataClayID();
-        if (alias != null && !alias.isEmpty()) {
+        //TODO: notify GCs about new aliases
+
+       /** if (alias != null && !alias.isEmpty()) {
             // notify alias reference since it is the first alias (with registration)
             // first makePeristent(alias)
             final Map<ObjectID, Integer> referenceCounting = new HashMap<>();
             referenceCounting.put(objectIDofNewObject, 1);
             notifyGarbageCollectors(referenceCounting);
-        }
+        } **/
 
-		LOGGER.debug("<== Finished registration of object");
+		LOGGER.debug("<== Finished registration of object with ID " + objectIDofNewObject);
         return objectIDofNewObject;
 	}
 
@@ -3591,7 +3580,7 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
         final Map<ExecutionEnvironmentID, Set<ObjectID>> groupByLocation = new HashMap<>();
         for (final ObjectID objectID : updateRefs.keySet()) {
             final MetaDataInfo mdInfo = metaDataSrvApi.getObjectMetaData(objectID);
-            for (final ExecutionEnvironmentID execID : mdInfo.getLocations().keySet()) {
+            for (final ExecutionEnvironmentID execID : mdInfo.getLocations()) {
                 Set<ObjectID> currGroup = groupByLocation.get(execID);
                 if (currGroup == null) {
                     currGroup = new HashSet<>();
@@ -3666,8 +3655,41 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
 
 
     @Override
-    public Map<ExecutionEnvironmentID, ExecutionEnvironment> getAllExecutionEnvironmentsInfo(final Langs execEnvLang) {
-        return metaDataSrvApi.getAllExecutionEnvironmentsInfo(execEnvLang);
+    public Map<ExecutionEnvironmentID, ExecutionEnvironment> getAllExecutionEnvironmentsInfo(final Langs execEnvLang,
+                                                                                             final boolean getExternal) {
+        final Map<ExecutionEnvironmentID, ExecutionEnvironment> execEnvs = metaDataSrvApi
+                .getAllExecutionEnvironmentsInfo(execEnvLang);
+
+        if (getExternal) {
+            for (DataClayInstanceID externalDataClayID : this.metaDataSrvApi.getAllExternalDataClays()) {
+
+                // Get external logicmodule
+                LogicModuleAPI externalLogicModule = null;
+                try {
+                    externalLogicModule = this.getExternalLogicModule(this.getExternalDataClayInfo(externalDataClayID));
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+
+                // Get external exec envs
+                Map<ExecutionEnvironmentID, ExecutionEnvironment> result = externalLogicModule.getAllExecutionEnvironmentsInfo(execEnvLang, false);
+                execEnvs.putAll(result);
+            }
+        }
+
+        if (exposedIPForClient != null) {
+            // All information send to client will use exposed IP configured
+            for (final Entry<ExecutionEnvironmentID, ExecutionEnvironment> ee : execEnvs.entrySet()) {
+                ee.getValue().setHostname(exposedIPForClient);
+            }
+        }
+        if (DEBUG_ENABLED) {
+            for (ExecutionEnvironment execEnv : execEnvs.values()) {
+                LOGGER.debug("Found execution environment with ID {}: {}", execEnv.getDataClayID(), execEnv);
+            }
+        }
+
+        return execEnvs;
     }
 
     @Override
@@ -3677,7 +3699,10 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
 
     @Override
     public ExecutionEnvironment getExecutionEnvironmentInfo(final ExecutionEnvironmentID backendID) {
-        return metaDataSrvApi.getExecutionEnvironmentInfo(backendID);
+        ExecutionEnvironment execEnv = metaDataSrvApi.getExecutionEnvironmentInfo(backendID);
+        LOGGER.debug("Found execution environment with ID {}: {}", backendID, execEnv);
+        return execEnv;
+
     }
 
     @Override
@@ -3737,8 +3762,7 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
 
             final ObjectID result = infoOfObject.getFirst();
             final MetaClassID mclassID = metadataInfo.getMetaclassID();
-            final ExecutionEnvironmentID execID = metadataInfo.getLocations().values().iterator().next()
-                    .getDataClayID();
+            final ExecutionEnvironmentID execID = metadataInfo.getLocations().iterator().next();
             if (DEBUG_ENABLED) {
                 LOGGER.debug("Returning object with id {} and alias {}", result, alias);
             }
@@ -3772,9 +3796,10 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
             final ObjectID objectID = metaDataSrvApi.deleteAlias(alias);
 
             // Notify GC of each EE where a replica is located to add -1 reference
-            final Map<ObjectID, Integer> referenceCounting = new HashMap<>();
+            // TODO: check how GC works with alias removal from DS
+            /** final Map<ObjectID, Integer> referenceCounting = new HashMap<>();
             referenceCounting.put(objectID, -1);
-            notifyGarbageCollectors(referenceCounting);
+            notifyGarbageCollectors(referenceCounting); **/
 
         } catch (final Exception ex) {
             LOGGER.debug("deleteAlias error", ex);
@@ -3807,24 +3832,25 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
     private LogicModuleAPI getExternalLogicModule(final DataClayInstance dcInfo) throws InterruptedException {
 
         LogicModuleAPI lmExternal = null;
-        final String[] hosts = dcInfo.getHosts();
-        final Integer[] ports = dcInfo.getPorts();
+        final List<String> hosts = dcInfo.getHosts();
+        final List<Integer> ports = dcInfo.getPorts();
         final List<String> missedhosts = new ArrayList<>();
         final List<Integer> missedports = new ArrayList<>();
 
         try {
-            for (int i = 0; i < hosts.length; i++) {
+            for (int i = 0; i < hosts.size(); i++) {
                 try {
-                    LOGGER.debug("Getting dataClay at " + hosts[i] + ":" + ports[i] + "");
-                    lmExternal = grpcClient.getLogicModuleAPI(hosts[i], ports[i]);
+                    LOGGER.debug("Getting dataClay at " + hosts.get(i) + ":" + ports.get(i) + "");
+                    lmExternal = grpcClient.getLogicModuleAPI(hosts.get(i), ports.get(i));
                     lmExternal.checkAlive();
                     break;
                 } catch (final Exception e) {
-                    LOGGER.debug("Could not connect to dataClay " + hosts[i] + ":" + ports[i] + ". Trying another address.");
-                    missedhosts.add(hosts[i]);
-                    missedports.add(ports[i]);
+                    LOGGER.debug("Could not connect to dataClay " + hosts.get(i)
+                            + ":" + ports.get(i) + ". Trying another address.");
+                    missedhosts.add(hosts.get(i));
+                    missedports.add(ports.get(i));
 
-                    if (i + 1 == hosts.length) {
+                    if (i + 1 == hosts.size()) {
                         throw e;
                     }
                 }
@@ -3835,7 +3861,7 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
                 final int i = 0;
                 for (final String missedhost : missedhosts) {
                     final Integer missedport = missedports.get(i);
-                    LOGGER.debug("Unregistering " + hosts[i] + ":" + ports[i] + " external dataClay");
+                    LOGGER.debug("Unregistering " + hosts.get(i) + ":" + ports.get(i) + " external dataClay");
                     metaDataSrvApi.unregisterExternalDataClayAddress(missedhost, missedport);
                 }
             }
@@ -3991,729 +4017,6 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
         }
     }
 
-    @Override
-    public void federateObject(final SessionID sessionID, final ObjectID objectID, final MetaClassID classID,
-                               final BackendID hint,
-                               final DataClayInstanceID extDataClayID, final boolean recursive) {
-
-        final Set<Triple<ObjectID, MetaClassID, BackendID>>  objectIDs = new HashSet<>();
-        objectIDs.add(new Triple<ObjectID, MetaClassID, BackendID>(objectID, classID, hint));
-        federateObjectsInternal(sessionID, objectIDs, extDataClayID, recursive);
-    }
-
-    /**
-     * Internal function that federates objects provided with external dataclay specified.
-     * @param sessionID ID of session executing the action
-     * @param objectInfos IDs of objects to federate with their hints and class ids
-     * @param extDataClayID ID of dataclay to federate objects with
-     * @param recursive Indicates if sub-objects of objects with id provided should be also federated.
-     */
-    private void federateObjectsInternal(final SessionID sessionID,
-                                         final Set<Triple<ObjectID, MetaClassID, BackendID>> objectInfos,
-                                         final DataClayInstanceID extDataClayID, final boolean recursive) {
-        try {
-            final Map<ExecutionEnvironment, Set<ObjectID>> objectsToFederatePerBackend = new HashMap<>();
-            Map<ObjectID, Tuple<MetaClassID, String>> allFederatedObjects = new HashMap<>();
-
-            // Check access to external dataClay
-            final DataClayInstance dcInfo = getExternalDataClayInfo(extDataClayID);
-            if (dcInfo == null) {
-                LOGGER.warn("dataClay instance {} is not registered", extDataClayID);
-                throw new DataClayException(ERRORCODE.EXTERNAL_DATACLAY_NOT_REGISTERED,
-                        "dataClay instance: " + extDataClayID + ", is not registered", false);
-            }
-
-            for (final Triple<ObjectID, MetaClassID, BackendID> objectInfo : objectInfos) {
-                // this object belongs to another dataClay, delegate it
-                ObjectID objectID = objectInfo.getFirst();
-                MetaClassID classID = objectInfo.getSecond();
-                BackendID hint = objectInfo.getThird();
-
-                // Check if object belongs to current dataClay
-                final DataClayInstanceID ownerDataClayID = getExternalSourceDataClayOfObject(objectID);
-                if (ownerDataClayID != null) {
-                    // ======================== IF NOT THE OWNER, DELEGATE ========================= //
-
-                    final DataClayInstance ownerDataClay = metaDataSrvApi.getExternalDataClayInfo(ownerDataClayID);
-
-                    // this object belongs to another dataClay, delegate it
-                    LOGGER.info("Calling owner dataClay {} to federate {}", extDataClayID, objectID);
-
-                    // Get external dataClay
-                    final LogicModuleAPI ownerLogicModule = getExternalLogicModule(ownerDataClay);
-                    try {
-                        ownerLogicModule.federateObject(null, objectID, null, null, extDataClayID, recursive);
-                    } catch (final DataClayException dce) {
-                        if (dce.getErrorcode().equals(ERRORCODE.EXTERNAL_DATACLAY_NOT_REGISTERED)) {
-                            // First notify registration of external dataClay
-                            if (DEBUG_ENABLED) {
-                                LOGGER.debug("Owner dataClay does not know external dataClay {}, register it first",
-                                        dcInfo);
-                            }
-                            for (int i = 0; i < dcInfo.getHosts().length; ++i) {
-                                ownerLogicModule.notifyRegistrationOfExternalDataClay(extDataClayID, dcInfo.getHosts()[i],
-                                        dcInfo.getPorts()[i]);
-                            }
-                            LOGGER.info("Retrying federation of object {} to external dataClay {}", objectID,
-                                    extDataClayID);
-
-                            // Retry federation
-                            ownerLogicModule.federateObject(null, objectID, null, null, extDataClayID, recursive);
-
-                        } else {
-                            throw dce;
-                        }
-
-                    }
-                    continue; //skip this object
-                }
-
-                // =================== I'M THE OWNER. CHECK IF ALREADY FEDERATED ===================== //
-
-                if (metaDataSrvApi.checkIsFederatedWith(objectID, extDataClayID)) {
-                    if (DEBUG_ENABLED) {
-                        LOGGER.debug("Object " + objectID + " is already federated. Skipping.");
-                    }
-                    continue;
-                }
-
-
-                // ==================================================================== //
-                LOGGER.info("Starting federate object {} with ext dataClay {}", objectID, extDataClayID);
-
-                // Get objects info
-                ExecutionEnvironment location = null;
-                String alias = null;
-                if (hint == null || classID == null) {
-                    // get metadata
-                    final MetaDataInfo mdInfo = metaDataSrvApi.getObjectMetaData(objectID);
-                    location = mdInfo.getLocations().values().iterator().next();
-                    alias = mdInfo.getAlias();
-                    classID = mdInfo.getMetaclassID();
-                } else {
-                    location = this.metaDataSrvApi.getExecutionEnvironmentInfo((ExecutionEnvironmentID) hint);
-                }
-                Set<ObjectID> objsToFederate = objectsToFederatePerBackend.get(location);
-                if (objsToFederate == null) {
-                    objsToFederate = new HashSet<ObjectID>();
-                    objectsToFederatePerBackend.put(location, objsToFederate);
-                }
-                objsToFederate.add(objectID);
-
-                Tuple<MetaClassID, String> classAndAlias = new Tuple(classID, alias);
-                allFederatedObjects.put(objectID, classAndAlias);
-
-            }
-
-
-            if (DEBUG_ENABLED) {
-                LOGGER.debug("Getting objects");
-            }
-            Map<Langs, List<ObjectWithDataParamOrReturn>> serializedObjectsToFederate = new HashMap<>();
-            for (Entry<ExecutionEnvironment, Set<ObjectID>> objsToFederateEntry : objectsToFederatePerBackend.entrySet()) {
-
-                ExecutionEnvironment location = objsToFederateEntry.getKey();
-                Set<ObjectID> objsToFederate = objsToFederateEntry.getValue();
-
-                DataServiceAPI dsAPI = getExecutionEnvironmentAPI(location);
-                Map<ObjectID, ObjectWithDataParamOrReturn> serObjs = dsAPI.getObjects(null, objsToFederate, recursive, true, false);
-                Langs language = location.getLang();
-                List<ObjectWithDataParamOrReturn> curParams = serializedObjectsToFederate.get(language);
-                if (curParams == null) {
-                    curParams = new ArrayList<ObjectWithDataParamOrReturn>();
-                    serializedObjectsToFederate.put(language, curParams);
-                }
-                curParams.addAll(serObjs.values());
-
-                // All objects are forced to be registered before sending them
-                for (final ObjectWithDataParamOrReturn objectToRegister : serObjs.values()) {
-                    final RegistrationInfo regInfo = new RegistrationInfo(objectToRegister.getObjectID(),
-                            objectToRegister.getClassID(), sessionID, null, null);
-                    try {
-                        this.registerObject(regInfo, (ExecutionEnvironmentID) location.getDataClayID(), Langs.LANG_JAVA);
-                    } catch (Exception e) {
-                        //ignore
-                    }
-                }
-            }
-
-
-            if (DEBUG_ENABLED) {
-                LOGGER.debug("Federating to external dataClay");
-            }
-            // ================= NOTIFY FEDERATION ===================== //
-            final LogicModuleAPI lmExternal = getExternalLogicModule(dcInfo);
-            lmExternal.notifyFederatedObjects(publicIDs.dcID, this.hostname, this.port,
-                    allFederatedObjects, serializedObjectsToFederate);
-
-
-            // Register objects
-            if (DEBUG_ENABLED) {
-                LOGGER.debug("Registering objects");
-            }
-            for (final ObjectID objectID : allFederatedObjects.keySet()) {
-                if (!metaDataSrvApi.federateObjectWith(objectID, extDataClayID)) {
-                    if (DEBUG_ENABLED) {
-                        LOGGER.debug("ERROR: Object " + objectID + " federation registration failed.");
-                    }
-                }
-            }
-
-
-        } catch (final DataClayException dex) {
-            throw dex;
-        } catch (final Exception ex) {
-            LOGGER.warn("Exception while federating object", ex);
-            throw new DataClayException(ERRORCODE.REQUEST_INTERRUPTED, ex.getMessage(), false);
-        }
-    }
-
-    @Override
-    public void notifyFederatedObjects(final DataClayInstanceID srcDataClayID, final String srcDcHost,
-                                       final int srcDcPort, final Map<ObjectID, Tuple<MetaClassID, String>> providedobjectsInfo,
-                                       final Map<Langs, List<ObjectWithDataParamOrReturn>> federatedObjectsPerLanguage) {
-
-        try {
-            if (DEBUG_ENABLED) {
-                LOGGER.debug("[==Federation==] Notified federation of objects");
-            }
-
-            // Register (if needed) the external dataClay federating objects with us
-            final DataClayInstance dcInfo = new DataClayInstance(srcDataClayID, srcDcHost, srcDcPort);
-            metaDataSrvApi.registerExternalDataclay(dcInfo);
-
-
-
-            final Set<ObjectID> gcObjectsToNotifyFedRef = new HashSet<>();
-            final Set<ObjectID> gcObjectsToNotifyAliasRef = new HashSet<>();
-
-            // Store these objects in a backend
-            final DataSetID dsID = dataSetMgrApi.getDataSetID(EXTERNAL_OBJECTS_DATASET_NAME);
-
-
-            for (Entry<Langs, List<ObjectWithDataParamOrReturn>> federatedObjectsPerLanguageEntry : federatedObjectsPerLanguage.entrySet()) {
-                Langs language = federatedObjectsPerLanguageEntry.getKey();
-                List<ObjectWithDataParamOrReturn> federatedObjects = federatedObjectsPerLanguageEntry.getValue();
-                if (DEBUG_ENABLED) {
-                    LOGGER.debug("[==Federation==] Looking for random exec.environment of language ", language);
-                }
-                final Tuple<DataServiceAPI, ExecutionEnvironment> randomExecEnv = this.getExecutionEnvironments(language).values().iterator().next();
-                final ExecutionEnvironmentID execEnvID = randomExecEnv.getSecond().getDataClayID();
-                final DataServiceAPI dsAPI = randomExecEnv.getFirst();
-                final Set<ExecutionEnvironmentID> initBackends = new HashSet<>();
-                initBackends.add(execEnvID);
-
-                final Set<ObjectID> oidsSend = new HashSet<>();
-
-                for (ObjectWithDataParamOrReturn serializedVolatile : federatedObjects) {
-
-                    // === UPDATE HINTS === //
-                    final ObjectID oid = serializedVolatile.getObjectID();
-                    final DataClayObjectMetaData origMetaData = serializedVolatile.getMetaData();
-                    final Map<Integer, ExecutionEnvironmentID> newHints = new HashMap<>();
-                    final Map<Integer, ExecutionEnvironmentID> hints = origMetaData.getHints();
-                    for (Integer tag : hints.keySet()) {
-                        newHints.put(tag, execEnvID);
-                    }
-                    origMetaData.setHints(newHints);
-                    final Tuple<MetaClassID, String> classAndAlias = providedobjectsInfo.get(oid);
-                    final String alias = classAndAlias.getSecond();
-                    final MetaClassID classID = classAndAlias.getFirst();
-
-                    // === OBJECTS WITH ALIAS ALREADY PRESENT ARE IGNORED ==== //
-                    boolean aliasExists = false;
-                    if (alias != null) {
-                        try {
-                            if (this.metaDataSrvApi.getObjectInfoFromAlias(alias) != null) {
-                                aliasExists = true;
-                            }
-                        } catch (final ObjectNotRegisteredException oe) {
-                            // ignore
-                        }
-                    }
-
-                    if (aliasExists) {
-                        // IMPORTANT NOTE: race-condition unfederation + federation we will find that alias is not
-                        // registered but the object exists, so if the alias is registered it means that the object
-                        // cannot actually be federated, it is not a race-condition.
-                        LOGGER.debug("[==Federation==] Ignoring federated object {} because alias {} already exists", oid, alias);
-                        continue; //next
-                    }
-
-                    if (metaDataSrvApi.externalObjectIsRegistered(oid)) {
-                        // already registered properly. two federates called. ignoring.
-                        continue;
-                    }
-
-                    // === SANITY CHECKS ===
-                    final Tuple<String, String> classNameAndNamespace = classMgrApi
-                            .getClassNameAndNamespace(classID);
-                    if (classNameAndNamespace == null) {
-                        LOGGER.warn("[==Federation==] Found class {} is not registered during federation",
-                                classID);
-                        throw new DataClayException(ERRORCODE.CLASS_NOT_EXIST,
-                                "Class " + classID + " not registered", false);
-                    }
-                    if (DEBUG_ENABLED) {
-                        LOGGER.debug("[==Federation==] Registering external object metadata for {} from source dataClay {}",
-                                oid, srcDataClayID);
-                    }
-
-                    // object must be send
-                    oidsSend.add(oid);
-                    gcObjectsToNotifyFedRef.add(oid);
-                    if (alias != null) {
-                        gcObjectsToNotifyAliasRef.add(oid);
-                    }
-                    // === REGISTER OBJECT AS EXTERNAL ===
-
-                    if (metaDataSrvApi.externalObjectIsUnregistered(oid)) {
-                        // already exists but pending to unregister, set pending to false
-                        metaDataSrvApi.markExternalObjectAsRegistered(oid);
-                    } else {
-                        metaDataSrvApi.registerExternalObject(oid, srcDataClayID);
-                    }
-
-                    // === REGISTER METADATA ===
-                    if (DEBUG_ENABLED) {
-                        LOGGER.debug("[==Federation==] Registering federated object with alias: " + alias + " and class: " + classID);
-                    }
-                    metaDataSrvApi.registerObject(oid, classID, dsID, initBackends, false, alias, language, new AccountID(srcDataClayID.getId()));
-                }
-
-                if (DEBUG_ENABLED) {
-                    LOGGER.debug("[==Federation==] Calling federate to EE, objects: ", oidsSend);
-                }
-
-                // === SEND OBJECTS ===
-                dsAPI.federate(LogicModule.federationSessionID, federatedObjects);
-            }
-
-            // Notify alias and federation reference references
-            final Map<ObjectID, Integer> referenceCounting = new HashMap<>();
-            for (final ObjectID curoid : providedobjectsInfo.keySet()) {
-                int counter = 0;
-                if (gcObjectsToNotifyAliasRef.contains(curoid)) {
-                    counter++;
-                }
-                if (gcObjectsToNotifyFedRef.contains(curoid)) {
-                    counter++;
-                }
-                if (counter > 0) {
-                    referenceCounting.put(curoid, counter); // +1 reference in alias +1 federation ref.
-                }
-            }
-            // ====================== NOTIFYING REFERENCE COUNTING ================= //
-            if (!referenceCounting.isEmpty()) {
-                this.notifyGarbageCollectors(referenceCounting);
-            }
-
-        } catch (final Exception exec) {
-            LOGGER.debug("Exception while notifying federated object", exec);
-            throw exec;
-        }
-    }
-
-    @Override
-    public boolean checkObjectIsFederatedWithDataClayInstance(final ObjectID objectID,
-                                                              final DataClayInstanceID extDataClayID) {
-        if (DEBUG_ENABLED) {
-            LOGGER.debug("[==Federation==] Checking if object {} is federated with dataClay {}", objectID,
-                    extDataClayID);
-        }
-        final boolean isFederated = metaDataSrvApi.checkIsFederatedWith(objectID, extDataClayID);
-        if (DEBUG_ENABLED) {
-            LOGGER.debug("[==Federation==] Object {} is federated with dataClay {}: {}", objectID, extDataClayID,
-                    isFederated);
-        }
-        return isFederated;
-    }
-
-    @Override
-    public void unfederateObject(final SessionID sessionID, final ObjectID objectID,
-                                 final DataClayInstanceID extDataClayID, final boolean recursive) {
-
-        if (DEBUG_ENABLED) {
-            LOGGER.debug("Starting unfederate object " + objectID);
-        }
-        final Set<DataClayInstanceID> dcInfos = new HashSet<>();
-        final Set<ObjectID> objectIDs = new HashSet<>();
-        objectIDs.add(objectID);
-        dcInfos.add(extDataClayID);
-        unfederateObjectsInternal(sessionID, objectIDs, dcInfos, recursive);
-
-    }
-
-    @Override
-    public void unfederateObjectWithAllDCs(final SessionID sessionID, final ObjectID objectID,
-                                           final boolean recursive) {
-        if (DEBUG_ENABLED) {
-            LOGGER.debug("Starting unfederate object with all external dataclays: " + objectID);
-        }
-        final Set<DataClayInstanceID> dcInfos = new HashSet<>();
-        final Set<ObjectID> objectIDs = new HashSet<>();
-        objectIDs.add(objectID);
-        dcInfos.addAll(metaDataSrvApi.getAllExternalDataClays());
-        unfederateObjectsInternal(sessionID, objectIDs, dcInfos, recursive);
-
-    }
-
-    @Override
-    public void unfederateAllObjects(final SessionID sessionID,
-                                     final DataClayInstanceID extDataClayID) {
-        if (DEBUG_ENABLED) {
-            LOGGER.debug("Starting unfederation of all objects belonging to " + extDataClayID);
-        }
-        final Set<ObjectID> objectIDs = this.metaDataSrvApi.getObjectsFederatedWithDataClay(extDataClayID);
-        final Set<DataClayInstanceID> dcInfos = new HashSet<>();
-        dcInfos.add(extDataClayID);
-        unfederateObjectsInternal(sessionID, objectIDs, dcInfos, false);
-    }
-
-    @Override
-    public void unfederateAllObjectsWithAllDCs(final SessionID sessionID) {
-        if (DEBUG_ENABLED) {
-            LOGGER.debug("Starting unfederation of all objects with all dcs");
-        }
-        for (final DataClayInstanceID curInstanceID : metaDataSrvApi.getAllExternalDataClays()) {
-            unfederateAllObjects(sessionID, curInstanceID);
-        }
-        if (DEBUG_ENABLED) {
-            LOGGER.debug("Finished unfederation of all objects with all dcs");
-        }
-    }
-
-    @Override
-    public void migrateFederatedObjects(final SessionID sessionID,
-                                        final DataClayInstanceID externalOriginDataClayID,
-                                        final DataClayInstanceID externalDestinationDataClayID) {
-        if (DEBUG_ENABLED) {
-            LOGGER.debug("[==Federation==] Migrating objects from {} to {}", externalOriginDataClayID, externalDestinationDataClayID);
-        }
-        final Set<ObjectID> objectIDs = this.metaDataSrvApi.getObjectsFederatedWithDataClay(externalOriginDataClayID);
-
-        Set<Triple<ObjectID, MetaClassID, BackendID>> objectsInfos = new HashSet<>();
-        for (ObjectID objID : objectIDs) {
-            objectsInfos.add(new Triple<ObjectID, MetaClassID, BackendID>(objID, null, null));
-        }
-
-        // unfederate all objects from origin dataClay
-        unfederateAllObjects(sessionID, externalOriginDataClayID);
-
-        // federate all of them to destination dataclay
-        federateObjectsInternal(sessionID, objectsInfos, externalDestinationDataClayID, false);
-
-    }
-
-    @Override
-    public void federateAllObjects(final SessionID sessionID,
-                                   final DataClayInstanceID externalDestinationDataClayID) {
-        if (DEBUG_ENABLED) {
-            LOGGER.debug("[==Federation==] Federating all objects to {}", externalDestinationDataClayID);
-        }
-        final Set<ObjectID> objectsToFederate = new HashSet<>();
-        final Set<ObjectID> objectIDs = this.metaDataSrvApi.getAllObjectIDsRegistered();
-        for (final ObjectID objectID : objectIDs) {
-            if (!this.metaDataSrvApi.existsExternalObject(objectID)) {
-                objectsToFederate.add(objectID);
-            }
-        }
-        Set<Triple<ObjectID, MetaClassID, BackendID>> objectsInfos = new HashSet<>();
-        for (ObjectID objID : objectsToFederate) {
-            objectsInfos.add(new Triple<ObjectID, MetaClassID, BackendID>(objID, null, null));
-        }
-        // federate all of them to destination dataclay
-        federateObjectsInternal(sessionID, objectsInfos, externalDestinationDataClayID, false);
-
-    }
-
-    /**
-     * Internal function to unfederate one or more objects
-     * @param sessionID ID of the session executing the unfederation
-     * @param objectIDs IDs of the object to unfederate
-     * @param extDataClayIDs All external dataclay instances the objects must be unfederated from
-     * @param recursive Indicates all sub-objects of each object must be also unfederated from all provided dataclays.
-     */
-    private void unfederateObjectsInternal(final SessionID sessionID, final Set<ObjectID> objectIDs,
-                                           final Set<DataClayInstanceID> extDataClayIDs,
-                                           final boolean recursive) {
-
-        /**
-         * NOTE: we group all calls in order to optimize resources
-         */
-
-        final Map<DataClayInstanceID, Map<ObjectID, MetaDataInfo>> myObjectsInfoPerDataClay = new HashMap<>();
-        final Map<DataClayInstanceID, Map<ObjectID, MetaDataInfo>> othersObjectsInfoPerDataClay = new HashMap<>();
-        final Map<DataClayInstanceID, Set<ObjectID>> allNotificationofObjectsInfoPerDataClay = new HashMap<>();
-
-
-        for (final ObjectID objectID : objectIDs) {
-
-            // ===== CHECK OBJECT IS FEDERATED BEFORE ==== //
-
-            // owner dataClay will be null if current dataClay is not the owner
-            final DataClayInstanceID ownerDataClayID = getExternalSourceDataClayOfObject(objectID);
-            final boolean currentDataClayIsNotTheOwner = ownerDataClayID != null;
-            boolean objectFederatedSomeExternalDCProvided = false;
-            for (final DataClayInstanceID extDataClayID : extDataClayIDs) {
-                if (currentDataClayIsNotTheOwner) {
-                    if (metaDataSrvApi.externalObjectIsRegistered(objectID)) {
-                        objectFederatedSomeExternalDCProvided = true;
-                        break;
-                    }
-                } else {
-                    if (metaDataSrvApi.checkIsFederatedWith(objectID, extDataClayID)) {
-                        objectFederatedSomeExternalDCProvided = true;
-                        break;
-                    }
-                }
-            }
-            // if object is not federated, skip also get references.
-            if (!objectFederatedSomeExternalDCProvided) {
-                continue;
-            }
-
-            // =========================================== //
-
-            //Get object metadata
-            MetaDataInfo metadataInfo = getObjectMetadata(objectID);
-            if (metadataInfo == null) {
-                throw new DataClayRuntimeException(ERRORCODE.OBJECT_NOT_EXIST);
-            }
-
-            // Check session
-            if (Configuration.Flags.CHECK_SESSION.getBooleanValue()) {
-                final SessionInfo sessionInfo = getSessionInfo(sessionID);
-                // Check dataset
-                if (DEBUG_ENABLED) {
-                    LOGGER.debug("Check dataset is among datacontract for object " + objectID);
-                }
-                checkDataSetAmongDataContracts(metadataInfo.getDatasetID(), sessionInfo.getSessionDataContracts());
-            }
-            // Get objects to notify
-            final Map<ObjectID, MetaDataInfo> objectsInfo = new HashMap<>();
-            objectsInfo.put(objectID, metadataInfo);
-            // If recursive, get associated object IDs and their info
-            if (recursive) {
-                final DataServiceAPI dsAPI = getExecutionEnvironmentAPI(
-                        metadataInfo.getLocations().values().iterator().next());
-                final Set<ObjectID> setIDs = new HashSet<>();
-                setIDs.add(objectID);
-                final Map<ObjectID, ObjectWithDataParamOrReturn> otherIDsResult = dsAPI.getObjects(sessionID, setIDs, recursive, false, true);
-                final Set<ObjectID> otherIDs = otherIDsResult.keySet();
-                otherIDs.remove(objectID);
-                for (final ObjectID oid : otherIDs) {
-                    metadataInfo = getObjectMetadata(oid);
-                    objectsInfo.put(oid, metadataInfo);
-                }
-            }
-            for (final ObjectID curObjectID : objectsInfo.keySet()) {
-                final boolean currentObjDataClayIsNotTheOwner = getExternalSourceDataClayOfObject(curObjectID) != null;
-                for (final DataClayInstanceID extDataClayID : extDataClayIDs) {
-                    if (currentObjDataClayIsNotTheOwner) {
-                        Map<ObjectID, MetaDataInfo> othersObjectsInfo = othersObjectsInfoPerDataClay.get(extDataClayID);
-                        if (othersObjectsInfo == null) {
-                            othersObjectsInfo = new HashMap<>();
-                            othersObjectsInfoPerDataClay.put(extDataClayID, othersObjectsInfo);
-                        }
-                        othersObjectsInfo.put(curObjectID, metadataInfo);
-                    } else {
-                        Map<ObjectID, MetaDataInfo> myObjectsInfo = myObjectsInfoPerDataClay.get(extDataClayID);
-                        if (myObjectsInfo == null) {
-                            myObjectsInfo = new HashMap<>();
-                            myObjectsInfoPerDataClay.put(extDataClayID, myObjectsInfo);
-                        }
-                        myObjectsInfo.put(curObjectID, metadataInfo);
-                    }
-                    Set<ObjectID> objectsToNotify = allNotificationofObjectsInfoPerDataClay.get(extDataClayID);
-                    if (objectsToNotify == null) {
-                        objectsToNotify = new HashSet<>();
-                        allNotificationofObjectsInfoPerDataClay.put(extDataClayID, objectsToNotify);
-                    }
-                    objectsToNotify.add(curObjectID);
-                }
-            }
-
-
-        }
-
-        // ========================= unfederation ======================== //
-
-        for (final DataClayInstanceID extDataClayID : extDataClayIDs) {
-            final DataClayInstance dcInfo = getExternalDataClayInfo(extDataClayID);
-            if (dcInfo == null) {
-                LOGGER.warn("dataClay instance {} is not registered", extDataClayID);
-                throw new DataClayException(ERRORCODE.EXTERNAL_DATACLAY_NOT_REGISTERED,
-                        "dataClay instance: " + extDataClayID + ", is not registered", false);
-            }
-            final Map<ObjectID, MetaDataInfo> othersObjectsInfo = othersObjectsInfoPerDataClay.get(extDataClayID);
-            final Map<ObjectID, MetaDataInfo> myObjectsInfo = myObjectsInfoPerDataClay.get(extDataClayID);
-            final Set<ObjectID> objectsToNotify = allNotificationofObjectsInfoPerDataClay.get(extDataClayID);
-            unfederateNotOwner(othersObjectsInfo, dcInfo);
-            unfederateOwner(myObjectsInfo, dcInfo);
-
-
-            // ========================= NOTIFY PARTNER ======================== //
-            // Propagate unfederation
-            try {
-                if (objectsToNotify != null && !objectsToNotify.isEmpty()) {
-                    if (DEBUG_ENABLED) {
-                        LOGGER.debug("Notifying dataClay {} for unfederating objects {} from {}", dcInfo,
-                                objectsToNotify, publicIDs.dcID);
-                    }
-                    final LogicModuleAPI lmExternal = getExternalLogicModule(dcInfo);
-                    lmExternal.notifyUnfederatedObjects(publicIDs.dcID, objectsToNotify);
-                }
-            } catch (final Exception anyEx) {
-                LOGGER.warn("Notification of unfederation failed", anyEx);
-            }
-
-        }
-
-    }
-
-    @Override
-    public void notifyUnfederatedObjects(final DataClayInstanceID srcDataClayID, final Set<ObjectID> objectsIDs) {
-        try {
-            if (DEBUG_ENABLED) {
-                LOGGER.debug("[==Unfederation==] Notified unfederation of objects");
-            }
-            final DataClayInstance dcInfo = getExternalDataClayInfo(srcDataClayID);
-            if (dcInfo == null) {
-                LOGGER.warn("dataClay instance {} is not registered", srcDataClayID);
-                throw new DataClayException(ERRORCODE.EXTERNAL_DATACLAY_NOT_REGISTERED,
-                        "dataClay instance: " + srcDataClayID + ", is not registered", false);
-            }
-
-            final Map<ObjectID, MetaDataInfo> myObjectsInfo = new HashMap<>();
-            final Map<ObjectID, MetaDataInfo> othersObjectsInfo = new HashMap<>();
-
-            // Unregister the external objects federated with us and check langs
-            for (final ObjectID oid : objectsIDs) {
-                final MetaDataInfo metadataInfo = getObjectMetadata(oid);
-                final DataClayInstanceID ownerDataClayID = getExternalSourceDataClayOfObject(oid);
-                final boolean currentDataClayIsNotTheOwner = ownerDataClayID != null;
-                if (currentDataClayIsNotTheOwner) {
-                    othersObjectsInfo.put(oid, metadataInfo);
-                } else {
-                    myObjectsInfo.put(oid, metadataInfo);
-                }
-            }
-
-            unfederateNotOwner(othersObjectsInfo, dcInfo);
-            unfederateOwner(myObjectsInfo, dcInfo);
-
-
-        } catch (final Exception exec) {
-            LOGGER.debug("Exception while notifying unfederated object", exec);
-            throw exec;
-        }
-
-    }
-
-    /**
-     * Unfederate objects for dataClays that are the owners of the objects
-     * @param objectsInfo Objects to unfederate
-     * @param externalDcInfo External dataClay to unfederate with
-     */
-    private void unfederateOwner(final Map<ObjectID, MetaDataInfo> objectsInfo, final DataClayInstance externalDcInfo) {
-        if (objectsInfo == null) {
-            return; //no objects to unfederate
-        }
-        final Iterator<Entry<ObjectID, MetaDataInfo>> it = objectsInfo.entrySet().iterator();
-        while (it.hasNext()) {
-            final Entry<ObjectID, MetaDataInfo> curEntry = it.next();
-            final ObjectID oid = curEntry.getKey();
-            // ========================= UNREGISTER ======================== //
-            if (DEBUG_ENABLED) {
-                LOGGER.debug("Unfederating object " + oid + " from owner dataClay");
-            }
-            if (!metaDataSrvApi.unfederateObjectWith(oid, externalDcInfo.getDcID())) {
-                if (DEBUG_ENABLED) {
-                    LOGGER.debug("[==Unfederation==] Object is not federated with ext.dataclay "
-                            + "or was already unfederated. Skipping.");
-                }
-                it.remove();
-            }
-
-        }
-
-    }
-
-    /**
-     * Unfederate objects for dataClays that are not the owners of the objects
-     * @param objectsInfo Objects to unfederate
-     * @param externalDcInfo External dataClay to unfederate with
-     */
-    private void unfederateNotOwner(final Map<ObjectID, MetaDataInfo> objectsInfo, final DataClayInstance externalDcInfo) {
-        if (objectsInfo == null) {
-            return; //no objects to unfederate
-        }
-        final Iterator<Entry<ObjectID, MetaDataInfo>> it = objectsInfo.entrySet().iterator();
-        final Map<ObjectID, Integer> referenceCounting = new HashMap<>();
-        final Map<ExecutionEnvironment, Set<ObjectID>> objectsToUnfederatePerEE = new HashMap<>();
-        while (it.hasNext()) {
-            final Entry<ObjectID, MetaDataInfo> curEntry = it.next();
-            final ObjectID oid = curEntry.getKey();
-            final MetaDataInfo metadataInfo = curEntry.getValue();
-            // ========================= UNREGISTER ======================== //
-            // check if object is federated
-            if (DEBUG_ENABLED) {
-                LOGGER.debug("Unfederating object " + oid + " from not-owner dataClay");
-            }
-            if (metaDataSrvApi.externalObjectIsRegistered(oid)) {
-
-                // unregister external object
-                metaDataSrvApi.markExternalObjectAsUnregistered(oid);
-
-                // ========================= CALL WHEN UNFEDERATED IF NOT THE OWNER ======================== //
-                for (final Entry<ExecutionEnvironmentID, ExecutionEnvironment> locationEntry : metadataInfo.getLocations()
-                        .entrySet()) {
-                    final ExecutionEnvironment execEnv = locationEntry.getValue();
-                    Set<ObjectID> objToUnfederateInThisEE = objectsToUnfederatePerEE.get(execEnv);
-                    if (objToUnfederateInThisEE == null) {
-                        objToUnfederateInThisEE = new HashSet<>();
-                        objectsToUnfederatePerEE.put(execEnv, objToUnfederateInThisEE);
-                    }
-                    objToUnfederateInThisEE.add(oid);
-                }
-                // Call deleteAlias
-                int decrementRef = -1;
-                final String alias = metadataInfo.getAlias();
-                if (alias != null) {
-                    if (DEBUG_ENABLED) {
-                        LOGGER.debug("[==Unfederation==] Calling delete alias {}", alias);
-                    }
-                    metaDataSrvApi.deleteAlias(alias);
-                    decrementRef--;
-                }
-                // Notify federation reference references
-                referenceCounting.put(oid, decrementRef); // -1 federation ref. -1 alias
-
-            } else {
-                if (DEBUG_ENABLED) {
-                    LOGGER.debug("[==Unfederation==] Object is not federated with ext.dataclay "
-                            + "or was already unfederated. Skipping.");
-                }
-                // object already unfederated
-                it.remove();
-            }
-        }
-        for (final Entry<ExecutionEnvironment, Set<ObjectID>> curEntry : objectsToUnfederatePerEE.entrySet()) {
-            final ExecutionEnvironment execEnv = curEntry.getKey();
-            final Set<ObjectID> objToUnfederateInThisEE = curEntry.getValue();
-            final DataServiceAPI dsApi = this.getExecutionEnvironmentAPI(execEnv);
-            if (DEBUG_ENABLED) {
-                LOGGER.debug("[==Unfederation==] Calling unfederate of objects to {}", execEnv);
-            }
-            dsApi.unfederate(federationSessionID, objToUnfederateInThisEE);
-        }
-
-        // Notify federation reference references
-        this.notifyGarbageCollectors(referenceCounting);
-
-    }
-
     // ============== Data Service ==============//
 
     @Override
@@ -4728,134 +4031,6 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
     @Override
     public void setDataSetIDFromGarbageCollector(final ObjectID objectID, final DataSetID dataSetID) {
         metaDataSrvApi.changeDataSetID(objectID, dataSetID);
-    }
-
-    @Override
-    public VersionInfo newVersion(final SessionID sessionID, final ObjectID objectID,
-                                  final MetaClassID classID, final BackendID hint,
-                                  final ExecutionEnvironmentID optionalDestBackendID,
-                                  final String optDestHostname) {
-
-        LOGGER.debug("==> Starting new version for object " + objectID);
-
-        final VersionInfo result = new VersionInfo();
-
-        // Get object info
-        MetaDataInfo metadataInfo = getObjectMetadata(objectID);
-        if (metadataInfo == null) {
-            // Register object
-            final RegistrationInfo regInfo = new RegistrationInfo(objectID, classID, sessionID, null, null);
-            // NOTE: an object with alias must be always registered
-            this.registerObject(regInfo, (ExecutionEnvironmentID) hint, Langs.LANG_JAVA);
-            metadataInfo = getObjectMetadata(objectID);
-            if (metadataInfo == null) {
-                throw new DataClayRuntimeException(ERRORCODE.OBJECT_NOT_EXIST);
-            }
-        }
-
-        final SessionInfo sessionInfo = getSessionInfo(sessionID);
-        // Check session if needed
-        // if (Configuration.Flags.CHECK_SESSION.getBooleanValue()) {
-            // Check dataset
-         //   checkDataSetAmongDataContracts(metadataInfo.getDatasetID(), sessionInfo.getSessionDataContracts());
-        // }
-
-        // Get backend info of the destination
-        Tuple<ExecutionEnvironmentID, ExecutionEnvironment> destBackend = null;
-        if (optionalDestBackendID != null) {
-            final ExecutionEnvironment backendDest = metaDataSrvApi.getExecutionEnvironmentInfo(optionalDestBackendID);
-            destBackend = new Tuple<>(optionalDestBackendID, backendDest);
-
-        } else if (optDestHostname != null) {
-            // Get a random backend in provided host
-            final Map<ExecutionEnvironmentID, ExecutionEnvironment> allBackends = metaDataSrvApi
-                    .getAllExecutionEnvironmentsInfo(sessionInfo.getLanguage());
-            for (ExecutionEnvironment ee : allBackends.values()) {
-                String backendHostName = ee.getHostname();
-                if (backendHostName.equals(optDestHostname)) {
-                    destBackend = new Tuple<ExecutionEnvironmentID, ExecutionEnvironment>(ee.getDataClayID(), ee);
-                    break;
-                }
-            }
-
-            if (destBackend == null) {
-                //throw new DataClayRuntimeException(ERRORCODE.NO_BACKEND_FOR_REPLICATION);
-                throw new DataClayRuntimeException(ERRORCODE.STORAGE_LOCATION_NOT_EXIST);
-            }
-
-        } else {
-            // TODO We could think of better policies than random (jmarti 8 Jul 2013)
-            destBackend = metaDataSrvApi.getRandomExecutionEnvironmentInfo(sessionInfo.getLanguage());
-        }
-        // Get the data service of the destination and call newVersion
-        final ExecutionEnvironment backend = destBackend.getSecond();
-        final DataServiceAPI dataServiceApi = getExecutionEnvironmentAPI(backend);
-        final Tuple<ObjectID, Map<ObjectID, ObjectID>> versionInfo = dataServiceApi.newVersion(sessionID,
-                objectID, metadataInfo);
-        // Register all the versions in MDS and get the metadata of the original objects
-        // (used in consolidate)
-        final Map<ObjectID, MetaDataInfo> originalMD = metaDataSrvApi.registerVersions(versionInfo.getSecond(),
-                destBackend.getFirst(), sessionInfo.getLanguage());
-
-
-
-
-        result.setVersionOID(versionInfo.getFirst());
-        result.setVersionsMapping(versionInfo.getSecond());
-        result.setLocID(backend.getDataClayID());
-
-        // Only add original MD since DS will recursively update others.
-        result.setOriginalMD(originalMD);
-        LOGGER.debug("<== Finished new version for object " + objectID);
-        return result;
-    }
-
-    @Override
-    public void consolidateVersion(final SessionID sessionID, final VersionInfo version) {
-        // Get object md
-        LOGGER.debug("==> Starting consolidate version for object " + version);
-
-        final MetaDataInfo versionMD = getObjectMetadata(version.getVersionOID());
-
-        if (versionMD == null) {
-            throw new DataClayRuntimeException(ERRORCODE.OBJECT_NOT_EXIST, null, true);
-        } else {
-            // Check session if needed
-            if (Configuration.Flags.CHECK_SESSION.getBooleanValue()) {
-                final SessionInfo sessionInfo = getSessionInfo(sessionID);
-                final Map<DataContractID, SessionDataContract> sessionDataInfo = sessionInfo.getSessionDataContracts();
-                checkDataSetAmongDataContracts(versionMD.getDatasetID(), sessionDataInfo);
-            }
-
-            // Consolidate version where the complete version object is stored
-            final Map<ExecutionEnvironmentID, ExecutionEnvironment> locations = versionMD.getLocations();
-            final ExecutionEnvironmentID execDestID = versionMD.getLocations().entrySet().iterator().next().getKey();
-            final Entry<ExecutionEnvironmentID, ExecutionEnvironment> backendSrc = locations.entrySet().iterator()
-                    .next();
-            DataServiceAPI dataServiceApi = getExecutionEnvironmentAPI(backendSrc.getValue());
-            dataServiceApi.consolidateVersion(sessionID, version);
-
-            // Delete also the version metadata
-            for (final Entry<ObjectID, ObjectID> versionToOriginal : version.getVersionsMapping().entrySet()) {
-                metaDataSrvApi.unregisterObject(versionToOriginal.getKey());
-            }
-
-            // Delete possible version replicas from the rest of backends
-            final ObjectID versionID = version.getVersionOID();
-            for (final Entry<ExecutionEnvironmentID, ExecutionEnvironment> currBackend : locations.entrySet()) {
-                if (!currBackend.getKey().equals(backendSrc.getKey())) {
-                    // This backend is not where we consolidated the version, so the version must be
-                    // deleted from here
-                    dataServiceApi = getExecutionEnvironmentAPI(currBackend.getValue());
-                    final Set<ObjectID> objectsToRemove = new HashSet<>();
-                    objectsToRemove.add(versionID);
-                    dataServiceApi.removeObjects(sessionID, objectsToRemove, true, false, execDestID);
-                }
-            }
-        }
-
-        LOGGER.debug("<== Finished consolidate version for object " + version);
-
     }
 
     @Override
@@ -4983,7 +4158,7 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
             }
             if (DEBUG_ENABLED) {
                 LOGGER.debug("[==GetMetadataByOID==] Object found. Sending " + objectID + " metadata with locations "
-                        + metadataInfo.getLocations().keySet());
+                        + metadataInfo.getLocations());
             }
 
             // Check dataset
@@ -5081,14 +4256,14 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
                                                                        final ImplementationID remoteImplementationID, final ObjectID objectID, final MetaDataInfo metadataInfo,
                                                                        final SerializedParametersOrReturn params, final ExecutionEnvironmentID targetBackend) {
 
-        final Map<ExecutionEnvironmentID, ExecutionEnvironment> backendss = metadataInfo.getLocations();
-        if (!backendss.containsKey(targetBackend)) {
+        final Set<ExecutionEnvironmentID> backendss = metadataInfo.getLocations();
+        if (!backendss.contains(targetBackend)) {
             // TODO Should we create a temporal replica of the object for the execution? (17
             // Apr 2015 jmarti)
             throw new DataClayRuntimeException(ERRORCODE.OBJECT_NOT_IN_BACKEND,
                     "Object is not in the backend where the method has to be executed", false);
         }
-        final ExecutionEnvironment backend = backendss.get(targetBackend);
+        ExecutionEnvironment backend = this.getExecutionEnvironmentInfo(targetBackend);
 
         // Get the language for the current session
         final Langs sessionLang = getSessionInfo(origSession).getLanguage();
@@ -5230,13 +4405,13 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
         // Randomly select a backend to execute
         // TODO Define a better backend selection policy (10 Jul 2013 jmarti)
         final Random rand = new Random();
-        final Map<ExecutionEnvironmentID, ExecutionEnvironment> locations = metadataInfo.getLocations();
+        final Set<ExecutionEnvironmentID> locations = metadataInfo.getLocations();
         final Set<ExecutionEnvironmentID> backends;
         if (allBackends) {
-            backends = locations.keySet();
+            backends = locations;
         } else {
             final int index = rand.nextInt(locations.size());
-            final ExecutionEnvironmentID backendID = locations.keySet()
+            final ExecutionEnvironmentID backendID = locations
                     .toArray(new ExecutionEnvironmentID[locations.size()])[index];
             backends = new HashSet<>();
             backends.add(backendID);
@@ -5249,7 +4424,7 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
             final int maxRetries = Math.max(Configuration.Flags.MAX_EXECUTION_RETRIES.getShortValue(), locations.size());
             for (short i = 1; i <= maxRetries; i++) {
                 try {
-                    final ExecutionEnvironment backend = locations.get(backendID);
+                    final ExecutionEnvironment backend = this.getExecutionEnvironmentInfo(backendID);
                     final DataServiceAPI dataSrvApi = getExecutionEnvironmentAPI(backend);
                     if (DEBUG_ENABLED) {
                         final Set<ImplementationID> implementationIDs = new HashSet<>();
@@ -5266,7 +4441,7 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
                 } catch (final DataClayException nbEx) {
                     if (!allBackends && i < maxRetries) {
                         final int index = rand.nextInt(locations.size());
-                        backendID = locations.keySet().toArray(new ExecutionEnvironmentID[locations.size()])[index];
+                        backendID = locations.toArray(new ExecutionEnvironmentID[locations.size()])[index];
                         LOGGER.debug("Retrying execution on object {} onto backend {}", objectID, backendID);
                     } else {
                         LOGGER.debug("Aborting executeImplementation procedure", nbEx);
@@ -5277,56 +4452,6 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
         }
         return resultObj;
     }
-
-    @Override
-    public void synchronizeFederatedObject(final DataClayInstanceID extDataClayID, final ObjectID objectID,
-                                           final ImplementationID implID, final SerializedParametersOrReturn params, final boolean allBackends) {
-        // Check federated object (either federated with requester ext dataClay or
-        // requester federated it with us)
-        LOGGER.debug("Starting synchronization of object {} from dataClay {}", objectID, extDataClayID);
-        if (!metaDataSrvApi.checkIsFederatedWith(objectID, extDataClayID)
-                && !metaDataSrvApi.externalObjectIsRegistered(objectID)) {
-            LOGGER.debug("Object {} is not federated from any dataClay and not federated to dataClay {}", objectID, extDataClayID);
-            return;
-        }
-
-        // Get object metadata
-        final MetaDataInfo mdInfo = getObjectMetadata(objectID);
-
-        Langs language;
-        SessionInfo sessionInfo;
-        try {
-            // Try to reuse session
-            sessionInfo = sessionMgrApi.getExtSessionInfo(extDataClayID);
-            language = sessionInfo.getLanguage();
-        } catch (final Exception ex) {
-            // Create new session
-            final MetaClass mclass = classMgrApi.getClassInfo(mdInfo.getMetaclassID());
-            final String nspace = mclass.getNamespace();
-            language = namespaceMgrApi.getNamespaceLang(nspace);
-            final Calendar endDate = Calendar.getInstance();
-            endDate.add(Calendar.YEAR, 1);
-            sessionInfo = sessionMgrApi.newExtSession(extDataClayID, new AccountID(extDataClayID.getId()), language,
-                    endDate);
-        }
-
-        // Execute
-        LOGGER.debug("Calling execute of object {} from dataClay {} and language {}", objectID, extDataClayID,
-                language);
-        executeImplementationInternal(sessionInfo.getSessionID(), implID, objectID, mdInfo, params, language,
-                allBackends);
-    }
-
-    @Override
-    public Set<DataClayInstanceID> getDataClaysObjectIsFederatedWith(final ObjectID objectID) {
-        return metaDataSrvApi.getDataClaysOurObjectIsFederatedWith(objectID);
-    }
-
-    @Override
-    public DataClayInstanceID getExternalSourceDataClayOfObject(final ObjectID objectID) {
-        return metaDataSrvApi.getExternalSourceDataClayOfObject(objectID);
-    }
-
 
     /**
      * Method that executes an action in a certain object. This method is called

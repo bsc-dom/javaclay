@@ -1,6 +1,7 @@
 
 package es.bsc.dataclay.util;
 
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -12,6 +13,8 @@ import es.bsc.dataclay.util.ids.MetaClassID;
 import es.bsc.dataclay.util.ids.ObjectID;
 
 import java.util.Objects;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 /** This class represents all metadata (tags) of an object. */
 public final class DataClayObjectMetaData {
@@ -36,6 +39,24 @@ public final class DataClayObjectMetaData {
 	/** Number of references pointing to object. */
 	private int numRefs;
 
+	/** Object alias. */
+	private String alias;
+
+	/** Indicates if object is read only. */
+	private boolean isReadOnly;
+
+	/** ID of original object in case of new version. */
+	private ObjectID originalObjectID;
+
+	/** ID of root object location (versions, replicas) - first object. */
+	private ExecutionEnvironmentID rootLocation = null;
+
+	/** ID of origin object location (replicas) : origin of the replica. */
+	private ExecutionEnvironmentID originLocation = null;
+
+	/** IDs of locations this object was replicated to. */
+	private Set<ExecutionEnvironmentID> replicaLocations = ConcurrentHashMap.newKeySet();
+
 	/**
 	 * Empty constructor for deserialization.
 	 */
@@ -45,30 +66,45 @@ public final class DataClayObjectMetaData {
 
 	/**
 	 * Constructor
-	 * 
+	 * @param thealias Alias of the object or null if none
+	 * @param theisReadOnly indicates if object is read only
 	 * @param newmapOids
 	 *            Map tag to OID.
 	 * @param newmapClassIDs
 	 *            Map tag to class id.
 	 * @param newmapHints
 	 *            Map tag to hint id.
-	 * @param newextDataClayIDs
-	 *            Map tag to external dataClay id.
 	 * @param newnumRefs
 	 *            Number of references pointing to object.
+	 * @param theoriginalObjectID Original object id in case of new version
+	 * @param therootLocation root location of the original object or null if this is original
+	 * @param theoriginLocation origin location of the object in case of replica
+	 * @param thereplicaLocations IDs of locations this replica-object was replicated to
 	 */
-	public DataClayObjectMetaData(final Map<Integer, ObjectID> newmapOids,
+	public DataClayObjectMetaData(final String thealias, final boolean theisReadOnly, final Map<Integer, ObjectID> newmapOids,
 			final Map<Integer, MetaClassID> newmapClassIDs, final Map<Integer, ExecutionEnvironmentID> newmapHints,
-			final Map<Integer, DataClayInstanceID> newextDataClayIDs, final int newnumRefs) {
+			final int newnumRefs,  final ObjectID theoriginalObjectID,
+								  final ExecutionEnvironmentID therootLocation,
+								  final ExecutionEnvironmentID theoriginLocation,
+								  final Set<ExecutionEnvironmentID> thereplicaLocations) {
+		this.setAlias(thealias);
+		this.setIsReadOnly(theisReadOnly);
 		this.setOids(newmapOids);
 		this.setClassIDs(newmapClassIDs);
 		this.setHints(newmapHints);
 		this.setNumRefs(newnumRefs);
+		this.originalObjectID = theoriginalObjectID;
+		this.setRootLocation(therootLocation);
+		this.setOriginLocation(theoriginLocation);
+		// IMPORTANT: clone to avoid modifications of metadata affect already serialized objects
+		if (thereplicaLocations != null) {
+			this.replicaLocations.addAll(thereplicaLocations);
+		}
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(oids, classIDs, hints);
+		return Objects.hash(alias, oids, classIDs, hints);
 	}
 
 	@Override
@@ -176,11 +212,8 @@ public final class DataClayObjectMetaData {
 	 * 
 	 * @param oidsMapping
 	 *            Oids mapping
-	 * @param hintsMapping
-	 *            Hints of objects
 	 */
-	public void modifyOids(final Map<ObjectID, ObjectID> oidsMapping,
-			final Map<ObjectID, ExecutionEnvironmentID> hintsMapping) {
+	public void modifyOids(final Map<ObjectID, ObjectID> oidsMapping) {
 		for (final Entry<Integer, ObjectID> curTagEntry : this.oids.entrySet()) {
 			final Integer tag = curTagEntry.getKey();
 			final ObjectID oldOID = curTagEntry.getValue();
@@ -192,17 +225,18 @@ public final class DataClayObjectMetaData {
 							.debug("[==ModifyIDs==] Setting objectID " + newOID + " instead of " + oldOID);
 				}
 				this.oids.put(tag, newOID);
-				final ExecutionEnvironmentID newHint = hintsMapping.get(newOID);
+				/*if (hintsMapping != null) {
+					final ExecutionEnvironmentID newHint = hintsMapping.get(newOID);
+					if (newHint != null) {
+						if (DEBUG_ENABLED) {
+							DataClayObject.getLib();
+							DataClayRuntime.LOGGER.debug("[==ModifyIDs==] Setting Hint "
+									+ DataClayObject.getLib().getDSNameOfHint(newHint) + " with oid " + newOID);
+						}
 
-				if (newHint != null) {
-					if (DEBUG_ENABLED) {
-						DataClayObject.getLib();
-						DataClayRuntime.LOGGER.debug("[==ModifyIDs==] Setting Hint "
-								+ DataClayObject.getLib().getDSNameOfHint(newHint) + " with oid " + newOID);
+						this.hints.put(tag, newHint);
 					}
-
-					this.hints.put(tag, newHint);
-				}
+				}*/
 			}
 		}
 
@@ -242,15 +276,115 @@ public final class DataClayObjectMetaData {
 		this.numRefs = thenumRefs;
 	}
 
+	/**
+	 *
+	 * @return root location of the object or null if current is root
+	 */
+	public ExecutionEnvironmentID getRootLocation() {
+		return rootLocation;
+	}
+
+	/**
+	 * Set root location of the object
+	 * @param rootLocation root location to set
+	 */
+	public void setRootLocation(ExecutionEnvironmentID rootLocation) {
+		this.rootLocation = rootLocation;
+	}
+
+	/**
+	 *
+	 * @return origin location of the object or null if current is origin
+	 */
+	public ExecutionEnvironmentID getOriginLocation() {
+		return originLocation;
+	}
+
+	/**
+	 * Set origin location of the object
+	 * @param originLocation origin location to set
+	 */
+	public void setOriginLocation(ExecutionEnvironmentID originLocation) {
+		this.originLocation = originLocation;
+	}
+
+	/**
+	 * Get all replica locations
+	 * @return Replica locations
+	 */
+	public Set<ExecutionEnvironmentID> getReplicaLocations() {
+		return replicaLocations;
+	}
+
+	/**
+	 * Set replica locations
+	 * @param replicaLocations replica locations to set
+	 */
+	public void setReplicaLocations(Set<ExecutionEnvironmentID> replicaLocations) {
+		this.replicaLocations = replicaLocations;
+	}
+
+	/**
+	 * Get alias
+	 * @return the alias of the object
+	 */
+	public String getAlias() {
+		return alias;
+	}
+
+	/**
+	 * Set the alias of the object
+	 * @param alias the alias of the object
+	 */
+	public void setAlias(String alias) {
+		this.alias = alias;
+	}
+
 	public String toString() { 
 		StringBuilder strb = new StringBuilder();
 		strb.append("{\n");
+		strb.append("alias = " + this.alias + "\n");
 		strb.append("numRefs = " + this.numRefs + "\n");
 		strb.append("oids = " + this.oids + "\n");
 		strb.append("classIDs = " + this.classIDs + "\n");
 		strb.append("hints = " + this.hints + "\n");
+		strb.append("originalObjectID = " + this.originalObjectID + "\n");
+		strb.append("rootLocation = " + this.rootLocation + "\n");
+		strb.append("originLocation = " + this.originLocation + "\n");
+		strb.append("replicaLocations = " + this.replicaLocations + "\n");
 		strb.append("}\n");
 		return strb.toString();
 	}
 
+	/**
+	 * Get original object ID if versioned
+	 * @return Original object ID
+	 */
+	public ObjectID getOriginalObjectID() {
+		return this.originalObjectID;
+	}
+
+	/**
+	 * Set original object ID
+	 * @param origObjectID original object ID to set
+	 */
+	public void setOriginalObjectID(ObjectID origObjectID) {
+		this.originalObjectID = origObjectID;
+	}
+
+	/**
+	 * Get if object is read only
+	 * @return Boolean indicating if object is read only or not
+	 */
+	public boolean getIsReadOnly() {
+		return this.isReadOnly;
+	}
+
+	/**
+	 * set if object is read only
+	 * @param newisReadOnly  Boolean indicating if object is read only or not
+	 */
+	public void setIsReadOnly(boolean newisReadOnly) {
+		this.isReadOnly = newisReadOnly;
+	}
 }

@@ -1,14 +1,8 @@
 
 package es.bsc.dataclay.communication.grpc.services.logicmodule;
 
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Set;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -805,33 +799,6 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 	}
 
 	@Override
-	public void newClassID(final NewClassIDRequest request, final StreamObserver<NewClassIDResponse> responseObserver) {
-		try {
-			final Map<String, MetaClass> newClasses = new HashMap<>();
-			for (final Entry<String, String> clazz : request.getNewClassesMap().entrySet()) {
-				final MetaClass mClass = (MetaClass) CommonYAML.getYamlObject().load(clazz.getValue());
-				newClasses.put(clazz.getKey(), mClass);
-			}
-			final MetaClassID result = logicModule.newClassID(Utils.getAccountID(request.getAccountID()),
-					Utils.getCredential(request.getCredential()), request.getClassName(),
-					Langs.values()[request.getLanguageValue()], newClasses);
-
-			final NewClassIDResponse resp = NewClassIDResponse.newBuilder().setClassID(Utils.getMsgID(result)).build();
-
-			responseObserver.onNext(resp);
-			responseObserver.onCompleted();
-
-		} catch (final Exception e) {
-			final NewClassIDResponse.Builder builder = NewClassIDResponse.newBuilder();
-			builder.setExcInfo(Utils.serializeException(e));
-			final NewClassIDResponse resp = builder.build();
-			responseObserver.onNext(resp);
-			responseObserver.onCompleted();
-		}
-
-	}
-
-	@Override
 	public void removeClass(final RemoveClassRequest request, final StreamObserver<ExceptionInfo> responseObserver) {
 		try {
 			logicModule.removeClass(Utils.getAccountID(request.getAccountID()), Utils.getCredential(request.getCredential()),
@@ -1327,7 +1294,7 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 					.getStorageLocationInfo(Utils.getStorageLocationID(request.getStorageLocationID()));
 
 			final GetStorageLocationInfoResponse resp = GetStorageLocationInfoResponse.newBuilder()
-					.setStorageLocationYaml(CommonYAML.getYamlObject().dump(stLoc)).build();
+					.setStorageLocationInfo(Utils.getStorageLocation(stLoc)).build();
 			responseObserver.onNext(resp);
 			responseObserver.onCompleted();
 
@@ -1348,7 +1315,7 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 					.getExecutionEnvironmentInfo(Utils.getExecutionEnvironmentID(request.getExecEnvID()));
 
 			final GetExecutionEnvironmentInfoResponse resp = GetExecutionEnvironmentInfoResponse.newBuilder()
-					.setExecEnvYaml(CommonYAML.getYamlObject().dump(result)).build();
+					.setExecutionEnvironmentInfo(Utils.getExecutionEnvironment(result)).build();
 			responseObserver.onNext(resp);
 			responseObserver.onCompleted();
 
@@ -1451,7 +1418,7 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 		try {
 			final DataClayInstance result = logicModule
 					.getExternalDataClayInfo(Utils.getDataClayInstanceID(request.getExtDataClayID()));
-			final GetExtDataClayInfoResponse resp = builder.setExtDataClayYaml(CommonYAML.getYamlObject().dump(result))
+			final GetExtDataClayInfoResponse resp = builder.setExtDataClayInfo(Utils.getDataClayInstance(result))
 					.build();
 			responseObserver.onNext(resp);
 			responseObserver.onCompleted();
@@ -1483,245 +1450,16 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 	}
 
 	@Override
-	public void federateObject(final FederateObjectRequest request,
-			final StreamObserver<ExceptionInfo> responseObserver) {
-		try {
-			logicModule.federateObject(Utils.getSessionID(request.getSessionID()), Utils.getObjectID(request.getObjectID()),
-					Utils.getDataClayInstanceID(request.getExtDataClayID()), request.getRecursive());
-
-			Utils.returnExceptionInfoMessage(responseObserver);
-			responseObserver.onCompleted();
-
-		} catch (final Exception e) {
-			final ExceptionInfo resp = Utils.serializeException(e);
-			responseObserver.onNext(resp);
-			responseObserver.onCompleted();
-		}
-	}
-
-	@Override
-	public void unfederateObject(final UnfederateObjectRequest request,
-			final StreamObserver<ExceptionInfo> responseObserver) {
-		try {
-			logicModule.unfederateObject(Utils.getSessionID(request.getSessionID()), Utils.getObjectID(request.getObjectID()),
-					Utils.getDataClayInstanceID(request.getExtDataClayID()), request.getRecursive());
-
-			Utils.returnExceptionInfoMessage(responseObserver);
-			responseObserver.onCompleted();
-
-		} catch (final Exception e) {
-			final ExceptionInfo resp = Utils.serializeException(e);
-			responseObserver.onNext(resp);
-			responseObserver.onCompleted();
-		}
-	}
-
-	@Override
-	public void unfederateAllObjects(final UnfederateAllObjectsRequest request,
-			final StreamObserver<ExceptionInfo> responseObserver) {
-		try {
-			logicModule.unfederateAllObjects(Utils.getSessionID(request.getSessionID()), 
-					Utils.getDataClayInstanceID(request.getExtDataClayID()));
-			Utils.returnExceptionInfoMessage(responseObserver);
-			responseObserver.onCompleted();
-
-		} catch (final Exception e) {
-			final ExceptionInfo resp = Utils.serializeException(e);
-			responseObserver.onNext(resp);
-			responseObserver.onCompleted();
-		}
-	}
-	
-	@Override
-	public void unfederateAllObjectsWithAllDCs(final UnfederateAllObjectsWithAllDCsRequest request,
-			final StreamObserver<ExceptionInfo> responseObserver) {
-		try {
-			logicModule.unfederateAllObjectsWithAllDCs(Utils.getSessionID(request.getSessionID()));
-			Utils.returnExceptionInfoMessage(responseObserver);
-			responseObserver.onCompleted();
-
-		} catch (final Exception e) {
-			final ExceptionInfo resp = Utils.serializeException(e);
-			responseObserver.onNext(resp);
-			responseObserver.onCompleted();
-		}
-	}
-	
-	@Override
-	public void unfederateObjectWithAllDCs(final UnfederateObjectWithAllDCsRequest request,
-			final StreamObserver<ExceptionInfo> responseObserver) {
-		try {
-			logicModule.unfederateObjectWithAllDCs(Utils.getSessionID(request.getSessionID()), 
-					Utils.getObjectID(request.getObjectID()), request.getRecursive());
-			Utils.returnExceptionInfoMessage(responseObserver);
-			responseObserver.onCompleted();
-
-		} catch (final Exception e) {
-			final ExceptionInfo resp = Utils.serializeException(e);
-			responseObserver.onNext(resp);
-			responseObserver.onCompleted();
-		}
-	}
-	
-	@Override
-	public void federateAllObjects(final FederateAllObjectsRequest request,
-			final StreamObserver<ExceptionInfo> responseObserver) {
-		try {
-			logicModule.federateAllObjects(Utils.getSessionID(request.getSessionID()), 
-					Utils.getDataClayInstanceID(request.getExternalDestinationDataClayID()));
-			Utils.returnExceptionInfoMessage(responseObserver);
-			responseObserver.onCompleted();
-
-		} catch (final Exception e) {
-			final ExceptionInfo resp = Utils.serializeException(e);
-			responseObserver.onNext(resp);
-			responseObserver.onCompleted();
-		}
-	}
-	
-	@Override
-	public void migrateFederatedObjects(final MigrateFederatedObjectsRequest request,
-			final StreamObserver<ExceptionInfo> responseObserver) {
-		try {
-			logicModule.migrateFederatedObjects(Utils.getSessionID(request.getSessionID()), 
-					Utils.getDataClayInstanceID(request.getExternalOriginDataClayID()),
-					Utils.getDataClayInstanceID(request.getExternalDestinationDataClayID()));
-			Utils.returnExceptionInfoMessage(responseObserver);
-			responseObserver.onCompleted();
-
-		} catch (final Exception e) {
-			final ExceptionInfo resp = Utils.serializeException(e);
-			responseObserver.onNext(resp);
-			responseObserver.onCompleted();
-		}
-	}
-	
-	@Override
-	public void notifyFederatedObjects(final NotifyFederatedObjectsRequest request,
-			final StreamObserver<ExceptionInfo> responseObserver) {
-		try {
-			final Map<Langs, SerializedParametersOrReturn> federatedObjects = new HashMap<>();
-			final Map<ObjectID, MetaDataInfo> objectsInfo = new HashMap<>();
-
-			final Map<String, String> fedObjectsInfo = request.getObjectsInfoMap();
-			final Map<String, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn> fedObjsReq = 
-					request.getFederatedObjectsMap();
-
-			for (final Entry<String, String> fedObjectInfo : fedObjectsInfo.entrySet()) {
-				objectsInfo.put(Utils.getObjectID(fedObjectInfo.getKey()),
-						(MetaDataInfo) CommonYAML.getYamlObject().load(fedObjectInfo.getValue()));
-			}
-			for (final Entry<String, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.SerializedParametersOrReturn> fedObj : fedObjsReq.entrySet()) {
-				final Langs language = Langs.valueOf(fedObj.getKey());
-				final SerializedParametersOrReturn fedObjs = Utils.getParamsOrReturn(fedObj.getValue());
-				federatedObjects.put(language, fedObjs);
-			}
-			logicModule.notifyFederatedObjects(Utils.getDataClayInstanceID(request.getSrcDcID()),
-					request.getSrcDcHost(), request.getSrcDcPort(), objectsInfo, 
-					federatedObjects);
-
-			Utils.returnExceptionInfoMessage(responseObserver);
-			responseObserver.onCompleted();
-
-		} catch (final Exception e) {
-			final ExceptionInfo resp = Utils.serializeException(e);
-			responseObserver.onNext(resp);
-			responseObserver.onCompleted();
-		}
-	}
-
-	@Override
-	public void notifyUnfederatedObjects(final NotifyUnfederatedObjectsRequest request,
-			final StreamObserver<ExceptionInfo> responseObserver) {
-		try {
-			final Set<ObjectID> oids = new HashSet<>();
-			for (final String oid : request.getObjectsIDsList()) {
-				oids.add(Utils.getObjectID(oid));
-			}
-			logicModule.notifyUnfederatedObjects(Utils.getDataClayInstanceID(request.getSrcDcID()),
-					oids);
-
-			Utils.returnExceptionInfoMessage(responseObserver);
-			responseObserver.onCompleted();
-
-		} catch (final Exception e) {
-			final ExceptionInfo resp = Utils.serializeException(e);
-			responseObserver.onNext(resp);
-			responseObserver.onCompleted();
-		}
-	}
-
-	@Override
-	public void checkObjectIsFederatedWithDataClayInstance(
-			final CheckObjectFederatedWithDataClayInstanceRequest request,
-			final StreamObserver<CheckObjectFederatedWithDataClayInstanceResponse> responseObserver) {
-		final CheckObjectFederatedWithDataClayInstanceResponse.Builder builder = CheckObjectFederatedWithDataClayInstanceResponse
-				.newBuilder();
-		try {
-			final boolean result = logicModule.checkObjectIsFederatedWithDataClayInstance(
-					Utils.getObjectID(request.getObjectID()), Utils.getDataClayInstanceID(request.getExtDataClayID()));
-			final CheckObjectFederatedWithDataClayInstanceResponse resp = builder.setIsFederated(result).build();
-			responseObserver.onNext(resp);
-			responseObserver.onCompleted();
-
-		} catch (final Exception e) {
-			builder.setExcInfo(Utils.serializeException(e));
-			final CheckObjectFederatedWithDataClayInstanceResponse resp = builder.build();
-			responseObserver.onNext(resp);
-			responseObserver.onCompleted();
-		}
-	}
-
-	
-	@Override
-	public void getDataClaysObjectIsFederatedWith(final GetDataClaysObjectIsFederatedWithRequest request,
-			final StreamObserver<GetDataClaysObjectIsFederatedWithResponse> responseObserver) {
-		final GetDataClaysObjectIsFederatedWithResponse.Builder builder = GetDataClaysObjectIsFederatedWithResponse.newBuilder();
-		try {
-			final Set<DataClayInstanceID> result = logicModule.getDataClaysObjectIsFederatedWith(Utils.getObjectID(request.getObjectID()));
-			for (final DataClayInstanceID di : result) {
-				builder.addExtDataClayIDs(Utils.getMsgID(di));
-			}
-			final GetDataClaysObjectIsFederatedWithResponse resp = builder.build();
-			responseObserver.onNext(resp);
-			responseObserver.onCompleted();
-
-		} catch (final Exception e) {
-			builder.setExcInfo(Utils.serializeException(e));
-			final GetDataClaysObjectIsFederatedWithResponse resp = builder.build();
-			responseObserver.onNext(resp);
-			responseObserver.onCompleted();
-		}
-	}
-
-	@Override
-	public void getExternalSourceDataClayOfObject(final GetExternalSourceDataClayOfObjectRequest request,
-			final StreamObserver<GetExternalSourceDataClayOfObjectResponse> responseObserver) {
-		final GetExternalSourceDataClayOfObjectResponse.Builder builder = GetExternalSourceDataClayOfObjectResponse.newBuilder();
-		try {
-			final DataClayInstanceID result = logicModule.getExternalSourceDataClayOfObject(Utils.getObjectID(request.getObjectID()));
-			builder.setExtDataClayID(Utils.getMsgID(result));
-			
-			final GetExternalSourceDataClayOfObjectResponse resp = builder.build();
-			responseObserver.onNext(resp);
-			responseObserver.onCompleted();
-
-		} catch (final Exception e) {
-			builder.setExcInfo(Utils.serializeException(e));
-			final GetExternalSourceDataClayOfObjectResponse resp = builder.build();
-			responseObserver.onNext(resp);
-			responseObserver.onCompleted();
-		}
-	}
-	
-	@Override
 	public void registerObjectFromGC(final RegisterObjectForGCRequest request,
 			final StreamObserver<ExceptionInfo> responseObserver) {
 		try {
 			final CommonMessages.RegistrationInfo regInfoMsg = request.getRegInfo();
-			final RegistrationInfo regInfo = new RegistrationInfo(Utils.getObjectID(regInfoMsg.getObjectID()),
-					Utils.getMetaClassID(regInfoMsg.getClassID()), Utils.getSessionID(regInfoMsg.getSessionID()),
-					Utils.getDataSetID(regInfoMsg.getDataSetID()));
+			final RegistrationInfo regInfo = new RegistrationInfo(
+					Utils.getObjectID(regInfoMsg.getObjectID()),
+					Utils.getMetaClassID(regInfoMsg.getClassID()),
+					Utils.getSessionID(regInfoMsg.getSessionID()),
+					Utils.getDataSetID(regInfoMsg.getDataSetID()),
+					regInfoMsg.getAlias());
 
 			logicModule.registerObjectFromGC(regInfo, Utils.getExecutionEnvironmentID(request.getBackendID()), null);
 
@@ -1737,32 +1475,39 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 	}
 
 	@Override
-	public void registerObject(final RegisterObjectRequest request,
-			final StreamObserver<RegisterObjectResponse> responseObserver) {
+	public void registerObjects(final RegisterObjectsRequest request,
+			final StreamObserver<RegisterObjectsResponse> responseObserver) {
 		try {
 
-			final CommonMessages.RegistrationInfo regInfoMsg = request.getRegInfo();
-			final RegistrationInfo regInfo = new RegistrationInfo(Utils.getObjectID(regInfoMsg.getObjectID()),
-					Utils.getMetaClassID(regInfoMsg.getClassID()), Utils.getSessionID(regInfoMsg.getSessionID()),
-					Utils.getDataSetID(regInfoMsg.getDataSetID()));
-
-			String alias = null; 
-
-			if (request.getAlias() != null && !request.getAlias().isEmpty()) { 
-				alias = request.getAlias();
+			List<RegistrationInfo> regInfos = new ArrayList<>();
+			for (CommonMessages.RegistrationInfo regInfoMsg : request.getRegInfosList()) {
+				String alias = null;
+				if (regInfoMsg.getAlias() != null && !regInfoMsg.getAlias().isEmpty()) {
+					alias = regInfoMsg.getAlias();
+				}
+				final RegistrationInfo regInfo = new RegistrationInfo(Utils.getObjectID(regInfoMsg.getObjectID()),
+						Utils.getMetaClassID(regInfoMsg.getClassID()), Utils.getSessionID(regInfoMsg.getSessionID()),
+						Utils.getDataSetID(regInfoMsg.getDataSetID()), alias);
+				regInfos.add(regInfo);
 			}
-			final ObjectID oid = logicModule.registerObject(regInfo, Utils.getExecutionEnvironmentID(request.getBackendID()), alias, request.getLang());
 
-			final RegisterObjectResponse.Builder builder = RegisterObjectResponse.newBuilder();
-			builder.setObjectID(Utils.getMsgID(oid));
-			final RegisterObjectResponse resp = builder.build();
+
+			List<ObjectID> registeredObjects = logicModule.registerObjects(regInfos,
+					Utils.getExecutionEnvironmentID(request.getBackendID()),
+					request.getLang());
+
+			final RegisterObjectsResponse.Builder builder = RegisterObjectsResponse.newBuilder();
+			for (ObjectID registeredObjectID : registeredObjects) {
+				builder.addObjectIDs(Utils.getMsgID(registeredObjectID));
+			}
+			final RegisterObjectsResponse resp = builder.build();
 			responseObserver.onNext(resp);
 			responseObserver.onCompleted();
 
 		} catch (final Exception e) {
-			final RegisterObjectResponse.Builder builder = RegisterObjectResponse.newBuilder();
+			final RegisterObjectsResponse.Builder builder = RegisterObjectsResponse.newBuilder();
 			builder.setExcInfo(Utils.serializeException(e));
-			final RegisterObjectResponse resp = builder.build();
+			final RegisterObjectsResponse resp = builder.build();
 			responseObserver.onNext(resp);
 			responseObserver.onCompleted();
 		}
@@ -1774,11 +1519,11 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 			final StreamObserver<GetAllExecutionEnvironmentsInfoResponse> responseObserver) {
 		try {
 			final Map<ExecutionEnvironmentID, ExecutionEnvironment> result = logicModule
-					.getAllExecutionEnvironmentsInfo(request.getExecEnvLang());
+					.getAllExecutionEnvironmentsInfo(request.getExecEnvLang(), request.getGetExternal());
 			final GetAllExecutionEnvironmentsInfoResponse.Builder builder = GetAllExecutionEnvironmentsInfoResponse
 					.newBuilder();
 			for (final Entry<ExecutionEnvironmentID, ExecutionEnvironment> entry : result.entrySet()) {
-				builder.putExecEnvs(entry.getKey().toString(), CommonYAML.getYamlObject().dump(entry.getValue()));
+				builder.putExecEnvs(entry.getKey().toString(), Utils.getExecutionEnvironment(entry.getValue()));
 			}
 			final GetAllExecutionEnvironmentsInfoResponse resp = builder.build();
 			responseObserver.onNext(resp);
@@ -1860,7 +1605,7 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 			final GetObjectsMetaDataInfoOfClassForNMResponse.Builder builder = GetObjectsMetaDataInfoOfClassForNMResponse
 					.newBuilder();
 			for (final Entry<ObjectID, MetaDataInfo> entry : result.entrySet()) {
-				builder.putMdataInfo(entry.getKey().toString(), CommonYAML.getYamlObject().dump(entry.getValue()));
+				builder.putMdataInfo(entry.getKey().toString(), Utils.getMetaDataInfo(entry.getValue()));
 			}
 			final GetObjectsMetaDataInfoOfClassForNMResponse resp = builder.build();
 			responseObserver.onNext(resp);
@@ -1874,69 +1619,6 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 			responseObserver.onNext(resp);
 			responseObserver.onCompleted();
 		}
-	}
-
-	@Override
-	public void newVersion(final NewVersionRequest request, final StreamObserver<NewVersionResponse> responseObserver) {
-		try {
-			final VersionInfo vinfo = logicModule.newVersion(Utils.getSessionID(request.getSessionID()),
-					Utils.getObjectID(request.getObjectID()), Utils.getExecutionEnvironmentID(request.getOptDestBackendID()));
-
-			final NewVersionResponse resp = NewVersionResponse.newBuilder()
-					.setVersionInfoYaml(CommonYAML.getYamlObject().dump(vinfo)).build();
-
-			responseObserver.onNext(resp);
-			responseObserver.onCompleted();
-
-		} catch (final Exception e) {
-			final NewVersionResponse.Builder builder = NewVersionResponse.newBuilder();
-			builder.setExcInfo(Utils.serializeException(e));
-			final NewVersionResponse resp = builder.build();
-			responseObserver.onNext(resp);
-			responseObserver.onCompleted();
-		}
-	}
-
-	@Override
-	public void consolidateVersion(final ConsolidateVersionRequest request,
-			final StreamObserver<ExceptionInfo> responseObserver) {
-
-		try {
-			final VersionInfo vinfo = (VersionInfo) CommonYAML.getYamlObject().load(request.getVersionInfoYaml());
-			logicModule.consolidateVersion(Utils.getSessionID(request.getSessionID()), vinfo);
-
-			Utils.returnExceptionInfoMessage(responseObserver);
-			responseObserver.onCompleted();
-
-		} catch (final Exception e) {
-			final ExceptionInfo resp = Utils.serializeException(e);
-			responseObserver.onNext(resp);
-			responseObserver.onCompleted();
-		}
-	}
-
-	@Override
-	public void newReplica(final NewReplicaRequest request, final StreamObserver<NewReplicaResponse> responseObserver) {
-		try {
-
-			final ExecutionEnvironmentID result = logicModule.newReplica(Utils.getSessionID(request.getSessionID()),
-					Utils.getObjectID(request.getObjectID()), Utils.getExecutionEnvironmentID(request.getDestBackendID()),
-					request.getRecursive());
-
-			final NewReplicaResponse resp = NewReplicaResponse.newBuilder().setDestBackendID(Utils.getMsgID(result))
-					.build();
-
-			responseObserver.onNext(resp);
-			responseObserver.onCompleted();
-
-		} catch (final Exception e) {
-			final NewReplicaResponse.Builder builder = NewReplicaResponse.newBuilder();
-			builder.setExcInfo(Utils.serializeException(e));
-			final NewReplicaResponse resp = builder.build();
-			responseObserver.onNext(resp);
-			responseObserver.onCompleted();
-		}
-
 	}
 
 	@Override
@@ -2013,12 +1695,8 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 			final MetaDataInfo result = logicModule.getMetadataByOID(Utils.getSessionID(request.getSessionID()),
 					Utils.getObjectID(request.getObjectID()));
 			final GetMetadataByOIDResponse.Builder builder = GetMetadataByOIDResponse.newBuilder();
-			if (result != null) {
-				builder.setObjMdataYaml(CommonYAML.getYamlObject().dump(result));
-			}
-			if (DEBUG_ENABLED) {
-				logger.debug("Sending " + builder.getObjMdataYaml());
-			}
+			builder.setMdInfo(Utils.getMetaDataInfo(result));
+
 			final GetMetadataByOIDResponse resp = builder.build();
 			responseObserver.onNext(resp);
 			responseObserver.onCompleted();
@@ -2042,7 +1720,7 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 			final MetaDataInfo result = logicModule.getMetadataByOIDForDS(Utils.getObjectID(request.getObjectID()));
 
 			final GetMetadataByOIDForDSResponse.Builder builder = GetMetadataByOIDForDSResponse.newBuilder();
-			builder.setObjMdataYaml(CommonYAML.getYamlObject().dump(result));
+			builder.setMdInfo(Utils.getMetaDataInfo(result));
 			final GetMetadataByOIDForDSResponse resp = builder.build();
 			responseObserver.onNext(resp);
 			responseObserver.onCompleted();
@@ -2120,28 +1798,6 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 			final ExecuteMethodOnTargetResponse.Builder builder = ExecuteMethodOnTargetResponse.newBuilder();
 			builder.setExcInfo(Utils.serializeException(e));
 			final ExecuteMethodOnTargetResponse resp = builder.build();
-			responseObserver.onNext(resp);
-			responseObserver.onCompleted();
-		}
-	}
-
-	@Override
-	public void synchronizeFederatedObject(final SynchronizeFederatedObjectRequest request,
-			final StreamObserver<ExceptionInfo> responseObserver) {
-		try {
-			SerializedParametersOrReturn params = null;
-			if (request.hasParams()) {
-				params = Utils.getParamsOrReturn(request.getParams());
-			}
-			logicModule.synchronizeFederatedObject(
-					Utils.getDataClayInstanceID(request.getExtDataClayID()), Utils.getObjectID(request.getObjectID()),
-					Utils.getImplementationID(request.getImplementationID()), params, request.getAllBackends());
-
-			Utils.returnExceptionInfoMessage(responseObserver);
-			responseObserver.onCompleted();
-
-		} catch (final Exception e) {
-			final ExceptionInfo resp = Utils.serializeException(e);
 			responseObserver.onNext(resp);
 			responseObserver.onCompleted();
 		}
@@ -2422,8 +2078,9 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 
 		try {
 
-			logicModule.setDataSetID(Utils.getSessionID(request.getSessionID()), Utils.getObjectID(request.getObjectID()),
-					Utils.getDataSetID(request.getDataSetID()));
+			logicModule.setDataSetID(Utils.getSessionID(request.getSessionID()),
+					Utils.getObjectID(request.getObjectID()),
+					Utils.getDataSetID(request.getDatasetID()));
 
 			Utils.returnExceptionInfoMessage(responseObserver);
 			responseObserver.onCompleted();
@@ -2441,7 +2098,7 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 		try {
 
 			logicModule.setDataSetIDFromGarbageCollector(Utils.getObjectID(request.getObjectID()),
-					Utils.getDataSetID(request.getDataSetID()));
+					Utils.getDataSetID(request.getDatasetID()));
 
 			Utils.returnExceptionInfoMessage(responseObserver);
 			responseObserver.onCompleted();

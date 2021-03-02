@@ -6,6 +6,7 @@ package es.bsc.dataclay.logic.classmgr.bytecode.java.wrappers;
 
 import java.util.Collection;
 
+import es.bsc.dataclay.util.ids.ExecutionEnvironmentID;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.commons.GeneratorAdapter;
@@ -86,11 +87,13 @@ public abstract class SetWrapperParametersAndReturnSwitchGenerator extends DataC
 					|| Reflector.isPrimitiveTypeName(typeName)
 					|| Reflector.isJavaTypeName(typeName)
 					|| Reflector.isArrayTypeName(typeName)
-					|| typeName.equals(ObjectID.class.getName())) {
+					|| typeName.equals(ObjectID.class.getName())
+					|| typeName.equals(ExecutionEnvironmentID.class.getName())) {
 
 				if (Reflector.isImmutableTypeName(typeName)
 						|| Reflector.isPrimitiveTypeName(typeName)
-						|| typeName.equals(ObjectID.class.getName())) {
+						|| typeName.equals(ObjectID.class.getName())
+						|| typeName.equals(ExecutionEnvironmentID.class.getName())) {
 					// =========== IMMUTABLES =============== //
 					methodToCall = ByteCodeMethods.GET_IMM_OBJS;
 					typeToUse = ByteCodeTypes.IMM_PARAM_RETURN;

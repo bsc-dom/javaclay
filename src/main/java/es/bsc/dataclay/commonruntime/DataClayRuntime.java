@@ -9,6 +9,8 @@ import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ScheduledExecutorService;
 
+import es.bsc.dataclay.util.management.metadataservice.*;
+import es.bsc.dataclay.util.structs.Tuple;
 import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -50,16 +52,14 @@ import es.bsc.dataclay.util.info.VersionInfo;
 import es.bsc.dataclay.util.management.accountmgr.PasswordCredential;
 import es.bsc.dataclay.util.management.classmgr.Type;
 import es.bsc.dataclay.util.management.classmgr.UserType;
-import es.bsc.dataclay.util.management.metadataservice.DataClayInstance;
-import es.bsc.dataclay.util.management.metadataservice.ExecutionEnvironment;
-import es.bsc.dataclay.util.management.metadataservice.MetaDataInfo;
-import es.bsc.dataclay.util.management.metadataservice.RegistrationInfo;
 import es.bsc.dataclay.util.management.stubs.ImplementationStubInfo;
 import es.bsc.dataclay.util.management.stubs.StubInfo;
 import es.bsc.dataclay.util.structs.LruCache;
 import es.bsc.dataclay.util.structs.Triple;
 import io.grpc.StatusRuntimeException;
 import org.apache.logging.log4j.core.LifeCycle;
+
+import javax.xml.crypto.Data;
 
 /**
  * This class contains functions to interact with DataClay. This is an abstract class in order to provide same functionalities
@@ -80,6 +80,9 @@ public abstract class DataClayRuntime {
 
 	/** Logic Module API for communication. */
 	protected LogicModuleAPI logicModule;
+
+	/** Current dataClay instance ID. */
+	private DataClayInstanceID dataClayInstanceID;
 
 	/**
 	 * DataClay Heap manager to manage GC, reference counting, lockers and others.
@@ -176,7 +179,7 @@ public abstract class DataClayRuntime {
 			final Langs lang, final boolean forceUpdateCache) {
 		// Check cache
 		if ((execEnvsCache != null && forceUpdateCache) || (execEnvsCache == null)){
-			execEnvsCache = logicModule.getAllExecutionEnvironmentsInfo(lang);
+			execEnvsCache = logicModule.getAllExecutionEnvironmentsInfo(lang, true);
 		}
 		return execEnvsCache;
 	
@@ -199,6 +202,7 @@ public abstract class DataClayRuntime {
 		return execEnv;
 	}
 
+
 	/**
 	 * Get all execution environments in provided host
 	 * @param lang Language
@@ -210,6 +214,7 @@ public abstract class DataClayRuntime {
 		Map<ExecutionEnvironmentID, ExecutionEnvironment> execEnvs = getAllExecutionEnvironmentsInfo(lang, false);
 		// check if there is any execution.env in that host, otherwise update cache
 		for (ExecutionEnvironment env : execEnvs.values()) {
+			LOGGER.debug("Checking if environment hostname {} matches required hostname {}", env.getHostname(), hostname);
 			if (env.getHostname().equals(hostname)) {
 				execEnvsAtHost.put(env.getDataClayID(), env);
 			}
@@ -226,6 +231,34 @@ public abstract class DataClayRuntime {
 	}
 
 	/**
+	 * Get all execution environments in provided dataClay instance
+	 * @param lang Language
+	 * @param dataClayInstanceID ID of dataClay to check
+	 * @return Set of execution environments in provided dataClay instance
+	 */
+	public Map<ExecutionEnvironmentID, ExecutionEnvironment> getAllExecutionEnvironmentsAtDataClay(final Langs lang,
+																					  final DataClayInstanceID dataClayInstanceID) {
+		Map<ExecutionEnvironmentID, ExecutionEnvironment> execEnvsAtDC = new HashMap<>();
+		Map<ExecutionEnvironmentID, ExecutionEnvironment> execEnvs = getAllExecutionEnvironmentsInfo(lang, false);
+		// check if there is any execution.env in that host, otherwise update cache
+		for (ExecutionEnvironment env : execEnvs.values()) {
+			LOGGER.debug("Checking if environment hostname {} matches required hostname {}", env.getDataClayInstanceID(), dataClayInstanceID);
+			if (env.getDataClayInstanceID().equals(dataClayInstanceID)) {
+				execEnvsAtDC.put(env.getDataClayID(), env);
+			}
+		}
+		if (execEnvsAtDC.isEmpty()) {
+			execEnvs = getAllExecutionEnvironmentsInfo(lang, true);
+			for (ExecutionEnvironment env : execEnvs.values()) {
+				if (env.getDataClayInstanceID().equals(dataClayInstanceID)) {
+					execEnvsAtDC.put(env.getDataClayID(), env);
+				}
+			}
+		}
+		return execEnvsAtDC;
+	}
+
+	/**
 	 * Get all backend names
 	 * @param lang Language
 	 * @param forceUpdateCache Indicates cache must be forcibly updated
@@ -235,8 +268,11 @@ public abstract class DataClayRuntime {
 		Set<String> result = null;
 		result = new HashSet<>();
 		Collection<ExecutionEnvironment> execEnvs = getAllExecutionEnvironmentsInfo(lang, true).values();
+		DataClayInstanceID curDcID = getDataClayID();
 		for (ExecutionEnvironment execEnv : execEnvs) {
-			result.add(execEnv.getName());
+			if (execEnv.getDataClayInstanceID().equals(curDcID)) {
+				result.add(execEnv.getName());
+			}
 		}
 		return result;
 	}
@@ -251,15 +287,16 @@ public abstract class DataClayRuntime {
 		Set<BackendID> execEnvsWithName = new HashSet<>();
 		Map<ExecutionEnvironmentID, ExecutionEnvironment> execEnvs = getAllExecutionEnvironmentsInfo(Langs.LANG_JAVA, false);
 		// check if there is any execution.env in that host, otherwise update cache
+		DataClayInstanceID curDcID = getDataClayID();
 		for (ExecutionEnvironment env : execEnvs.values()) {
-			if (env.getName().equals(backendName)) {
+			if (env.getName().equals(backendName) && env.getDataClayInstanceID().equals(curDcID)) {
 				execEnvsWithName.add(env.getDataClayID());
 			}
 		}
 		if (execEnvsWithName.isEmpty()) {
 			execEnvs = getAllExecutionEnvironmentsInfo(Langs.LANG_JAVA, true);
 			for (ExecutionEnvironment env : execEnvs.values()) {
-				if (env.getName().equals(backendName)) {
+				if (env.getName().equals(backendName) && env.getDataClayInstanceID().equals(curDcID)) {
 					execEnvsWithName.add(env.getDataClayID());
 				}
 			}
@@ -276,11 +313,12 @@ public abstract class DataClayRuntime {
 	 */
 	public final ExecutionEnvironmentID getBackendIDFromObjectID(final ObjectID objectID) {
 		// Apply hash to choose which DS to go.
-		List<ExecutionEnvironmentID> allEEs = new ArrayList<>(this.getAllExecutionEnvironmentsInfo(Langs.LANG_JAVA, false).keySet());
+		List<BackendID> allEEs = new ArrayList<>(this.getAllExecutionEnvironmentsAtDataClay(Langs.LANG_JAVA,
+				this.getDataClayID()).keySet());
 		final int hashCode = objectID.hashCode();
 		final int whichDS = hashCode % allEEs.size();
 		final int hash = Math.abs(whichDS);
-		final ExecutionEnvironmentID stLocID = allEEs.get(hash);
+		final ExecutionEnvironmentID stLocID = (ExecutionEnvironmentID) allEEs.get(hash);
 		return stLocID;
 	}
 
@@ -384,7 +422,10 @@ public abstract class DataClayRuntime {
 	 * @return the dataClay ID
 	 */
 	public DataClayInstanceID getDataClayID() {
-		return this.getLogicModuleAPI().getDataClayID();
+		if (this.dataClayInstanceID == null) {
+			dataClayInstanceID =  this.getLogicModuleAPI().getDataClayID();
+		}
+		return dataClayInstanceID;
 	}
 
 	/**
@@ -404,7 +445,11 @@ public abstract class DataClayRuntime {
 		this.threadPool.shutdown();
 		this.threadPool = null; 
 		this.grpcClient = null;
+		this.dataClayInstanceID = null;
 		boolean aliveThreads = true;
+		DataClayObject.clearStubInfosCache();
+		DataClayObject.clearExecStubInfosCache();
+		DataClayObject.clientRuntime = null;
 		for (int i = 0; i < 10; i++) { //maximum retries
 			boolean foundAliveThread = false;
 			String threadName = null;
@@ -464,8 +509,8 @@ public abstract class DataClayRuntime {
 					LOGGER.warn("Cannot get metadata for {}", objectID);
 				} else {
 					LOGGER.debug(
-							"[==Metadata Cache==] Adding entry in metadata cache for {} " + "with exec. locations: {}",
-							objectID, mdInfo.getLocations().keySet());
+							"[==Metadata Cache==] Adding entry in metadata cache for {} : {}",
+							objectID, mdInfo);
 				}
 			}
 			if (mdInfo != null) {
@@ -475,7 +520,8 @@ public abstract class DataClayRuntime {
 		} else {
 			hits++;
 			if (DEBUG_ENABLED) {
-				LOGGER.debug("[==Metadata Cache==] Found entry in metadata cache for " + objectID);
+				LOGGER.debug("[==Metadata Cache==] Found entry in metadata cache for {} : {}", objectID,
+						mdInfo);
 			}
 		}
 		return mdInfo;
@@ -769,47 +815,124 @@ public abstract class DataClayRuntime {
 	}
 
 	/**
+	 * Helper function to prepare information for new replica - version - consolidate algorithms
+	 * @param objectID ID of the object
+	 * @param objectHint object hint
+	 * @param optDestBackendID Destination backend ID to get information from (can be null)
+	 * @param optDestHostname Destination hostname to get information from (can be null)
+	 * @param differentLocation if true, indicates that destination backend should be different than any location of the object
+	 * @return Tuple with destination backend API to call and:
+	 * 		Either information of dest backend with id provided, some exec env in host provided or random exec env.
+	 */
+	private final Tuple<DataServiceAPI, ExecutionEnvironment> prepareNewReplicaVersionConsolidate(final ObjectID objectID,
+																									final BackendID objectHint,
+																									final BackendID optDestBackendID,
+																								  final String optDestHostname,
+																								  final boolean differentLocation) {
+		// Get an arbitrary object location
+		BackendID execLocationID = objectHint;
+		if (objectHint == null) {
+			execLocationID = getLocation(objectID);
+		}
+		// Get language from origin location
+		Langs objectLanguage = this.getExecutionEnvironmentInfo(execLocationID).getLang();
+		final DataServiceAPI dsAPI = getRemoteExecutionEnvironment(execLocationID);
+		ExecutionEnvironmentID destBackendID = (ExecutionEnvironmentID) optDestBackendID;
+		ExecutionEnvironment destBackend = null;
+		if (destBackendID == null) {
+			if (optDestHostname != null) {
+				// Get some execution environment in that host
+				destBackend = getAllExecutionEnvironmentsAtHost(objectLanguage,
+						optDestHostname).values().iterator().next();
+				destBackendID = destBackend.getDataClayID();
+			} else {
+				// no destination backend specified, get one randomly in which object is
+				// not registered
+				// === RANDOM === //
+				Map<ExecutionEnvironmentID, ExecutionEnvironment> backends =
+						this.getAllExecutionEnvironmentsAtDataClay(objectLanguage, this.getDataClayID());
+
+				if (differentLocation) {
+					Set<BackendID> locations = this.getAllLocations(objectID);
+					for (Entry<ExecutionEnvironmentID, ExecutionEnvironment> eeEntry : backends.entrySet()) {
+						ExecutionEnvironmentID eeID = eeEntry.getKey();
+						ExecutionEnvironment execEnv = eeEntry.getValue();
+						if (!locations.contains(eeID)) {
+							destBackendID = eeID;
+							destBackend = execEnv;
+							break;
+						}
+					}
+				} else {
+
+					destBackendID = (ExecutionEnvironmentID) execLocationID;
+					destBackend = this.getExecutionEnvironmentInfo(destBackendID);
+				}
+			}
+		} else {
+			destBackend = getExecutionEnvironmentInfo(destBackendID);
+		}
+
+		return new Tuple<>(dsAPI, destBackend);
+	}
+
+	/**
 	 * Creates a persistent new version of an object and its subobjects (always recursive). If a Backend is provided the object
 	 * is versioned to this backend, otherwise it is versioned to any backend
 	 * 
 	 * @param objectID
 	 *            ID of the object
-	 * @param classID
-	 *            Class ID of the object
-	 * @param hint
-	 *            Hint of the object
-	 * @param optDestBackendID
-	 *            ID of the backend in which to store the version the object (optional)
+	 * @param objectHint object hint
+	 * @param classID ID of the class of the object
+	 * @param dataSetID ID of the dataset of the object
+	 * @param optDestBackendID ID of the backend in which to store the version the object (optional)
 	 * @param optDestHostname Hostname of the backend in which to replicate the object (optional)
-	 * @return The ID of the version or NULL if some error is thrown.
+	 * @return Version ID and destination backend ID
 	 */
-	public final VersionInfo newVersion(final ObjectID objectID, final MetaClassID classID, final BackendID hint,
+	public final Tuple<ObjectID, BackendID> newVersion(final ObjectID objectID,
+													   final ExecutionEnvironmentID objectHint,
+			final MetaClassID classID, final DataSetID dataSetID,
 			final BackendID optDestBackendID, final String optDestHostname) {
 		final SessionID sessionID = checkAndGetSession(new String[] { "ObjectID" }, new Object[] { objectID });
 
-		// Make sure object is registered
-		ensureObjectRegistered(sessionID, objectID, classID, hint);
-		final VersionInfo result = logicModule.newVersion(sessionID, objectID, classID, hint,
-				(ExecutionEnvironmentID) optDestBackendID, optDestHostname);
-		this.metaDataCache.remove(objectID);
-		return result;
+		// FIXME: retry in different replica location if it fails
+		Tuple<DataServiceAPI, ExecutionEnvironment> destInfo = this.prepareNewReplicaVersionConsolidate(objectID, objectHint,
+				optDestBackendID, optDestHostname, true);
+		DataServiceAPI dsAPI = destInfo.getFirst();
+		ExecutionEnvironment destBackend = destInfo.getSecond();
+		ExecutionEnvironmentID destBackendID = destBackend.getDataClayID();
+		ObjectID newVersionOID = dsAPI.newVersion(sessionID, objectID, destBackendID);
+
+		// update cache of metadata info
+		Set<ExecutionEnvironmentID> locations = new HashSet<>();
+		locations.add((ExecutionEnvironmentID) destBackendID);
+		MetaDataInfo newMetaDataInfo = new MetaDataInfo(newVersionOID,
+				dataSetID, classID, false, locations, null, null);
+		this.metaDataCache.put(newVersionOID, newMetaDataInfo);
+		return new Tuple<>(newVersionOID, destBackendID);
 	}
 
 	/**
 	 * Makes the object with finalVersionID the definitive version of the object with originalObjectID. The original version is
 	 * deleted.
 	 * 
-	 * @param version
-	 *            Info about the version to consolidate, containing the OID of the root and the mapping versionOID-originalOID
-	 *            for all the versioned objects
+	 * @param versionOID ID of version object to consolidate
+	 * @param objectHint object hint
 	 */
-	public final void consolidateVersion(final VersionInfo version) {
-		final SessionID sessionID = checkAndGetSession(new String[] { "version" }, new Object[] { version });
+	public final void consolidateVersion(final ObjectID versionOID, final ExecutionEnvironmentID objectHint) {
+		// FIXME: retry in different replica location if it fails
+		final SessionID sessionID = checkAndGetSession(new String[] { "versionOID" }, new Object[] { versionOID });
 		if (DEBUG_ENABLED) {
-			LOGGER.debug("[==Consolidate==] Consolidate version " + "with oid " + version.getVersionOID());
+			LOGGER.debug("[==Consolidate==] Consolidate version " + "with oid " + versionOID);
 		}
-		logicModule.consolidateVersion(sessionID, version);
-
+		// Get object location
+		BackendID execLocationID = objectHint;
+		if (objectHint == null) {
+			execLocationID = getLocation(versionOID);
+		}
+		// Get language from origin location
+		final DataServiceAPI dsAPI = getRemoteExecutionEnvironment(execLocationID);
+		dsAPI.consolidateVersion(sessionID, versionOID);
 	}
 
 	/**
@@ -822,7 +945,6 @@ public abstract class DataClayRuntime {
 	 * @param optDestBackendID
 	 *            ID of the backend in which to replicate the object (optional)
 	 * @param optDestHostname Hostname of the backend in which to replicate the object (optional)
-	 * @param registerMetaData Indicates if registration of object metadata must be forced or not
 	 * @param recursive
 	 *            Indicates if we should also replicate all sub-objects or not.
 	 * @return The ID of the backend in which the replica was created or NULL if some error is thrown.
@@ -830,54 +952,22 @@ public abstract class DataClayRuntime {
 	 */
 	public final BackendID newReplica(final ObjectID objectID, final BackendID objectHint,
 									  final BackendID optDestBackendID, final String optDestHostname,
-									  final boolean registerMetaData,
 									  final boolean recursive) {
-		final SessionID sessionID = checkAndGetSession(new String[] { "ObjectID" }, new Object[] { objectID });
+		// FIXME: retry in different replica location if it fails
 
-		// Get an arbitrary object location
-		BackendID execLocationID = objectHint;
-		if (objectHint == null) {
-			execLocationID = getLocation(objectID);
-		}
-		// Get language from origin location
-		Langs objectLanguage = this.getExecutionEnvironmentInfo(execLocationID).getLang();
-		final DataServiceAPI dsAPI = getRemoteExecutionEnvironment(execLocationID);
+		final SessionID sessionID = checkAndGetSession(new String[] { }, new Object[] {  });
 
-		ExecutionEnvironmentID destBackendID = (ExecutionEnvironmentID) optDestBackendID;
-		ExecutionEnvironment destBackend = null;
-		if (destBackendID == null) {
-			if (optDestHostname != null) {
-				// Get some execution environment in that host
-				destBackend = getAllExecutionEnvironmentsAtHost(objectLanguage,
-						optDestHostname).values().iterator().next();
-				destBackendID = destBackend.getDataClayID();
-			} else {
-				// no destination backend specified, get one randomly in which object is
-				// not registered
-				Set<BackendID> locations = this.getAllLocations(objectID);
-				// === RANDOM === //
-				Map<ExecutionEnvironmentID, ExecutionEnvironment> backends = this.getAllExecutionEnvironmentsInfo(Langs.LANG_JAVA, false);
-				for (Entry<ExecutionEnvironmentID, ExecutionEnvironment> eeEntry : backends.entrySet()) {
-					ExecutionEnvironmentID eeID = eeEntry.getKey();
-					ExecutionEnvironment execEnv = eeEntry.getValue();
-					if (!locations.contains(eeID)) {
-						destBackendID = eeID;
-						destBackend = execEnv;
-						break;
-					}
-				}
-			}
-		} else {
-			destBackend = getExecutionEnvironmentInfo(destBackendID);
-		}
-
-		Set<ObjectID> replicatedObjects = dsAPI.newReplica(sessionID, objectID, destBackendID, false, recursive);
+		Tuple<DataServiceAPI, ExecutionEnvironment> destInfo = this.prepareNewReplicaVersionConsolidate(objectID, objectHint,
+				optDestBackendID, optDestHostname, true);
+		DataServiceAPI dsAPI = destInfo.getFirst();
+		ExecutionEnvironment destBackend = destInfo.getSecond();
+		Set<ObjectID> replicatedObjects = dsAPI.newReplica(sessionID, objectID, destBackend.getDataClayID(), recursive);
 		for (ObjectID replicatedObjectID : replicatedObjects) {
 			// update metadata of the object in cache
 			MetaDataInfo mdInfo = getObjectMetadata(replicatedObjectID);
-			mdInfo.getLocations().put(destBackendID, destBackend);
+			mdInfo.getLocations().add(destBackend.getDataClayID());
 		}
-		return destBackendID;
+		return destBackend.getDataClayID();
 	}
 
 	/**
@@ -971,9 +1061,7 @@ public abstract class DataClayRuntime {
 	 */
 	public final void setObjectReadOnly(final ObjectID objectID, final MetaClassID classID, final BackendID hint) {
 		final SessionID sessionID = checkAndGetSession(new String[] { "ObjectID" }, new Object[] { objectID });
-		this.ensureObjectRegistered(sessionID, objectID, classID, hint);
-		logicModule.setObjectReadOnly(sessionID, objectID);
-		getObjectMetadata(objectID).setIsReadOnly(true);
+		// TODO: call DS to set object read only
 	}
 
 	/**
@@ -988,56 +1076,7 @@ public abstract class DataClayRuntime {
 	 */
 	public final void setObjectReadWrite(final ObjectID objectID, final MetaClassID classID, final BackendID hint) {
 		final SessionID sessionID = checkAndGetSession(new String[] { "ObjectID" }, new Object[] { objectID });
-		this.ensureObjectRegistered(sessionID, objectID, classID, hint);
-		logicModule.setObjectReadWrite(sessionID, objectID);
-		getObjectMetadata(objectID).setIsReadOnly(true);
-	}
-
-	/**
-	 * Ensure registration of an object. new replica/version/consolidate/move algorithms should not require registered metadata
-	 * in LogicModule since new make persistent implementation behaves like volatiles and metadata is created eventually, not
-	 * synchronously. Currently, we try to register it and if it is already registered, just continue.
-	 * 
-	 * @param sessionID
-	 *            ID of session registering object
-	 * @param objectID
-	 *            ID of object to register
-	 * @param classID
-	 *            ID of class of the object
-	 * @param hint
-	 *            Hint of the object
-	 */
-	private void ensureObjectRegistered(final SessionID sessionID, final ObjectID objectID, final MetaClassID classID,
-			final BackendID hint) {
-
-		// FIXME: new replica/version/consolidate/move algorithms should not require
-		// registered metadata in
-		// LogicModule since new make persistent implementation behaves like volatiles
-		// and metadata is created
-		// eventually, not synchronously. Currently, we try to register it and if it is
-		// already registered, just
-		// continue.
-		// Make sure object is registered.
-		final RegistrationInfo regInfo = new RegistrationInfo(objectID, classID, sessionID, null, null);
-		// alias must be null
-		// NOTE: LogicModule register object function does not return an exception for
-		// already registered
-		// object. We should never call registerObject for already registered objects
-		// and that's dataClay
-		// code (check isPendingToRegister in EE or isPersistent,.. see makePersistent),
-		// and remember that,
-		// this is a workaround, registerObject should never be called for
-		// replica/version/consolidate algorithms,
-		// we must change the algorithms to not depend on metadata.
-		// Also, location in which to register the object is the hint (in case it is not
-		// registered yet).
-		try {
-			List<RegistrationInfo> regInfos = new ArrayList<>();
-			regInfos.add(regInfo);
-			logicModule.registerObjects(regInfos, (ExecutionEnvironmentID) hint, Langs.LANG_JAVA);
-		} catch (Exception e) { 
-			//ignore
-		}
+		// TODO: call DS to set object read only
 	}
 
 	/**
@@ -1074,7 +1113,7 @@ public abstract class DataClayRuntime {
 				// not registered
 				throw new ObjectNotRegisteredException(objectID);
 			}
-			return metadata.getLocations().keySet().iterator().next();
+			return metadata.getLocations().iterator().next();
 		}
 	}
 
@@ -1087,32 +1126,38 @@ public abstract class DataClayRuntime {
 	 */
 	public final Set<BackendID> getAllLocations(final ObjectID objectID) {
 		checkConnectionAndParams(new String[] { "ObjectID" }, new Object[] { objectID });
-		if (DEBUG_ENABLED) {
-			LOGGER.debug("[==GetAllLocations==] For " + objectID);
-		}
+		LOGGER.debug("Getting all locations of object " + objectID);
 		final MetaDataInfo metadata = getObjectMetadata(objectID);
 		if (metadata != null) {
-			return new HashSet<>(metadata.getLocations().keySet());
-		} else {
-			if (DEBUG_ENABLED) {
-				LOGGER.debug("[==GetLocation==] Object" + objectID + "has not metadata");
+			final Set<BackendID> locations = new HashSet<>();
+			locations.addAll(metadata.getLocations());
+			LOGGER.debug("Found metadata in cache, adding: " + metadata.getLocations());
+			// Get Hint
+			final DataClayObject obj = this.getFromHeap(objectID);
+			if (obj != null) {
+				final BackendID locationID = obj.getHint();
+				if (locationID != null) {
+					LOGGER.debug("Adding hint location: " + locationID);
+					locations.add(locationID);
+				}
 			}
+			LOGGER.debug("Found locations: " + locations);
+			return locations;
+		} else {
 			// Get Hint
 			final Set<BackendID> locations = new HashSet<>();
 			final DataClayObject obj = this.getFromHeap(objectID);
 			if (obj != null) {
 				final BackendID locationID = obj.getHint();
 				if (locationID != null) {
-					if (DEBUG_ENABLED) {
-						LOGGER.debug("[==GetLocation==] Obtained location for " + objectID + " from exec.hint: "
-								+ locationID);
-					}
+					LOGGER.debug("Not found metadata in cache, adding hint location: " + locationID);
 					locations.add(locationID);
 				} else {
 					throw new DataClayRuntimeException(ERRORCODE.UNEXPECTED_EXCEPTION,
 							"The object " + objectID + " is not initialized well, hint missing or not exist", true);
 				}
-			} // else, can be only a String from COMPSs.
+			}
+			LOGGER.debug("Found locations: " + locations);
 			return locations;
 		}
 	}
@@ -1235,6 +1280,7 @@ public abstract class DataClayRuntime {
 		}
 		if (serializedParams.needWrappers()) {
 			// Create wrappers for language/immutable parameters
+			LOGGER.debug("[==Serialization==] Setting wrapper params");
 			objectInWhichToExec.setWrappersParams(implID, serializedParams);
 		}
 		if (DEBUG_ENABLED) {
@@ -1415,7 +1461,6 @@ public abstract class DataClayRuntime {
 					// in its cache and must remove it and seek for new one.
 					LOGGER.debug("Execution failed in location " + execLocationID);
 					// PREFER NOT TRIED LOCATION (In case Backend failed and we have replicas)
-					removeObjectMetadataFromCache(dcObject.getObjectID());
 					final MetaDataInfo metadata = getObjectMetadata(dcObject.getObjectID());
 					if (metadata == null) {
 						// no metadata available, throw exception
@@ -1425,7 +1470,7 @@ public abstract class DataClayRuntime {
 					}
 
 					boolean foundDifferentLocation = false;
-					for (final ExecutionEnvironmentID curLoc : metadata.getLocations().keySet()) {
+					for (final ExecutionEnvironmentID curLoc : metadata.getLocations()) {
 						LOGGER.debug("Found location " + curLoc);
 						if (!curLoc.equals(execLocationID)) {
 							execLocationID = curLoc;
@@ -1436,7 +1481,7 @@ public abstract class DataClayRuntime {
 					}
 					if (!foundDifferentLocation) {
 						LOGGER.debug("Using random location in retry: " + execLocationID);
-						execLocationID = metadata.getLocations().keySet().iterator().next();
+						execLocationID = metadata.getLocations().iterator().next();
 					}
 					if (usingHint) {
 						if (DEBUG_ENABLED) {
@@ -1512,52 +1557,26 @@ public abstract class DataClayRuntime {
 	}
 
 	/**
-	 * Execute a remote implementation in Location specified. 
-	 * WARNING: This function is only intended for calls in federation - replicated fields. 
-	 * A real call to remote dataClay would require a new design of exceptions/volatiles between dataClays.
-	 * 
+	 * Synchronize
 	 * @param dcObject
 	 *            Object used as a 'portal' to other DS.
 	 * @param params
 	 *            Parameters to send
 	 * @param remoteImplID
 	 *            ID of implementation to execute
-	 * @param dcID
-	 *            External dataClay ID where to call
-	 * @param allBackends
-	 *            Whether to execute the implementaiton in all possible replicas of the object in external dataClay or not
 	 */
-	public final void synchronizeFederated(final DataClayObject dcObject, final Object[] params,
-			final ImplementationID remoteImplID, final DataClayInstanceID dcID, final boolean allBackends) {
+	public final void synchronize(final DataClayObject dcObject, final Object[] params,
+			final ImplementationID remoteImplID) {
+		final SessionID sessionID = checkAndGetSession(new String[] { }, new Object[] { });
 
 		// ===== SERIALIZE PARAMETERS ===== //
-		// Between DC - DC, ifaceBitMaps = null
 		// Serialize parameters
-		LogicModuleAPI lmAPI = null;
-		final DataClayInstance dcInfo = getExternalDataClayInfo(dcID);
 		final SerializedParametersOrReturn serializedParams = serializeParams(dcObject, null, remoteImplID, params,
 				false, null);
-		final String[] hosts = dcInfo.getHosts();
-		final Integer[] ports = dcInfo.getPorts();
-
-		for (int i = 0; i < hosts.length; i++) {
-			try {
-				lmAPI = getCommonGrpcClient().getLogicModuleAPI(hosts[i], ports[i]);
-				break;
-			} catch (final InterruptedException e) {
-				if (i + 1 == hosts.length) {
-					throw new RuntimeException(
-							"[dataClay] ERROR: " + " Cannot connect to external dataClay with ID " + dcID);
-				}
-			}
-		}
-
-		if (DEBUG_ENABLED) {
-			LOGGER.debug("[==JUMP==] Request execution to external dataClay with id " + dcInfo.getDcID()
-			+ " for object " + dcObject.getObjectID());
-		}
-		final DataClayInstanceID myID = getDataClayID();
-		lmAPI.synchronizeFederatedObject(myID, dcObject.getObjectID(), remoteImplID, serializedParams, allBackends);
+		ObjectID objectID = dcObject.getObjectID();
+		BackendID execLocationID = this.getLocation(objectID);
+		final DataServiceAPI dsAPI = getRemoteExecutionEnvironment(execLocationID);
+		dsAPI.synchronize(sessionID, objectID, remoteImplID, serializedParams, null);
 	}
 
 	/**
@@ -1757,50 +1776,105 @@ public abstract class DataClayRuntime {
 	public abstract BackendID makePersistent(final DataClayObject dcObject, final BackendID optionalDestBackendID,
 			final boolean recursive, final String alias);
 
+
+	/**
+	 * Federate an object with an external dataClay
+	 *
+	 * @param objectID
+	 *            id of the object
+	 * @param externalDataClayID
+	 *            id of the external dataClay ID
+	 * @param recursive
+	 *            Indicates if subobjects should be federated as well
+	 * @param objectHint
+	 *            Hint of the object
+	 */
+	public void federateObject(final ObjectID objectID, final BackendID objectHint,
+							   final DataClayInstanceID externalDataClayID,
+							   final boolean recursive) {
+
+		ExecutionEnvironmentID externalExecutionEnvironmentID =
+				this.getAllExecutionEnvironmentsAtDataClay(Langs.LANG_JAVA, externalDataClayID).keySet().iterator().next();
+
+		this.federateToBackend(objectID, objectHint, externalExecutionEnvironmentID, recursive);
+	}
+
 	/**
 	 * Federate an object with an external dataClay
 	 * 
 	 * @param objectID
 	 *            id of the object
-	 * @param extDataClayID
-	 *            id of the external dataClay
+	 * @param externalExecutionEnvironmentID
+	 *            id of the external execution environment id
 	 * @param recursive
 	 *            Indicates if subobjects should be federated as well
-	 * @param classID
-	 *            Class ID of the object
-	 * @param hint
+	 * @param objectHint
 	 *            Hint of the object
 	 */
-	public void federateObject(final ObjectID objectID, final DataClayInstanceID extDataClayID, final boolean recursive,
-			final MetaClassID classID, final BackendID hint) {
+	public void federateToBackend(final ObjectID objectID, final BackendID objectHint,
+							   final ExecutionEnvironmentID externalExecutionEnvironmentID,
+							   final boolean recursive) {
 		if (DEBUG_ENABLED) {
-			LOGGER.debug("[==FederateObject==] Starting federation of object " + objectID + " with dataClay "
-					+ extDataClayID);
+			LOGGER.debug("[==FederateObject==] Starting federation of object " + objectID + " with ext.EE "
+					+ externalExecutionEnvironmentID);
 		}
 		final SessionID sessionID = checkAndGetSession(new String[] {}, new Object[] {});
-		this.ensureObjectRegistered(sessionID, objectID, classID, hint);
-		logicModule.federateObject(sessionID, objectID, classID, hint, extDataClayID, recursive);
+		// Get object location
+		BackendID execLocationID = objectHint;
+		if (objectHint == null) {
+			execLocationID = getLocation(objectID);
+		}
+		// Get language from origin location
+		final DataServiceAPI dsAPI = getRemoteExecutionEnvironment(execLocationID);
+		dsAPI.federate(sessionID, objectID, externalExecutionEnvironmentID, recursive);
 	}
 
 	/**
 	 * Unfederate an object with an external dataClay
-	 * 
+	 *
 	 * @param objectID
 	 *            id of the object
-	 * @param extDataClayID
+	 * @param externalDataClayID
 	 *            id of the external dataClay
 	 * @param recursive
-	 *            Indicates if subobjects should be federated as well
+	 *            Indicates if subobjects should be unfederated as well
+	 * @param objectHint
+	 *            Hint of the object
 	 */
-	public void unfederateObject(final ObjectID objectID, final DataClayInstanceID extDataClayID, final boolean recursive) {
+	public void unfederateObject(final ObjectID objectID, final BackendID objectHint,
+								 final DataClayInstanceID externalDataClayID,
+								 final boolean recursive) {
+		this.unfederateFromBackend(objectID, objectHint, null, recursive);
+	}
+
+	/**
+	 * Unfederate an object with an external backend
+	 *
+	 * @param objectID
+	 *            id of the object
+	 * @param externalExecutionEnvironmentID
+	 *            id of the external execution environment id
+	 * @param recursive
+	 *            Indicates if subobjects should be unfederated as well
+	 * @param objectHint
+	 *            Hint of the object
+	 */
+	public void unfederateFromBackend(final ObjectID objectID, final BackendID objectHint,
+								 final ExecutionEnvironmentID externalExecutionEnvironmentID,
+								 final boolean recursive) {
 		if (DEBUG_ENABLED) {
-			LOGGER.debug("[==UnfederateObject==] Starting unfederation of object " + objectID + " with dataClay "
-					+ extDataClayID);
+			LOGGER.debug("[==UnfederateObject==] Starting unfederation of object " + objectID + " with ext.EE "
+					+ externalExecutionEnvironmentID);
 		}
 		final SessionID sessionID = checkAndGetSession(new String[] {}, new Object[] {});
-		logicModule.unfederateObject(sessionID, objectID, extDataClayID, recursive);
-		
-		// FIXME: ALIAS CACHE SHOULD BE UPDATED FOR OBJECTS WITH ALIAS REMOVED?
+		// Get object location
+		BackendID execLocationID = objectHint;
+		if (objectHint == null) {
+			execLocationID = getLocation(objectID);
+		}
+		// Get language from origin location
+		final DataServiceAPI dsAPI = getRemoteExecutionEnvironment(execLocationID);
+		dsAPI.unfederate(sessionID, objectID, externalExecutionEnvironmentID, recursive);
 	}
 	
 	/**
@@ -1812,13 +1886,8 @@ public abstract class DataClayRuntime {
 	 *            Indicates if subobjects should be federated as well
 	 */
 	public void unfederateObjectWithAllDCs(final ObjectID objectID, final boolean recursive) {
-		if (DEBUG_ENABLED) {
-			LOGGER.debug("[==UnfederateObjectWithAllDCs==] Starting unfederation of object " + objectID 
-					+ " with all external dataClays ");
-		}
-		final SessionID sessionID = checkAndGetSession(new String[] {}, new Object[] {});
-		logicModule.unfederateObjectWithAllDCs(sessionID, objectID, recursive);
-		// FIXME: ALIAS CACHE SHOULD BE UPDATED FOR OBJECTS WITH ALIAS REMOVED?
+		throw new UnsupportedOperationException();
+
 	}
 	
 	/**
@@ -1826,27 +1895,14 @@ public abstract class DataClayRuntime {
 	 * @param extDataClayID External dataClay ID
 	 */
 	public void unfederateAllObjects(final DataClayInstanceID extDataClayID) {
-		if (DEBUG_ENABLED) {
-			LOGGER.debug("[==UnfederateAllObjects==] Starting unfederation of all objects with dataClay "
-					+ extDataClayID);
-		}
-		final SessionID sessionID = checkAndGetSession(new String[] {}, new Object[] {});
-		logicModule.unfederateAllObjects(sessionID, extDataClayID);
-		
-		// FIXME: ALIAS CACHE SHOULD BE UPDATED FOR OBJECTS WITH ALIAS REMOVED?
-
+		throw new UnsupportedOperationException();
 	}
 	
 	/**
 	 * Unfederate all objects belonging/federated with ANY external dataClay 
 	 */
 	public void unfederateAllObjectsWithAllDCs() {
-		if (DEBUG_ENABLED) {
-			LOGGER.debug("[==UnfederateAllObjects==] Starting unfederation of all objects with ANY dataClay ");
-		}
-		final SessionID sessionID = checkAndGetSession(new String[] {}, new Object[] {});
-		logicModule.unfederateAllObjectsWithAllDCs(sessionID);
-		// FIXME: ALIAS CACHE SHOULD BE UPDATED FOR OBJECTS WITH ALIAS REMOVED?
+		throw new UnsupportedOperationException();
 
 	}
 	
@@ -1857,13 +1913,7 @@ public abstract class DataClayRuntime {
 	 */
 	public void federateAllObjects(
 			final DataClayInstanceID destinationDataClayID) {
-		if (DEBUG_ENABLED) {
-			LOGGER.debug("[==FederateAllObjects==] Starting federation of all objects from my dataClay to dataClay {} ", 
-					destinationDataClayID);
-		}
-		final SessionID sessionID = checkAndGetSession(new String[] {}, new Object[] {});
-		logicModule.federateAllObjects(sessionID, destinationDataClayID);
-		// FIXME: ALIAS CACHE SHOULD BE UPDATED FOR OBJECTS WITH ALIAS REMOVED?
+		throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -1885,100 +1935,7 @@ public abstract class DataClayRuntime {
 	 */
 	public void migrateFederatedObjects(final DataClayInstanceID originDataClayID, 
 			final DataClayInstanceID destinationDataClayID) {
-		if (DEBUG_ENABLED) {
-			LOGGER.debug("[==MigrateFederatedObjects==] Starting migration of all objects from dataClay {} to dataClay {} ", 
-					originDataClayID, destinationDataClayID);
-		}
-		final SessionID sessionID = checkAndGetSession(new String[] {}, new Object[] {});
-		logicModule.migrateFederatedObjects(sessionID, originDataClayID, destinationDataClayID);
-		// FIXME: ALIAS CACHE SHOULD BE UPDATED FOR OBJECTS WITH ALIAS REMOVED?
-
-	}
-
-	/**
-	 * This function calls "filterObject" in backends for the type of the object provided. It means that given an object and
-	 * some conditions, search for all objects of same class that accomplish the conditions provided.
-	 * 
-	 * @param dcObject
-	 *            Instance in which filterObject function was called.
-	 * @param conditions
-	 *            Conditions to accomplish.
-	 * @return All objects that belong to same class than object provided and accomplish conditions.
-	 */
-	@SuppressWarnings("unchecked")
-	public List<Object> filterObject(final DataClayObject dcObject, final String conditions) {
-		if (DEBUG_ENABLED) {
-			LOGGER.debug("[==FilterObject==] Filtering obejct " + dcObject.getID() + " with conditions " + conditions);
-		}
-		final SessionID sessionID = getSessionID();
-		// ===== SERIALIZE PARAMETERS ===== //
-		// Between DS - DS, ifaceBitMaps = null
-		// Serialize parameters
-		SerializedParametersOrReturn serResult = null;
-		boolean executed = false;
-		BackendID execLocationID = dcObject.getHint();
-		DataServiceAPI dsAPI = null;
-		short numMisses = 0;
-		final Map<MetaClassID, byte[]> ifaceBitMaps = null; // TODO: add iface bitmaps? (too expensive?)
-
-		while (!executed && numMisses < Configuration.Flags.MAX_EXECUTION_RETRIES.getShortValue()) {
-			try {
-				if (DEBUG_ENABLED) {
-					final ExecutionEnvironment execEnv = this.getExecutionEnvironmentInfo(execLocationID);
-					LOGGER.debug("[==JUMP==] Request execution to  " + execEnv.getName() + " for object "
-							+ dcObject.getObjectID());
-				}
-
-				dsAPI = getRemoteExecutionEnvironment(execLocationID);
-				serResult = dsAPI.filterObject(sessionID, dcObject.getObjectID(), conditions);
-				executed = true;
-			} catch (StatusRuntimeException | DataClayException er) {
-
-				numMisses++;
-
-				// =================== UPDATE METADATA CACHE (due to a MISS) ===================
-				// //
-				// If remote DS sends a DbObjectNotExists means that it might be possible that
-				// THIS DataService contains wrong information
-				// in its cache and must remove it and seek for new one.
-				this.removeObjectMetadataFromCache(dcObject.getObjectID());
-				execLocationID = getLocation(dcObject.getObjectID());
-				// execLocationID = getExecutionEnvironmentLocation(dcObject.getObjectID());
-
-				if (DEBUG_ENABLED) {
-					LOGGER.debug("[==Hint==] Setting hint (Retry remote execution) on instance "
-							+ dcObject.getObjectID() + " the hint : " + getDSNameOfHint(execLocationID));
-				}
-				dcObject.setHint(execLocationID);
-
-				if (DEBUG_ENABLED) {
-					LOGGER.debug("[==Miss Jump==] MISS. The object " + dcObject.getObjectID()
-					+ " was not in the exec.location " + execLocationID + ". Retrying execution.");
-				}
-			}
-
-		}
-
-		if (dsAPI == null) {
-			throw new DataClayException(ERRORCODE.UNEXPECTED_EXCEPTION,
-					"[dataClay] ERROR: Trying to execute remotely but"
-							+ " not initialized/found. Please, check initialization of StorageItf or ClientManagementLib "
-							+ " was successfull or contact administrator.",
-							true);
-		}
-
-		if (!executed) {
-			throw new RuntimeException("[dataClay] ERROR: Trying to execute remotely object " + dcObject.getObjectID()
-			+ " of class " + dcObject.getClass().getName()
-			+ " but something went wrong. Maybe the object is still not stored "
-			+ " (in case of asynchronous makepersistent) and waiting time is not enough."
-			+ " Maybe the object does not exist anymore due to a remove. Or Maybe an "
-			+ "exception happened in the server and the call failed.");
-		}
-
-		// ===== DESERIALIZE RETURN ===== //
-		// Deserialize return
-		return (List<Object>) DataClayDeserializationLib.deserializeParamsOrReturn(serResult, ifaceBitMaps, this)[0];
+		throw new UnsupportedOperationException();
 	}
 
 	/**

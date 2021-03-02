@@ -29,7 +29,7 @@ public final class DataServiceGrpcService {
       "/communication/grpc/messages/dataservice" +
       "/dataservice_messages.proto\032Adataclay/co" +
       "mmunication/grpc/messages/common/common_" +
-      "messages.proto2\215+\n\013DataService\022\203\001\n\rinitB" +
+      "messages.proto2\252.\n\013DataService\022\203\001\n\rinitB" +
       "ackendID\022=.dataclay.communication.grpc.d" +
       "ataservice.InitBackendIDRequest\0321.datacl" +
       "ay.communication.grpc.common.ExceptionIn" +
@@ -109,67 +109,77 @@ public final class DataServiceGrpcService {
       "nfo\"\000\022}\n\nunfederate\022:.dataclay.communica" +
       "tion.grpc.dataservice.UnfederateRequest\032" +
       "1.dataclay.communication.grpc.common.Exc" +
-      "eptionInfo\"\000\022{\n\006exists\0226.dataclay.commun" +
-      "ication.grpc.dataservice.ExistsRequest\0327" +
-      ".dataclay.communication.grpc.dataservice" +
-      ".ExistsResponse\"\000\022{\n\tstoreToDB\0229.datacla" +
-      "y.communication.grpc.dataservice.StoreTo" +
-      "DBRequest\0321.dataclay.communication.grpc." +
-      "common.ExceptionInfo\"\000\022\204\001\n\tgetFromDB\0229.d" +
-      "ataclay.communication.grpc.dataservice.G" +
-      "etFromDBRequest\032:.dataclay.communication" +
-      ".grpc.dataservice.GetFromDBResponse\"\000\022}\n" +
-      "\nupdateToDB\022:.dataclay.communication.grp" +
-      "c.dataservice.UpdateToDBRequest\0321.datacl" +
-      "ay.communication.grpc.common.ExceptionIn" +
-      "fo\"\000\022}\n\ndeleteToDB\022:.dataclay.communicat" +
-      "ion.grpc.dataservice.DeleteToDBRequest\0321" +
-      ".dataclay.communication.grpc.common.Exce" +
-      "ptionInfo\"\000\022\207\001\n\nexistsInDB\022:.dataclay.co" +
-      "mmunication.grpc.dataservice.ExistsInDBR" +
-      "equest\032;.dataclay.communication.grpc.dat" +
-      "aservice.ExistsInDBResponse\"\000\022\205\001\n\034cleanE" +
-      "xecutionClassDirectory\0220.dataclay.commun" +
-      "ication.grpc.common.EmptyMessage\0321.datac" +
-      "lay.communication.grpc.common.ExceptionI" +
-      "nfo\"\000\022w\n\016closeDbHandler\0220.dataclay.commu" +
-      "nication.grpc.common.EmptyMessage\0321.data" +
-      "clay.communication.grpc.common.Exception" +
-      "Info\"\000\022q\n\010shutDown\0220.dataclay.communicat" +
-      "ion.grpc.common.EmptyMessage\0321.dataclay." +
-      "communication.grpc.common.ExceptionInfo\"" +
-      "\000\022}\n\024disconnectFromOthers\0220.dataclay.com" +
-      "munication.grpc.common.EmptyMessage\0321.da" +
-      "taclay.communication.grpc.common.Excepti" +
-      "onInfo\"\000\022\177\n\026registerPendingObjects\0220.dat" +
-      "aclay.communication.grpc.common.EmptyMes" +
-      "sage\0321.dataclay.communication.grpc.commo" +
-      "n.ExceptionInfo\"\000\022t\n\013cleanCaches\0220.datac" +
-      "lay.communication.grpc.common.EmptyMessa" +
-      "ge\0321.dataclay.communication.grpc.common." +
-      "ExceptionInfo\"\000\022\207\001\n\017activateTracing\022?.da" +
-      "taclay.communication.grpc.dataservice.Ac" +
-      "tivateTracingRequest\0321.dataclay.communic" +
-      "ation.grpc.common.ExceptionInfo\"\000\022z\n\021dea" +
-      "ctivateTracing\0220.dataclay.communication." +
-      "grpc.common.EmptyMessage\0321.dataclay.comm" +
-      "unication.grpc.common.ExceptionInfo\"\000\022v\n" +
-      "\tgetTraces\0220.dataclay.communication.grpc" +
-      ".common.EmptyMessage\0325.dataclay.communic" +
-      "ation.grpc.common.GetTracesResponse\"\000\022\211\001" +
-      "\n\020closeSessionInDS\022@.dataclay.communicat" +
-      "ion.grpc.dataservice.CloseSessionInDSReq" +
+      "eptionInfo\"\000\022\211\001\n\020notifyFederation\022@.data" +
+      "clay.communication.grpc.dataservice.Noti" +
+      "fyFederationRequest\0321.dataclay.communica" +
+      "tion.grpc.common.ExceptionInfo\"\000\022\215\001\n\022not" +
+      "ifyUnfederation\022B.dataclay.communication" +
+      ".grpc.dataservice.NotifyUnfederationRequ" +
+      "est\0321.dataclay.communication.grpc.common" +
+      ".ExceptionInfo\"\000\022{\n\006exists\0226.dataclay.co" +
+      "mmunication.grpc.dataservice.ExistsReque" +
+      "st\0327.dataclay.communication.grpc.dataser" +
+      "vice.ExistsResponse\"\000\022\177\n\013synchronize\022;.d" +
+      "ataclay.communication.grpc.dataservice.S" +
+      "ynchronizeRequest\0321.dataclay.communicati" +
+      "on.grpc.common.ExceptionInfo\"\000\022{\n\tstoreT" +
+      "oDB\0229.dataclay.communication.grpc.datase" +
+      "rvice.StoreToDBRequest\0321.dataclay.commun" +
+      "ication.grpc.common.ExceptionInfo\"\000\022\204\001\n\t" +
+      "getFromDB\0229.dataclay.communication.grpc." +
+      "dataservice.GetFromDBRequest\032:.dataclay." +
+      "communication.grpc.dataservice.GetFromDB" +
+      "Response\"\000\022}\n\nupdateToDB\022:.dataclay.comm" +
+      "unication.grpc.dataservice.UpdateToDBReq" +
       "uest\0321.dataclay.communication.grpc.commo" +
-      "n.ExceptionInfo\"\000\022}\n\nupdateRefs\022:.datacl" +
-      "ay.communication.grpc.dataservice.Update" +
-      "RefsRequest\0321.dataclay.communication.grp" +
-      "c.common.ExceptionInfo\"\000\022\223\001\n\025getRetained" +
-      "References\0220.dataclay.communication.grpc" +
-      ".common.EmptyMessage\032F.dataclay.communic" +
-      "ation.grpc.dataservice.GetRetainedRefere" +
-      "ncesResponse\"\000BR\n8es.bsc.dataclay.commun" +
-      "ication.grpc.generated.dataserviceB\026Data" +
-      "ServiceGrpcServiceb\006proto3"
+      "n.ExceptionInfo\"\000\022}\n\ndeleteToDB\022:.datacl" +
+      "ay.communication.grpc.dataservice.Delete" +
+      "ToDBRequest\0321.dataclay.communication.grp" +
+      "c.common.ExceptionInfo\"\000\022\207\001\n\nexistsInDB\022" +
+      ":.dataclay.communication.grpc.dataservic" +
+      "e.ExistsInDBRequest\032;.dataclay.communica" +
+      "tion.grpc.dataservice.ExistsInDBResponse" +
+      "\"\000\022\205\001\n\034cleanExecutionClassDirectory\0220.da" +
+      "taclay.communication.grpc.common.EmptyMe" +
+      "ssage\0321.dataclay.communication.grpc.comm" +
+      "on.ExceptionInfo\"\000\022w\n\016closeDbHandler\0220.d" +
+      "ataclay.communication.grpc.common.EmptyM" +
+      "essage\0321.dataclay.communication.grpc.com" +
+      "mon.ExceptionInfo\"\000\022q\n\010shutDown\0220.datacl" +
+      "ay.communication.grpc.common.EmptyMessag" +
+      "e\0321.dataclay.communication.grpc.common.E" +
+      "xceptionInfo\"\000\022}\n\024disconnectFromOthers\0220" +
+      ".dataclay.communication.grpc.common.Empt" +
+      "yMessage\0321.dataclay.communication.grpc.c" +
+      "ommon.ExceptionInfo\"\000\022\177\n\026registerPending" +
+      "Objects\0220.dataclay.communication.grpc.co" +
+      "mmon.EmptyMessage\0321.dataclay.communicati" +
+      "on.grpc.common.ExceptionInfo\"\000\022t\n\013cleanC" +
+      "aches\0220.dataclay.communication.grpc.comm" +
+      "on.EmptyMessage\0321.dataclay.communication" +
+      ".grpc.common.ExceptionInfo\"\000\022\207\001\n\017activat" +
+      "eTracing\022?.dataclay.communication.grpc.d" +
+      "ataservice.ActivateTracingRequest\0321.data" +
+      "clay.communication.grpc.common.Exception" +
+      "Info\"\000\022z\n\021deactivateTracing\0220.dataclay.c" +
+      "ommunication.grpc.common.EmptyMessage\0321." +
+      "dataclay.communication.grpc.common.Excep" +
+      "tionInfo\"\000\022v\n\tgetTraces\0220.dataclay.commu" +
+      "nication.grpc.common.EmptyMessage\0325.data" +
+      "clay.communication.grpc.common.GetTraces" +
+      "Response\"\000\022\211\001\n\020closeSessionInDS\022@.datacl" +
+      "ay.communication.grpc.dataservice.CloseS" +
+      "essionInDSRequest\0321.dataclay.communicati" +
+      "on.grpc.common.ExceptionInfo\"\000\022}\n\nupdate" +
+      "Refs\022:.dataclay.communication.grpc.datas" +
+      "ervice.UpdateRefsRequest\0321.dataclay.comm" +
+      "unication.grpc.common.ExceptionInfo\"\000\022\223\001" +
+      "\n\025getRetainedReferences\0220.dataclay.commu" +
+      "nication.grpc.common.EmptyMessage\032F.data" +
+      "clay.communication.grpc.dataservice.GetR" +
+      "etainedReferencesResponse\"\000BR\n8es.bsc.da" +
+      "taclay.communication.grpc.generated.data" +
+      "serviceB\026DataServiceGrpcServiceb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,

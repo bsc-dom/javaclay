@@ -490,7 +490,8 @@ public final class ClientManagementLib {
 		try {
 			result = clientLib.getLogicModuleAPI().newNamespace(accountID, credential, newNamespace);
 		} catch (final Exception ex) {
-			LOGGER.warn("Error during newNamespace", ex);
+			LOGGER.debug(ex.getMessage());
+			LOGGER.trace("Error during newNamespace", ex);
 		}
 		return result;
 	}
@@ -516,7 +517,8 @@ public final class ClientManagementLib {
 			clientLib.getLogicModuleAPI().removeNamespace(accountID, credential, namespaceName);
 			return true;
 		} catch (final Exception ex) {
-			LOGGER.warn("Error during removeNamespace", ex);
+			LOGGER.debug(ex.getMessage());
+			LOGGER.trace("Error during removeNamespace", ex);
 		}
 		return false;
 	}
@@ -542,7 +544,8 @@ public final class ClientManagementLib {
 		try {
 			result = clientLib.getLogicModuleAPI().getNamespaceID(accountID, credential, namespaceName);
 		} catch (final Exception ex) {
-			LOGGER.warn("Error during getNamespaceID", ex);
+			LOGGER.debug(ex.getMessage());
+			LOGGER.trace("Error during getNamespaceID", ex);
 		}
 		return result;
 	}
@@ -568,7 +571,8 @@ public final class ClientManagementLib {
 		try {
 			result = clientLib.getLogicModuleAPI().getNamespaceLang(accountID, credential, namespaceName);
 		} catch (final Exception ex) {
-			LOGGER.warn("Error during newgetNamespaceLanguage", ex);
+			LOGGER.debug(ex.getMessage());
+			LOGGER.trace("Error during newgetNamespaceLanguage", ex);
 		}
 		return result;
 	}
@@ -589,7 +593,8 @@ public final class ClientManagementLib {
 		try {
 			result = clientLib.getLogicModuleAPI().getNamespaces(accountID, credential);
 		} catch (final Exception ex) {
-			LOGGER.warn("Error during getNamespaces", ex);
+			LOGGER.debug(ex.getMessage());
+			LOGGER.trace("Error during getNamespaces", ex);
 		}
 		return result;
 	}
@@ -619,7 +624,8 @@ public final class ClientManagementLib {
 			clientLib.getLogicModuleAPI().importInterface(accountID, credential, namespaceID, contractID, interfaceID);
 			return true;
 		} catch (final Exception ex) {
-			LOGGER.warn("Error during importInterface", ex);
+			LOGGER.debug(ex.getMessage());
+			LOGGER.trace("Error during importInterface", ex);
 		}
 		return false;
 	}
@@ -646,7 +652,8 @@ public final class ClientManagementLib {
 			clientLib.getLogicModuleAPI().importContract(accountID, credential, namespaceID, contractID);
 			return true;
 		} catch (final Exception ex) {
-			LOGGER.warn("Error during importContract", ex);
+			LOGGER.debug(ex.getMessage());
+			LOGGER.trace("Error during importContract", ex);
 		}
 		return false;
 	}
@@ -672,7 +679,8 @@ public final class ClientManagementLib {
 		try {
 			result = clientLib.getLogicModuleAPI().newDataSet(accountID, credential, dataSet);
 		} catch (final Exception ex) {
-			LOGGER.warn("Error during newDataSet", ex);
+			LOGGER.debug(ex.getMessage());
+			LOGGER.trace("Error during newDataSet", ex);
 		}
 		return result;
 	}
@@ -697,7 +705,8 @@ public final class ClientManagementLib {
 			clientLib.getLogicModuleAPI().removeDataSet(accountID, credential, datasetName);
 			return true;
 		} catch (final Exception ex) {
-			LOGGER.warn("Error during removeDataset", ex);
+			LOGGER.debug(ex.getMessage());
+			LOGGER.trace("Error during removeDataset", ex);
 		}
 		return false;
 	}
@@ -721,7 +730,8 @@ public final class ClientManagementLib {
 		try {
 			result = clientLib.getLogicModuleAPI().getDataSetID(accountID, credential, datasetName);
 		} catch (final Exception ex) {
-			LOGGER.warn("Error during getDatasetID", ex);
+			LOGGER.debug(ex.getMessage());
+			LOGGER.trace("Error during getDatasetID", ex);
 		}
 		return result;
 	}
@@ -1171,7 +1181,8 @@ public final class ClientManagementLib {
 		try {
 			result = clientLib.getLogicModuleAPI().newContract(proprietaryAccountID, proprietaryCredential, contract);
 		} catch (final Exception ex) {
-			LOGGER.warn("Error during newPrivateContract", ex);
+			LOGGER.debug(ex.getMessage());
+			LOGGER.trace("Error during newPrivateContract", ex);
 		}
 		return result;
 	}
@@ -1197,7 +1208,8 @@ public final class ClientManagementLib {
 		try {
 			result = clientLib.getLogicModuleAPI().newContract(proprietaryAccountID, proprietaryCredential, contract);
 		} catch (final Exception ex) {
-			LOGGER.warn("Error during newPublicContract", ex);
+			LOGGER.debug(ex.getMessage());
+			LOGGER.trace("Error during newPublicContract", ex);
 		}
 		return result;
 	}
@@ -1219,7 +1231,8 @@ public final class ClientManagementLib {
 		try {
 			result = clientLib.getLogicModuleAPI().getContractIDOfDataClayProvider(accountID, credential);
 		} catch (final Exception ex) {
-			LOGGER.warn("Error during getContractOfDataClayProvider", ex);
+			LOGGER.debug(ex.getMessage());
+			LOGGER.trace("Error during getContractOfDataClayProvider", ex);
 		}
 		return result;
 	}
@@ -1243,7 +1256,8 @@ public final class ClientManagementLib {
 		try {
 			result = clientLib.getLogicModuleAPI().getContractIDsOfProvider(accountID, credential, namespaceID);
 		} catch (final Exception ex) {
-			LOGGER.warn("Error during getContractsOfProvider", ex);
+			LOGGER.debug(ex.getMessage());
+			LOGGER.trace("Error during getContractsOfProvider", ex);
 		}
 		return result;
 	}
@@ -1266,7 +1280,8 @@ public final class ClientManagementLib {
 		try {
 			result = clientLib.getLogicModuleAPI().getContractIDsOfApplicant(accountID, credential);
 		} catch (final Exception ex) {
-			LOGGER.warn("Error during getContractsOfApplicant", ex);
+			LOGGER.debug(ex.getMessage());
+			LOGGER.trace("Error during getContractsOfApplicant", ex);
 		}
 		return result;
 	}
@@ -1293,7 +1308,8 @@ public final class ClientManagementLib {
 			result = clientLib.getLogicModuleAPI().getContractIDsOfApplicantWithProvider(accountID, credential,
 					namespaceIDofProvider);
 		} catch (final Exception ex) {
-			LOGGER.warn("Error during getContractsOfApplicant", ex);
+			LOGGER.debug(ex.getMessage());
+			LOGGER.trace("Error during getContractsOfApplicant", ex);
 		}
 		return result;
 	}
@@ -1318,7 +1334,8 @@ public final class ClientManagementLib {
 			clientLib.getLogicModuleAPI().registerToPublicContract(accountID, credential, contractID);
 			return true;
 		} catch (final Exception ex) {
-			LOGGER.warn("Error during registerToPublicContract", ex);
+			LOGGER.debug(ex.getMessage());
+			LOGGER.trace("Error during registerToPublicContract", ex);
 		}
 		return false;
 	}
@@ -1342,7 +1359,8 @@ public final class ClientManagementLib {
 			return clientLib.getLogicModuleAPI().registerToPublicContractOfNamespace(accountID, credential,
 					namespaceID);
 		} catch (final Exception ex) {
-			LOGGER.warn("Error during registerToPublicContractOfNamespace", ex);
+			LOGGER.debug(ex.getMessage());
+			LOGGER.trace("Error during registerToPublicContractOfNamespace", ex);
 		}
 		return null;
 	}
@@ -1871,7 +1889,7 @@ public final class ClientManagementLib {
 
 	/**
 	 * Tries to connect to an external dataClay instance and retrieve its ID. *
-	 * 
+	 *
 	 * @param dcHost
 	 *            hostname of the external dataClay instance
 	 * @param dcPort
@@ -1889,48 +1907,12 @@ public final class ClientManagementLib {
 
 	/**
 	 * Method that retrieves the current dataClay identifier
-	 * 
+	 *
 	 * @return id of the current dataClay (current dataClay is which this clientLib
 	 *         is being connected to)
 	 */
 	public static DataClayInstanceID getDataClayID() {
 		return clientLib.getDataClayID();
-	}
-
-	/**
-	 * Unfederate all objects belonging/federated with external dataClay with id provided
-	 * @param extDataClayID External dataClay ID
-	 */
-	public static void unfederateAllObjects(final DataClayInstanceID extDataClayID) {
-		clientLib.unfederateAllObjects(extDataClayID);
-	}
-	
-	/**
-	 * Unfederate all objects belonging/federated with ANY external dataClay 
-	 */
-	public static void unfederateAllObjectsWithAllDCs() {
-		clientLib.unfederateAllObjectsWithAllDCs();
-	}
-	
-	/**
-	 * Migrate (unfederate and federate) all current dataClay objects from specified external dataclay di to
-	 * destination dataclay. 
-	 * @param originDataClayID Origin dataclay id
-	 * @param destinationDataClayID Destination dataclay id
-	 */
-	public static void migrateFederatedObjects(final DataClayInstanceID originDataClayID, 
-			final DataClayInstanceID destinationDataClayID) {
-		clientLib.migrateFederatedObjects(originDataClayID, destinationDataClayID);
-	}
-
-	/**
-	 * Federate all dataClay objects from specified current dataClay
-	 * destination dataclay. 
-	 * @param destinationDataClayID Destination dataclay id
-	 */
-	public static void federateAllObjects(
-			final DataClayInstanceID destinationDataClayID) {
-		clientLib.federateAllObjects(destinationDataClayID);
 	}
 
 	/**
@@ -1945,12 +1927,12 @@ public final class ClientManagementLib {
 	
 	/**
 	 * Activate tracing in dataClay services
-	 * 
+	 *
 	 */
 	public final static void activateTracingInDataClayServices() {
 		clientLib.activateTracingInDataClayServices();
 	}
-	
+
 	/**
 	 * Dectivate tracing
 	 */

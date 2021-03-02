@@ -6,18 +6,12 @@ package es.bsc.dataclay.communication.grpc;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Queue;
-import java.util.StringJoiner;
-import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 import es.bsc.dataclay.util.ids.*;
+import es.bsc.dataclay.util.management.metadataservice.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -67,7 +61,7 @@ public final class Utils {
 	 */
 	public static String getMsgID(final ID id) {
 		if (id == null) {
-			return null;
+			return "";
 		} else {
 			return id.toString();
 		}
@@ -474,9 +468,21 @@ public final class Utils {
 				}
 			}
 		}
-
+		if (metadata.getReplicaLocations() != null) {
+			for (final ExecutionEnvironmentID loc : metadata.getReplicaLocations()) {
+				if (loc != null) {
+					metadataBuilder.addReplicaLocations(Utils.getMsgID(loc));
+				}
+			}
+		}
+		if (metadata.getAlias() != null) {
+			metadataBuilder.setAlias(metadata.getAlias());
+		}
+		metadataBuilder.setRootLocation(Utils.getMsgID(metadata.getRootLocation()));
+		metadataBuilder.setOriginLocation(Utils.getMsgID(metadata.getOriginLocation()));
+		metadataBuilder.setIsReadOnly(metadata.getIsReadOnly());
+		metadataBuilder.setOrigObjectID(Utils.getMsgID(metadata.getOriginalObjectID()));
 		metadataBuilder.setNumRefs(metadata.getNumRefs());
-
 		return metadataBuilder.build();
 
 	}
@@ -521,19 +527,174 @@ public final class Utils {
 			}
 		}
 
-		if (msg.getExtDataClayIDsMap() != null) {
-			for (final Entry<Integer, String> entry : msg.getExtDataClayIDsMap()
-					.entrySet()) {
-				if (entry.getKey() != null && entry.getValue() != null) {
-					extDataClayIDs.put(entry.getKey(), Utils.getDataClayInstanceID(entry.getValue()));
-				}
-			}
+		final int numRefs = msg.getNumRefs();
+		final ObjectID origObjectID = Utils.getObjectID(msg.getOrigObjectID());
+		final ExecutionEnvironmentID rootLocation = Utils.getExecutionEnvironmentID(msg.getRootLocation());
+		final ExecutionEnvironmentID origLocation = Utils.getExecutionEnvironmentID(msg.getOriginLocation());
+		final Set<ExecutionEnvironmentID> replicaLocations = ConcurrentHashMap.newKeySet();
+		for (String eeID : msg.getReplicaLocationsList()) {
+			replicaLocations.add(Utils.getExecutionEnvironmentID(eeID));
 		}
 
-		final int numRefs = msg.getNumRefs();
-		return new DataClayObjectMetaData(oids, classIDs, hints, extDataClayIDs, numRefs);
+
+		return new DataClayObjectMetaData(msg.getAlias(), msg.getIsReadOnly(), oids, classIDs, hints, numRefs,
+				origObjectID, rootLocation, origLocation, replicaLocations);
 
 	}
+
+	/**
+	 * Return a message for GRPC call
+	 *
+	 * @param object object to convert
+	 * @return the resulting message
+	 */
+	public static CommonMessages.MetaDataInfo getMetaDataInfo(
+			final MetaDataInfo object) {
+		if (object == null) {
+			return CommonMessages.MetaDataInfo.getDefaultInstance();
+		}
+		CommonMessages.MetaDataInfo.Builder builder = CommonMessages.MetaDataInfo.newBuilder();
+		builder.setObjectID(Utils.getMsgID(object.getDataClayID()));
+		builder.setIsReadOnly(object.getIsReadOnly());
+		builder.setDatasetID(Utils.getMsgID(object.getDatasetID()));
+		builder.setMetaclassID(Utils.getMsgID(object.getMetaclassID()));
+		builder.setOwnerID(Utils.getMsgID(object.getOwnerID()));
+		builder.setAlias(object.getAlias());
+		for (ExecutionEnvironmentID loc : object.getLocations()) {
+			builder.addLocations(Utils.getMsgID(loc));
+		}
+		return builder.build();
+	}
+
+	/**
+	 * Return an object FROM grpc message
+	 *
+	 * @param msg object to convert
+	 * @return the resulting object
+	 */
+	public static MetaDataInfo getMetaDataInfo(
+			final CommonMessages.MetaDataInfo msg) {
+
+		if (msg.equals(CommonMessages.MetaDataInfo.getDefaultInstance())) {
+			return null;
+		}
+
+		Set<ExecutionEnvironmentID> locs = new HashSet<>();
+		for (String eeID : msg.getLocationsList()) {
+			locs.add(Utils.getExecutionEnvironmentID(eeID));
+		}
+		MetaDataInfo mdInfo = new MetaDataInfo(
+				Utils.getObjectID(msg.getObjectID()),
+				Utils.getDataSetID(msg.getDatasetID()),
+				Utils.getMetaClassID(msg.getMetaclassID()),
+				msg.getIsReadOnly(),
+				locs, msg.getAlias(), Utils.getAccountID(msg.getOwnerID()));
+		return mdInfo;
+	}
+
+	/**
+	 * Return a message for GRPC call
+	 *
+	 * @param object object to convert
+	 * @return the resulting message
+	 */
+	public static CommonMessages.ExecutionEnvironmentInfo getExecutionEnvironment(
+			final ExecutionEnvironment object) {
+		CommonMessages.ExecutionEnvironmentInfo.Builder builder = CommonMessages.ExecutionEnvironmentInfo.newBuilder();
+		builder.setId(Utils.getMsgID(object.getDataClayID()));
+		builder.setHostname(object.getHostname());
+		builder.setName(object.getName());
+		builder.setPort(object.getPort());
+		builder.setDataClayInstanceID(Utils.getMsgID(object.getDataClayInstanceID()));
+		builder.setLanguage(object.getLang());
+		return builder.build();
+	}
+
+	/**
+	 * Return an object FROM grpc message
+	 *
+	 * @param msg object to convert
+	 * @return the resulting object
+	 */
+	public static ExecutionEnvironment getExecutionEnvironment(
+			final CommonMessages.ExecutionEnvironmentInfo msg) {
+		ExecutionEnvironment eeLoc = new ExecutionEnvironment(
+				msg.getHostname(),
+				msg.getName(),
+				msg.getPort(),
+				msg.getLanguage(),
+				Utils.getDataClayInstanceID(msg.getDataClayInstanceID()));
+		eeLoc.setDataClayID(Utils.getExecutionEnvironmentID(msg.getId()));
+		return eeLoc;
+	}
+
+	/**
+	 * Return a message for GRPC call
+	 *
+	 * @param object object to convert
+	 * @return the resulting message
+	 */
+	public static CommonMessages.StorageLocationInfo getStorageLocation(
+			final StorageLocation object) {
+		CommonMessages.StorageLocationInfo.Builder builder = CommonMessages.StorageLocationInfo.newBuilder();
+		builder.setId(Utils.getMsgID(object.getDataClayID()));
+		builder.setHostname(object.getHostname());
+		builder.setName(object.getName());
+		builder.setPort(object.getStorageTCPPort());
+		return builder.build();
+	}
+
+	/**
+	 * Return an object FROM grpc message
+	 *
+	 * @param msg object to convert
+	 * @return the resulting object
+	 */
+	public static StorageLocation getStorageLocation(
+			final CommonMessages.StorageLocationInfo msg) {
+		StorageLocation stLoc = new StorageLocation(
+				msg.getHostname(),
+				msg.getName(),
+				msg.getPort());
+		stLoc.setDataClayID(Utils.getStorageLocationID(msg.getId()));
+		return stLoc;
+	}
+
+	/**
+	 * Return a message for GRPC call
+	 *
+	 * @param dataClayInstance object to convert
+	 * @return the resulting message
+	 */
+	public static CommonMessages.DataClayInstance getDataClayInstance(
+			final DataClayInstance dataClayInstance) {
+		CommonMessages.DataClayInstance.Builder builder = CommonMessages.DataClayInstance.newBuilder();
+		builder.setId(Utils.getMsgID(dataClayInstance.getDcID()));
+		builder.addAllHosts(dataClayInstance.getHosts());
+		builder.addAllPorts(dataClayInstance.getPorts());
+		return builder.build();
+	}
+
+	/**
+	 * Return an object FROM grpc message
+	 *
+	 * @param dataClayInstanceMsg object to convert
+	 * @return the resulting message
+	 */
+	public static DataClayInstance getDataClayInstance(
+			final CommonMessages.DataClayInstance dataClayInstanceMsg) {
+		String[] hosts = new String[dataClayInstanceMsg.getHostsCount()];
+		for (int i = 0; i < hosts.length; ++i) {
+			hosts[i] = dataClayInstanceMsg.getHosts(i);
+		}
+		Integer[] ports = new Integer[dataClayInstanceMsg.getPortsCount()];
+		for (int i = 0; i < hosts.length; ++i) {
+			ports[i] = dataClayInstanceMsg.getPorts(i);
+		}
+		return new DataClayInstance(Utils.getDataClayInstanceID(dataClayInstanceMsg.getId()),
+				hosts, ports);
+	}
+
 
 	/**
 	 * Return a message containing an object with data (parameter or return)
@@ -1229,7 +1390,8 @@ public final class Utils {
 
 		// Create response with exception
 		if (DEBUG_ENABLED) {
-			LOGGER.debug("[==EXCEPTION==] Sending DataClayException GRPC response: ", ex);
+			LOGGER.debug("[==EXCEPTION==] Sending exception {}. Activate trace to see stack trace", ex.getMessage());
+			LOGGER.trace("[==EXCEPTION==] Sending DataClayException GRPC response: ", ex);
 		}
 		final DataClayByteBuffer dcBuffer = SerializationLibUtils.newByteBuffer();
 		byte[] serializedBytes = null;
@@ -1270,7 +1432,8 @@ public final class Utils {
 				// WARNING: Currently only sending runtime exceptions
 				final RuntimeException cause = (RuntimeException) dcEx.getCause();
 				if (DEBUG_ENABLED) {
-					LOGGER.debug("[==EXCEPTION==] Received DataClayException GRPC response: ", cause);
+					LOGGER.debug("[==EXCEPTION==] Sending exception {}. Activate trace to see stack trace", cause.getMessage());
+					LOGGER.trace("[==EXCEPTION==] Received DataClayException GRPC response: ", cause);
 				}
 				throw cause;
 

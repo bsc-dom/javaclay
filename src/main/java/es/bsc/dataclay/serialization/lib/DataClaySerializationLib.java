@@ -236,7 +236,7 @@ public final class DataClaySerializationLib {
 		if (wrapper.isImmutable()) {
 			// ======= IMMUTABLE PARAMETERS ===== //
 			if (DEBUG_ENABLED) {
-				DataClayRuntime.LOGGER.debug("[##Serialization##] Serializing immutable param idx = " + idx);
+				DataClaySerializationLib.LOGGER.debug("[##Serialization##] Serializing immutable param idx = " + idx);
 			}
 
 			final ImmutableParamOrReturn immParamReturn = new ImmutableParamOrReturn(wrapper);
@@ -251,13 +251,13 @@ public final class DataClaySerializationLib {
 		if (wrapper.getJavaObject() instanceof DataClayObject) {
 			// ====== DCOBJECT PARAMETERS ===== //
 			if (DEBUG_ENABLED) {
-				DataClayRuntime.LOGGER.debug("[##Serialization##] Serializing generic param idx = " + idx);
+				DataClaySerializationLib.LOGGER.debug("[##Serialization##] Serializing generic param idx = " + idx);
 			}
 
 			final DataClayObject dcObject = (DataClayObject) wrapper.getJavaObject();
 			if (dcObject.isPersistent()) {
 				if (DEBUG_ENABLED) {
-					DataClayRuntime.LOGGER
+					DataClaySerializationLib.LOGGER
 							.debug("[##Serialization##] Serializing PERSISTENT DataClayObject param idx = " + idx
 									+ " oid = " + dcObject.getObjectID() + " with hint "
 									+ clientLib.getDSNameOfHint(dcObject.getHint()));
@@ -277,7 +277,8 @@ public final class DataClaySerializationLib {
 
 		// ====== LANGUAGE PARAMETERS ===== //
 		if (DEBUG_ENABLED) {
-			DataClayRuntime.LOGGER.debug("[##Serialization##] Serializing language param idx = " + idx);
+			DataClaySerializationLib.LOGGER.debug(
+					"[##Serialization##] Serializing language param idx = " + idx + " of type " + wrapper.getClass().getName());
 		}
 
 		final LanguageParamOrReturn langParamReturn = new LanguageParamOrReturn(wrapper);
@@ -506,26 +507,12 @@ public final class DataClaySerializationLib {
 		}
 
 		// Prepare metaData structures
-		final DataClayObjectMetaData mdata = SerializationLibUtils.createMetaData(curSerializedObjs, null, 0);
+		final DataClayObjectMetaData mdata = SerializationLibUtils.createMetaData(curSerializedObjs,
+				null, 0, instance.getOriginalObjectID(),
+				instance.getRootLocation(),
+				instance.getOriginLocation(), instance.getReplicaLocations(),
+				instance.getAlias(), instance.isReadOnly());
 		return serializeForDB(instance.getObjectID(), mdata, byteArray, false);
-	}
-
-	/**
-	 * Modify refs (oids) in metadata
-	 * 
-	 * @param objWithData
-	 *            Obj with data
-	 * @param originalToVersion
-	 *            Oids to modify
-	 * @param hintsMap
-	 *            Hint of objects.
-	 */
-	public static void modifyMetadataOIDs(final ObjectWithDataParamOrReturn objWithData,
-			final Map<ObjectID, ObjectID> originalToVersion, final Map<ObjectID, ExecutionEnvironmentID> hintsMap) {
-		// Here means that object is not loaded! (Execution Environment)
-		// === LOAD OBJECT === //
-		final DataClayObjectMetaData metadata = objWithData.getMetaData();
-		metadata.modifyOids(originalToVersion, hintsMap);
 	}
 
 	/**

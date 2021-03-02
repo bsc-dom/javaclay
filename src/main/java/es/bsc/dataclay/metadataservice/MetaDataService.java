@@ -14,6 +14,7 @@ import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+import es.bsc.dataclay.util.management.metadataservice.*;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -41,10 +42,6 @@ import es.bsc.dataclay.util.ids.MetaClassID;
 import es.bsc.dataclay.util.ids.ObjectID;
 import es.bsc.dataclay.util.ids.StorageLocationID;
 import es.bsc.dataclay.util.management.AbstractManager;
-import es.bsc.dataclay.util.management.metadataservice.DataClayInstance;
-import es.bsc.dataclay.util.management.metadataservice.ExecutionEnvironment;
-import es.bsc.dataclay.util.management.metadataservice.MetaDataInfo;
-import es.bsc.dataclay.util.management.metadataservice.StorageLocation;
 import es.bsc.dataclay.util.structs.LruCache;
 import es.bsc.dataclay.util.structs.Tuple;
 import es.bsc.dataclay.dbhandler.sql.sqlite.SQLiteDataSource;
@@ -101,6 +98,7 @@ public final class MetaDataService extends AbstractManager {
 		this.objectMDCache = new LruCache<>(Configuration.Flags.MAX_ENTRIES_METADATASERVICE_CACHE.getIntValue());
 		this.objectMDCacheByAlias = new LruCache<>(Configuration.Flags.MAX_ENTRIES_METADATASERVICE_CACHE.getIntValue());
 		this.externalDataClaysCache = new LruCache<>(Configuration.Flags.MAX_ENTRIES_METADATASERVICE_CACHE.getIntValue());
+
 		this.dataClaysPerHostPortCache = new LruCache<>(Configuration.Flags.MAX_ENTRIES_METADATASERVICE_CACHE.getIntValue());
 
 
@@ -1076,9 +1074,9 @@ public final class MetaDataService extends AbstractManager {
 			final DataClayInstance dClayInfo = metadataDB.getDataClayInfo(dataClay.getDcID());
 			externalDataClaysCache.put(dataClay.getDcID(), dClayInfo);
 
-			for (int i = 0; i < dClayInfo.getHosts().length; ++i) { 
-				final String host = dClayInfo.getHosts()[i];
-				final Integer port = dClayInfo.getPorts()[i];
+			for (int i = 0; i < dClayInfo.getHosts().size(); ++i) {
+				final String host = dClayInfo.getHosts().get(i);
+				final Integer port = dClayInfo.getPorts().get(i);
 				final Tuple<String, Integer> key = new Tuple<>(host, port);
 				final DataClayInstanceID id = dataClaysPerHostPortCache.get(key);
 				if (id == null) {
@@ -1405,10 +1403,9 @@ public final class MetaDataService extends AbstractManager {
 	 * @return MetaDataInfo representation of the given object metadata
 	 */
 	private MetaDataInfo buildMetaDataInfo(final ObjectMetaData objectMD) {
-		final Map<ExecutionEnvironmentID, ExecutionEnvironment> objectMDlocations = new ConcurrentHashMap<>();
+		final Set<ExecutionEnvironmentID> objectMDlocations = ConcurrentHashMap.newKeySet();
 		for (final ExecutionEnvironmentID curLocID : objectMD.getExecutionEnvironmentIDs()) {
-			final ExecutionEnvironment loc = getExecutionEnvironment(curLocID);
-			objectMDlocations.put(curLocID, loc);
+			objectMDlocations.add(curLocID);
 		}
 		final MetaDataInfo result = new MetaDataInfo(objectMD.getDataClayID(), objectMD.getDataSetID(),
 				objectMD.getMetaClassID(), objectMD.isReadOnly(), objectMDlocations, objectMD.getAlias(),

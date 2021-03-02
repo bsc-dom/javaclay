@@ -6,6 +6,7 @@ package es.bsc.dataclay.logic.classmgr.bytecode.java.wrappers;
 
 import java.util.Collection;
 
+import es.bsc.dataclay.util.ids.ExecutionEnvironmentID;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.commons.GeneratorAdapter;
 import org.objectweb.asm.commons.InstructionAdapter;
@@ -105,7 +106,8 @@ public abstract class WrapParametersAndReturnTableSwitchGenerator extends DataCl
 					|| Reflector.isPrimitiveTypeName(typeName)
 					|| Reflector.isJavaTypeName(typeName)
 					|| Reflector.isArrayTypeName(typeName)
-					|| typeName.equals(ObjectID.class.getName())) {
+					|| typeName.equals(ObjectID.class.getName())
+					|| typeName.equals(ExecutionEnvironmentID.class.getName())) {
 				// =========== IMMUTABLES =============== //
 				// =========== LANGUAGE =============== //
 

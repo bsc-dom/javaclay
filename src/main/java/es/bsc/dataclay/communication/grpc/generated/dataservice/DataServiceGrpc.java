@@ -712,6 +712,68 @@ public final class DataServiceGrpc {
     return getUnfederateMethod;
   }
 
+  private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyFederationRequest,
+      es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> getNotifyFederationMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "notifyFederation",
+      requestType = es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyFederationRequest.class,
+      responseType = es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyFederationRequest,
+      es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> getNotifyFederationMethod() {
+    io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyFederationRequest, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> getNotifyFederationMethod;
+    if ((getNotifyFederationMethod = DataServiceGrpc.getNotifyFederationMethod) == null) {
+      synchronized (DataServiceGrpc.class) {
+        if ((getNotifyFederationMethod = DataServiceGrpc.getNotifyFederationMethod) == null) {
+          DataServiceGrpc.getNotifyFederationMethod = getNotifyFederationMethod =
+              io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyFederationRequest, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "notifyFederation"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyFederationRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.getDefaultInstance()))
+              .setSchemaDescriptor(new DataServiceMethodDescriptorSupplier("notifyFederation"))
+              .build();
+        }
+      }
+    }
+    return getNotifyFederationMethod;
+  }
+
+  private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyUnfederationRequest,
+      es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> getNotifyUnfederationMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "notifyUnfederation",
+      requestType = es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyUnfederationRequest.class,
+      responseType = es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyUnfederationRequest,
+      es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> getNotifyUnfederationMethod() {
+    io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyUnfederationRequest, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> getNotifyUnfederationMethod;
+    if ((getNotifyUnfederationMethod = DataServiceGrpc.getNotifyUnfederationMethod) == null) {
+      synchronized (DataServiceGrpc.class) {
+        if ((getNotifyUnfederationMethod = DataServiceGrpc.getNotifyUnfederationMethod) == null) {
+          DataServiceGrpc.getNotifyUnfederationMethod = getNotifyUnfederationMethod =
+              io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyUnfederationRequest, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "notifyUnfederation"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyUnfederationRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.getDefaultInstance()))
+              .setSchemaDescriptor(new DataServiceMethodDescriptorSupplier("notifyUnfederation"))
+              .build();
+        }
+      }
+    }
+    return getNotifyUnfederationMethod;
+  }
+
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.ExistsRequest,
       es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.ExistsResponse> getExistsMethod;
 
@@ -741,6 +803,37 @@ public final class DataServiceGrpc {
       }
     }
     return getExistsMethod;
+  }
+
+  private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.SynchronizeRequest,
+      es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> getSynchronizeMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "synchronize",
+      requestType = es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.SynchronizeRequest.class,
+      responseType = es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.SynchronizeRequest,
+      es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> getSynchronizeMethod() {
+    io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.SynchronizeRequest, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> getSynchronizeMethod;
+    if ((getSynchronizeMethod = DataServiceGrpc.getSynchronizeMethod) == null) {
+      synchronized (DataServiceGrpc.class) {
+        if ((getSynchronizeMethod = DataServiceGrpc.getSynchronizeMethod) == null) {
+          DataServiceGrpc.getSynchronizeMethod = getSynchronizeMethod =
+              io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.SynchronizeRequest, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "synchronize"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.SynchronizeRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.getDefaultInstance()))
+              .setSchemaDescriptor(new DataServiceMethodDescriptorSupplier("synchronize"))
+              .build();
+        }
+      }
+    }
+    return getSynchronizeMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.StoreToDBRequest,
@@ -1462,9 +1555,30 @@ public final class DataServiceGrpc {
 
     /**
      */
+    public void notifyFederation(es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyFederationRequest request,
+        io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
+      asyncUnimplementedUnaryCall(getNotifyFederationMethod(), responseObserver);
+    }
+
+    /**
+     */
+    public void notifyUnfederation(es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyUnfederationRequest request,
+        io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
+      asyncUnimplementedUnaryCall(getNotifyUnfederationMethod(), responseObserver);
+    }
+
+    /**
+     */
     public void exists(es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.ExistsRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.ExistsResponse> responseObserver) {
       asyncUnimplementedUnaryCall(getExistsMethod(), responseObserver);
+    }
+
+    /**
+     */
+    public void synchronize(es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.SynchronizeRequest request,
+        io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
+      asyncUnimplementedUnaryCall(getSynchronizeMethod(), responseObserver);
     }
 
     /**
@@ -1755,12 +1869,33 @@ public final class DataServiceGrpc {
                 es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>(
                   this, METHODID_UNFEDERATE)))
           .addMethod(
+            getNotifyFederationMethod(),
+            asyncUnaryCall(
+              new MethodHandlers<
+                es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyFederationRequest,
+                es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>(
+                  this, METHODID_NOTIFY_FEDERATION)))
+          .addMethod(
+            getNotifyUnfederationMethod(),
+            asyncUnaryCall(
+              new MethodHandlers<
+                es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyUnfederationRequest,
+                es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>(
+                  this, METHODID_NOTIFY_UNFEDERATION)))
+          .addMethod(
             getExistsMethod(),
             asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.ExistsRequest,
                 es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.ExistsResponse>(
                   this, METHODID_EXISTS)))
+          .addMethod(
+            getSynchronizeMethod(),
+            asyncUnaryCall(
+              new MethodHandlers<
+                es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.SynchronizeRequest,
+                es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>(
+                  this, METHODID_SYNCHRONIZE)))
           .addMethod(
             getStoreToDBMethod(),
             asyncUnaryCall(
@@ -2089,10 +2224,34 @@ public final class DataServiceGrpc {
 
     /**
      */
+    public void notifyFederation(es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyFederationRequest request,
+        io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(getNotifyFederationMethod(), getCallOptions()), request, responseObserver);
+    }
+
+    /**
+     */
+    public void notifyUnfederation(es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyUnfederationRequest request,
+        io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(getNotifyUnfederationMethod(), getCallOptions()), request, responseObserver);
+    }
+
+    /**
+     */
     public void exists(es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.ExistsRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.ExistsResponse> responseObserver) {
       asyncUnaryCall(
           getChannel().newCall(getExistsMethod(), getCallOptions()), request, responseObserver);
+    }
+
+    /**
+     */
+    public void synchronize(es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.SynchronizeRequest request,
+        io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(getSynchronizeMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
@@ -2427,9 +2586,30 @@ public final class DataServiceGrpc {
 
     /**
      */
+    public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo notifyFederation(es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyFederationRequest request) {
+      return blockingUnaryCall(
+          getChannel(), getNotifyFederationMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
+    public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo notifyUnfederation(es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyUnfederationRequest request) {
+      return blockingUnaryCall(
+          getChannel(), getNotifyUnfederationMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
     public es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.ExistsResponse exists(es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.ExistsRequest request) {
       return blockingUnaryCall(
           getChannel(), getExistsMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
+    public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo synchronize(es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.SynchronizeRequest request) {
+      return blockingUnaryCall(
+          getChannel(), getSynchronizeMethod(), getCallOptions(), request);
     }
 
     /**
@@ -2769,10 +2949,34 @@ public final class DataServiceGrpc {
 
     /**
      */
+    public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> notifyFederation(
+        es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyFederationRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(getNotifyFederationMethod(), getCallOptions()), request);
+    }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> notifyUnfederation(
+        es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyUnfederationRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(getNotifyUnfederationMethod(), getCallOptions()), request);
+    }
+
+    /**
+     */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.ExistsResponse> exists(
         es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.ExistsRequest request) {
       return futureUnaryCall(
           getChannel().newCall(getExistsMethod(), getCallOptions()), request);
+    }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> synchronize(
+        es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.SynchronizeRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(getSynchronizeMethod(), getCallOptions()), request);
     }
 
     /**
@@ -2946,24 +3150,27 @@ public final class DataServiceGrpc {
   private static final int METHODID_MAKE_PERSISTENT = 19;
   private static final int METHODID_FEDERATE = 20;
   private static final int METHODID_UNFEDERATE = 21;
-  private static final int METHODID_EXISTS = 22;
-  private static final int METHODID_STORE_TO_DB = 23;
-  private static final int METHODID_GET_FROM_DB = 24;
-  private static final int METHODID_UPDATE_TO_DB = 25;
-  private static final int METHODID_DELETE_TO_DB = 26;
-  private static final int METHODID_EXISTS_IN_DB = 27;
-  private static final int METHODID_CLEAN_EXECUTION_CLASS_DIRECTORY = 28;
-  private static final int METHODID_CLOSE_DB_HANDLER = 29;
-  private static final int METHODID_SHUT_DOWN = 30;
-  private static final int METHODID_DISCONNECT_FROM_OTHERS = 31;
-  private static final int METHODID_REGISTER_PENDING_OBJECTS = 32;
-  private static final int METHODID_CLEAN_CACHES = 33;
-  private static final int METHODID_ACTIVATE_TRACING = 34;
-  private static final int METHODID_DEACTIVATE_TRACING = 35;
-  private static final int METHODID_GET_TRACES = 36;
-  private static final int METHODID_CLOSE_SESSION_IN_DS = 37;
-  private static final int METHODID_UPDATE_REFS = 38;
-  private static final int METHODID_GET_RETAINED_REFERENCES = 39;
+  private static final int METHODID_NOTIFY_FEDERATION = 22;
+  private static final int METHODID_NOTIFY_UNFEDERATION = 23;
+  private static final int METHODID_EXISTS = 24;
+  private static final int METHODID_SYNCHRONIZE = 25;
+  private static final int METHODID_STORE_TO_DB = 26;
+  private static final int METHODID_GET_FROM_DB = 27;
+  private static final int METHODID_UPDATE_TO_DB = 28;
+  private static final int METHODID_DELETE_TO_DB = 29;
+  private static final int METHODID_EXISTS_IN_DB = 30;
+  private static final int METHODID_CLEAN_EXECUTION_CLASS_DIRECTORY = 31;
+  private static final int METHODID_CLOSE_DB_HANDLER = 32;
+  private static final int METHODID_SHUT_DOWN = 33;
+  private static final int METHODID_DISCONNECT_FROM_OTHERS = 34;
+  private static final int METHODID_REGISTER_PENDING_OBJECTS = 35;
+  private static final int METHODID_CLEAN_CACHES = 36;
+  private static final int METHODID_ACTIVATE_TRACING = 37;
+  private static final int METHODID_DEACTIVATE_TRACING = 38;
+  private static final int METHODID_GET_TRACES = 39;
+  private static final int METHODID_CLOSE_SESSION_IN_DS = 40;
+  private static final int METHODID_UPDATE_REFS = 41;
+  private static final int METHODID_GET_RETAINED_REFERENCES = 42;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -3070,9 +3277,21 @@ public final class DataServiceGrpc {
           serviceImpl.unfederate((es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.UnfederateRequest) request,
               (io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>) responseObserver);
           break;
+        case METHODID_NOTIFY_FEDERATION:
+          serviceImpl.notifyFederation((es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyFederationRequest) request,
+              (io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>) responseObserver);
+          break;
+        case METHODID_NOTIFY_UNFEDERATION:
+          serviceImpl.notifyUnfederation((es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.NotifyUnfederationRequest) request,
+              (io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>) responseObserver);
+          break;
         case METHODID_EXISTS:
           serviceImpl.exists((es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.ExistsRequest) request,
               (io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.ExistsResponse>) responseObserver);
+          break;
+        case METHODID_SYNCHRONIZE:
+          serviceImpl.synchronize((es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.SynchronizeRequest) request,
+              (io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>) responseObserver);
           break;
         case METHODID_STORE_TO_DB:
           serviceImpl.storeToDB((es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.StoreToDBRequest) request,
@@ -3225,7 +3444,10 @@ public final class DataServiceGrpc {
               .addMethod(getMakePersistentMethod())
               .addMethod(getFederateMethod())
               .addMethod(getUnfederateMethod())
+              .addMethod(getNotifyFederationMethod())
+              .addMethod(getNotifyUnfederationMethod())
               .addMethod(getExistsMethod())
+              .addMethod(getSynchronizeMethod())
               .addMethod(getStoreToDBMethod())
               .addMethod(getGetFromDBMethod())
               .addMethod(getUpdateToDBMethod())

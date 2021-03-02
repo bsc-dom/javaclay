@@ -16,6 +16,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
+import es.bsc.dataclay.util.management.metadataservice.ExecutionEnvironment;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.objectweb.asm.commons.Method;
@@ -663,7 +664,8 @@ public final class DataClay {
 			final ObjectID objectID = ids.getFirst();
 			final BackendID hint = ids.getSecond();
 			final MetaClassID classID = ids.getThird();
-			commonLib.newReplica(objectID, hint, null, destHost,false, true);
+			commonLib.newReplica(objectID, hint, null,
+					destHost, true);
 
 		} catch (final Exception e) {
 			throw new DataClayException(e);
@@ -833,6 +835,21 @@ public final class DataClay {
 	}
 
 	/**
+	 * Retrieves all Java backends
+
+	 * @return info of the backends
+	 */
+	public static Set<BackendID> getJavaBackends() {
+		Set<BackendID> result = new HashSet<>();
+		Set<ExecutionEnvironmentID> javaBackends =
+				commonLib.getAllExecutionEnvironmentsInfo(Langs.LANG_JAVA, true).keySet();
+		for (ExecutionEnvironmentID execID : javaBackends) {
+			result.add((BackendID) execID);
+		}
+		return result;
+	}
+
+	/**
 	 * Retrieves the info of a backend
 	 *
 	 * @param backendID
@@ -879,6 +896,42 @@ public final class DataClay {
 	}
 
 	/**
+	 * Retrieves the id of ANY java backend with name provided
+	 *
+	 * @param dsName DS name
+	 * @return id of ANY java backend with name provided
+	 */
+	public static BackendID getJavaBackend(final String dsName) {
+		try {
+			return commonLib.getBackendsWithName(Langs.LANG_JAVA, dsName).iterator().next();
+		} catch (final Exception ex) {
+			LOGGER.warn("Error during getJavaBackend", ex);
+			return null;
+		}
+	}
+
+	/**
+	 * Retrieves the id of external java backend with name provided in external dataClay specified
+	 *
+	 * @param dsName DS name
+	 * @param externalDcID External dataClay instance ID
+	 * @return id of external java backend with name provided in external dataClay specified
+	 */
+	public static BackendID getExternalJavaBackend(final String dsName, final DataClayInstanceID externalDcID) {
+		try {
+			for (ExecutionEnvironment execEnv :
+					commonLib.getAllExecutionEnvironmentsAtDataClay(Langs.LANG_JAVA, externalDcID).values()) {
+				if (execEnv.getName().equals(dsName)) {
+					return execEnv.getDataClayID();
+				}
+			}
+		} catch (final Exception ex) {
+			LOGGER.warn("Error during getExternalJavaBackend", ex);
+		}
+		return null;
+	}
+
+	/**
 	 * Retrieves the id of the external dataClay which Logic Module is located at
 	 * provided host and listening on specified port.
 	 *
@@ -889,7 +942,12 @@ public final class DataClay {
 	 * @return id of the external dataClay
 	 */
 	public static DataClayInstanceID getDataClayID(final String dcHost, final int dcPort) {
-		return ClientManagementLib.getExternalDataClayID(dcHost, dcPort);
+		try {
+			return commonLib.getExternalDataClayID(dcHost, dcPort);
+		} catch (final Exception ex) {
+			LOGGER.warn("Error during getExternalDataClayID", ex);
+			return null;
+		}
 	}
 
 	/**
@@ -903,7 +961,7 @@ public final class DataClay {
 	 * @return id of the external dataClay
 	 */
 	public static DataClayInstanceID registerDataClay(final String dcHost, final int dcPort) {
-		return ClientManagementLib.registerExternalDataClay(dcHost, dcPort);
+		return commonLib.registerExternalDataClay(dcHost, dcPort);
 	}
 
 	/**
@@ -948,14 +1006,14 @@ public final class DataClay {
 	 * @param extDataClayID External dataClay ID
 	 */
 	public static void unfederateAllObjects(final DataClayInstanceID extDataClayID) {
-		ClientManagementLib.unfederateAllObjects(extDataClayID);
+		commonLib.unfederateAllObjects(extDataClayID);
 	}
 
 	/**
 	 * Unfederate all objects belonging/federated with ANY external dataClay 
 	 */
 	public static void unfederateAllObjects() {
-		ClientManagementLib.unfederateAllObjectsWithAllDCs();
+		commonLib.unfederateAllObjectsWithAllDCs();
 	}
 
 	/**
@@ -966,7 +1024,7 @@ public final class DataClay {
 	 */
 	public static void migrateFederatedObjects(final DataClayInstanceID originDataClayID,
 											   final DataClayInstanceID destinationDataClayID) {
-		ClientManagementLib.migrateFederatedObjects(originDataClayID, destinationDataClayID);
+		commonLib.migrateFederatedObjects(originDataClayID, destinationDataClayID);
 	}
 
 	/**
@@ -976,7 +1034,7 @@ public final class DataClay {
 	 */
 	public static void federateAllObjects(
 			final DataClayInstanceID destinationDataClayID) {
-		ClientManagementLib.federateAllObjects(destinationDataClayID);
+		commonLib.federateAllObjects(destinationDataClayID);
 	}
 
 	/**
@@ -986,7 +1044,7 @@ public final class DataClay {
 	 */
 	public static void importModelsFromExternalDataClay(final String externalNamespace,
 														final DataClayInstanceID extDataClayID) {
-		ClientManagementLib.importModelsFromExternalDataClay(externalNamespace, extDataClayID);
+		commonLib.importModelsFromExternalDataClay(externalNamespace, extDataClayID);
 	}
 
 }

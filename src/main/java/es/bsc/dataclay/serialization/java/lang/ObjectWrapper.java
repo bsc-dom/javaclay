@@ -7,6 +7,7 @@ import java.util.ListIterator;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import es.bsc.dataclay.util.ids.ExecutionEnvironmentID;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -83,6 +84,15 @@ public final class ObjectWrapper extends DataClayJavaWrapper {
 			}
 			((ObjectID) genericObject).serialize(dcBuffer, ignoreUserTypes, ifaceBitMaps,
 					curSerializedObjs, pendingObjs, referenceCounting);
+
+		} else if (returnType.equals(ExecutionEnvironmentID.class)) {
+			dcBuffer.writeByte((byte) LanguageTypes.DATACLAY_EXECID.ordinal());
+			if (DataClaySerializationLib.DEBUG_ENABLED) {
+				DataClaySerializationLib.LOGGER.debug("[Serialization] --> Serialized generic type: data=" + LanguageTypes.DATACLAY_EXECID.ordinal() + ", writerIndex=" + dcBuffer.writerIndex());
+			}
+			((ExecutionEnvironmentID) genericObject).serialize(dcBuffer, ignoreUserTypes, ifaceBitMaps,
+					curSerializedObjs, pendingObjs, referenceCounting);
+
 
 		} else if (returnType.equals(Integer.class)) {
 			// ---------------- JAVA INTEGER ---------------- //
@@ -224,6 +234,10 @@ public final class ObjectWrapper extends DataClayJavaWrapper {
 			final ObjectID oid = new ObjectID();
 			oid.deserialize(dcBuffer, ifaceBitMaps, metadata, curDeserializedObjs);
 			this.genericObject = oid;
+		} else if (langTypeByte == (byte) LanguageTypes.DATACLAY_EXECID.ordinal()) {
+			final ExecutionEnvironmentID id = new ExecutionEnvironmentID();
+			id.deserialize(dcBuffer, ifaceBitMaps, metadata, curDeserializedObjs);
+			this.genericObject = id;
 		} else if (langTypeByte == (byte) LanguageTypes.JAVA_INTEGER.ordinal()) {
 			this.genericObject = dcBuffer.readInt();
 		} else if (langTypeByte == (byte) LanguageTypes.JAVA_BOOLEAN.ordinal()) {

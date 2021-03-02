@@ -1,9 +1,6 @@
 package es.bsc.dataclay.commonruntime;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
@@ -25,11 +22,7 @@ import es.bsc.dataclay.serialization.lib.ObjectWithDataParamOrReturn;
 import es.bsc.dataclay.serialization.lib.SerializedParametersOrReturn;
 import es.bsc.dataclay.util.Configuration;
 import es.bsc.dataclay.util.classloaders.DataClayClassLoader;
-import es.bsc.dataclay.util.ids.ExecutionEnvironmentID;
-import es.bsc.dataclay.util.ids.ImplementationID;
-import es.bsc.dataclay.util.ids.MetaClassID;
-import es.bsc.dataclay.util.ids.ObjectID;
-import es.bsc.dataclay.util.ids.SessionID;
+import es.bsc.dataclay.util.ids.*;
 import es.bsc.dataclay.util.management.metadataservice.MetaDataInfo;
 import es.bsc.dataclay.util.management.metadataservice.RegistrationInfo;
 import es.bsc.dataclay.util.management.sessionmgr.SessionInfo;
@@ -222,7 +215,7 @@ public final class ClientRuntime extends DataClayRuntime {
 
 			// Serialize objects
 			dcObject.setMasterLocation(location);
-
+			dcObject.setAlias(alias);
 			List<ObjectWithDataParamOrReturn> objectsToPersist = this.serializeMakePersistent(location, dcObject, null, recursive);
 
 			// Avoid some race-conditions in communication (make persistent + execute where
@@ -242,6 +235,14 @@ public final class ClientRuntime extends DataClayRuntime {
 			}
 			// =========================== //
 		}
+
+		// update cache of metadata info
+		Set<ExecutionEnvironmentID> locations = new HashSet<>();
+		locations.add((ExecutionEnvironmentID) location);
+		MetaDataInfo newMetaDataInfo = new MetaDataInfo(dcObject.getObjectID(),
+				dcObject.getDataSetID(), dcObject.getMetaClassID(), false,
+				locations, alias, null);
+		this.metaDataCache.put(dcObject.getObjectID(), newMetaDataInfo);
 
 		return location;
 	}

@@ -103,8 +103,26 @@ public class DataClayObject extends StorageObject implements DataClaySerializabl
 	/** 'LOCAL' location */
 	public static BackendID LOCAL;
 
+	/** Alias of the object. */
+	private String alias;
+
+	/** Indicates if object is read only. */
+	private boolean isReadOnly;
+
 	/** dataClay instance */
 	private DataClayInstanceID externalDataClayID;
+
+	/** Original objectID if object was versioned. */
+	private ObjectID originalObjectID;
+
+	/** ID of original object location. */
+	private ExecutionEnvironmentID rootLocation;
+
+	/** ID of origin object location (replicas): origin of the replica. */
+	private ExecutionEnvironmentID originLocation;
+
+	/** IDs of locations this replica-object was replicated to. */
+	private Set<ExecutionEnvironmentID> replicaLocations;
 
 	/**
 	 * RT PREFETCHING FIELDS
@@ -395,33 +413,14 @@ public class DataClayObject extends StorageObject implements DataClaySerializabl
 	}
 
 	/**
-	 * Runs the method with ID provided and params specified on a specific backend
-	 * 
-	 * @param location
-	 *            target backend of execution
-	 * @param implID
-	 *            ID of the method to invoke
-	 * @param params
-	 *            Parameters of the method
-	 * @return Result of the method
-	 */
-	public Object setInBackend(final BackendID location, final String implID, final Object[] params) {
-		return getLib().callExecuteToDS(this, params, new ImplementationID(implID), location, false);
-	}
-
-	/**
-	 * Runs the method with ID provided and params specified on external dataClays where object is federated
-	 * This function is only intended for calls in federation - replicated fields. 
-	 * NOTE: A real call to remote dataClay would require a new design of exceptions/volatiles between dataClays.
-	 * @param dcID
-	 *            External dataClay where to call this
+	 * Synchronize
 	 * @param implID
 	 *            implementation ID to be invoked on federated object
 	 * @param params
 	 *            Parameters of the method
 	 */
-	public void setInDataClayInstance(final DataClayInstanceID dcID, final ImplementationID implID, final Object[] params) {
-		getLib().synchronizeFederated(this, params, implID, dcID, true);
+	public void synchronize(final ImplementationID implID, final Object[] params) {
+		getLib().synchronize(this, params, implID);
 	}
 
 	/**
@@ -774,7 +773,8 @@ public class DataClayObject extends StorageObject implements DataClaySerializabl
 	 */
 	@Override
 	public final BackendID newReplica() {
-		return DataClayObject.getLib().newReplica(this.objectID, null, null, false,true);
+		return DataClayObject.getLib().newReplica(this.objectID, this.hint, null,
+				null,true);
 	}
 
 	/**
@@ -786,7 +786,8 @@ public class DataClayObject extends StorageObject implements DataClaySerializabl
 	 */
 	@Override
 	public final BackendID newReplica(final boolean recursive) {
-		return DataClayObject.getLib().newReplica(this.objectID, null, null, false, recursive);
+		return DataClayObject.getLib().newReplica(this.objectID, this.hint,
+				null, null, recursive);
 	}
 
 	/**
@@ -799,8 +800,8 @@ public class DataClayObject extends StorageObject implements DataClaySerializabl
 	 */
 	@Override
 	public final BackendID newReplica(final BackendID optionalBackendID) {
-		return DataClayObject.getLib().newReplica(this.objectID, optionalBackendID, null, false,
-				true);
+		return DataClayObject.getLib().newReplica(this.objectID, this.hint,
+				optionalBackendID, null, true);
 	}
 
 	/**
@@ -815,8 +816,9 @@ public class DataClayObject extends StorageObject implements DataClaySerializabl
 	 */
 	@Override
 	public final BackendID newReplica(final BackendID optionalBackendID, final boolean recursive) {
-		return DataClayObject.getLib().newReplica(this.objectID, optionalBackendID, null, false,
-				recursive);
+		return DataClayObject.getLib().newReplica(this.objectID, this.hint,
+				optionalBackendID,
+				null, recursive);
 	}
 
 	/**
@@ -906,8 +908,7 @@ public class DataClayObject extends StorageObject implements DataClaySerializabl
 	 *            whether to federate recursively or not
 	 */
 	public void federate(final DataClayInstanceID extDataClayID, final boolean recursive) {
-		DataClayObject.getLib().federateObject(this.objectID, extDataClayID, recursive, this.getMetaClassID(),
-				this.getHint());
+		DataClayObject.getLib().federateObject(this.objectID, this.getHint(), extDataClayID, recursive);
 	}
 	
 	/**
@@ -917,7 +918,7 @@ public class DataClayObject extends StorageObject implements DataClaySerializabl
 	 *            whether to unfederate recursively or not
 	 */
 	public void unfederate(final DataClayInstanceID extDataClayID, final boolean recursive) { 
-		DataClayObject.getLib().unfederateObject(this.objectID, extDataClayID, recursive);
+		DataClayObject.getLib().unfederateObject(this.objectID, this.getHint(), null, recursive);
 	}
 
 	/**
@@ -936,36 +937,67 @@ public class DataClayObject extends StorageObject implements DataClaySerializabl
 	 *            id of the external dataClay instance
 	 */
 	public void federate(final DataClayInstanceID extDataClayID) {
-		DataClayObject.getLib().federateObject(this.objectID, extDataClayID, true, this.getMetaClassID(),
-				this.getHint());
+		DataClayObject.getLib().federateObject(this.objectID, this.getHint(), extDataClayID, true);
 	}
+
 
 	/**
 	 * Unfederate this object with the provided external dataClay
 	 * @param extDataClayID  id of the external dataClay instance
 	 */
 	public void unfederate(final DataClayInstanceID extDataClayID) { 
-		DataClayObject.getLib().unfederateObject(this.objectID, extDataClayID, true);
+		DataClayObject.getLib().unfederateObject(this.objectID, this.getHint(), null, true);
 	}
-	
+
 	/**
-	 * Retrieve dataClay instances where this object is federated
-	 * 
-	 * @return set of dataClay instances id
+	 * Federates this object with an external backend instance
+	 *
+	 * @param extBackendID
+	 *            id of the external backend to federate
 	 */
-	public final Set<DataClayInstanceID> getFederationTargets() {
-		return getLib().getLogicModuleAPI().getDataClaysObjectIsFederatedWith(this.getObjectID());
+	public void federateToBackend(final BackendID extBackendID) {
+		DataClayObject.getLib().federateToBackend(this.objectID, this.getHint(),
+				(ExecutionEnvironmentID) extBackendID, true);
 	}
-	
+
 	/**
-	 * Retrieve dataClay instances where a federated object comes from or NULL if object is from current dc.
-	 * 
-	 * @return id of origin dataclay of the object or null
+	 * Federates this object with an external backend instance
+	 *
+	 * @param extBackendID
+	 *            id of the external backend to federate
+	 * @param recursive Indicates if federation is recursive or not
 	 */
-	public final DataClayInstanceID getFederationSource() {
-		return getLib().getLogicModuleAPI().getExternalSourceDataClayOfObject(this.getObjectID());
+	public void federateToBackend(final BackendID extBackendID, final boolean recursive) {
+		DataClayObject.getLib().federateToBackend(this.objectID, this.getHint(),
+				(ExecutionEnvironmentID) extBackendID, recursive);
 	}
-	
+
+	/**
+	 * Unfederates this object with an external backend instance
+	 *
+	 * @param extBackendID
+	 *            id of the external backend to federate
+	 */
+	public void unfederateFromBackend(final BackendID extBackendID) {
+		DataClayObject.getLib().unfederateFromBackend(this.objectID, this.getHint(),
+				(ExecutionEnvironmentID) extBackendID, true);
+	}
+
+
+	/**
+	 * Unfederates this object with an external backend instance
+	 *
+	 * @param extBackendID
+	 *            id of the external backend to federate
+	 * @param recursive Indicates if unfederation is recursive or not
+
+	 */
+	public void unfederateFromBackend(final BackendID extBackendID, final boolean recursive) {
+		DataClayObject.getLib().unfederateFromBackend(this.objectID, this.getHint(),
+				(ExecutionEnvironmentID) extBackendID, recursive);
+	}
+
+
 	/**
 	 * Retrieve dataClay ID
 	 * @param hostname Name of external dataclay 
@@ -995,124 +1027,6 @@ public class DataClayObject extends StorageObject implements DataClaySerializabl
 			logger.debug(
 					"[==Federation==] Class " + this.getClass().getName() + " has no whenUnfederated behaviour defined.");
 		}
-	}
-
-	/**
-	 * If this object is iterable, returns the list of elements that satisfy the specified given conditions
-	 * 
-	 * @param conditions
-	 *            a set of conditions representd in a String (e.g. "field1 == 0, field2 < 0")
-	 * @return list of elements satisfying all the query conditions
-	 */
-	public List<Object> filter(final String conditions) {
-		if (this.isPersistent()) {
-			return getLib().filterObject(this, conditions);
-		} else {
-			return filterObject(conditions);
-		}
-	}
-
-	/**
-	 * Protected method to be called either from EE or Client. If this object is iterable, returns the list of elements that
-	 * satisfy the specified given conditions
-	 * 
-	 * @param conditions
-	 *            a set of conditions representd in a String (e.g. "field1 = 0,field2 < 0")
-	 * @return list of elements satisfying all the query conditions
-	 */
-	protected List<Object> filterObject(final String conditions) {
-		final List<Object> result = new ArrayList<>();
-		// Check iterable object
-		if (!(this instanceof Iterable)) {
-			return result;
-		}
-
-		// Parse conditions
-		final List<List<Condition>> parsedConditions = ConditionParser.parseOrsOfAnds(conditions);
-
-		// Check each element
-		final Iterator<?> it = ((Iterable<?>) this).iterator();
-		while (it.hasNext()) {
-			final Object o = it.next();
-			boolean matchOr = false;
-
-			final Iterator<List<Condition>> itAnds = ((Iterable<List<Condition>>) parsedConditions).iterator();
-			while (itAnds.hasNext()) {
-
-				final List<Condition> subAndConditions = itAnds.next();
-				boolean matchAnd = true;
-				for (final Condition cond : subAndConditions) {
-					if (!cond.matches(o)) { // if any AND condition is not met, then whole AND is not met
-						matchAnd = false;
-						break;
-					}
-				}
-
-				if (matchAnd) { // if all AND conditions of current AND are met, then OR is met, then break
-					matchOr = true;
-					break;
-				}
-			}
-
-			if (matchOr) {
-				result.add(o);
-			}
-		}
-		return result;
-	}
-
-	/**
-	 * Filter this object (assuming it is a collection) with the specified conditions
-	 * 
-	 * @param conditions
-	 *            string-defined set of conditions compliant with ConditionParser
-	 * @return the set of objects of this collection matching the specified conditions
-	 */
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public List<Object> filterStream(final String conditions) {
-		List<Object> result = new ArrayList<>();
-		try {
-			// Check iterable object
-			if (!(this instanceof Iterable)) {
-				return result;
-			}
-			final Spliterator<?> it = ((Iterable<?>) this).spliterator();
-
-			// Parse conditions
-			final Predicate asAndedPredicate = ConditionParser.asOrOfAndsPredicate(conditions);
-
-			// Check each element
-			final Stream stream = StreamSupport.stream(it, false);
-			result = (List<Object>) stream.filter(asAndedPredicate).collect(Collectors.toList());
-		} catch (final Exception e) {
-			e.printStackTrace();
-		}
-		return result;
-	}
-
-	/**
-	 * Filter this object (assuming it is a collection) with the specified AST
-	 * 
-	 * @param ast
-	 *            an AST representation of the conditions compliant with ASTParser
-	 * @return the set of objects matching the specified conditions
-	 */
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public List<Object> filterByAST(final List<Object> ast) {
-		List<Object> result = new ArrayList<>();
-		// Check iterable object
-		if (!(this instanceof Iterable)) {
-			return result;
-		}
-		final Spliterator<?> it = ((Iterable<?>) this).spliterator();
-
-		// Parse conditions
-		final Predicate asAndedPredicate = ASTParser.asPredicate(ast);
-
-		// Check each element
-		final Stream stream = StreamSupport.stream(it, false);
-		result = (List<Object>) stream.filter(asAndedPredicate).collect(Collectors.toList());
-		return result;
 	}
 
 	@Override
@@ -1490,6 +1404,114 @@ public class DataClayObject extends StorageObject implements DataClaySerializabl
 	 */
 	public void setMasterLocation(final BackendID newMasterLocation) {
 		this.masterLocation = newMasterLocation;
+	}
+
+	/**
+	 * Get alias
+	 * @return the alias of the object
+	 */
+	public String getAlias() {
+		return alias;
+	}
+
+	/**
+	 * Set the alias of the object
+	 * @param alias the alias of the object
+	 */
+	public void setAlias(String alias) {
+		this.alias = alias;
+	}
+
+	/**
+	 * Get if object is read only
+	 * @return boolean indicating if object is read only or not
+	 */
+	public boolean isReadOnly() {
+		return isReadOnly;
+	}
+
+	/**
+	 * Set if object is read only
+	 * @param readOnly boolean indicating if object is read only or not
+	 */
+	public void setReadOnly(boolean readOnly) {
+		this.isReadOnly = readOnly;
+	}
+
+
+	/**
+	 * @return the original object id in case of new version
+	 */
+	public final ObjectID getOriginalObjectID() {
+		return this.originalObjectID;
+	}
+
+	/**
+	 *
+	 * @param newOriginalObjectID
+	 *            the original object id  to set
+	 */
+	public void setOriginalObjectID(final ObjectID newOriginalObjectID) {
+		this.originalObjectID = newOriginalObjectID;
+	}
+
+	/**
+	 *
+	 * @return root location of the object or null if current is original
+	 */
+	public ExecutionEnvironmentID getRootLocation() {
+		return rootLocation;
+	}
+
+	/**
+	 * Set root location of the object
+	 * @param rootLocation root location to set
+	 */
+	public void setRootLocation(ExecutionEnvironmentID rootLocation) {
+		this.rootLocation = rootLocation;
+	}
+
+	/**
+	 *
+	 * @return origin location of the object or null if current is original
+	 */
+	public ExecutionEnvironmentID getOriginLocation() {
+		return originLocation;
+	}
+
+	/**
+	 * Set origin location of the object
+	 * @param originLocation origin location to set
+	 */
+	public void setOriginLocation(ExecutionEnvironmentID originLocation) {
+		this.originLocation = originLocation;
+	}
+
+	/**
+	 * Get all replica locations
+	 * @return Replica locations
+	 */
+	public Set<ExecutionEnvironmentID> getReplicaLocations() {
+		return replicaLocations;
+	}
+
+	/**
+	 * Set replica locations
+	 * @param replicaLocations replica locations to set
+	 */
+	public void setReplicaLocations(Set<ExecutionEnvironmentID> replicaLocations) {
+		this.replicaLocations = replicaLocations;
+	}
+
+	/**
+	 * Add replica location
+	 * @param replicaLocation replica location to add
+	 */
+	public void addReplicaLocations(ExecutionEnvironmentID replicaLocation) {
+		if (this.replicaLocations == null) {
+			this.replicaLocations = ConcurrentHashMap.newKeySet();
+		}
+		this.replicaLocations.add(replicaLocation);
 	}
 
 	/**
