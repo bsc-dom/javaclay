@@ -467,17 +467,17 @@ public final class DataClay {
 	 */
 	public static String getLocation(final String objectIDstr) throws DataClayException {
 		try {
-			if (DEBUG_ENABLED) {
-				DataClayRuntime.LOGGER.debug("[dataClay] Get location for " + objectIDstr);
-			}
+			DataClayRuntime.LOGGER.debug("[dataClay] Get location for " + objectIDstr);
 			if (objectIDstr == null || objectIDstr.trim().isEmpty()) {
 				throw new DataClayException("ERROR in getLocation: Null or empty object string : " + objectIDstr);
 			}
 			final Triple<ObjectID, BackendID, MetaClassID> objectData = string2IDandHintID(objectIDstr);
 			return commonLib.getExecutionEnvironmentInfo(objectData.getSecond()).getHostname();
 		} catch (final DataClayException e) {
+			e.printStackTrace();
 			throw e;
 		} catch (final Exception ex) {
+			ex.printStackTrace();
 			LOGGER.debug("getLocation error", ex);
 			throw new DataClayException(ex);
 		}

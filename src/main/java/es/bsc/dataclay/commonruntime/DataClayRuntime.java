@@ -193,11 +193,19 @@ public abstract class DataClayRuntime {
 	 * @return Execution location information
 	 */
 	public final ExecutionEnvironment getExecutionEnvironmentInfo(final BackendID execLocationID) {
-		Map<ExecutionEnvironmentID, ExecutionEnvironment> execEnvs = getAllExecutionEnvironmentsInfo(Langs.LANG_JAVA, false);
-		ExecutionEnvironment execEnv = execEnvs.get(execLocationID);
-		if (execEnv == null) {
-			execEnvs = getAllExecutionEnvironmentsInfo(Langs.LANG_JAVA, true);
+		ExecutionEnvironment execEnv = null;
+		for (Langs language : Langs.values()) {
+			Map<ExecutionEnvironmentID, ExecutionEnvironment> execEnvs = getAllExecutionEnvironmentsInfo(language, false);
 			execEnv = execEnvs.get(execLocationID);
+			if (execEnv == null) {
+				execEnvs = getAllExecutionEnvironmentsInfo(language, true);
+				execEnv = execEnvs.get(execLocationID);
+				if (execEnv != null) {
+					break;
+				}
+			} else {
+				break;
+			}
 		}
 		return execEnv;
 	}
@@ -842,10 +850,14 @@ public abstract class DataClayRuntime {
 		if (destBackendID == null) {
 			if (optDestHostname != null) {
 				// Get some execution environment in that host
-				destBackend = getAllExecutionEnvironmentsAtHost(objectLanguage,
-						optDestHostname).values().iterator().next();
-				destBackendID = destBackend.getDataClayID();
-			} else {
+				Map<BackendID, ExecutionEnvironment> execsInHost = getAllExecutionEnvironmentsAtHost(objectLanguage,
+						optDestHostname);
+				if (execsInHost != null && !execsInHost.isEmpty()) {
+					destBackend = execsInHost.values().iterator().next();
+					destBackendID = destBackend.getDataClayID();
+				}
+			}
+			if (destBackend == null) {
 				// no destination backend specified, get one randomly in which object is
 				// not registered
 				// === RANDOM === //
@@ -863,8 +875,8 @@ public abstract class DataClayRuntime {
 							break;
 						}
 					}
-				} else {
-
+				}
+				if (destBackend == null) {
 					destBackendID = (ExecutionEnvironmentID) execLocationID;
 					destBackend = this.getExecutionEnvironmentInfo(destBackendID);
 				}
@@ -897,7 +909,7 @@ public abstract class DataClayRuntime {
 
 		// FIXME: retry in different replica location if it fails
 		Tuple<DataServiceAPI, ExecutionEnvironment> destInfo = this.prepareNewReplicaVersionConsolidate(objectID, objectHint,
-				optDestBackendID, optDestHostname, true);
+				optDestBackendID, optDestHostname, false);
 		DataServiceAPI dsAPI = destInfo.getFirst();
 		ExecutionEnvironment destBackend = destInfo.getSecond();
 		ExecutionEnvironmentID destBackendID = destBackend.getDataClayID();
