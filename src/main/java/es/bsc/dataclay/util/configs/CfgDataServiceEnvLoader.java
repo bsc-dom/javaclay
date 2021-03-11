@@ -8,6 +8,7 @@ import java.net.UnknownHostException;
 import java.util.EnumMap;
 import java.util.Map;
 
+import es.bsc.dataclay.util.Configuration;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -153,7 +154,7 @@ public final class CfgDataServiceEnvLoader {
 	private static DBHandlerConf parseConfiguration(final DBHandlerType dbHandlerType, final String name) {
 		switch(dbHandlerType) {
 		case SQLITE:
-			return new SQLiteHandlerConfig(name);
+			return new SQLiteHandlerConfig(name, Configuration.Flags.SQLITE_IN_MEMORY.getBooleanValue());
 		case NVRAM:
 			try {
 				final Class<?> nvramHandlerConfClass = Class.forName(NVRAM_HANDLER_CONF_CLASS_NAME);

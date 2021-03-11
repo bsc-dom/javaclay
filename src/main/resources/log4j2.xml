@@ -2,7 +2,7 @@
 <Configuration monitorInterval="60" status="off">
   <Appenders>
     <Console name="ConsoleAppender" target="SYSTEM_ERR">
-    	<PatternLayout pattern="%d{ISO8601} %p [%c] [%t] [%C{1}:%L] %m%n"></PatternLayout>
+        <PatternLayout pattern="%d{ISO8601} %p [%t:%C{1}:%L] %m%n"></PatternLayout>
     </Console>
   </Appenders>
 

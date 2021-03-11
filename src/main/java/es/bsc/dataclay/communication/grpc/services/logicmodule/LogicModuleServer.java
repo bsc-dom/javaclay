@@ -3,8 +3,14 @@ package es.bsc.dataclay.communication.grpc.services.logicmodule;
 
 import java.io.IOException;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.ForkJoinPool;
 
+import io.grpc.netty.shaded.io.netty.channel.EventLoopGroup;
+import io.grpc.netty.shaded.io.netty.channel.ServerChannel;
+import io.grpc.netty.shaded.io.netty.channel.epoll.EpollEventLoopGroup;
+import io.grpc.netty.shaded.io.netty.channel.epoll.EpollServerSocketChannel;
+import io.grpc.netty.shaded.io.netty.channel.nio.NioEventLoopGroup;
+import io.grpc.netty.shaded.io.netty.channel.socket.nio.NioServerSocketChannel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -42,7 +48,6 @@ public final class LogicModuleServer {
 		// final int maxMessageSize =
 		// Configuration.Flags.MAX_MESSAGE_SIZE.getIntValue();
 		final ThreadFactoryWithNamePrefix factory = new ThreadFactoryWithNamePrefix(srvName);
-
 		final NettyServerBuilder serverBuilder = NettyServerBuilder.forPort(port);
 	//	serverBuilder.maxMessageSize(Integer.MAX_VALUE);
 		serverBuilder.maxInboundMessageSize(maxMessageSize);
@@ -51,7 +56,44 @@ public final class LogicModuleServer {
 		serverBuilder.maxConcurrentCallsPerConnection(Integer.MAX_VALUE);
 	//	serverBuilder.keepAliveTime(10, TimeUnit.SECONDS);
 	//	serverBuilder.keepAliveTimeout(10, TimeUnit.SECONDS);
-		serverBuilder.executor(Executors.newCachedThreadPool(factory));
+		if (Configuration.Flags.GRPC_USE_FORK_JOIN_POOL.getBooleanValue()) {
+			serverBuilder.executor(ForkJoinPool.commonPool());
+		} else {
+			serverBuilder.executor(Executors.newCachedThreadPool(factory));
+		}
+		int numBossThreads = Configuration.Flags.GRPC_BOSS_NUM_THREADS.getIntValue();
+		int numWorkerThreads = Configuration.Flags.GRPC_WORKER_NUM_THREADS.getIntValue();
+		EventLoopGroup eventLoopGroupBoss = null;
+		EventLoopGroup eventLoopGroupWorker = null;
+		Class<? extends ServerChannel> channelType = null;
+		if (Configuration.Flags.GRPC_USER_EPOLL_THREAD_POOL.getBooleanValue()) {
+			eventLoopGroupBoss = new EpollEventLoopGroup();
+			eventLoopGroupWorker = new EpollEventLoopGroup();
+			channelType = EpollServerSocketChannel.class;
+		} else {
+			eventLoopGroupBoss = new NioEventLoopGroup();
+			eventLoopGroupWorker = new NioEventLoopGroup();
+			channelType = NioServerSocketChannel.class;
+		}
+
+		if (numBossThreads != -1) {
+			if (Configuration.Flags.GRPC_USER_EPOLL_THREAD_POOL.getBooleanValue()) {
+				eventLoopGroupBoss = new EpollEventLoopGroup(numBossThreads, factory);
+			} else {
+				eventLoopGroupBoss = new NioEventLoopGroup(numBossThreads, factory);
+			}
+		}
+		if (numWorkerThreads != -1) {
+			if (Configuration.Flags.GRPC_USER_EPOLL_THREAD_POOL.getBooleanValue()) {
+				eventLoopGroupWorker = new EpollEventLoopGroup(numWorkerThreads, factory);
+			} else {
+				eventLoopGroupWorker = new NioEventLoopGroup(numWorkerThreads, factory);
+			}
+
+		}
+		serverBuilder.bossEventLoopGroup(eventLoopGroupBoss);
+		serverBuilder.workerEventLoopGroup(eventLoopGroupWorker);
+		serverBuilder.channelType(channelType);
 
 		final LogicModuleService lms = new LogicModuleService(lm);
 

@@ -28,6 +28,8 @@ public class SQLiteDataSource {
             props.setProperty("journal_mode", "MEMORY");
             props.setProperty("synchronous", "OFF");
             url = url.trim();
+
+            String addr = extractAddress(url);
         ExtendedSQLiteConnection conn = new ExtendedSQLiteConnection(url,
                 extractAddress(url), props);
             // Getting the original SQLiteConnection to add the CHR function

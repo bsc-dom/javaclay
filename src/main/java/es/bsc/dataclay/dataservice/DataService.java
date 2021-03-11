@@ -806,7 +806,12 @@ public final class DataService implements DataServiceAPI {
                 final DataClayObject instance = runtime.getOrNewInstanceFromDB(objectID, true);
 
                 if (instance.getAlias() != null) {
-                    runtime.deleteAlias(instance.getAlias());
+                    instance.setAlias(null);
+                    try {
+                        runtime.deleteAlias(instance.getAlias());
+                    } catch (final Exception aliasNotExists) {
+                        // ignore if still not registered
+                    }
                 }
 
                 instance.whenUnfederated();

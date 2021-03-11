@@ -164,10 +164,27 @@ public final class Configuration {
 		SSL_CLIENT_KEY(null, ConfType.STRING),
 
 		/** Custom header of service alias for calls to Logic module. Used in Traefik. **/
-		LM_SERVICE_ALIAS_HEADERMSG("logicmodule1", ConfType.STRING),
+		SSL_TARGET_LM_ALIAS("11034", ConfType.STRING),
+
+		/** Custom header of service alias for calls to DS. Used in Traefik. **/
+		SSL_TARGET_DS_ALIAS("2127", ConfType.STRING),
 
 		/** Override authority hostname in SSL calls. */
 		SSL_TARGET_AUTHORITY("proxy", ConfType.STRING),
+
+		/** Indicates if netty servers and clients should use fork join pool instead of pool executor. */
+		GRPC_USE_FORK_JOIN_POOL(true, ConfType.BOOLEAN),
+
+		/** Indicates to use EPoll thread poll if possible. */
+		GRPC_USER_EPOLL_THREAD_POOL(false, ConfType.BOOLEAN),
+
+		/** Indicates numer of threads in boss and worker loop groups in Netty. */
+		GRPC_BOSS_NUM_THREADS(-1, ConfType.INTEGER),
+		GRPC_WORKER_NUM_THREADS(-1, ConfType.INTEGER),
+
+		/** Indicates SQLite should be executed in memory. */
+		SQLITE_IN_MEMORY(false, ConfType.BOOLEAN),
+
 
 		// =============== PARAVER ============ //
 

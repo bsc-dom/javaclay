@@ -9,6 +9,8 @@ import java.util.Arrays;
 import java.util.Properties;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.sqlite.SQLiteConnection;
 import org.sqlite.jdbc4.JDBC4PreparedStatement;
 
@@ -16,6 +18,9 @@ import es.bsc.dataclay.dbhandler.sql.common.SQLArray;
 import es.bsc.dataclay.dbhandler.sql.common.SQLResultSetWrapper;
 
 public class ExtendedPreparedStatement extends JDBC4PreparedStatement{
+
+	/** Logger. */
+	private static final Logger logger = LogManager.getLogger("SQLiteHandler");
 
 	public ExtendedPreparedStatement(SQLiteConnection conn, String sql) throws SQLException {
 		super(conn, sql);
@@ -35,6 +40,8 @@ public class ExtendedPreparedStatement extends JDBC4PreparedStatement{
 
 	@Override
 	public boolean execute() throws SQLException{
+
+		logger.debug(this.sql);
 		return super.execute();
 	}
 

@@ -39,7 +39,8 @@ public class SQLiteHandler extends SQLHandler<SQLiteHandlerConfig> {
 		if (dataSource == null) {
 			String url = "jdbc:sqlite:";
 			if(configuration.isInMemory()) {
-				url += ":memory:";
+				url += ":memory:?cache=shared";
+
 			}else {
 				url  += configuration.getDbPath();
 			}

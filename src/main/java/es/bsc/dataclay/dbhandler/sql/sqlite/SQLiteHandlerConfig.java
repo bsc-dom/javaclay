@@ -24,7 +24,7 @@ public class SQLiteHandlerConfig extends DBHandlerConf {
 	}
 
 	public SQLiteHandlerConfig(final String newdbname, boolean inMemory) {
-		this(newdbname);
+		this.dbName = newdbname;
 		this.inMemory = inMemory;
 	}
 

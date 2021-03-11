@@ -2,6 +2,7 @@ package es.bsc.dataclay.logic;
 
 import es.bsc.dataclay.dbhandler.sql.SQLHandler;
 import es.bsc.dataclay.dbhandler.sql.sqlite.SQLiteHandlerConfig;
+import es.bsc.dataclay.util.Configuration;
 
 public class SQLiteLogicModule extends LogicModule<SQLiteHandlerConfig>{
 	private final boolean inMemory;
@@ -14,7 +15,7 @@ public class SQLiteLogicModule extends LogicModule<SQLiteHandlerConfig>{
 
 	@Override
 	protected SQLiteHandlerConfig initDBConf() {
-		return new SQLiteHandlerConfig(name, false);
+		return new SQLiteHandlerConfig(name, Configuration.Flags.SQLITE_IN_MEMORY.getBooleanValue());
 	}
 
 	@Override

@@ -6,6 +6,7 @@ import java.lang.reflect.InvocationTargetException;
 
 import es.bsc.dataclay.dbhandler.sql.sqlite.SQLiteHandler;
 import es.bsc.dataclay.dbhandler.sql.sqlite.SQLiteHandlerConfig;
+import es.bsc.dataclay.util.Configuration;
 
 /**
  * Factory to return instances of specific DBHandlers, according to the provided type.
@@ -29,7 +30,7 @@ public class DBHandlerFactory {
 	public static DBHandler getDBHandler(DBHandlerType type) {
 		switch(type){
 			case SQLITE:
-				return new SQLiteHandler(new SQLiteHandlerConfig("test.db"));
+				return new SQLiteHandler(new SQLiteHandlerConfig("test.db",  Configuration.Flags.SQLITE_IN_MEMORY.getBooleanValue()));
 			case NVRAM:
 				try {
 					final Class<?> nvramHandlerClass = Class.forName(NVRAM_HANDLER_CLASS_NAME);

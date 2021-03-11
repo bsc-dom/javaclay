@@ -4,6 +4,7 @@
  */
 package es.bsc.dataclay.communication.grpc.clients.dataservice;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -12,12 +13,17 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import es.bsc.dataclay.api.BackendID;
+import es.bsc.dataclay.communication.grpc.generated.logicmodule.LogicModuleGrpc;
 import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages;
 import es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages;
+import io.grpc.netty.shaded.io.grpc.netty.GrpcSslContexts;
+import io.grpc.netty.shaded.io.netty.handler.ssl.SslContext;
+import io.grpc.netty.shaded.io.netty.handler.ssl.SslContextBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -144,16 +150,77 @@ public final class DataServiceGrpcClient implements DataServiceAPI {
 		// Logger.getLogger("io.grpc").setLevel(Level.OFF);
 		logger = LogManager.getLogger("grpc.client.dataservice");
 
-		ManagedChannelBuilder<?> chBuilder = NettyChannelBuilder.forAddress(host, port)
-				.maxHeaderListSize(Integer.MAX_VALUE)
-				.usePlaintext()
-				//.keepAliveTimeout(Integer.MAX_VALUE, TimeUnit.SECONDS)
-				//.keepAliveWithoutCalls(true)
-				.maxInboundMessageSize(Integer.MAX_VALUE)//.negotiationType(NegotiationType.PLAINTEXT)
-				.maxInboundMetadataSize(Integer.MAX_VALUE);
+
+
+
+		NettyChannelBuilder chBuilder = null;
+		String serviceAlias = null;
+		// Check if paths to certificates are defined
+		if (Configuration.Flags.SSL_CLIENT_TRUSTED_CERTIFICATES.getStringValue() != null
+				|| Configuration.Flags.SSL_CLIENT_CERTIFICATE.getStringValue() != null
+				|| Configuration.Flags.SSL_CLIENT_KEY.getStringValue() != null) {
+			try {
+
+				if (port != 443) {
+					serviceAlias = String.valueOf(port);
+					logger.info("SSL configured: Changing " + host + ":" + port + " to " + host + ":443");
+					chBuilder = NettyChannelBuilder.forAddress(host,443);
+				} else {
+					serviceAlias = Configuration.Flags.SSL_TARGET_DS_ALIAS.getStringValue();
+					chBuilder = NettyChannelBuilder.forAddress(host, port);
+				}
+
+
+				chBuilder.useTransportSecurity();
+				final SslContextBuilder sslContextBuilder = GrpcSslContexts.forClient();
+				if (Configuration.Flags.SSL_CLIENT_TRUSTED_CERTIFICATES.getStringValue() != null) {
+					sslContextBuilder.trustManager(new File(Configuration.Flags.SSL_CLIENT_TRUSTED_CERTIFICATES.getStringValue()));
+				}
+				if (Configuration.Flags.SSL_CLIENT_CERTIFICATE.getStringValue() != null
+						&& Configuration.Flags.SSL_CLIENT_KEY.getStringValue() != null) {
+					sslContextBuilder.keyManager(new File(Configuration.Flags.SSL_CLIENT_CERTIFICATE.getStringValue()),
+							new File(Configuration.Flags.SSL_CLIENT_KEY.getStringValue()));
+				}
+				final SslContext sslContext = sslContextBuilder.build();
+				chBuilder.overrideAuthority(Configuration.Flags.SSL_TARGET_AUTHORITY.getStringValue());
+				chBuilder.sslContext(sslContext);
+			} catch (final Exception e) {
+				e.printStackTrace();
+			}
+			logger.info("SSL configured: using SSL_CLIENT_TRUSTED_CERTIFICATES located at " + Configuration.Flags.SSL_CLIENT_TRUSTED_CERTIFICATES.getStringValue());
+			logger.info("SSL configured: using SSL_CLIENT_CERTIFICATE located at " + Configuration.Flags.SSL_CLIENT_CERTIFICATE.getStringValue());
+			logger.info("SSL configured: using SSL_CLIENT_KEY located at " + Configuration.Flags.SSL_CLIENT_KEY.getStringValue());
+
+		} else {
+			chBuilder = NettyChannelBuilder.forAddress(host, port);
+			chBuilder.usePlaintext();
+			//chBuilder.negotiationType(NegotiationType.PLAINTEXT);
+			logger.info("Not using SSL");
+
+		}
+
+		if (Configuration.Flags.GRPC_USE_FORK_JOIN_POOL.getBooleanValue()) {
+			chBuilder.executor(ForkJoinPool.commonPool());
+		}
+		chBuilder.maxInboundMetadataSize(Integer.MAX_VALUE);
+		chBuilder.maxHeaderListSize(Integer.MAX_VALUE);
+		chBuilder.maxInboundMessageSize(Integer.MAX_VALUE);
+
 		channel = chBuilder.build();
-		blockingStub = DataServiceGrpc.newBlockingStub(channel).withMaxOutboundMessageSize(Integer.MAX_VALUE)
-				.withMaxInboundMessageSize(Integer.MAX_VALUE); 
+
+		// Capture the metadata exchange
+		if (Configuration.Flags.SSL_CLIENT_TRUSTED_CERTIFICATES.getStringValue() != null
+				|| Configuration.Flags.SSL_CLIENT_CERTIFICATE.getStringValue() != null
+				|| Configuration.Flags.SSL_CLIENT_KEY.getStringValue() != null) {
+			final Metadata fixedHeaders = new Metadata();
+			logger.info("SSL configured: added rule: " + CommonGrpcClient.SERVICE_ALIAS_HEADER_KEY + " = " + port);
+			fixedHeaders.put(CommonGrpcClient.SERVICE_ALIAS_HEADER_KEY, serviceAlias);
+			blockingStub = MetadataUtils.attachHeaders(DataServiceGrpc.newBlockingStub(channel), fixedHeaders);
+		} else {
+			blockingStub = DataServiceGrpc.newBlockingStub(channel).withMaxOutboundMessageSize(Integer.MAX_VALUE)
+					.withMaxInboundMessageSize(Integer.MAX_VALUE);
+		}
+
 
 
 	}

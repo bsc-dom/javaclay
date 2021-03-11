@@ -204,7 +204,7 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
     public PasswordCredential dcCredentials = new PasswordCredential(DC_REGISTRATOR);
 
     /** IPs to be send to clients when information of a registered EE/SL is required. Can be null.*/
-    private final String exposedIPForClient;
+    private String exposedIPForClient;
 
     /** Account to register federation stuff. */
     private static final String FEDERATOR_ACCOUNT_USERNAME = "Federator";
@@ -267,7 +267,9 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
 
         hostname = thehostname;
         port = theport;
-        this.exposedIPForClient = theexposedIPForClient;
+        if (theexposedIPForClient != null && !theexposedIPForClient.isEmpty()) {
+            this.exposedIPForClient = theexposedIPForClient;
+        }
         grpcClient = new CommonGrpcClient(lmName);
         accountMgrApi = new AccountManager(dataSource);
         sessionMgrApi = new SessionManager(dataSource);
@@ -589,7 +591,7 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
      * Update APIs for all registered environments/storage locations
      */
     protected void updateAPIsFromDB() {
-        for (final ExecutionEnvironment execEnv : metaDataSrvApi.getAllExecutionEnvironmentsInfo(null).values()) {
+        for (final ExecutionEnvironment execEnv : this.getAllExecutionEnvironmentsInfo(null, false).values()) {
             try {
                 initRemoteTCPExecutionEnvironment(execEnv.getDataClayID(),
                         execEnv.getName(), execEnv.getHostname(), execEnv.getPort(), execEnv.getLang());
@@ -666,6 +668,7 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
     private ExecutionEnvironment initRemoteTCPExecutionEnvironment(final ExecutionEnvironmentID execID,
                                                                    final String dsName, final String dsHostname,
                                                                    final int dsTCPPort, final Langs dsLang) throws InterruptedException {
+
         final DataServiceAPI dsApi = grpcClient.getDataServiceAPI(dsHostname, dsTCPPort);
         final ExecutionEnvironment dsEE = new ExecutionEnvironment(dsHostname, dsName, dsTCPPort, dsLang,
                 this.getDataClayID());
@@ -3660,6 +3663,12 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
         final Map<ExecutionEnvironmentID, ExecutionEnvironment> execEnvs = metaDataSrvApi
                 .getAllExecutionEnvironmentsInfo(execEnvLang);
 
+        if (exposedIPForClient != null) {
+            // All information send to client will use exposed IP configured
+            for (final Entry<ExecutionEnvironmentID, ExecutionEnvironment> ee : execEnvs.entrySet()) {
+                ee.getValue().setHostname(exposedIPForClient);
+            }
+        }
         if (getExternal) {
             for (DataClayInstanceID externalDataClayID : this.metaDataSrvApi.getAllExternalDataClays()) {
 
@@ -3677,12 +3686,7 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
             }
         }
 
-        if (exposedIPForClient != null) {
-            // All information send to client will use exposed IP configured
-            for (final Entry<ExecutionEnvironmentID, ExecutionEnvironment> ee : execEnvs.entrySet()) {
-                ee.getValue().setHostname(exposedIPForClient);
-            }
-        }
+
         if (DEBUG_ENABLED) {
             for (ExecutionEnvironment execEnv : execEnvs.values()) {
                 LOGGER.debug("Found execution environment with ID {}: {}", execEnv.getDataClayID(), execEnv);
@@ -3694,12 +3698,22 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
 
     @Override
     public StorageLocation getStorageLocationInfo(final StorageLocationID backendID) {
-        return metaDataSrvApi.getStorageLocationInfo(backendID);
+        StorageLocation stLoc = metaDataSrvApi.getStorageLocationInfo(backendID);
+        if (exposedIPForClient != null) {
+            // All information send to client will use exposed IP configured
+            stLoc.setHostname(exposedIPForClient);
+        }
+        return stLoc;
+
     }
 
     @Override
     public ExecutionEnvironment getExecutionEnvironmentInfo(final ExecutionEnvironmentID backendID) {
         ExecutionEnvironment execEnv = metaDataSrvApi.getExecutionEnvironmentInfo(backendID);
+        if (exposedIPForClient != null) {
+            // All information send to client will use exposed IP configured
+            execEnv.setHostname(exposedIPForClient);
+        }
         LOGGER.debug("Found execution environment with ID {}: {}", backendID, execEnv);
         return execEnv;
 
@@ -3922,8 +3936,14 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
             }
 
             final LogicModuleAPI lmExternal = grpcClient.getLogicModuleAPI(thehostname, theport);
+
+            String myHostname = this.hostname;
+            if (exposedIPForClient != null) {
+                myHostname = exposedIPForClient;
+            }
+
             final DataClayInstanceID dcID = lmExternal.notifyRegistrationOfExternalDataClay(this.getDataClayID(),
-                    this.hostname, this.port);
+                    myHostname, this.port);
             final DataClayInstance dcInstance = new DataClayInstance(dcID, thehostname, theport);
             metaDataSrvApi.registerExternalDataclay(dcInstance);
             if (DEBUG_ENABLED) {

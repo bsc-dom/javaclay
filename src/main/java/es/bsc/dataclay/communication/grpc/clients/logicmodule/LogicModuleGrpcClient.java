@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BiConsumer;
@@ -141,21 +142,31 @@ public final class LogicModuleGrpcClient implements LogicModuleAPI {
 		 * port); String actualHost = actualAddress.getFirst(); int actualPort =
 		 * actualAddress.getSecond();
 		 */
-		final NettyChannelBuilder chBuilder = NettyChannelBuilder.forAddress(host, port)
-				.maxInboundMessageSize(Integer.MAX_VALUE).maxInboundMetadataSize(Integer.MAX_VALUE);
-		
+		NettyChannelBuilder chBuilder = null;
+		String serviceAlias = null;
 		// Check if paths to certificates are defined 
 		if (Configuration.Flags.SSL_CLIENT_TRUSTED_CERTIFICATES.getStringValue() != null
 				|| Configuration.Flags.SSL_CLIENT_CERTIFICATE.getStringValue() != null
 				|| Configuration.Flags.SSL_CLIENT_KEY.getStringValue() != null) {
 			try {
+
+				if (port != 443) {
+					serviceAlias = String.valueOf(port);
+					logger.info("SSL configured: Changing " + host + ":" + port + " to " + Configuration.Flags.SSL_TARGET_AUTHORITY.getStringValue() + ":443");
+					chBuilder = NettyChannelBuilder.forAddress(host,
+							443);
+				} else {
+					serviceAlias = Configuration.Flags.SSL_TARGET_LM_ALIAS.getStringValue();
+					chBuilder = NettyChannelBuilder.forAddress(host, port);
+				}
+
 				chBuilder.useTransportSecurity();
 				final SslContextBuilder sslContextBuilder = GrpcSslContexts.forClient(); 
-				if (Configuration.Flags.SSL_CLIENT_TRUSTED_CERTIFICATES.getStringValue() != null) { 
+				if (Configuration.Flags.SSL_CLIENT_TRUSTED_CERTIFICATES.getStringValue() != null) {
 					sslContextBuilder.trustManager(new File(Configuration.Flags.SSL_CLIENT_TRUSTED_CERTIFICATES.getStringValue()));
 				} 
 				if (Configuration.Flags.SSL_CLIENT_CERTIFICATE.getStringValue() != null 
-						&& Configuration.Flags.SSL_CLIENT_KEY.getStringValue() != null) { 
+						&& Configuration.Flags.SSL_CLIENT_KEY.getStringValue() != null) {
 					sslContextBuilder.keyManager(new File(Configuration.Flags.SSL_CLIENT_CERTIFICATE.getStringValue()),
 			            		new File(Configuration.Flags.SSL_CLIENT_KEY.getStringValue()));
 				}
@@ -169,18 +180,34 @@ public final class LogicModuleGrpcClient implements LogicModuleAPI {
 			logger.info("SSL configured: using SSL_CLIENT_CERTIFICATE located at " + Configuration.Flags.SSL_CLIENT_CERTIFICATE.getStringValue());
 			logger.info("SSL configured: using SSL_CLIENT_KEY located at " + Configuration.Flags.SSL_CLIENT_KEY.getStringValue());
 
-		} else { 
+		} else {
+			chBuilder = NettyChannelBuilder.forAddress(host, port);
 			chBuilder.usePlaintext();
 			//chBuilder.negotiationType(NegotiationType.PLAINTEXT); 
 			logger.info("Not using SSL");
 
 		}
+
+
+		if (Configuration.Flags.GRPC_USE_FORK_JOIN_POOL.getBooleanValue()) {
+			chBuilder.executor(ForkJoinPool.commonPool());
+		}
+		chBuilder.maxInboundMetadataSize(Integer.MAX_VALUE);
+		chBuilder.maxHeaderListSize(Integer.MAX_VALUE);
+		chBuilder.maxInboundMessageSize(Integer.MAX_VALUE);
 		channel = chBuilder.build();
 		// Capture the metadata exchange
-		final Metadata fixedHeaders = new Metadata();
-		fixedHeaders.put(CommonGrpcClient.SERVICE_ALIAS_HEADER_KEY, Configuration.Flags.LM_SERVICE_ALIAS_HEADERMSG.getStringValue());
-		blockingStub = MetadataUtils.attachHeaders(LogicModuleGrpc.newBlockingStub(channel), fixedHeaders);
-		asyncStub = MetadataUtils.attachHeaders(LogicModuleGrpc.newStub(channel), fixedHeaders);
+		if (Configuration.Flags.SSL_CLIENT_TRUSTED_CERTIFICATES.getStringValue() != null
+				|| Configuration.Flags.SSL_CLIENT_CERTIFICATE.getStringValue() != null
+				|| Configuration.Flags.SSL_CLIENT_KEY.getStringValue() != null) {
+			final Metadata fixedHeaders = new Metadata();
+			logger.info("SSL configured: added rule: " + CommonGrpcClient.SERVICE_ALIAS_HEADER_KEY + " = " + serviceAlias);
+			fixedHeaders.put(CommonGrpcClient.SERVICE_ALIAS_HEADER_KEY, serviceAlias);
+			blockingStub = MetadataUtils.attachHeaders(LogicModuleGrpc.newBlockingStub(channel), fixedHeaders);
+		} else {
+			blockingStub = LogicModuleGrpc.newBlockingStub(channel);
+		}
+		//asyncStub = MetadataUtils.attachHeaders(LogicModuleGrpc.newStub(channel), fixedHeaders);
 		
 		//blockingStub.getCallOptions().withMaxOutboundMessageSize(Integer.MAX_VALUE);
 		//asyncStub.getCallOptions().withMaxOutboundMessageSize(Integer.MAX_VALUE);
