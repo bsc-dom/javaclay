@@ -192,8 +192,8 @@ public final class DataService implements DataServiceAPI {
      */
     private void initEEInfo() {
         try {
-            final FileInputStream fis = new FileInputStream(Configuration.Flags.EE_PERSISTENT_INFO_PATH.getStringValue()
-                    + "ee" + this.dsName + ".info");
+            final FileInputStream fis = new FileInputStream(Configuration.Flags.STORAGE_PATH.getStringValue()
+                    + File.separatorChar + "java_ds_" + this.dsName + ".info");
             final ObjectInputStream ois = new ObjectInputStream(fis);
             final ExecutionEnvironmentPersistentInfo persInfo = (ExecutionEnvironmentPersistentInfo) ois.readObject();
             this.executionEnvironmentID = persInfo.getExecutionEnvironmentID();
@@ -219,8 +219,8 @@ public final class DataService implements DataServiceAPI {
      */
     public void persistEEInfo() {
         try {
-            final FileOutputStream fos = new FileOutputStream(Configuration.Flags.EE_PERSISTENT_INFO_PATH.getStringValue()
-                    + "ee" + this.dsName + ".info");
+            final FileOutputStream fos = new FileOutputStream(Configuration.Flags.STORAGE_PATH.getStringValue()
+                    + File.separatorChar + "java_ds_" + this.dsName + ".info");
             final ObjectOutputStream oos = new ObjectOutputStream(fos);
             final ExecutionEnvironmentPersistentInfo eeInfo = new ExecutionEnvironmentPersistentInfo(
                     this.executionEnvironmentID, this.storageLocationID);

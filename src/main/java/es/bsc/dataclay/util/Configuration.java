@@ -129,9 +129,6 @@ public final class Configuration {
 		 */
 		CHECK_READ_ONLY(false, ConfType.BOOLEAN),
 
-		/** Indicates path to persistent information of EE. */
-		EE_PERSISTENT_INFO_PATH(System.getProperty("user.dir") + File.separatorChar, ConfType.STRING),
-
 		/** State file for healthcheck. */
 		STATE_FILE_PATH("state.txt", ConfType.STRING),
 

@@ -541,10 +541,12 @@
             <id>oss.sonatype.org</id>
             <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
         </repository>
+        <!--
         <repository>
             <id>Maven repository for Extrae java dependencies</id>
             <url>https://raw.github.com/bsc-dom/dataclay-tracing/repository</url>
         </repository>
+        -->
     </repositories>
 
     <!-- Dependencies -->
@@ -649,11 +651,13 @@
             <version>${aspectj.version}</version> </dependency> <dependency> <groupId>org.aspectj</groupId>
             <artifactId>aspectjweaver</artifactId> <version>${aspectj.version}</version>
             <scope>provided</scope> </dependency> -->
+        <!--
         <dependency>
             <groupId>es.bsc.dataclay</groupId>
             <artifactId>extrae</artifactId>
             <version>3.6.1</version>
         </dependency>
+        -->
 
         <dependency>
             <groupId>org.reflections</groupId>
