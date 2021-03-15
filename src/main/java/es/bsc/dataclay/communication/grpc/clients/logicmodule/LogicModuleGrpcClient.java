@@ -1541,11 +1541,13 @@ public final class LogicModuleGrpcClient implements LogicModuleAPI {
 			@Override
 			public void onNext(final ExceptionInfo summary) {
 				// do nothing
+				asyncReqReceived.incrementAndGet();
 			}
 
 			@Override
 			public void onError(final Throwable t) {
 				logger.debug("responseObserver for registerObjectsFromDSGarbageCollector got an error", t);
+				asyncReqReceived.incrementAndGet();
 			}
 
 			@Override
@@ -1611,6 +1613,7 @@ public final class LogicModuleGrpcClient implements LogicModuleAPI {
 			@Override
 			public void onError(final Throwable t) {
 				logger.debug("responseObserver for setDataSetIDFromGarbageCollector got an error", t);
+				asyncReqReceived.incrementAndGet();
 			}
 
 			@Override

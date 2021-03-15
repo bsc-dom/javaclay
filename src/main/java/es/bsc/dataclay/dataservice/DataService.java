@@ -1894,7 +1894,7 @@ public final class DataService implements DataServiceAPI {
         if (instance.isPendingToRegister()) {
             final byte[] arrBytes = DataClaySerializationLib.serializeForDBGarbageCollection(instance, false, null,
                     false);
-            registerAndStorePendingObject(instance, arrBytes, false);
+            registerAndStorePendingObject(instance, arrBytes, true);
             instance.setPendingToRegister(false);
 
         } else if (instance.isDirty()) {
