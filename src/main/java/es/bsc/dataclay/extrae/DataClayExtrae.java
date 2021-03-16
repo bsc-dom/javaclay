@@ -69,10 +69,10 @@ public final class DataClayExtrae {
 
 					taskID = currentAvailableTaskID;
 					currentAvailableTaskID++;
-					ExtraeWrapperJNI.SetTaskID(taskID);
-					ExtraeWrapperJNI.SetNumTasks(taskID + 1);
+					es.bsc.cepbatools.extrae.Wrapper.SetTaskID(taskID);
+					es.bsc.cepbatools.extrae.Wrapper.SetNumTasks(taskID + 1);
 					logger.debug("** Calling Extrae Wrapper.Init()");
-					ExtraeWrapperJNI.Init();
+					es.bsc.cepbatools.extrae.Wrapper.Init();
 				} else {
 					// if we have starting task ID = 2, then 1 master and 1 worker are set
 					// so we will have:
@@ -87,7 +87,7 @@ public final class DataClayExtrae {
 				//Paraver.enablePThreads();
 				extraeTracing = true;
 				logger.debug("** INITIALIZED Extrae TRACING FOR task ID " + taskID + ". Extrae has "
-						+ ExtraeWrapperJNI.GetNumTasks() + " tasks "
+						+ es.bsc.cepbatools.extrae.Wrapper.GetNumTasks() + " tasks "
 						+ ". \n WARNING: Application will NOT be traced if no " +
 						" initialization was done (COMPSs initializes it) or Paraver aspects injection was not applied");
 
@@ -106,9 +106,9 @@ public final class DataClayExtrae {
 		if (COMPILE_EXTRAE) {
 			extraeTracing = true;
 			taskID = currentAvailableTaskID;
-			ExtraeWrapperJNI.SetNumTasks(taskID + 1);
+			es.bsc.cepbatools.extrae.Wrapper.SetNumTasks(taskID + 1);
 			logger.debug("** ENABLED Extrae TRACING FOR task ID " + taskID + ". Extrae has "
-					+ ExtraeWrapperJNI.GetNumTasks() + " tasks "
+					+ es.bsc.cepbatools.extrae.Wrapper.GetNumTasks() + " tasks "
 					+ ". \n WARNING: Trace with Extrae if enabled. Application will NOT be traced if no " +
 					" initialization was done (COMPSs initializes it) or Paraver aspects injection was not applied");
 		}
@@ -124,11 +124,11 @@ public final class DataClayExtrae {
 				defineEventTypes();
 				extraeTracing = false;
 				generatedTraces = true;
-				logger.debug("** FINISHED Extrae TRACING FOR " + taskID + " with task ID " + ExtraeWrapperJNI.GetTaskID());
+				logger.debug("** FINISHED Extrae TRACING FOR " + taskID + " with task ID " + es.bsc.cepbatools.extrae.Wrapper.GetTaskID());
 
 			}
 			logger.debug("** DISABLED Extrae TRACING FOR task ID " + taskID + ". Extrae has "
-					+ ExtraeWrapperJNI.GetNumTasks() + " tasks "
+					+ es.bsc.cepbatools.extrae.Wrapper.GetNumTasks() + " tasks "
 					+ ". \n WARNING: Trace with Extrae if enabled. Application will NOT be traced if no " +
 					" initialization was done (COMPSs initializes it) or Paraver aspects injection was not applied");
 		}
@@ -145,7 +145,7 @@ public final class DataClayExtrae {
 				//Wrapper.SetOptions(Wrapper.EXTRAE_ENABLE_ALL_OPTIONS & ~Wrapper.EXTRAE_PTHREAD_OPTION);
 				if (finalizeWrapper) {
 					logger.debug("** Calling Extrae Wrapper.Fini()");
-					ExtraeWrapperJNI.Fini();
+					es.bsc.cepbatools.extrae.Wrapper.Fini();
 				}
 			/* else {
 				logger.debug("** WARNING: NOT calling Extrae Wrapper.Fini()");
@@ -160,7 +160,7 @@ public final class DataClayExtrae {
 				//Wrapper.SetOptions(Wrapper.EXTRAE_DISABLE_ALL_OPTIONS);
 				extraeTracing = false;
 				generatedTraces = true;
-				logger.debug("** FINISHED Extrae TRACING FOR " + taskID + " with task ID " + ExtraeWrapperJNI.GetTaskID());
+				logger.debug("** FINISHED Extrae TRACING FOR " + taskID + " with task ID " + es.bsc.cepbatools.extrae.Wrapper.GetTaskID());
 
 
 
@@ -185,9 +185,9 @@ public final class DataClayExtrae {
 			if (methodID != null) {
 				tracedMethods.put(methodSignature, methodID);
 				if (enter) {
-					ExtraeWrapperJNI.Event(EVENT_TYPE, methodID);
+					es.bsc.cepbatools.extrae.Wrapper.Event(EVENT_TYPE, methodID);
 				} else {
-					ExtraeWrapperJNI.Event(EVENT_TYPE, 0);
+					es.bsc.cepbatools.extrae.Wrapper.Event(EVENT_TYPE, 0);
 				}
 				//logger.debug("Traced event (enter =" + enter + ") : " + methodSignature + " with value : " + methodID);
 			}
@@ -201,7 +201,7 @@ public final class DataClayExtrae {
     public static void enablePThreads() {
 		if (COMPILE_EXTRAE) {
 			synchronized (DataClayExtrae.class) {
-				ExtraeWrapperJNI.SetOptions(ExtraeWrapperJNI.EXTRAE_ENABLE_ALL_OPTIONS);
+				es.bsc.cepbatools.extrae.Wrapper.SetOptions(es.bsc.cepbatools.extrae.Wrapper.EXTRAE_ENABLE_ALL_OPTIONS);
 			}
 		}
     }
@@ -213,7 +213,7 @@ public final class DataClayExtrae {
     public static void disablePThreads() {
 		if (COMPILE_EXTRAE) {
 			synchronized (DataClayExtrae.class) {
-				ExtraeWrapperJNI.SetOptions(ExtraeWrapperJNI.EXTRAE_ENABLE_ALL_OPTIONS & ~ExtraeWrapperJNI.EXTRAE_PTHREAD_OPTION);
+				es.bsc.cepbatools.extrae.Wrapper.SetOptions(es.bsc.cepbatools.extrae.Wrapper.EXTRAE_ENABLE_ALL_OPTIONS & ~es.bsc.cepbatools.extrae.Wrapper.EXTRAE_PTHREAD_OPTION);
 			}
 		}
     }
@@ -243,7 +243,7 @@ public final class DataClayExtrae {
 				i++;
 			}
 
-			ExtraeWrapperJNI.defineEventType(EVENT_TYPE, "dataClay", methodValues, descriptors);
+			es.bsc.cepbatools.extrae.Wrapper.defineEventType(EVENT_TYPE, "dataClay", methodValues, descriptors);
 		}
 	}
 
@@ -270,7 +270,7 @@ public final class DataClayExtrae {
 	 */
 	public static int getWrapperTaskID() {
 		if (COMPILE_EXTRAE) {
-			return ExtraeWrapperJNI.GetTaskID();
+			return es.bsc.cepbatools.extrae.Wrapper.GetTaskID();
 		}
 		return 0;
 	}
