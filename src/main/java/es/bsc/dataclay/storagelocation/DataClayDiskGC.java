@@ -133,7 +133,7 @@ public final class DataClayDiskGC {
 			final ExecutionEnvironmentID theassociatedEE) {
 		this.storageLocation = thestorageLocationService;
 		this.runtime = theruntime;
-		this.cachePath = Configuration.Flags.DEFAULT_GLOBALGC_CACHE_PATH.getStringValue()
+		this.cachePath = Configuration.Flags.STORAGE_PATH.getStringValue()
 				+ "globalgc" + runtime.getDataService().dsName + ".cache";
 		if (DEBUG_ENABLED) {
 			LOGGER.debug("Starting DiskGC");
@@ -189,9 +189,6 @@ public final class DataClayDiskGC {
 
 	/**
 	 * Initialize caches from persistent files
-	 * 
-	 * @param cachesPath
-	 *            Path of cache
 	 */
 	private void initCachesFromPersistent() {
 		// Deserialize metadata cache if present

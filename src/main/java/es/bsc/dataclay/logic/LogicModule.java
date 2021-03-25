@@ -3566,48 +3566,6 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
         return objectIDofNewObject;
 	}
 
-    /**
-     * Notify garbage collectors to add delta in reference counting of the objects
-     * with ID provided
-     *
-     * @param updateRefs
-     *            IDs of the objects to notify + delta to add to them. We require a
-     *            map in order to save calls and group notifications.
-     */
-    private void notifyGarbageCollectors(final Map<ObjectID, Integer> updateRefs) {
-        if (DEBUG_ENABLED) {
-            LOGGER.debug("Notifying garbage collectors reference counting: {}", updateRefs);
-        }
-
-        // Group by locations
-        final Map<ExecutionEnvironmentID, Set<ObjectID>> groupByLocation = new HashMap<>();
-        for (final ObjectID objectID : updateRefs.keySet()) {
-            final MetaDataInfo mdInfo = metaDataSrvApi.getObjectMetaData(objectID);
-            for (final ExecutionEnvironmentID execID : mdInfo.getLocations()) {
-                Set<ObjectID> currGroup = groupByLocation.get(execID);
-                if (currGroup == null) {
-                    currGroup = new HashSet<>();
-                    groupByLocation.put(execID, currGroup);
-                }
-                currGroup.add(objectID);
-            }
-        }
-
-        // Notify Storage Locations (GC) of the object
-        for (final Entry<ExecutionEnvironmentID, Set<ObjectID>> currentGroup : groupByLocation.entrySet()) {
-            final ExecutionEnvironment execEnv = metaDataSrvApi.getExecutionEnvironmentInfo(currentGroup.getKey());
-            final DataServiceAPI dsAPI = getExecutionEnvironmentAPI(execEnv);
-
-            // prepare map of reference countings to update (we are using same notification
-            // system used between GCs)
-            final Map<ObjectID, Integer> updateCounterRefs = new HashMap<>();
-            for (final ObjectID objectID : currentGroup.getValue()) {
-                updateCounterRefs.put(objectID, updateRefs.get(objectID));
-            }
-            dsAPI.updateRefs(updateCounterRefs);
-        }
-    }
-
     @Override
     public void unregisterObjects(final Set<ObjectID> objectsToUnregister) {
         for (final ObjectID objectID : objectsToUnregister) {

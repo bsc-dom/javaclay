@@ -343,9 +343,6 @@ public final class Configuration {
 		 */
 		GLOBALGC_COLLECTOR_INITIAL_DELAY_HOURS(12L, ConfType.LONG),
 
-		/** Default cache path. */
-		DEFAULT_GLOBALGC_CACHE_PATH(System.getProperty("user.dir") + File.separatorChar, ConfType.STRING),
-
 		// ============= LAZY TASKS ==================== //
 
 		/** Interval to check if tasks must be run. */
