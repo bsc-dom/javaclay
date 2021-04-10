@@ -935,8 +935,9 @@ public interface LogicModuleAPI {
 	 *            ID of the session
 	 * @param alias
 	 *            alias of the object
+	 * @return ID of object with deleted alias
 	 */
-	void deleteAlias(final SessionID sessionID, final String alias);
+	ObjectID deleteAlias(final SessionID sessionID, final String alias);
 
 	/**
 	 * Retrieves the information of the objects instantiating the given class.
@@ -1211,4 +1212,11 @@ public interface LogicModuleAPI {
 	 *            Objects to unregister
 	 */
 	void unregisterObjects(Set<ObjectID> objectsToUnregister);
+
+
+	/**
+	 * Get number of objects in dataClay
+	 * @return number of objects in dataClay
+	 */
+	int getNumObjects();
 }

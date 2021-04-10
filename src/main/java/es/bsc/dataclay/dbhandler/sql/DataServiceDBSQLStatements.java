@@ -50,6 +50,12 @@ public final class DataServiceDBSQLStatements {
 		/** Delete object. */
 		DELETE_OBJECT,
 
+		/** Vacuum database. */
+		VACUUM,
+
+		/** Count objects query. */
+		COUNT_OBJECTS,
+
 		/** Update object. */
 		UPDATE_OBJECT;
 

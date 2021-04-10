@@ -1270,6 +1270,68 @@ public final class DataServiceGrpc {
     return getGetTracesMethod;
   }
 
+  private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.DeleteAliasRequest,
+      es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> getDeleteAliasMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "deleteAlias",
+      requestType = es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.DeleteAliasRequest.class,
+      responseType = es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.DeleteAliasRequest,
+      es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> getDeleteAliasMethod() {
+    io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.DeleteAliasRequest, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> getDeleteAliasMethod;
+    if ((getDeleteAliasMethod = DataServiceGrpc.getDeleteAliasMethod) == null) {
+      synchronized (DataServiceGrpc.class) {
+        if ((getDeleteAliasMethod = DataServiceGrpc.getDeleteAliasMethod) == null) {
+          DataServiceGrpc.getDeleteAliasMethod = getDeleteAliasMethod =
+              io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.DeleteAliasRequest, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "deleteAlias"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.DeleteAliasRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.getDefaultInstance()))
+              .setSchemaDescriptor(new DataServiceMethodDescriptorSupplier("deleteAlias"))
+              .build();
+        }
+      }
+    }
+    return getDeleteAliasMethod;
+  }
+
+  private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.DetachObjectFromSessionRequest,
+      es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> getDetachObjectFromSessionMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "detachObjectFromSession",
+      requestType = es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.DetachObjectFromSessionRequest.class,
+      responseType = es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.DetachObjectFromSessionRequest,
+      es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> getDetachObjectFromSessionMethod() {
+    io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.DetachObjectFromSessionRequest, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> getDetachObjectFromSessionMethod;
+    if ((getDetachObjectFromSessionMethod = DataServiceGrpc.getDetachObjectFromSessionMethod) == null) {
+      synchronized (DataServiceGrpc.class) {
+        if ((getDetachObjectFromSessionMethod = DataServiceGrpc.getDetachObjectFromSessionMethod) == null) {
+          DataServiceGrpc.getDetachObjectFromSessionMethod = getDetachObjectFromSessionMethod =
+              io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.DetachObjectFromSessionRequest, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "detachObjectFromSession"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.DetachObjectFromSessionRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.getDefaultInstance()))
+              .setSchemaDescriptor(new DataServiceMethodDescriptorSupplier("detachObjectFromSession"))
+              .build();
+        }
+      }
+    }
+    return getDetachObjectFromSessionMethod;
+  }
+
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.CloseSessionInDSRequest,
       es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> getCloseSessionInDSMethod;
 
@@ -1361,6 +1423,68 @@ public final class DataServiceGrpc {
       }
     }
     return getGetRetainedReferencesMethod;
+  }
+
+  private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage,
+      es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetNumObjectsResponse> getGetNumObjectsMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "getNumObjects",
+      requestType = es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage.class,
+      responseType = es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetNumObjectsResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage,
+      es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetNumObjectsResponse> getGetNumObjectsMethod() {
+    io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetNumObjectsResponse> getGetNumObjectsMethod;
+    if ((getGetNumObjectsMethod = DataServiceGrpc.getGetNumObjectsMethod) == null) {
+      synchronized (DataServiceGrpc.class) {
+        if ((getGetNumObjectsMethod = DataServiceGrpc.getGetNumObjectsMethod) == null) {
+          DataServiceGrpc.getGetNumObjectsMethod = getGetNumObjectsMethod =
+              io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetNumObjectsResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "getNumObjects"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetNumObjectsResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new DataServiceMethodDescriptorSupplier("getNumObjects"))
+              .build();
+        }
+      }
+    }
+    return getGetNumObjectsMethod;
+  }
+
+  private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage,
+      es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetNumObjectsResponse> getGetNumObjectsInEEMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "getNumObjectsInEE",
+      requestType = es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage.class,
+      responseType = es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetNumObjectsResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage,
+      es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetNumObjectsResponse> getGetNumObjectsInEEMethod() {
+    io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetNumObjectsResponse> getGetNumObjectsInEEMethod;
+    if ((getGetNumObjectsInEEMethod = DataServiceGrpc.getGetNumObjectsInEEMethod) == null) {
+      synchronized (DataServiceGrpc.class) {
+        if ((getGetNumObjectsInEEMethod = DataServiceGrpc.getGetNumObjectsInEEMethod) == null) {
+          DataServiceGrpc.getGetNumObjectsInEEMethod = getGetNumObjectsInEEMethod =
+              io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetNumObjectsResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "getNumObjectsInEE"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetNumObjectsResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new DataServiceMethodDescriptorSupplier("getNumObjectsInEE"))
+              .build();
+        }
+      }
+    }
+    return getGetNumObjectsInEEMethod;
   }
 
   /**
@@ -1693,6 +1817,20 @@ public final class DataServiceGrpc {
      * Garbage collection
      * </pre>
      */
+    public void deleteAlias(es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.DeleteAliasRequest request,
+        io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
+      asyncUnimplementedUnaryCall(getDeleteAliasMethod(), responseObserver);
+    }
+
+    /**
+     */
+    public void detachObjectFromSession(es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.DetachObjectFromSessionRequest request,
+        io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
+      asyncUnimplementedUnaryCall(getDetachObjectFromSessionMethod(), responseObserver);
+    }
+
+    /**
+     */
     public void closeSessionInDS(es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.CloseSessionInDSRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
       asyncUnimplementedUnaryCall(getCloseSessionInDSMethod(), responseObserver);
@@ -1710,6 +1848,20 @@ public final class DataServiceGrpc {
     public void getRetainedReferences(es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetRetainedReferencesResponse> responseObserver) {
       asyncUnimplementedUnaryCall(getGetRetainedReferencesMethod(), responseObserver);
+    }
+
+    /**
+     */
+    public void getNumObjects(es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage request,
+        io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetNumObjectsResponse> responseObserver) {
+      asyncUnimplementedUnaryCall(getGetNumObjectsMethod(), responseObserver);
+    }
+
+    /**
+     */
+    public void getNumObjectsInEE(es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage request,
+        io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetNumObjectsResponse> responseObserver) {
+      asyncUnimplementedUnaryCall(getGetNumObjectsInEEMethod(), responseObserver);
     }
 
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
@@ -1995,6 +2147,20 @@ public final class DataServiceGrpc {
                 es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetTracesResponse>(
                   this, METHODID_GET_TRACES)))
           .addMethod(
+            getDeleteAliasMethod(),
+            asyncUnaryCall(
+              new MethodHandlers<
+                es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.DeleteAliasRequest,
+                es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>(
+                  this, METHODID_DELETE_ALIAS)))
+          .addMethod(
+            getDetachObjectFromSessionMethod(),
+            asyncUnaryCall(
+              new MethodHandlers<
+                es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.DetachObjectFromSessionRequest,
+                es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>(
+                  this, METHODID_DETACH_OBJECT_FROM_SESSION)))
+          .addMethod(
             getCloseSessionInDSMethod(),
             asyncUnaryCall(
               new MethodHandlers<
@@ -2015,6 +2181,20 @@ public final class DataServiceGrpc {
                 es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage,
                 es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetRetainedReferencesResponse>(
                   this, METHODID_GET_RETAINED_REFERENCES)))
+          .addMethod(
+            getGetNumObjectsMethod(),
+            asyncUnaryCall(
+              new MethodHandlers<
+                es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage,
+                es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetNumObjectsResponse>(
+                  this, METHODID_GET_NUM_OBJECTS)))
+          .addMethod(
+            getGetNumObjectsInEEMethod(),
+            asyncUnaryCall(
+              new MethodHandlers<
+                es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage,
+                es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetNumObjectsResponse>(
+                  this, METHODID_GET_NUM_OBJECTS_IN_EE)))
           .build();
     }
   }
@@ -2380,6 +2560,22 @@ public final class DataServiceGrpc {
      * Garbage collection
      * </pre>
      */
+    public void deleteAlias(es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.DeleteAliasRequest request,
+        io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(getDeleteAliasMethod(), getCallOptions()), request, responseObserver);
+    }
+
+    /**
+     */
+    public void detachObjectFromSession(es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.DetachObjectFromSessionRequest request,
+        io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(getDetachObjectFromSessionMethod(), getCallOptions()), request, responseObserver);
+    }
+
+    /**
+     */
     public void closeSessionInDS(es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.CloseSessionInDSRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
       asyncUnaryCall(
@@ -2400,6 +2596,22 @@ public final class DataServiceGrpc {
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetRetainedReferencesResponse> responseObserver) {
       asyncUnaryCall(
           getChannel().newCall(getGetRetainedReferencesMethod(), getCallOptions()), request, responseObserver);
+    }
+
+    /**
+     */
+    public void getNumObjects(es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage request,
+        io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetNumObjectsResponse> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(getGetNumObjectsMethod(), getCallOptions()), request, responseObserver);
+    }
+
+    /**
+     */
+    public void getNumObjectsInEE(es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage request,
+        io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetNumObjectsResponse> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(getGetNumObjectsInEEMethod(), getCallOptions()), request, responseObserver);
     }
   }
 
@@ -2724,6 +2936,20 @@ public final class DataServiceGrpc {
      * Garbage collection
      * </pre>
      */
+    public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo deleteAlias(es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.DeleteAliasRequest request) {
+      return blockingUnaryCall(
+          getChannel(), getDeleteAliasMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
+    public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo detachObjectFromSession(es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.DetachObjectFromSessionRequest request) {
+      return blockingUnaryCall(
+          getChannel(), getDetachObjectFromSessionMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo closeSessionInDS(es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.CloseSessionInDSRequest request) {
       return blockingUnaryCall(
           getChannel(), getCloseSessionInDSMethod(), getCallOptions(), request);
@@ -2741,6 +2967,20 @@ public final class DataServiceGrpc {
     public es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetRetainedReferencesResponse getRetainedReferences(es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage request) {
       return blockingUnaryCall(
           getChannel(), getGetRetainedReferencesMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
+    public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetNumObjectsResponse getNumObjects(es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage request) {
+      return blockingUnaryCall(
+          getChannel(), getGetNumObjectsMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
+    public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetNumObjectsResponse getNumObjectsInEE(es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage request) {
+      return blockingUnaryCall(
+          getChannel(), getGetNumObjectsInEEMethod(), getCallOptions(), request);
     }
   }
 
@@ -3105,6 +3345,22 @@ public final class DataServiceGrpc {
      * Garbage collection
      * </pre>
      */
+    public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> deleteAlias(
+        es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.DeleteAliasRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(getDeleteAliasMethod(), getCallOptions()), request);
+    }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> detachObjectFromSession(
+        es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.DetachObjectFromSessionRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(getDetachObjectFromSessionMethod(), getCallOptions()), request);
+    }
+
+    /**
+     */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> closeSessionInDS(
         es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.CloseSessionInDSRequest request) {
       return futureUnaryCall(
@@ -3125,6 +3381,22 @@ public final class DataServiceGrpc {
         es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage request) {
       return futureUnaryCall(
           getChannel().newCall(getGetRetainedReferencesMethod(), getCallOptions()), request);
+    }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetNumObjectsResponse> getNumObjects(
+        es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage request) {
+      return futureUnaryCall(
+          getChannel().newCall(getGetNumObjectsMethod(), getCallOptions()), request);
+    }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetNumObjectsResponse> getNumObjectsInEE(
+        es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage request) {
+      return futureUnaryCall(
+          getChannel().newCall(getGetNumObjectsInEEMethod(), getCallOptions()), request);
     }
   }
 
@@ -3168,9 +3440,13 @@ public final class DataServiceGrpc {
   private static final int METHODID_ACTIVATE_TRACING = 37;
   private static final int METHODID_DEACTIVATE_TRACING = 38;
   private static final int METHODID_GET_TRACES = 39;
-  private static final int METHODID_CLOSE_SESSION_IN_DS = 40;
-  private static final int METHODID_UPDATE_REFS = 41;
-  private static final int METHODID_GET_RETAINED_REFERENCES = 42;
+  private static final int METHODID_DELETE_ALIAS = 40;
+  private static final int METHODID_DETACH_OBJECT_FROM_SESSION = 41;
+  private static final int METHODID_CLOSE_SESSION_IN_DS = 42;
+  private static final int METHODID_UPDATE_REFS = 43;
+  private static final int METHODID_GET_RETAINED_REFERENCES = 44;
+  private static final int METHODID_GET_NUM_OBJECTS = 45;
+  private static final int METHODID_GET_NUM_OBJECTS_IN_EE = 46;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -3349,6 +3625,14 @@ public final class DataServiceGrpc {
           serviceImpl.getTraces((es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage) request,
               (io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetTracesResponse>) responseObserver);
           break;
+        case METHODID_DELETE_ALIAS:
+          serviceImpl.deleteAlias((es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.DeleteAliasRequest) request,
+              (io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>) responseObserver);
+          break;
+        case METHODID_DETACH_OBJECT_FROM_SESSION:
+          serviceImpl.detachObjectFromSession((es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.DetachObjectFromSessionRequest) request,
+              (io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>) responseObserver);
+          break;
         case METHODID_CLOSE_SESSION_IN_DS:
           serviceImpl.closeSessionInDS((es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.CloseSessionInDSRequest) request,
               (io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>) responseObserver);
@@ -3360,6 +3644,14 @@ public final class DataServiceGrpc {
         case METHODID_GET_RETAINED_REFERENCES:
           serviceImpl.getRetainedReferences((es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage) request,
               (io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.GetRetainedReferencesResponse>) responseObserver);
+          break;
+        case METHODID_GET_NUM_OBJECTS:
+          serviceImpl.getNumObjects((es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage) request,
+              (io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetNumObjectsResponse>) responseObserver);
+          break;
+        case METHODID_GET_NUM_OBJECTS_IN_EE:
+          serviceImpl.getNumObjectsInEE((es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage) request,
+              (io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetNumObjectsResponse>) responseObserver);
           break;
         default:
           throw new AssertionError();
@@ -3462,9 +3754,13 @@ public final class DataServiceGrpc {
               .addMethod(getActivateTracingMethod())
               .addMethod(getDeactivateTracingMethod())
               .addMethod(getGetTracesMethod())
+              .addMethod(getDeleteAliasMethod())
+              .addMethod(getDetachObjectFromSessionMethod())
               .addMethod(getCloseSessionInDSMethod())
               .addMethod(getUpdateRefsMethod())
               .addMethod(getGetRetainedReferencesMethod())
+              .addMethod(getGetNumObjectsMethod())
+              .addMethod(getGetNumObjectsInEEMethod())
               .build();
         }
       }

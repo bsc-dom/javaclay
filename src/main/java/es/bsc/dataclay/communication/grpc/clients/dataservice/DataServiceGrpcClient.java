@@ -19,6 +19,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import es.bsc.dataclay.api.BackendID;
 import es.bsc.dataclay.communication.grpc.generated.logicmodule.LogicModuleGrpc;
+import es.bsc.dataclay.communication.grpc.messages.common.CommonMessages;
 import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages;
 import es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages;
 import io.grpc.netty.shaded.io.grpc.netty.GrpcSslContexts;
@@ -151,6 +152,7 @@ public final class DataServiceGrpcClient implements DataServiceAPI {
 		logger = LogManager.getLogger("grpc.client.dataservice");
 
 
+		logger.info("Creating new connection to " + host + ":" + port);
 
 
 		NettyChannelBuilder chBuilder = null;
@@ -501,14 +503,19 @@ public final class DataServiceGrpcClient implements DataServiceAPI {
 
 	@Override
 	public List<ObjectWithDataParamOrReturn> getObjects(final SessionID sessionID, final Set<ObjectID> objectIDs,
-			final boolean recursive, final ExecutionEnvironmentID destBackendID) {
+														final Set<ObjectID> alreadyObtainedObjects,
+			final boolean recursive, final ExecutionEnvironmentID destBackendID, final int updateReplicaLocs) {
 		final GetObjectsRequest.Builder builder = GetObjectsRequest.newBuilder();
 		for (final ObjectID oid : objectIDs) {
 			builder.addObjectIDS(Utils.getMsgID(oid));
 		}
+		for (final ObjectID oid : alreadyObtainedObjects) {
+			builder.addAlreadyObtainedObjects(Utils.getMsgID(oid));
+		}
 		builder.setRecursive(recursive);
 		builder.setSessionID(Utils.getMsgID(sessionID));
 		builder.setDestBackendID(Utils.getMsgID(destBackendID));
+		builder.setUpdateReplicaLocs(updateReplicaLocs);
 		final GetObjectsRequest request = builder.build();
 		GetObjectsResponse response;
 		try {
@@ -1027,7 +1034,7 @@ public final class DataServiceGrpcClient implements DataServiceAPI {
 		ExceptionInfo response;
 		try {
 			response = blockingStub.updateRefs(request);
-		} catch (final StatusRuntimeException e) {
+		} catch (final Exception e) {
 			throw new RuntimeException(e.getMessage());
 		}
 		Utils.checkIsExc(response);
@@ -1052,7 +1059,41 @@ public final class DataServiceGrpcClient implements DataServiceAPI {
 	}
 
 	@Override
-	public boolean existsInEE(final ObjectID objectID) {
+	public void deleteAlias(final SessionID sessionID, final ObjectID objectID) {
+		final DataserviceMessages.DeleteAliasRequest.Builder builder = DataserviceMessages.DeleteAliasRequest
+				.newBuilder();
+		builder.setSessionID(Utils.getMsgID(sessionID));
+		builder.setObjectID(Utils.getMsgID(objectID));
+		final es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.DeleteAliasRequest request = builder
+				.build();
+		ExceptionInfo response;
+		try {
+			response = blockingStub.deleteAlias(request);
+		} catch (final StatusRuntimeException e) {
+			throw new RuntimeException(e.getMessage());
+		}
+		Utils.checkIsExc(response);
+	}
+
+	@Override
+	public void detachObjectFromSession(final ObjectID objectID, final SessionID sessionID) {
+		final DataserviceMessages.DetachObjectFromSessionRequest.Builder builder = DataserviceMessages.DetachObjectFromSessionRequest
+				.newBuilder();
+		builder.setSessionID(Utils.getMsgID(sessionID));
+		builder.setObjectID(Utils.getMsgID(objectID));
+		final es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.DetachObjectFromSessionRequest request = builder
+				.build();
+		ExceptionInfo response;
+		try {
+			response = blockingStub.detachObjectFromSession(request);
+		} catch (final StatusRuntimeException e) {
+			throw new RuntimeException(e.getMessage());
+		}
+		Utils.checkIsExc(response);
+	}
+
+	@Override
+	public boolean exists(final ObjectID objectID) {
 		final ExistsRequest.Builder builder = ExistsRequest.newBuilder();
 		builder.setObjectID(Utils.getMsgID(objectID));
 		final ExistsRequest request = builder.build();
@@ -1067,7 +1108,7 @@ public final class DataServiceGrpcClient implements DataServiceAPI {
 	}
 
 	@Override
-	public boolean exists(final ObjectID objectID) {
+	public boolean existsInDB(final ObjectID objectID) {
 		final ExistsInDBRequest.Builder builder = ExistsInDBRequest.newBuilder();
 		builder.setObjectID(Utils.getMsgID(objectID));
 		final ExistsInDBRequest request = builder.build();
@@ -1079,6 +1120,31 @@ public final class DataServiceGrpcClient implements DataServiceAPI {
 		}
 		Utils.checkIsExc(response.getExcInfo());
 		return response.getExists();
+	}
+
+
+	@Override
+	public int getNumObjects() {
+		CommonMessages.GetNumObjectsResponse response;
+		try {
+			response = blockingStub.getNumObjects(EmptyMessage.newBuilder().build());
+		} catch (final StatusRuntimeException e) {
+			throw new RuntimeException(e.getMessage());
+		}
+		Utils.checkIsExc(response.getExcInfo());
+		return response.getNumObjs();
+	}
+
+	@Override
+	public int getNumObjectsInEE() {
+		CommonMessages.GetNumObjectsResponse response;
+		try {
+			response = blockingStub.getNumObjectsInEE(EmptyMessage.newBuilder().build());
+		} catch (final StatusRuntimeException e) {
+			throw new RuntimeException(e.getMessage());
+		}
+		Utils.checkIsExc(response.getExcInfo());
+		return response.getNumObjs();
 	}
 
 	@Override

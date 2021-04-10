@@ -168,7 +168,10 @@ public final class MetaDataServiceSQLStatements {
 		SELECT_OBJECTS_FEDERATED_WITH_DATACLAY,
 		
 		/** Select all execution environments in host name. */
-		SELECT_ALL_EXECENV_BY_HOSTNAME_AND_LANG;
+		SELECT_ALL_EXECENV_BY_HOSTNAME_AND_LANG,
+
+		/** Vacuum db. */
+		VACUUM;
 
 		/** SQL statement. */
 		private String sqlStatement;

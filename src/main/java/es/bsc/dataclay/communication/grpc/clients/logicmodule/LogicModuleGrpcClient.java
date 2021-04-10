@@ -1578,7 +1578,9 @@ public final class LogicModuleGrpcClient implements LogicModuleAPI {
 			regInfoBuilder.setClassID(Utils.getMsgID(regInfo.getClassID()));
 			regInfoBuilder.setSessionID(Utils.getMsgID(regInfo.getStoreSessionID()));
 			regInfoBuilder.setDataSetID(Utils.getMsgID(regInfo.getDataSetID()));
-			regInfoBuilder.setAlias(regInfo.getAlias());
+			if (regInfo.getAlias() != null) {
+				regInfoBuilder.setAlias(regInfo.getAlias());
+			}
 			builder.addRegInfos(regInfoBuilder.build());
 		}
 
@@ -1716,13 +1718,14 @@ public final class LogicModuleGrpcClient implements LogicModuleAPI {
 	 * util.ids.MetaClassID, java.lang.String)
 	 */
 	@Override
-	public void deleteAlias(final SessionID sessionID, final String alias) {
+	public ObjectID deleteAlias(final SessionID sessionID, final String alias) {
 		final DeleteAliasRequest request = DeleteAliasRequest.newBuilder().setSessionID(Utils.getMsgID(sessionID))
 				.setAlias(alias).build();
-		final ExceptionInfo response;
-		final Function<DeleteAliasRequest, ExceptionInfo> f = req -> getBlockingStub().deleteAlias(req);
-		response = this.<DeleteAliasRequest, ExceptionInfo>callLogicModule(request, f);
-		Utils.checkIsExc(response);
+		final DeleteAliasResponse response;
+		final Function<DeleteAliasRequest, DeleteAliasResponse> f = req -> getBlockingStub().deleteAlias(req);
+		response = this.<DeleteAliasRequest, DeleteAliasResponse>callLogicModule(request, f);
+		Utils.checkIsExc(response.getExcInfo());
+		return Utils.getObjectID(response.getObjectID());
 	}
 
 	/*
@@ -2297,6 +2300,15 @@ public final class LogicModuleGrpcClient implements LogicModuleAPI {
 		response = this.<ExistsActiveEnvironmentsForSLRequest, ExistsActiveEnvironmentsForSLResponse>callLogicModule(request, f);
 		Utils.checkIsExc(response.getExcInfo());
 		return response.getExists();
+	}
+
+	@Override
+	public int getNumObjects() {
+		CommonMessages.GetNumObjectsResponse response;
+		final Function<EmptyMessage, CommonMessages.GetNumObjectsResponse> f = req -> getBlockingStub().getNumObjects(req);
+		response = this.<EmptyMessage, CommonMessages.GetNumObjectsResponse>callLogicModule(EmptyMessage.newBuilder().build(), f);
+		Utils.checkIsExc(response.getExcInfo());
+		return response.getNumObjs();
 	}
 
 }

@@ -48,7 +48,7 @@ public final class StorageLocationService {
 	private DataServiceRuntime runtime;
 	
 	/** Associated execution environment IDs. */
-	private final Set<ExecutionEnvironmentID> associatedExecutionEnvironmentIDs = new HashSet<>();
+	private final Set<ExecutionEnvironmentID> associatedExecutionEnvironmentIDs = ConcurrentHashMap.newKeySet();
 
 	/**
 	 * Constructor
@@ -201,6 +201,19 @@ public final class StorageLocationService {
 	}
 
 	/**
+	 * Vacuum database.
+	 *
+	 * @param eeID
+	 *            ID of the EE to vacuum
+	 */
+	public void vacuum(final ExecutionEnvironmentID eeID) {
+		if (DEBUG_ENABLED) {
+			LOGGER.debug("[StorageLocation] Vacuum database {}", eeID);
+		}
+		getDBHandler(eeID).vacuum();
+	}
+
+	/**
 	 * Update counters of references.
 	 * 
 	 * @param updateCounterRefs
@@ -282,25 +295,53 @@ public final class StorageLocationService {
 	}
 
 	/**
+	 * Return number of objects in current SL and associated EEs
+	 * @return Number of objects in current SL and associated EEs
+	 */
+	public int getNumObjects() {
+		LOGGER.debug("Getting number of objects in current SL");
+		int numObjs = 0;
+		for (final ExecutionEnvironmentID associatedExecutionEnvironmentID : getAssociateExecutionEnvironments()) {
+			final DataServiceAPI dsAPI = runtime.getRemoteDSAPI(associatedExecutionEnvironmentID);
+			int numObjsInEE = dsAPI.getNumObjectsInEE();
+			LOGGER.debug("Obtained number of objects in EE {} = {}", associatedExecutionEnvironmentID, numObjsInEE);
+			int numObjsInSL = this.getDbHandler(associatedExecutionEnvironmentID).count();
+			LOGGER.debug("Obtained number of objects in SL {} = {}", associatedExecutionEnvironmentID, numObjsInSL);
+			numObjs += (numObjsInSL - numObjsInEE);
+		}
+		LOGGER.debug("Found {} objects", numObjs);
+		return numObjs;
+	}
+
+	/**
 	 * Check if the object exists in SL or in any EE memory associated to current SL 
 	 * @param objectID ID of the object to check
 	 * @return TRUE if the object either exists in SL disk or in EE memory.
 	 */
 	public boolean exists(final ObjectID objectID) {
-				
+		LOGGER.debug("Checking if object {} exists", objectID);
 		for (final ExecutionEnvironmentID associatedExecutionEnvironmentID : getAssociateExecutionEnvironments()) {
 			
 			// Check if object exists in disk
-			if (this.getDbHandler(associatedExecutionEnvironmentID).exists(objectID)) { 
+			if (this.getDbHandler(associatedExecutionEnvironmentID).exists(objectID)) {
+				LOGGER.debug("Object {} exists in SL", objectID);
 				return true;
 			}
 
 			// Check if object exists in EE memory
 			final DataServiceAPI dsAPI = runtime.getRemoteDSAPI(associatedExecutionEnvironmentID);
-			if (dsAPI.existsInEE(objectID)) { 
+			if (dsAPI.exists(objectID)) {
+				LOGGER.debug("Object {} exists in EE {}", objectID, associatedExecutionEnvironmentID);
+				return true;
+			}
+
+			// Check if object was send to disk while checking memory
+			if (this.getDbHandler(associatedExecutionEnvironmentID).exists(objectID)) {
+				LOGGER.debug("Object {} exists in SL", objectID);
 				return true;
 			}
 		}
+		LOGGER.debug("Object {} does not exist", objectID);
 		return false;
 	}
 }

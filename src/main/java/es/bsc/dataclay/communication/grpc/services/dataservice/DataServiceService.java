@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 
 import com.google.protobuf.Any;
 import com.google.rpc.Code;
@@ -307,10 +308,15 @@ public final class DataServiceService extends DataServiceGrpc.DataServiceImplBas
 			for (final String oid : request.getObjectIDSList()) {
 				objectIDs.add(Utils.getObjectID(oid));
 			}
+			final Set<ObjectID> alreadyObtainedObjects = new HashSet<>();
+			for (final String oid : request.getAlreadyObtainedObjectsList()) {
+				alreadyObtainedObjects.add(Utils.getObjectID(oid));
+			}
 			final List<ObjectWithDataParamOrReturn> result = dataService.getObjects(
 					Utils.getSessionID(request.getSessionID()),
-					objectIDs, request.getRecursive(),
-					Utils.getExecutionEnvironmentID(request.getDestBackendID()));
+					objectIDs, alreadyObtainedObjects, request.getRecursive(),
+					Utils.getExecutionEnvironmentID(request.getDestBackendID()),
+					request.getUpdateReplicaLocs());
 
 			final GetObjectsResponse.Builder builder = GetObjectsResponse.newBuilder();
 			for (final ObjectWithDataParamOrReturn entry : result) {
@@ -559,7 +565,6 @@ public final class DataServiceService extends DataServiceGrpc.DataServiceImplBas
 			responseObserver.onCompleted();
 
 		} catch (final Exception e) {
-			e.printStackTrace();
 			final ExceptionInfo resp = Utils.serializeException(e);
 			responseObserver.onNext(resp);
 			responseObserver.onCompleted();
@@ -734,7 +739,6 @@ public final class DataServiceService extends DataServiceGrpc.DataServiceImplBas
 					updateRefs.put(Utils.getObjectID(curEntry.getKey()), curEntry.getValue());
 				}
 			}
-
 			dataService.updateRefs(updateRefs);
 			Utils.returnExceptionInfoMessage(responseObserver);
 			responseObserver.onCompleted();
@@ -931,7 +935,7 @@ public final class DataServiceService extends DataServiceGrpc.DataServiceImplBas
 			final io.grpc.stub.StreamObserver<DataserviceMessages.ExistsResponse> responseObserver) {
 		try {
 			final ObjectID objectID = Utils.getObjectID(request.getObjectID());
-			final boolean result = dataService.existsInEE(objectID);
+			final boolean result = dataService.exists(objectID);
 			final DataserviceMessages.ExistsResponse.Builder builder = DataserviceMessages.ExistsResponse.newBuilder();
 			builder.setExists(result);
 			final DataserviceMessages.ExistsResponse resp = builder.build();
@@ -952,7 +956,7 @@ public final class DataServiceService extends DataServiceGrpc.DataServiceImplBas
 		try {
 			final ObjectID objectID = Utils.getObjectID(request.getObjectID());
 
-			final boolean result = dataService.exists(objectID);
+			final boolean result = dataService.existsInDB(objectID);
 			
 			final DataserviceMessages.ExistsInDBResponse.Builder builder = DataserviceMessages.ExistsInDBResponse.newBuilder();
 			builder.setExists(result);
@@ -964,6 +968,44 @@ public final class DataServiceService extends DataServiceGrpc.DataServiceImplBas
 			final DataserviceMessages.ExistsInDBResponse.Builder builder = DataserviceMessages.ExistsInDBResponse.newBuilder();
 			builder.setExcInfo(Utils.serializeException(e));
 			final DataserviceMessages.ExistsInDBResponse resp = builder.build();
+			responseObserver.onNext(resp);
+			responseObserver.onCompleted();
+		}
+	}
+
+	@Override
+	public void getNumObjects(final EmptyMessage request,
+					   final io.grpc.stub.StreamObserver<CommonMessages.GetNumObjectsResponse> responseObserver) {
+		try {
+			final int result = dataService.getNumObjects();
+			final CommonMessages.GetNumObjectsResponse.Builder builder = CommonMessages.GetNumObjectsResponse.newBuilder();
+			builder.setNumObjs(result);
+			final CommonMessages.GetNumObjectsResponse resp = builder.build();
+			responseObserver.onNext(resp);
+			responseObserver.onCompleted();
+		} catch (final Exception e) {
+			final CommonMessages.GetNumObjectsResponse.Builder builder = CommonMessages.GetNumObjectsResponse.newBuilder();
+			builder.setExcInfo(Utils.serializeException(e));
+			final CommonMessages.GetNumObjectsResponse resp = builder.build();
+			responseObserver.onNext(resp);
+			responseObserver.onCompleted();
+		}
+	}
+
+	@Override
+	public void getNumObjectsInEE(final EmptyMessage request,
+							  final io.grpc.stub.StreamObserver<CommonMessages.GetNumObjectsResponse> responseObserver) {
+		try {
+			final int result = dataService.getNumObjectsInEE();
+			final CommonMessages.GetNumObjectsResponse.Builder builder = CommonMessages.GetNumObjectsResponse.newBuilder();
+			builder.setNumObjs(result);
+			final CommonMessages.GetNumObjectsResponse resp = builder.build();
+			responseObserver.onNext(resp);
+			responseObserver.onCompleted();
+		} catch (final Exception e) {
+			final CommonMessages.GetNumObjectsResponse.Builder builder = CommonMessages.GetNumObjectsResponse.newBuilder();
+			builder.setExcInfo(Utils.serializeException(e));
+			final CommonMessages.GetNumObjectsResponse resp = builder.build();
 			responseObserver.onNext(resp);
 			responseObserver.onCompleted();
 		}
@@ -1059,6 +1101,38 @@ public final class DataServiceService extends DataServiceGrpc.DataServiceImplBas
 			final io.grpc.stub.StreamObserver<CommonMessages.ExceptionInfo> responseObserver) {
 		try {
 			dataService.associateExecutionEnvironment(Utils.getExecutionEnvironmentID(request.getExecutionEnvironmentID()));
+			Utils.returnExceptionInfoMessage(responseObserver);
+			responseObserver.onCompleted();
+
+		} catch (final Exception e) {
+			final ExceptionInfo resp = Utils.serializeException(e);
+			responseObserver.onNext(resp);
+			responseObserver.onCompleted();
+		}
+	}
+
+	@Override
+	public void detachObjectFromSession(final DataserviceMessages.DetachObjectFromSessionRequest request,
+											  final io.grpc.stub.StreamObserver<CommonMessages.ExceptionInfo> responseObserver) {
+		try {
+			dataService.detachObjectFromSession(Utils.getObjectID(request.getObjectID()),
+					Utils.getSessionID(request.getSessionID()));
+			Utils.returnExceptionInfoMessage(responseObserver);
+			responseObserver.onCompleted();
+
+		} catch (final Exception e) {
+			final ExceptionInfo resp = Utils.serializeException(e);
+			responseObserver.onNext(resp);
+			responseObserver.onCompleted();
+		}
+	}
+
+	@Override
+	public void deleteAlias(final DataserviceMessages.DeleteAliasRequest request,
+										final io.grpc.stub.StreamObserver<CommonMessages.ExceptionInfo> responseObserver) {
+		try {
+			dataService.deleteAlias(Utils.getSessionID(request.getSessionID()),
+					Utils.getObjectID(request.getObjectID()));
 			Utils.returnExceptionInfoMessage(responseObserver);
 			responseObserver.onCompleted();
 

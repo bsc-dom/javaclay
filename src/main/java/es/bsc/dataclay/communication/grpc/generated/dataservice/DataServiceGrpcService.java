@@ -29,7 +29,7 @@ public final class DataServiceGrpcService {
       "/communication/grpc/messages/dataservice" +
       "/dataservice_messages.proto\032Adataclay/co" +
       "mmunication/grpc/messages/common/common_" +
-      "messages.proto2\252.\n\013DataService\022\203\001\n\rinitB" +
+      "messages.proto2\3122\n\013DataService\022\203\001\n\rinitB" +
       "ackendID\022=.dataclay.communication.grpc.d" +
       "ataservice.InitBackendIDRequest\0321.datacl" +
       "ay.communication.grpc.common.ExceptionIn" +
@@ -167,19 +167,33 @@ public final class DataServiceGrpcService {
       "tionInfo\"\000\022v\n\tgetTraces\0220.dataclay.commu" +
       "nication.grpc.common.EmptyMessage\0325.data" +
       "clay.communication.grpc.common.GetTraces" +
-      "Response\"\000\022\211\001\n\020closeSessionInDS\022@.datacl" +
-      "ay.communication.grpc.dataservice.CloseS" +
-      "essionInDSRequest\0321.dataclay.communicati" +
-      "on.grpc.common.ExceptionInfo\"\000\022}\n\nupdate" +
-      "Refs\022:.dataclay.communication.grpc.datas" +
-      "ervice.UpdateRefsRequest\0321.dataclay.comm" +
-      "unication.grpc.common.ExceptionInfo\"\000\022\223\001" +
-      "\n\025getRetainedReferences\0220.dataclay.commu" +
-      "nication.grpc.common.EmptyMessage\032F.data" +
-      "clay.communication.grpc.dataservice.GetR" +
-      "etainedReferencesResponse\"\000BR\n8es.bsc.da" +
-      "taclay.communication.grpc.generated.data" +
-      "serviceB\026DataServiceGrpcServiceb\006proto3"
+      "Response\"\000\022\177\n\013deleteAlias\022;.dataclay.com" +
+      "munication.grpc.dataservice.DeleteAliasR" +
+      "equest\0321.dataclay.communication.grpc.com" +
+      "mon.ExceptionInfo\"\000\022\227\001\n\027detachObjectFrom" +
+      "Session\022G.dataclay.communication.grpc.da" +
+      "taservice.DetachObjectFromSessionRequest" +
+      "\0321.dataclay.communication.grpc.common.Ex" +
+      "ceptionInfo\"\000\022\211\001\n\020closeSessionInDS\022@.dat" +
+      "aclay.communication.grpc.dataservice.Clo" +
+      "seSessionInDSRequest\0321.dataclay.communic" +
+      "ation.grpc.common.ExceptionInfo\"\000\022}\n\nupd" +
+      "ateRefs\022:.dataclay.communication.grpc.da" +
+      "taservice.UpdateRefsRequest\0321.dataclay.c" +
+      "ommunication.grpc.common.ExceptionInfo\"\000" +
+      "\022\223\001\n\025getRetainedReferences\0220.dataclay.co" +
+      "mmunication.grpc.common.EmptyMessage\032F.d" +
+      "ataclay.communication.grpc.dataservice.G" +
+      "etRetainedReferencesResponse\"\000\022~\n\rgetNum" +
+      "Objects\0220.dataclay.communication.grpc.co" +
+      "mmon.EmptyMessage\0329.dataclay.communicati" +
+      "on.grpc.common.GetNumObjectsResponse\"\000\022\202" +
+      "\001\n\021getNumObjectsInEE\0220.dataclay.communic" +
+      "ation.grpc.common.EmptyMessage\0329.datacla" +
+      "y.communication.grpc.common.GetNumObject" +
+      "sResponse\"\000BR\n8es.bsc.dataclay.communica" +
+      "tion.grpc.generated.dataserviceB\026DataSer" +
+      "viceGrpcServiceb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,

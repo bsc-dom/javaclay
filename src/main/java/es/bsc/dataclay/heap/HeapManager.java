@@ -8,6 +8,8 @@ import java.util.Map.Entry;
 import java.util.TimerTask;
 import java.util.concurrent.ConcurrentHashMap;
 
+import es.bsc.dataclay.DataClayExecutionObject;
+import es.bsc.dataclay.api.DataClay;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -151,6 +153,21 @@ public abstract class HeapManager extends TimerTask {
 	 */
 	public final int heapSize() {
 		return this.inmemoryObjects.size();
+	}
+
+	/**
+	 * Get number of loaded objects in memory.
+	 * @return Number of loaded objects in memory.
+	 */
+	public final int numLoadedObjs() {
+		int loadedObjects = 0;
+		for (Reference<DataClayObject> ref : this.inmemoryObjects.values()) {
+			DataClayObject dcObj = ref.get();
+			if (((DataClayExecutionObject) dcObj).isLoaded()) {
+				loadedObjects++;
+			}
+		}
+		return loadedObjects;
 	}
 
 	/**

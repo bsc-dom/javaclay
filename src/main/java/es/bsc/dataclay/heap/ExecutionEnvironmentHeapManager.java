@@ -60,7 +60,7 @@ public class ExecutionEnvironmentHeapManager extends HeapManager {
 	/**
 	 * Contructor.
 	 * 
-	 * @param DataServiceRuntime
+	 * @param theruntime
 	 *            The DataServiceRuntime.
 	 */
 	public ExecutionEnvironmentHeapManager(final DataServiceRuntime theruntime) {
@@ -76,8 +76,8 @@ public class ExecutionEnvironmentHeapManager extends HeapManager {
 	 */
 	public final Set<ObjectID> getObjectIDsRetained() {
 		if (DEBUG_ENABLED) {
-			logger.trace("[==GC==] Retained refs: " + this.retainedObjects.size());
-			logger.trace("[==GC==] Inmemory refs: " + this.inmemoryObjects.size());
+			logger.debug("[==GC==] Retained refs: " + this.retainedObjects.size());
+			logger.debug("[==GC==] Inmemory refs: " + this.inmemoryObjects.size());
 		}
 		return this.inmemoryObjects.keySet();
 	}
@@ -346,14 +346,14 @@ public class ExecutionEnvironmentHeapManager extends HeapManager {
 		}
 		try {
 			float usedMemoryPercent = this.getMemoryUsed();
+			if (DEBUG_ENABLED && retainedObjects.size() > 0) {
+				logger.debug("[==GC==] Used memory percent is = {} and pressure to start cleaning = {} ",
+						usedMemoryPercent, GC_MEMORY_PRESSURE_PERCENT);
+			}
 			if (usedMemoryPercent > GC_MEMORY_PRESSURE_PERCENT) {
 
-				if (DEBUG_ENABLED) {
+				if (DEBUG_ENABLED && retainedObjects.size() > 0) {
 					logger.debug("[==GC==] Memory GC started. Retained objects: " + retainedObjects.size());
-				}
-				final long threadID = Thread.currentThread().getId();
-				if (Configuration.mockTesting) {
-					DataClayMockObject.setCurrentThreadLib(this.runtime);
 				}
 				final long timestamp = System.currentTimeMillis();
 				for (final DataClayObject curObject : retainedObjects.values()) {
@@ -425,16 +425,7 @@ public class ExecutionEnvironmentHeapManager extends HeapManager {
 					}
 
 				}
-
 				this.cleanReferencesAndLockers();
-
-				if (Configuration.mockTesting) {
-					DataClayMockObject.removeCurrentThreadLib();
-				}
-				if (DEBUG_ENABLED) {
-					logger.debug("[==GC==] Memory GC finished.");
-				}
-
 				// Notify JVM to clean weak references as soon as possible.
 				System.gc();
 			}

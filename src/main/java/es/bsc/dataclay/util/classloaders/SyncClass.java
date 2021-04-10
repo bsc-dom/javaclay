@@ -37,8 +37,8 @@ public final class SyncClass {
     public SyncClass(final MetaClassID newMetaClassID) { 
     	mutex = new ReentrantLock();
     	metaclassID = newMetaClassID;
-    	if (DEBUG_ENABLED) { 
-    		logger.debug("NEW LOCK " + metaclassID);
+    	if (DEBUG_ENABLED) {
+    		logger.debug("NEW CLASS LOCK " + metaclassID);
     	}
     }
     
@@ -47,12 +47,12 @@ public final class SyncClass {
      */
     public void lock() {
     	if (DEBUG_ENABLED) {
-    		logger.debug("WAITING LOCK " + metaclassID);
+    		logger.debug("WAITING CLASS LOCK " + metaclassID);
     	}
         waiting++;
         mutex.lock();
     	if (DEBUG_ENABLED) {
-    		logger.debug("LOCKED " + metaclassID);
+    		logger.debug("LOCKED CLASS " + metaclassID);
     	}
     }
     
@@ -69,7 +69,7 @@ public final class SyncClass {
      */
     public void unlock() {
     	if (DEBUG_ENABLED) {
-    		logger.debug("UNLOCKED " + metaclassID);
+    		logger.debug("UNLOCKED CLASS " + metaclassID);
     	}
         mutex.unlock();
         waiting--;

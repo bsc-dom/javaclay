@@ -212,6 +212,7 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 			responseObserver.onCompleted();
 
 		} catch (final Exception ex) {
+
 			logger.debug("performSetOfOperations error", ex);
 
 			final PerformSetOperationsResponse.Builder builder = PerformSetOperationsResponse.newBuilder();
@@ -365,11 +366,8 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 		try {
 
 			logicModule.closeSession(Utils.getSessionID(request.getSessionID()));
-
 			Utils.returnExceptionInfoMessage(responseObserver);
-
 			responseObserver.onCompleted();
-
 		} catch (final Exception e) {
 			final ExceptionInfo resp = Utils.serializeException(e);
 			responseObserver.onNext(resp);
@@ -1581,15 +1579,19 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 	}
 
 	@Override
-	public void deleteAlias(final DeleteAliasRequest request, final StreamObserver<ExceptionInfo> responseObserver) {
+	public void deleteAlias(final DeleteAliasRequest request, final StreamObserver<DeleteAliasResponse> responseObserver) {
 		try {
-			logicModule.deleteAlias(Utils.getSessionID(request.getSessionID()), request.getAlias());
+			ObjectID objectID = logicModule.deleteAlias(Utils.getSessionID(request.getSessionID()), request.getAlias());
 
-			Utils.returnExceptionInfoMessage(responseObserver);
+			final DeleteAliasResponse resp = DeleteAliasResponse.newBuilder().setObjectID(Utils.getMsgID(objectID))
+					.build();
+			responseObserver.onNext(resp);
 			responseObserver.onCompleted();
 
 		} catch (final Exception e) {
-			final ExceptionInfo resp = Utils.serializeException(e);
+			final DeleteAliasResponse.Builder builder = DeleteAliasResponse.newBuilder();
+			builder.setExcInfo(Utils.serializeException(e));
+			final DeleteAliasResponse resp = builder.build();
 			responseObserver.onNext(resp);
 			responseObserver.onCompleted();
 		}
@@ -2245,5 +2247,26 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 			responseObserver.onCompleted();
 		}
 	}
+
+
+	@Override
+	public void getNumObjects(final EmptyMessage request,
+							  final io.grpc.stub.StreamObserver<CommonMessages.GetNumObjectsResponse> responseObserver) {
+		try {
+			final int result = logicModule.getNumObjects();
+			final CommonMessages.GetNumObjectsResponse.Builder builder = CommonMessages.GetNumObjectsResponse.newBuilder();
+			builder.setNumObjs(result);
+			final CommonMessages.GetNumObjectsResponse resp = builder.build();
+			responseObserver.onNext(resp);
+			responseObserver.onCompleted();
+		} catch (final Exception e) {
+			final CommonMessages.GetNumObjectsResponse.Builder builder = CommonMessages.GetNumObjectsResponse.newBuilder();
+			builder.setExcInfo(Utils.serializeException(e));
+			final CommonMessages.GetNumObjectsResponse resp = builder.build();
+			responseObserver.onNext(resp);
+			responseObserver.onCompleted();
+		}
+	}
+
 
 }

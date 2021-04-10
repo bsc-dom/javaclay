@@ -1,6 +1,7 @@
 
 package es.bsc.dataclay.heap;
 
+import java.util.HashSet;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.ReentrantLock;
@@ -97,15 +98,16 @@ public final class LockerPool {
 		// it is not our critical path, since in our critical path everything is in cache and lockers exist.
 		//
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-		locker = lockers.get(objectID);
-		if (locker == null) {
-			synchronized (this) { // ensure only one locker is created per object
-				locker = lockers.get(objectID);
-				if (locker == null) {
-					locker = new ReentrantLock();
-					lockers.put(objectID, locker);
-				}
+		synchronized (objectID.toString().intern()) { // ensure only one locker is created per object USE STRING INTERN SO ALL STRINGS ARE EQUAL!
+			locker = lockers.get(objectID);
+			if (locker == null) {
+				//synchronized (this) { // ensure only one locker is created per object
+					locker = lockers.get(objectID);
+					if (locker == null) {
+						locker = new ReentrantLock();
+						lockers.put(objectID, locker);
+					}
+				//}
 			}
 		}
 		if (DEBUG_ENABLED) {
@@ -145,28 +147,33 @@ public final class LockerPool {
 	 */
 	public void cleanLockers() {
 		int cleanedLockers = 0;
-		for (final ObjectID objectID : lockers.keySet()) {
-			if (DEBUG_ENABLED) {
-				logger.debug("[==Lockers==] Going to remove locker " + objectID);
-			}
+		if (DEBUG_ENABLED) {
+			logger.debug("[==Lockers==] Number of lockers: {}", lockers.size());
+		}
 
-			final ReentrantLock locker = lockers.get(objectID);
-			synchronized (this) { // prevent the object to be locked before cleaning
-				if (!locker.isLocked()) { // It could have been locked before
-					lockers.remove(objectID);
-					if (DEBUG_ENABLED) {
-						logger.debug("[==Lockers==] Removed locker " + objectID);
+			for (final ObjectID objectID : new HashSet<>(lockers.keySet())) {
+				if (DEBUG_ENABLED) {
+					logger.debug("[==Lockers==] Going to remove locker " + objectID);
+				}
+
+				synchronized (objectID.toString().intern()) { // prevent the object to be locked before cleaning
+					final ReentrantLock locker = lockers.get(objectID);
+					if (!locker.isLocked()) { // It could have been locked before
+						lockers.remove(objectID);
+						if (DEBUG_ENABLED) {
+							logger.debug("[==Lockers==] Removed locker " + objectID);
+						}
+						cleanedLockers++;
 					}
-					cleanedLockers++;
 				}
 			}
-		}
 
-		if (DEBUG_ENABLED) {
-			if (cleanedLockers > 0) {
-				logger.debug("[==Lockers==] Lockers cleaned " + cleanedLockers);
+			if (DEBUG_ENABLED) {
+				if (cleanedLockers > 0) {
+					logger.debug("[==Lockers==] Lockers cleaned " + cleanedLockers);
+				}
 			}
-		}
+
 	}
 
 	/**

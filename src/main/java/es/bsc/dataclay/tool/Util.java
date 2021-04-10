@@ -204,10 +204,10 @@ public class Util {
 	 *             if an unexpected error occurs
 	 */
 	public static void finishErr(final String msg, final ERRCODE exitcode) throws Exception {
+		System.err.println(ANSI_BOLD + " " + ANSI_RED + "[dataClay] " + exitcode.prio + msg + ANSI_RESET);
 		if (initialized) {
 			ClientManagementLib.finishConnections();
 			initialized = false;
 		}
-		System.err.println(ANSI_BOLD + " " + ANSI_RED + "[dataClay] " + exitcode.prio + msg + ANSI_RESET);
 	}
 }

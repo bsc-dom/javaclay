@@ -90,7 +90,7 @@ public final class DataClayDiskGC {
 	 * objects and cannot be accessed. An object is an unaccessible candidate if has no alias, but it is actually unaccessible
 	 * if no alias + no retained ref in EE (no session, no execution using it...).
 	 */
-	private final Set<ObjectID> unaccessibleCandidates = new HashSet<>();
+	private final Set<ObjectID> unaccessibleCandidates = ConcurrentHashMap.newKeySet();
 
 	/** Pool for tasks. */
 	protected final ScheduledExecutorService threadPool = Executors.newSingleThreadScheduledExecutor(new ThreadFactory() {
@@ -148,20 +148,18 @@ public final class DataClayDiskGC {
 			final LocalDateTime now = LocalDateTime.now();
 			final LocalDateTime startTime = now.plusHours(Configuration.Flags.GLOBALGC_COLLECTOR_INITIAL_DELAY_HOURS.getLongValue());
 			final Duration duration = Duration.between(LocalDateTime.now(), startTime);
-			if (!Configuration.mockTesting) { // GC testing does not add initial delay (too many hours!)
-				initalDelay = duration.toMillis();
-			}
+			initalDelay = duration.toMillis();
 		}
 
 		final TimerTask collectorTask = new CollectorTask();
 		final TimerTask refCountingQueueProcessor = new ReferenceCountingQueueProcessor();
 		final TimerTask remoteCountingNotifier = new RemoteReferenceCountingNotifier();
-		threadPool.scheduleAtFixedRate(remoteCountingNotifier, Configuration.Flags.GLOBALGC_CHECK_REMOTE_PENDING.getLongValue(),
+		threadPool.scheduleAtFixedRate(remoteCountingNotifier, 0,
 				Configuration.Flags.GLOBALGC_CHECK_REMOTE_PENDING.getLongValue(), TimeUnit.MILLISECONDS);
-		threadPool.scheduleAtFixedRate(refCountingQueueProcessor, Configuration.Flags.GLOBALGC_CHECK_REMOTE_PENDING.getLongValue(),
+		threadPool.scheduleAtFixedRate(refCountingQueueProcessor, 0,
 				Configuration.Flags.GLOBALGC_PROCESS_COUNTINGS_INTERVAL.getLongValue(), TimeUnit.MILLISECONDS);
 		threadPool.scheduleAtFixedRate(collectorTask, initalDelay,
-				Configuration.Flags.GLOBALGC_CHECK_TIME_INTERVAL.getLongValue(), TimeUnit.MILLISECONDS);
+				Configuration.Flags.GLOBALGC_COLLECT_TIME_INTERVAL.getLongValue(), TimeUnit.MILLISECONDS);
 
 	}
 
@@ -275,8 +273,11 @@ public final class DataClayDiskGC {
 	 * @param delta
 	 * @param initializingCounter
 	 *            Indicates we are adding the counting because it might be the first time we see the reference
+	 * @param checkCandidates
+	 *            Indicates we should check if it is a new candidate or not
 	 */
-	private void addRefs(final ObjectID objectID, final BackendID theownerID, final int delta, final boolean initializingCounter) {
+	private void addRefs(final ObjectID objectID, final BackendID theownerID, final int delta,
+						 final boolean initializingCounter, final boolean checkCandidates) {
 
 		BackendID ownerID = UNKNOW_LOCATION_UUID;
 		if (theownerID != null) {
@@ -301,32 +302,29 @@ public final class DataClayDiskGC {
 				counter = counters.get(objectID);
 				if (counter == null) {
 					counter = new AtomicInteger(0);
+					if (DEBUG_ENABLED) {
+						LOGGER.debug("New reference counter in node " + ownerID + " for object " + objectID + " = " + delta);
+					}
 					counters.put(objectID, counter);
 				}
 			}
 		}
 
 		final int numRefs = counter.addAndGet(delta);
-		if (DEBUG_ENABLED && !initializingCounter) {
-			LOGGER.debug("Num references for " + objectID + " : " + numRefs);
-		}
-		// should we do it only for updates? (also being done during get)
-		// check if object has reference counting = 0 (might have session reference, memory reference or alias reference)
-		if (this.storageLocation.getAssociateExecutionEnvironments().contains(ownerID) && numRefs == 0
-				&& !this.candidates.contains(objectID)) {
+		if (checkCandidates) {
 			if (DEBUG_ENABLED && !initializingCounter) {
-				LOGGER.debug("** Added candidate " + objectID);
+				LOGGER.debug("Num references for " + objectID + " : " + numRefs);
 			}
-			this.candidates.add(objectID);
-		}
-
-		// remove from unaccessible candidates if numrefs != 0 and is present
-		synchronized (unaccessibleCandidates) {
-			if (numRefs != 0 && this.unaccessibleCandidates.contains(objectID)) {
+			// should we do it only for updates? (also being done during get)
+			// check if object has reference counting = 0 (might have session reference, memory reference or alias reference)
+			if (this.storageLocation.getAssociateExecutionEnvironments().contains(ownerID) && numRefs == 0
+					&& !this.candidates.contains(objectID) && !initializingCounter) {
 				if (DEBUG_ENABLED) {
-					LOGGER.debug("** Removed from unaccessible candidate " + objectID);
+					LOGGER.debug("** Added candidate " + objectID);
 				}
-				this.unaccessibleCandidates.remove(objectID);
+				synchronized (unaccessibleCandidates) {
+					this.unaccessibleCandidates.add(objectID);
+				}
 			}
 		}
 
@@ -352,7 +350,7 @@ public final class DataClayDiskGC {
 				}
 			}
 			LOGGER.trace("Updating counting from other node, to: " + oid + " (" + counting + ")");
-			this.addRefs(oid, thenode, counting, false);
+			this.addRefs(oid, thenode, counting, false, true);
 		}
 	}
 
@@ -411,11 +409,17 @@ public final class DataClayDiskGC {
 				final Integer counting = pointedRefEntry.getValue();
 				final ObjectID pointedRef = pointedRefEntry.getKey();
 				if (!pointedRef.equals(referrerObjectID)) {
-					LOGGER.trace("Adding reference " + referrerObjectID + " -> " + pointedRef + "(-" + counting + ")");
-					addRefs(pointedRef, ownerID, -counting, false);
+					LOGGER.debug("Adding reference " + referrerObjectID + " -> " + pointedRef + "(-" + counting + ")");
+					addRefs(pointedRef, ownerID, -counting, false, true);
 				}
 			}
 		}
+		// remove alias and federation references
+		int externalRefs = refCounting.getExternalReferences();
+		if (externalRefs != 0) {
+			this.addRefs(referrerObjectID, serializedCounting.eeID, -externalRefs, false, false);
+		}
+
 	}
 
 	/**
@@ -429,30 +433,30 @@ public final class DataClayDiskGC {
 			final ObjectID referrerObjectID = serializedCounting.objectID;
 			if (DEBUG_ENABLED) {
 				LOGGER.debug("[==GGC counters processor==] Processing serializedCounting at Update for "
-						+ referrerObjectID
-						+ " ref.id = " + System.identityHashCode(serializedCounting));
+						+ referrerObjectID);
 
 			}
 			final ReferenceCounting refCounting = new ReferenceCounting();
 			refCounting.deserializeReferenceCounting(referrerObjectID, serializedCounting.bytes);
 
-			// object might be unaccessible (very volatile)
-			// FIXME: do not add any object as unaccesible candidate 
-			// currently we are adding them in case of cycles, and collect thread is removing them after
-			// checking it. 
-			if (this.getNumReferencesTo(referrerObjectID) == 0) {
+			// add alias and federation references
+			int externalRefs = refCounting.getExternalReferences();
+			if (externalRefs != 0) {
+				LOGGER.debug("[==GGC counters processor==] Found " + externalRefs + " external references for object " + referrerObjectID);
+				this.addRefs(referrerObjectID, serializedCounting.eeID, externalRefs, false, false);
+			} else {
 				synchronized (unaccessibleCandidates) { //avoid concurrent modification in collector task
-					// an object A -> B -> A arrives, A and B are marked as unaccesible but when B is processed, 
+					// an object A -> B -> A arrives, A and B are marked as unaccesible but when B is processed,
 					// A is removed from unacessible candidates, but B continue as a candidate. When collector realizes
 					// that B has != 0 references, it removes it from candidates list, and wait for B to be in unaccessible
-					// candidates list, which will happen when A is removed (and its refs are decreased). 
-					// Alias case: any object arrives A, with session and alias refs, it is marked as unaccesible 
-					// till alias arrive, then addrefs will remove it from unaccessible candidates. 
+					// candidates list, which will happen when A is removed (and its refs are decreased).
+					// Alias case: any object arrives A, with session and alias refs, it is marked as unaccesible
+					// till alias arrive, then addrefs will remove it from unaccessible candidates.
 					unaccessibleCandidates.add(referrerObjectID);
 				}
-				LOGGER.debug("[==GGC counters processor==] Added unaccesible candidate: " + referrerObjectID);
+				LOGGER.debug("[==GGC counters processor==] No external refs. Added unaccesible candidate: " + referrerObjectID);
 			}
-			
+
 			if (DEBUG_ENABLED) {
 				LOGGER.debug("[==GGC counters processor==] Reference counting size : " + refCounting.getReferenceCounting().size());
 			}
@@ -465,7 +469,7 @@ public final class DataClayDiskGC {
 						if (DEBUG_ENABLED) {
 							LOGGER.debug("[==Count at update==] Adding {} to object {} ", counting, pointedRef);
 						}
-						addRefs(pointedRef, ownerID, counting, false);
+						addRefs(pointedRef, ownerID, counting, false, true);
 					}
 
 				}
@@ -485,22 +489,25 @@ public final class DataClayDiskGC {
 	 */
 	private void markUnaccesibleObject(final ObjectID unaccessibleCandidate) {
 
-		// WARNING: THE ELAPSED TIME TO NOTIFY AN ALIAS/EXTERNAL REFERENCE ++MUST++ BE LESS THAN THE
-		// TIME TO MARK UNACCESSIBLE OBJECT --- so, when we call this function we are sure
-		// that there is no pending 'addRefs' about the object with +1 from an alias/external reference.
-
 		if (DEBUG_ENABLED) {
-			LOGGER.debug("[==GGC collector==] Found unaccesible object: " + unaccessibleCandidate);
+			LOGGER.debug("[==GGC collector==] MARK unaccesible object: " + unaccessibleCandidate);
 		}
 		// the object is actually unaccessible, get reference counting and 'discount' all references.
 		// this way, we allow GC to clean cyclic retained references.
 		// get the object from any EE (any replica is ok)
 		byte[] unaccessibleBytes = null;
 		for (final ExecutionEnvironmentID associatedExecutionEnvironmentID : this.storageLocation.getAssociateExecutionEnvironments()) {
-			unaccessibleBytes = storageLocation.getDbHandler(associatedExecutionEnvironmentID).get(unaccessibleCandidate);
+			try {
+				unaccessibleBytes = storageLocation.getDbHandler(associatedExecutionEnvironmentID).get(unaccessibleCandidate);
+			} catch (final es.bsc.dataclay.exceptions.dbhandler.DbObjectNotExistException e) {
+				//ignore if not found here
+			}
 			if (unaccessibleBytes != null) {
 				break;
 			}
+		}
+		if (unaccessibleBytes == null) {
+			throw new es.bsc.dataclay.exceptions.dbhandler.DbObjectNotExistException(unaccessibleCandidate);
 		}
 		final byte[] unaccesibleRefCounting = DataClayDeserializationLib.extractReferenceCounting(unaccessibleBytes);
 		final ReferenceCounting refCounting = new ReferenceCounting();
@@ -514,7 +521,7 @@ public final class DataClayDiskGC {
 					if (DEBUG_ENABLED) {
 						LOGGER.debug("[==GGC collector==] Found unaccesible reference: " + unaccessibleCandidate + "->" + pointedRef);
 					}
-					addRefs(pointedRef, ownerID, -counting, false);
+					addRefs(pointedRef, ownerID, -counting, false, true);
 				}
 			}
 		}
@@ -536,10 +543,17 @@ public final class DataClayDiskGC {
 		// get the object from any EE (any replica is ok)
 		byte[] unaccessibleBytes = null;
 		for (final ExecutionEnvironmentID associatedExecutionEnvironmentID : this.storageLocation.getAssociateExecutionEnvironments()) {
-			unaccessibleBytes = storageLocation.getDbHandler(associatedExecutionEnvironmentID).get(unaccessibleCandidate);
+			try {
+				unaccessibleBytes = storageLocation.getDbHandler(associatedExecutionEnvironmentID).get(unaccessibleCandidate);
+			} catch (final es.bsc.dataclay.exceptions.dbhandler.DbObjectNotExistException e) {
+				//ignore if not found here
+			}
 			if (unaccessibleBytes != null) {
 				break;
 			}
+		}
+		if (unaccessibleBytes == null) {
+			throw new es.bsc.dataclay.exceptions.dbhandler.DbObjectNotExistException(unaccessibleCandidate);
 		}
 		final byte[] unaccesibleRefCounting = DataClayDeserializationLib.extractReferenceCounting(unaccessibleBytes);
 		final ReferenceCounting refCounting = new ReferenceCounting();
@@ -551,9 +565,9 @@ public final class DataClayDiskGC {
 				final ObjectID pointedRef = pointedRefEntry.getKey();
 				if (!pointedRef.equals(unaccessibleCandidate)) {
 					if (DEBUG_ENABLED) {
-						LOGGER.debug("[==GGC collector==] Found unaccesible reference: " + unaccessibleCandidate + "->" + pointedRef);
+						LOGGER.debug("[==GGC collector==] Added accesible reference: " + unaccessibleCandidate + "->" + pointedRef);
 					}
-					addRefs(pointedRef, ownerID, counting, false);
+					addRefs(pointedRef, ownerID, counting, false, false);
 				}
 			}
 		}
@@ -564,9 +578,6 @@ public final class DataClayDiskGC {
 	 * Process pending reference counters
 	 */
 	private void processPendingReferenceCounters() {
-		if (DEBUG_ENABLED) {
-			LOGGER.debug("[==GGC counters processor==] Processing pending references");
-		}
 		while (!refCounting.isEmpty()) {
 			final SerializedReferenceCounting serializedRefCounting = refCounting.poll();
 			if (serializedRefCounting.isGet) {
@@ -579,15 +590,11 @@ public final class DataClayDiskGC {
 				// Therefore, for each object we find here (it passes through SL) WITHOUT counter, we add a counter = 0, and
 				// add it as candidate.
 				// "adding 0" if it exists is not going to affect counting and we reuse the algorithm and locking system.
-				LOGGER.trace("Adding 0 just in case to: " + serializedRefCounting.objectID);
-				this.addRefs(serializedRefCounting.objectID, serializedRefCounting.eeID, 0, true);
+				this.addRefs(serializedRefCounting.objectID, serializedRefCounting.eeID, 0, true, false);
 
 				countAtUpdate(serializedRefCounting);
 			}
 
-		}
-		if (DEBUG_ENABLED) {
-			LOGGER.debug("[==GGC counters processor==] Finished processing pending references");
 		}
 	}
 
@@ -595,80 +602,79 @@ public final class DataClayDiskGC {
 	 * Notify reference counting to other nodes.
 	 */
 	private void notifyReferencesToNodes() {
-		if (DEBUG_ENABLED) {
-			LOGGER.debug("[==GGC notifier==] Notifying references to other nodes");
-			LOGGER.debug("[==GGC notifier==] Get locations of objects");
-		}
-		// ========== process objects without location hint ==== //
-		final Map<ObjectID, AtomicInteger> unknownCounters = countersPerNode.get(UNKNOW_LOCATION_UUID);
-		if (unknownCounters != null) {
-			final Iterator<Entry<ObjectID, AtomicInteger>> iterator = unknownCounters.entrySet().iterator(); // use iterator for
-																												// removing
-			while (iterator.hasNext()) {
-				try {
-					final Entry<ObjectID, AtomicInteger> curCounting = iterator.next();
-					final ObjectID oid = curCounting.getKey();
-					final Integer counting = curCounting.getValue().get();
-					// TODO: should we use a cache?
-					if (DEBUG_ENABLED) {
-						LOGGER.debug("[==GGC notifier==] Get location of object " + oid);
-					}
-					final MetaDataInfo mdInfo = runtime.getLogicModuleAPI().getMetadataByOIDForDS(oid);
-					final BackendID execEnvID = mdInfo.getLocations().iterator().next();
-
-					LOGGER.trace("After getting location, references to " + oid + "(" + counting + ")");
-					addRefs(oid, execEnvID, counting, false);
-				} catch (final Exception ex) {
-					LOGGER.debug("notifyReferencesToNodes error", ex);
-					// object has no metadata, maybe due to a explicit remove in a consolidate/move
-				}
-				iterator.remove();
-			}
-		}
-
-		if (DEBUG_ENABLED) {
-			LOGGER.debug("[==GGC notifier==] Now, notifying references");
-		}
-		// ========== NOTIFY ==== //
-		for (final Entry<BackendID, Map<ObjectID, AtomicInteger>> countingsPerNode : countersPerNode.entrySet()) {
-			final BackendID nodeID = countingsPerNode.getKey();
-			// check if unknown due to concurrent conditions (added oid with unknown while processing this)
-			if (!this.storageLocation.getAssociateExecutionEnvironments().contains(nodeID) && !nodeID.equals(UNKNOW_LOCATION_UUID)) {
+		try {
+			// ========== process objects without location hint ==== //
+			final Map<ObjectID, AtomicInteger> unknownCounters = countersPerNode.get(UNKNOW_LOCATION_UUID);
+			if (unknownCounters != null && !unknownCounters.isEmpty()) {
 				if (DEBUG_ENABLED) {
-					LOGGER.debug("[==GGC notifier==] Notifying references to " + nodeID);
+					LOGGER.debug("[==GGC notifier==] Notifying references with unknown location");
 				}
-				try {
-					final DataServiceAPI dsAPI = runtime.getRemoteDSAPI((ExecutionEnvironmentID) nodeID);
-					final Map<ObjectID, Integer> referenceCounting = new HashMap<>();
-					for (final Entry<ObjectID, AtomicInteger> curCounting : countingsPerNode.getValue().entrySet()) {
-						final AtomicInteger atomicCounting = curCounting.getValue();
-						// Race condition design: if some one is trying to add/remove references, we set 0.
-						final int value = atomicCounting.get(); // TODO: should we remove them? locking!
-						referenceCounting.put(curCounting.getKey(), value);
+				Set<ObjectID> objectsWithLocation = new HashSet<>();
+				for (Entry<ObjectID, AtomicInteger> curCounting : unknownCounters.entrySet()) {
+					try {
+						final ObjectID oid = curCounting.getKey();
+						final int counting = curCounting.getValue().get();
+						// TODO: should we use a cache?
 						if (DEBUG_ENABLED) {
-							LOGGER.debug("[==GGC notifier==] Notifying ref counting = " + value + " for object " + curCounting.getKey());
+							LOGGER.debug("[==GGC notifier==] Get location of object " + oid);
 						}
+						final MetaDataInfo mdInfo = runtime.getLogicModuleAPI().getMetadataByOIDForDS(oid);
+						final BackendID execEnvID = mdInfo.getLocations().iterator().next();
+
+						LOGGER.debug("After getting location, references to " + oid + "(" + counting + ")");
+						addRefs(oid, execEnvID, counting, false, false);
+						objectsWithLocation.add(oid);
+					} catch (final Exception ex) {
+						LOGGER.debug("notifyReferencesToNodes error", ex);
+						// object has no metadata, maybe due to a explicit remove in a consolidate/move
 					}
-
-					dsAPI.updateRefs(referenceCounting);
-					countersPerNode.remove(nodeID);
-
-					// only set counters to 0 if communication succeeded
-					for (final Entry<ObjectID, AtomicInteger> curCounting : countingsPerNode.getValue().entrySet()) {
-						final AtomicInteger atomicCounting = curCounting.getValue();
-						if (DEBUG_ENABLED) {
-							LOGGER.debug("[==GGC notifier==] Setting ref counting = 0 for object " + curCounting.getKey());
-						}
-						atomicCounting.set(0);
-					}
-
-				} catch (final Exception ex) {
-					LOGGER.debug("notifyReferencesToNodes expected error", ex);
-					// node is shutdown, do not remove counting.
+				}
+				//FIXME: race condition removing counters and getting
+				for (ObjectID objectWithLocation : objectsWithLocation) {
+				  unknownCounters.remove(objectWithLocation);
 				}
 			}
+
+			// ========== NOTIFY ==== //
+			for (final Entry<BackendID, Map<ObjectID, AtomicInteger>> countingsPerNode : countersPerNode.entrySet()) {
+				final ExecutionEnvironmentID nodeID = (ExecutionEnvironmentID) countingsPerNode.getKey();
+				// check if unknown due to concurrent conditions (added oid with unknown while processing this)
+				if (!this.storageLocation.getAssociateExecutionEnvironments().contains(nodeID) && !nodeID.equals(UNKNOW_LOCATION_UUID)) {
+					if (DEBUG_ENABLED) {
+						LOGGER.debug("[==GGC notifier==] Notifying references to " + nodeID);
+					}
+					try {
+						final DataServiceAPI dsAPI = runtime.getRemoteDSAPI((ExecutionEnvironmentID) nodeID);
+						final Map<ObjectID, Integer> referenceCounting = new HashMap<>();
+						for (final Entry<ObjectID, AtomicInteger> curCounting : countingsPerNode.getValue().entrySet()) {
+							final AtomicInteger atomicCounting = curCounting.getValue();
+							// Race condition design: if some one is trying to add/remove references, we set 0.
+							final int value = atomicCounting.getAndSet(0); // TODO: should we remove them? locking!
+							if (value != 0) {
+								referenceCounting.put(curCounting.getKey(), value);
+								if (DEBUG_ENABLED) {
+									LOGGER.debug("[==GGC notifier==] Notifying ref counting = " + value + " for object " + curCounting.getKey());
+									LOGGER.debug("[==GGC notifier==] Setting ref counting = 0 for object " + curCounting.getKey());
+								}
+							}
+						}
+
+						if (!referenceCounting.isEmpty()) {
+							LOGGER.debug("[==GGC notifier==] Calling updateRefs");
+							dsAPI.updateRefs(referenceCounting);
+							LOGGER.debug("[==GGC notifier==] Finished updateRefs");
+						}
+					} catch (final Exception ex) {
+						LOGGER.debug("notifyReferencesToNodes expected error", ex);
+						// node is shutdown, do not remove counting.
+					}
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
+
 
 	/**
 	 * Collect all objects that are garbage.
@@ -677,10 +683,30 @@ public final class DataClayDiskGC {
 	 *            Indicates if it is a collection requested from shutdown process.
 	 */
 	private void collect(final boolean isShutDown) {
-		if (DEBUG_ENABLED) {
-			LOGGER.debug("[==GGC collector==] Checking and collecting");
-		}
 		try {
+			if (DEBUG_ENABLED) {
+				String currentCounters = "{";
+				for (Entry<BackendID, Map<ObjectID, AtomicInteger>> curCounter : countersPerNode.entrySet()) {
+					BackendID backendID = curCounter.getKey();
+					currentCounters += backendID + ":[";
+					for (Entry<ObjectID, AtomicInteger> objCounter : curCounter.getValue().entrySet()) {
+						ObjectID oid = objCounter.getKey();
+						int value = objCounter.getValue().intValue();
+						currentCounters += oid + "=" + value + ", ";
+					}
+				}
+				currentCounters += "}";
+				LOGGER.debug("[====GGC COLLECTOR====] "
+						+ "\n -- Current counters: " + currentCounters
+						+ "\n -- Unaccessible candidates: " + this.unaccessibleCandidates
+						+ "\n -- Candidates: " + candidates
+						+ "\n -- Quarantine: " + this.quarantine.keySet());
+
+			}
+			if (DEBUG_ENABLED) {
+				LOGGER.debug("[==GGC collector==] Getting counters");
+			}
+
 			// if there is replicas, the put will replace them but counter is the same.
 			final Map<ObjectID, AtomicInteger> currentSLcounters = new HashMap<>();
 			for (final ExecutionEnvironmentID associatedExecutionEnvironmentID : this.storageLocation.getAssociateExecutionEnvironments()) {
@@ -690,13 +716,12 @@ public final class DataClayDiskGC {
 				}
 			}
 			final long currentTimeStamp = System.currentTimeMillis();
-
+			if (DEBUG_ENABLED) {
+				LOGGER.debug("[==GGC collector==] Getting references in EE");
+			}
 			// ========================= CHECK REFERENCES IN EE ======================= //
 			final Set<ObjectID> referencedObjectsByEE = new HashSet<>();
-			if (!isShutDown) { // if shutdown, memory and session references are ignored. (TODO: alias)
-				if (DEBUG_ENABLED) {
-					LOGGER.debug("[==GGC collector==] Asking for references retained in EEs " + this.storageLocation.getAssociateExecutionEnvironments());
-				}
+			if (!isShutDown) { // if shutdown, memory and session references are ignored.
 				// ==== PULL from EE: update reference counting === //
 				// get information from EE to check if candidates are in memory, used by some session or have alias
 
@@ -712,45 +737,15 @@ public final class DataClayDiskGC {
 				}
 
 			}
-			// ========================= CHECK UNACCESSIBLE CANDIDATES ======================= //
-
-			// If an unaccessible candidate is retained in EE then it might be accessible.
-			// However, we cannot remove the candidate to be unaccessible because we do not know why it is being
-			// retained in EE (maybe last execution). For each unaccessible candidate that is not retained,
-			// we know they are actually unaccesible.
-			final Set<ObjectID> actualUnaccessibles = new HashSet<>();
-			synchronized (unaccessibleCandidates) { //Avoid concurrent modification during updates
-				for (final ObjectID unaccessibleCandidate : unaccessibleCandidates) {
-					if (!referencedObjectsByEE.contains(unaccessibleCandidate)) {
-						try {
-	
-							this.markUnaccesibleObject(unaccessibleCandidate);
-							actualUnaccessibles.add(unaccessibleCandidate);
-							
-	
-						} catch (final Exception e) {
-							// FIXME: object might be removed explicitly (dgasull 2018)
-							// (usually this happens in consolidate or moves)
-							// Currently, object is considered actually unaccessible if exception is raised.
-							// Fix this when resuming consolidates and moves.
-							LOGGER.debug(e);
-						}
-					}
-				}
-				unaccessibleCandidates.removeAll(actualUnaccessibles);
-			}
-
-			// ========================= CHECK CANDIDATES ======================= //
-
-			// at this point, if some candidate is in memory, has alias or session, is not in list anymore.
 			if (DEBUG_ENABLED) {
-				LOGGER.debug("[==GGC collector==] Number of candidates: " + candidates.size());
-				LOGGER.debug("[==GGC collector==] Candidates: " + candidates);
+				LOGGER.debug("[==GGC collector==] Checking candidates");
 			}
-
+			// ========================= CHECK CANDIDATES ======================= //
+			// at this point, if some candidate is in memory, has alias or session, is not in list anymore.
 			final int candidatesSize = candidates.size(); // get size here since loop is modifying it.
 			int i = 0;
-			while (i < candidatesSize && i < Configuration.Flags.GLOBALGC_MAX_OBJECTS_TO_COLLECT_PERTASK.getIntValue()) {
+			Set<ObjectID> freshQuarantine = new HashSet<>();
+			while (i < candidatesSize && i < Configuration.Flags.GLOBALGC_MAX_OBJECTS_TO_COLLECT_ITERATION.getIntValue()) {
 				final ObjectID oidCandidate = candidates.poll();
 				// race condition: i added an object as a candidate but later references were added.
 				// so check num. references again.
@@ -775,34 +770,39 @@ public final class DataClayDiskGC {
 							LOGGER.debug("[==GGC collector==] Adding to quarantine: " + oidCandidate);
 						}
 						quarantine.put(oidCandidate, System.currentTimeMillis());
+						freshQuarantine.add(oidCandidate);
 					} else {
 						// add it to the tail of the queue
 						candidates.offer(oidCandidate);
 					}
-				} else { 
+				} else {
 					if (DEBUG_ENABLED) {
-						LOGGER.debug("[==GGC collector==] References to candidate object {} is not zero, probably due to a cycle, "
+						LOGGER.debug("[==GGC collector==] References to candidate object {} is not zero, "
 								+ ". It was polled from candidates list, will be added to unaccessible candidates when references are 0", oidCandidate);
 					}
-					
-					
+					remarkAccesibleObject(oidCandidate);
 				}
 				i++;
 			}
 
 			// =============================== REMOVE OBJECTS IN QUARANTINE =============================== //
 			if (DEBUG_ENABLED) {
+				LOGGER.debug("[==GGC collector==] Checking quarantine");
+			}
+			if (DEBUG_ENABLED && quarantine.size() > 0) {
 				LOGGER.debug("[==GGC collector==] Number of objects in quarantine: " + quarantine.size());
 			}
-
 			final Set<ObjectID> objectsToUnregister = new HashSet<>();
 			final Iterator<Entry<ObjectID, Long>> iterator = this.quarantine.entrySet().iterator();
-			while (iterator.hasNext() && i < Configuration.Flags.GLOBALGC_MAX_OBJECTS_TO_COLLECT_PERTASK.getIntValue()) {
+
+			Set<ExecutionEnvironmentID> dbsToVacuum = new HashSet<>();
+
+			while (iterator.hasNext() && i < Configuration.Flags.GLOBALGC_MAX_OBJECTS_TO_COLLECT_ITERATION.getIntValue()) {
 				final Entry<ObjectID, Long> curQuarantine = iterator.next();
 				final ObjectID oid = curQuarantine.getKey();
 				// check no new references appeared
 				int numRefs = 0;
-				if (currentSLcounters != null) { // is null if no other objects point to this and nothing is registered.
+				if (!currentSLcounters.isEmpty()) {
 					// no need to check references in EE since we make sure that time in quarantine is enough to get EE ref.
 					// counting.
 					final AtomicInteger numRefsAssociatedAtomic = currentSLcounters.get(oid);
@@ -816,7 +816,9 @@ public final class DataClayDiskGC {
 				if (numRefs == 0) {
 					final Long timestamp = curQuarantine.getValue();
 					final long diff = currentTimeStamp - timestamp;
-					if (diff > Configuration.Flags.GLOBALGC_MAX_TIME_QUARANTINE.getLongValue()) {
+					// objects recently added to quarantine must wait for one iteration to allow
+					// wrongly unmarked objects to be remarked (cycle detection)
+					if (!freshQuarantine.contains(oid) && diff > Configuration.Flags.GLOBALGC_MAX_TIME_QUARANTINE.getLongValue()) {
 						// remove it from all databases
 						for (final ExecutionEnvironmentID associatedExecutionEnvironmentID : this.storageLocation.getAssociateExecutionEnvironments()) {
 							if (DEBUG_ENABLED) {
@@ -824,7 +826,7 @@ public final class DataClayDiskGC {
 							}
 							try {
 								storageLocation.delete(associatedExecutionEnvironmentID, oid);
-
+								dbsToVacuum.add(associatedExecutionEnvironmentID);
 							} catch (final Exception e) {
 								// FIXME: object might be removed explicitly (dgasull 2018)
 								// (usually this happens in consolidate or moves)
@@ -839,22 +841,40 @@ public final class DataClayDiskGC {
 						System.err.println("[==GGC collector==] *** Object " + oid + " removed from DB");
 
 						objectsToUnregister.add(oid);
-
-						// remove it from reference counting map if present
-						if (currentSLcounters != null) {
-							currentSLcounters.remove(oid);
+						// FIXME: race condition while modifying counters?
+						for (final ExecutionEnvironmentID associatedExecutionEnvironmentID : this.storageLocation.getAssociateExecutionEnvironments()) {
+							final Map<ObjectID, AtomicInteger> thecounters = countersPerNode.get(associatedExecutionEnvironmentID);
+							if (thecounters != null) {
+								thecounters.remove(oid);
+							}
 						}
 						// remove it from quarantine map
 						iterator.remove();
 					} else {
 						if (DEBUG_ENABLED) {
-							LOGGER.debug("[==GGC collector==] Object " + oid + " must stay in quarantine. Spend time: " + diff);
+							if (freshQuarantine.contains(oid)) {
+								LOGGER.debug("[==GGC collector==] Object " + oid + " must stay in quarantine since it was recently added");
+							} else {
+								LOGGER.debug("[==GGC collector==] Object " + oid + " must stay in quarantine. Spend time: " + diff);
+							}
 						}
 					}
-				} else { 
-					
+
+				} else {
+					// This can happen if an object was added to quarantine due to mark unaccessible and then it was
+					// remarkerd.
+					if (DEBUG_ENABLED) {
+						LOGGER.debug("[==GGC collector==] Object " + oid + " has references. Removed from quarantine");
+					}
+					remarkAccesibleObject(oid);
+					quarantine.remove(oid);
 				}
 				i++;
+			}
+
+			// Vacuum dbs
+			for (ExecutionEnvironmentID dbToVacuum : dbsToVacuum) {
+				storageLocation.vacuum(dbToVacuum);
 			}
 
 			if (objectsToUnregister.size() > 0) {
@@ -863,11 +883,57 @@ public final class DataClayDiskGC {
 				}
 				runtime.getLogicModuleAPI().unregisterObjects(objectsToUnregister);
 			}
+
+			// ========================= CHECK UNACCESSIBLE CANDIDATES ======================= //
+			// If an unaccessible candidate is retained in EE then it might be accessible.
+			// However, we cannot remove the candidate to be unaccessible because we do not know why it is being
+			// retained in EE (maybe last execution). For each unaccessible candidate that is not retained,
+			// we know they are actually unaccesible.
+			synchronized (unaccessibleCandidates) { //Avoid concurrent modification during updates
+				final Set<ObjectID> actualUnaccessibles = new HashSet<>();
+				boolean marked = false;
+				LOGGER.debug("[==GGC collector==] Checking unaccessible candidates: " + unaccessibleCandidates);
+				for (final ObjectID unaccessibleCandidate : unaccessibleCandidates) {
+					if (!referencedObjectsByEE.contains(unaccessibleCandidate)) {
+						try {
+
+							this.markUnaccesibleObject(unaccessibleCandidate);
+							actualUnaccessibles.add(unaccessibleCandidate);
+							this.candidates.add(unaccessibleCandidate);
+							marked = true;
+
+						} catch (final Exception e) {
+							// FIXME: object might be removed explicitly (dgasull 2018)
+							// (usually this happens in consolidate or moves)
+							// Currently, object is considered actually unaccessible if exception is raised.
+							// Fix this when resuming consolidates and moves.
+							LOGGER.debug(e);
+						}
+					}
+				}
+				unaccessibleCandidates.removeAll(actualUnaccessibles);
+				if (marked && unaccessibleCandidates.size() > 0) {
+					LOGGER.debug("[==GGC collector==] Unaccessible candidates after mark: " + unaccessibleCandidates);
+					for (final ObjectID unaccessibleCandidate : unaccessibleCandidates) {
+						if (!referencedObjectsByEE.contains(unaccessibleCandidate)) {
+							try {
+								this.markUnaccesibleObject(unaccessibleCandidate);
+								actualUnaccessibles.add(unaccessibleCandidate);
+								this.candidates.add(unaccessibleCandidate);
+							} catch (final Exception e) {
+								LOGGER.debug(e);
+							}
+						}
+					}
+					unaccessibleCandidates.removeAll(actualUnaccessibles);
+				}
+			}
+			if (DEBUG_ENABLED) {
+				LOGGER.debug("[====GGC COLLECTOR====] Iteration finished!");
+			}
+
 		} catch (final Exception ex) {
 			LOGGER.debug("collect error", ex);
-		}
-		if (DEBUG_ENABLED) {
-			LOGGER.debug("[==GGC collector==] Finished collection");
 		}
 	}
 
@@ -878,9 +944,6 @@ public final class DataClayDiskGC {
 
 		@Override
 		public final void run() {
-			if (DEBUG_ENABLED) {
-				LOGGER.debug("[==GGC Collector==] Starting");
-			}
 			collect(false);
 		}
 	}
@@ -892,9 +955,6 @@ public final class DataClayDiskGC {
 
 		@Override
 		public final void run() {
-			if (DEBUG_ENABLED) {
-				LOGGER.debug("[==GGC counters processor==] Starting");
-			}
 			processPendingReferenceCounters();
 		}
 	}
@@ -906,9 +966,6 @@ public final class DataClayDiskGC {
 
 		@Override
 		public final void run() {
-			if (DEBUG_ENABLED) {
-				LOGGER.debug("[==GGC notifier==] Starting");
-			}
 			notifyReferencesToNodes();
 		}
 
@@ -927,10 +984,6 @@ public final class DataClayDiskGC {
 		for (final ExecutionEnvironmentID associatedExecutionEnvironmentID : this.storageLocation.getAssociateExecutionEnvironments()) {
 			final Map<ObjectID, AtomicInteger> curReferencesInThisNode = countersPerNode.get(associatedExecutionEnvironmentID);
 			if (curReferencesInThisNode != null) {
-				if (DEBUG_ENABLED) {
-					LOGGER.debug("[==Getting number of references==] Found references to {} in node {}",
-							objectID, associatedExecutionEnvironmentID);
-				}
 				referencesInThisNode = curReferencesInThisNode;
 			}
 		}

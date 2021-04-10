@@ -3,6 +3,7 @@ package es.bsc.dataclay.communication.grpc.clients;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -28,10 +29,10 @@ public final class CommonGrpcClient {
 	private final String originHostName;
 
 	/** Logic Module clients. */
-	private final Map<String, LogicModuleGrpcClient> allLMclients = new HashMap<>();
+	private final Map<String, LogicModuleGrpcClient> allLMclients = new ConcurrentHashMap<>();
 
 	/** DataService clients. */
-	private final Map<String, DataServiceGrpcClient> allDSclients = new HashMap<>();
+	private final Map<String, DataServiceGrpcClient> allDSclients = new ConcurrentHashMap<>();
 
 	/** Custom header key. */
 	public static final Metadata.Key<String> SERVICE_ALIAS_HEADER_KEY =

@@ -149,6 +149,7 @@ public class NewModel {
 
 			Util.finishOut("Registered data model in namespace: " + namespaceName);
 		} catch (final Exception ex) {
+			ex.printStackTrace();
 			Util.finishErr("Exception caught. Check your account and credentials.", ERRCODE.ERROR);
 		}
 		System.exit(0); // Call this to finish logging threads

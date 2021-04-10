@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import es.bsc.dataclay.logic.sessionmgr.Session;
 import es.bsc.dataclay.serialization.lib.ObjectWithDataParamOrReturn;
 import es.bsc.dataclay.serialization.lib.SerializedParametersOrReturn;
 import es.bsc.dataclay.util.CommonManager;
@@ -159,13 +160,19 @@ public interface DataServiceAPI extends CommonManager {
 	 *            ID of session
 	 * @param objectIDs
 	 *            IDs of the objects to get
+	 * @param alreadyObtainedObjs IDs of already obtained objects
 	 * @param recursive
 	 *            Indicates if, per each object to get, also obtain its associated objects.
-	 * @param replicaDestBackendID Destination backend of objects being obtained for replica or NULL if going to client
+	 * @param replicaDestBackendID Destination backend of objects being obtained for replica
+	 * @param updateReplicaLocs If 1, provided replica dest backend id must be added to replica locs of obtained objects
+	 *                          If 2, provided replica dest backend id must be removed from replica locs
+	 *                          If 0, replicaDestBackendID field is ignored
 	 * @return Map of serialized object where key is the objectID. Object is not serialized if flag getOnlyRefs=true
 	 */
 	List<ObjectWithDataParamOrReturn> getObjects(final SessionID sessionID, final Set<ObjectID> objectIDs,
-			final boolean recursive, final ExecutionEnvironmentID replicaDestBackendID);
+			final Set<ObjectID> alreadyObtainedObjs,
+			final boolean recursive, final ExecutionEnvironmentID replicaDestBackendID,
+												 final int updateReplicaLocs);
 
 
 
@@ -382,16 +389,19 @@ public interface DataServiceAPI extends CommonManager {
 	 * @param objectID ID of the object to check
 	 * @return TRUE if the object exists in EE memory.
 	 */
-	boolean existsInEE(final ObjectID objectID);
+	boolean exists(final ObjectID objectID);
+
+
+
 	
 	// STORAGE LOCATION/DB HANDLER FUNCTIONS
 
 	/**
-	 * Check if the object exists in SL or in any EE memory associated to current SL 
+	 * Check if the object exists in SL or in any EE memory associated to current SL
 	 * @param objectID ID of the object to check
 	 * @return TRUE if the object either exists in SL disk or in EE memory.
 	 */
-	boolean exists(final ObjectID objectID);
+	boolean existsInDB(final ObjectID objectID);
 	
 	/**
 	 * Store the object.
@@ -450,7 +460,7 @@ public interface DataServiceAPI extends CommonManager {
 	 */
 	void delete(final ExecutionEnvironmentID eeID, final ObjectID objectID);
 
-	// Garbage collection
+	// ======================================= GARBAGE COLLECTION ================================= //
 	/**
 	 * Close session in DS. Used to notify that some objects are not longer 'retained' by sessions.
 	 * 
@@ -459,6 +469,7 @@ public interface DataServiceAPI extends CommonManager {
 	 */
 	void closeSessionInDS(final SessionID sessionID);
 
+
 	/**
 	 * Update counters of references.
 	 * 
@@ -466,6 +477,23 @@ public interface DataServiceAPI extends CommonManager {
 	 *            Update counter of references.
 	 */
 	void updateRefs(final Map<ObjectID, Integer> updateCounterRefs);
+
+	/**
+	 * Detach object from session, i.e. remove reference from session provided to object,
+	 * "dear garbage-collector, the session is not using the object anymore"
+	 *
+	 * @param objectID ID of the object
+	 * @param sessionID ID of the session not using the object anymore
+	 */
+	void detachObjectFromSession(final ObjectID objectID, final SessionID sessionID);
+
+
+	/**
+	 * Delete alias of object with ID provided
+	 * @param objectID ID of the object to delete the alias from
+	 * @param sessionID ID of the session deleting the alias
+	 */
+	void deleteAlias(final SessionID sessionID, final ObjectID objectID);
 
 	/**
 	 * Get IDs of references retained by EE.
@@ -510,4 +538,16 @@ public interface DataServiceAPI extends CommonManager {
 	 * @return Extrae traces (mpits and set files)
 	 */
 	Map<String, byte[]> getTraces();
+
+	/**
+	 * Get number of alive objects in current EE
+	 * @return number of alive objects in current EE
+	 */
+	int getNumObjectsInEE();
+
+	/**
+	 * Get number of objects in SL and all its associated EEs
+	 * @return number of objects in SL and all its associated EEs
+	 */
+	int getNumObjects();
 }

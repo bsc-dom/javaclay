@@ -195,7 +195,7 @@ public final class DataClay {
 		} catch (final Exception e) {
 			e.printStackTrace();
 		}
-
+		commonLib.closeSession();
 		try {
 			ClientManagementLib.finishConnections();
 		} catch (final Exception e) {
@@ -1014,6 +1014,13 @@ public final class DataClay {
 	 */
 	public static void unfederateAllObjects() {
 		commonLib.unfederateAllObjectsWithAllDCs();
+	}
+
+	/**
+	 * Get number of objects in dataClay
+	 */
+	public static int getNumObjects() {
+		return commonLib.getNumObjects();
 	}
 
 	/**

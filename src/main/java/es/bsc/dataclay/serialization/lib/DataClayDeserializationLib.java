@@ -128,7 +128,6 @@ public final class DataClayDeserializationLib {
 
 		final ObjectWithDataParamOrReturn serializedObject = new ObjectWithDataParamOrReturn(objectID,
 				metadata.getMetaClassID(0), metadata, byteArray);
-
 		return serializedObject;
 	}
 
@@ -527,17 +526,10 @@ public final class DataClayDeserializationLib {
 		// ====== LANGUAGE PARAMETERS ===== //
 
 		final Integer tag = dcBuffer.readVLQInt();
-		if (DataClayDeserializationLib.DEBUG_ENABLED) { 
-			DataClayDeserializationLib.LOGGER.debug("[Deserialization] --> Association tag deserialized: data="+  tag + ", readerindex=" + dcBuffer.readerIndex());
-		}
 		Object javaObject = curDeserializedObjs.get(tag);
 		if (javaObject == null) {
 			wrapper.deserialize(dcBuffer, ifaceBitMaps, metadata, curDeserializedObjs);
 			javaObject = wrapper.getJavaObject();
-		} else { 
-			if (DataClayDeserializationLib.DEBUG_ENABLED) { 
-				DataClayDeserializationLib.LOGGER.debug("[Deserialization] --> Found obj with identity =" + System.identityHashCode(javaObject));
-			}
 		}
 		return javaObject;
 	}
@@ -560,19 +552,12 @@ public final class DataClayDeserializationLib {
 			final Map<MetaClassID, byte[]> ifaceBitMaps, final DataClayObjectMetaData metadata,
 			final Map<Integer, Object> curDeserializedObjs, final DataClayRuntime theLib) {
 		final Integer tag = new Integer(dcBuffer.readVLQInt());
-		if (DataClayDeserializationLib.DEBUG_ENABLED) { 
-			DataClayDeserializationLib.LOGGER.debug("[Deserialization] --> Association tag deserialized: data="+  tag + ", readerindex=" + dcBuffer.readerIndex());
-		}
 		final ObjectID theObjectID = metadata.getObjectID(tag);
 		final MetaClassID localMetaClassID = metadata.getMetaClassID(tag);
 		final ExecutionEnvironmentID hint = metadata.getHint(tag);
 		DataClayObject obj = null;
 
 		// GET INSTANCE
-		if (DEBUG_ENABLED) {
-			DataClayRuntime.LOGGER.debug("== Getting/Creating persistent instance from deserialization of assoc. "
-					+ System.identityHashCode(obj));
-		}
 		obj = theLib.getOrNewPersistentInstance(localMetaClassID, theObjectID, hint); // Associations are always
 																						// persistent
 
@@ -582,9 +567,6 @@ public final class DataClayDeserializationLib {
 		 * obj.setHint(hint); }
 		 */
 		curDeserializedObjs.put(tag, obj);
-		if (DataClayDeserializationLib.DEBUG_ENABLED) { 
-			DataClayDeserializationLib.LOGGER.debug("[Deserialization] --> Added obj with identity =" + System.identityHashCode(obj));
-		}
 		return obj;
 	}
 

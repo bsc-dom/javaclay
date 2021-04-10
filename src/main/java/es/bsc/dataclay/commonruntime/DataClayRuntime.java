@@ -107,13 +107,6 @@ public abstract class DataClayRuntime {
 	/** Under deserialization volatiles per thread. */
 	public final Map<Long, Map<Integer, ObjectWithDataParamOrReturn>> underDeserializationVolatiles = new ConcurrentHashMap<>();
 
-	/**
-	 * Alias references found. TODO: this set is not cleaned. Important: modify this when design of removeAlias: we need to add
-	 * 'alias' as DataClayObject field since alias can be added dynamically to a volatile. Or check updateAliases function.
-	 * Also, ensure removeAlias in LM notifies EE and avoid race condition remove alias but continue using object and GlobalGC
-	 * clean it.
-	 */
-	protected final Set<ObjectID> aliasReferences = ConcurrentHashMap.newKeySet();
 
 	/** Pool for tasks. Initialized in sub-classes. */
 	protected ScheduledExecutorService threadPool;
@@ -179,7 +172,7 @@ public abstract class DataClayRuntime {
 			final Langs lang, final boolean forceUpdateCache) {
 		// Check cache
 		if ((execEnvsCache != null && forceUpdateCache) || (execEnvsCache == null)){
-			execEnvsCache = logicModule.getAllExecutionEnvironmentsInfo(lang, true);
+			execEnvsCache.putAll(logicModule.getAllExecutionEnvironmentsInfo(lang, true));
 		}
 		return execEnvsCache;
 	
@@ -198,6 +191,8 @@ public abstract class DataClayRuntime {
 			Map<ExecutionEnvironmentID, ExecutionEnvironment> execEnvs = getAllExecutionEnvironmentsInfo(language, false);
 			execEnv = execEnvs.get(execLocationID);
 			if (execEnv == null) {
+
+				LOGGER.debug("Execution environment info " + execLocationID + " not found in cache: " + execEnvs.keySet());
 				execEnvs = getAllExecutionEnvironmentsInfo(language, true);
 				execEnv = execEnvs.get(execLocationID);
 				if (execEnv != null) {
@@ -356,7 +351,7 @@ public abstract class DataClayRuntime {
 	 *            ID of remote execution environment
 	 * @return Remote execution environment
 	 */
-	public final DataServiceAPI getRemoteDSAPI(final ExecutionEnvironmentID execLocationID) {
+	public DataServiceAPI getRemoteDSAPI(final ExecutionEnvironmentID execLocationID) {
 		ExecutionEnvironment execEnv = this.getExecutionEnvironmentInfo(execLocationID);
 		try {
 			return grpcClient.getDataServiceAPI(execEnv.getHostname(), execEnv.getPort());
@@ -447,6 +442,7 @@ public abstract class DataClayRuntime {
 	 * Finish connections to server
 	 */
 	public final void finishConnections() {
+		LOGGER.info("Finishing connections ... ");
 		LOGGER.debug("Stopping Grpc connections");
 		this.grpcClient.finishClientConnections();
 		LOGGER.debug("Stopping thread pool");
@@ -782,10 +778,17 @@ public abstract class DataClayRuntime {
 	 *            alias of the object to be removed
 	 */
 	public final void deleteAlias(final String alias) {
-		final SessionID sessionID = checkAndGetSession(new String[] { "Alias" }, new Object[] { alias });
-		logicModule.deleteAlias(sessionID, alias);
+		final SessionID sessionID = getSessionID();
+		ObjectID objectID = logicModule.deleteAlias(sessionID, alias);
 		aliasCache.remove(alias);
 	}
+
+	/**
+	 * Method that deletes the alias of an object with id provided
+	 * @param objectID ID of the object
+	 * @param hint object hint
+	 */
+	public abstract void deleteAlias(final ObjectID objectID, final ExecutionEnvironmentID hint);
 
 	/**
 	 * Method that gets DataSetID from an object with id provided
@@ -1577,19 +1580,8 @@ public abstract class DataClayRuntime {
 	 * @param remoteImplID
 	 *            ID of implementation to execute
 	 */
-	public final void synchronize(final DataClayObject dcObject, final Object[] params,
-			final ImplementationID remoteImplID) {
-		final SessionID sessionID = checkAndGetSession(new String[] { }, new Object[] { });
-
-		// ===== SERIALIZE PARAMETERS ===== //
-		// Serialize parameters
-		final SerializedParametersOrReturn serializedParams = serializeParams(dcObject, null, remoteImplID, params,
-				false, null);
-		ObjectID objectID = dcObject.getObjectID();
-		BackendID execLocationID = this.getLocation(objectID);
-		final DataServiceAPI dsAPI = getRemoteExecutionEnvironment(execLocationID);
-		dsAPI.synchronize(sessionID, objectID, remoteImplID, serializedParams, null);
-	}
+	public abstract void synchronize(final DataClayObject dcObject, final Object[] params,
+			final ImplementationID remoteImplID);
 
 	/**
 	 * Check if string is UUID
@@ -1792,112 +1784,74 @@ public abstract class DataClayRuntime {
 	/**
 	 * Federate an object with an external dataClay
 	 *
-	 * @param objectID
-	 *            id of the object
+	 * @param dcObject
+	 *            object to federate
 	 * @param externalDataClayID
 	 *            id of the external dataClay ID
 	 * @param recursive
 	 *            Indicates if subobjects should be federated as well
-	 * @param objectHint
-	 *            Hint of the object
 	 */
-	public void federateObject(final ObjectID objectID, final BackendID objectHint,
+	public void federateObject(final DataClayObject dcObject,
 							   final DataClayInstanceID externalDataClayID,
 							   final boolean recursive) {
 
 		ExecutionEnvironmentID externalExecutionEnvironmentID =
 				this.getAllExecutionEnvironmentsAtDataClay(Langs.LANG_JAVA, externalDataClayID).keySet().iterator().next();
-
-		this.federateToBackend(objectID, objectHint, externalExecutionEnvironmentID, recursive);
+		this.federateToBackend(dcObject, externalExecutionEnvironmentID, recursive);
 	}
 
 	/**
 	 * Federate an object with an external dataClay
-	 * 
-	 * @param objectID
-	 *            id of the object
+	 *
+	 * @param dcObject
+	 *            object to federate
 	 * @param externalExecutionEnvironmentID
 	 *            id of the external execution environment id
 	 * @param recursive
 	 *            Indicates if subobjects should be federated as well
-	 * @param objectHint
-	 *            Hint of the object
 	 */
-	public void federateToBackend(final ObjectID objectID, final BackendID objectHint,
+	public abstract void federateToBackend(final DataClayObject dcObject,
 							   final ExecutionEnvironmentID externalExecutionEnvironmentID,
-							   final boolean recursive) {
-		if (DEBUG_ENABLED) {
-			LOGGER.debug("[==FederateObject==] Starting federation of object " + objectID + " with ext.EE "
-					+ externalExecutionEnvironmentID);
-		}
-		final SessionID sessionID = checkAndGetSession(new String[] {}, new Object[] {});
-		// Get object location
-		BackendID execLocationID = objectHint;
-		if (objectHint == null) {
-			execLocationID = getLocation(objectID);
-		}
-		// Get language from origin location
-		final DataServiceAPI dsAPI = getRemoteExecutionEnvironment(execLocationID);
-		dsAPI.federate(sessionID, objectID, externalExecutionEnvironmentID, recursive);
-	}
-
+							   final boolean recursive);
 	/**
 	 * Unfederate an object with an external dataClay
 	 *
-	 * @param objectID
-	 *            id of the object
+	 * @param dcObject
+	 *            object to unfederate
 	 * @param externalDataClayID
 	 *            id of the external dataClay
 	 * @param recursive
 	 *            Indicates if subobjects should be unfederated as well
-	 * @param objectHint
-	 *            Hint of the object
 	 */
-	public void unfederateObject(final ObjectID objectID, final BackendID objectHint,
+	public void unfederateObject(final DataClayObject dcObject,
 								 final DataClayInstanceID externalDataClayID,
 								 final boolean recursive) {
-		this.unfederateFromBackend(objectID, objectHint, null, recursive);
+		this.unfederateFromBackend(dcObject, null, recursive);
 	}
 
 	/**
 	 * Unfederate an object with an external backend
 	 *
-	 * @param objectID
-	 *            id of the object
+	 * @param dcObject
+	 *            object to unfederate
 	 * @param externalExecutionEnvironmentID
 	 *            id of the external execution environment id
 	 * @param recursive
 	 *            Indicates if subobjects should be unfederated as well
-	 * @param objectHint
-	 *            Hint of the object
 	 */
-	public void unfederateFromBackend(final ObjectID objectID, final BackendID objectHint,
+	public abstract void unfederateFromBackend(final DataClayObject dcObject,
 								 final ExecutionEnvironmentID externalExecutionEnvironmentID,
-								 final boolean recursive) {
-		if (DEBUG_ENABLED) {
-			LOGGER.debug("[==UnfederateObject==] Starting unfederation of object " + objectID + " with ext.EE "
-					+ externalExecutionEnvironmentID);
-		}
-		final SessionID sessionID = checkAndGetSession(new String[] {}, new Object[] {});
-		// Get object location
-		BackendID execLocationID = objectHint;
-		if (objectHint == null) {
-			execLocationID = getLocation(objectID);
-		}
-		// Get language from origin location
-		final DataServiceAPI dsAPI = getRemoteExecutionEnvironment(execLocationID);
-		dsAPI.unfederate(sessionID, objectID, externalExecutionEnvironmentID, recursive);
-	}
+								 final boolean recursive);
 	
 	/**
 	 * Unfederate an object with all external dataClays
 	 * 
-	 * @param objectID
-	 *            id of the object
+	 * @param dcObject
+	 *            object to unfederate
 	 * @param recursive
 	 *            Indicates if subobjects should be federated as well
 	 */
-	public void unfederateObjectWithAllDCs(final ObjectID objectID, final boolean recursive) {
+	public void unfederateObjectWithAllDCs(final DataClayObject dcObject, final boolean recursive) {
 		throw new UnsupportedOperationException();
 
 	}
@@ -2028,8 +1982,18 @@ public abstract class DataClayRuntime {
 	 * @return TRUE if object exists. FALSE otherwise.
 	 */
 	public boolean objectExistsInDataClay(final ObjectID objectID) {
+		LOGGER.debug("Checking object {} exists", objectID);
 		return this.logicModule.objectExistsInDataClay(objectID);
 	}
+
+	/**
+	 * Get number of objects in dataClay
+	 */
+	public int getNumObjects() {
+		LOGGER.debug("Getting number of objects in dataClay");
+		return this.logicModule.getNumObjects();
+	}
+
 
 	/**
 	 * Get from Heap
@@ -2054,6 +2018,15 @@ public abstract class DataClayRuntime {
 	}
 
 	/**
+	 * Detach object from current session in use, i.e. remove reference from current session provided to object,
+	 * "dear garbage-collector, current session is not using the object anymore"
+	 *
+	 * @param objectID ID of the object to detach
+	 * @param hint Hint of the object to detach (can be null)
+	 */
+	public abstract void detachObjectFromSession(final ObjectID objectID, final ExecutionEnvironmentID hint);
+
+	/**
 	 * ADVANCED FUNCTION. Try not to use it. This function flushes all objects in Heap.
 	 */
 	public final void flushAll() {
@@ -2068,6 +2041,17 @@ public abstract class DataClayRuntime {
 	public final int heapSize() {
 		return this.dataClayHeapManager.heapSize();
 	}
+
+
+	/**
+	 * Get number of loaded objects in heap.
+	 *
+	 * @return number of loaded objects in heap.
+	 */
+	public final int numLoadedObjs() {
+		return this.dataClayHeapManager.numLoadedObjs();
+	}
+
 
 	/**
 	 * Activate tracing in dataClay services

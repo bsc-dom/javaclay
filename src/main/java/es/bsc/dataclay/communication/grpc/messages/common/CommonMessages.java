@@ -17818,6 +17818,692 @@ public final class CommonMessages {
 
   }
 
+  public interface GetNumObjectsResponseOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:dataclay.communication.grpc.common.GetNumObjectsResponse)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>int32 numObjs = 1;</code>
+     * @return The numObjs.
+     */
+    int getNumObjs();
+
+    /**
+     * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+     * @return Whether the excInfo field is set.
+     */
+    boolean hasExcInfo();
+    /**
+     * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+     * @return The excInfo.
+     */
+    es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo getExcInfo();
+    /**
+     * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+     */
+    es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfoOrBuilder getExcInfoOrBuilder();
+  }
+  /**
+   * Protobuf type {@code dataclay.communication.grpc.common.GetNumObjectsResponse}
+   */
+  public  static final class GetNumObjectsResponse extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:dataclay.communication.grpc.common.GetNumObjectsResponse)
+      GetNumObjectsResponseOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use GetNumObjectsResponse.newBuilder() to construct.
+    private GetNumObjectsResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private GetNumObjectsResponse() {
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new GetNumObjectsResponse();
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private GetNumObjectsResponse(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 8: {
+
+              numObjs_ = input.readInt32();
+              break;
+            }
+            case 18: {
+              es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.Builder subBuilder = null;
+              if (excInfo_ != null) {
+                subBuilder = excInfo_.toBuilder();
+              }
+              excInfo_ = input.readMessage(es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(excInfo_);
+                excInfo_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.internal_static_dataclay_communication_grpc_common_GetNumObjectsResponse_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.internal_static_dataclay_communication_grpc_common_GetNumObjectsResponse_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetNumObjectsResponse.class, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetNumObjectsResponse.Builder.class);
+    }
+
+    public static final int NUMOBJS_FIELD_NUMBER = 1;
+    private int numObjs_;
+    /**
+     * <code>int32 numObjs = 1;</code>
+     * @return The numObjs.
+     */
+    public int getNumObjs() {
+      return numObjs_;
+    }
+
+    public static final int EXCINFO_FIELD_NUMBER = 2;
+    private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo excInfo_;
+    /**
+     * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+     * @return Whether the excInfo field is set.
+     */
+    public boolean hasExcInfo() {
+      return excInfo_ != null;
+    }
+    /**
+     * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+     * @return The excInfo.
+     */
+    public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo getExcInfo() {
+      return excInfo_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.getDefaultInstance() : excInfo_;
+    }
+    /**
+     * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+     */
+    public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfoOrBuilder getExcInfoOrBuilder() {
+      return getExcInfo();
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (numObjs_ != 0) {
+        output.writeInt32(1, numObjs_);
+      }
+      if (excInfo_ != null) {
+        output.writeMessage(2, getExcInfo());
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (numObjs_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, numObjs_);
+      }
+      if (excInfo_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, getExcInfo());
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetNumObjectsResponse)) {
+        return super.equals(obj);
+      }
+      es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetNumObjectsResponse other = (es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetNumObjectsResponse) obj;
+
+      if (getNumObjs()
+          != other.getNumObjs()) return false;
+      if (hasExcInfo() != other.hasExcInfo()) return false;
+      if (hasExcInfo()) {
+        if (!getExcInfo()
+            .equals(other.getExcInfo())) return false;
+      }
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + NUMOBJS_FIELD_NUMBER;
+      hash = (53 * hash) + getNumObjs();
+      if (hasExcInfo()) {
+        hash = (37 * hash) + EXCINFO_FIELD_NUMBER;
+        hash = (53 * hash) + getExcInfo().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetNumObjectsResponse parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetNumObjectsResponse parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetNumObjectsResponse parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetNumObjectsResponse parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetNumObjectsResponse parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetNumObjectsResponse parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetNumObjectsResponse parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetNumObjectsResponse parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetNumObjectsResponse parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetNumObjectsResponse parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetNumObjectsResponse parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetNumObjectsResponse parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetNumObjectsResponse prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code dataclay.communication.grpc.common.GetNumObjectsResponse}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:dataclay.communication.grpc.common.GetNumObjectsResponse)
+        es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetNumObjectsResponseOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.internal_static_dataclay_communication_grpc_common_GetNumObjectsResponse_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.internal_static_dataclay_communication_grpc_common_GetNumObjectsResponse_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetNumObjectsResponse.class, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetNumObjectsResponse.Builder.class);
+      }
+
+      // Construct using es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetNumObjectsResponse.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        numObjs_ = 0;
+
+        if (excInfoBuilder_ == null) {
+          excInfo_ = null;
+        } else {
+          excInfo_ = null;
+          excInfoBuilder_ = null;
+        }
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.internal_static_dataclay_communication_grpc_common_GetNumObjectsResponse_descriptor;
+      }
+
+      @java.lang.Override
+      public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetNumObjectsResponse getDefaultInstanceForType() {
+        return es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetNumObjectsResponse.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetNumObjectsResponse build() {
+        es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetNumObjectsResponse result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetNumObjectsResponse buildPartial() {
+        es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetNumObjectsResponse result = new es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetNumObjectsResponse(this);
+        result.numObjs_ = numObjs_;
+        if (excInfoBuilder_ == null) {
+          result.excInfo_ = excInfo_;
+        } else {
+          result.excInfo_ = excInfoBuilder_.build();
+        }
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetNumObjectsResponse) {
+          return mergeFrom((es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetNumObjectsResponse)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetNumObjectsResponse other) {
+        if (other == es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetNumObjectsResponse.getDefaultInstance()) return this;
+        if (other.getNumObjs() != 0) {
+          setNumObjs(other.getNumObjs());
+        }
+        if (other.hasExcInfo()) {
+          mergeExcInfo(other.getExcInfo());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetNumObjectsResponse parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetNumObjectsResponse) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private int numObjs_ ;
+      /**
+       * <code>int32 numObjs = 1;</code>
+       * @return The numObjs.
+       */
+      public int getNumObjs() {
+        return numObjs_;
+      }
+      /**
+       * <code>int32 numObjs = 1;</code>
+       * @param value The numObjs to set.
+       * @return This builder for chaining.
+       */
+      public Builder setNumObjs(int value) {
+        
+        numObjs_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 numObjs = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearNumObjs() {
+        
+        numObjs_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo excInfo_;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfoOrBuilder> excInfoBuilder_;
+      /**
+       * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+       * @return Whether the excInfo field is set.
+       */
+      public boolean hasExcInfo() {
+        return excInfoBuilder_ != null || excInfo_ != null;
+      }
+      /**
+       * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+       * @return The excInfo.
+       */
+      public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo getExcInfo() {
+        if (excInfoBuilder_ == null) {
+          return excInfo_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.getDefaultInstance() : excInfo_;
+        } else {
+          return excInfoBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+       */
+      public Builder setExcInfo(es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo value) {
+        if (excInfoBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          excInfo_ = value;
+          onChanged();
+        } else {
+          excInfoBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+       */
+      public Builder setExcInfo(
+          es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.Builder builderForValue) {
+        if (excInfoBuilder_ == null) {
+          excInfo_ = builderForValue.build();
+          onChanged();
+        } else {
+          excInfoBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+       */
+      public Builder mergeExcInfo(es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo value) {
+        if (excInfoBuilder_ == null) {
+          if (excInfo_ != null) {
+            excInfo_ =
+              es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.newBuilder(excInfo_).mergeFrom(value).buildPartial();
+          } else {
+            excInfo_ = value;
+          }
+          onChanged();
+        } else {
+          excInfoBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+       */
+      public Builder clearExcInfo() {
+        if (excInfoBuilder_ == null) {
+          excInfo_ = null;
+          onChanged();
+        } else {
+          excInfo_ = null;
+          excInfoBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+       */
+      public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.Builder getExcInfoBuilder() {
+        
+        onChanged();
+        return getExcInfoFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+       */
+      public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfoOrBuilder getExcInfoOrBuilder() {
+        if (excInfoBuilder_ != null) {
+          return excInfoBuilder_.getMessageOrBuilder();
+        } else {
+          return excInfo_ == null ?
+              es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.getDefaultInstance() : excInfo_;
+        }
+      }
+      /**
+       * <code>.dataclay.communication.grpc.common.ExceptionInfo excInfo = 2;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfoOrBuilder> 
+          getExcInfoFieldBuilder() {
+        if (excInfoBuilder_ == null) {
+          excInfoBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfoOrBuilder>(
+                  getExcInfo(),
+                  getParentForChildren(),
+                  isClean());
+          excInfo_ = null;
+        }
+        return excInfoBuilder_;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:dataclay.communication.grpc.common.GetNumObjectsResponse)
+    }
+
+    // @@protoc_insertion_point(class_scope:dataclay.communication.grpc.common.GetNumObjectsResponse)
+    private static final es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetNumObjectsResponse DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetNumObjectsResponse();
+    }
+
+    public static es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetNumObjectsResponse getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<GetNumObjectsResponse>
+        PARSER = new com.google.protobuf.AbstractParser<GetNumObjectsResponse>() {
+      @java.lang.Override
+      public GetNumObjectsResponse parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new GetNumObjectsResponse(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<GetNumObjectsResponse> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<GetNumObjectsResponse> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetNumObjectsResponse getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_dataclay_communication_grpc_common_Credential_descriptor;
   private static final 
@@ -17948,6 +18634,11 @@ public final class CommonMessages {
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_dataclay_communication_grpc_common_DataClayInstance_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_dataclay_communication_grpc_common_GetNumObjectsResponse_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_dataclay_communication_grpc_common_GetNumObjectsResponse_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -18037,10 +18728,13 @@ public final class CommonMessages {
       " \001(\0162).dataclay.communication.grpc.commo" +
       "n.Langs\022\032\n\022dataClayInstanceID\030\006 \001(\t\"<\n\020D" +
       "ataClayInstance\022\n\n\002id\030\001 \001(\t\022\r\n\005hosts\030\002 \003" +
-      "(\t\022\r\n\005ports\030\003 \003(\005*6\n\005Langs\022\r\n\tLANG_NONE\020" +
-      "\000\022\r\n\tLANG_JAVA\020\001\022\017\n\013LANG_PYTHON\020\002B4\n2es." +
-      "bsc.dataclay.communication.grpc.messages" +
-      ".commonb\006proto3"
+      "(\t\022\r\n\005ports\030\003 \003(\005\"l\n\025GetNumObjectsRespon" +
+      "se\022\017\n\007numObjs\030\001 \001(\005\022B\n\007excInfo\030\002 \001(\01321.d" +
+      "ataclay.communication.grpc.common.Except" +
+      "ionInfo*6\n\005Langs\022\r\n\tLANG_NONE\020\000\022\r\n\tLANG_" +
+      "JAVA\020\001\022\017\n\013LANG_PYTHON\020\002B4\n2es.bsc.datacl" +
+      "ay.communication.grpc.messages.commonb\006p" +
+      "roto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -18202,6 +18896,12 @@ public final class CommonMessages {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_dataclay_communication_grpc_common_DataClayInstance_descriptor,
         new java.lang.String[] { "Id", "Hosts", "Ports", });
+    internal_static_dataclay_communication_grpc_common_GetNumObjectsResponse_descriptor =
+      getDescriptor().getMessageTypes().get(18);
+    internal_static_dataclay_communication_grpc_common_GetNumObjectsResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_dataclay_communication_grpc_common_GetNumObjectsResponse_descriptor,
+        new java.lang.String[] { "NumObjs", "ExcInfo", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

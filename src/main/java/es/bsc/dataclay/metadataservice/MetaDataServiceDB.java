@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+import es.bsc.dataclay.dbhandler.sql.DataServiceDBSQLStatements;
 import es.bsc.dataclay.util.management.metadataservice.ExternalExecutionEnvironment;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.logging.log4j.LogManager;
@@ -1614,6 +1615,24 @@ public final class MetaDataServiceDB {
 				closeConnection(conn);
 			}
 		}
+	}
+
+	/**
+	 * Vacuum database.
+	 */
+	public void vacuum() {
+		synchronized (dataSource) {
+			final Connection conn = getConnection();
+			try (PreparedStatement ps = conn
+					.prepareStatement(SqlStatements.VACUUM.getSqlStatement())) {
+				ps.executeUpdate();
+			} catch (final Exception e) {
+				throw new DbHandlerException(e);
+			} finally {
+				closeConnection(conn);
+			}
+		}
+
 	}
 
 	/**

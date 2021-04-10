@@ -541,13 +541,24 @@ public final class MetaDataService extends AbstractManager {
 	}
 
 	/**
-	 * Checks that given dataset has no object.
-	 * 
-	 * @param datasetID
-	 *            the ID of the dataset to be checked
-	 * @return Whether the dataset is empty or not.
-	 * @throws Exception
-	 *             if an exception occurs.
+	 * This operation cleans DB after unregistering objects
+	 */
+	public void vacuumDB()  {
+		if (DEBUG_ENABLED) {
+			logger.debug("Vacuum db ");
+		}
+		metadataDB.vacuum();
+	}
+
+
+	/**
+         * Checks that given dataset has no object.
+         *
+         * @param datasetID
+         *            the ID of the dataset to be checked
+         * @return Whether the dataset is empty or not.
+         * @throws Exception
+         *             if an exception occurs.
 	 */
 	public boolean checkDatasetIsEmpty(final DataSetID datasetID) {
 		return !metadataDB.existsByDataSetID(datasetID);

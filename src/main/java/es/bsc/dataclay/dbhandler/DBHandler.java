@@ -86,4 +86,16 @@ public interface DBHandler {
 	 */
 	void open();
 
+
+	/**
+	 * Count number of objects in DB
+	 * @return number of objects in DB
+	 */
+	int count();
+
+
+	/**
+	 * Vacuum database.
+	 */
+	void vacuum();
 }

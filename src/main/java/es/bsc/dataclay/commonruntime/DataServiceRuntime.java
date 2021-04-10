@@ -6,6 +6,9 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 
+import es.bsc.dataclay.dataservice.api.DataServiceAPI;
+import es.bsc.dataclay.serialization.lib.SerializedParametersOrReturn;
+import es.bsc.dataclay.util.management.metadataservice.ExecutionEnvironment;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -432,6 +435,19 @@ public final class DataServiceRuntime extends DataClayRuntime {
 	}
 
 	@Override
+	public final void synchronize(final DataClayObject dcObject, final Object[] params,
+								  final ImplementationID remoteImplID) {
+		final SessionID sessionID = checkAndGetSession(new String[] { }, new Object[] { });
+
+		// ===== SERIALIZE PARAMETERS ===== //
+		// Serialize parameters
+		final SerializedParametersOrReturn serializedParams = serializeParams(dcObject, null, remoteImplID, params,
+				false, null);
+		ObjectID objectID = dcObject.getObjectID();
+		this.dsRef.synchronize(sessionID, objectID, remoteImplID, serializedParams, null);
+	}
+
+	@Override
 	public String getClassNameInternal(final MetaClassID classID) {
 		return DataClayClassLoaderSrv.getClass(classID).getName();
 	}
@@ -471,6 +487,20 @@ public final class DataServiceRuntime extends DataClayRuntime {
 	 */
 	public ExecutionEnvironmentID getExecutionEnvironmentIDOfDS() {
 		return dsRef.getExecutionEnvironmentID();
+	}
+
+	/**
+	 * Get remote execution environment
+	 *
+	 * @param execLocationID
+	 *            ID of remote execution environment
+	 * @return Remote execution environment
+	 */
+	public final DataServiceAPI getRemoteDSAPI(final ExecutionEnvironmentID execLocationID) {
+		if (execLocationID.equals(this.dsRef.getExecutionEnvironmentID())) {
+			return dsRef;
+		}
+		return super.getRemoteDSAPI(execLocationID);
 	}
 
 	/**
@@ -524,6 +554,57 @@ public final class DataServiceRuntime extends DataClayRuntime {
 		((ExecutionEnvironmentHeapManager) this.dataClayHeapManager).releaseFromHeap(objectID);
 	}
 
+
+	@Override
+	public void detachObjectFromSession(final ObjectID objectID, final ExecutionEnvironmentID hint) {
+		final SessionID sessionID = getSessionID();
+		Set<SessionID> objectSessions = this.referencesHoldBySessions.get(objectID);
+		if (objectSessions != null) {
+			objectSessions.remove(sessionID);
+			LOGGER.debug("Detached object {} from session {}", objectID, sessionID);
+		}
+	}
+
+	@Override
+	public void deleteAlias(final ObjectID objectID, final ExecutionEnvironmentID hint) {
+		LOGGER.debug("Removed alias from object " + objectID);
+		final DataClayObject instance = getOrNewInstanceFromDB(objectID, true);
+		String alias = instance.getAlias();
+		if (alias != null) {
+			aliasCache.remove(alias);
+		}
+		instance.setAlias(null);
+	}
+
+	@Override
+	public void federateToBackend(final DataClayObject dcObject,
+								  final ExecutionEnvironmentID externalExecutionEnvironmentID,
+								  final boolean recursive) {
+		ObjectID objectID = dcObject.getObjectID();
+		ExecutionEnvironmentID objectHint = (ExecutionEnvironmentID) dcObject.getHint();
+		if (DEBUG_ENABLED) {
+			LOGGER.debug("[==FederateObject==] Starting federation of object " + objectID + " with ext.EE "
+					+ externalExecutionEnvironmentID);
+		}
+		final SessionID sessionID = this.getSessionID();
+		this.dsRef.federate(sessionID, objectID, externalExecutionEnvironmentID, recursive);
+	}
+
+	@Override
+	public void unfederateFromBackend(final DataClayObject dcObject,
+									  final ExecutionEnvironmentID externalExecutionEnvironmentID,
+									  final boolean recursive) {
+		ObjectID objectID = dcObject.getObjectID();
+		ExecutionEnvironmentID objectHint = (ExecutionEnvironmentID) dcObject.getHint();
+		if (DEBUG_ENABLED) {
+			LOGGER.debug("[==UnfederateObject==] Starting unfederation of object " + objectID + " with ext.EE "
+					+ externalExecutionEnvironmentID);
+		}
+		final SessionID sessionID = this.getSessionID();
+		this.dsRef.unfederate(sessionID, objectID, externalExecutionEnvironmentID, recursive);
+
+	}
+
 	@Override
 	public boolean isDSLib() {
 		return true;
@@ -553,17 +634,6 @@ public final class DataServiceRuntime extends DataClayRuntime {
 		return null;
 	}
 
-	/**
-	 * Add +1 reference due to a new alias.
-	 * 
-	 * @param objectID
-	 *            ID of the object
-	 */
-	public void addAliasReference(final ObjectID objectID) {
-		if (Configuration.Flags.GLOBAL_GC_ENABLED.getBooleanValue()) {
-			this.aliasReferences.add(objectID);
-		}
-	}
 
 	/**
 	 * Add +1 reference associated to thread session
@@ -589,7 +659,7 @@ public final class DataServiceRuntime extends DataClayRuntime {
 				try {
 					referencesInSession = this.referencesHoldBySessions.get(objectID);
 					if (referencesInSession == null) {
-						referencesInSession = new HashSet<>();
+						referencesInSession = ConcurrentHashMap.newKeySet();
 						this.referencesHoldBySessions.put(objectID, referencesInSession);
 					}
 				} finally {
@@ -652,23 +722,20 @@ public final class DataServiceRuntime extends DataClayRuntime {
 	 * @return References retained by EE (sessions, alias...)
 	 */
 	public Set<ObjectID> getRetainedReferences() {
-
-		if (DEBUG_ENABLED) {
-			LOGGER.debug("Get retained references");
-		}
+		LOGGER.debug("Getting retained references");
 
 		final ExecutionEnvironmentHeapManager heapManger = (ExecutionEnvironmentHeapManager) this.dataClayHeapManager;
 
 		final Set<ObjectID> retainedRefs = new HashSet<>();
 
 		// memory references
-		if (DEBUG_ENABLED) {
+		if (DEBUG_ENABLED && heapManger.getObjectIDsRetained().size() > 0) {
 			LOGGER.debug("Adding memory references: " + heapManger.getObjectIDsRetained());
 		}
 		retainedRefs.addAll(heapManger.getObjectIDsRetained());
 
-		if (DEBUG_ENABLED) {
-			LOGGER.debug("Checking references hold by sessions: " + this.referencesHoldBySessions.size());
+		if (DEBUG_ENABLED && this.referencesHoldBySessions.size() > 0) {
+			LOGGER.debug("References hold by sessions: " + this.referencesHoldBySessions.keySet());
 		}
 		// session references
 		final Date now = new Date();
@@ -776,9 +843,6 @@ public final class DataServiceRuntime extends DataClayRuntime {
 					}
 
 				} else {
-					if (DEBUG_ENABLED) {
-						LOGGER.debug("Adding session reference to: " + oid);
-					}
 					// add session reference
 					retainedRefs.add(oid);
 				}
@@ -803,7 +867,7 @@ public final class DataServiceRuntime extends DataClayRuntime {
 		return retainedRefs;
 	}
 
-	@Override
+		@Override
 	protected DataClayObjectLoader getDataClayObjectLoader() {
 		return this.dataClayObjLoader;
 	}

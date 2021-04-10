@@ -3,6 +3,7 @@ package es.bsc.dataclay.util.classloaders;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.logging.log4j.Logger;
 
@@ -26,7 +27,7 @@ public final class ClassLockers {
 	 * Class lockers constructor.
 	 */
 	public ClassLockers() { 
-		lockers = new HashMap<MetaClassID, SyncClass>();
+		lockers = new ConcurrentHashMap<MetaClassID, SyncClass>();
 	}
 	
 	/**

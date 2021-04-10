@@ -112,8 +112,7 @@ public final class Configuration {
 		CHECK_NAMESPACE(false, ConfType.BOOLEAN),
 		/** Expiration date for sessions when CHECK_SESSION=FALSE. */
 		EXPIRATION_DATE_IF_NOCHECK_SESSION(Configuration.getSessionExpirationDate(), ConfType.DATE),
-		/** Indicates if MkPersistent should be synchronous. */
-		USE_SYNC_MKPERS(true, ConfType.BOOLEAN),
+
 		/** Indicates if DataClay Classes must be registered or not. */
 		REGISTER_DATACLAY_CLASSES(false, ConfType.BOOLEAN),
 		/** Indicates notification manager is active or not. */
@@ -181,17 +180,6 @@ public final class Configuration {
 
 		/** Indicates SQLite should be executed in memory. */
 		SQLITE_IN_MEMORY(false, ConfType.BOOLEAN),
-
-
-		// =============== PARAVER ============ //
-
-		/** Indicates if paraver interceptor is active or not. */
-		PARAVER_INTERCEPTOR_ACTIVE(false, ConfType.BOOLEAN), //FIXME: REMOVE THIS
-		/**
-		 * Indicates if paraver interceptor for execution classes and stubs is active or
-		 * not.
-		 */
-		PARAVER_INTERCEPTOR_BYTECODE(false, ConfType.BOOLEAN),  //FIXME: REMOVE THIS
 
 		// ============== MISC ============== //
 
@@ -311,7 +299,7 @@ public final class Configuration {
 
 		// ============== GLOBAL GC ===================== //
 		/** Interval to check and collect objects in disk. (IN MILLIS) */
-		GLOBALGC_CHECK_TIME_INTERVAL(24 * 60 * 60 * 1000L, ConfType.LONG),
+		GLOBALGC_COLLECT_TIME_INTERVAL(24 * 60 * 60 * 1000L, ConfType.LONG),
 		/** Interval to check and send remote reference countings. (IN MILLIS) */
 		GLOBALGC_CHECK_REMOTE_PENDING(12000L, ConfType.LONG),
 		/**
@@ -333,10 +321,10 @@ public final class Configuration {
 		GLOBALGC_WAIT_TO_SHUTDOWN(30000L, ConfType.LONG),
 
 		/**
-		 * Maximum number of objects to collect during a task, this allow us to avoid
+		 * Maximum number of objects to collect during an iteration, this allow us to avoid
 		 * infinite cleaning thread.
 		 */
-		GLOBALGC_MAX_OBJECTS_TO_COLLECT_PERTASK(1000, ConfType.INTEGER),
+		GLOBALGC_MAX_OBJECTS_TO_COLLECT_ITERATION(1000, ConfType.INTEGER),
 
 		/**
 		 * Initial delay for collector thread to start working in hours

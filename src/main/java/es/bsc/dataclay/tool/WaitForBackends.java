@@ -45,6 +45,7 @@ public class WaitForBackends {
 
 			
 		} catch (final Exception ex) {
+			ex.printStackTrace();
 			Util.finishErr("Exception caught.", ERRCODE.ERROR);
 		}
 		System.exit(0); // Call this to finish logging threads

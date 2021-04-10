@@ -5,10 +5,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import es.bsc.dataclay.DataClayObject;
 import es.bsc.dataclay.api.BackendID;
 import es.bsc.dataclay.serialization.buffer.DataClayByteArray;
 import es.bsc.dataclay.serialization.buffer.DataClayByteBuffer;
+import es.bsc.dataclay.serialization.lib.DataClaySerializationLib;
 import es.bsc.dataclay.serialization.lib.SerializationLibUtils;
+import es.bsc.dataclay.util.ids.DataClayInstanceID;
 import es.bsc.dataclay.util.ids.ExecutionEnvironmentID;
 import es.bsc.dataclay.util.ids.ObjectID;
 
@@ -17,12 +20,33 @@ public class ReferenceCounting {
 	/** Pointed references. */
 	private final Map<BackendID, Map<ObjectID, Integer>> referenceCounting = new HashMap<>();
 
+	/** External reference: alias, .... */
+	private int externalReferences;
+
 	/**
 	 * Reference counting constructor
 	 */
 	public ReferenceCounting() {
 
 	}
+
+
+	/**
+	 * Get number of external references
+	 * @return externalReferences number of external references
+	 */
+	public int getExternalReferences() {
+		return externalReferences;
+	}
+
+	/**
+	 * Set number of external references
+	 * @param theexternalReferences number of external references
+	 */
+	public void setExternalReferences(int theexternalReferences) {
+		this.externalReferences = theexternalReferences;
+	}
+
 
 	/**
 	 * Add +1 to reference counting
@@ -50,17 +74,35 @@ public class ReferenceCounting {
 
 	/**
 	 * Serialize reference counting
-	 * 
+	 * @param dcObject object being serialized with ref counting
 	 * @param dcBuffer
 	 *            Buffer in which to write bytes.
-	 * @param referenceCounting
-	 *            Reference counting from this object.
 	 */
-	public void serializeReferenceCounting(final DataClayByteBuffer dcBuffer) {
+	public void serializeReferenceCounting(final DataClayObject dcObject, final DataClayByteBuffer dcBuffer) {
 
 		// TODO: IMPORTANT: this should be removed in new serialization by using paddings to directly access reference counters
 		// inside
 		// metadata.
+		this.externalReferences = 0;
+		if (dcObject.getAlias() != null && !dcObject.getAlias().isEmpty()) {
+			DataClayObject.logger.debug("Found alias reference : " + dcObject.getAlias());
+			this.externalReferences++;
+		}
+
+		// check if object was federated
+		DataClayInstanceID curDataClayID = DataClayObject.getLib().getDataClayID();
+		if (dcObject.getReplicaLocations() != null && dcObject.getReplicaLocations().size() != 0) {
+			for (ExecutionEnvironmentID replicaLoc : dcObject.getReplicaLocations()) {
+				DataClayInstanceID replicaDcID = DataClayObject.getLib().getExecutionEnvironmentInfo(replicaLoc).getDataClayInstanceID();
+				if (!curDataClayID.equals(replicaDcID)) {
+					DataClayObject.logger.debug("Found federation reference to {}", replicaDcID);
+					this.externalReferences++;
+					break;
+				}
+			}
+		}
+
+		dcBuffer.writeInt(this.externalReferences);
 		dcBuffer.writeInt(referenceCounting.size()); // size of map
 		for (final Entry<BackendID, Map<ObjectID, Integer>> curCounting : referenceCounting.entrySet()) {
 			final ExecutionEnvironmentID hint = (ExecutionEnvironmentID) curCounting.getKey();
@@ -97,7 +139,7 @@ public class ReferenceCounting {
 			final ObjectID referrerObjectID, final byte[] bytes) {
 		final DataClayByteArray byteArray = new DataClayByteArray(bytes);
 		final DataClayByteBuffer dcBuffer = SerializationLibUtils.newByteBuffer(byteArray);
-
+		this.externalReferences = dcBuffer.readInt();
 		try {
 			final int mapSize = dcBuffer.readInt();
 			for (int i = 0; i < mapSize; i++) {

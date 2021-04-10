@@ -307,11 +307,97 @@ public final class ClientRuntime extends DataClayRuntime {
 	 * Close session.
 	 */
 	public void closeSession() {
+		LOGGER.info("Closing session ... ");
 		this.logicModule.closeSession(this.getSessionID());
+		this.setSessionInfo(null);
 	}
 
 	@Override
 	protected DataClayObjectLoader getDataClayObjectLoader() {
 		return this.dataClayObjLoader;
+	}
+
+	@Override
+	public void detachObjectFromSession(final ObjectID objectID, final ExecutionEnvironmentID hint) {
+		final SessionID sessionID = getSessionID();
+		// Get an arbitrary object location
+		BackendID execLocationID = hint;
+		if (hint == null) {
+			execLocationID = getLocation(objectID);
+		}
+		final DataServiceAPI dsAPI = getRemoteExecutionEnvironment(execLocationID);
+		dsAPI.detachObjectFromSession(objectID, sessionID);
+	}
+
+	@Override
+	public void deleteAlias(final ObjectID objectID, final ExecutionEnvironmentID hint) {
+		// Get an arbitrary object location
+		final SessionID sessionID = getSessionID();
+		BackendID execLocationID = hint;
+		if (hint == null) {
+			execLocationID = getLocation(objectID);
+		}
+		final DataServiceAPI dsAPI = getRemoteExecutionEnvironment(execLocationID);
+		dsAPI.deleteAlias(sessionID, objectID);
+	}
+
+	@Override
+	public void federateToBackend(final DataClayObject dcObject,
+								  final ExecutionEnvironmentID externalExecutionEnvironmentID,
+								  final boolean recursive) {
+		ObjectID objectID = dcObject.getObjectID();
+		ExecutionEnvironmentID objectHint = (ExecutionEnvironmentID) dcObject.getHint();
+		if (DEBUG_ENABLED) {
+			LOGGER.debug("[==FederateObject==] Starting federation of object " + objectID + " with ext.EE "
+					+ externalExecutionEnvironmentID);
+		}
+		final SessionID sessionID = checkAndGetSession(new String[] {}, new Object[] {});
+		// Get object location
+		BackendID execLocationID = objectHint;
+		if (objectHint == null) {
+			execLocationID = getLocation(objectID);
+		}
+
+		// Get language from origin location
+		final DataServiceAPI dsAPI = getRemoteExecutionEnvironment(execLocationID);
+		dsAPI.federate(sessionID, objectID, externalExecutionEnvironmentID, recursive);
+	}
+
+	@Override
+	public void unfederateFromBackend(final DataClayObject dcObject,
+									  final ExecutionEnvironmentID externalExecutionEnvironmentID,
+									  final boolean recursive) {
+		ObjectID objectID = dcObject.getObjectID();
+		ExecutionEnvironmentID objectHint = (ExecutionEnvironmentID) dcObject.getHint();
+		if (DEBUG_ENABLED) {
+			LOGGER.debug("[==UnfederateObject==] Starting unfederation of object " + objectID + " with ext.EE "
+					+ externalExecutionEnvironmentID);
+		}
+		final SessionID sessionID = checkAndGetSession(new String[] {}, new Object[] {});
+		// Get object location
+		BackendID execLocationID = objectHint;
+		if (objectHint == null) {
+			execLocationID = getLocation(objectID);
+		}
+
+		// Get language from origin location
+		final DataServiceAPI dsAPI = getRemoteExecutionEnvironment(execLocationID);
+		dsAPI.unfederate(sessionID, objectID, externalExecutionEnvironmentID, recursive);
+
+	}
+
+	@Override
+	public final void synchronize(final DataClayObject dcObject, final Object[] params,
+								  final ImplementationID remoteImplID) {
+		final SessionID sessionID = checkAndGetSession(new String[] { }, new Object[] { });
+
+		// ===== SERIALIZE PARAMETERS ===== //
+		// Serialize parameters
+		final SerializedParametersOrReturn serializedParams = serializeParams(dcObject, null, remoteImplID, params,
+				false, null);
+		ObjectID objectID = dcObject.getObjectID();
+		BackendID execLocationID = this.getLocation(objectID);
+		final DataServiceAPI dsAPI = getRemoteExecutionEnvironment(execLocationID);
+		dsAPI.synchronize(sessionID, objectID, remoteImplID, serializedParams, null);
 	}
 }

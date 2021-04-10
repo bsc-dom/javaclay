@@ -264,7 +264,22 @@ public class DataClayObject extends StorageObject implements DataClaySerializabl
 	 *            alias to be removed from this object
 	 */
 	public static void deleteAlias(final String alias) {
-		throw new UnsupportedOperationException("DataClayObject must be specialized");
+		if (DEBUG_ENABLED) {
+			logger.debug("Deleting alias " + alias);
+		}
+		getLib().deleteAlias(alias);
+	}
+
+
+	/**
+	 * Delete object's alias
+	 */
+	public void deleteAlias() {
+		if (DEBUG_ENABLED) {
+			logger.debug("Deleting alias in backend: " + alias);
+		}
+		getLib().deleteAlias(this.getObjectID(), (ExecutionEnvironmentID) this.getHint());
+		this.setAlias(null);
 	}
 
 	/**
@@ -908,7 +923,7 @@ public class DataClayObject extends StorageObject implements DataClaySerializabl
 	 *            whether to federate recursively or not
 	 */
 	public void federate(final DataClayInstanceID extDataClayID, final boolean recursive) {
-		DataClayObject.getLib().federateObject(this.objectID, this.getHint(), extDataClayID, recursive);
+		DataClayObject.getLib().federateObject(this, extDataClayID, recursive);
 	}
 	
 	/**
@@ -917,8 +932,9 @@ public class DataClayObject extends StorageObject implements DataClaySerializabl
 	 * @param recursive
 	 *            whether to unfederate recursively or not
 	 */
-	public void unfederate(final DataClayInstanceID extDataClayID, final boolean recursive) { 
-		DataClayObject.getLib().unfederateObject(this.objectID, this.getHint(), null, recursive);
+	public void unfederate(final DataClayInstanceID extDataClayID, final boolean recursive) {
+		//FIXME: specific unfederation
+		DataClayObject.getLib().unfederateObject(this, null, recursive);
 	}
 
 	/**
@@ -927,7 +943,7 @@ public class DataClayObject extends StorageObject implements DataClaySerializabl
 	 *            whether to unfederate recursively or not
 	 */
 	public void unfederate(final boolean recursive) { 
-		DataClayObject.getLib().unfederateObjectWithAllDCs(this.objectID, recursive);
+		DataClayObject.getLib().unfederateObject(this, null, recursive);
 	}
 	
 	/**
@@ -937,7 +953,7 @@ public class DataClayObject extends StorageObject implements DataClaySerializabl
 	 *            id of the external dataClay instance
 	 */
 	public void federate(final DataClayInstanceID extDataClayID) {
-		DataClayObject.getLib().federateObject(this.objectID, this.getHint(), extDataClayID, true);
+		DataClayObject.getLib().federateObject(this, extDataClayID, true);
 	}
 
 
@@ -945,8 +961,9 @@ public class DataClayObject extends StorageObject implements DataClaySerializabl
 	 * Unfederate this object with the provided external dataClay
 	 * @param extDataClayID  id of the external dataClay instance
 	 */
-	public void unfederate(final DataClayInstanceID extDataClayID) { 
-		DataClayObject.getLib().unfederateObject(this.objectID, this.getHint(), null, true);
+	public void unfederate(final DataClayInstanceID extDataClayID) {
+		//FIXME: specific unfederation
+		DataClayObject.getLib().unfederateObject(this, null, true);
 	}
 
 	/**
@@ -956,7 +973,7 @@ public class DataClayObject extends StorageObject implements DataClaySerializabl
 	 *            id of the external backend to federate
 	 */
 	public void federateToBackend(final BackendID extBackendID) {
-		DataClayObject.getLib().federateToBackend(this.objectID, this.getHint(),
+		DataClayObject.getLib().federateToBackend(this,
 				(ExecutionEnvironmentID) extBackendID, true);
 	}
 
@@ -968,7 +985,7 @@ public class DataClayObject extends StorageObject implements DataClaySerializabl
 	 * @param recursive Indicates if federation is recursive or not
 	 */
 	public void federateToBackend(final BackendID extBackendID, final boolean recursive) {
-		DataClayObject.getLib().federateToBackend(this.objectID, this.getHint(),
+		DataClayObject.getLib().federateToBackend(this,
 				(ExecutionEnvironmentID) extBackendID, recursive);
 	}
 
@@ -979,7 +996,7 @@ public class DataClayObject extends StorageObject implements DataClaySerializabl
 	 *            id of the external backend to federate
 	 */
 	public void unfederateFromBackend(final BackendID extBackendID) {
-		DataClayObject.getLib().unfederateFromBackend(this.objectID, this.getHint(),
+		DataClayObject.getLib().unfederateFromBackend(this,
 				(ExecutionEnvironmentID) extBackendID, true);
 	}
 
@@ -993,7 +1010,7 @@ public class DataClayObject extends StorageObject implements DataClaySerializabl
 
 	 */
 	public void unfederateFromBackend(final BackendID extBackendID, final boolean recursive) {
-		DataClayObject.getLib().unfederateFromBackend(this.objectID, this.getHint(),
+		DataClayObject.getLib().unfederateFromBackend(this,
 				(ExecutionEnvironmentID) extBackendID, recursive);
 	}
 
@@ -1006,6 +1023,16 @@ public class DataClayObject extends StorageObject implements DataClaySerializabl
 	 */
 	public final DataClayInstanceID getExternalDataClayID(final String hostname, final int port) {
 		return getLib().getExternalDataClayID(hostname, port);
+	}
+
+
+	/**
+	 * Detach object from session, i.e. remove reference from current session provided to current object,
+	 * "dear garbage-collector, the current session is not using this object anymore"
+	 *
+	 */
+	public final void sessionDetach() {
+		getLib().detachObjectFromSession(this.getObjectID(), (ExecutionEnvironmentID) this.getHint());
 	}
 
 	/**
@@ -1043,29 +1070,14 @@ public class DataClayObject extends StorageObject implements DataClaySerializabl
 		// TODO: use padding instead once new serialization is implemented (dgasull
 		// pierlauro 2018)
 		dcBuffer.writeInt(0); // index is updated in the end
-		if (DataClaySerializationLib.DEBUG_ENABLED) { 
-			DataClaySerializationLib.LOGGER.debug("[Serialization] --> Serialized first 4 bytes: writerindex=" + dcBuffer.writerIndex());
-		}
 		
 		// === master location ==
 		if (masterLocation != null) {
 			dcBuffer.writeLong(masterLocation.getId().getLeastSignificantBits());
-			if (DataClaySerializationLib.DEBUG_ENABLED) { 
-				DataClaySerializationLib.LOGGER.debug("[Serialization] --> Serialized master location least: data="+  masterLocation.getId().getLeastSignificantBits() + ", writerIndex=" + dcBuffer.writerIndex());
-			}
 			dcBuffer.writeLong(masterLocation.getId().getMostSignificantBits());
-			if (DataClaySerializationLib.DEBUG_ENABLED) { 
-				DataClaySerializationLib.LOGGER.debug("[Serialization] --> Serialized master location most: data="+  masterLocation.getId().getMostSignificantBits() + ", writerIndex=" + dcBuffer.writerIndex());
-			}
 		} else {
 			dcBuffer.writeLong(0L);
-			if (DataClaySerializationLib.DEBUG_ENABLED) { 
-				DataClaySerializationLib.LOGGER.debug("[Serialization] --> Serialized master location least: data=0, writerIndex=" + dcBuffer.writerIndex());
-			}
 			dcBuffer.writeLong(0L);
-			if (DataClaySerializationLib.DEBUG_ENABLED) { 
-				DataClaySerializationLib.LOGGER.debug("[Serialization] --> Serialized master location most: data=0, writerIndex=" + dcBuffer.writerIndex());
-			}
 		}
 
 		final List<DataClaySerializable> wrapFields = new ArrayList<>();
@@ -1075,15 +1087,9 @@ public class DataClayObject extends StorageObject implements DataClaySerializabl
 		final int numBytes = (int) Math.ceil(wrapFields.size() / 8.0F);
 		final BitSet notNullsBitSet = new BitSet(numBytes);
 		dcBuffer.writeVLQInt(numBytes);
-		if (DataClaySerializationLib.DEBUG_ENABLED) { 
-			DataClaySerializationLib.LOGGER.debug("[Serialization] --> Serialized bitmap size: data=" + numBytes + ", writerIndex=" + dcBuffer.writerIndex());
-		}
 		
 		final int curWriterIndx = dcBuffer.writerIndex();
 		dcBuffer.writeBytes(new byte[numBytes]);
-		if (DataClaySerializationLib.DEBUG_ENABLED) { 
-			DataClaySerializationLib.LOGGER.debug("[Serialization] --> Serialized empty bitmap: data=" + notNullsBitSet + ", writerIndex=" + dcBuffer.writerIndex());
-		}
 		BitSet ifaceBitSet = null;
 		if (ifaceBitMaps != null) {
 			ifaceBitSet = BitSet.valueOf(ifaceBitMaps.get(getMetaClassID()));
@@ -1121,35 +1127,17 @@ public class DataClayObject extends StorageObject implements DataClaySerializabl
 
 		int curIdx = dcBuffer.writerIndex();
 		dcBuffer.setWriterIndex(curWriterIndx);
-		if (DataClaySerializationLib.DEBUG_ENABLED) { 
-			DataClaySerializationLib.LOGGER.debug("[Serialization] --> Modified writerIndex=" + dcBuffer.writerIndex());
-		}
 		dcBuffer.writeBytes(notNullsBitSet.toByteArray());
-		if (DataClaySerializationLib.DEBUG_ENABLED) { 
-			DataClaySerializationLib.LOGGER.debug("[Serialization] --> Serialized bitmap: data=" + notNullsBitSet + ", writerIndex=" + dcBuffer.writerIndex());
-		}
 		dcBuffer.setWriterIndex(curIdx);
-		if (DataClaySerializationLib.DEBUG_ENABLED) { 
-			DataClaySerializationLib.LOGGER.debug("[Serialization] --> Modified writerIndex=" + dcBuffer.writerIndex());
-		}
 		// == reference counting == //
 		// TODO: IMPORTANT: this should be removed in new serialization by using
 		// paddings to directly access reference counters inside metadata.
 
 		curIdx = dcBuffer.writerIndex();
 		dcBuffer.setWriterIndex(0);
-		if (DataClaySerializationLib.DEBUG_ENABLED) { 
-			DataClaySerializationLib.LOGGER.debug("[Serialization] --> Modified writerIndex=" + dcBuffer.writerIndex());
-		}
 		dcBuffer.writeInt(curIdx);
-		if (DataClaySerializationLib.DEBUG_ENABLED) { 
-			DataClaySerializationLib.LOGGER.debug("[Serialization] --> Serialized curIdx: data=" + curIdx + ", writerIndex=" + dcBuffer.writerIndex());
-		}
 		dcBuffer.setWriterIndex(curIdx);
-		if (DataClaySerializationLib.DEBUG_ENABLED) { 
-			DataClaySerializationLib.LOGGER.debug("[Serialization] --> Modified writerIndex=" + dcBuffer.writerIndex());
-		}
-		DataClaySerializationLib.serializeReferenceCounting(dcBuffer, referenceCounting);
+		DataClaySerializationLib.serializeReferenceCounting(this, dcBuffer, referenceCounting);
 
 	}
 
@@ -1319,6 +1307,7 @@ public class DataClayObject extends StorageObject implements DataClaySerializabl
 				}
 				final Yaml yaml = CommonYAML.getYamlObject();
 				final String path = currentClass.getSimpleName() + "Yaml.yaml";
+				logger.debug("Loading babel stub information from " + path);
 				final InputStream ios = currentClass.getResourceAsStream(path);
 				stubInfo = (StubInfo) yaml.load(ios);
 				if (getLib().isDSLib()) {
@@ -1512,6 +1501,21 @@ public class DataClayObject extends StorageObject implements DataClaySerializabl
 			this.replicaLocations = ConcurrentHashMap.newKeySet();
 		}
 		this.replicaLocations.add(replicaLocation);
+	}
+
+	/**
+	 * Remove replica location
+	 * @param replicaLocation replica location to add
+	 */
+	public void removeReplicaLocation(ExecutionEnvironmentID replicaLocation) {
+		this.replicaLocations.remove(replicaLocation);
+	}
+
+	/**
+	 * Clear replica locations
+	 */
+	public void clearReplicaLocations() {
+		this.replicaLocations.clear();
 	}
 
 	/**

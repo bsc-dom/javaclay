@@ -345,6 +345,7 @@ public final class DataClayObjectMetaData {
 		strb.append("{\n");
 		strb.append("alias = " + this.alias + "\n");
 		strb.append("numRefs = " + this.numRefs + "\n");
+		strb.append("isReadOnly = " + this.isReadOnly + "\n");
 		strb.append("oids = " + this.oids + "\n");
 		strb.append("classIDs = " + this.classIDs + "\n");
 		strb.append("hints = " + this.hints + "\n");

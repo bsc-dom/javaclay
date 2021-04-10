@@ -559,7 +559,9 @@ public final class Utils {
 		builder.setDatasetID(Utils.getMsgID(object.getDatasetID()));
 		builder.setMetaclassID(Utils.getMsgID(object.getMetaclassID()));
 		builder.setOwnerID(Utils.getMsgID(object.getOwnerID()));
-		builder.setAlias(object.getAlias());
+		if (object.getAlias() != null) {
+			builder.setAlias(object.getAlias());
+		}
 		for (ExecutionEnvironmentID loc : object.getLocations()) {
 			builder.addLocations(Utils.getMsgID(loc));
 		}

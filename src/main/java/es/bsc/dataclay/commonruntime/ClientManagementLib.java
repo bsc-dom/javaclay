@@ -188,7 +188,6 @@ public final class ClientManagementLib {
 	 */
 	public static void finishConnections() throws Exception {
 		if (clientLib != null) {
-			LOGGER.info("Finishing connections ... ");
 			clientLib.finishConnections();
 			clientLib = null;
 		}

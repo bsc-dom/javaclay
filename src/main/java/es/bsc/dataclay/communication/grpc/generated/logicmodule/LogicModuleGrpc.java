@@ -1953,28 +1953,28 @@ public final class LogicModuleGrpc {
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.DeleteAliasRequest,
-      es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> getDeleteAliasMethod;
+      es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.DeleteAliasResponse> getDeleteAliasMethod;
 
   @io.grpc.stub.annotations.RpcMethod(
       fullMethodName = SERVICE_NAME + '/' + "deleteAlias",
       requestType = es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.DeleteAliasRequest.class,
-      responseType = es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.class,
+      responseType = es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.DeleteAliasResponse.class,
       methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
   public static io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.DeleteAliasRequest,
-      es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> getDeleteAliasMethod() {
-    io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.DeleteAliasRequest, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> getDeleteAliasMethod;
+      es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.DeleteAliasResponse> getDeleteAliasMethod() {
+    io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.DeleteAliasRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.DeleteAliasResponse> getDeleteAliasMethod;
     if ((getDeleteAliasMethod = LogicModuleGrpc.getDeleteAliasMethod) == null) {
       synchronized (LogicModuleGrpc.class) {
         if ((getDeleteAliasMethod = LogicModuleGrpc.getDeleteAliasMethod) == null) {
           LogicModuleGrpc.getDeleteAliasMethod = getDeleteAliasMethod =
-              io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.DeleteAliasRequest, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>newBuilder()
+              io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.DeleteAliasRequest, es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.DeleteAliasResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
               .setFullMethodName(generateFullMethodName(SERVICE_NAME, "deleteAlias"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.DeleteAliasRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo.getDefaultInstance()))
+                  es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.DeleteAliasResponse.getDefaultInstance()))
               .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("deleteAlias"))
               .build();
         }
@@ -2198,6 +2198,37 @@ public final class LogicModuleGrpc {
       }
     }
     return getGetMetadataByOIDMethod;
+  }
+
+  private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage,
+      es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetNumObjectsResponse> getGetNumObjectsMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "getNumObjects",
+      requestType = es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage.class,
+      responseType = es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetNumObjectsResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage,
+      es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetNumObjectsResponse> getGetNumObjectsMethod() {
+    io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetNumObjectsResponse> getGetNumObjectsMethod;
+    if ((getGetNumObjectsMethod = LogicModuleGrpc.getGetNumObjectsMethod) == null) {
+      synchronized (LogicModuleGrpc.class) {
+        if ((getGetNumObjectsMethod = LogicModuleGrpc.getGetNumObjectsMethod) == null) {
+          LogicModuleGrpc.getGetNumObjectsMethod = getGetNumObjectsMethod =
+              io.grpc.MethodDescriptor.<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetNumObjectsResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "getNumObjects"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetNumObjectsResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new LogicModuleMethodDescriptorSupplier("getNumObjects"))
+              .build();
+        }
+      }
+    }
+    return getGetNumObjectsMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.SetDataSetIDRequest,
@@ -3658,7 +3689,7 @@ public final class LogicModuleGrpc {
     /**
      */
     public void deleteAlias(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.DeleteAliasRequest request,
-        io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
+        io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.DeleteAliasResponse> responseObserver) {
       asyncUnimplementedUnaryCall(getDeleteAliasMethod(), responseObserver);
     }
 
@@ -3709,6 +3740,13 @@ public final class LogicModuleGrpc {
     public void getMetadataByOID(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetMetadataByOIDRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetMetadataByOIDResponse> responseObserver) {
       asyncUnimplementedUnaryCall(getGetMetadataByOIDMethod(), responseObserver);
+    }
+
+    /**
+     */
+    public void getNumObjects(es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage request,
+        io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetNumObjectsResponse> responseObserver) {
+      asyncUnimplementedUnaryCall(getGetNumObjectsMethod(), responseObserver);
     }
 
     /**
@@ -4399,7 +4437,7 @@ public final class LogicModuleGrpc {
             asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.DeleteAliasRequest,
-                es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>(
+                es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.DeleteAliasResponse>(
                   this, METHODID_DELETE_ALIAS)))
           .addMethod(
             getGetObjectsMetaDataInfoOfClassForNMMethod(),
@@ -4450,6 +4488,13 @@ public final class LogicModuleGrpc {
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetMetadataByOIDRequest,
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetMetadataByOIDResponse>(
                   this, METHODID_GET_METADATA_BY_OID)))
+          .addMethod(
+            getGetNumObjectsMethod(),
+            asyncUnaryCall(
+              new MethodHandlers<
+                es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage,
+                es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetNumObjectsResponse>(
+                  this, METHODID_GET_NUM_OBJECTS)))
           .addMethod(
             getSetDataSetIDMethod(),
             asyncUnaryCall(
@@ -5221,7 +5266,7 @@ public final class LogicModuleGrpc {
     /**
      */
     public void deleteAlias(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.DeleteAliasRequest request,
-        io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
+        io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.DeleteAliasResponse> responseObserver) {
       asyncUnaryCall(
           getChannel().newCall(getDeleteAliasMethod(), getCallOptions()), request, responseObserver);
     }
@@ -5280,6 +5325,14 @@ public final class LogicModuleGrpc {
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetMetadataByOIDResponse> responseObserver) {
       asyncUnaryCall(
           getChannel().newCall(getGetMetadataByOIDMethod(), getCallOptions()), request, responseObserver);
+    }
+
+    /**
+     */
+    public void getNumObjects(es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage request,
+        io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetNumObjectsResponse> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(getGetNumObjectsMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
@@ -6048,7 +6101,7 @@ public final class LogicModuleGrpc {
 
     /**
      */
-    public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo deleteAlias(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.DeleteAliasRequest request) {
+    public es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.DeleteAliasResponse deleteAlias(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.DeleteAliasRequest request) {
       return blockingUnaryCall(
           getChannel(), getDeleteAliasMethod(), getCallOptions(), request);
     }
@@ -6100,6 +6153,13 @@ public final class LogicModuleGrpc {
     public es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetMetadataByOIDResponse getMetadataByOID(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetMetadataByOIDRequest request) {
       return blockingUnaryCall(
           getChannel(), getGetMetadataByOIDMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
+    public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetNumObjectsResponse getNumObjects(es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage request) {
+      return blockingUnaryCall(
+          getChannel(), getGetNumObjectsMethod(), getCallOptions(), request);
     }
 
     /**
@@ -6899,7 +6959,7 @@ public final class LogicModuleGrpc {
 
     /**
      */
-    public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> deleteAlias(
+    public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.DeleteAliasResponse> deleteAlias(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.DeleteAliasRequest request) {
       return futureUnaryCall(
           getChannel().newCall(getDeleteAliasMethod(), getCallOptions()), request);
@@ -6959,6 +7019,14 @@ public final class LogicModuleGrpc {
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetMetadataByOIDRequest request) {
       return futureUnaryCall(
           getChannel().newCall(getGetMetadataByOIDMethod(), getCallOptions()), request);
+    }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetNumObjectsResponse> getNumObjects(
+        es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage request) {
+      return futureUnaryCall(
+          getChannel().newCall(getGetNumObjectsMethod(), getCallOptions()), request);
     }
 
     /**
@@ -7310,37 +7378,38 @@ public final class LogicModuleGrpc {
   private static final int METHODID_REGISTER_OBJECTS = 67;
   private static final int METHODID_SET_DATA_SET_IDFROM_GARBAGE_COLLECTOR = 68;
   private static final int METHODID_GET_METADATA_BY_OID = 69;
-  private static final int METHODID_SET_DATA_SET_ID = 70;
-  private static final int METHODID_MOVE_OBJECT = 71;
-  private static final int METHODID_SET_OBJECT_READ_ONLY = 72;
-  private static final int METHODID_SET_OBJECT_READ_WRITE = 73;
-  private static final int METHODID_EXECUTE_IMPLEMENTATION = 74;
-  private static final int METHODID_EXECUTE_METHOD_ON_TARGET = 75;
-  private static final int METHODID_GET_DATA_CLAY_ID = 76;
-  private static final int METHODID_REGISTER_EXTERNAL_DATA_CLAY = 77;
-  private static final int METHODID_REGISTER_EXTERNAL_DATA_CLAY_OVERRIDE_AUTHORITY = 78;
-  private static final int METHODID_NOTIFY_REGISTRATION_OF_EXTERNAL_DATA_CLAY = 79;
-  private static final int METHODID_GET_EXTERNAL_DATA_CLAY_INFO = 80;
-  private static final int METHODID_GET_EXTERNAL_DATACLAY_ID = 81;
-  private static final int METHODID_GET_CLASSES_IN_NAMESPACE = 82;
-  private static final int METHODID_IMPORT_MODELS_FROM_EXTERNAL_DATA_CLAY = 83;
-  private static final int METHODID_GET_STUBS = 84;
-  private static final int METHODID_GET_BABEL_STUBS = 85;
-  private static final int METHODID_REGISTER_ECA = 86;
-  private static final int METHODID_ADVISE_EVENT = 87;
-  private static final int METHODID_IS_PREFETCHING_ENABLED = 88;
-  private static final int METHODID_GET_CLASS_NAME_FOR_DS = 89;
-  private static final int METHODID_GET_CLASS_NAME_AND_NAMESPACE_FOR_DS = 90;
-  private static final int METHODID_GET_CONTRACT_IDOF_DATA_CLAY_PROVIDER = 91;
-  private static final int METHODID_OBJECT_EXISTS_IN_DATA_CLAY = 92;
-  private static final int METHODID_CLOSE_SESSION = 93;
-  private static final int METHODID_GET_METADATA_BY_OIDFOR_DS = 94;
-  private static final int METHODID_ACTIVATE_TRACING = 95;
-  private static final int METHODID_DEACTIVATE_TRACING = 96;
-  private static final int METHODID_GET_TRACES = 97;
-  private static final int METHODID_CLEAN_META_DATA_CACHES = 98;
-  private static final int METHODID_CLOSE_MANAGER_DB = 99;
-  private static final int METHODID_CLOSE_DB = 100;
+  private static final int METHODID_GET_NUM_OBJECTS = 70;
+  private static final int METHODID_SET_DATA_SET_ID = 71;
+  private static final int METHODID_MOVE_OBJECT = 72;
+  private static final int METHODID_SET_OBJECT_READ_ONLY = 73;
+  private static final int METHODID_SET_OBJECT_READ_WRITE = 74;
+  private static final int METHODID_EXECUTE_IMPLEMENTATION = 75;
+  private static final int METHODID_EXECUTE_METHOD_ON_TARGET = 76;
+  private static final int METHODID_GET_DATA_CLAY_ID = 77;
+  private static final int METHODID_REGISTER_EXTERNAL_DATA_CLAY = 78;
+  private static final int METHODID_REGISTER_EXTERNAL_DATA_CLAY_OVERRIDE_AUTHORITY = 79;
+  private static final int METHODID_NOTIFY_REGISTRATION_OF_EXTERNAL_DATA_CLAY = 80;
+  private static final int METHODID_GET_EXTERNAL_DATA_CLAY_INFO = 81;
+  private static final int METHODID_GET_EXTERNAL_DATACLAY_ID = 82;
+  private static final int METHODID_GET_CLASSES_IN_NAMESPACE = 83;
+  private static final int METHODID_IMPORT_MODELS_FROM_EXTERNAL_DATA_CLAY = 84;
+  private static final int METHODID_GET_STUBS = 85;
+  private static final int METHODID_GET_BABEL_STUBS = 86;
+  private static final int METHODID_REGISTER_ECA = 87;
+  private static final int METHODID_ADVISE_EVENT = 88;
+  private static final int METHODID_IS_PREFETCHING_ENABLED = 89;
+  private static final int METHODID_GET_CLASS_NAME_FOR_DS = 90;
+  private static final int METHODID_GET_CLASS_NAME_AND_NAMESPACE_FOR_DS = 91;
+  private static final int METHODID_GET_CONTRACT_IDOF_DATA_CLAY_PROVIDER = 92;
+  private static final int METHODID_OBJECT_EXISTS_IN_DATA_CLAY = 93;
+  private static final int METHODID_CLOSE_SESSION = 94;
+  private static final int METHODID_GET_METADATA_BY_OIDFOR_DS = 95;
+  private static final int METHODID_ACTIVATE_TRACING = 96;
+  private static final int METHODID_DEACTIVATE_TRACING = 97;
+  private static final int METHODID_GET_TRACES = 98;
+  private static final int METHODID_CLEAN_META_DATA_CACHES = 99;
+  private static final int METHODID_CLOSE_MANAGER_DB = 100;
+  private static final int METHODID_CLOSE_DB = 101;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -7609,7 +7678,7 @@ public final class LogicModuleGrpc {
           break;
         case METHODID_DELETE_ALIAS:
           serviceImpl.deleteAlias((es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.DeleteAliasRequest) request,
-              (io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>) responseObserver);
+              (io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.DeleteAliasResponse>) responseObserver);
           break;
         case METHODID_GET_OBJECTS_META_DATA_INFO_OF_CLASS_FOR_NM:
           serviceImpl.getObjectsMetaDataInfoOfClassForNM((es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetObjectsMetaDataInfoOfClassForNMRequest) request,
@@ -7638,6 +7707,10 @@ public final class LogicModuleGrpc {
         case METHODID_GET_METADATA_BY_OID:
           serviceImpl.getMetadataByOID((es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetMetadataByOIDRequest) request,
               (io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetMetadataByOIDResponse>) responseObserver);
+          break;
+        case METHODID_GET_NUM_OBJECTS:
+          serviceImpl.getNumObjects((es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage) request,
+              (io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetNumObjectsResponse>) responseObserver);
           break;
         case METHODID_SET_DATA_SET_ID:
           serviceImpl.setDataSetID((es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.SetDataSetIDRequest) request,
@@ -7894,6 +7967,7 @@ public final class LogicModuleGrpc {
               .addMethod(getRegisterObjectsMethod())
               .addMethod(getSetDataSetIDFromGarbageCollectorMethod())
               .addMethod(getGetMetadataByOIDMethod())
+              .addMethod(getGetNumObjectsMethod())
               .addMethod(getSetDataSetIDMethod())
               .addMethod(getMoveObjectMethod())
               .addMethod(getSetObjectReadOnlyMethod())

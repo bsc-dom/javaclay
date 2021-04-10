@@ -588,6 +588,18 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
     }
 
     /**
+     * Get DataService APIs for backend with support for a given language.
+     *
+     * @return DataServiceAPIs
+     */
+    protected Map<StorageLocationID, Tuple<DataServiceAPI, StorageLocation>> getStorageLocations() {
+        if (DEBUG_ENABLED) {
+            LOGGER.debug("[==GetStorageLocations==] Storage locations : " + storageLocations.keySet());
+        }
+        return this.storageLocations;
+    }
+
+    /**
      * Update APIs for all registered environments/storage locations
      */
     protected void updateAPIsFromDB() {
@@ -1362,6 +1374,8 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
 
     @Override
     public void closeSession(final SessionID sessionID) {
+
+        LOGGER.debug("==> Closing session " + sessionID);
         sessionMgrApi.closeSession(sessionID);
 
         // Broadcast closing of session
@@ -1371,6 +1385,7 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
         for (final Tuple<DataServiceAPI, ExecutionEnvironment> elem : getExecutionEnvironments(Langs.LANG_PYTHON).values()) {
             elem.getFirst().closeSessionInDS(sessionID);
         }
+        LOGGER.debug("<== Closed session " + sessionID);
     }
 
     /**
@@ -3535,12 +3550,18 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
 			datasetIDforStore = dataSetMgrApi.getDataSetID(EXTERNAL_OBJECTS_DATASET_NAME);
 			ownerAccountID = accountMgrApi.getAccountID(FEDERATOR_ACCOUNT_USERNAME);
 		} else {
-			final SessionInfo sessionInfo = getSessionInfo(ownerSessionID);
-			final Map<DataContractID, SessionDataContract> sessionDataInfo = sessionInfo.getSessionDataContracts();
-			final DataContractID dataContractIDforStore = sessionInfo.getDataContractIDforStore();
-			final SessionDataContract sessionDataContractOfStore = sessionDataInfo.get(dataContractIDforStore);
-			datasetIDforStore = sessionDataContractOfStore.getDataSetOfProvider();
-			ownerAccountID = sessionInfo.getAccountID();
+		    try {
+                final SessionInfo sessionInfo = getSessionInfo(ownerSessionID);
+                final Map<DataContractID, SessionDataContract> sessionDataInfo = sessionInfo.getSessionDataContracts();
+                final DataContractID dataContractIDforStore = sessionInfo.getDataContractIDforStore();
+                final SessionDataContract sessionDataContractOfStore = sessionDataInfo.get(dataContractIDforStore);
+                datasetIDforStore = sessionDataContractOfStore.getDataSetOfProvider();
+                ownerAccountID = sessionInfo.getAccountID();
+            } catch (SessionNotExistException ex) {
+                // TODO: create a general dataClay dataset and account
+                datasetIDforStore = dataSetMgrApi.getDataSetID(EXTERNAL_OBJECTS_DATASET_NAME);
+                ownerAccountID = accountMgrApi.getAccountID(FEDERATOR_ACCOUNT_USERNAME);
+            }
 		}
 
         if (regInfo.getDataSetID() != null) {
@@ -3577,6 +3598,7 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
                 metaDataSrvApi.unregisterExternalObject(objectID);
             }
         }
+        this.metaDataSrvApi.vacuumDB();
     }
 
     @Override
@@ -3652,6 +3674,16 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
         }
 
         return execEnvs;
+    }
+
+
+    /**
+     * Get all storage locations information
+     * @return Storage location infos
+     */
+    private Map<StorageLocationID, StorageLocation> getAllStorageLocationsInfo() {
+        final Map<StorageLocationID, StorageLocation> stLocs = metaDataSrvApi.getAllStorageLocationsInfo();
+        return stLocs;
     }
 
     @Override
@@ -3746,7 +3778,7 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
     }
 
     @Override
-    public void deleteAlias(final SessionID sessionID, final String alias) {
+    public ObjectID deleteAlias(final SessionID sessionID, final String alias) {
         try {
             if (DEBUG_ENABLED) {
                 LOGGER.debug("Starting delete alias " + alias);
@@ -3772,6 +3804,8 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
             /** final Map<ObjectID, Integer> referenceCounting = new HashMap<>();
             referenceCounting.put(objectID, -1);
             notifyGarbageCollectors(referenceCounting); **/
+
+            return objectID;
 
         } catch (final Exception ex) {
             LOGGER.debug("deleteAlias error", ex);
@@ -4534,19 +4568,26 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
 
     @Override
     public boolean objectExistsInDataClay(final ObjectID objectID) {
-        for (final Tuple<DataServiceAPI, ExecutionEnvironment> elem : getExecutionEnvironments(Langs.LANG_JAVA).values()) {
-            if (elem.getFirst().exists(objectID)) {
-                LOGGER.debug("Found object {} in execution environment {}", objectID, elem.getSecond().toString());
-                return true;
-            }
-        }
-        for (final Tuple<DataServiceAPI, ExecutionEnvironment> elem : getExecutionEnvironments(Langs.LANG_PYTHON).values()) {
-            if (elem.getFirst().exists(objectID)) {
-                LOGGER.debug("Found object {} in execution environment {}", objectID, elem.getSecond().toString());
+        LOGGER.debug("Checking if object {} exists", objectID);
+        for (final Tuple<DataServiceAPI, StorageLocation> elem : this.getStorageLocations().values()) {
+            if (elem.getFirst().existsInDB(objectID)) {
+                LOGGER.debug("Found object {} in storage location {}", objectID, elem.getSecond().toString());
                 return true;
             }
         }
         return false;
+
+    }
+
+    @Override
+    public int getNumObjects() {
+        LOGGER.debug("Getting number of objects in dataClay");
+        int numObjs = 0;
+        for (final Tuple<DataServiceAPI, StorageLocation> elem : this.getStorageLocations().values()) {
+            numObjs += elem.getFirst().getNumObjects();
+        }
+        LOGGER.debug("Found {} objects in dataClay", numObjs);
+        return numObjs;
 
     }
 

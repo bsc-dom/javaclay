@@ -50,7 +50,6 @@ public class DataClayClassWriter extends ClassWriter {
 
 	@Override
 	public final String getCommonSuperClass(final String type1, final String type2) {
-
 		// If exec. type1 and type2 will include the namespace, but our includes structure should be aware.
 		final String type1Name = Reflector.getTypeNameFromInternalName(type1);
 		final String type2Name = Reflector.getTypeNameFromInternalName(type2);
@@ -63,9 +62,22 @@ public class DataClayClassWriter extends ClassWriter {
 		if (Reflector.isJavaPrimitiveOrArrayTypeName(type1Name) && Reflector.isJavaPrimitiveOrArrayTypeName(type2Name)) {
 			return super.getCommonSuperClass(type1, type2);
 		}
+		if (Reflector.isJavaPrimitiveOrArrayTypeName(type1Name) && !Reflector.isJavaPrimitiveOrArrayTypeName(type2Name)) {
+			return "java/lang/Object";
+		}
+		if (!Reflector.isJavaPrimitiveOrArrayTypeName(type1Name) && Reflector.isJavaPrimitiveOrArrayTypeName(type2Name)) {
+			return "java/lang/Object";
+		}
+
 		MetaClass type1Class = includes.get(type1Name);
 		MetaClass type2Class = includes.get(type2Name);
+		if (type1Class == null) {
+			System.err.println("Not found include " + type1Name);
 
+		}
+		if (type2Class == null) {
+			System.err.println("Not found include " + type2Name);
+		}
 		// Look for common parent type
 		if (type1Class.getParentType() == null || type2Class.getParentType() == null) {
 			return "java/lang/Object";

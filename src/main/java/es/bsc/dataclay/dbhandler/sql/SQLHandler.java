@@ -209,6 +209,44 @@ public abstract class SQLHandler<T extends DBHandlerConf> implements DBHandler {
 	}
 
 	@Override
+	public int count() {
+		synchronized (dataSource) {
+			int result = -1;
+
+			final String sqlStatementStr = DataServiceDBSQLStatements.SqlStatements.COUNT_OBJECTS.getSqlStatement();
+			Connection conn = null;
+			try {
+				conn = dataSource.getConnection();
+				final PreparedStatement selectStatement = conn.prepareStatement(sqlStatementStr);
+				ResultSet resultSet = null;
+				if (DEBUG_ENABLED) {
+					logger.debug("[==DB==] Executing " + selectStatement);
+				}
+				resultSet = selectStatement.executeQuery();
+				final boolean hasResults = resultSet.next();
+				if (hasResults) {
+					result = resultSet.getInt(1);
+				}
+				if (DEBUG_ENABLED) {
+					logger.debug("[==DB==] Executed " + selectStatement + " with return " + result);
+				}
+
+			} catch (final SQLException e) {
+				logger.debug("[==DB==] Ignored exception in get", e);
+			} finally {
+				try {
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException ex1) {
+					logger.debug("SQL Exception while closing connection", ex1);
+				}
+			}
+			return result;
+		}
+	}
+
+	@Override
 	public void update(final ObjectID objectID, final byte[] newbytes) {
 		synchronized (dataSource) {
 			final String sqlStatementStr = DataServiceDBSQLStatements.SqlStatements.UPDATE_OBJECT.getSqlStatement();
@@ -275,6 +313,37 @@ public abstract class SQLHandler<T extends DBHandlerConf> implements DBHandler {
 		}
 
 	}
+
+
+
+	@Override
+	public void vacuum() {
+		synchronized (dataSource) {
+			final String sqlStatementStr = DataServiceDBSQLStatements.SqlStatements.VACUUM.getSqlStatement();
+			Connection conn = null;
+			try {
+				conn = dataSource.getConnection();
+				final PreparedStatement vacuumStatement = conn.prepareStatement(sqlStatementStr);
+				if (DEBUG_ENABLED) {
+					logger.debug("[==DB==] Executing " + vacuumStatement);
+				}
+				vacuumStatement.executeUpdate();
+
+			} catch (final SQLException e) {
+				logger.debug("[==DB==] Exception in vacuum", e);
+			} finally {
+				try {
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (final SQLException ex1) {
+					logger.debug("SQL Exception while closing connection", ex1);
+				}
+			}
+		}
+
+	}
+
 
 	@Override
 	public boolean isClosed() {
