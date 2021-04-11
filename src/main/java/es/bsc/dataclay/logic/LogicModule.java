@@ -17,6 +17,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import es.bsc.dataclay.api.BackendID;
 import es.bsc.dataclay.exceptions.metadataservice.*;
 import es.bsc.dataclay.util.management.metadataservice.*;
+import io.grpc.Status;
+import io.grpc.StatusRuntimeException;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -1380,10 +1382,28 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
 
         // Broadcast closing of session
         for (final Tuple<DataServiceAPI, ExecutionEnvironment> elem : getExecutionEnvironments(Langs.LANG_JAVA).values()) {
-            elem.getFirst().closeSessionInDS(sessionID);
+            try {
+                elem.getFirst().closeSessionInDS(sessionID);
+            } catch (final StatusRuntimeException e) {
+                // if unavailabe, ignore
+                if (e.getStatus().getCode().equals(Status.UNAVAILABLE.getCode())) {
+                    LOGGER.debug("Execution environment {} is not available. Not closing session there.", elem.getSecond());
+                } else {
+                    throw new RuntimeException(e.getMessage());
+                }
+            }
         }
         for (final Tuple<DataServiceAPI, ExecutionEnvironment> elem : getExecutionEnvironments(Langs.LANG_PYTHON).values()) {
-            elem.getFirst().closeSessionInDS(sessionID);
+            try {
+                elem.getFirst().closeSessionInDS(sessionID);
+            } catch (final StatusRuntimeException e) {
+                // if unavailabe, ignore
+                if (e.getStatus().getCode().equals(Status.UNAVAILABLE.getCode())) {
+                    LOGGER.debug("Execution environment {} is not available. Not closing session there.", elem.getSecond());
+                } else {
+                    throw new RuntimeException(e.getMessage());
+                }
+            }
         }
         LOGGER.debug("<== Closed session " + sessionID);
     }

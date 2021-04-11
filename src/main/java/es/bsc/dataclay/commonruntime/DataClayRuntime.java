@@ -784,11 +784,10 @@ public abstract class DataClayRuntime {
 	}
 
 	/**
-	 * Method that deletes the alias of an object with id provided
-	 * @param objectID ID of the object
-	 * @param hint object hint
+	 * Method that deletes the alias of an object provided
+	 * @param dcObject the object
 	 */
-	public abstract void deleteAlias(final ObjectID objectID, final ExecutionEnvironmentID hint);
+	public abstract void deleteAlias(final DataClayObject dcObject);
 
 	/**
 	 * Method that gets DataSetID from an object with id provided

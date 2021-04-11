@@ -797,9 +797,8 @@ public final class DataService implements DataServiceAPI {
                 instance.whenUnfederated();
                 instance.setOriginLocation(null);
                 if (instance.getAlias() != null) {
-                    instance.setAlias(null);
                     try {
-                        runtime.deleteAlias(instance.getAlias());
+                        runtime.deleteAlias(instance);
                     } catch (final Exception aliasNotExists) {
                         // ignore if still not registered
                     }
@@ -2192,7 +2191,8 @@ public final class DataService implements DataServiceAPI {
     public void deleteAlias(final SessionID sessionID, final ObjectID objectID) {
         try {
             runtime.setCurrentThreadSessionID(sessionID);
-            this.runtime.deleteAlias(objectID, null);
+            final DataClayObject instance = runtime.getOrNewInstanceFromDB(objectID, true);
+            this.runtime.deleteAlias(instance);
         } finally {
             runtime.removeCurrentThreadSessionID();
         }

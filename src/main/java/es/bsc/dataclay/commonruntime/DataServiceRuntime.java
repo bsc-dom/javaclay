@@ -566,14 +566,14 @@ public final class DataServiceRuntime extends DataClayRuntime {
 	}
 
 	@Override
-	public void deleteAlias(final ObjectID objectID, final ExecutionEnvironmentID hint) {
-		LOGGER.debug("Removed alias from object " + objectID);
-		final DataClayObject instance = getOrNewInstanceFromDB(objectID, true);
-		String alias = instance.getAlias();
+	public void deleteAlias(final DataClayObject dcObject) {
+		LOGGER.debug("Removed alias from object " + dcObject.getObjectID());
+		String alias = dcObject.getAlias();
 		if (alias != null) {
-			aliasCache.remove(alias);
+			this.deleteAlias(alias);
 		}
-		instance.setAlias(null);
+		dcObject.setAlias(null);
+
 	}
 
 	@Override

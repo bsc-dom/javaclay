@@ -278,8 +278,7 @@ public class DataClayObject extends StorageObject implements DataClaySerializabl
 		if (DEBUG_ENABLED) {
 			logger.debug("Deleting alias in backend: " + alias);
 		}
-		getLib().deleteAlias(this.getObjectID(), (ExecutionEnvironmentID) this.getHint());
-		this.setAlias(null);
+		getLib().deleteAlias(this);
 	}
 
 	/**

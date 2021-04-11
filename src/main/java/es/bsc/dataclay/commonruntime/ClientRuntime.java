@@ -330,15 +330,21 @@ public final class ClientRuntime extends DataClayRuntime {
 	}
 
 	@Override
-	public void deleteAlias(final ObjectID objectID, final ExecutionEnvironmentID hint) {
+	public void deleteAlias(final DataClayObject dcObject) {
 		// Get an arbitrary object location
 		final SessionID sessionID = getSessionID();
-		BackendID execLocationID = hint;
-		if (hint == null) {
+		BackendID execLocationID = dcObject.getHint();
+		ObjectID objectID = dcObject.getObjectID();
+		String alias = dcObject.getAlias();
+		if (execLocationID == null) {
 			execLocationID = getLocation(objectID);
 		}
 		final DataServiceAPI dsAPI = getRemoteExecutionEnvironment(execLocationID);
 		dsAPI.deleteAlias(sessionID, objectID);
+		if (alias != null) {
+			aliasCache.remove(alias);
+		}
+		dcObject.setAlias(null);
 	}
 
 	@Override

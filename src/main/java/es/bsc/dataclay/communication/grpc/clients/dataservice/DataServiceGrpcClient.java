@@ -1014,8 +1014,8 @@ public final class DataServiceGrpcClient implements DataServiceAPI {
 		ExceptionInfo response;
 		try {
 			response = blockingStub.closeSessionInDS(request);
-		} catch (final StatusRuntimeException e) {
-			throw new RuntimeException(e.getMessage());
+		} catch (final Exception e) {
+			throw e;
 		}
 		Utils.checkIsExc(response);
 	}
