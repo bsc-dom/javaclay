@@ -85,7 +85,7 @@ public class ReferenceCounting {
 		// metadata.
 		this.externalReferences = 0;
 		if (dcObject.getAlias() != null && !dcObject.getAlias().isEmpty()) {
-			DataClayObject.logger.debug("Found alias reference : " + dcObject.getAlias());
+			DataClaySerializationLib.LOGGER.debug("Found alias reference : " + dcObject.getAlias());
 			this.externalReferences++;
 		}
 
@@ -95,7 +95,7 @@ public class ReferenceCounting {
 			for (ExecutionEnvironmentID replicaLoc : dcObject.getReplicaLocations()) {
 				DataClayInstanceID replicaDcID = DataClayObject.getLib().getExecutionEnvironmentInfo(replicaLoc).getDataClayInstanceID();
 				if (!curDataClayID.equals(replicaDcID)) {
-					DataClayObject.logger.debug("Found federation reference to {}", replicaDcID);
+					DataClaySerializationLib.LOGGER.debug("Found federation reference to {}", replicaDcID);
 					this.externalReferences++;
 					break;
 				}

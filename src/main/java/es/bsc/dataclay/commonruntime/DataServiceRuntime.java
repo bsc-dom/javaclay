@@ -573,6 +573,7 @@ public final class DataServiceRuntime extends DataClayRuntime {
 			this.deleteAlias(alias);
 		}
 		dcObject.setAlias(null);
+		((DataClayExecutionObject) dcObject).setDirty(true);
 
 	}
 
