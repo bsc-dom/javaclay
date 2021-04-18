@@ -4,6 +4,7 @@ package es.bsc.dataclay.storagelocation;
 import java.io.Serializable;
 import java.util.Map;
 import java.util.Queue;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import es.bsc.dataclay.api.BackendID;
@@ -30,7 +31,7 @@ public class PersistentReferenceCounters implements Serializable {
 	/**
 	 * Candidates list of objects to be removed.
 	 */
-	private final Queue<ObjectID> candidates;
+	private final Set<ObjectID> candidates;
 
 	/**
 	 * Constructor
@@ -42,7 +43,7 @@ public class PersistentReferenceCounters implements Serializable {
 	 *            candidate objs
 	 */
 	public PersistentReferenceCounters(final Map<BackendID, Map<ObjectID, AtomicInteger>> thecountersPerNode,
-			final Map<ObjectID, Long> thequarantine, final Queue<ObjectID> thecandidates) {
+			final Map<ObjectID, Long> thequarantine, final Set<ObjectID> thecandidates) {
 		this.countersPerNode = thecountersPerNode;
 		this.quarantine = thequarantine;
 		this.candidates = thecandidates;
@@ -66,7 +67,7 @@ public class PersistentReferenceCounters implements Serializable {
 	/**
 	 * @return the candidates
 	 */
-	public Queue<ObjectID> getCandidates() {
+	public Set<ObjectID> getCandidates() {
 		return candidates;
 	}
 

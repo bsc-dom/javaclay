@@ -181,11 +181,6 @@ public final class DataClaySerializationLib {
 			}
 
 			volatileParamReturn.setSerializedBytes(byteArray);
-
-			if (DEBUG_ENABLED) {
-				DataClayRuntime.LOGGER.debug("[##Serialization##] Unlocking " + dcObject.getObjectID());
-			}
-
 		} finally {
 			clientLib.unlock(dcObject.getObjectID());
 		}
@@ -365,6 +360,7 @@ public final class DataClaySerializationLib {
 					if (DataClaySerializationLib.DEBUG_ENABLED) { 
 						DataClaySerializationLib.LOGGER.debug("[Serialization] --> Serializing volatile object with ID " +  dcObject.getObjectID());
 					}
+
 					final ObjectWithDataParamOrReturn volatileParamReturn = serializeDataClayObjectWithData(dcObject,
 							runtime, false, ifaceBitMaps, it, forUpdate, hint, true);
 					volatileParams.put(curIdx, volatileParamReturn);

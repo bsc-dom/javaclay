@@ -195,12 +195,23 @@ public final class ClientRuntime extends DataClayRuntime {
 			location = optionalDestBackendID;
 			if (location == null) {
 				location = chooseLocation(dcObject, alias);
+			} else {
+				if (DEBUG_ENABLED) {
+					LOGGER.debug("[==MakePersistent==] Destination backend id was specified by user: " + location);
+				}
+			}
+		} else {
+			if (DEBUG_ENABLED) {
+				LOGGER.debug("[==MakePersistent==] Destination backend is hint: " + location);
 			}
 		}
 
 		if (!dcObject.isPersistent()) {
 			// Force registration due to alias
 			if (alias != null) {
+				if (DEBUG_ENABLED) {
+					LOGGER.debug("[==MakePersistent==] Alias {} is not null, registering ", alias);
+				}
 				final RegistrationInfo regInfo = new RegistrationInfo(dcObject.getObjectID(), dcObject.getMetaClassID(),
 						sessionID, dcObject.getDataSetID(), alias);
 				// TODO ask DANI

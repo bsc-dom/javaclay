@@ -237,17 +237,22 @@ public abstract class DataClayRuntime {
 	 * Get all execution environments in provided dataClay instance
 	 * @param lang Language
 	 * @param dataClayInstanceID ID of dataClay to check
+	 * @param forceUpdate Indicates exec envs must be updated
 	 * @return Set of execution environments in provided dataClay instance
 	 */
 	public Map<ExecutionEnvironmentID, ExecutionEnvironment> getAllExecutionEnvironmentsAtDataClay(final Langs lang,
-																					  final DataClayInstanceID dataClayInstanceID) {
+																					  final DataClayInstanceID dataClayInstanceID,
+																								   final boolean forceUpdate) {
 		Map<ExecutionEnvironmentID, ExecutionEnvironment> execEnvsAtDC = new HashMap<>();
-		Map<ExecutionEnvironmentID, ExecutionEnvironment> execEnvs = getAllExecutionEnvironmentsInfo(lang, false);
-		// check if there is any execution.env in that host, otherwise update cache
-		for (ExecutionEnvironment env : execEnvs.values()) {
-			LOGGER.debug("Checking if environment hostname {} matches required hostname {}", env.getDataClayInstanceID(), dataClayInstanceID);
-			if (env.getDataClayInstanceID().equals(dataClayInstanceID)) {
-				execEnvsAtDC.put(env.getDataClayID(), env);
+		Map<ExecutionEnvironmentID, ExecutionEnvironment> execEnvs = null;
+		if (!forceUpdate) {
+			execEnvs = getAllExecutionEnvironmentsInfo(lang, false);
+			// check if there is any execution.env in that host, otherwise update cache
+			for (ExecutionEnvironment env : execEnvs.values()) {
+				LOGGER.debug("Checking if environment hostname {} matches required hostname {}", env.getDataClayInstanceID(), dataClayInstanceID);
+				if (env.getDataClayInstanceID().equals(dataClayInstanceID)) {
+					execEnvsAtDC.put(env.getDataClayID(), env);
+				}
 			}
 		}
 		if (execEnvsAtDC.isEmpty()) {
@@ -317,7 +322,7 @@ public abstract class DataClayRuntime {
 	public final ExecutionEnvironmentID getBackendIDFromObjectID(final ObjectID objectID) {
 		// Apply hash to choose which DS to go.
 		List<BackendID> allEEs = new ArrayList<>(this.getAllExecutionEnvironmentsAtDataClay(Langs.LANG_JAVA,
-				this.getDataClayID()).keySet());
+				this.getDataClayID(), false).keySet());
 		final int hashCode = objectID.hashCode();
 		final int whichDS = hashCode % allEEs.size();
 		final int hash = Math.abs(whichDS);
@@ -864,7 +869,7 @@ public abstract class DataClayRuntime {
 				// not registered
 				// === RANDOM === //
 				Map<ExecutionEnvironmentID, ExecutionEnvironment> backends =
-						this.getAllExecutionEnvironmentsAtDataClay(objectLanguage, this.getDataClayID());
+						this.getAllExecutionEnvironmentsAtDataClay(objectLanguage, this.getDataClayID(), false);
 
 				if (differentLocation) {
 					Set<BackendID> locations = this.getAllLocations(objectID);
@@ -875,6 +880,21 @@ public abstract class DataClayRuntime {
 							destBackendID = eeID;
 							destBackend = execEnv;
 							break;
+						}
+					}
+					if (destBackend == null) {
+						LOGGER.debug("Could not find any different location for replica, updating available exec envs");
+
+						backends =
+								this.getAllExecutionEnvironmentsAtDataClay(objectLanguage, this.getDataClayID(), true);
+						for (Entry<ExecutionEnvironmentID, ExecutionEnvironment> eeEntry : backends.entrySet()) {
+							ExecutionEnvironmentID eeID = eeEntry.getKey();
+							ExecutionEnvironment execEnv = eeEntry.getValue();
+							if (!locations.contains(eeID)) {
+								destBackendID = eeID;
+								destBackend = execEnv;
+								break;
+							}
 						}
 					}
 				}
@@ -1795,7 +1815,7 @@ public abstract class DataClayRuntime {
 							   final boolean recursive) {
 
 		ExecutionEnvironmentID externalExecutionEnvironmentID =
-				this.getAllExecutionEnvironmentsAtDataClay(Langs.LANG_JAVA, externalDataClayID).keySet().iterator().next();
+				this.getAllExecutionEnvironmentsAtDataClay(Langs.LANG_JAVA, externalDataClayID, false).keySet().iterator().next();
 		this.federateToBackend(dcObject, externalExecutionEnvironmentID, recursive);
 	}
 

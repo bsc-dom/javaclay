@@ -841,10 +841,12 @@ public final class DataClay {
 	 */
 	public static Set<BackendID> getJavaBackends() {
 		Set<BackendID> result = new HashSet<>();
-		Set<ExecutionEnvironmentID> javaBackends =
-				commonLib.getAllExecutionEnvironmentsInfo(Langs.LANG_JAVA, true).keySet();
-		for (ExecutionEnvironmentID execID : javaBackends) {
-			result.add((BackendID) execID);
+		Map<ExecutionEnvironmentID, ExecutionEnvironment> javaBackends =
+				commonLib.getAllExecutionEnvironmentsInfo(Langs.LANG_JAVA, true);
+		for (ExecutionEnvironment exec : javaBackends.values()) {
+			if (exec.getDataClayInstanceID().equals(commonLib.getDataClayID())) {
+				result.add((BackendID) exec.getDataClayID());
+			}
 		}
 		return result;
 	}
@@ -920,7 +922,7 @@ public final class DataClay {
 	public static BackendID getExternalJavaBackend(final String dsName, final DataClayInstanceID externalDcID) {
 		try {
 			for (ExecutionEnvironment execEnv :
-					commonLib.getAllExecutionEnvironmentsAtDataClay(Langs.LANG_JAVA, externalDcID).values()) {
+					commonLib.getAllExecutionEnvironmentsAtDataClay(Langs.LANG_JAVA, externalDcID, false).values()) {
 				if (execEnv.getName().equals(dsName)) {
 					return execEnv.getDataClayID();
 				}

@@ -77,7 +77,7 @@ public final class DataClayDiskGC {
 	 * Candidates list of objects to be removed. Resource note: maximum size of this map is maximum number of objects in SL.
 	 * Linked queue guarantees FIFO.
 	 */
-	private Queue<ObjectID> candidates = new ConcurrentLinkedQueue<>();
+	private Map<ObjectID, byte[]> candidates =  new ConcurrentHashMap<>();
 
 	/**
 	 * Pending reference countings to process. Resource note: this is not infinite since there is max requests
@@ -177,7 +177,7 @@ public final class DataClayDiskGC {
 			LOGGER.debug("Serializing -> Num quarantine: " + quarantine.toString());
 			final FileOutputStream fos = new FileOutputStream(this.cachePath);
 			final ObjectOutputStream oos = new ObjectOutputStream(fos);
-			oos.writeObject(new PersistentReferenceCounters(this.countersPerNode, this.quarantine, this.candidates));
+			oos.writeObject(new PersistentReferenceCounters(this.countersPerNode, this.quarantine, this.candidates.keySet()));
 			oos.close();
 			fos.close();
 		} catch (final IOException ioe) {
@@ -196,7 +196,8 @@ public final class DataClayDiskGC {
 			final ObjectInputStream ois = new ObjectInputStream(fis);
 			final PersistentReferenceCounters persistentCaches = (PersistentReferenceCounters) ois.readObject();
 			this.countersPerNode = persistentCaches.getCountersPerNode();
-			this.candidates = persistentCaches.getCandidates();
+			//FIXME: candidates restart
+			//this.candidates = persistentCaches.getCandidates();
 			this.quarantine = persistentCaches.getQuarantine();
 			for (final Entry<BackendID, Map<ObjectID, AtomicInteger>> curCounter : countersPerNode.entrySet()) {
 				LOGGER.debug("Recovering -> Counters of node {}: {} ", curCounter.getKey(), curCounter.getValue());
@@ -318,7 +319,7 @@ public final class DataClayDiskGC {
 			// should we do it only for updates? (also being done during get)
 			// check if object has reference counting = 0 (might have session reference, memory reference or alias reference)
 			if (this.storageLocation.getAssociateExecutionEnvironments().contains(ownerID) && numRefs == 0
-					&& !this.candidates.contains(objectID) && !initializingCounter) {
+					&& !this.candidates.containsKey(objectID) && !initializingCounter) {
 				if (DEBUG_ENABLED) {
 					LOGGER.debug("** Added candidate " + objectID);
 				}
@@ -409,7 +410,7 @@ public final class DataClayDiskGC {
 				final Integer counting = pointedRefEntry.getValue();
 				final ObjectID pointedRef = pointedRefEntry.getKey();
 				if (!pointedRef.equals(referrerObjectID)) {
-					LOGGER.debug("Adding reference " + referrerObjectID + " -> " + pointedRef + "(-" + counting + ")");
+					LOGGER.debug("Subtracting reference " + referrerObjectID + " -> " + pointedRef + "(-" + counting + ")");
 					addRefs(pointedRef, ownerID, -counting, false, true);
 				}
 			}
@@ -445,14 +446,16 @@ public final class DataClayDiskGC {
 				LOGGER.debug("[==GGC counters processor==] Found " + externalRefs + " external references for object " + referrerObjectID);
 				this.addRefs(referrerObjectID, serializedCounting.eeID, externalRefs, false, false);
 			} else {
-				synchronized (unaccessibleCandidates) { //avoid concurrent modification in collector task
-					// an object A -> B -> A arrives, A and B are marked as unaccesible but when B is processed,
-					// A is removed from unacessible candidates, but B continue as a candidate. When collector realizes
-					// that B has != 0 references, it removes it from candidates list, and wait for B to be in unaccessible
-					// candidates list, which will happen when A is removed (and its refs are decreased).
-					// Alias case: any object arrives A, with session and alias refs, it is marked as unaccesible
-					// till alias arrive, then addrefs will remove it from unaccessible candidates.
-					unaccessibleCandidates.add(referrerObjectID);
+				if (!this.candidates.containsKey(referrerObjectID)) {
+					synchronized (unaccessibleCandidates) { //avoid concurrent modification in collector task
+						// an object A -> B -> A arrives, A and B are marked as unaccesible but when B is processed,
+						// A is removed from unacessible candidates, but B continue as a candidate. When collector realizes
+						// that B has != 0 references, it removes it from candidates list, and wait for B to be in unaccessible
+						// candidates list, which will happen when A is removed (and its refs are decreased).
+						// Alias case: any object arrives A, with session and alias refs, it is marked as unaccesible
+						// till alias arrive, then addrefs will remove it from unaccessible candidates.
+						unaccessibleCandidates.add(referrerObjectID);
+					}
 				}
 				LOGGER.debug("[==GGC counters processor==] No external refs. Added unaccesible candidate: " + referrerObjectID);
 			}
@@ -526,6 +529,8 @@ public final class DataClayDiskGC {
 			}
 		}
 
+		this.candidates.put(unaccessibleCandidate, unaccessibleBytes);
+
 	}
 	
 	/**
@@ -541,20 +546,7 @@ public final class DataClayDiskGC {
 		// the object is actually unaccessible, get reference counting and 'discount' all references.
 		// this way, we allow GC to clean cyclic retained references.
 		// get the object from any EE (any replica is ok)
-		byte[] unaccessibleBytes = null;
-		for (final ExecutionEnvironmentID associatedExecutionEnvironmentID : this.storageLocation.getAssociateExecutionEnvironments()) {
-			try {
-				unaccessibleBytes = storageLocation.getDbHandler(associatedExecutionEnvironmentID).get(unaccessibleCandidate);
-			} catch (final es.bsc.dataclay.exceptions.dbhandler.DbObjectNotExistException e) {
-				//ignore if not found here
-			}
-			if (unaccessibleBytes != null) {
-				break;
-			}
-		}
-		if (unaccessibleBytes == null) {
-			throw new es.bsc.dataclay.exceptions.dbhandler.DbObjectNotExistException(unaccessibleCandidate);
-		}
+		byte[] unaccessibleBytes = this.candidates.get(unaccessibleCandidate);
 		final byte[] unaccesibleRefCounting = DataClayDeserializationLib.extractReferenceCounting(unaccessibleBytes);
 		final ReferenceCounting refCounting = new ReferenceCounting();
 		refCounting.deserializeReferenceCounting(unaccessibleCandidate, unaccesibleRefCounting);
@@ -745,8 +737,10 @@ public final class DataClayDiskGC {
 			final int candidatesSize = candidates.size(); // get size here since loop is modifying it.
 			int i = 0;
 			Set<ObjectID> freshQuarantine = new HashSet<>();
+			final Iterator<Entry<ObjectID, byte[]>> candidatesIt = this.candidates.entrySet().iterator();
 			while (i < candidatesSize && i < Configuration.Flags.GLOBALGC_MAX_OBJECTS_TO_COLLECT_ITERATION.getIntValue()) {
-				final ObjectID oidCandidate = candidates.poll();
+				Entry<ObjectID, byte[]> curEntry = candidatesIt.next();
+				final ObjectID oidCandidate = curEntry.getKey();
 				// race condition: i added an object as a candidate but later references were added.
 				// so check num. references again.
 				final int numRefs = this.getNumReferencesTo(oidCandidate);
@@ -771,9 +765,7 @@ public final class DataClayDiskGC {
 						}
 						quarantine.put(oidCandidate, System.currentTimeMillis());
 						freshQuarantine.add(oidCandidate);
-					} else {
-						// add it to the tail of the queue
-						candidates.offer(oidCandidate);
+						candidatesIt.remove();
 					}
 				} else {
 					if (DEBUG_ENABLED) {
@@ -781,6 +773,7 @@ public final class DataClayDiskGC {
 								+ ". It was polled from candidates list, will be added to unaccessible candidates when references are 0", oidCandidate);
 					}
 					remarkAccesibleObject(oidCandidate);
+					candidatesIt.remove();
 				}
 				i++;
 			}
@@ -835,9 +828,6 @@ public final class DataClayDiskGC {
 								LOGGER.debug(e);
 							}
 						}
-						if (DEBUG_ENABLED) {
-							LOGGER.debug("[==GGC collector==] *** Object " + oid + " removed from DB");
-						}
 						System.err.println("[==GGC collector==] *** Object " + oid + " removed from DB");
 
 						objectsToUnregister.add(oid);
@@ -867,7 +857,7 @@ public final class DataClayDiskGC {
 						LOGGER.debug("[==GGC collector==] Object " + oid + " has references. Removed from quarantine");
 					}
 					remarkAccesibleObject(oid);
-					quarantine.remove(oid);
+					iterator.remove();
 				}
 				i++;
 			}
@@ -899,7 +889,6 @@ public final class DataClayDiskGC {
 
 							this.markUnaccesibleObject(unaccessibleCandidate);
 							actualUnaccessibles.add(unaccessibleCandidate);
-							this.candidates.add(unaccessibleCandidate);
 							marked = true;
 
 						} catch (final Exception e) {
@@ -919,7 +908,6 @@ public final class DataClayDiskGC {
 							try {
 								this.markUnaccesibleObject(unaccessibleCandidate);
 								actualUnaccessibles.add(unaccessibleCandidate);
-								this.candidates.add(unaccessibleCandidate);
 							} catch (final Exception e) {
 								LOGGER.debug(e);
 							}
