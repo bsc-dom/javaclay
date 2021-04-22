@@ -687,7 +687,7 @@ public final class DataService implements DataServiceAPI {
         try {
 
             // create lots of objects here and stash them somewhere
-            runtime.setCurrentThreadSessionID(sessionID);
+            //runtime.setCurrentThreadSessionID(sessionID);
             LOGGER.debug("----> Notified federation");
 
 
@@ -696,7 +696,7 @@ public final class DataService implements DataServiceAPI {
             for (ObjectWithDataParamOrReturn objectWithDataParamOrReturn: objectsToPersist) {
                 ObjectID objectID = objectWithDataParamOrReturn.getObjectID();
                 DataClayObjectMetaData metaData = objectWithDataParamOrReturn.getMetaData();
-                if (metaData.getAlias() != null) {
+                if (metaData.getAlias() != null && !metaData.getAlias().isEmpty()) {
                     MetaClassID classID = objectWithDataParamOrReturn.getClassID();
                     // FIXME: session must be null since it does not exist in current dataClay
                     final RegistrationInfo regInfo = new RegistrationInfo(objectID, classID,
@@ -712,7 +712,7 @@ public final class DataService implements DataServiceAPI {
             }
 
 
-            final Object[] federatedInstances = storeInMemory(sessionID, objectsToPersist);
+            final Object[] federatedInstances = storeInMemory(null, objectsToPersist);
             for (final Object federatedInstance : federatedInstances) {
                 final DataClayObject federatedDataClayObj = (DataClayObject) federatedInstance;
                 try {
@@ -730,7 +730,7 @@ public final class DataService implements DataServiceAPI {
             LOGGER.debug(" Notify federation got exception", ex);
             throw ex;
         } finally {
-            runtime.removeCurrentThreadSessionID();
+            //runtime.removeCurrentThreadSessionID();
         }
 
     }
@@ -788,15 +788,15 @@ public final class DataService implements DataServiceAPI {
     public void notifyUnfederation(final SessionID sessionID, final Set<ObjectID> objectIDs) {
         try {
             // create lots of objects here and stash them somewhere
-            if (sessionID != null) {
-                runtime.setCurrentThreadSessionID(sessionID);
-            }
+            //if (sessionID != null) {
+            //    runtime.setCurrentThreadSessionID(sessionID);
+            //}
             LOGGER.debug("----> Starting notification of unfederation of " + objectIDs);
             for (final ObjectID objectID : objectIDs) {
                 final DataClayObject instance = runtime.getOrNewInstanceFromDB(objectID, true);
                 instance.whenUnfederated();
                 instance.setOriginLocation(null);
-                if (instance.getAlias() != null) {
+                if (instance.getAlias() != null && !instance.getAlias().isEmpty()) {
                     try {
                         runtime.deleteAlias(instance);
                     } catch (final Exception aliasNotExists) {
@@ -809,7 +809,7 @@ public final class DataService implements DataServiceAPI {
             LOGGER.debug("Notify unfederate got exception", ex);
             throw ex;
         } finally {
-            runtime.removeCurrentThreadSessionID();
+            //runtime.removeCurrentThreadSessionID();
 
         }
         LOGGER.debug("<---- Finished notification of unfederation of " + objectIDs);

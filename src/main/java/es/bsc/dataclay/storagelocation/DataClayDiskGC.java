@@ -529,7 +529,7 @@ public final class DataClayDiskGC {
 			}
 		}
 
-		this.candidates.put(unaccessibleCandidate, unaccessibleBytes);
+		this.candidates.put(unaccessibleCandidate, unaccesibleRefCounting);
 
 	}
 	
@@ -546,8 +546,12 @@ public final class DataClayDiskGC {
 		// the object is actually unaccessible, get reference counting and 'discount' all references.
 		// this way, we allow GC to clean cyclic retained references.
 		// get the object from any EE (any replica is ok)
-		byte[] unaccessibleBytes = this.candidates.get(unaccessibleCandidate);
-		final byte[] unaccesibleRefCounting = DataClayDeserializationLib.extractReferenceCounting(unaccessibleBytes);
+		if (!this.candidates.containsKey(unaccessibleCandidate)) {
+			LOGGER.debug("[==GGC collector==] WARNING: Already remarked: " + unaccessibleCandidate);
+			return;
+		}
+		byte[] unaccesibleRefCounting = this.candidates.get(unaccessibleCandidate);
+		//final byte[] unaccesibleRefCounting = DataClayDeserializationLib.extractReferenceCounting(unaccessibleBytes);
 		final ReferenceCounting refCounting = new ReferenceCounting();
 		refCounting.deserializeReferenceCounting(unaccessibleCandidate, unaccesibleRefCounting);
 		for (final Entry<BackendID, Map<ObjectID, Integer>> countingsPerHint : refCounting.getReferenceCounting().entrySet()) {
@@ -765,7 +769,7 @@ public final class DataClayDiskGC {
 						}
 						quarantine.put(oidCandidate, System.currentTimeMillis());
 						freshQuarantine.add(oidCandidate);
-						candidatesIt.remove();
+
 					}
 				} else {
 					if (DEBUG_ENABLED) {
@@ -829,7 +833,7 @@ public final class DataClayDiskGC {
 							}
 						}
 						System.err.println("[==GGC collector==] *** Object " + oid + " removed from DB");
-
+						candidates.remove(oid);
 						objectsToUnregister.add(oid);
 						// FIXME: race condition while modifying counters?
 						for (final ExecutionEnvironmentID associatedExecutionEnvironmentID : this.storageLocation.getAssociateExecutionEnvironments()) {
@@ -857,6 +861,7 @@ public final class DataClayDiskGC {
 						LOGGER.debug("[==GGC collector==] Object " + oid + " has references. Removed from quarantine");
 					}
 					remarkAccesibleObject(oid);
+					candidates.remove(oid);
 					iterator.remove();
 				}
 				i++;

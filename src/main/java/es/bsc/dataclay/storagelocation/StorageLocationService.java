@@ -302,12 +302,13 @@ public final class StorageLocationService {
 		LOGGER.debug("Getting number of objects in current SL");
 		int numObjs = 0;
 		for (final ExecutionEnvironmentID associatedExecutionEnvironmentID : getAssociateExecutionEnvironments()) {
-			final DataServiceAPI dsAPI = runtime.getRemoteDSAPI(associatedExecutionEnvironmentID);
-			int numObjsInEE = dsAPI.getNumObjectsInEE();
-			LOGGER.debug("Obtained number of objects in EE {} = {}", associatedExecutionEnvironmentID, numObjsInEE);
+			//final DataServiceAPI dsAPI = runtime.getRemoteDSAPI(associatedExecutionEnvironmentID);
+			//int numObjsInEE = dsAPI.getNumObjectsInEE();
+			//LOGGER.debug("Obtained number of objects in EE {} = {}", associatedExecutionEnvironmentID, numObjsInEE);
 			int numObjsInSL = this.getDbHandler(associatedExecutionEnvironmentID).count();
 			LOGGER.debug("Obtained number of objects in SL {} = {}", associatedExecutionEnvironmentID, numObjsInSL);
-			numObjs += (numObjsInSL - numObjsInEE);
+			//numObjs += (numObjsInSL - numObjsInEE);
+			numObjs += numObjsInSL;
 		}
 		LOGGER.debug("Found {} objects", numObjs);
 		return numObjs;
