@@ -75,10 +75,6 @@ public class ExecutionEnvironmentHeapManager extends HeapManager {
 	 * @return object ids retained
 	 */
 	public final Set<ObjectID> getObjectIDsRetained() {
-		if (DEBUG_ENABLED) {
-			logger.debug("[==GC==] Retained refs: " + this.retainedObjects.size());
-			logger.debug("[==GC==] Inmemory refs: " + this.inmemoryObjects.size());
-		}
 		return this.inmemoryObjects.keySet();
 	}
 

@@ -731,7 +731,7 @@ public final class DataServiceRuntime extends DataClayRuntime {
 
 		// memory references
 		if (DEBUG_ENABLED && heapManger.getObjectIDsRetained().size() > 0) {
-			LOGGER.debug("Adding memory references: " + heapManger.getObjectIDsRetained());
+			LOGGER.debug("[==GC==] Retained refs: " + heapManger.getObjectIDsRetained().size());
 		}
 		retainedRefs.addAll(heapManger.getObjectIDsRetained());
 
