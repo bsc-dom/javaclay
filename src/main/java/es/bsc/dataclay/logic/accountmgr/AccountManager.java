@@ -5,6 +5,7 @@ import java.rmi.RemoteException;
 import java.util.HashSet;
 import java.util.List;
 
+import es.bsc.dataclay.util.structs.MemoryCache;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -19,7 +20,6 @@ import es.bsc.dataclay.util.management.AbstractManager;
 import es.bsc.dataclay.util.management.accountmgr.Account;
 import es.bsc.dataclay.util.management.accountmgr.AccountRole;
 import es.bsc.dataclay.util.management.accountmgr.PasswordCredential;
-import es.bsc.dataclay.util.structs.LruCache;
 import es.bsc.dataclay.dbhandler.sql.sqlite.SQLiteDataSource;
 
 /**
@@ -34,8 +34,7 @@ public final class AccountManager extends AbstractManager {
 	private final AccountManagerDB accountDB;
 
 	/** Account cache. */
-	private final LruCache<AccountID, Account> accountCache = new LruCache<>(
-			Configuration.Flags.MAX_ENTRIES_ACCOUNT_MANAGER_CACHE.getIntValue());
+	private final MemoryCache<AccountID, Account> accountCache = new MemoryCache<>();
 
 	/**
 	 * Instantiates an Account Manager that uses the Backend configuration provided. (which backend to use, how to use it).

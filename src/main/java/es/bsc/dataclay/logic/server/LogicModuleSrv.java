@@ -40,7 +40,7 @@ public final class LogicModuleSrv {
 	private final String hostname;
 
 	/** Logic module instance. */
-	private LogicModule<?> logicModule;
+	private LogicModule logicModule;
 
 	/** Grpc server. */
 	private LogicModuleServer grpcServer;
@@ -50,6 +50,8 @@ public final class LogicModuleSrv {
 	/** Logic Module configuration. */
 	private final CfgLogic cfgLM;
 	// CHECKSTYLE:ON
+	/** Indicates exit error code if System.exit() is called. */
+	private static int SYSTEM_EXIT_ERROR_CODE = 0;
 
 	/**
 	 * LogicModuleSrv constructor
@@ -119,6 +121,13 @@ public final class LogicModuleSrv {
 
 	}
 
+	// Centralise all System.exit code under control of this class.
+	public static void doExit(int exitStatus) {
+		SYSTEM_EXIT_ERROR_CODE = exitStatus;
+		System.err.println("!!! DATABASE ERROR. Exiting with code: " + exitStatus);
+		System.exit(exitStatus); // Will invoke run.
+	}
+
 	/**
 	 * Unbinds the service
 	 * 
@@ -130,17 +139,22 @@ public final class LogicModuleSrv {
 		running = false;
 		
 		// Wait for all nodes to notify
-		logger.debug("Waiting for all backends to shut down first...");
-		logicModule.waitForAllNodesShutdown();
+		if (SYSTEM_EXIT_ERROR_CODE == 0) {
+			logger.debug("Waiting for all backends to shut down first...");
+			logicModule.waitForAllNodesShutdown();
+		}
 
 		// CHECKSTYLE:ON
 		logicModule.finishCacheThreads();
 
+		// manager dbs close
 		logger.debug("Closing managers...");
 		logicModule.closeManagerDb();
 
-		logger.debug("Closing logic DB...");
-		logicModule.closeDb();
+		if (SYSTEM_EXIT_ERROR_CODE == 0) {
+			logger.debug("Closing logic DB...");
+			logicModule.closeDb();
+		}
 
 		logicModule = null;
 		logger.debug("Finishing server connections...");
@@ -163,7 +177,7 @@ public final class LogicModuleSrv {
 	/**
 	 * @return the reference to LM
 	 */
-	public LogicModule<?> getLogicModule() {
+	public LogicModule getLogicModule() {
 		return logicModule;
 	}
 

@@ -9,6 +9,7 @@ import java.util.concurrent.TimeUnit;
 import es.bsc.dataclay.dataservice.api.DataServiceAPI;
 import es.bsc.dataclay.serialization.lib.SerializedParametersOrReturn;
 import es.bsc.dataclay.util.management.metadataservice.ExecutionEnvironment;
+import es.bsc.dataclay.util.structs.MemoryCache;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -34,8 +35,7 @@ import es.bsc.dataclay.util.ids.ObjectID;
 import es.bsc.dataclay.util.ids.SessionID;
 import es.bsc.dataclay.util.management.metadataservice.RegistrationInfo;
 import es.bsc.dataclay.util.reflection.Reflector;
-import es.bsc.dataclay.util.structs.LruCache;
-import es.bsc.dataclay.util.structs.LruCacheByDate;
+import es.bsc.dataclay.util.structs.MemoryCache;
 import es.bsc.dataclay.util.structs.Tuple;
 
 /**
@@ -52,10 +52,10 @@ public final class DataServiceRuntime extends DataClayRuntime {
 	private final ThreadLocal<SessionID> dsSessionIDs = new ThreadLocal<>();
 
 	/** Cache of sessions. */
-	private final LruCacheByDate<SessionID, Tuple<Tuple<DataSetID, Set<DataSetID>>, Calendar>> sessionsCache;
+	private final MemoryCache<SessionID, Tuple<Tuple<DataSetID, Set<DataSetID>>, Calendar>> sessionsCache;
 
 	/** Cache of datasets. */
-	private final LruCache<DataSetID, Boolean> datasetsCache;
+	private final MemoryCache<DataSetID, Boolean> datasetsCache;
 
 	/**
 	 * References hold by sessions. Resource note: Maximum size of this map is maximum number of objects allowed in EE x
@@ -90,8 +90,8 @@ public final class DataServiceRuntime extends DataClayRuntime {
 
 		this.dataClayObjLoader = new ExecutionObjectLoader(this);
 		this.dataClayHeapManager = new ExecutionEnvironmentHeapManager(this);
-		this.sessionsCache = new LruCacheByDate<>(Configuration.Flags.MAX_ENTRIES_DATASERVICE_CACHE.getIntValue());
-		this.datasetsCache = new LruCache<>(Configuration.Flags.MAX_ENTRIES_DATASERVICE_CACHE.getIntValue());
+		this.sessionsCache = new MemoryCache<>();
+		this.datasetsCache = new MemoryCache<>();
 
 		this.threadPool = Executors.newSingleThreadScheduledExecutor(new ThreadFactory() {
 			@Override
@@ -255,26 +255,6 @@ public final class DataServiceRuntime extends DataClayRuntime {
 	}
 
 	/**
-	 * All volatiles provided are under deserialization. This function solves problems of 'hashcode' and other special functions
-	 * needed during deserializations. See executeImpl.
-	 * 
-	 * @param volatileMap
-	 *            Volatiles under deserialization.
-	 */
-	@Override
-	public void addVolatileUnderDeserialization(final Map<Integer, ObjectWithDataParamOrReturn> volatileMap) {
-		underDeserializationVolatiles.put(Thread.currentThread().getId(), volatileMap);
-	}
-
-	/**
-	 * Remove volatiles under deserialization.
-	 */
-	@Override
-	public void removeVolatilesUnderDeserialization() {
-		underDeserializationVolatiles.remove(Thread.currentThread().getId());
-	}
-
-	/**
 	 * Check if there is a volatile object with ID provided and if so, deserialize it since it is needed.
 	 * 
 	 * @param volatileObj
@@ -286,17 +266,12 @@ public final class DataServiceRuntime extends DataClayRuntime {
 	private boolean checkAndFillVolatileUnderDeserialization(final DataClayExecutionObject volatileObj,
 			final Map<MetaClassID, byte[]> ifaceBitMaps) {
 		final ObjectID objectID = volatileObj.getObjectID();
-		final Map<Integer, ObjectWithDataParamOrReturn> volatileMap = underDeserializationVolatiles
-				.get(Thread.currentThread().getId());
-		if (volatileMap != null) {
-			for (final ObjectWithDataParamOrReturn volatileParamOrRet : volatileMap.values()) {
-				if (volatileParamOrRet.getObjectID().equals(objectID)) {
-					// Deserialize it
-					getOrNewAndLoadVolatile(volatileObj.getMetaClassID(), objectID, volatileObj.getHint(),
+		ObjectWithDataParamOrReturn volatileParamOrRet = underDeserializationVolatiles.get(objectID);
+		if (volatileParamOrRet != null) {
+			// Deserialize it
+			getOrNewAndLoadVolatile(volatileObj.getMetaClassID(), objectID, volatileObj.getHint(),
 							volatileParamOrRet, ifaceBitMaps);
-					return true;
-				}
-			}
+			return true;
 		}
 		return false;
 	}
@@ -884,11 +859,11 @@ public final class DataServiceRuntime extends DataClayRuntime {
 	 * @if some exception occurs
 	 */
 	public void finishCacheThreads() {
-		try {
-			this.sessionsCache.finishCacheThreads();
-		} catch (final InterruptedException ex) {
-			LOGGER.debug("finishCacheThreads error", ex);
-		}
+		//try {
+		//	this.sessionsCache.finishCacheThreads();
+		//} catch (final InterruptedException ex) {
+		//	LOGGER.debug("finishCacheThreads error", ex);
+		//}
 	}
 
 	/**

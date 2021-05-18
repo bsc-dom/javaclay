@@ -357,7 +357,7 @@ public final class DataClayDeserializationLib {
 				// Any method execution run during deserialization should use this map of
 				// volatiles to seek
 				// for the values needed.
-				theLib.addVolatileUnderDeserialization(volatiles);
+				theLib.addVolatileUnderDeserialization(volatiles.values());
 				firstDeserialization = false;
 			}
 			final Integer paramIdx = volatileEntry.getKey();
@@ -487,7 +487,7 @@ public final class DataClayDeserializationLib {
 		if (!firstDeserialization) {
 			// remove volatiles under deserialization if exists. TODO: move this to a
 			// private function only for EE
-			theLib.removeVolatilesUnderDeserialization();
+			theLib.removeVolatilesUnderDeserialization(volatiles.values());
 		}
 
 		if (DEBUG_ENABLED) {

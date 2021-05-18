@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import es.bsc.dataclay.dataservice.server.DataServiceSrv;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -79,7 +80,7 @@ public abstract class SQLHandler<T extends DBHandlerConf> implements DBHandler {
 					logger.debug("[==DB==] Executing {}", createStatement);
 				}
 				createStatement.execute();
-
+				createStatement.close();
 			} catch (final SQLException e) {
 				logger.debug("[==DB==] Ignored exception in createTables", e);
 			} finally {
@@ -114,11 +115,10 @@ public abstract class SQLHandler<T extends DBHandlerConf> implements DBHandler {
 					logger.debug("[==DB==] Executing {}", insertStatement);
 				}
 				insertStatement.executeUpdate();
-
-			} catch (final Exception e) {
-				// Ignore
-				// FOR REPLICA DESIGN
-				logger.debug("[==DB==] Ignored exception", e);
+				insertStatement.close();
+			} catch (final SQLException e) {
+				logger.debug("SQL Exception while storing", e);
+				DataServiceSrv.doExit(e.getErrorCode());
 			} finally {
 				try {
 					if (conn != null) {
@@ -126,6 +126,7 @@ public abstract class SQLHandler<T extends DBHandlerConf> implements DBHandler {
 					}
 				} catch (final SQLException ex1) {
 					logger.debug("SQL Exception while closing connection", ex1);
+					DataServiceSrv.doExit(ex1.getErrorCode());
 				}
 			}
 		}
@@ -151,10 +152,13 @@ public abstract class SQLHandler<T extends DBHandlerConf> implements DBHandler {
 				if (hasResults) {
 					result = resultSet.getBytes(1);
 				} else {
+					selectStatement.close();
 					throw new DbObjectNotExistException(objectID);
 				}
+				selectStatement.close();
 			} catch (final SQLException e) {
-				logger.debug("[==DB==] Ignored exception in get", e);
+				logger.debug("[==DB==] SQL exception in get", e);
+				DataServiceSrv.doExit(e.getErrorCode());
 			} finally {
 				try {
 					if (conn != null) {
@@ -162,6 +166,7 @@ public abstract class SQLHandler<T extends DBHandlerConf> implements DBHandler {
 					}
 				} catch (final SQLException ex1) {
 					logger.debug("SQL Exception while closing connection", ex1);
+					DataServiceSrv.doExit(ex1.getErrorCode());
 				}
 			}
 			return result;
@@ -191,9 +196,10 @@ public abstract class SQLHandler<T extends DBHandlerConf> implements DBHandler {
 				if (DEBUG_ENABLED) {
 					logger.debug("[==DB==] Executed " + selectStatement + " with return " + result);
 				}
-
+				selectStatement.close();
 			} catch (final SQLException e) {
-				logger.debug("[==DB==] Ignored exception in get", e);
+				logger.debug("[==DB==] SQL exception in get", e);
+				DataServiceSrv.doExit(e.getErrorCode());
 			} finally {
 				try {
 					if (conn != null) {
@@ -201,6 +207,7 @@ public abstract class SQLHandler<T extends DBHandlerConf> implements DBHandler {
 					}
 				} catch (final SQLException ex1) {
 					logger.debug("SQL Exception while closing connection", ex1);
+					DataServiceSrv.doExit(ex1.getErrorCode());
 				}
 			}
 			return result;
@@ -227,12 +234,14 @@ public abstract class SQLHandler<T extends DBHandlerConf> implements DBHandler {
 				if (hasResults) {
 					result = resultSet.getInt(1);
 				}
+				selectStatement.close();
 				if (DEBUG_ENABLED) {
 					logger.debug("[==DB==] Executed " + selectStatement + " with return " + result);
 				}
 
 			} catch (final SQLException e) {
-				logger.debug("[==DB==] Ignored exception in get", e);
+				logger.debug("[==DB==] SQL exception in count", e);
+				DataServiceSrv.doExit(e.getErrorCode());
 			} finally {
 				try {
 					if (conn != null) {
@@ -240,6 +249,7 @@ public abstract class SQLHandler<T extends DBHandlerConf> implements DBHandler {
 					}
 				} catch (final SQLException ex1) {
 					logger.debug("SQL Exception while closing connection", ex1);
+					DataServiceSrv.doExit(ex1.getErrorCode());
 				}
 			}
 			return result;
@@ -261,11 +271,12 @@ public abstract class SQLHandler<T extends DBHandlerConf> implements DBHandler {
 					logger.debug("[==DB==] Executing " + updateStatement);
 				}
 				updateStatement.executeUpdate();
-
+				updateStatement.close();
 			} catch (final SQLException e) {
 				logger.debug("SQL Exception while performing update operation on object {}", objectID);
 				logger.debug("update received SQL error", e);
-				throw new DbObjectNotExistException(objectID);
+				DataServiceSrv.doExit(e.getErrorCode());
+				//throw new DbObjectNotExistException(objectID);
 			} finally {
 				try {
 					if (conn != null) {
@@ -273,6 +284,7 @@ public abstract class SQLHandler<T extends DBHandlerConf> implements DBHandler {
 					}
 				} catch (final SQLException ex1) {
 					logger.debug("SQL Exception while closing connection", ex1);
+					DataServiceSrv.doExit(ex1.getErrorCode());
 				}
 			}
 		}
@@ -294,13 +306,14 @@ public abstract class SQLHandler<T extends DBHandlerConf> implements DBHandler {
 				if (DEBUG_ENABLED) {
 					logger.debug("[==DB==] Executed " + deleteStatement + " with return " + returnValue);
 				}
+				deleteStatement.close();
 				if (returnValue == 0) {
 					throw new DbObjectNotExistException(objectID);
 				}
 
 			} catch (final SQLException e) {
 				logger.debug("[==DB==] Exception in delete", e);
-				throw new DbObjectNotExistException(objectID);
+				DataServiceSrv.doExit(e.getErrorCode());
 			} finally {
 				try {
 					if (conn != null) {
@@ -308,6 +321,7 @@ public abstract class SQLHandler<T extends DBHandlerConf> implements DBHandler {
 					}
 				} catch (final SQLException ex1) {
 					logger.debug("SQL Exception while closing connection", ex1);
+					DataServiceSrv.doExit(ex1.getErrorCode());
 				}
 			}
 		}
@@ -328,9 +342,10 @@ public abstract class SQLHandler<T extends DBHandlerConf> implements DBHandler {
 					logger.debug("[==DB==] Executing " + vacuumStatement);
 				}
 				vacuumStatement.executeUpdate();
-
+				vacuumStatement.close();
 			} catch (final SQLException e) {
 				logger.debug("[==DB==] Exception in vacuum", e);
+				DataServiceSrv.doExit(e.getErrorCode());
 			} finally {
 				try {
 					if (conn != null) {
@@ -338,6 +353,7 @@ public abstract class SQLHandler<T extends DBHandlerConf> implements DBHandler {
 					}
 				} catch (final SQLException ex1) {
 					logger.debug("SQL Exception while closing connection", ex1);
+					DataServiceSrv.doExit(ex1.getErrorCode());
 				}
 			}
 		}

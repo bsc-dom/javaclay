@@ -43,7 +43,7 @@ public final class SetWrapperParametersTableSwitchGenerator extends SetWrapperPa
 
 	@Override
 	protected Collection<es.bsc.dataclay.util.management.classmgr.Type> getTypesToWrap(final Operation operation) {
-		return operation.getParams().values();
+		return operation.getParamsTypesInOrder();
 	}
 
 	@Override

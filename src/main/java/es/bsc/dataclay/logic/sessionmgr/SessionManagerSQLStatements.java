@@ -1,6 +1,9 @@
 
 package es.bsc.dataclay.logic.sessionmgr;
 
+import es.bsc.dataclay.logic.accountmgr.AccountMgrSQLStatements;
+import es.bsc.dataclay.logic.notificationmgr.NotificationMgrSQLStatements;
+
 import java.util.ResourceBundle;
 
 /**
@@ -8,23 +11,12 @@ import java.util.ResourceBundle;
  */
 public final class SessionManagerSQLStatements {
 
-	/** Properties. */
-	private static ResourceBundle props = null;
 
 	/**
 	 * Utility classes should have private constructor.
 	 */
 	private SessionManagerSQLStatements() {
 
-	}
-
-	/**
-	 * Init properties of the properties file
-	 */
-	static {
-		if (props == null) {
-			props = ResourceBundle.getBundle("es.bsc.dataclay.properties.session_mgr_sql");
-		}
 	}
 
 	/**
@@ -155,10 +147,36 @@ public final class SessionManagerSQLStatements {
 		/** SQL statement. */
 		private String sqlStatement;
 
+
+		/** Indicates statements are loaded in memory. */
+		private static boolean LOADED = false;
+		/**
+		 * Unload statements.
+		 */
+		public static void unloadStatements() {
+			LOADED = false;
+			for (AccountMgrSQLStatements.SqlStatements statement : AccountMgrSQLStatements.SqlStatements.values()) {
+				statement.setSqlStatement(null);
+			}
+		}
+
+
 		/**
 		 * Init properties of the properties file
 		 */
-		private void init() {
+		public static void loadStatements() {
+			ResourceBundle props = ResourceBundle.getBundle("es.bsc.dataclay.properties.session_mgr_sql");
+
+			for (SessionManagerSQLStatements.SqlStatements statement : SessionManagerSQLStatements.SqlStatements.values()) {
+				statement.init(props);
+			}
+			LOADED = true;
+		}
+
+		/**
+		 * Init properties of the properties file
+		 */
+		private void init(ResourceBundle props) {
 			final String sqlSt = props.getString(this.name());
 			setSqlStatement(sqlSt);
 		}
@@ -168,8 +186,8 @@ public final class SessionManagerSQLStatements {
 		 * @return the sqlStatement
 		 */
 		public String getSqlStatement() {
-			if (sqlStatement == null) {
-				init();
+			if (!LOADED) {
+				loadStatements();
 			}
 			return sqlStatement;
 		}

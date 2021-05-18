@@ -58,6 +58,9 @@ public final class DataServiceSrv {
 	/** Logic Module configuration. */
 	private final CfgLogic cfgLM;
 
+	/** Indicates exit error code if System.exit() is called. */
+	private static int SYSTEM_EXIT_ERROR_CODE = 0;
+
 	/**
 	 * Start server
 	 * @param thecfgDS
@@ -116,7 +119,8 @@ public final class DataServiceSrv {
 				Thread.sleep(Configuration.Flags.RETRY_AUTOREGISTER_TIME.getLongValue());
 			}
 		}
-
+		logger.info("[{}] Persisting EE static information...", srvName);
+		dataService.persistEEInfo();
 		grpcClient = dataService.runtime.getCommonGrpcClient();
 		final String serviceName = cfgDS.getName();
 		final Thread shutdownHook = new Thread() {
@@ -146,6 +150,13 @@ public final class DataServiceSrv {
 		grpcServer.blockUntilShutdown();
 	}
 
+	// Centralise all System.exit code under control of this class.
+	public static void doExit(int exitStatus) {
+		SYSTEM_EXIT_ERROR_CODE = exitStatus;
+		System.err.println("!!! DATABASE ERROR. Exiting with code: " + exitStatus);
+		System.exit(exitStatus); // Will invoke run.
+	}
+
 	/**
 	 * Unbinds the service
 	 */
@@ -156,20 +167,21 @@ public final class DataServiceSrv {
 			runningServer = false;
 			logger.info("[{}] Notifying LM current EE shut down...", srvName);
 			dataService.notifyExecutionEnvironmentShutdown();
-			logger.info("[{}] Waiting for associated execution environments to shut down...", srvName);
-			dataService.waitForExecutionEnvironmentsToFinish();
-			
-			// ==== Store metaData cache === //
-			logger.info("[{}] Updating all objects in memory...", srvName);
-			dataService.shutdownUpdate();
-			logger.info("[{}] Persisting EE static information...", srvName);
-			dataService.persistEEInfo();
+
+			if (DataServiceSrv.SYSTEM_EXIT_ERROR_CODE == 0) {
+				// TODO: specific exit codes for that error
+				// WARNING: A database failure happened, do not wait for python EEs, just restart SL
+				// WARNING: objects in java memory are lost
+				logger.info("[{}] Waiting for associated execution environments to shut down...", srvName);
+				dataService.waitForExecutionEnvironmentsToFinish();
+				// ==== Store metaData cache === //
+				logger.info("[{}] Updating all objects in memory...", srvName);
+				dataService.shutdownUpdate();
+			}
+			logger.info("[{}] Notifying LM current SL shut down...", srvName);
+			dataService.notifyStorageLocationShutdown();
 			logger.info("[{}] Finishing cached threads...", srvName);
 			dataService.finishCacheThreads();
-
-			logger.info("[{}] Notifying LM current EE shut down...", srvName);
-			dataService.notifyStorageLocationShutdown();
-			
 			disconnectFromOthers();
 			logger.info("[{}] Finishing server connections...", srvName);
 			grpcClient.finishClientConnections();

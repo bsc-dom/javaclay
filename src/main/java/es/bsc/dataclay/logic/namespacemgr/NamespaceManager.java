@@ -38,7 +38,7 @@ import es.bsc.dataclay.util.ids.PropertyID;
 import es.bsc.dataclay.util.management.AbstractManager;
 import es.bsc.dataclay.util.management.namespacemgr.ImportedInterface;
 import es.bsc.dataclay.util.management.namespacemgr.Namespace;
-import es.bsc.dataclay.util.structs.LruCache;
+import es.bsc.dataclay.util.structs.MemoryCache;
 import es.bsc.dataclay.util.structs.Tuple;
 import es.bsc.dataclay.dbhandler.sql.sqlite.SQLiteDataSource;
 
@@ -55,9 +55,9 @@ public final class NamespaceManager extends AbstractManager {
 	/** DbHandler for the management of Database. */
 	private final NamespaceManagerDB namespaceDB;
 	/** Namespace cache. */
-	private final LruCache<NamespaceID, Namespace> namespaceCache;
+	private final MemoryCache<NamespaceID, Namespace> namespaceCache;
 	/** Namespaces of the cache indexed by name. */
-	private final Map<String, NamespaceID> namespacesInCacheIndexedByName;
+	private final MemoryCache<String, NamespaceID> namespacesInCacheIndexedByName;
 
 	/**
 	 * Instantiates a Namespace Manager that uses the Namespace DB in the provided path.
@@ -72,9 +72,8 @@ public final class NamespaceManager extends AbstractManager {
 		this.namespaceDB.createTables();
 
 		// Init cache
-		this.namespaceCache = new LruCache<>(
-				Configuration.Flags.MAX_ENTRIES_NAMESPACE_MANAGER_CACHE.getIntValue());
-		this.namespacesInCacheIndexedByName = new HashMap<>();
+		this.namespaceCache = new MemoryCache<>();
+		this.namespacesInCacheIndexedByName = new MemoryCache<>();
 	}
 
 	/**
@@ -125,8 +124,8 @@ public final class NamespaceManager extends AbstractManager {
 			namespace = namespaceDB.getNamespaceByName(namespaceName);
 			// Update cache
 			if (namespace != null) {
-				namespaceCache.put(namespaceID, namespace);
-				namespacesInCacheIndexedByName.put(namespaceName, namespaceID);
+				namespaceCache.put(namespace.getDataClayID(), namespace);
+				namespacesInCacheIndexedByName.put(namespaceName, namespace.getDataClayID());
 			}
 		} else {
 			namespace = namespaceCache.get(namespaceID);

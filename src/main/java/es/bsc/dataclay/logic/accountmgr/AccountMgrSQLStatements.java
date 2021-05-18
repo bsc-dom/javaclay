@@ -8,23 +8,12 @@ import java.util.ResourceBundle;
  */
 public final class AccountMgrSQLStatements {
 
-	/** Properties. */
-	private static ResourceBundle props = null;
 
 	/**
 	 * Utility classes should have private constructor.
 	 */
 	private AccountMgrSQLStatements() {
 
-	}
-
-	/**
-	 * Init properties of the properties file
-	 */
-	static {
-		if (props == null) {
-			props = ResourceBundle.getBundle("es.bsc.dataclay.properties.account_mgr_sql");
-		}
 	}
 
 	/**
@@ -35,17 +24,11 @@ public final class AccountMgrSQLStatements {
 		/** Create credentials table. */
 		CREATE_TABLE_CREDENTIAL,
 
-		/** Create account role table. */
-		CREATE_TYPE_ACCOUNT_ROLE,
-
 		/** Create account table. */
 		CREATE_TABLE_ACCOUNT,
 
 		/** Drop credential table. */
 		DROP_TABLE_CREDENTIAL,
-
-		/** Drop account role table. */
-		DROP_TYPE_ACCOUNT_ROLE,
 
 		/** Drop Account table. */
 		DROP_TABLE_ACCOUNT,
@@ -77,10 +60,35 @@ public final class AccountMgrSQLStatements {
 		/** SQL statement. */
 		private String sqlStatement;
 
+		/** Indicates statements are loaded in memory. */
+		private static boolean LOADED = false;
+		/**
+		 * Unload statements.
+		 */
+		public static void unloadStatements() {
+			LOADED = false;
+			for (AccountMgrSQLStatements.SqlStatements statement : AccountMgrSQLStatements.SqlStatements.values()) {
+				statement.setSqlStatement(null);
+			}
+		}
+
+
 		/**
 		 * Init properties of the properties file
 		 */
-		private void init() {
+		public static void loadStatements() {
+			ResourceBundle props = ResourceBundle.getBundle("es.bsc.dataclay.properties.account_mgr_sql");
+			for (AccountMgrSQLStatements.SqlStatements statement : AccountMgrSQLStatements.SqlStatements.values()) {
+				statement.init(props);
+			}
+			LOADED = true;
+		}
+
+
+		/**
+		 * Init properties of the properties file
+		 */
+		private void init(ResourceBundle props) {
 			final String sqlSt = props.getString(this.name());
 			setSqlStatement(sqlSt);
 		}
@@ -90,8 +98,8 @@ public final class AccountMgrSQLStatements {
 		 * @return the sqlStatement
 		 */
 		public String getSqlStatement() {
-			if (sqlStatement == null) {
-				init();
+			if (!LOADED) {
+				loadStatements();
 			}
 			return sqlStatement;
 		}

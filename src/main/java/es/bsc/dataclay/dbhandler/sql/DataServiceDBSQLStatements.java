@@ -1,6 +1,9 @@
 
 package es.bsc.dataclay.dbhandler.sql;
 
+import es.bsc.dataclay.logic.accountmgr.AccountMgrSQLStatements;
+import es.bsc.dataclay.metadataservice.MetaDataServiceSQLStatements;
+
 import java.util.ResourceBundle;
 
 /**
@@ -8,23 +11,13 @@ import java.util.ResourceBundle;
  */
 public final class DataServiceDBSQLStatements {
 
-	/** Properties. */
-	private static ResourceBundle props = null;
+
 
 	/**
 	 * Utility classes should have private constructor.
 	 */
 	private DataServiceDBSQLStatements() {
 
-	}
-
-	/**
-	 * Init properties of the properties file
-	 */
-	static {
-		if (props == null) {
-			props = ResourceBundle.getBundle("es.bsc.dataclay.properties.dataservice_db_sql");
-		}
 	}
 
 	/**
@@ -62,12 +55,38 @@ public final class DataServiceDBSQLStatements {
 		/** SQL statement. */
 		private String sqlStatement;
 
+
+		/** Indicates statements are loaded in memory. */
+		private static boolean LOADED = false;
+		/**
+		 * Unload statements.
+		 */
+		public static void unloadStatements() {
+			LOADED = false;
+			for (AccountMgrSQLStatements.SqlStatements statement : AccountMgrSQLStatements.SqlStatements.values()) {
+				statement.setSqlStatement(null);
+			}
+		}
+
+
 		/**
 		 * Init properties of the properties file
 		 */
-		private void init() {
+		public static void loadStatements() {
+			ResourceBundle props = ResourceBundle.getBundle("es.bsc.dataclay.properties.dataservice_db_sql");
+			for (DataServiceDBSQLStatements.SqlStatements statement : DataServiceDBSQLStatements.SqlStatements.values()) {
+				statement.init(props);
+			}
+			LOADED = true;
+		}
+
+		/**
+		 * Init properties of the properties file
+		 */
+		private void init(ResourceBundle props) {
 			final String sqlSt = props.getString(this.name());
 			setSqlStatement(sqlSt);
+
 		}
 
 		/**
@@ -75,8 +94,8 @@ public final class DataServiceDBSQLStatements {
 		 * @return the sqlStatement
 		 */
 		public String getSqlStatement() {
-			if (sqlStatement == null) {
-				init();
+			if (!LOADED) {
+				loadStatements();
 			}
 			return sqlStatement;
 		}

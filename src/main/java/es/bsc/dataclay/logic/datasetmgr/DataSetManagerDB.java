@@ -62,6 +62,7 @@ public final class DataSetManagerDB {
 					if (stmt.name().startsWith("CREATE_TABLE")) {
 						final PreparedStatement updateStatement = conn.prepareStatement(stmt.getSqlStatement());
 						updateStatement.execute();
+						updateStatement.close();
 					}
 				}
 			} catch (final SQLException e) {
@@ -91,6 +92,7 @@ public final class DataSetManagerDB {
 					if (stmt.name().startsWith("DROP_TABLE")) {
 						final PreparedStatement updateStatement = conn.prepareStatement(stmt.getSqlStatement());
 						updateStatement.execute();
+						updateStatement.close();
 					}
 				}
 			} catch (final SQLException e) {
@@ -131,7 +133,7 @@ public final class DataSetManagerDB {
 					logger.debug("[==DB==] Executing " + insertStatement);
 				}
 				insertStatement.executeUpdate();
-
+				insertStatement.close();
 			} catch (final Exception e) {
 				e.printStackTrace();
 				throw new DbObjectAlreadyExistException(dataSet.getDataClayID());
@@ -202,15 +204,13 @@ public final class DataSetManagerDB {
 				rs = selectStatement.executeQuery();
 				if (rs.next()) {
 					result = deserializeDataSet(rs);
-
 				}
+				selectStatement.close();
+
 			} catch (final SQLException e) {
 				throw new DbObjectNotExistException(datasetID);
 			} finally {
 				try {
-					if (rs != null) {
-						rs.close();
-					}
 					if (conn != null) {
 						conn.close();
 					}
@@ -241,6 +241,7 @@ public final class DataSetManagerDB {
 					logger.debug("[==DB==] Executing " + selectStatement);
 				}
 				selectStatement.executeUpdate();
+				selectStatement.close();
 
 			} catch (final SQLException e) {
 				// not found, ignore
@@ -281,13 +282,12 @@ public final class DataSetManagerDB {
 				while (rs.next()) {
 					result.add(deserializeDataSet(rs));
 				}
+				selectStatement.close();
+
 			} catch (final SQLException e) {
 				e.printStackTrace();
 			} finally {
 				try {
-					if (rs != null) {
-						rs.close();
-					}
 					if (conn != null) {
 						conn.close();
 					}
@@ -328,13 +328,12 @@ public final class DataSetManagerDB {
 					result = deserializeDataSet(rs);
 
 				}
+				selectStatement.close();
+
 			} catch (final SQLException e) {
 				// ignore
 			} finally {
 				try {
-					if (rs != null) {
-						rs.close();
-					}
 					if (conn != null) {
 						conn.close();
 					}
@@ -368,13 +367,12 @@ public final class DataSetManagerDB {
 				while (rs.next()) {
 					result.add(deserializeDataSet(rs));
 				}
+				selectStatement.close();
+
 			} catch (final SQLException e) {
 				// ignore
 			} finally {
 				try {
-					if (rs != null) {
-						rs.close();
-					}
 					if (conn != null) {
 						conn.close();
 					}

@@ -31,9 +31,7 @@ public final class NotificationManagerDB {
 
 	/**
 	 * NotificationManagerDB constructor.
-	 * 
-	 * @param managerName
-	 *            Name of the LM service managing.
+	 *
 	 */
 	public NotificationManagerDB(final SQLiteDataSource dataSource) {
 		this.dataSource = dataSource;
@@ -52,6 +50,7 @@ public final class NotificationManagerDB {
 					if (stmt.name().startsWith("CREATE_TABLE")) {
 						final PreparedStatement updateStatement = conn.prepareStatement(stmt.getSqlStatement());
 						updateStatement.execute();
+						updateStatement.close();
 					}
 				}
 			} catch (final SQLException e) {
@@ -81,6 +80,7 @@ public final class NotificationManagerDB {
 					if (stmt.name().startsWith("DROP_TABLE")) {
 						final PreparedStatement updateStatement = conn.prepareStatement(stmt.getSqlStatement());
 						updateStatement.execute();
+						updateStatement.close();
 					}
 				}
 			} catch (final SQLException e) {
@@ -119,7 +119,7 @@ public final class NotificationManagerDB {
 				insertStatement.setBytes(2, bytes);
 				// CHECKSTYLE:ON
 				insertStatement.executeUpdate();
-
+				insertStatement.close();
 			} catch (final Exception e) {
 				e.printStackTrace();
 				throw new EventListenerAlreadyRegisteredException(id);
@@ -159,6 +159,7 @@ public final class NotificationManagerDB {
 				insertStatement.setBytes(2, bytes);
 				// CHECKSTYLE:ON
 				insertStatement.executeUpdate();
+				insertStatement.close();
 
 			} catch (final Exception e) {
 				throw new EventMessageAlreadyStoredException(id);
@@ -190,6 +191,8 @@ public final class NotificationManagerDB {
 
 				deleteStatement.setObject(1, eventMessageID.getId());
 				deleteStatement.executeUpdate();
+				deleteStatement.close();
+
 			} catch (final SQLException e) {
 				e.printStackTrace();
 			} finally {
@@ -225,6 +228,8 @@ public final class NotificationManagerDB {
 				updateStatement.setBytes(1, bytes);
 				updateStatement.setObject(2, id.getId());
 				updateStatement.executeUpdate();
+				updateStatement.close();
+
 			} catch (final SQLException e) {
 				throw new EventListenerNotRegisteredException(id);
 			} finally {
@@ -260,6 +265,8 @@ public final class NotificationManagerDB {
 				updateStatement.setBytes(1, bytes);
 				updateStatement.setObject(2, id.getId());
 				updateStatement.executeUpdate();
+				updateStatement.close();
+
 			} catch (final SQLException e) {
 				throw new EventMessageNotRegisteredException(id);
 			} finally {
@@ -296,14 +303,11 @@ public final class NotificationManagerDB {
 					final ECA eventListener = (ECA) CommonYAML.getYamlObject().load(strYaml);
 					resultList.add(eventListener);
 				}
-
+				statement.close();
 			} catch (final SQLException e) {
 				e.printStackTrace();
 			} finally {
 				try {
-					if (rs != null) {
-						rs.close();
-					}
 					if (conn != null) {
 						conn.close();
 					}
@@ -339,14 +343,12 @@ public final class NotificationManagerDB {
 					final EventMessage eventMsg = (EventMessage) CommonYAML.getYamlObject().load(strYaml);
 					resultList.add(eventMsg);
 				}
+				statement.close();
 
 			} catch (final SQLException e) {
 				e.printStackTrace();
 			} finally {
 				try {
-					if (rs != null) {
-						rs.close();
-					}
 					if (conn != null) {
 						conn.close();
 					}
@@ -383,14 +385,12 @@ public final class NotificationManagerDB {
 					final EventMessage eventMsg = (EventMessage) CommonYAML.getYamlObject().load(strYaml);
 					resultList.add(eventMsg);
 				}
+				statement.close();
 
 			} catch (final SQLException e) {
 				e.printStackTrace();
 			} finally {
 				try {
-					if (rs != null) {
-						rs.close();
-					}
 					if (conn != null) {
 						conn.close();
 					}
@@ -427,14 +427,12 @@ public final class NotificationManagerDB {
 					final ECA eventListener = (ECA) CommonYAML.getYamlObject().load(strYaml);
 					resultList.add(eventListener);
 				}
+				statement.close();
 
 			} catch (final SQLException e) {
 				e.printStackTrace();
 			} finally {
 				try {
-					if (rs != null) {
-						rs.close();
-					}
 					if (conn != null) {
 						conn.close();
 					}

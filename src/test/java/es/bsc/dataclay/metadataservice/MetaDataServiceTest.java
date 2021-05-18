@@ -50,7 +50,7 @@ public class MetaDataServiceTest extends AbstractManagerTest {
 	private static final String HOSTBACKEND = "localhost";
 	private static final String BACKENDNAME = "backend";
 	private static final int TCP_PORTBACKEND = 12366;
-	private ExecutionEnvironmentID backendID;
+	private ExecutionEnvironmentID backendID = new ExecutionEnvironmentID();
 	private DataClayInstanceID dataClayInstanceID = new DataClayInstanceID();
 	/**
 	 * @brief This method is executed before each test. It is used create the test database.
@@ -67,7 +67,6 @@ public class MetaDataServiceTest extends AbstractManagerTest {
 
 		final ExecutionEnvironment backend = new ExecutionEnvironment(HOSTBACKEND,
 				BACKENDNAME, TCP_PORTBACKEND, Langs.LANG_JAVA, dataClayInstanceID);
-		backendID = mdservice.registerExecutionEnvironment(backend);
 	}
 
 	/**
@@ -242,7 +241,6 @@ public class MetaDataServiceTest extends AbstractManagerTest {
 		// Register new backend and store object in it
 		final ExecutionEnvironment backend = new ExecutionEnvironment(HOSTBACKEND, BACKENDNAME + 1, TCP_PORTBACKEND + 1, Langs.LANG_JAVA,
 				dataClayInstanceID);
-		metadataDB.store(backend);
 
 		// Register second storage as a migration (although it is still in first backend)
 		mdservice.migrateObjectToBackend(objectID, backendID, backend.getDataClayID());
@@ -285,7 +283,6 @@ public class MetaDataServiceTest extends AbstractManagerTest {
 		// Register new backend
 		final ExecutionEnvironment destBackend = new ExecutionEnvironment(HOSTBACKEND, BACKENDNAME + 1, TCP_PORTBACKEND + 1, Langs.LANG_JAVA,
 				dataClayInstanceID);
-		metadataDB.store(destBackend);
 
 		// Migrate objects to new backend with MetaDataService (we ignore handler ids, so we assume they are the same
 		// in the destination backends)
@@ -309,42 +306,6 @@ public class MetaDataServiceTest extends AbstractManagerTest {
 	}
 
 	@Test
-	public final void testGetRandomBackendInfoFromCache() {
-		assertTrue(mdservice.getBackendCache().size() == 1 && mdservice.getBackendCache().containsKey(backendID));
-
-		// Get random backend
-		final Tuple<ExecutionEnvironmentID, ExecutionEnvironment> randomBackend = mdservice.getRandomExecutionEnvironmentInfo(Langs.LANG_JAVA);
-
-		// Verify
-		assertTrue(randomBackend.getFirst().equals(backendID));
-	}
-
-	@Test
-	public final void testGetRandomBackendInfo() {
-		// Register a random amount of backends
-		final int numBackends = new Random().nextInt(RANDMAX) + 1; // at least 1
-		final HashSet<ExecutionEnvironmentID> backendIDs = new HashSet<>(registerSetOfBackends(numBackends).keySet());
-
-		// Add the basic backend to backendIDs (possible ones)
-		backendIDs.add(backendID);
-
-		// Clear cache
-		mdservice.getBackendCache().clear();
-
-		// Get random backend (cache empty)
-		assertTrue(mdservice.getBackendCache().size() == 0);
-		Tuple<ExecutionEnvironmentID, ExecutionEnvironment> randomBackend = mdservice.getRandomExecutionEnvironmentInfo(Langs.LANG_JAVA);
-		assertTrue(backendIDs.contains(randomBackend.getFirst()));
-
-		// Check cache contains obtained backend
-		assertTrue(mdservice.getBackendCache().containsKey(randomBackend.first));
-
-		// Verify again (resolved with cache now)
-		randomBackend = mdservice.getRandomExecutionEnvironmentInfo(Langs.LANG_JAVA);
-		assertTrue(backendIDs.contains(randomBackend.getFirst()));
-	}
-
-	@Test
 	public final void testCheckObjectInSrcNotInDest() {
 		// Register the object
 		final ObjectID objectID = new ObjectID();
@@ -355,7 +316,6 @@ public class MetaDataServiceTest extends AbstractManagerTest {
 		// Register new backend
 		final ExecutionEnvironment destBackend = new ExecutionEnvironment(HOSTBACKEND, BACKENDNAME + 1, TCP_PORTBACKEND + 1, Langs.LANG_JAVA,
 				dataClayInstanceID);
-		metadataDB.store(destBackend);
 
 		// Check object in source and not in new backend
 		assertTrue(mdservice.checkObjectInSrcNotInDest(objectID, backendID, destBackend.getDataClayID()));
@@ -397,59 +357,7 @@ public class MetaDataServiceTest extends AbstractManagerTest {
 				&& result.getExecutionEnvironmentIDs().contains(backendID) && !result.isReadOnly());
 	}
 
-	@Test
-	public final void testRegisterStorageLocation() {
-		final StorageLocation backend = new StorageLocation(HOSTBACKEND, BACKENDNAME + 1, TCP_PORTBACKEND + 1);
-		final StorageLocationID newbackendID = mdservice.registerStorageLocation(backend);
 
-		final StorageLocation backMD = metadataDB.getByID(newbackendID);
-
-		assertTrue(newbackendID.equals(backMD.getDataClayID()));
-		assertTrue(backMD.getHostname().equals(backend.getHostname()));
-		assertTrue(backMD.getStorageTCPPort() == backend.getStorageTCPPort());
-	}
-
-	@Test
-	public final void testRegisterExecutionEnvironment() {
-		final ExecutionEnvironment backend = new ExecutionEnvironment(HOSTBACKEND, BACKENDNAME + 1, TCP_PORTBACKEND + 1, Langs.LANG_JAVA,
-				dataClayInstanceID);
-		final ExecutionEnvironmentID newbackendID = mdservice.registerExecutionEnvironment(backend);
-
-		final ExecutionEnvironment backMD = metadataDB.getByID(newbackendID);
-
-		assertTrue(newbackendID.equals(backMD.getDataClayID()));
-		assertTrue(backMD.getHostname().equals(backend.getHostname()));
-		assertTrue(backMD.getPort() == backend.getPort());
-		assertTrue(backMD.getLang() == backend.getLang());
-	}
-
-	@Test
-	public final void testGetBackendInfo() {
-		final ExecutionEnvironment res = mdservice.getExecutionEnvironmentInfo(backendID);
-		assertTrue(res.getHostname().equals(HOSTBACKEND));
-		assertTrue(res.getPort() == TCP_PORTBACKEND);
-	}
-
-	@Test
-	public final void testRegisterExternalDataClay() {
-		final DataClayInstance dcInstance = new DataClayInstance(new DataClayInstanceID(), "host", 42);
-		mdservice.registerExternalDataclay(dcInstance);
-		final DataClayInstance dcDatabase = metadataDB.getDataClayInfo(dcInstance.getDcID());
-		assertTrue(dcDatabase.getDcID().equals(dcInstance.getDcID()));
-	}
-
-	@Test
-	public final void testGetExternalDataClay() {
-		final DataClayInstance dcDatabase = new DataClayInstance(new DataClayInstanceID(), "host", 42);
-		metadataDB.insertDataClayInstance(dcDatabase);
-		final DataClayInstance dcInstance = metadataDB.getDataClayInfo(dcDatabase.getDcID());
-		assertTrue(dcDatabase.getDcID().equals(dcInstance.getDcID()));
-	}
-
-	@Test
-	public final void testDataClayInstanceNotExist() {
-		assertTrue(metadataDB.getDataClayInfo(new DataClayInstanceID()) == null);
-	}
 
 	/*********************************** Exceptions ***********************************/
 
@@ -563,7 +471,6 @@ public class MetaDataServiceTest extends AbstractManagerTest {
 		final ExecutionEnvironment newBackend = new ExecutionEnvironment(HOSTBACKEND, BACKENDNAME + 1, TCP_PORTBACKEND + 1, Langs.LANG_JAVA,
 				dataClayInstanceID);
 		final ExecutionEnvironmentID newBackendID = newBackend.getDataClayID();
-		metadataDB.store(newBackend);
 
 		// Register the object
 		final ObjectID objectID = new ObjectID();
@@ -623,7 +530,7 @@ public class MetaDataServiceTest extends AbstractManagerTest {
 			final ExecutionEnvironment backend = new ExecutionEnvironment(HOSTBACKEND, BACKENDNAME + i, TCP_PORTBACKEND + i, Langs.LANG_JAVA,
 					dataClayInstanceID);
 			backend.setDataClayID(new ExecutionEnvironmentID());
-			backends.put(mdservice.registerExecutionEnvironment(backend), backend);
+			backends.put(backend.getDataClayID(), backend);
 		}
 		return backends;
 	}

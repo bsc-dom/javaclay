@@ -30,7 +30,7 @@ public class DBHandlerFactory {
 	public static DBHandler getDBHandler(DBHandlerType type) {
 		switch(type){
 			case SQLITE:
-				return new SQLiteHandler(new SQLiteHandlerConfig("test.db",  Configuration.Flags.SQLITE_IN_MEMORY.getBooleanValue()));
+				return new SQLiteHandler(new SQLiteHandlerConfig(Configuration.Flags.STORAGE_PATH.getStringValue(), "test.db",  Configuration.Flags.SQLITE_IN_MEMORY.getBooleanValue()));
 			case NVRAM:
 				try {
 					final Class<?> nvramHandlerClass = Class.forName(NVRAM_HANDLER_CLASS_NAME);

@@ -105,6 +105,7 @@ public final class ClassManagerDB {
 								logger.debug("[==DB==] Executing " + createStmt);
 							}
 							createStmt.execute();
+							createStmt.close();
 						} catch (final SQLException e) {
 							// ignore if already exists
 						}
@@ -132,6 +133,7 @@ public final class ClassManagerDB {
 							logger.debug("[==DB==] Executing " + updateStatement);
 						}
 						updateStatement.execute();
+						updateStatement.close();
 					}
 				}
 			} catch (final SQLException e) {
@@ -163,6 +165,7 @@ public final class ClassManagerDB {
 							logger.debug("[==DB==] Executing " + updateStatement);
 						}
 						updateStatement.execute();
+						updateStatement.close();
 					}
 				}
 			} catch (final SQLException e) {
@@ -187,6 +190,7 @@ public final class ClassManagerDB {
 							logger.debug("[==DB==] Executing " + updateStatement);
 						}
 						updateStatement.execute();
+						updateStatement.close();
 					}
 				}
 			} catch (final SQLException e) {
@@ -228,7 +232,7 @@ public final class ClassManagerDB {
 					logger.debug("[==DB==] Executing " + insertStatement);
 				}
 				insertStatement.executeUpdate();
-
+				insertStatement.close();
 			} catch (final Exception e) {
 				logger.debug("SQL Exception in storeAccessedImplementation", e);
 			} finally {
@@ -268,7 +272,7 @@ public final class ClassManagerDB {
 					logger.debug("[==DB==] Executing " + insertStatement);
 				}
 				insertStatement.executeUpdate();
-
+				insertStatement.close();
 			} catch (final Exception e) {
 				logger.debug("SQL Exception in storeAccessedProperty", e);
 			} finally {
@@ -368,6 +372,7 @@ public final class ClassManagerDB {
 					logger.debug("[==DB==] Executing " + insertStatement);
 				}
 				insertStatement.executeUpdate();
+				insertStatement.close();
 
 			} catch (final Exception e) {
 				logger.debug("SQL Exception in storeType", e);
@@ -406,7 +411,7 @@ public final class ClassManagerDB {
 					logger.debug("[==DB==] Executing " + insertStatement);
 				}
 				insertStatement.executeUpdate();
-
+				insertStatement.close();
 			} catch (final Exception e) {
 				logger.debug("SQL Exception in storeJavaTypeInfo", e);
 			} finally {
@@ -444,7 +449,7 @@ public final class ClassManagerDB {
 					logger.debug("[==DB==] Executing " + insertStatement);
 				}
 				insertStatement.executeUpdate();
-
+				insertStatement.close();
 			} catch (final Exception e) {
 				logger.debug("SQL Exception in storePythonTypeInfo", e);
 			} finally {
@@ -481,7 +486,7 @@ public final class ClassManagerDB {
 					logger.debug("[==DB==] Executing " + insertStatement);
 				}
 				insertStatement.executeUpdate();
-
+				insertStatement.close();
 			} catch (final Exception e) {
 				logger.debug("SQL Exception in storeMemoryFeature", e);
 			} finally {
@@ -519,7 +524,7 @@ public final class ClassManagerDB {
 					logger.debug("[==DB==] Executing " + insertStatement);
 				}
 				insertStatement.executeUpdate();
-
+				insertStatement.close();
 			} catch (final Exception e) {
 				logger.debug("SQL Exception in storeCPUFeature", e);
 			} finally {
@@ -558,7 +563,7 @@ public final class ClassManagerDB {
 					logger.debug("[==DB==] Executing " + insertStatement);
 				}
 				insertStatement.executeUpdate();
-
+				insertStatement.close();
 			} catch (final Exception e) {
 				logger.debug("SQL Exception in storeLanguageFeature", e);
 			} finally {
@@ -595,7 +600,7 @@ public final class ClassManagerDB {
 					logger.debug("[==DB==] Executing " + insertStatement);
 				}
 				insertStatement.executeUpdate();
-
+				insertStatement.close();
 			} catch (final Exception e) {
 				logger.debug("SQL Exception in storeArchitectureFeature", e);
 			} finally {
@@ -670,7 +675,7 @@ public final class ClassManagerDB {
 					logger.debug("[==DB==] Executing " + insertStatement);
 				}
 				insertStatement.executeUpdate();
-
+				insertStatement.close();
 			} catch (final Exception e) {
 				logger.debug("SQL Exception in storePrefetchingInfo", e);
 			} finally {
@@ -791,7 +796,7 @@ public final class ClassManagerDB {
 					logger.debug("[==DB==] Executing " + insertStatement);
 				}
 				insertStatement.executeUpdate();
-
+				insertStatement.close();
 			} catch (final Exception e) {
 				logger.debug("SQL Exception in storeJavaImplementation", e);
 			} finally {
@@ -914,7 +919,7 @@ public final class ClassManagerDB {
 					logger.debug("[==DB==] Executing " + insertStatement);
 				}
 				insertStatement.executeUpdate();
-
+				insertStatement.close();
 			} catch (final Exception e) {
 				logger.debug("SQL Exception in storePythonImplementation", e);
 			} finally {
@@ -1034,7 +1039,7 @@ public final class ClassManagerDB {
 					logger.debug("[==DB==] Executing " + insertStatement);
 				}
 				insertStatement.executeUpdate();
-
+				insertStatement.close();
 			} catch (final Exception e) {
 				logger.debug("SQL Exception in storeProperty", e);
 			} finally {
@@ -1072,7 +1077,7 @@ public final class ClassManagerDB {
 					logger.debug("[==DB==] Executing " + insertStatement);
 				}
 				insertStatement.executeUpdate();
-
+				insertStatement.close();
 			} catch (final Exception e) {
 				logger.debug("SQL Exception in storeJavaPropertyInfo", e);
 			} finally {
@@ -1129,7 +1134,7 @@ public final class ClassManagerDB {
 					logger.debug("[==DB==] Executing " + insertStatement);
 				}
 				insertStatement.executeUpdate();
-
+				insertStatement.close();
 			} catch (final Exception e) {
 				logger.debug("SQL Exception in storeAnnotation", e);
 			} finally {
@@ -1166,7 +1171,7 @@ public final class ClassManagerDB {
 					logger.debug("[==DB==] Executing " + insertStatement);
 				}
 				insertStatement.executeUpdate();
-
+				insertStatement.close();
 			} catch (final Exception e) {
 				logger.debug("SQL Exception in storePythonPropertyInfo", e);
 			} finally {
@@ -1277,7 +1282,7 @@ public final class ClassManagerDB {
 					logger.debug("[==DB==] Executing " + insertStatement + "(" + uuid + ")");
 				}
 				insertStatement.executeUpdate();
-
+				insertStatement.close();
 			} catch (final Exception e) {
 				logger.debug("SQL Exception in storeOperation", e);
 			} finally {
@@ -1316,7 +1321,7 @@ public final class ClassManagerDB {
 					logger.debug("[==DB==] Executing " + insertStatement);
 				}
 				insertStatement.executeUpdate();
-
+				insertStatement.close();
 			} catch (final Exception e) {
 				logger.debug("SQL Exception in storeJavaOperationInfo", e);
 			} finally {
@@ -1353,7 +1358,7 @@ public final class ClassManagerDB {
 					logger.debug("[==DB==] Executing " + insertStatement);
 				}
 				insertStatement.executeUpdate();
-
+				insertStatement.close();
 			} catch (final Exception e) {
 				logger.debug("SQL Exception in storePythonOperationInfo", e);
 			} finally {
@@ -1441,7 +1446,7 @@ public final class ClassManagerDB {
 					logger.debug("[==DB==] Executing " + insertStatement);
 				}
 				insertStatement.executeUpdate();
-
+				insertStatement.close();
 			} catch (final Exception e) {
 				logger.debug("SQL Exception in storeMetaClass", e);
 			} finally {
@@ -1489,7 +1494,7 @@ public final class ClassManagerDB {
 					logger.debug("[==DB==] Executing " + insertStatement);
 				}
 				insertStatement.executeUpdate();
-
+				insertStatement.close();
 			} catch (final Exception e) {
 				logger.debug("SQL Exception in storeJavaClassInfo", e);
 			} finally {
@@ -1538,7 +1543,7 @@ public final class ClassManagerDB {
 					logger.debug("[==DB==] Executing " + insertStatement);
 				}
 				insertStatement.executeUpdate();
-
+				insertStatement.close();
 			} catch (final Exception e) {
 				logger.debug("SQL Exception in storePythonClassInfo", e);
 			} finally {
@@ -2454,11 +2459,11 @@ public final class ClassManagerDB {
 				if (rs.next()) {
 					type = deserializeType(rs);
 				}
+				selectStatement.close();
 			} catch (final SQLException e) {
 				throw e;
 			} finally {
 				try {
-					rs.close();
 					if (conn != null) {
 						conn.close();
 					}
@@ -2495,11 +2500,11 @@ public final class ClassManagerDB {
 			if (rs.next()) {
 				type = deserializeJavaType(rs);
 			}
+			selectStatement.close();
 		} catch (final SQLException e) {
 			throw e;
 		} finally {
 			try {
-				rs.close();
 				if (conn != null) {
 					conn.close();
 				}
@@ -2535,11 +2540,11 @@ public final class ClassManagerDB {
 			if (rs.next()) {
 				type = deserializePythonType(rs);
 			}
+			selectStatement.close();
 		} catch (final SQLException e) {
 			throw e;
 		} finally {
 			try {
-				rs.close();
 				if (conn != null) {
 					conn.close();
 				}
@@ -2575,11 +2580,11 @@ public final class ClassManagerDB {
 			if (rs.next()) {
 				property = deserializeProperty(rs);
 			}
+			selectStatement.close();
 		} catch (final SQLException e) {
 			throw e;
 		} finally {
 			try {
-				rs.close();
 				if (conn != null) {
 					conn.close();
 				}
@@ -2614,12 +2619,12 @@ public final class ClassManagerDB {
 			if (rs.next()) {
 				annotation = deserializeAnnotation(rs);
 			}
+			selectStatement.close();
 		} catch (final SQLException e) {
 			logger.debug("SQL Exception in getAnnotationByID", e);
 			throw e;
 		} finally {
 			try {
-				rs.close();
 				if (conn != null) {
 					conn.close();
 				}
@@ -2652,15 +2657,14 @@ public final class ClassManagerDB {
 				logger.debug("[==DB==] Executing " + selectStatement);
 			}
 			rs = selectStatement.executeQuery();
-
 			if (rs.next()) {
 				property = deserializeJavaProperty(rs);
 			}
+			selectStatement.close();
 		} catch (final SQLException e) {
 			throw e;
 		} finally {
 			try {
-				rs.close();
 				if (conn != null) {
 					conn.close();
 				}
@@ -2696,11 +2700,11 @@ public final class ClassManagerDB {
 			if (rs.next()) {
 				property = deserializePythonProperty(rs);
 			}
+			selectStatement.close();
 		} catch (final SQLException e) {
 			throw e;
 		} finally {
 			try {
-				rs.close();
 				if (conn != null) {
 					conn.close();
 				}
@@ -2736,11 +2740,11 @@ public final class ClassManagerDB {
 			if (rs.next()) {
 				result = deserializeAccessedImplementation(rs);
 			}
+			selectStatement.close();
 		} catch (final SQLException e) {
 			throw e;
 		} finally {
 			try {
-				rs.close();
 				if (conn != null) {
 					conn.close();
 				}
@@ -2776,11 +2780,11 @@ public final class ClassManagerDB {
 			if (rs.next()) {
 				result = deserializeAccessedProperty(rs);
 			}
+			selectStatement.close();
 		} catch (final SQLException e) {
 			throw e;
 		} finally {
 			try {
-				rs.close();
 				if (conn != null) {
 					conn.close();
 				}
@@ -2816,11 +2820,11 @@ public final class ClassManagerDB {
 			if (rs.next()) {
 				result = deserializeMemoryFeature(rs);
 			}
+			selectStatement.close();
 		} catch (final SQLException e) {
 			throw e;
 		} finally {
 			try {
-				rs.close();
 				if (conn != null) {
 					conn.close();
 				}
@@ -2856,11 +2860,11 @@ public final class ClassManagerDB {
 			if (rs.next()) {
 				result = deserializeCPUFeature(rs);
 			}
+			selectStatement.close();
 		} catch (final SQLException e) {
 			throw e;
 		} finally {
 			try {
-				rs.close();
 				if (conn != null) {
 					conn.close();
 				}
@@ -2896,11 +2900,11 @@ public final class ClassManagerDB {
 			if (rs.next()) {
 				result = deserializeLanguageFeature(rs);
 			}
+			selectStatement.close();
 		} catch (final SQLException e) {
 			throw e;
 		} finally {
 			try {
-				rs.close();
 				if (conn != null) {
 					conn.close();
 				}
@@ -2936,11 +2940,11 @@ public final class ClassManagerDB {
 			if (rs.next()) {
 				result = deserializeArchitectureFeature(rs);
 			}
+			selectStatement.close();
 		} catch (final SQLException e) {
 			throw e;
 		} finally {
 			try {
-				rs.close();
 				if (conn != null) {
 					conn.close();
 				}
@@ -2976,11 +2980,11 @@ public final class ClassManagerDB {
 			if (rs.next()) {
 				result = deserializePrefetchingInfo(rs);
 			}
+			selectStatement.close();
 		} catch (final SQLException e) {
 			throw e;
 		} finally {
 			try {
-				rs.close();
 				if (conn != null) {
 					conn.close();
 				}
@@ -3016,11 +3020,12 @@ public final class ClassManagerDB {
 			if (rs.next()) {
 				res = rs.getString(1);
 			}
+			selectStatement.close();
+
 		} catch (final SQLException e) {
 			throw e;
 		} finally {
 			try {
-				rs.close();
 				if (conn != null) {
 					conn.close();
 				}
@@ -3057,23 +3062,26 @@ public final class ClassManagerDB {
 				info = deserializeImplementation("java_implementation", rs);
 			}else {
 				conn = dataSource.getConnection();
-				selectStatement = conn.prepareStatement(ClassManagerSQLStatements.SqlStatements.SELECT_PYTHON_IMPLEMENTATION_BY_ID.getSqlStatement());
+				PreparedStatement selectStatement2 = conn.prepareStatement(ClassManagerSQLStatements.SqlStatements.SELECT_PYTHON_IMPLEMENTATION_BY_ID.getSqlStatement());
 
-				selectStatement.setObject(1, uuid);
+				selectStatement2.setObject(1, uuid);
 				if (DEBUG_ENABLED) {
-					logger.debug("[==DB==] Executing " + selectStatement);
+					logger.debug("[==DB==] Executing " + selectStatement2);
 				}
-				rs = selectStatement.executeQuery();
+				rs = selectStatement2.executeQuery();
 				if (rs.next()) {
 					info = deserializeImplementation("python_implementation", rs);
 				}
+				selectStatement2.close();
+
 			}
+			selectStatement.close();
+
 		} catch (final SQLException e) {
 			e.printStackTrace();
 			throw e;
 		} finally {
 			try {
-				rs.close();
 				if (conn != null) {
 					conn.close();
 				}
@@ -3109,11 +3117,12 @@ public final class ClassManagerDB {
 			if (rs.next()) {
 				info = deserializeOperation(rs);
 			}
+			selectStatement.close();
+
 		} catch (final SQLException e) {
 			throw e;
 		} finally {
 			try {
-				rs.close();
 				if (conn != null) {
 					conn.close();
 				}
@@ -3149,11 +3158,12 @@ public final class ClassManagerDB {
 			if (rs.next()) {
 				info = deserializeJavaOperation(rs);
 			}
+			selectStatement.close();
+
 		} catch (final SQLException e) {
 			throw e;
 		} finally {
 			try {
-				rs.close();
 				if (conn != null) {
 					conn.close();
 				}
@@ -3189,11 +3199,12 @@ public final class ClassManagerDB {
 			if (rs.next()) {
 				info = deserializePythonOperation(rs);
 			}
+			selectStatement.close();
+
 		} catch (final SQLException e) {
 			throw e;
 		} finally {
 			try {
-				rs.close();
 				if (conn != null) {
 					conn.close();
 				}
@@ -3229,12 +3240,13 @@ public final class ClassManagerDB {
 			if (rs.next()) {
 				mClass = deserializeMetaClass(rs);
 			}
+			selectStatement.close();
+
 		} catch (final SQLException e) {
 			logger.debug("SQL Exception in getMetaClassByID", e);
 			throw e;
 		} finally {
 			try {
-				rs.close();
 				if (conn != null) {
 					conn.close();
 				}
@@ -3270,11 +3282,12 @@ public final class ClassManagerDB {
 			if (rs.next()) {
 				info = deserializeJavaClass(rs);
 			}
+			selectStatement.close();
+
 		} catch (final SQLException e) {
 			throw e;
 		} finally {
 			try {
-				rs.close();
 				if (conn != null) {
 					conn.close();
 				}
@@ -3310,11 +3323,12 @@ public final class ClassManagerDB {
 			if (rs.next()) {
 				info = deserializePythonClass(rs);
 			}
+			selectStatement.close();
+
 		} catch (final SQLException e) {
 			throw e;
 		} finally {
 			try {
-				rs.close();
 				if (conn != null) {
 					conn.close();
 				}
@@ -3406,6 +3420,7 @@ public final class ClassManagerDB {
 				logger.debug("[==DB==] Executing " + stmt);
 			}
 			stmt.executeUpdate();
+			stmt.close();
 
 		} catch (final Exception e) {
 			logger.debug("SQL Exception in deleteAccessedImplementation", e);
@@ -3436,7 +3451,7 @@ public final class ClassManagerDB {
 				logger.debug("[==DB==] Executing " + stmt);
 			}
 			stmt.executeUpdate();
-
+			stmt.close();
 		} catch (final Exception e) {
 			logger.debug("SQL Exception in deleteAccessedProperty", e);
 		} finally {
@@ -3466,6 +3481,7 @@ public final class ClassManagerDB {
 				logger.debug("[==DB==] Executing " + stmt);
 			}
 			stmt.executeUpdate();
+			stmt.close();
 
 		} catch (final Exception e) {
 			logger.debug("SQL Exception in deleteJavaTypeInfo", e);
@@ -3496,6 +3512,7 @@ public final class ClassManagerDB {
 				logger.debug("[==DB==] Executing " + stmt);
 			}
 			stmt.executeUpdate();
+			stmt.close();
 
 		} catch (final Exception e) {
 			logger.debug("SQL Exception in deletePythonTypeInfo", e);
@@ -3558,6 +3575,7 @@ public final class ClassManagerDB {
 				logger.debug("[==DB==] Executing " + stmt + "(" + uuid + ")");
 			}
 			stmt.executeUpdate();
+			stmt.close();
 
 		} catch (final Exception e) {
 			logger.debug("SQL Exception in deleteType", e);
@@ -3588,6 +3606,7 @@ public final class ClassManagerDB {
 				logger.debug("[==DB==] Executing " + stmt);
 			}
 			stmt.executeUpdate();
+			stmt.close();
 
 		} catch (final Exception e) {
 			logger.debug("SQL Exception in deleteMemoryFeature", e);
@@ -3618,6 +3637,7 @@ public final class ClassManagerDB {
 				logger.debug("[==DB==] Executing " + stmt);
 			}
 			stmt.executeUpdate();
+			stmt.close();
 
 		} catch (final Exception e) {
 			logger.debug("SQL Exception in deleteCPUFeature", e);
@@ -3648,6 +3668,7 @@ public final class ClassManagerDB {
 				logger.debug("[==DB==] Executing " + stmt);
 			}
 			stmt.executeUpdate();
+			stmt.close();
 
 		} catch (final Exception e) {
 			logger.debug("SQL Exception in deleteLanguageFeature", e);
@@ -3678,6 +3699,7 @@ public final class ClassManagerDB {
 				logger.debug("[==DB==] Executing " + stmt);
 			}
 			stmt.executeUpdate();
+			stmt.close();
 
 		} catch (final Exception e) {
 			logger.debug("SQL Exception in deleteArchitectureFeature", e);
@@ -3709,6 +3731,7 @@ public final class ClassManagerDB {
 				logger.debug("[==DB==] Executing " + stmt);
 			}
 			stmt.executeUpdate();
+			stmt.close();
 
 		} catch (final Exception e) {
 			logger.debug("SQL Exception in deletePrefetchingInfo", e);
@@ -3802,6 +3825,7 @@ public final class ClassManagerDB {
 				logger.debug("[==DB==] Executing " + stmt);
 			}
 			stmt.executeUpdate();
+			stmt.close();
 
 		} catch (final Exception e) {
 			logger.debug("SQL Exception in deleteJavaImplementation (second step)", e);
@@ -3895,6 +3919,7 @@ public final class ClassManagerDB {
 				logger.debug("[==DB==] Executing " + stmt);
 			}
 			stmt.executeUpdate();
+			stmt.close();
 
 		} catch (final Exception e) {
 			logger.debug("SQL Exception in deletePythonImplementation (second step)", e);
@@ -3925,6 +3950,7 @@ public final class ClassManagerDB {
 				logger.debug("[==DB==] Executing " + stmt);
 			}
 			stmt.executeUpdate();
+			stmt.close();
 
 		} catch (final Exception e) {
 			logger.debug("SQL Exception in deleteJavaProperty", e);
@@ -3955,6 +3981,7 @@ public final class ClassManagerDB {
 				logger.debug("[==DB==] Executing " + stmt);
 			}
 			stmt.executeUpdate();
+			stmt.close();
 
 		} catch (final Exception e) {
 			logger.debug("SQL Exception in deletePythonProperty", e);
@@ -4021,6 +4048,7 @@ public final class ClassManagerDB {
 				logger.debug("[==DB==] Executing " + stmt);
 			}
 			stmt.executeUpdate();
+			stmt.close();
 
 		} catch (final Exception e) {
 			logger.debug("SQL Exception in deleteProperty (second step)", e);
@@ -4051,6 +4079,7 @@ public final class ClassManagerDB {
 				logger.debug("[==DB==] Executing " + stmt);
 			}
 			stmt.executeUpdate();
+			stmt.close();
 
 		} catch (final Exception e) {
 			e.printStackTrace();
@@ -4081,6 +4110,7 @@ public final class ClassManagerDB {
 				logger.debug("[==DB==] Executing " + stmt);
 			}
 			stmt.executeUpdate();
+			stmt.close();
 
 		} catch (final Exception e) {
 			e.printStackTrace();
@@ -4111,6 +4141,7 @@ public final class ClassManagerDB {
 				logger.debug("[==DB==] Executing " + stmt);
 			}
 			stmt.executeUpdate();
+			stmt.close();
 
 		} catch (final Exception e) {
 			e.printStackTrace();
@@ -4185,6 +4216,7 @@ public final class ClassManagerDB {
 				logger.debug("[==DB==] Executing " + stmt);
 			}
 			stmt.executeUpdate();
+			stmt.close();
 
 		} catch (final Exception e) {
 			e.printStackTrace();
@@ -4215,6 +4247,7 @@ public final class ClassManagerDB {
 				logger.debug("[==DB==] Executing " + stmt);
 			}
 			stmt.executeUpdate();
+			stmt.close();
 
 		} catch (final Exception e) {
 			e.printStackTrace();
@@ -4245,6 +4278,7 @@ public final class ClassManagerDB {
 				logger.debug("[==DB==] Executing " + stmt);
 			}
 			stmt.executeUpdate();
+			stmt.close();
 
 		} catch (final Exception e) {
 			e.printStackTrace();
@@ -4318,6 +4352,7 @@ public final class ClassManagerDB {
 				logger.debug("[==DB==] Executing " + stmt);
 			}
 			stmt.executeUpdate();
+			stmt.close();
 
 		} catch (final Exception e) {
 			e.printStackTrace();
@@ -4364,6 +4399,7 @@ public final class ClassManagerDB {
 					logger.debug("[==DB==] Executing " + stmt);
 				}
 				stmt.executeUpdate();
+				stmt.close();
 
 			} catch (final Exception e) {
 				e.printStackTrace();
@@ -4402,11 +4438,11 @@ public final class ClassManagerDB {
 				rs = existsStatement.executeQuery();
 				rs.next();
 				exists = rs.getBoolean(1);
+				existsStatement.close();
 			} catch (final Exception e) {
 				e.printStackTrace();
 			} finally {
 				try {
-					rs.close();
 					if (conn != null) {
 						conn.close();
 					}
@@ -4462,7 +4498,7 @@ public final class ClassManagerDB {
 					logger.debug("[==DB==] Executing " + stmt);
 				}
 				stmt.executeUpdate();
-
+				stmt.close();
 			} catch (final Exception e) {
 				e.printStackTrace();
 			} finally {
@@ -4510,6 +4546,7 @@ public final class ClassManagerDB {
 					logger.debug("[==DB==] Executing " + stmt);
 				}
 				stmt.executeUpdate();
+				stmt.close();
 
 			} catch (final Exception e) {
 				e.printStackTrace();
@@ -4548,6 +4585,7 @@ public final class ClassManagerDB {
 					logger.debug("[==DB==] Executing " + stmt);
 				}
 				stmt.executeUpdate();
+				stmt.close();
 
 			} catch (final Exception e) {
 				e.printStackTrace();
@@ -4585,6 +4623,7 @@ public final class ClassManagerDB {
 					logger.debug("[==DB==] Executing " + stmt);
 				}
 				stmt.executeUpdate();
+				stmt.close();
 
 			} catch (final Exception e) {
 				e.printStackTrace();
@@ -4622,6 +4661,7 @@ public final class ClassManagerDB {
 					logger.debug("[==DB==] Executing " + stmt);
 				}
 				stmt.executeUpdate();
+				stmt.close();
 
 			} catch (final Exception e) {
 				e.printStackTrace();
@@ -4666,6 +4706,7 @@ public final class ClassManagerDB {
 					logger.debug("[==DB==] Executing " + stmt);
 				}
 				stmt.executeUpdate();
+				stmt.close();
 
 			} catch (final Exception e) {
 				e.printStackTrace();
@@ -4729,11 +4770,11 @@ public final class ClassManagerDB {
 				rs = existsStatement.executeQuery();
 				rs.next();
 				exists = rs.getBoolean(1);
+				existsStatement.close();
 			} catch (final Exception e) {
 				e.printStackTrace();
 			} finally {
 				try {
-					rs.close();
 					if (conn != null) {
 						conn.close();
 					}
@@ -4768,11 +4809,11 @@ public final class ClassManagerDB {
 				rs = existsStatement.executeQuery();
 				rs.next();
 				exists = rs.getBoolean(1);
+				existsStatement.close();
 			} catch (final Exception e) {
 				e.printStackTrace();
 			} finally {
 				try {
-					rs.close();
 					if (conn != null) {
 						conn.close();
 					}
@@ -4812,13 +4853,11 @@ public final class ClassManagerDB {
 				if (rs.next()) {
 					result = deserializeMetaClass(rs);
 				}
+				selectStatement.close();
 			} catch (final SQLException e) {
 				e.printStackTrace();
 			} finally {
 				try {
-					if (rs != null) {
-						rs.close();
-					}
 					if (conn != null) {
 						conn.close();
 					}
@@ -4858,13 +4897,11 @@ public final class ClassManagerDB {
 				if (rs.next()) {
 					result = deserializeMetaClass(rs);
 				}
+				selectStatement.close();
 			} catch (final SQLException e) {
 				e.printStackTrace();
 			} finally {
 				try {
-					if (rs != null) {
-						rs.close();
-					}
 					if (conn != null) {
 						conn.close();
 					}
@@ -4908,13 +4945,11 @@ public final class ClassManagerDB {
 				if (rs.next()) {
 					result = deserializeProperty(rs);
 				}
+				selectStatement.close();
 			} catch (final SQLException e) {
 				e.printStackTrace();
 			} finally {
 				try {
-					if (rs != null) {
-						rs.close();
-					}
 					if (conn != null) {
 						conn.close();
 					}
@@ -4958,13 +4993,11 @@ public final class ClassManagerDB {
 				if (rs.next()) {
 					result = deserializeOperation(rs);
 				}
+				selectStatement.close();
 			} catch (final SQLException e) {
 				e.printStackTrace();
 			} finally {
 				try {
-					if (rs != null) {
-						rs.close();
-					}
 					if (conn != null) {
 						conn.close();
 					}
@@ -5004,13 +5037,11 @@ public final class ClassManagerDB {
 				while (rs.next()) {
 					result.add(deserializeProperty(rs));
 				}
+				selectStatement.close();
 			} catch (final SQLException e) {
 				e.printStackTrace();
 			} finally {
 				try {
-					if (rs != null) {
-						rs.close();
-					}
 					if (conn != null) {
 						conn.close();
 					}
@@ -5050,13 +5081,11 @@ public final class ClassManagerDB {
 				while (rs.next()) {
 					result.add(deserializeOperation(rs));
 				}
+				selectStatement.close();
 			} catch (final SQLException e) {
 				e.printStackTrace();
 			} finally {
 				try {
-					if (rs != null) {
-						rs.close();
-					}
 					if (conn != null) {
 						conn.close();
 					}
@@ -5093,13 +5122,11 @@ public final class ClassManagerDB {
 				while (rs.next()) {
 					result.add(deserializeMetaClass(rs));
 				}
+				selectStatement.close();
 			} catch (final SQLException e) {
 				e.printStackTrace();
 			} finally {
 				try {
-					if (rs != null) {
-						rs.close();
-					}
 					if (conn != null) {
 						conn.close();
 					}
@@ -5130,13 +5157,12 @@ public final class ClassManagerDB {
 				if (rs.next()) {
 					result = new MetaClassID((UUID) rs.getObject("id"));
 				}
+				selectStatement.close();
+
 			} catch (final SQLException e) {
 				e.printStackTrace();
 			} finally {
 				try {
-					if (rs != null) {
-						rs.close();
-					}
 					if (conn != null) {
 						conn.close();
 					}

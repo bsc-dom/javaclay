@@ -21,13 +21,13 @@ public class LogicModuleFactory {
 	 * @return The new LogicModule instance
 	 * @throws InterruptedException When the actual LogicModule subtype instantiation fails
 	 */
-	public static LogicModule<?> initLogicModule(final String name, final String hostName, 
+	public static LogicModule initLogicModule(final String name, final String hostName,
 			final int port, final boolean inMemory, 
 			final String theexposedIPForClient) throws InterruptedException {
 		final DBHandlerType type = (DBHandlerType)Configuration.Flags.DB_HANDLER_TYPE_FOR_LOGICMODULE.getValue();
 		switch(type) {
 		case SQLITE:
-			return new SQLiteLogicModule(name, hostName, port, true, theexposedIPForClient);
+			return new LogicModule(name, hostName, port, inMemory, theexposedIPForClient);
 		default:
 			throw new IllegalArgumentException("LogicModule type " + type + " not supported");
 		}

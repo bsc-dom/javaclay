@@ -16,6 +16,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.UUID;
 
+import org.apache.commons.codec.DecoderException;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -60,9 +61,7 @@ public final class SessionManagerDB {
 
 	/**
 	 * Constructor.
-	 * 
-	 * @param managerName
-	 *            Name of the LM service managing.
+	 *
 	 */
 	public SessionManagerDB(final SQLiteDataSource dataSource) {
 		this.dataSource = dataSource;
@@ -84,6 +83,7 @@ public final class SessionManagerDB {
 					if (stmt.name().startsWith("CREATE_TABLE")) {
 						final PreparedStatement updateStatement = conn.prepareStatement(stmt.getSqlStatement());
 						updateStatement.execute();
+						updateStatement.close();
 					}
 				}
 			} catch (final SQLException e) {
@@ -113,6 +113,7 @@ public final class SessionManagerDB {
 					if (stmt.name().startsWith("DROP_TABLE")) {
 						final PreparedStatement updateStatement = conn.prepareStatement(stmt.getSqlStatement());
 						updateStatement.execute();
+						updateStatement.close();
 					}
 				}
 			} catch (final SQLException e) {
@@ -194,7 +195,7 @@ public final class SessionManagerDB {
 				logger.debug("[==DB==] Executing " + insertStatement);
 			}
 			insertStatement.executeUpdate();
-
+			insertStatement.close();
 		} catch (final Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -242,6 +243,7 @@ public final class SessionManagerDB {
 				logger.debug("[==DB==] Executing " + insertStatement);
 			}
 			insertStatement.executeUpdate();
+			insertStatement.close();
 
 		} catch (final Exception e) {
 			e.printStackTrace();
@@ -279,6 +281,7 @@ public final class SessionManagerDB {
 				logger.debug("[==DB==] Executing " + insertStatement);
 			}
 			insertStatement.executeUpdate();
+			insertStatement.close();
 
 		} catch (final Exception e) {
 			e.printStackTrace();
@@ -318,6 +321,7 @@ public final class SessionManagerDB {
 				logger.debug("[==DB==] Executing " + insertStatement);
 			}
 			insertStatement.executeUpdate();
+			insertStatement.close();
 
 		} catch (final Exception e) {
 			e.printStackTrace();
@@ -370,6 +374,7 @@ public final class SessionManagerDB {
 				logger.debug("[==DB==] Executing " + insertStatement);
 			}
 			insertStatement.executeUpdate();
+			insertStatement.close();
 
 		} catch (final Exception e) {
 			e.printStackTrace();
@@ -409,6 +414,7 @@ public final class SessionManagerDB {
 				logger.debug("[==DB==] Executing " + insertStatement);
 			}
 			insertStatement.executeUpdate();
+			insertStatement.close();
 
 		} catch (final Exception e) {
 			e.printStackTrace();
@@ -465,6 +471,9 @@ public final class SessionManagerDB {
 				i++;
 			}
 
+
+			//FIXME: ifaceBitmapsValues cannot be stored in sqlite db
+			/**
 			final UUID[] ifaceBitmapsKeys = new UUID[infoSession.getIfaceBitmaps().size()];
 			final String[] ifaceBitmapsValues = new String[infoSession.getIfaceBitmaps().size()];
 			i = 0;
@@ -472,7 +481,7 @@ public final class SessionManagerDB {
 				ifaceBitmapsKeys[i] = entry.getKey().getId();
 				ifaceBitmapsValues[i] = Utils.bytesToHex(entry.getValue());
 				i++;
-			}
+			}**/
 
 			Connection conn = null;
 			try {
@@ -498,11 +507,10 @@ public final class SessionManagerDB {
 				insertStatement.setObject(9, infoSession.getDataContractIDofStore().getId());
 				insertStatement.setString(10, infoSession.getLanguage().name());
 
-				tArray = insertStatement.getConnection().createArrayOf("uuid", ifaceBitmapsKeys);
-				insertStatement.setArray(11, tArray);
-
-				tArray = insertStatement.getConnection().createArrayOf("varchar", ifaceBitmapsValues);
-				insertStatement.setArray(12, tArray);
+				//tArray = insertStatement.getConnection().createArrayOf("uuid", ifaceBitmapsKeys);
+				//insertStatement.setArray(11, tArray);
+				//tArray = insertStatement.getConnection().createArrayOf("varchar", ifaceBitmapsValues);
+				//insertStatement.setArray(12, tArray);
 
 				insertStatement.setDate(13, new java.sql.Date(infoSession.getEndDate().getTimeInMillis()));
 
@@ -511,6 +519,7 @@ public final class SessionManagerDB {
 					logger.debug("[==DB==] Executing " + insertStatement);
 				}
 				insertStatement.executeUpdate();
+				insertStatement.close();
 
 			} catch (final Exception e) {
 				e.printStackTrace();
@@ -765,6 +774,8 @@ public final class SessionManagerDB {
 				sessionDataContracts.put(datacontractID, sessionDataContract);
 			}
 
+			//FIXME: ifaceBitMaps cannot be stored in DB
+			/**
 			final Map<MetaClassID, byte[]> ifaceBitmaps = new HashMap<>();
 			final UUID[] ifaceBitmapsKeys = (UUID[]) rs.getArray("ifaceBitmapsKeys").getArray();
 			final String[] subRs = (String[]) rs.getArray("ifaceBitmapsValues").getArray();
@@ -772,7 +783,7 @@ public final class SessionManagerDB {
 				final MetaClassID classID = new MetaClassID(ifaceBitmapsKeys[i]);
 				final byte[] values = Utils.hexStringToByteArray(subRs[i]);
 				ifaceBitmaps.put(classID, values);
-			}
+			}**/
 
 			final DataContractID dataContractIDforStore = new DataContractID((UUID)rs.getObject("dataContractIDforStore"));
 			final Langs language = Langs.valueOf(rs.getString("language"));
@@ -783,7 +794,7 @@ public final class SessionManagerDB {
 			Session.setAccountID(accountID);
 			Session.setDataContractIDofStore(dataContractIDforStore);
 			Session.setEndDate(endDate);
-			Session.setIfaceBitmaps(ifaceBitmaps);
+			//Session.setIfaceBitmaps(ifaceBitmaps);
 			Session.setLanguage(language);
 			Session.setPropertiesOfClasses(propertiesOfClasses);
 			Session.setSessionContracts(sessionContracts);
@@ -820,14 +831,12 @@ public final class SessionManagerDB {
 			if (rs.next()) {
 				info = deserializeSessionProperty(rs);
 			}
+			selectStatement.close();
 
 		} catch (final SQLException e) {
 			throw e;
 		} finally {
 			try {
-				if (rs != null) {
-					rs.close();
-				}
 				if (conn != null) {
 					conn.close();
 				}
@@ -863,14 +872,12 @@ public final class SessionManagerDB {
 			if (rs.next()) {
 				info = deserializeSessionImplementation(rs);
 			}
+			selectStatement.close();
 
 		} catch (final SQLException e) {
 			throw e;
 		} finally {
 			try {
-				if (rs != null) {
-					rs.close();
-				}
 				if (conn != null) {
 					conn.close();
 				}
@@ -906,14 +913,12 @@ public final class SessionManagerDB {
 			if (rs.next()) {
 				info = deserializeSessionOperation(rs);
 			}
+			selectStatement.close();
 
 		} catch (final SQLException e) {
 			throw e;
 		} finally {
 			try {
-				if (rs != null) {
-					rs.close();
-				}
 				if (conn != null) {
 					conn.close();
 				}
@@ -949,14 +954,12 @@ public final class SessionManagerDB {
 			if (rs.next()) {
 				info = deserializeSessionInterface(rs);
 			}
+			selectStatement.close();
 
 		} catch (final SQLException e) {
 			throw e;
 		} finally {
 			try {
-				if (rs != null) {
-					rs.close();
-				}
 				if (conn != null) {
 					conn.close();
 				}
@@ -992,14 +995,12 @@ public final class SessionManagerDB {
 			if (rs.next()) {
 				info = deserializeSessionContract(rs);
 			}
+			selectStatement.close();
 
 		} catch (final SQLException e) {
 			throw e;
 		} finally {
 			try {
-				if (rs != null) {
-					rs.close();
-				}
 				if (conn != null) {
 					conn.close();
 				}
@@ -1035,14 +1036,12 @@ public final class SessionManagerDB {
 			if (rs.next()) {
 				info = deserializeSessionDataContract(rs);
 			}
+			selectStatement.close();
 
 		} catch (final SQLException e) {
 			throw e;
 		} finally {
 			try {
-				if (rs != null) {
-					rs.close();
-				}
 				if (conn != null) {
 					conn.close();
 				}
@@ -1078,14 +1077,12 @@ public final class SessionManagerDB {
 				if (rs.next()) {
 					info = deserializeSession(rs);
 				}
+				selectStatement.close();
 
 			} catch (final SQLException e) {
 				return null;
 			} finally {
 				try {
-					if (rs != null) {
-						rs.close();
-					}
 					if (conn != null) {
 						conn.close();
 					}
@@ -1122,13 +1119,12 @@ public final class SessionManagerDB {
 				while (rs.next()) {
 					result.add(deserializeSession(rs));
 				}
+				selectStatement.close();
+
 			} catch (final SQLException e) {
 				e.printStackTrace();
 			} finally {
 				try {
-					if (rs != null) {
-						rs.close();
-					}
 					if (conn != null) {
 						conn.close();
 					}
@@ -1158,6 +1154,7 @@ public final class SessionManagerDB {
 				logger.debug("[==DB==] Executing " + stmt);
 			}
 			stmt.executeUpdate();
+			stmt.close();
 
 		} catch (final Exception e) {
 			e.printStackTrace();
@@ -1189,6 +1186,7 @@ public final class SessionManagerDB {
 				logger.debug("[==DB==] Executing " + stmt);
 			}
 			stmt.executeUpdate();
+			stmt.close();
 
 		} catch (final Exception e) {
 			e.printStackTrace();
@@ -1226,6 +1224,7 @@ public final class SessionManagerDB {
 				logger.debug("[==DB==] Executing " + stmt);
 			}
 			stmt.executeUpdate();
+			stmt.close();
 
 		} catch (final Exception e) {
 			e.printStackTrace();
@@ -1257,6 +1256,7 @@ public final class SessionManagerDB {
 				logger.debug("[==DB==] Executing " + stmt);
 			}
 			stmt.executeUpdate();
+			stmt.close();
 
 		} catch (final Exception e) {
 			e.printStackTrace();
@@ -1298,6 +1298,7 @@ public final class SessionManagerDB {
 				logger.debug("[==DB==] Executing " + stmt);
 			}
 			stmt.executeUpdate();
+			stmt.close();
 
 		} catch (final Exception e) {
 			e.printStackTrace();
@@ -1336,6 +1337,7 @@ public final class SessionManagerDB {
 				logger.debug("[==DB==] Executing " + stmt);
 			}
 			stmt.executeUpdate();
+			stmt.close();
 
 		} catch (final Exception e) {
 			e.printStackTrace();
@@ -1377,6 +1379,7 @@ public final class SessionManagerDB {
 					logger.debug("[==DB==] Executing " + stmt);
 				}
 				stmt.executeUpdate();
+				stmt.close();
 
 			} catch (final Exception e) {
 				e.printStackTrace();

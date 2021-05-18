@@ -11,7 +11,7 @@ import es.bsc.dataclay.exceptions.DataClayClassNotFoundException;
 import es.bsc.dataclay.util.Configuration;
 import es.bsc.dataclay.util.ids.MetaClassID;
 import es.bsc.dataclay.util.ids.ObjectID;
-import es.bsc.dataclay.util.structs.LruCache;
+import es.bsc.dataclay.util.structs.MemoryCache;
 import es.bsc.dataclay.util.structs.Tuple;
 
 /**
@@ -23,11 +23,10 @@ public final class DataClayClassLoaderSrv {
 	public static final ClassLockers LOCKERS = new ClassLockers();
 
 	/** Cache of classes. */
-	private static final LruCache<MetaClassID, Class<?>> CLASS_CACHE = new LruCache<>(Configuration.Flags.MAX_ENTRIES_DATASERVICE_CACHE.getIntValue());
+	private static final MemoryCache<MetaClassID, Class<?>> CLASS_CACHE = new MemoryCache<>();
 
 	/** Cache of class names and namespace names identified by its MetaClassID. */
-	private static final LruCache<MetaClassID, Tuple<String, String>> CLASSINFO_CACHE = new LruCache<>(
-			Configuration.Flags.MAX_ENTRIES_DATASERVICE_CACHE.getIntValue());
+	private static final MemoryCache<MetaClassID, Tuple<String, String>> CLASSINFO_CACHE = new MemoryCache<>();
 
 	/** Cache of class loaders . */
 	// CHECKSTYLE:OFF

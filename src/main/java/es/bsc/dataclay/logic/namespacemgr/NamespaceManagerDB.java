@@ -50,9 +50,7 @@ public final class NamespaceManagerDB {
 
 	/**
 	 * MetaDataServiceDB constructor.
-	 * 
-	 * @param managerName
-	 *            Name of the LM service managing.
+	 *
 	 */
 	public NamespaceManagerDB(final SQLiteDataSource dataSource) {
 		this.dataSource = dataSource;
@@ -74,6 +72,7 @@ public final class NamespaceManagerDB {
 					if (stmt.name().startsWith("CREATE_TABLE")) {
 						final PreparedStatement updateStatement = conn.prepareStatement(stmt.getSqlStatement());
 						updateStatement.execute();
+						updateStatement.close();
 					}
 				}
 			} catch (final SQLException e) {
@@ -103,6 +102,7 @@ public final class NamespaceManagerDB {
 					if (stmt.name().startsWith("DROP_TABLE")) {
 						final PreparedStatement updateStatement = conn.prepareStatement(stmt.getSqlStatement());
 						updateStatement.execute();
+						updateStatement.close();
 					}
 				}
 			} catch (final SQLException e) {
@@ -183,7 +183,7 @@ public final class NamespaceManagerDB {
 				logger.debug("[==DB==] Executing " + insertStatement);
 			}
 			insertStatement.executeUpdate();
-
+			insertStatement.close();
 		} catch (final Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -259,7 +259,7 @@ public final class NamespaceManagerDB {
 					logger.debug("[==DB==] Executing " + insertStatement);
 				}
 				insertStatement.executeUpdate();
-
+				insertStatement.close();
 			} catch (final Exception e) {
 				e.printStackTrace();
 			} finally {
@@ -402,13 +402,12 @@ public final class NamespaceManagerDB {
 			rs = selectStatement.executeQuery();
 			if (rs.next()) {
 				result = deserializeImportedInterface(rs);
-
 			}
+			selectStatement.close();
 		} catch (final SQLException e) {
 			throw e;
 		} finally {
 			try {
-				rs.close();
 				if (conn != null) {
 					conn.close();
 				}
@@ -447,14 +446,12 @@ public final class NamespaceManagerDB {
 					result = deserializeNamespace(rs);
 
 				}
+				selectStatement.close();
 			} catch (final SQLException e) {
 				// ignore
 
 			} finally {
 				try {
-					if (rs != null) {
-						rs.close();
-					}
 					if (conn != null) {
 						conn.close();
 					}
@@ -483,6 +480,7 @@ public final class NamespaceManagerDB {
 				logger.debug("[==DB==] Executing " + selectStatement);
 			}
 			selectStatement.executeUpdate();
+			selectStatement.close();
 
 		} catch (final SQLException e) {
 			// not found, ignore
@@ -521,6 +519,7 @@ public final class NamespaceManagerDB {
 					logger.debug("[==DB==] Executing " + selectStatement);
 				}
 				selectStatement.executeUpdate();
+				selectStatement.close();
 
 			} catch (final SQLException e) {
 				// not found, ignore
@@ -540,8 +539,6 @@ public final class NamespaceManagerDB {
 
 	/**
 	 * Get by name
-	 * @param name
-	 *            the name
 	 * @return The object
 	 * @throws SQLException
 	 *             if not found
@@ -563,13 +560,12 @@ public final class NamespaceManagerDB {
 				while (rs.next()) {
 					result.add(rs.getString(1));
 				}
+				selectStatement.close();
+
 			} catch (final SQLException e) {
 				// ignore
 			} finally {
 				try {
-					if (rs != null) {
-						rs.close();
-					}
 					if (conn != null) {
 						conn.close();
 					}
@@ -609,13 +605,12 @@ public final class NamespaceManagerDB {
 					result = deserializeNamespace(rs);
 
 				}
+				selectStatement.close();
+
 			} catch (final SQLException e) {
 				// ignore
 			} finally {
 				try {
-					if (rs != null) {
-						rs.close();
-					}
 					if (conn != null) {
 						conn.close();
 					}
@@ -658,13 +653,12 @@ public final class NamespaceManagerDB {
 					result = deserializeNamespace(rs);
 
 				}
+				selectStatement.close();
+
 			} catch (final SQLException e) {
 				// ignore
 			} finally {
 				try {
-					if (rs != null) {
-						rs.close();
-					}
 					if (conn != null) {
 						conn.close();
 					}
@@ -701,6 +695,7 @@ public final class NamespaceManagerDB {
 					logger.debug("[==DB==] Executing " + stmt);
 				}
 				stmt.executeUpdate();
+				stmt.close();
 
 			} catch (final SQLException e) {
 				// not found, ignore
@@ -746,6 +741,7 @@ public final class NamespaceManagerDB {
 					logger.debug("[==DB==] Executing " + stmt);
 				}
 				stmt.executeUpdate();
+				stmt.close();
 
 			} catch (final SQLException e) {
 				// not found, ignore
@@ -786,13 +782,12 @@ public final class NamespaceManagerDB {
 				while (rs.next()) {
 					result.add(deserializeNamespace(rs));
 				}
+				selectStatement.close();
+
 			} catch (final SQLException e) {
 				e.printStackTrace();
 			} finally {
 				try {
-					if (rs != null) {
-						rs.close();
-					}
 					if (conn != null) {
 						conn.close();
 					}
@@ -828,13 +823,12 @@ public final class NamespaceManagerDB {
 				while (rs.next()) {
 					result.add(deserializeNamespace(rs));
 				}
+				selectStatement.close();
+
 			} catch (final SQLException e) {
 				e.printStackTrace();
 			} finally {
 				try {
-					if (rs != null) {
-						rs.close();
-					}
 					if (conn != null) {
 						conn.close();
 					}
@@ -876,6 +870,7 @@ public final class NamespaceManagerDB {
 					logger.debug("[==DB==] Executing " + stmt);
 				}
 				stmt.executeUpdate();
+				stmt.close();
 
 			} catch (final SQLException e) {
 				// not found, ignore
@@ -922,6 +917,7 @@ public final class NamespaceManagerDB {
 					logger.debug("[==DB==] Executing " + stmt);
 				}
 				stmt.executeUpdate();
+				stmt.close();
 
 			} catch (final SQLException e) {
 				// not found, ignore
@@ -967,6 +963,7 @@ public final class NamespaceManagerDB {
 					logger.debug("[==DB==] Executing " + stmt);
 				}
 				stmt.executeUpdate();
+				stmt.close();
 
 			} catch (final SQLException e) {
 				// not found, ignore
@@ -1013,6 +1010,7 @@ public final class NamespaceManagerDB {
 					logger.debug("[==DB==] Executing " + stmt);
 				}
 				stmt.executeUpdate();
+				stmt.close();
 
 			} catch (final SQLException e) {
 				// not found, ignore
@@ -1058,6 +1056,7 @@ public final class NamespaceManagerDB {
 					logger.debug("[==DB==] Executing " + stmt);
 				}
 				stmt.executeUpdate();
+				stmt.close();
 
 			} catch (final SQLException e) {
 				// not found, ignore
@@ -1104,6 +1103,7 @@ public final class NamespaceManagerDB {
 					logger.debug("[==DB==] Executing " + stmt);
 				}
 				stmt.executeUpdate();
+				stmt.close();
 
 			} catch (final SQLException e) {
 				// not found, ignore
@@ -1149,6 +1149,7 @@ public final class NamespaceManagerDB {
 					logger.debug("[==DB==] Executing " + stmt);
 				}
 				stmt.executeUpdate();
+				stmt.close();
 
 			} catch (final SQLException e) {
 				// not found, ignore
@@ -1195,6 +1196,7 @@ public final class NamespaceManagerDB {
 					logger.debug("[==DB==] Executing " + stmt);
 				}
 				stmt.executeUpdate();
+				stmt.close();
 
 			} catch (final SQLException e) {
 				// not found, ignore

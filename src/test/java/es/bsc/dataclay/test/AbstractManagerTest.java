@@ -28,7 +28,7 @@ public class AbstractManagerTest {
 	private SQLHandler<?> initDBHandler() {
 		switch (dbHandlerType) {
 		case SQLITE:
-			return (SQLHandler<?>) new SQLiteHandlerConfig("test", false).getDBHandler();
+			return (SQLHandler<?>) new SQLiteHandlerConfig(Flags.STORAGE_METADATA_PATH.getStringValue(), "test", false).getDBHandler();
 		default:
 			throw new IllegalArgumentException(dbHandlerType + " not yet supported");
 		}

@@ -85,7 +85,6 @@ import es.bsc.dataclay.util.management.metadataservice.StorageLocation;
 import es.bsc.dataclay.util.management.stubs.ImplementationStubInfo;
 import es.bsc.dataclay.util.management.stubs.StubInfo;
 import es.bsc.dataclay.util.reflection.Reflector;
-import es.bsc.dataclay.util.structs.LruCache;
 import es.bsc.dataclay.util.structs.Tuple;
 import io.grpc.StatusRuntimeException;
 
@@ -192,7 +191,7 @@ public final class DataService implements DataServiceAPI {
      */
     private void initEEInfo() {
         try {
-            final FileInputStream fis = new FileInputStream(Configuration.Flags.STORAGE_PATH.getStringValue()
+            final FileInputStream fis = new FileInputStream(Configuration.Flags.STORAGE_METADATA_PATH.getStringValue()
                     + File.separatorChar + "java_ds_" + this.dsName + ".info");
             final ObjectInputStream ois = new ObjectInputStream(fis);
             final ExecutionEnvironmentPersistentInfo persInfo = (ExecutionEnvironmentPersistentInfo) ois.readObject();
@@ -219,7 +218,7 @@ public final class DataService implements DataServiceAPI {
      */
     public void persistEEInfo() {
         try {
-            final FileOutputStream fos = new FileOutputStream(Configuration.Flags.STORAGE_PATH.getStringValue()
+            final FileOutputStream fos = new FileOutputStream(Configuration.Flags.STORAGE_METADATA_PATH.getStringValue()
                     + File.separatorChar + "java_ds_" + this.dsName + ".info");
             final ObjectOutputStream oos = new ObjectOutputStream(fos);
             final ExecutionEnvironmentPersistentInfo eeInfo = new ExecutionEnvironmentPersistentInfo(
@@ -805,6 +804,8 @@ public final class DataService implements DataServiceAPI {
                 }
 
             }
+        } catch (final DbObjectNotExistException ex) {
+            // ignore
         } catch (final Exception ex) {
             LOGGER.debug("Notify unfederate got exception", ex);
             throw ex;

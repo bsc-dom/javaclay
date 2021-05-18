@@ -7,7 +7,7 @@ import es.bsc.dataclay.DataClayObject;
 import es.bsc.dataclay.util.Configuration;
 import es.bsc.dataclay.util.ids.MetaClassID;
 import es.bsc.dataclay.util.ids.ObjectID;
-import es.bsc.dataclay.util.structs.LruCache;
+import es.bsc.dataclay.util.structs.MemoryCache;
 
 /**
  * This class contains a set of loaded classes identified by its MetaClassID. Used in deserialization.
@@ -15,7 +15,7 @@ import es.bsc.dataclay.util.structs.LruCache;
 public class DataClayClassLoader {
 
 	/** Cache of class names identified by its MetaClassID. */
-	public static final LruCache<MetaClassID, String> CLASSNAMES_CACHE = new LruCache<>(Configuration.Flags.MAX_ENTRIES_DATASERVICE_CACHE.getIntValue());
+	public static final MemoryCache<MetaClassID, String> CLASSNAMES_CACHE = new MemoryCache<>();
 
 	/** Map of lockers for classes. */
 	private static final ClassLockers LOCKERS = new ClassLockers();

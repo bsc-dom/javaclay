@@ -10,6 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ScheduledExecutorService;
 
 import es.bsc.dataclay.util.management.metadataservice.*;
+import es.bsc.dataclay.util.structs.MemoryCache;
 import es.bsc.dataclay.util.structs.Tuple;
 import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
@@ -54,7 +55,7 @@ import es.bsc.dataclay.util.management.classmgr.Type;
 import es.bsc.dataclay.util.management.classmgr.UserType;
 import es.bsc.dataclay.util.management.stubs.ImplementationStubInfo;
 import es.bsc.dataclay.util.management.stubs.StubInfo;
-import es.bsc.dataclay.util.structs.LruCache;
+import es.bsc.dataclay.util.structs.MemoryCache;
 import es.bsc.dataclay.util.structs.Triple;
 import io.grpc.StatusRuntimeException;
 import org.apache.logging.log4j.core.LifeCycle;
@@ -96,16 +97,16 @@ public abstract class DataClayRuntime {
 	private Map<ExecutionEnvironmentID, ExecutionEnvironment> execEnvsCache = new ConcurrentHashMap<>();
 
 	/** Cache of metaData. */
-	public LruCache<ObjectID, MetaDataInfo> metaDataCache = new LruCache<>(Configuration.Flags.MAX_ENTRIES_DATASERVICE_CACHE.getIntValue());
+	public MemoryCache<ObjectID, MetaDataInfo> metaDataCache = new MemoryCache<>();
 	
 	/** Cache of alias -> oid. */
-	protected LruCache<String, Triple<ObjectID, MetaClassID, BackendID>> aliasCache;
+	protected MemoryCache<String, Triple<ObjectID, MetaClassID, BackendID>> aliasCache;
 
 	/** DataClay object loader. */
 	public DataClayObjectLoader dataClayObjLoader;
 
 	/** Under deserialization volatiles per thread. */
-	public final Map<Long, Map<Integer, ObjectWithDataParamOrReturn>> underDeserializationVolatiles = new ConcurrentHashMap<>();
+	public final Map<ObjectID, ObjectWithDataParamOrReturn> underDeserializationVolatiles = new ConcurrentHashMap<>();
 
 
 	/** Pool for tasks. Initialized in sub-classes. */
@@ -129,7 +130,7 @@ public abstract class DataClayRuntime {
 	 * Constructor.
 	 */
 	protected DataClayRuntime() {
-		this.aliasCache = new LruCache<>(Configuration.Flags.MAX_ENTRIES_CLIENT_CACHE.getIntValue());
+		this.aliasCache = new MemoryCache<>();
 	}
 
 	/**
@@ -632,18 +633,25 @@ public abstract class DataClayRuntime {
 	 * All volatiles provided are under deserialization. This function solves problems of 'hashcode' and other special functions
 	 * needed during deserializations. See executeImpl.
 	 * 
-	 * @param volatileMap
+	 * @param volatileSet
 	 *            Volatiles under deserialization.
 	 */
-	public void addVolatileUnderDeserialization(final Map<Integer, ObjectWithDataParamOrReturn> volatileMap) {
-		underDeserializationVolatiles.put(Thread.currentThread().getId(), volatileMap);
+	public void addVolatileUnderDeserialization(final Collection<ObjectWithDataParamOrReturn> volatileSet) {
+		for (ObjectWithDataParamOrReturn vol : volatileSet) {
+			underDeserializationVolatiles.put(vol.getObjectID(), vol);
+		}
 	}
 
 	/**
 	 * Remove volatiles under deserialization.
+	 * @param volatileSet
+	 *            Volatiles under deserialization.
 	 */
-	public void removeVolatilesUnderDeserialization() {
-		underDeserializationVolatiles.remove(Thread.currentThread().getId());
+	public void removeVolatilesUnderDeserialization(final Collection<ObjectWithDataParamOrReturn> volatileSet) {
+		for (ObjectWithDataParamOrReturn vol : volatileSet) {
+			underDeserializationVolatiles.remove(vol.getObjectID());
+		}
+
 	}
 
 	/**
@@ -997,9 +1005,20 @@ public abstract class DataClayRuntime {
 		ExecutionEnvironment destBackend = destInfo.getSecond();
 		Set<ObjectID> replicatedObjects = dsAPI.newReplica(sessionID, objectID, destBackend.getDataClayID(), recursive);
 		for (ObjectID replicatedObjectID : replicatedObjects) {
-			// update metadata of the object in cache
+			// update metadata of the object in cache (if present!)
 			MetaDataInfo mdInfo = getObjectMetadata(replicatedObjectID);
-			mdInfo.getLocations().add(destBackend.getDataClayID());
+			if (mdInfo != null) {
+				mdInfo.getLocations().add(destBackend.getDataClayID());
+			}
+
+			// Add replica location
+			DataClayObject dcObj = this.getFromHeap(objectID);
+			dcObj.addReplicaLocations(destBackend.getDataClayID());
+			if (dcObj.getOriginLocation() == null) {
+				// ONLY AT CLIENT SIDE: if it has origin location then keep that origin location
+				// at client side there cannot be two replicas of same oid
+				dcObj.setOriginLocation((ExecutionEnvironmentID) objectHint);
+			}
 		}
 		return destBackend.getDataClayID();
 	}
@@ -1161,9 +1180,22 @@ public abstract class DataClayRuntime {
 	public final Set<BackendID> getAllLocations(final ObjectID objectID) {
 		checkConnectionAndParams(new String[] { "ObjectID" }, new Object[] { objectID });
 		LOGGER.debug("Getting all locations of object " + objectID);
+		// First get object locations
+		Set<BackendID> locations = new HashSet<>();
+		DataClayObject dcObject = this.getFromHeap(objectID);
+		if (dcObject != null) {
+			Set<ExecutionEnvironmentID> replicaLocs = dcObject.getReplicaLocations();
+			if (replicaLocs != null) {
+				LOGGER.debug("Found replica locations:" + replicaLocs);
+				locations.addAll(replicaLocs);
+			}
+			if (dcObject.getOriginLocation() != null) {
+				LOGGER.debug("Found origin location:" + dcObject.getOriginLocation());
+				locations.add(dcObject.getOriginLocation());
+			}
+		}
 		final MetaDataInfo metadata = getObjectMetadata(objectID);
 		if (metadata != null) {
-			final Set<BackendID> locations = new HashSet<>();
 			locations.addAll(metadata.getLocations());
 			LOGGER.debug("Found metadata in cache, adding: " + metadata.getLocations());
 			// Get Hint
@@ -1179,7 +1211,6 @@ public abstract class DataClayRuntime {
 			return locations;
 		} else {
 			// Get Hint
-			final Set<BackendID> locations = new HashSet<>();
 			final DataClayObject obj = this.getFromHeap(objectID);
 			if (obj != null) {
 				final BackendID locationID = obj.getHint();
@@ -1231,7 +1262,12 @@ public abstract class DataClayRuntime {
 			final Map<MetaClassID, byte[]> ifaceBitMaps, final ImplementationID implID, final Object[] params,
 			final boolean forUpdate, final BackendID hintVolatiles) {
 		if (DEBUG_ENABLED) {
-			LOGGER.debug("[==Serialization==] Serializing parameters");
+			String paramTypes = "";
+			for (Object param : params) {
+				paramTypes = paramTypes + param.getClass().getName() + ", ";
+			}
+			LOGGER.debug("[==Serialization==] Serializing parameters: " + paramTypes);
+
 		}
 
 		// Wrap parameters
@@ -1495,16 +1531,23 @@ public abstract class DataClayRuntime {
 					// in its cache and must remove it and seek for new one.
 					LOGGER.debug("Execution failed in location " + execLocationID);
 					// PREFER NOT TRIED LOCATION (In case Backend failed and we have replicas)
-					final MetaDataInfo metadata = getObjectMetadata(dcObject.getObjectID());
-					if (metadata == null) {
-						// no metadata available, throw exception
-						// NOTE: if it is a volatile and hint failed, it means that object is actually
-						// not registered
-						throw new ObjectNotRegisteredException(dcObject.getObjectID());
+
+					Set<ExecutionEnvironmentID> locations = dcObject.getReplicaLocations();
+					if (locations == null || locations.isEmpty()) {
+						final MetaDataInfo metadata = getObjectMetadata(dcObject.getObjectID());
+						if (metadata == null) {
+
+							// no metadata available, throw exception
+							// NOTE: if it is a volatile and hint failed, it means that object is actually
+							// not registered
+							throw new ObjectNotRegisteredException(dcObject.getObjectID());
+						} else {
+							locations = metadata.getLocations();
+						}
 					}
 
 					boolean foundDifferentLocation = false;
-					for (final ExecutionEnvironmentID curLoc : metadata.getLocations()) {
+					for (final ExecutionEnvironmentID curLoc : locations) {
 						LOGGER.debug("Found location " + curLoc);
 						if (!curLoc.equals(execLocationID)) {
 							execLocationID = curLoc;
@@ -1515,7 +1558,7 @@ public abstract class DataClayRuntime {
 					}
 					if (!foundDifferentLocation) {
 						LOGGER.debug("Using random location in retry: " + execLocationID);
-						execLocationID = metadata.getLocations().iterator().next();
+						execLocationID = locations.iterator().next();
 					}
 					if (usingHint) {
 						if (DEBUG_ENABLED) {

@@ -15,7 +15,10 @@ import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
 import es.bsc.dataclay.api.BackendID;
+import es.bsc.dataclay.dbhandler.sql.sqlite.SQLiteHandlerConfig;
 import es.bsc.dataclay.exceptions.metadataservice.*;
+import es.bsc.dataclay.logic.logicmetadata.LogicModuleMetadataMgr;
+import es.bsc.dataclay.logic.server.LogicModuleSrv;
 import es.bsc.dataclay.util.management.metadataservice.*;
 import io.grpc.Status;
 import io.grpc.StatusRuntimeException;
@@ -134,9 +137,8 @@ import es.bsc.dataclay.util.yaml.CommonYAML;
 
 /**
  * This class represents the entry point to the system.
- * @param <T> Could be LogicModule using Postgres or SQLite
  */
-public abstract class LogicModule<T extends DBHandlerConf> implements LogicModuleAPI {
+public class LogicModule implements LogicModuleAPI {
 
     /** Logger. */
     protected static final Logger LOGGER = LogManager.getLogger("LogicModule");
@@ -194,8 +196,8 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
     private final DataContractManager datacontractMgrApi;
     /** NotificationManager. */
     private NotificationManager notificationMgrApi;
-    /** LogicModule IDs DB. */
-    private final LogicMetadataDB logicMetaDataDB;
+    /** LogicModule metadata mgr. */
+    private LogicModuleMetadataMgr logicMetadataMgr;
     /**
      * LM public IDs (admin, contract, datasets...) This field contains all IDs that
      * must be the same even if we restart LM or for backups.
@@ -223,11 +225,14 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
     /** Indicates if it is being shut down. */
     private boolean shuttingDown = false;
 
-    /** LogicModule read conf. */
-    protected final T dbConf;
+    /** Indicates Logicmodule database is in memory. */
+    private boolean inMemory = false;
 
-    /** Logic Module database handler. */
-    protected final SQLHandler<T> logicModuleHandler;
+    /** SQL handler for management. */
+    private SQLHandler<SQLiteHandlerConfig> mgmHandler;
+
+    /** SQL handler for metadata. */
+    private SQLHandler<SQLiteHandlerConfig> metadataHandler;
 
     /** Name of the LM */
     protected String name;
@@ -247,6 +252,7 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
      *             If GRPC client cannot be initialized for some reason
      */
     public LogicModule(final String lmName, final String thehostname, final int theport,
+                       final boolean inMemory,
                        final String theexposedIPForClient) throws InterruptedException {
 
         // ==== Initialization note === //
@@ -260,12 +266,21 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
         // Otherwise, if there is no information about current LogicModule in the
         // database, we create
         // all needed ids (including DataClayInstanceID) and others.
+        this.inMemory = inMemory;
+
         this.name = lmName;
 
-		dbConf = initDBConf();
-		logicModuleHandler = initDBHandler();
+        SQLiteHandlerConfig mgmDbConf = new SQLiteHandlerConfig(Configuration.Flags.STORAGE_METADATA_PATH.getStringValue(), name + "_metadata", Configuration.Flags.SQLITE_IN_MEMORY.getBooleanValue());
+        mgmHandler = (SQLHandler) mgmDbConf.getDBHandler();
+        mgmHandler.open();
+
+        SQLiteHandlerConfig metadataDbConf = new SQLiteHandlerConfig(Configuration.Flags.STORAGE_PATH.getStringValue(), name, Configuration.Flags.SQLITE_IN_MEMORY.getBooleanValue());
+        metadataHandler = (SQLHandler) metadataDbConf.getDBHandler();
+        metadataHandler.open();
+
 		// TODO generalize when dbhandler will not be sql-based
-		final SQLiteDataSource dataSource = ((SQLHandler<?>) logicModuleHandler).getDataSource();
+		final SQLiteDataSource mgmDataSource = mgmHandler.getDataSource();
+        final SQLiteDataSource metadataDataSource = metadataHandler.getDataSource();
 
         hostname = thehostname;
         port = theport;
@@ -273,31 +288,32 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
             this.exposedIPForClient = theexposedIPForClient;
         }
         grpcClient = new CommonGrpcClient(lmName);
-        accountMgrApi = new AccountManager(dataSource);
-        sessionMgrApi = new SessionManager(dataSource);
-        namespaceMgrApi = new NamespaceManager(dataSource);
-        dataSetMgrApi = new DataSetManager(dataSource);
-        classMgrApi = new ClassManager(dataSource);
-        interfaceMgrApi = new InterfaceManager(dataSource);
-        contractMgrApi = new ContractManager(dataSource);
-        datacontractMgrApi = new DataContractManager(dataSource);
-        metaDataSrvApi = new MetaDataService(dataSource);
+        accountMgrApi = new AccountManager(mgmDataSource);
+        sessionMgrApi = new SessionManager(mgmDataSource);
+        namespaceMgrApi = new NamespaceManager(mgmDataSource);
+        dataSetMgrApi = new DataSetManager(mgmDataSource);
+        classMgrApi = new ClassManager(mgmDataSource);
+        interfaceMgrApi = new InterfaceManager(mgmDataSource);
+        contractMgrApi = new ContractManager(mgmDataSource);
+        datacontractMgrApi = new DataContractManager(mgmDataSource);
+        logicMetadataMgr = new LogicModuleMetadataMgr(mgmDataSource);
+        metaDataSrvApi = new MetaDataService(metadataDataSource);
         // Tricky initialization for the *ByLang table of tables
         for (final Langs lang : Langs.values()) {
             execEnvironments.put(lang, new HashMap<ExecutionEnvironmentID, Tuple<DataServiceAPI, ExecutionEnvironment>>());
         }
 
         if (Configuration.Flags.NOTIFICATION_MANAGER_ACTIVE.getBooleanValue()) {
-            notificationMgrApi = new NotificationManager(this, dataSource);
+            notificationMgrApi = new NotificationManager(this, mgmDataSource);
         }
 
-        logicMetaDataDB = new LogicMetadataDB(dataSource);
-        if (!logicMetaDataDB.existsMetaData()) {
+        if (!logicMetadataMgr.existsMetaData()) {
             this.prepareLogicModuleFirstTime(lmName, thehostname, theport);
         } else {
             // update registered nodes!
-            this.publicIDs = this.logicMetaDataDB.getLogicMetadata();
-            this.updateAPIsFromDB();
+            LOGGER.info("Found logic module database already present, initializing");
+            this.publicIDs = this.logicMetadataMgr.getLogicMetadata();
+            //this.updateAPIsFromDB();
         }
         LOGGER.info("Initialized Logic Module for dataClay with id {}", publicIDs.dcID);
         LOGGER.info("Initialized Logic Module with hostname {} and port {}", hostname, port);
@@ -392,7 +408,7 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
         }
 
         // Store LogicModule information once prepared
-        this.logicMetaDataDB.store(publicIDs);
+        this.logicMetadataMgr.registerLogicModule(publicIDs);
 
         final Set<DataSetID> dataSetIDs = new HashSet<>();
         dataSetIDs.add(dataset.getDataClayID());
@@ -401,18 +417,6 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
                 contracts, dataSetIDs, dataset.getDataClayID(), Langs.LANG_JAVA).getSessionID();
 
     }
-
-    /**
-     * Initialize database configuration.
-     * @return Database configuration
-     */
-    protected abstract T initDBConf();
-
-    /**
-     * Initializes DB handler.
-     * @return DB handler.
-     */
-    protected abstract SQLHandler<T> initDBHandler();
 
     /**
      * Method that registers a set of preinstalled dataClay class model, including a
@@ -614,7 +618,7 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
             }
         }
 
-        for (final StorageLocation stLoc : metaDataSrvApi.getAllStorageLocationsInfo().values()) {
+        for (final StorageLocation stLoc : logicMetadataMgr.getAllStorageLocationsInfo().values()) {
             try {
                 initRemoteTCPStorageLocation(stLoc.getDataClayID(),
                         stLoc.getName(), stLoc.getHostname(), stLoc.getStorageTCPPort());
@@ -693,6 +697,10 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
 
     @Override
     public void checkAlive() {
+        // Check database
+        if (!metadataHandler.databaseExists()) {
+            LogicModuleSrv.doExit(1);
+        }
         return;
     }
 
@@ -723,12 +731,12 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
         }
         // ========== REGISTER ========== //
         try {
-            metaDataSrvApi.registerStorageLocation(storageLoc);
+            logicMetadataMgr.registerStorageLocation(storageLoc);
             LOGGER.info("[LOGICMODULE] Registered StorageLocation named " + storageLoc + " as " + id.getId());
         } catch (final StorageLocationAlreadyExistsException e) {
-            metaDataSrvApi.updateStorageLocation(id, dsHostname, dsPort);
             LOGGER.info("[LOGICMODULE] Found already registered StorageLocation " + storageLoc + " as "
                     + id.getId());
+            logicMetadataMgr.updateStorageLocation(id, dsHostname, dsPort);
         }
 
 		// Activate storage location (execution environments cannot be activated before SL is ready)
@@ -739,7 +747,7 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
 	
 	@Override
 	public StorageLocationID getStorageLocationID(final String slName) {
-		final StorageLocationID slID = metaDataSrvApi.getStorageLocationID(slName);
+		final StorageLocationID slID = logicMetadataMgr.getStorageLocationID(slName);
 		if (!this.activeBackends.containsKey(slID)) {
 			// Still not active
             LOGGER.debug("==> Not active storage location with name " + slName + " and id " + slID);
@@ -770,8 +778,8 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
 		// check it was already registered or not
 		boolean newRegistration = false;
 		try {
-			metaDataSrvApi.getExecutionEnvironmentInfo(executionEnv.getDataClayID());
-			metaDataSrvApi.updateExecutionEnvironment(id, eeHostname, eePort);
+            logicMetadataMgr.getExecutionEnvironmentInfo(executionEnv.getDataClayID());
+            logicMetadataMgr.updateExecutionEnvironment(id, eeHostname, eePort);
 			LOGGER.info("[LOGICMODULE] Found already registered EE. Updated to " + executionEnv + " as "
 					+ id.getId());
 		} catch (ExecutionEnvironmentNotExistException e) {
@@ -813,7 +821,7 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
 					}
 				}
 
-				metaDataSrvApi.registerExecutionEnvironment(executionEnv);
+                logicMetadataMgr.registerExecutionEnvironment(executionEnv);
 				LOGGER.info("[LOGICMODULE] Registered ExecutionEnvironment " + executionEnv + " for language `"
 						+ language + "` as " + id.getId() + " associated to storage location " + slID);
 
@@ -833,13 +841,13 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
 
     @Override
     public void unregisterStorageLocation(final StorageLocationID stLocID) {
-        metaDataSrvApi.unregisterStorageLocation(stLocID);
+        logicMetadataMgr.unregisterStorageLocation(stLocID);
         //TODO: remove from any cache in LM
     }
 
     @Override
     public void unregisterExecutionEnvironment(final ExecutionEnvironmentID execEnvID) {
-        metaDataSrvApi.unregisterExecutionEnvironment(execEnvID);
+        logicMetadataMgr.unregisterExecutionEnvironment(execEnvID);
         //TODO: remove from any cache in LM
     }
 
@@ -847,7 +855,7 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
     public void notifyExecutionEnvironmentShutdown(final ExecutionEnvironmentID execEnvID) {
         // TODO: check if metadata service should be the one with information about active EEs and SLs
         LOGGER.info("Notified shutdown of execution environment " + execEnvID);
-        ExecutionEnvironment eeInfo = metaDataSrvApi.getExecutionEnvironmentInfo(execEnvID);
+        ExecutionEnvironment eeInfo = logicMetadataMgr.getExecutionEnvironmentInfo(execEnvID);
         StorageLocationID slID = this.getStorageLocationID(eeInfo.getName());
         this.activeBackends.get(slID).remove(execEnvID);
     }
@@ -860,6 +868,9 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
 
     @Override
     public boolean existsActiveEnvironmentsForSL(final StorageLocationID stLocID) {
+        if (this.activeBackends.isEmpty()) {
+            return false;
+        }
         int numEEs = this.activeBackends.get(stLocID).size();
         LOGGER.info("Found " + numEEs + " active execution environments for SL " + stLocID);
         return numEEs != 0;
@@ -3660,7 +3671,7 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
     @Override
     public Map<ExecutionEnvironmentID, ExecutionEnvironment> getAllExecutionEnvironmentsInfo(final Langs execEnvLang,
                                                                                              final boolean getExternal) {
-        final Map<ExecutionEnvironmentID, ExecutionEnvironment> execEnvs = metaDataSrvApi
+        final Map<ExecutionEnvironmentID, ExecutionEnvironment> execEnvs = this.logicMetadataMgr
                 .getAllExecutionEnvironmentsInfo(execEnvLang);
 
         if (exposedIPForClient != null) {
@@ -3670,7 +3681,7 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
             }
         }
         if (getExternal) {
-            for (DataClayInstanceID externalDataClayID : this.metaDataSrvApi.getAllExternalDataClays()) {
+            for (DataClayInstanceID externalDataClayID : this.logicMetadataMgr.getAllExternalDataClays()) {
 
                 // Get external logicmodule
                 LogicModuleAPI externalLogicModule = null;
@@ -3702,13 +3713,13 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
      * @return Storage location infos
      */
     private Map<StorageLocationID, StorageLocation> getAllStorageLocationsInfo() {
-        final Map<StorageLocationID, StorageLocation> stLocs = metaDataSrvApi.getAllStorageLocationsInfo();
+        final Map<StorageLocationID, StorageLocation> stLocs = logicMetadataMgr.getAllStorageLocationsInfo();
         return stLocs;
     }
 
     @Override
     public StorageLocation getStorageLocationInfo(final StorageLocationID backendID) {
-        StorageLocation stLoc = metaDataSrvApi.getStorageLocationInfo(backendID);
+        StorageLocation stLoc = logicMetadataMgr.getStorageLocationInfo(backendID);
         if (exposedIPForClient != null) {
             // All information send to client will use exposed IP configured
             stLoc.setHostname(exposedIPForClient);
@@ -3719,7 +3730,7 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
 
     @Override
     public ExecutionEnvironment getExecutionEnvironmentInfo(final ExecutionEnvironmentID backendID) {
-        ExecutionEnvironment execEnv = metaDataSrvApi.getExecutionEnvironmentInfo(backendID);
+        ExecutionEnvironment execEnv = logicMetadataMgr.getExecutionEnvironmentInfo(backendID);
         if (exposedIPForClient != null) {
             // All information send to client will use exposed IP configured
             execEnv.setHostname(exposedIPForClient);
@@ -3888,7 +3899,7 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
                 for (final String missedhost : missedhosts) {
                     final Integer missedport = missedports.get(i);
                     LOGGER.debug("Unregistering " + hosts.get(i) + ":" + ports.get(i) + " external dataClay");
-                    metaDataSrvApi.unregisterExternalDataClayAddress(missedhost, missedport);
+                    logicMetadataMgr.unregisterExternalDataClayAddress(missedhost, missedport);
                 }
             }
         }
@@ -3902,7 +3913,7 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
                 LOGGER.debug("Getting external dataClay ID at {}:{}", dcHost, dcPort);
             }
             // Get it from MDservice
-            return metaDataSrvApi.getExternalDataClayID(dcHost, dcPort);
+            return logicMetadataMgr.getExternalDataClayID(dcHost, dcPort);
         } catch (final Exception ex) {
             LOGGER.debug("External dataClay at {}:{} not found. Returning null.", dcHost, dcPort);
             return null;
@@ -3912,7 +3923,7 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
     @Override
     public DataClayInstance getExternalDataClayInfo(final DataClayInstanceID extDataClayID) {
         try {
-            final DataClayInstance dcInstance = metaDataSrvApi.getExternalDataClayInfo(extDataClayID);
+            final DataClayInstance dcInstance = logicMetadataMgr.getExternalDataClayInfo(extDataClayID);
             return dcInstance;
         } catch (final ExternalDataClayNotRegisteredException edn) {
             return null;
@@ -3957,7 +3968,7 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
             final DataClayInstanceID dcID = lmExternal.notifyRegistrationOfExternalDataClay(this.getDataClayID(),
                     myHostname, this.port);
             final DataClayInstance dcInstance = new DataClayInstance(dcID, thehostname, theport);
-            metaDataSrvApi.registerExternalDataclay(dcInstance);
+            logicMetadataMgr.registerExternalDataclay(dcInstance);
             if (DEBUG_ENABLED) {
                 LOGGER.debug("Registered external dataClay {}", dcInstance);
             }
@@ -3989,7 +4000,7 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
                                                                    final String thehostname, final int theport) {
         try {
             final DataClayInstance dcInstance = new DataClayInstance(dataClayInstanceID, thehostname, theport);
-            metaDataSrvApi.registerExternalDataclay(dcInstance);
+            logicMetadataMgr.registerExternalDataclay(dcInstance);
             if (DEBUG_ENABLED) {
                 LOGGER.debug("Notified registration of external dataClay {}", dcInstance);
             }
@@ -6087,12 +6098,4 @@ public abstract class LogicModule<T extends DBHandlerConf> implements LogicModul
         this.shuttingDown = theshuttingDown;
     }
 
-    /**
-     * For testing purposes.
-     *
-     * @return DBHandler of this LM.
-     */
-    public DBHandler getDbHandler() {
-        return logicModuleHandler;
-    }
 }

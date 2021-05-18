@@ -22,8 +22,7 @@ import es.bsc.dataclay.util.Configuration.Flags;
 
 /**
  * This class parses the environment variables and generates a DataService configuration.
- * 
- * @see CfgManager
+ *
  */
 public final class CfgDataServiceEnvLoader {
 
@@ -154,7 +153,7 @@ public final class CfgDataServiceEnvLoader {
 	private static DBHandlerConf parseConfiguration(final DBHandlerType dbHandlerType, final String name) {
 		switch(dbHandlerType) {
 		case SQLITE:
-			return new SQLiteHandlerConfig(name, Configuration.Flags.SQLITE_IN_MEMORY.getBooleanValue());
+			return new SQLiteHandlerConfig(Configuration.Flags.STORAGE_PATH.getStringValue(), name, Configuration.Flags.SQLITE_IN_MEMORY.getBooleanValue());
 		case NVRAM:
 			try {
 				final Class<?> nvramHandlerConfClass = Class.forName(NVRAM_HANDLER_CONF_CLASS_NAME);

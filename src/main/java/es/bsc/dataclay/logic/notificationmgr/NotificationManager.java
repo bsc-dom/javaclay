@@ -25,7 +25,7 @@ import es.bsc.dataclay.util.ids.ObjectID;
 import es.bsc.dataclay.util.ids.OperationID;
 import es.bsc.dataclay.util.ids.SessionID;
 import es.bsc.dataclay.util.management.metadataservice.MetaDataInfo;
-import es.bsc.dataclay.util.structs.LruCache;
+import es.bsc.dataclay.util.structs.MemoryCache;
 import es.bsc.dataclay.dbhandler.sql.sqlite.SQLiteDataSource;
 
 /**
@@ -61,13 +61,10 @@ public final class NotificationManager {
 	private final Timer timer;
 
 	/** Cache of sessions. */
-	private final LruCache<AccountID, SessionID> cacheOfSessions = new LruCache<>(
-			Configuration.Flags.MAX_ENTRIES_NOTIFICATION_MANAGER_SESSION_CACHE.getIntValue());
+	private final MemoryCache<AccountID, SessionID> cacheOfSessions = new MemoryCache<>();
 
 	/**
 	 * Constructor
-	 * @param managerName
-	 *            Manager/service name.
 	 * @param thelogicModule
 	 *            Reference to logic module for executing actions
 	 */

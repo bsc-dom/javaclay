@@ -2,20 +2,7 @@ package es.bsc.dataclay;
 
 import java.io.InputStream;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.BitSet;
-import java.util.HashSet;
-import java.util.IdentityHashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Queue;
-import java.util.Set;
-import java.util.Spliterator;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Predicate;
@@ -23,6 +10,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
+import es.bsc.dataclay.util.structs.MemoryCache;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.yaml.snakeyaml.Yaml;
@@ -92,10 +80,10 @@ public class DataClayObject extends StorageObject implements DataClaySerializabl
 	protected DataSetID dataSetID;
 
 	/** StubInfos cache. */
-	private static Map<String, StubInfo> stubInfosCache = new ConcurrentHashMap<>();
+	private static MemoryCache<String, StubInfo> stubInfosCache = new MemoryCache<>();
 
 	/** Exec.StubInfos cache. */
-	private static Map<String, StubInfo> execStubInfosCache = new ConcurrentHashMap<>();
+	private static MemoryCache<String, StubInfo> execStubInfosCache = new MemoryCache<>();
 
 	/** Main storage location for the object **/
 	private BackendID masterLocation;

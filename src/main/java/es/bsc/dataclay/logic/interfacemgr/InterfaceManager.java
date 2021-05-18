@@ -24,7 +24,7 @@ import es.bsc.dataclay.util.ids.OperationID;
 import es.bsc.dataclay.util.ids.PropertyID;
 import es.bsc.dataclay.util.management.AbstractManager;
 import es.bsc.dataclay.util.management.interfacemgr.Interface;
-import es.bsc.dataclay.util.structs.LruCache;
+import es.bsc.dataclay.util.structs.MemoryCache;
 import es.bsc.dataclay.dbhandler.sql.sqlite.SQLiteDataSource;
 
 /**
@@ -40,12 +40,10 @@ public final class InterfaceManager extends AbstractManager {
 	private final InterfaceManagerDB interfaceDB;
 
 	/** Interface cache . */
-	private final LruCache<InterfaceID, Interface> interfaceCache;
+	private final MemoryCache<InterfaceID, Interface> interfaceCache;
 
 	/**
 	 * Instantiates an Interface Manager that uses the Interface DB in the provided path.
-	 * @param managerName
-	 *            Manager/service name.
 	 * @post Creates an Interface manager with the provided db path.
 	 */
 	public InterfaceManager(final SQLiteDataSource dataSource) {
@@ -54,8 +52,7 @@ public final class InterfaceManager extends AbstractManager {
 		this.interfaceDB.createTables();
 
 		// Init cache
-		this.interfaceCache = new LruCache<>(
-				Configuration.Flags.MAX_ENTRIES_INTERFACE_MANAGER_CACHE.getIntValue());
+		this.interfaceCache = new MemoryCache<>();
 	}
 
 	/**

@@ -45,9 +45,7 @@ public final class InterfaceManagerDB {
 
 	/**
 	 * Constructor.
-	 * 
-	 * @param managerName
-	 *            Name of the LM service managing.
+	 *
 	 */
 	public InterfaceManagerDB(final SQLiteDataSource dataSource) {
 		this.dataSource = dataSource;
@@ -69,6 +67,7 @@ public final class InterfaceManagerDB {
 					if (stmt.name().startsWith("CREATE_TABLE")) {
 						final PreparedStatement updateStatement = conn.prepareStatement(stmt.getSqlStatement());
 						updateStatement.execute();
+						updateStatement.close();
 					}
 				}
 			} catch (final SQLException e) {
@@ -98,6 +97,7 @@ public final class InterfaceManagerDB {
 					if (stmt.name().startsWith("DROP_TABLE")) {
 						final PreparedStatement updateStatement = conn.prepareStatement(stmt.getSqlStatement());
 						updateStatement.execute();
+						updateStatement.close();
 					}
 				}
 			} catch (final SQLException e) {
@@ -175,7 +175,7 @@ public final class InterfaceManagerDB {
 					logger.debug("[==DB==] Executing " + insertStatement);
 				}
 				insertStatement.executeUpdate();
-
+				insertStatement.close();
 			} catch (final Exception e) {
 				e.printStackTrace();
 				throw new DbObjectAlreadyExistException(iface.getDataClayID());
@@ -281,14 +281,11 @@ public final class InterfaceManagerDB {
 				if (rs.next()) {
 					iface = deserializeInterface(rs);
 				}
-
+				selectStatement.close();
 			} catch (final SQLException e) {
 				throw new DbObjectNotExistException(ifaceID);
 			} finally {
 				try {
-					if (rs != null) {
-						rs.close();
-					}
 					if (conn != null) {
 						conn.close();
 					}
@@ -319,7 +316,7 @@ public final class InterfaceManagerDB {
 					logger.debug("[==DB==] Executing " + stmt);
 				}
 				stmt.executeUpdate();
-
+				stmt.close();
 			} catch (final Exception e) {
 				e.printStackTrace();
 			} finally {
@@ -363,13 +360,11 @@ public final class InterfaceManagerDB {
 				while (rs.next()) {
 					result.add(deserializeInterface(rs));
 				}
+				selectStatement.close();
 			} catch (final SQLException e) {
 				e.printStackTrace();
 			} finally {
 				try {
-					if (rs != null) {
-						rs.close();
-					}
 					if (conn != null) {
 						conn.close();
 					}
@@ -424,14 +419,12 @@ public final class InterfaceManagerDB {
 				if (rs.next()) {
 					iface = deserializeInterface(rs);
 				}
+				selectStatement.close();
 
 			} catch (final SQLException e) {
 				throw new DbObjectNotExistException();
 			} finally {
 				try {
-					if (rs != null) {
-						rs.close();
-					}
 					if (conn != null) {
 						conn.close();
 					}

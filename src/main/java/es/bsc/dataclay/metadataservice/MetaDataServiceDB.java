@@ -14,6 +14,7 @@ import java.util.Set;
 import java.util.UUID;
 
 import es.bsc.dataclay.dbhandler.sql.DataServiceDBSQLStatements;
+import es.bsc.dataclay.logic.server.LogicModuleSrv;
 import es.bsc.dataclay.util.management.metadataservice.ExternalExecutionEnvironment;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.logging.log4j.LogManager;
@@ -35,6 +36,7 @@ import es.bsc.dataclay.util.management.metadataservice.DataClayInstance;
 import es.bsc.dataclay.util.management.metadataservice.ExecutionEnvironment;
 import es.bsc.dataclay.util.management.metadataservice.StorageLocation;
 import es.bsc.dataclay.dbhandler.sql.sqlite.SQLiteDataSource;
+import org.sqlite.SQLiteErrorCode;
 
 /**
  * MetaData data base.
@@ -70,8 +72,8 @@ public final class MetaDataServiceDB {
 						}
 					}
 				}
-			} catch (final Exception e) {
-				throw new DbHandlerException(e);
+			} catch (final SQLException e) {
+				LogicModuleSrv.doExit(e.getErrorCode());
 			} finally {
 				closeConnection(conn);
 			}
@@ -93,8 +95,9 @@ public final class MetaDataServiceDB {
 						}
 					}
 				}
-			} catch (final Exception e) {
-				throw new DbHandlerException(e);
+
+			} catch (final SQLException e) {
+				LogicModuleSrv.doExit(e.getErrorCode());
 			} finally {
 				closeConnection(conn);
 			}
@@ -134,71 +137,16 @@ public final class MetaDataServiceDB {
 					ps.executeUpdate();
 				} catch (final SQLException e) {
 					/* A primary key constraint is violated */
-					// TODO add also sqlite message
-					// if (e.getMessage().startsWith(PostgresHandlerConf.DUPLICATE_ERROR_PREFIX_MSG)) {
-					throw new DbObjectAlreadyExistException(objectMD.getDataClayID());
-					// }
+					if (e.getErrorCode() == SQLiteErrorCode.SQLITE_CONSTRAINT.code) {
+						throw new DbObjectAlreadyExistException(objectMD.getDataClayID());
+					} else {
+						LogicModuleSrv.doExit(e.getErrorCode());
+					}
 				}
 			} catch (final DbObjectAlreadyExistException dbe) {
 				throw dbe;
-			} catch (final Exception e) {
-				e.printStackTrace();
-				throw new DbHandlerException(e);
-			} finally {
-				closeConnection(conn);
-			}
-		}
-	}
-
-	/**
-	 * Store a Storage Location into database
-	 * 
-	 * @param stLoc
-	 *            Storage Location
-	 */
-	public void store(final StorageLocation stLoc) {
-		synchronized (dataSource) {
-
-			final Connection conn = getConnection();
-			try (PreparedStatement ps = conn.prepareStatement(SqlStatements.INSERT_STORAGE_LOCATION.getSqlStatement())) {
-
-				ps.setObject(1, stLoc.getDataClayID().getId());
-				ps.setString(2, stLoc.getHostname());
-				ps.setString(3, stLoc.getName());
-				ps.setInt(4, stLoc.getStorageTCPPort());
-
-				ps.executeUpdate();
-			} catch (final Exception e) {
-				throw new DbHandlerException(e);
-			} finally {
-				closeConnection(conn);
-			}
-		}
-	}
-
-	/**
-	 * Store a ExecutionEnvironment into database
-	 * 
-	 * @param exeEnv
-	 *            Execution Environment
-	 */
-	public void store(final ExecutionEnvironment exeEnv) {
-		synchronized (dataSource) {
-
-			final Connection conn = getConnection();
-			try (PreparedStatement ps = conn
-					.prepareStatement(SqlStatements.INSERT_EXECUTION_ENVIRONMENT.getSqlStatement())) {
-
-				ps.setObject(1, exeEnv.getDataClayID().getId());
-				ps.setString(2, exeEnv.getHostname());
-				ps.setString(3, exeEnv.getName());
-				ps.setInt(4, exeEnv.getLang().getNumber());
-				ps.setInt(5, exeEnv.getPort());
-				ps.setObject(6, exeEnv.getDataClayInstanceID().getId());
-
-				ps.executeUpdate();
-			} catch (final Exception e) {
-				throw new DbHandlerException(e);
+			} catch (final SQLException e) {
+				LogicModuleSrv.doExit(e.getErrorCode());
 			} finally {
 				closeConnection(conn);
 			}
@@ -225,7 +173,9 @@ public final class MetaDataServiceDB {
 						return null;
 					}
 				}
-
+			} catch (final SQLException e) {
+				LogicModuleSrv.doExit(e.getErrorCode());
+				return null;
 			} catch (final Exception e) {
 				throw new DbHandlerException(e);
 			} finally {
@@ -252,65 +202,9 @@ public final class MetaDataServiceDB {
 					}
 				}
 				return result;
-			} catch (final Exception e) {
-				throw new DbHandlerException(e);
-			} finally {
-				closeConnection(conn);
-			}
-		}
-	}
-
-	/**
-	 * Get StorageLocation by ID
-	 * 
-	 * @param storageLocationID
-	 *            ID of the object
-	 * @return The StorageLocation or null if it does not exist
-	 */
-	public StorageLocation getByID(final StorageLocationID storageLocationID) {
-		synchronized (dataSource) {
-
-			final Connection conn = getConnection();
-			try (PreparedStatement ps = conn.prepareStatement(SqlStatements.SELECT_STORAGE_LOCATION.getSqlStatement())) {
-				ps.setObject(1, storageLocationID.getId());
-				try (ResultSet rs = ps.executeQuery()) {
-					if (rs.next()) {
-						return deserializeStorageLocation(rs);
-					} else {
-						return null;
-					}
-				}
-			} catch (final Exception e) {
-				throw new DbHandlerException(e);
-			} finally {
-				closeConnection(conn);
-			}
-		}
-	}
-
-	/**
-	 * Get ExecutionEnvironment by ID
-	 * 
-	 * @param executionEnvironmentID
-	 *            ID of the object
-	 * @return The ExecutionEnvironment or null if it does not exist
-	 */
-	public ExecutionEnvironment getByID(final ExecutionEnvironmentID executionEnvironmentID) {
-		synchronized (dataSource) {
-
-			final Connection conn = getConnection();
-			try (PreparedStatement ps = conn
-					.prepareStatement(SqlStatements.SELECT_EXECUTION_ENVIRONMENT.getSqlStatement())) {
-
-				ps.setObject(1, executionEnvironmentID.getId());
-				try (ResultSet rs = ps.executeQuery()) {
-					if (rs.next()) {
-						return deserializeExecutionEnvironment(rs);
-					} else {
-						return null;
-					}
-				}
-
+			} catch (final SQLException e) {
+				LogicModuleSrv.doExit(e.getErrorCode());
+				return null;
 			} catch (final Exception e) {
 				throw new DbHandlerException(e);
 			} finally {
@@ -338,63 +232,9 @@ public final class MetaDataServiceDB {
 					rs.next();
 					return rs.getBoolean(1);
 				}
-
-			} catch (final Exception e) {
-				throw new DbHandlerException(e);
-			} finally {
-				closeConnection(conn);
-			}
-		}
-	}
-
-	/**
-	 * Check if there is a backend identified by ID provided
-	 * 
-	 * @param stLocID
-	 *            ID of the storage location
-	 * @return TRUE if exists. FALSE otherwise
-	 */
-	public boolean existsByID(final StorageLocationID stLocID) {
-		synchronized (dataSource) {
-
-			final Connection conn = getConnection();
-			try (PreparedStatement existsStatement = conn
-					.prepareStatement(SqlStatements.EXISTS_STORAGE_LOCATION_BY_ID.getSqlStatement())) {
-
-				existsStatement.setObject(1, stLocID.getId());
-				try (ResultSet rs = existsStatement.executeQuery()) {
-					rs.next();
-					return rs.getBoolean(1);
-				}
-
-			} catch (final Exception e) {
-				throw new DbHandlerException(e);
-			} finally {
-				closeConnection(conn);
-			}
-		}
-	}
-
-	/**
-	 * Check if there is a backend identified by ID provided
-	 * 
-	 * @param execEnvID
-	 *            ID of the execution environment
-	 * @return TRUE if exists. FALSE otherwise
-	 */
-	public boolean existsByID(final ExecutionEnvironmentID execEnvID) {
-		synchronized (dataSource) {
-
-			final Connection conn = getConnection();
-			try (PreparedStatement existsStatement = conn
-					.prepareStatement(SqlStatements.EXISTS_EXECUTION_ENVIRONMENT_BY_ID.getSqlStatement())) {
-
-				existsStatement.setObject(1, execEnvID.getId());
-				try (ResultSet rs = existsStatement.executeQuery()) {
-					rs.next();
-					return rs.getBoolean(1);
-				}
-
+			} catch (final SQLException e) {
+				LogicModuleSrv.doExit(e.getErrorCode());
+				return false;
 			} catch (final Exception e) {
 				throw new DbHandlerException(e);
 			} finally {
@@ -422,7 +262,9 @@ public final class MetaDataServiceDB {
 					rs.next();
 					return rs.getBoolean(1);
 				}
-
+			} catch (final SQLException e) {
+				LogicModuleSrv.doExit(e.getErrorCode());
+				return false;
 			} catch (final Exception e) {
 				throw new DbHandlerException(e);
 			} finally {
@@ -445,54 +287,8 @@ public final class MetaDataServiceDB {
 
 				ps.setObject(1, objectID.getId());
 				ps.executeUpdate();
-
-			} catch (final Exception e) {
-				throw new DbHandlerException(e);
-			} finally {
-				closeConnection(conn);
-			}
-		}
-	}
-
-	/**
-	 * Delete storage location identified by ID provided (ignored if it does not exist)
-	 * 
-	 * @param stLocID
-	 *            ID of the storage location
-	 */
-	public void deleteByID(final StorageLocationID stLocID) {
-		synchronized (dataSource) {
-
-			final Connection conn = getConnection();
-			try (PreparedStatement ps = conn.prepareStatement(SqlStatements.DELETE_STORAGE_LOCATION.getSqlStatement())) {
-
-				ps.setObject(1, stLocID.getId());
-				ps.executeUpdate();
-
-			} catch (final Exception e) {
-				throw new DbHandlerException(e);
-			} finally {
-				closeConnection(conn);
-			}
-		}
-	}
-
-	/**
-	 * Delete execute environment identified by ID provided (ignored if it does not exist)
-	 * 
-	 * @param execEnvID
-	 *            ID of the backend
-	 */
-	public void deleteByID(final ExecutionEnvironmentID execEnvID) {
-		synchronized (dataSource) {
-
-			final Connection conn = getConnection();
-			try (PreparedStatement ps = conn
-					.prepareStatement(SqlStatements.DELETE_EXECUTION_ENVIRONMENT.getSqlStatement())) {
-
-				ps.setObject(1, execEnvID.getId());
-				ps.executeUpdate();
-
+			} catch (final SQLException e) {
+				LogicModuleSrv.doExit(e.getErrorCode());
 			} catch (final Exception e) {
 				throw new DbHandlerException(e);
 			} finally {
@@ -523,6 +319,8 @@ public final class MetaDataServiceDB {
 				if (count == 0) {
 					throw new DbObjectNotExistException(objectID);
 				}
+			} catch (final SQLException e) {
+				LogicModuleSrv.doExit(e.getErrorCode());
 			} catch (final DbObjectNotExistException dbe) {
 				throw dbe;
 			} catch (final Exception e) {
@@ -555,6 +353,8 @@ public final class MetaDataServiceDB {
 				if (count == 0) {
 					throw new DbObjectNotExistException(objectID);
 				}
+			} catch (final SQLException e) {
+				LogicModuleSrv.doExit(e.getErrorCode());
 			} catch (final DbObjectNotExistException dbe) {
 				throw dbe;
 			} catch (final Exception e) {
@@ -594,6 +394,8 @@ public final class MetaDataServiceDB {
 				if (count == 0) {
 					throw new DbObjectNotExistException(objectID);
 				}
+			} catch (final SQLException e) {
+				LogicModuleSrv.doExit(e.getErrorCode());
 			} catch (final DbObjectNotExistException dbe) {
 				throw dbe;
 			} catch (final Exception e) {
@@ -626,7 +428,8 @@ public final class MetaDataServiceDB {
 				if (count == 0) {
 					throw new DbObjectNotExistException(objectID);
 				}
-
+			} catch (final SQLException e) {
+				LogicModuleSrv.doExit(e.getErrorCode());
 			} catch (final DbObjectNotExistException dbe) {
 				throw dbe;
 			} catch (final Exception e) {
@@ -668,77 +471,8 @@ public final class MetaDataServiceDB {
 				if (count == 0) {
 					throw new DbObjectNotExistException(objectID);
 				}
-
-			} catch (final DbObjectNotExistException dbe) {
-				throw dbe;
-			} catch (final Exception e) {
-				throw new DbHandlerException(e);
-			} finally {
-				closeConnection(conn);
-			}
-		}
-	}
-	
-	/**
-	 * Update storage location host and port by ID
-	 * 
-	 * @param id
-	 *            ID of storage location
-	 * @param newhost new host 
-	 * @param newport new port
-	 * @throws DbObjectNotExistException
-	 *             if object does not exist
-	 */
-	public void updateStorageLocationByID(final StorageLocationID id, final String newhost,
-			final Integer newport) throws DbObjectNotExistException {
-		synchronized (dataSource) {
-			final Connection conn = getConnection();
-			try (PreparedStatement ps = conn
-					.prepareStatement(SqlStatements.UPDATE_STORAGE_LOCATION.getSqlStatement())) {
-
-				ps.setString(1, newhost);
-				ps.setInt(2, newport);
-				ps.setObject(3, id.getId());
-				final int count = ps.executeUpdate();
-				if (count == 0) {
-					throw new DbObjectNotExistException(id);
-				}
-
-			} catch (final DbObjectNotExistException dbe) {
-				throw dbe;
-			} catch (final Exception e) {
-				throw new DbHandlerException(e);
-			} finally {
-				closeConnection(conn);
-			}
-		}
-	}
-	
-	/**
-	 * Update execution environment host and port by ID
-	 * 
-	 * @param id
-	 *            ID of storage location
-	 * @param newhost new host 
-	 * @param newport new port
-	 * @throws DbObjectNotExistException
-	 *             if object does not exist
-	 */
-	public void updateExecutionEnvironmentByID(final ExecutionEnvironmentID id, final String newhost,
-			final Integer newport) throws DbObjectNotExistException {
-		synchronized (dataSource) {
-			final Connection conn = getConnection();
-			try (PreparedStatement ps = conn
-					.prepareStatement(SqlStatements.UPDATE_EXECUTION_ENVIRONMENT.getSqlStatement())) {
-
-				ps.setString(1, newhost);
-				ps.setInt(2, newport);
-				ps.setObject(3, id.getId());
-				final int count = ps.executeUpdate();
-				if (count == 0) {
-					throw new DbObjectNotExistException(id);
-				}
-
+			} catch (final SQLException e) {
+				LogicModuleSrv.doExit(e.getErrorCode());
 			} catch (final DbObjectNotExistException dbe) {
 				throw dbe;
 			} catch (final Exception e) {
@@ -770,7 +504,9 @@ public final class MetaDataServiceDB {
 					}
 				}
 				return resultList;
-
+			} catch (final SQLException e) {
+				LogicModuleSrv.doExit(e.getErrorCode());
+				return null;
 			} catch (final Exception e) {
 				throw new DbHandlerException(e);
 			} finally {
@@ -798,459 +534,9 @@ public final class MetaDataServiceDB {
 						return null;
 					}
 				}
-
-			} catch (final Exception e) {
-				throw new DbHandlerException(e);
-			} finally {
-				closeConnection(conn);
-			}
-		}
-	}
-
-	/**
-	 * Get all Storage Locations
-	 * 
-	 * @return The Storage Locations
-	 */
-	public List<StorageLocation> getAllStorageLocations() {
-		synchronized (dataSource) {
-			final ArrayList<StorageLocation> resultList = new ArrayList<>();
-			final Connection conn = getConnection();
-			try (PreparedStatement ps = conn.prepareStatement(SqlStatements.SELECT_ALL_LOCS.getSqlStatement())) {
-
-				try (ResultSet rs = ps.executeQuery()) {
-					while (rs.next()) {
-						final StorageLocation stLoc = deserializeStorageLocation(rs);
-						resultList.add(stLoc);
-					}
-				}
-				return resultList;
-
-			} catch (final Exception e) {
-				throw new DbHandlerException(e);
-			} finally {
-				closeConnection(conn);
-			}
-		}
-	}
-
-	/**
-	 * Get all Execution Environments
-	 * 
-	 * @return The Execution Environments
-	 */
-	public List<ExecutionEnvironment> getAllExecutionEnvironments() {
-		synchronized (dataSource) {
-			final ArrayList<ExecutionEnvironment> resultList = new ArrayList<>();
-			final Connection conn = getConnection();
-			try (PreparedStatement ps = conn.prepareStatement(SqlStatements.SELECT_ALL_EXECENVS.getSqlStatement())) {
-
-				try (ResultSet rs = ps.executeQuery()) {
-					while (rs.next()) {
-						final ExecutionEnvironment execEnv = deserializeExecutionEnvironment(rs);
-						resultList.add(execEnv);
-					}
-				}
-				return resultList;
-
-			} catch (final Exception e) {
-				throw new DbHandlerException(e);
-			} finally {
-				closeConnection(conn);
-			}
-		}
-	}
-
-	/**
-	 * Get all Execution Environments of a specific language
-	 * 
-	 * @return a list of Execution Environments
-	 */
-	public List<ExecutionEnvironment> getAllExecutionEnvironmentsByLang(final Langs lang) {
-		synchronized (dataSource) {
-			final ArrayList<ExecutionEnvironment> resultList = new ArrayList<>();
-			final Connection conn = getConnection();
-			try (PreparedStatement ps = conn
-					.prepareStatement(SqlStatements.SELECT_ALL_EXECENVS_BY_LANG.getSqlStatement())) {
-				ps.setInt(1, lang.getNumber());
-
-				try (ResultSet rs = ps.executeQuery()) {
-					while (rs.next()) {
-						final ExecutionEnvironment execEnv = deserializeExecutionEnvironment(rs);
-						resultList.add(execEnv);
-					}
-				}
-				return resultList;
-
-			} catch (final Exception e) {
-				throw new DbHandlerException(e);
-			} finally {
-				closeConnection(conn);
-			}
-		}
-	}
-	
-	/**
-	 * Get all DataClayInstance ids representing external dataclays
-	 * 
-	 * @return a set of DataClayInstances ids
-	 */
-	public Set<DataClayInstanceID> getAllExternalDataClays() {
-		synchronized (dataSource) {
-			final Set<DataClayInstanceID> resultList = new HashSet<>();
-			final Connection conn = getConnection();
-			try (PreparedStatement ps = conn
-					.prepareStatement(SqlStatements.SELECT_ALL_DATACLAYS.getSqlStatement())) {
-				try (ResultSet rs = ps.executeQuery()) {
-					while (rs.next()) {
-						final DataClayInstanceID instanceID = new DataClayInstanceID(
-								(UUID) rs.getObject("id"));
-						resultList.add(instanceID);
-					}
-				}
-				return resultList;
-
-			} catch (final Exception e) {
-				throw new DbHandlerException(e);
-			} finally {
-				closeConnection(conn);
-			}
-		}
-	}
-
-
-	/**
-	 * Get a single (should be unique) Storage Location by name
-	 * 
-	 * @param name
-	 *            Name
-	 * @return the storage location named with specified name (null if there is none).
-	 */
-	public StorageLocation getStorageLocationByName(final String name) {
-		synchronized (dataSource) {
-			final Connection conn = getConnection();
-			try (PreparedStatement ps = conn.prepareStatement(SqlStatements.SELECT_STLOC_BY_NAME.getSqlStatement())) {
-
-				ps.setString(1, name);
-				try (ResultSet rs = ps.executeQuery()) {
-					if (rs.next()) {
-						return deserializeStorageLocation(rs);
-					} else {
-						return null;
-					}
-				}
-
-			} catch (final Exception e) {
-				throw new DbHandlerException(e);
-			} finally {
-				closeConnection(conn);
-			}
-		}
-	}
-
-	/**
-	 * Get all Execution Environment by host name and language
-	 * 
-	 * @param hostname
-	 *            host name
-	 * @param language
-	 *            Language
-	 * @return all Execution Environment by host name and language
-	 */
-	public Set<ExecutionEnvironmentID> getExecutionEnvironmentByHostnameAndLanguage(final String hostname,
-			final Langs language) {
-		synchronized (dataSource) {
-			final Set<ExecutionEnvironmentID> resultList = new HashSet<>();
-			final Connection conn = getConnection();
-			try (PreparedStatement ps = conn
-					.prepareStatement(SqlStatements.SELECT_ALL_EXECENV_BY_HOSTNAME_AND_LANG.getSqlStatement())) {
-				ps.setString(1, hostname);
-				ps.setInt(2, language.getNumber());
-				try (ResultSet rs = ps.executeQuery()) {
-					while (rs.next()) {
-						final ExecutionEnvironmentID executionEnvironmentID = new ExecutionEnvironmentID(
-								(UUID) rs.getObject("id"));
-						resultList.add(executionEnvironmentID);
-					}
-				}
-				return resultList;
-
-			} catch (final Exception e) {
-				throw new DbHandlerException(e);
-			} finally {
-				closeConnection(conn);
-			}
-		}
-	}
-
-	/**
-	 * Get all Execution Environments associated to DS name and language
-	 * 
-	 * @param name
-	 *            Name
-	 * @param lang
-	 *            Language
-	 * @return All execution environment associated to specified name
-	 */
-	public Set<ExecutionEnvironmentID> getExecutionEnvironmentsByNameAndLang(final String name, final Langs lang) {
-		synchronized (dataSource) {
-			final Set<ExecutionEnvironmentID> resultList = new HashSet<>();
-			final Connection conn = getConnection();
-			try (PreparedStatement ps = conn
-					.prepareStatement(SqlStatements.SELECT_EXECENV_BY_NAME_LANG.getSqlStatement())) {
-
-				ps.setString(1, name);
-				ps.setInt(2, lang.getNumber());
-				try (ResultSet rs = ps.executeQuery()) {
-					while (rs.next()) {
-						final ExecutionEnvironment execEnv = deserializeExecutionEnvironment(rs);
-						resultList.add(execEnv.getDataClayID());
-					}
-				}
-				return resultList;
-			} catch (final Exception e) {
-				throw new DbHandlerException(e);
-			} finally {
-				closeConnection(conn);
-			}
-		}
-	}
-
-	/**
-	 * Get a single (should be unique) Execution Environment by hostname and port
-	 * 
-	 * @param hostname
-	 *            Host name
-	 * @param port
-	 *            port
-	 * @return the execution environment named with specified hostname and port
-	 */
-	public ExecutionEnvironment getExecutionEnvironmentByHostNameAndPort(final String hostname, final int port) {
-		synchronized (dataSource) {
-			final Connection conn = getConnection();
-			try (PreparedStatement ps = conn
-					.prepareStatement(SqlStatements.SELECT_EXECENV_BY_HOSTNAME_AND_PORT.getSqlStatement())) {
-				ps.setString(1, hostname);
-				ps.setInt(2, port);
-				logger.debug(ps.toString());
-				try (ResultSet rs = ps.executeQuery()) {
-					if (rs.next()) {
-						return deserializeExecutionEnvironment(rs);
-					} else {
-						return null;
-					}
-				} catch (final Exception e2) {
-					throw e2;
-				}
-
-			} catch (final Exception e) {
-				throw new DbHandlerException(e);
-			} finally {
-				closeConnection(conn);
-			}
-		}
-	}
-
-	/**
-	 * Check if there is an execution environment identified by hostname and port provided
-	 * 
-	 * @param hostname
-	 *            Hostname of the backend
-	 * @param port
-	 *            port of the backend
-	 * @return TRUE if exists. FALSE otherwise
-	 */
-	public boolean existsExecutionEnvironmentByHostPort(final String hostname, final int port) {
-		synchronized (dataSource) {
-			final Connection conn = getConnection();
-			try (PreparedStatement existsStatement = conn
-					.prepareStatement(SqlStatements.EXISTS_EXECUTION_ENVIRONMENT_BY_HOSTPORT.getSqlStatement())) {
-
-				existsStatement.setString(1, hostname);
-				existsStatement.setInt(2, port);
-				try (ResultSet rs = existsStatement.executeQuery()) {
-					rs.next();
-					return rs.getBoolean(1);
-				}
-
-			} catch (final Exception e) {
-				throw new DbHandlerException(e);
-			} finally {
-				closeConnection(conn);
-			}
-		}
-	}
-
-	/**
-	 * Check if there is a storage location identified by hostname and port provided
-	 * 
-	 * @param hostname
-	 *            Hostname of the backend
-	 * @param port
-	 *            port of the backend
-	 * @return TRUE if exists. FALSE otherwise
-	 */
-	public boolean existsStorageLocationByHostPort(final String hostname, final int port) {
-		synchronized (dataSource) {
-			final Connection conn = getConnection();
-			try (PreparedStatement existsStatement = conn
-					.prepareStatement(SqlStatements.EXISTS_STORAGE_LOCATION_BY_HOSTPORT.getSqlStatement())) {
-
-				existsStatement.setString(1, hostname);
-				existsStatement.setInt(2, port);
-				try (ResultSet rs = existsStatement.executeQuery()) {
-					rs.next();
-					return rs.getBoolean(1);
-				}
-
-			} catch (final Exception e) {
-				throw new DbHandlerException(e);
-			} finally {
-				closeConnection(conn);
-			}
-		}
-	}
-
-	/**
-	 * Inserts the info of a new dataClay instance
-	 * 
-	 * @param dataClayInstance
-	 *            info of the dataClay instance
-	 */
-	public void insertDataClayInstance(final DataClayInstance dataClayInstance) {
-		synchronized (dataSource) {
-			final Connection conn = getConnection();
-			try (PreparedStatement ps = conn.prepareStatement(SqlStatements.INSERT_DATACLAY_INFO.getSqlStatement())) {
-
-				ps.setObject(1, dataClayInstance.getDcID().getId());
-				try {
-					final List<String> hosts = dataClayInstance.getHosts();
-					final List<Integer> ports = dataClayInstance.getPorts();
-					for (int i = 0; i < hosts.size(); i++) {
-						ps.setString(2, hosts.get(i));
-						ps.setInt(3, ports.get(i));
-						ps.executeUpdate();
-						logger.debug(ps.toString());
-					}
-				} catch (final SQLException e) {
-					logger.debug("Exception during insertion of dataClay instance", e);
-					if (e.getMessage().startsWith("ERROR: duplicate key value")) {
-						throw new DbObjectAlreadyExistException(dataClayInstance.getDcID());
-					}
-				}
-			} catch (final DbObjectAlreadyExistException dbe) {
-				throw dbe;
-			} catch (final Exception e) {
-				throw new DbHandlerException(e);
-			} finally {
-				closeConnection(conn);
-			}
-		}
-	}
-
-	/**
-	 * Delete dataclay instance address
-	 * 
-	 * @param host Host
-	 * @param port Port
-	 * @return true if the object has been successfully deleted, false otherwise
-	 */
-	public boolean deleteDataClayInstance(final String host, final Integer port) {
-		synchronized (dataSource) {
-			final Connection conn = getConnection();
-			try (PreparedStatement ps = conn.prepareStatement(SqlStatements.DELETE_DATACLAY.getSqlStatement())) {
-
-				ps.setString(1, host);
-				ps.setInt(2, port);
-				try {
-					ps.executeUpdate();
-				} catch (final SQLException e) {
-					return false;
-				}
-				return true;
-			} catch (final Exception e) {
-				throw new DbHandlerException(e);
-			} finally {
-				closeConnection(conn);
-			}
-		}
-	}
-	
-	/**
-	 * Get dataClay info by id
-	 * 
-	 * @param dClayID
-	 *            id of the dataClay instance
-	 * @return info of requested dataClay instance
-	 */
-	public DataClayInstance getDataClayInfo(final DataClayInstanceID dClayID) {
-		synchronized (dataSource) {
-			final Connection conn = getConnection();
-			try (PreparedStatement ps = conn.prepareStatement(SqlStatements.SELECT_DATACLAY_INFO_BY_ID.getSqlStatement())) {
-
-				ps.setObject(1, dClayID.getId());
-				logger.debug(ps.toString());
-
-				try (ResultSet rs = ps.executeQuery()) {
-					if (rs.next()) {
-						logger.debug("Found dataclay instance with id {}. Deserializing.", dClayID);
-						final DataClayInstance dcInstance = deserializeDataClayInfo(rs);
-						final ArrayList<String> hosts = new ArrayList<>();
-						final ArrayList<Integer> ports = new ArrayList<>();
-						for (final String host : dcInstance.getHosts()) {
-							hosts.add(host);
-						}
-						for (final Integer port : dcInstance.getPorts()) {
-							ports.add(port);
-						}
-						while (rs.next()) {
-							hosts.add(rs.getString("hostname"));
-							ports.add(rs.getInt("port"));
-						}
-						dcInstance.setHosts(hosts);
-						dcInstance.setPorts(ports);
-						return dcInstance;
-					} else {
-						return null;
-					}
-				}
-
-			} catch (final Exception e) {
-				throw new DbHandlerException(e);
-			} finally {
-				closeConnection(conn);
-			}
-		}
-	}
-	
-	/**
-	 * Get dataClay id.
-	 * 
-	 * Retrieves id of an external dataClay instance identified by host and port
-	 * 
-	 * @param host host 
-	 * @param port port
-	 * @return id of external dataClay instance
-	 */
-	public DataClayInstanceID getDataClayID(final String host, final int port) {
-		synchronized (dataSource) {
-			final Connection conn = getConnection();
-			try (PreparedStatement ps = conn.prepareStatement(SqlStatements.SELECT_DATACLAY_ID_FROM_HOST_PORT.getSqlStatement())) {
-
-				ps.setString(1, host);
-				ps.setInt(2, port);
-				logger.debug(ps.toString());
-
-				try (ResultSet rs = ps.executeQuery()) {
-					if (rs.next()) {
-						final DataClayInstanceID id = new DataClayInstanceID(
-								(UUID) rs.getObject("id"));
-						return id;
-					} else {
-						return null;
-					}
-				}
-
+			} catch (final SQLException e) {
+				LogicModuleSrv.doExit(e.getErrorCode());
+				return null;
 			} catch (final Exception e) {
 				throw new DbHandlerException(e);
 			} finally {
@@ -1278,11 +564,17 @@ public final class MetaDataServiceDB {
 				try {
 					ps.executeUpdate();
 				} catch (final SQLException e) {
-					if (e.getMessage().startsWith("ERROR: duplicate key value")) {
-						return false;
+					/* A primary key constraint is violated */
+					if (e.getErrorCode() == SQLiteErrorCode.SQLITE_CONSTRAINT.code) {
+						throw new DbObjectAlreadyExistException(dataClayID);
+					} else {
+						LogicModuleSrv.doExit(e.getErrorCode());
 					}
 				}
 				return true;
+			} catch (final SQLException e) {
+				LogicModuleSrv.doExit(e.getErrorCode());
+				return false;
 			} catch (final Exception e) {
 				throw new DbHandlerException(e);
 			} finally {
@@ -1313,6 +605,9 @@ public final class MetaDataServiceDB {
 					return false;
 				}
 				return true;
+			} catch (final SQLException e) {
+				LogicModuleSrv.doExit(e.getErrorCode());
+				return false;
 			} catch (final Exception e) {
 				throw new DbHandlerException(e);
 			} finally {
@@ -1343,7 +638,9 @@ public final class MetaDataServiceDB {
 					rs.next();
 					return rs.getBoolean(1);
 				}
-
+			} catch (final SQLException e) {
+				LogicModuleSrv.doExit(e.getErrorCode());
+				return false;
 			} catch (final Exception e) {
 				throw new DbHandlerException(e);
 			} finally {
@@ -1370,7 +667,9 @@ public final class MetaDataServiceDB {
 					rs.next();
 					return rs.getBoolean(1);
 				}
-
+			} catch (final SQLException e) {
+				LogicModuleSrv.doExit(e.getErrorCode());
+				return false;
 			} catch (final Exception e) {
 				throw new DbHandlerException(e);
 			} finally {
@@ -1402,7 +701,8 @@ public final class MetaDataServiceDB {
 						result.add(extDataClayID);
 					}
 				}
-
+			} catch (final SQLException e) {
+				LogicModuleSrv.doExit(e.getErrorCode());
 			} catch (final Exception e) {
 				throw new DbHandlerException(e);
 			} finally {
@@ -1438,7 +738,8 @@ public final class MetaDataServiceDB {
 						result.add(objectID);
 					}
 				}
-
+			} catch (final SQLException e) {
+				LogicModuleSrv.doExit(e.getErrorCode());
 			} catch (final Exception e) {
 				e.printStackTrace();
 				throw new DbHandlerException(e);
@@ -1469,7 +770,8 @@ public final class MetaDataServiceDB {
 				ps.setObject(2, srcDataClayID.getId());
 				ps.setBoolean(3, unregisteredFlag);
 				ps.executeUpdate();
-
+			} catch (final SQLException e) {
+				LogicModuleSrv.doExit(e.getErrorCode());
 			} catch (final Exception e) {
 				throw new DbHandlerException(e);
 			} finally {
@@ -1490,6 +792,8 @@ public final class MetaDataServiceDB {
 			try (PreparedStatement ps = conn.prepareStatement(SqlStatements.DELETE_EXTERNAL_OBJECT.getSqlStatement())) {
 				ps.setObject(1, objectID.getId());
 				ps.executeUpdate();
+			} catch (final SQLException e) {
+				LogicModuleSrv.doExit(e.getErrorCode());
 			} catch (final Exception e) {
 				throw new DbHandlerException(e);
 			} finally {
@@ -1517,7 +821,9 @@ public final class MetaDataServiceDB {
 					rs.next();
 					return rs.getBoolean(1);
 				}
-
+			} catch (final SQLException e) {
+				LogicModuleSrv.doExit(e.getErrorCode());
+				return false;
 			} catch (final Exception e) {
 				throw new DbHandlerException(e);
 			} finally {
@@ -1545,7 +851,9 @@ public final class MetaDataServiceDB {
 					}
 				}
 				return resultList;
-
+			} catch (final SQLException e) {
+				LogicModuleSrv.doExit(e.getErrorCode());
+				return null;
 			} catch (final Exception e) {
 				throw new DbHandlerException(e);
 			} finally {
@@ -1577,6 +885,8 @@ public final class MetaDataServiceDB {
 				if (count == 0) {
 					throw new DbObjectNotExistException(objectID);
 				}
+			} catch (final SQLException e) {
+				LogicModuleSrv.doExit(e.getErrorCode());
 			} catch (final DbObjectNotExistException dbe) {
 				throw dbe;
 			} catch (final Exception e) {
@@ -1608,7 +918,9 @@ public final class MetaDataServiceDB {
 						return null;
 					}
 				}
-
+			} catch (final SQLException e) {
+				LogicModuleSrv.doExit(e.getErrorCode());
+				return null;
 			} catch (final Exception e) {
 				throw new DbHandlerException(e);
 			} finally {
@@ -1626,6 +938,8 @@ public final class MetaDataServiceDB {
 			try (PreparedStatement ps = conn
 					.prepareStatement(SqlStatements.VACUUM.getSqlStatement())) {
 				ps.executeUpdate();
+			} catch (final SQLException e) {
+				LogicModuleSrv.doExit(e.getErrorCode());
 			} catch (final Exception e) {
 				throw new DbHandlerException(e);
 			} finally {
@@ -1651,7 +965,8 @@ public final class MetaDataServiceDB {
 		try {
 			return dataSource.getConnection();
 		} catch (final SQLException e) {
-			throw new DbHandlerException(e);
+			LogicModuleSrv.doExit(e.getErrorCode());
+			return null;
 		}
 	}
 
@@ -1659,7 +974,7 @@ public final class MetaDataServiceDB {
 		try {
 			conn.close();
 		} catch (final SQLException e) {
-			throw new DbHandlerException(e);
+			LogicModuleSrv.doExit(e.getErrorCode());
 		}
 	}
 
@@ -1702,89 +1017,9 @@ public final class MetaDataServiceDB {
 			objectMD = new ObjectMetaData(objectID, classID, dataSetID, backendIDs, isReadOnly, alias, lang, ownerID);
 
 			return objectMD;
-		} catch (final Exception e) {
-			throw new DbHandlerException(e);
-		}
-	}
-
-	/**
-	 * Deserialize Storage Location
-	 * 
-	 * @param rs
-	 *            Result set
-	 * @return Storage Location
-	 */
-	private StorageLocation deserializeStorageLocation(final ResultSet rs) {
-		StorageLocation storageLoc = null;
-		try {
-			final String hostname = rs.getString("hostname");
-			final String name = rs.getString("name");
-			final int storageTCPPort = rs.getInt("port");
-			final StorageLocationID storageLocationID = new StorageLocationID((UUID) rs.getObject("id"));
-			storageLoc = new StorageLocation(hostname, name, storageTCPPort);
-			storageLoc.setDataClayID(storageLocationID);
-
-			return storageLoc;
-
-		} catch (final Exception e) {
-			throw new DbHandlerException(e);
-		}
-	}
-
-	/**
-	 * Deserialize execution environment
-	 * 
-	 * @param rs
-	 *            Result set
-	 * @return Execution environment
-	 */
-	private ExecutionEnvironment deserializeExecutionEnvironment(final ResultSet rs) {
-		ExecutionEnvironment executionEnv = null;
-		try {
-			final ExecutionEnvironmentID executionEnvironmentID = new ExecutionEnvironmentID((UUID) rs.getObject("id"));
-			final DataClayInstanceID dataClayInstanceID = new DataClayInstanceID((UUID) rs.getObject("dataClayInstanceID"));
-			final String hostname = rs.getString("hostname");
-			final String name = rs.getString("name");
-			final int port = rs.getInt("port");
-			final int langCode = rs.getInt("lang");
-			final Langs lang;
-			if (Langs.LANG_JAVA.getNumber() == langCode) {
-				lang = Langs.LANG_JAVA;
-			} else if (Langs.LANG_PYTHON.getNumber() == langCode) {
-				lang = Langs.LANG_PYTHON;
-			} else {
-				lang = Langs.LANG_NONE;
-			}
-			executionEnv = new ExecutionEnvironment(hostname, name, port, lang, dataClayInstanceID);
-			executionEnv.setDataClayID(executionEnvironmentID);
-
-			return executionEnv;
-
-		} catch (final Exception e) {
-			throw new DbHandlerException(e);
-		}
-	}
-
-	/**
-	 * Deserialize dataclay info
-	 * @param rs Result set
-	 * @return Deserialized dataclay instance
-	 */
-	private DataClayInstance deserializeDataClayInfo(final ResultSet rs) {
-		final List<String> hosts = new ArrayList<>();
-		final List<Integer> ports = new ArrayList<>();
-		try {
-			final DataClayInstanceID dClayID = new DataClayInstanceID((UUID) rs.getObject("id"));
-			do {
-				final String host = rs.getString("hostname");
-				final int port = rs.getInt("port");
-				logger.debug("Adding {} and {} to dataclay instance", host, port);
-				hosts.add(host);
-				ports.add(port);
-			} while (rs.next());
-			return new DataClayInstance(dClayID, hosts.toArray(new String[hosts.size()]),
-					ports.toArray(new Integer[ports.size()]));
-
+		} catch (final SQLException e) {
+			LogicModuleSrv.doExit(e.getErrorCode());
+			return null;
 		} catch (final Exception e) {
 			throw new DbHandlerException(e);
 		}

@@ -29,7 +29,7 @@ import es.bsc.dataclay.util.management.AbstractManager;
 import es.bsc.dataclay.util.management.sessionmgr.SessionContract;
 import es.bsc.dataclay.util.management.sessionmgr.SessionDataContract;
 import es.bsc.dataclay.util.management.sessionmgr.SessionInfo;
-import es.bsc.dataclay.util.structs.LruCacheByDate;
+import es.bsc.dataclay.util.structs.MemoryCache;
 import es.bsc.dataclay.util.structs.Tuple;
 import es.bsc.dataclay.dbhandler.sql.sqlite.SQLiteDataSource;
 
@@ -48,10 +48,10 @@ public final class SessionManager extends AbstractManager {
 	private final SessionManagerDB sessionDB;
 
 	/** Cache for sessions. */
-	private final LruCacheByDate<SessionID, Tuple<Session, Calendar>> sessionCache;
+	private MemoryCache<SessionID, Tuple<Session, Calendar>> sessionCache;
 
 	/** Cache for ext sessions. */
-	private final LruCacheByDate<DataClayInstanceID, Tuple<Session, Calendar>> extSessionCache;
+	private MemoryCache<DataClayInstanceID, Tuple<Session, Calendar>> extSessionCache;
 
 	/**
 	 * Instantiates an SessionManager that uses the Backend configuration provided.
@@ -69,10 +69,8 @@ public final class SessionManager extends AbstractManager {
 		this.sessionDB.createTables();
 
 		// Init caches
-		this.sessionCache = new LruCacheByDate<>(
-				Configuration.Flags.MAX_ENTRIES_SESSION_MANAGER_CACHE.getIntValue());
-		this.extSessionCache = new LruCacheByDate<>(
-				Configuration.Flags.MAX_ENTRIES_SESSION_MANAGER_CACHE.getIntValue());
+		this.sessionCache = new MemoryCache<>();
+		this.extSessionCache = new MemoryCache<>();
 	}
 
 	/**
@@ -111,8 +109,8 @@ public final class SessionManager extends AbstractManager {
 		this.sessionDB.store(session);
 
 		// Update cache
-		sessionCache.put(session.getDataClayID(),
-				new Tuple<>(session, session.getEndDate()));
+		//sessionCache.put(session.getDataClayID(),
+		//		new Tuple<>(session, session.getEndDate()));
 		return new SessionInfo(session.getDataClayID(),
 				session.getAccountID(), session.getPropertiesOfClasses(), session.getSessionContracts(),
 				session.getSessionDataContracts(), session.getDataContractIDofStore(), session.getLanguage(),
@@ -271,7 +269,7 @@ public final class SessionManager extends AbstractManager {
 
 	@Override
 	public void cleanCaches() {
-		sessionCache.clear();
+		//sessionCache.clear();
 	}
 	/**
 	 * Finish cache threads.
@@ -279,11 +277,11 @@ public final class SessionManager extends AbstractManager {
 	 * @if some exception occurs
 	 */
 	public void finishCacheThreads() {
-		try {
-			this.sessionCache.finishCacheThreads();
-		} catch (final InterruptedException e) {
-			e.printStackTrace();
-		}
+		//try {
+		//	this.sessionCache.finishCacheThreads();
+		//} catch (final InterruptedException e) {
+		//	e.printStackTrace();
+		//}
 	}
 
 }

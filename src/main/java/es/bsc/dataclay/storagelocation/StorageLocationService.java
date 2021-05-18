@@ -110,6 +110,7 @@ public final class StorageLocationService {
 	 *            Bytes of the object
 	 */
 	public void store(final ExecutionEnvironmentID eeID, final ObjectID objectID, final byte[] bytes) {
+
 		if (DEBUG_ENABLED) {
 			LOGGER.debug("[StorageLocation] Storing object {} into {} ", objectID, eeID);
 		}
@@ -130,13 +131,12 @@ public final class StorageLocationService {
 	 */
 	public byte[] get(final ExecutionEnvironmentID eeID, final ObjectID objectID) {
 		if (DEBUG_ENABLED) {
-			LOGGER.debug("[StorageLocation] Getting object {} from {} ", objectID, eeID);
+				LOGGER.debug("[StorageLocation] Getting object {} from {} ", objectID, eeID);
 		}
 		final byte[] bytes = getDBHandler(eeID).get(objectID);
 		if (Configuration.Flags.GLOBAL_GC_ENABLED.getBooleanValue()) {
 			this.diskGC.addToQueueReferenceCounting(eeID, objectID, bytes, true, false);
 		}
-
 		return bytes;
 	}
 

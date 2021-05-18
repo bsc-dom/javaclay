@@ -54,6 +54,7 @@ public final class AccountManagerDB {
 					if (stmt.name().startsWith("CREATE_TABLE")) {
 						final PreparedStatement updateStatement = conn.prepareStatement(stmt.getSqlStatement());
 						updateStatement.execute();
+						updateStatement.close();
 					}
 				}
 			} catch (final SQLException e) {
@@ -84,6 +85,7 @@ public final class AccountManagerDB {
 					if (stmt.name().startsWith("DROP_TABLE")) {
 						final PreparedStatement updateStatement = conn.prepareStatement(stmt.getSqlStatement());
 						updateStatement.execute();
+						updateStatement.close();
 					}
 				}
 			} catch (final SQLException e) {
@@ -117,6 +119,7 @@ public final class AccountManagerDB {
 				insertStatement.setString(2, passwordCredential.getPassword());
 				// CHECKSTYLE:ON
 				insertStatement.executeUpdate();
+				insertStatement.close();
 
 			} catch (final Exception e) {
 				logger.debug("SQL error in store passwordCredential", e);
@@ -159,7 +162,7 @@ public final class AccountManagerDB {
 
 				// CHECKSTYLE:ON
 				insertStatement.executeUpdate();
-
+				insertStatement.close();
 			} catch (final Exception e) {
 				logger.debug("SQL error in store account", e);
 				throw new DbObjectAlreadyExistException(account.getDataClayID());
@@ -242,12 +245,11 @@ public final class AccountManagerDB {
 			if (rs.next()) {
 				passCred = deserializePasswordCredential(rs);
 			}
-
+			selectStatement.close();
 		} catch (final SQLException e) {
 			throw e;
 		} finally {
 			try {
-				rs.close();
 				if (conn != null) {
 					conn.close();
 				}
@@ -278,16 +280,13 @@ public final class AccountManagerDB {
 				rs = selectStatement.executeQuery();
 				if (rs.next()) {
 					account = deserializeAccount(rs);
-
 				}
+				selectStatement.close();
 			} catch (final SQLException e) {
 				logger.debug("SQL error in getByID", e);
 				throw new DbObjectNotExistException(accountID);
 			} finally {
 				try {
-					if (rs != null) {
-						rs.close();
-					}
 					if (conn != null) {
 						conn.close();
 					}
@@ -321,15 +320,12 @@ public final class AccountManagerDB {
 				if (rs.next()) {
 					account = deserializeAccount(rs);
 				}
-
+				selectStatement.close();
 			} catch (final SQLException e) {
 				logger.debug("SQL error in getByName", e);
 				throw new DbObjectNotExistException();
 			} finally {
 				try {
-					if (rs != null) {
-						rs.close();
-					}
 					if (conn != null) {
 						conn.close();
 					}
@@ -362,12 +358,11 @@ public final class AccountManagerDB {
 				rs = existsStatement.executeQuery();
 				rs.next();
 				exists = rs.getBoolean(1);
-
+				existsStatement.close();
 			} catch (final Exception e) {
 				logger.debug("existsAccountByName error", e);
 			} finally {
 				try {
-					rs.close();
 					if (conn != null) {
 						conn.close();
 					}
@@ -399,12 +394,12 @@ public final class AccountManagerDB {
 				rs = existsStatement.executeQuery();
 				rs.next();
 				exists = rs.getBoolean(1);
+				existsStatement.close();
 
 			} catch (final Exception e) {
 				logger.debug("existsAccountByID error", e);
 			} finally {
 				try {
-					rs.close();
 					if (conn != null) {
 						conn.close();
 					}
@@ -435,12 +430,12 @@ public final class AccountManagerDB {
 					final Account account = deserializeAccount(rs);
 					resultList.add(account);
 				}
+				selectStatement.close();
 
 			} catch (final SQLException e) {
 				logger.debug("SQL error in getAllNormalAccounts", e);
 			} finally {
 				try {
-					rs.close();
 					if (conn != null) {
 						conn.close();
 					}

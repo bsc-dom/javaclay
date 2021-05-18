@@ -11,7 +11,7 @@ public class SQLiteHandlerConfig extends DBHandlerConf {
 
 	private static final long serialVersionUID = -2609239598328535411L;
 
-	private final String folder = Configuration.Flags.STORAGE_PATH.getStringValue();
+	private String folder;
 
 	private boolean inMemory = false;
 
@@ -19,13 +19,10 @@ public class SQLiteHandlerConfig extends DBHandlerConf {
 
 	public SQLiteHandlerConfig() {}
 
-	public SQLiteHandlerConfig(final String newdbname) {
-		this.dbName = newdbname;
-	}
-
-	public SQLiteHandlerConfig(final String newdbname, boolean inMemory) {
+	public SQLiteHandlerConfig(final String path, final String newdbname, boolean inMemory) {
 		this.dbName = newdbname;
 		this.inMemory = inMemory;
+		this.folder = path;
 	}
 
 	/**

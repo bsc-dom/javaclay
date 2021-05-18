@@ -66,6 +66,7 @@ public final class DataContractManagerDB {
 					if (stmt.name().startsWith("CREATE_TABLE")) {
 						final PreparedStatement updateStatement = conn.prepareStatement(stmt.getSqlStatement());
 						updateStatement.execute();
+						updateStatement.close();
 					}
 				}
 			} catch (final SQLException e) {
@@ -94,6 +95,7 @@ public final class DataContractManagerDB {
 					if (stmt.name().startsWith("DROP_TABLE")) {
 						final PreparedStatement updateStatement = conn.prepareStatement(stmt.getSqlStatement());
 						updateStatement.execute();
+						updateStatement.close();
 					}
 				}
 			} catch (final SQLException e) {
@@ -144,7 +146,7 @@ public final class DataContractManagerDB {
 					logger.debug("[==DB==] Executing " + insertStatement);
 				}
 				insertStatement.executeUpdate();
-
+				insertStatement.close();
 			} catch (final Exception e) {
 				e.printStackTrace();
 				throw new DbObjectAlreadyExistException(datacontract.getDataClayID());
@@ -225,15 +227,13 @@ public final class DataContractManagerDB {
 				rs = selectStatement.executeQuery();
 				if (rs.next()) {
 					result = deserializeDataContract(rs);
-
 				}
+				selectStatement.close();
+
 			} catch (final SQLException e) {
 				throw new DbObjectNotExistException(datacontractID);
 			} finally {
 				try {
-					if (rs != null) {
-						rs.close();
-					}
 					if (conn != null) {
 						conn.close();
 					}
@@ -262,6 +262,7 @@ public final class DataContractManagerDB {
 					logger.debug("[==DB==] Executing " + selectStatement);
 				}
 				selectStatement.executeUpdate();
+				selectStatement.close();
 
 			} catch (final SQLException e) {
 				// not found, ignore
@@ -295,6 +296,7 @@ public final class DataContractManagerDB {
 					logger.debug("[==DB==] Executing " + stmt);
 				}
 				stmt.executeUpdate();
+				stmt.close();
 
 			} catch (final SQLException e) {
 				// not found, ignore
@@ -334,13 +336,12 @@ public final class DataContractManagerDB {
 				while (rs.next()) {
 					result.add(deserializeDataContract(rs));
 				}
+				selectStatement.close();
+
 			} catch (final SQLException e) {
 				e.printStackTrace();
 			} finally {
 				try {
-					if (rs != null) {
-						rs.close();
-					}
 					if (conn != null) {
 						conn.close();
 					}
@@ -377,13 +378,12 @@ public final class DataContractManagerDB {
 				while (rs.next()) {
 					result.add(deserializeDataContract(rs));
 				}
+				selectStatement.close();
+
 			} catch (final SQLException e) {
 				e.printStackTrace();
 			} finally {
 				try {
-					if (rs != null) {
-						rs.close();
-					}
 					if (conn != null) {
 						conn.close();
 					}
@@ -419,13 +419,12 @@ public final class DataContractManagerDB {
 				while (rs.next()) {
 					result.add(deserializeDataContract(rs));
 				}
+				selectStatement.close();
+
 			} catch (final SQLException e) {
 				e.printStackTrace();
 			} finally {
 				try {
-					if (rs != null) {
-						rs.close();
-					}
 					if (conn != null) {
 						conn.close();
 					}
@@ -467,13 +466,12 @@ public final class DataContractManagerDB {
 				while (rs.next()) {
 					result.add(deserializeDataContract(rs));
 				}
+				selectStatement.close();
+
 			} catch (final SQLException e) {
 				e.printStackTrace();
 			} finally {
 				try {
-					if (rs != null) {
-						rs.close();
-					}
 					if (conn != null) {
 						conn.close();
 					}

@@ -102,6 +102,7 @@ public abstract class WrapParametersAndReturnTableSwitchGenerator extends DataCl
 			gn.storeLocal(curParamLocal);
 
 			final String typeName = paramDcType.getTypeName();
+
 			if (Reflector.isImmutableTypeName(typeName)
 					|| Reflector.isPrimitiveTypeName(typeName)
 					|| Reflector.isJavaTypeName(typeName)

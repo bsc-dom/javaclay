@@ -14,6 +14,7 @@ import es.bsc.dataclay.DataClayMockObject;
 import es.bsc.dataclay.DataClayObject;
 import es.bsc.dataclay.commonruntime.DataServiceRuntime;
 import es.bsc.dataclay.dataservice.DataService;
+import es.bsc.dataclay.serialization.lib.ObjectWithDataParamOrReturn;
 import es.bsc.dataclay.util.Configuration;
 import es.bsc.dataclay.util.ids.ObjectID;
 import es.bsc.dataclay.util.reflection.Reflector;
@@ -414,6 +415,16 @@ public class ExecutionEnvironmentHeapManager extends HeapManager {
 									+ object.getClass().getName() + " because it is too young.");
 						}
 						continue;
+					}
+
+					// is volatile under deserialization?
+					if (this.dataService.runtime.underDeserializationVolatiles.containsKey(object.getObjectID())) {
+						if (DEBUG_ENABLED) {
+									logger.debug("[==GC==] Not collecting " + object.getObjectID() + " of class "
+											+ object.getClass().getName() + " because it is under deserialization.");
+						}
+						continue;
+
 					}
 
 					// 2 - Is object loaded or being used by any thread? (check inside clean

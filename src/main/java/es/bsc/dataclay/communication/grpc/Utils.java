@@ -1392,8 +1392,8 @@ public final class Utils {
 
 		// Create response with exception
 		if (DEBUG_ENABLED) {
-			LOGGER.debug("[==EXCEPTION==] Sending exception {}. Activate trace to see stack trace", ex.getMessage());
-			LOGGER.trace("[==EXCEPTION==] Sending DataClayException GRPC response: ", ex);
+			LOGGER.debug("[==EXCEPTION==] Sending exception {}. Activate trace to see stack trace", ex.getClass().getName());
+			LOGGER.debug("[==EXCEPTION==] Sending DataClayException GRPC response: ", ex);
 		}
 		final DataClayByteBuffer dcBuffer = SerializationLibUtils.newByteBuffer();
 		byte[] serializedBytes = null;

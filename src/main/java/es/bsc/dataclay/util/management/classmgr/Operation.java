@@ -145,6 +145,18 @@ public final class Operation extends MgrObject<OperationID> {
 	}
 
 	/**
+	 * Get the Parameters types of this Operation
+	 * @return Operation::params of container Operation.
+	 */
+	public List<Type> getParamsTypesInOrder() {
+		List<Type> paramTypes = new ArrayList<>();
+		for (String paramNum : paramsOrder) {
+			paramTypes.add(this.params.get(paramNum));
+		}
+		return paramTypes;
+	}
+
+	/**
 	 * Set the Operation::params
 	 * @param newparams
 	 *            Parameter to set of this Operation.

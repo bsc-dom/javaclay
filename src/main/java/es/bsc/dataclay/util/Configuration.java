@@ -181,6 +181,11 @@ public final class Configuration {
 		/** Indicates SQLite should be executed in memory. */
 		SQLITE_IN_MEMORY(false, ConfType.BOOLEAN),
 
+
+		// CACHING
+		METADATA_CACHE_ENTRY_EXPIRATION_MILLIS(2000, ConfType.INTEGER),
+		METADATA_CLEAN_PERIOD_MILLIS(10000, ConfType.INTEGER),
+
 		// ============== MISC ============== //
 
 		/** Default value for DbHandler type for LOCAL data services. */
@@ -220,9 +225,10 @@ public final class Configuration {
 		/** Default value for Maximum entries in Client cache. */
 		MAX_ENTRIES_CLIENT_CACHE(10000, ConfType.INTEGER),
 		/** Default value for Maximum entries in MetaDataService cache. */
+
 		MAX_ENTRIES_METADATASERVICE_CACHE(10000, ConfType.INTEGER),
 		/** Default value for Maximum entries in ClassManager cache. */
-		MAX_ENTRIES_CLASS_MANAGER_CACHE(10000, ConfType.INTEGER),
+		MAX_ENTRIES_CLASS_MANAGER_CACHE(100, ConfType.INTEGER),
 		/** Default value for Maximum entries in AccountManager cache. */
 		MAX_ENTRIES_ACCOUNT_MANAGER_CACHE(100, ConfType.INTEGER),
 		/** Default value for Maximum entries in NamespaceManager cache. */
@@ -241,9 +247,9 @@ public final class Configuration {
 		// ===== NOTIFICATION MANAGER ===== //
 
 		/** Default value for Maximum entries in NotificationManager Event queue. */
-		MAX_ENTRIES_NOTIFICATION_MANAGER_MSG_QUEUE(1000, ConfType.INTEGER),
+		MAX_ENTRIES_NOTIFICATION_MANAGER_MSG_QUEUE(10, ConfType.INTEGER),
 		/** Default value for Maximum entries in NotificationManager session cache. */
-		MAX_ENTRIES_NOTIFICATION_MANAGER_SESSION_CACHE(100, ConfType.INTEGER),
+		MAX_ENTRIES_NOTIFICATION_MANAGER_SESSION_CACHE(10, ConfType.INTEGER),
 		/**
 		 * Default value for time that should pass to consider a message to be old. In
 		 * millis.
@@ -348,6 +354,9 @@ public final class Configuration {
 		ASPECTS_HOME("", ConfType.STRING),
 		/** DB storage path. */
 		STORAGE_PATH(File.separatorChar + "dataclay" + File.separatorChar + "storage", ConfType.STRING),
+		/** location of IDs. */
+		STORAGE_METADATA_PATH(File.separatorChar + "dataclay" + File.separatorChar + "metadata", ConfType.STRING),
+
 		/** Default path in which classes to install are stored. */
 		DATACLAY_INSTALLED_CLASSES_SRC_PATH(
 				System.getProperty("user.dir") + File.separatorChar + "install_classes" + File.separatorChar + "src",

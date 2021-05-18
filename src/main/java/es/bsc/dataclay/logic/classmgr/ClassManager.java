@@ -68,7 +68,7 @@ import es.bsc.dataclay.util.management.classmgr.java.JavaImplementation;
 import es.bsc.dataclay.util.management.classmgr.java.JavaOperationInfo;
 import es.bsc.dataclay.util.management.stubs.StubInfo;
 import es.bsc.dataclay.util.reflection.Reflector;
-import es.bsc.dataclay.util.structs.LruCache;
+import es.bsc.dataclay.util.structs.MemoryCache;
 import es.bsc.dataclay.util.structs.Triple;
 import es.bsc.dataclay.util.structs.Tuple;
 import es.bsc.dataclay.dbhandler.sql.sqlite.SQLiteDataSource;
@@ -91,23 +91,23 @@ public final class ClassManager extends AbstractManager {
 	public static final String SETTER_PREFIX = "$$set";
 
 	/** Class cache. */
-	private final LruCache<MetaClassID, MetaClass> classCache;
+	private final MemoryCache<MetaClassID, MetaClass> classCache;
 	/** Class cache by name and namespace id. */
-	private final LruCache<Tuple<NamespaceID, String>, MetaClass> classCacheByName;
+	private final MemoryCache<Tuple<NamespaceID, String>, MetaClass> classCacheByName;
 	/** Class cache by name and namespace. */
-	private final LruCache<Tuple<String, String>, MetaClass> classCacheByNameAndNamespace;
+	private final MemoryCache<Tuple<String, String>, MetaClass> classCacheByNameAndNamespace;
 	/** Operations cache. */
-	private final LruCache<OperationID, Operation> operationsCache;
+	private final MemoryCache<OperationID, Operation> operationsCache;
 	/** Implementations cache. */
-	private final LruCache<ImplementationID, Implementation> implementationsCache;
+	private final MemoryCache<ImplementationID, Implementation> implementationsCache;
 	/** Properties cache. */
-	private final LruCache<PropertyID, Property> propertiesCache;
+	private final MemoryCache<PropertyID, Property> propertiesCache;
 
 	/** DbHandler for the management of Database. */
 	private final ClassManagerDB classDB;
 
 	/** Cache of Stubs. */
-	private final LruCache<StubInfo, Triple<String, byte[], byte[]>> stubsCache;
+	private final MemoryCache<StubInfo, Triple<String, byte[], byte[]>> stubsCache;
 
 	/**
 	 * Instantiates an Class Manager that uses the Backend configuration
@@ -117,15 +117,13 @@ public final class ClassManager extends AbstractManager {
 	 */
 	public ClassManager(final SQLiteDataSource dataSource) {
 		super(dataSource);
-		classCache = new LruCache<>(Configuration.Flags.MAX_ENTRIES_CLASS_MANAGER_CACHE.getIntValue());
-		classCacheByName = new LruCache<>(Configuration.Flags.MAX_ENTRIES_CLASS_MANAGER_CACHE.getIntValue());
-		classCacheByNameAndNamespace = new LruCache<>(
-				Configuration.Flags.MAX_ENTRIES_CLASS_MANAGER_CACHE.getIntValue());
-		operationsCache = new LruCache<>(Configuration.Flags.MAX_ENTRIES_CLASS_MANAGER_CACHE.getIntValue());
-		propertiesCache = new LruCache<>(Configuration.Flags.MAX_ENTRIES_CLASS_MANAGER_CACHE.getIntValue());
-		implementationsCache = new LruCache<>(Configuration.Flags.MAX_ENTRIES_CLASS_MANAGER_CACHE.getIntValue());
-
-		stubsCache = new LruCache<>(Configuration.Flags.MAX_ENTRIES_CLASS_MANAGER_CACHE.getIntValue());
+		classCache = new MemoryCache<>();
+		classCacheByName = new MemoryCache<>();
+		classCacheByNameAndNamespace = new MemoryCache<>();
+		operationsCache = new MemoryCache<>();
+		propertiesCache = new MemoryCache<>();
+		implementationsCache = new MemoryCache<>();
+		stubsCache = new MemoryCache<>();
 		this.classDB = new ClassManagerDB(dataSource);
 		this.classDB.createTables();
 	}
@@ -2167,7 +2165,7 @@ public final class ClassManager extends AbstractManager {
 	 * Return the cache of classes
 	 * @return The cache of classes
 	 */
-	public LruCache<MetaClassID, MetaClass> getClassCache() {
+	public MemoryCache<MetaClassID, MetaClass> getClassCache() {
 		return this.classCache;
 	}
 

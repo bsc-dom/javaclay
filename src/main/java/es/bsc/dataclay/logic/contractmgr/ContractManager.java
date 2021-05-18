@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import es.bsc.dataclay.util.structs.MemoryCache;
 import org.apache.commons.dbcp2.BasicDataSource;
 
 import es.bsc.dataclay.exceptions.dbhandler.DbObjectNotExistException;
@@ -31,7 +32,6 @@ import es.bsc.dataclay.util.management.AbstractManager;
 import es.bsc.dataclay.util.management.contractmgr.Contract;
 import es.bsc.dataclay.util.management.contractmgr.InterfaceInContract;
 import es.bsc.dataclay.util.management.contractmgr.OpImplementations;
-import es.bsc.dataclay.util.structs.LruCache;
 import es.bsc.dataclay.util.structs.Tuple;
 import es.bsc.dataclay.dbhandler.sql.sqlite.SQLiteDataSource;
 
@@ -45,15 +45,13 @@ public final class ContractManager extends AbstractManager {
 	private final ContractManagerDB contractDB;
 
 	/** Contract cache. */
-	private final LruCache<ContractID, Contract> contractCache;
+	private final MemoryCache<ContractID, Contract> contractCache;
 
 	/** Contract cache by account. */
-	private final LruCache<AccountID, LinkedList<Contract>> contractsOfAccountCache;
+	private final MemoryCache<AccountID, LinkedList<Contract>> contractsOfAccountCache;
 
 	/**
 	 * Instantiates an Contract Manager that uses the Backend configuration provided.
-	 * @param managerName
-	 *            Manager/service name.
 	 * @post Creates an Contract manager and hash initializes the backend.
 	 */
 	public ContractManager(final SQLiteDataSource dataSource) {
@@ -64,8 +62,8 @@ public final class ContractManager extends AbstractManager {
 
 		// Init cache
 		// this.lastContract = null;
-		this.contractCache = new LruCache<>(Configuration.Flags.MAX_ENTRIES_CONTRACT_MANAGER_CACHE.getIntValue());
-		this.contractsOfAccountCache = new LruCache<>(Configuration.Flags.MAX_ENTRIES_CONTRACT_MANAGER_CACHE.getIntValue());
+		this.contractCache = new MemoryCache<>();
+		this.contractsOfAccountCache = new MemoryCache<>();
 
 	}
 
