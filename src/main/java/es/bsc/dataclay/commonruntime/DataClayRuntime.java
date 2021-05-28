@@ -173,7 +173,7 @@ public abstract class DataClayRuntime {
 			final Langs lang, final boolean forceUpdateCache) {
 		// Check cache
 		if ((execEnvsCache != null && forceUpdateCache) || (execEnvsCache == null)){
-			execEnvsCache.putAll(logicModule.getAllExecutionEnvironmentsInfo(lang, true));
+			execEnvsCache.putAll(logicModule.getAllExecutionEnvironmentsInfo(lang, true, this.isDSLib()));
 		}
 		return execEnvsCache;
 	

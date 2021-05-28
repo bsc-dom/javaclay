@@ -57,7 +57,13 @@ public final class LogicModuleServer {
 	//	serverBuilder.keepAliveTime(10, TimeUnit.SECONDS);
 	//	serverBuilder.keepAliveTimeout(10, TimeUnit.SECONDS);
 		if (Configuration.Flags.GRPC_USE_FORK_JOIN_POOL.getBooleanValue()) {
-			serverBuilder.executor(ForkJoinPool.commonPool());
+			int numThreads = Configuration.Flags.GRPC_THREADPOOL_PARALLELISM.getIntValue();
+			if (numThreads == -1) {
+				//serverBuilder.executor(ForkJoinPool.commonPool());
+				serverBuilder.executor(new ForkJoinPool());
+			} else {
+				serverBuilder.executor(new ForkJoinPool(numThreads));
+			}
 		} else {
 			serverBuilder.executor(Executors.newCachedThreadPool(factory));
 		}

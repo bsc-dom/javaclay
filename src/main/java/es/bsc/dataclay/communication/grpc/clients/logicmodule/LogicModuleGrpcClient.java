@@ -1395,9 +1395,9 @@ public final class LogicModuleGrpcClient implements LogicModuleAPI {
 	 * StorageLocationID)
 	 */
 	@Override
-	public StorageLocation getStorageLocationInfo(final StorageLocationID backendID) {
+	public StorageLocation getStorageLocationInfo(final StorageLocationID backendID, final boolean fromBackend) {
 		final GetStorageLocationInfoRequest request = GetStorageLocationInfoRequest.newBuilder()
-				.setStorageLocationID(Utils.getMsgID(backendID)).build();
+				.setStorageLocationID(Utils.getMsgID(backendID)).setFromBackend(fromBackend).build();
 		final GetStorageLocationInfoResponse response;
 		final Function<GetStorageLocationInfoRequest, GetStorageLocationInfoResponse> f = req -> getBlockingStub()
 				.getStorageLocationInfo(req);
@@ -1413,9 +1413,10 @@ public final class LogicModuleGrpcClient implements LogicModuleAPI {
 	 * ExecutionEnvironmentID)
 	 */
 	@Override
-	public ExecutionEnvironment getExecutionEnvironmentInfo(final ExecutionEnvironmentID backendID) {
+	public ExecutionEnvironment getExecutionEnvironmentInfo(final ExecutionEnvironmentID backendID,
+															final boolean fromBackend) {
 		final GetExecutionEnvironmentInfoRequest request = GetExecutionEnvironmentInfoRequest.newBuilder()
-				.setExecEnvID(Utils.getMsgID(backendID)).build();
+				.setExecEnvID(Utils.getMsgID(backendID)).setFromBackend(fromBackend).build();
 		final GetExecutionEnvironmentInfoResponse response;
 		final Function<GetExecutionEnvironmentInfoRequest, GetExecutionEnvironmentInfoResponse> f = req -> getBlockingStub()
 				.getExecutionEnvironmentInfo(req);
@@ -1637,9 +1638,9 @@ public final class LogicModuleGrpcClient implements LogicModuleAPI {
 	 */
 	@Override
 	public Map<ExecutionEnvironmentID, ExecutionEnvironment> getAllExecutionEnvironmentsInfo(
-			final Langs execEnvLang, final boolean getExternal) {
+			final Langs execEnvLang, final boolean getExternal, final boolean fromBackend) {
 		final GetAllExecutionEnvironmentsInfoRequest request = GetAllExecutionEnvironmentsInfoRequest.newBuilder()
-				.setExecEnvLang(execEnvLang).setGetExternal(getExternal).build();
+				.setExecEnvLang(execEnvLang).setGetExternal(getExternal).setFromBackend(fromBackend).build();
 		final GetAllExecutionEnvironmentsInfoResponse response;
 		final Function<GetAllExecutionEnvironmentsInfoRequest, GetAllExecutionEnvironmentsInfoResponse> f = req -> getBlockingStub()
 				.getAllExecutionEnvironmentsInfo(req);

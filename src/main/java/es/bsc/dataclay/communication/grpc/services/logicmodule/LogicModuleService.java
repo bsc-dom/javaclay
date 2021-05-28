@@ -1289,7 +1289,8 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 			final StreamObserver<GetStorageLocationInfoResponse> responseObserver) {
 		try {
 			final StorageLocation stLoc = logicModule
-					.getStorageLocationInfo(Utils.getStorageLocationID(request.getStorageLocationID()));
+					.getStorageLocationInfo(Utils.getStorageLocationID(request.getStorageLocationID()),
+							request.getFromBackend());
 
 			final GetStorageLocationInfoResponse resp = GetStorageLocationInfoResponse.newBuilder()
 					.setStorageLocationInfo(Utils.getStorageLocation(stLoc)).build();
@@ -1310,7 +1311,8 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 			final StreamObserver<GetExecutionEnvironmentInfoResponse> responseObserver) {
 		try {
 			final ExecutionEnvironment result = logicModule
-					.getExecutionEnvironmentInfo(Utils.getExecutionEnvironmentID(request.getExecEnvID()));
+					.getExecutionEnvironmentInfo(Utils.getExecutionEnvironmentID(request.getExecEnvID()),
+							request.getFromBackend());
 
 			final GetExecutionEnvironmentInfoResponse resp = GetExecutionEnvironmentInfoResponse.newBuilder()
 					.setExecutionEnvironmentInfo(Utils.getExecutionEnvironment(result)).build();
@@ -1517,7 +1519,8 @@ public final class LogicModuleService extends LogicModuleGrpc.LogicModuleImplBas
 			final StreamObserver<GetAllExecutionEnvironmentsInfoResponse> responseObserver) {
 		try {
 			final Map<ExecutionEnvironmentID, ExecutionEnvironment> result = logicModule
-					.getAllExecutionEnvironmentsInfo(request.getExecEnvLang(), request.getGetExternal());
+					.getAllExecutionEnvironmentsInfo(request.getExecEnvLang(), request.getGetExternal(),
+							request.getFromBackend());
 			final GetAllExecutionEnvironmentsInfoResponse.Builder builder = GetAllExecutionEnvironmentsInfoResponse
 					.newBuilder();
 			for (final Entry<ExecutionEnvironmentID, ExecutionEnvironment> entry : result.entrySet()) {

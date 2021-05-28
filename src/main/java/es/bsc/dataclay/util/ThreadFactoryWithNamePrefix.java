@@ -52,6 +52,11 @@ public class ThreadFactoryWithNamePrefix implements ThreadFactory {
 		if (t.getPriority() != Thread.NORM_PRIORITY) {
 			t.setPriority(Thread.NORM_PRIORITY);
 		}
+		t.setUncaughtExceptionHandler((thread, throwable) -> {
+			throwable.printStackTrace();
+		});
 		return t;
 	}
+
+
 }

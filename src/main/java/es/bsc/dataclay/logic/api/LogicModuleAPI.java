@@ -802,10 +802,14 @@ public interface LogicModuleAPI {
 	 *
 	 * @param exeEnvLang Language of execution environments to get information of
 	 * @param getExternal Indicates if external execution environments must be also obtained
+	 * @param fromBackend Indicates request was done from backend (dsjava, dspython) i.e. do not
+	 *                    use exposed IP.
 	 * @return the info of the registered Storage Locations in a table indexed by their IDs
+	 *
 	 */
 	Map<ExecutionEnvironmentID, ExecutionEnvironment> getAllExecutionEnvironmentsInfo(final Langs exeEnvLang,
-																					  final boolean getExternal);
+																					  final boolean getExternal,
+																					  final boolean fromBackend);
 
 
 	/**
@@ -813,18 +817,22 @@ public interface LogicModuleAPI {
 	 *
 	 * @param backendID
 	 *            ID of the backend
+	 * @param fromBackend Indicates request was done from backend (dsjava, dspython) i.e. do not
+	 *                    use exposed IP.
 	 * @return the specification of the backend
 	 */
-	StorageLocation getStorageLocationInfo(final StorageLocationID backendID);
+	StorageLocation getStorageLocationInfo(final StorageLocationID backendID, final boolean fromBackend);
 
 	/**
 	 * Retrieves the backend specification
 	 *
 	 * @param backendID
 	 *            ID of the backend
+	 * @param fromBackend Indicates request was done from backend (dsjava, dspython) i.e. do not
+	 *                    use exposed IP.
 	 * @return the specification of the backend
 	 */
-	ExecutionEnvironment getExecutionEnvironmentInfo(final ExecutionEnvironmentID backendID);
+	ExecutionEnvironment getExecutionEnvironmentInfo(final ExecutionEnvironmentID backendID, final boolean fromBackend);
 
 	/**
 	 * Method that tries to register an external instance of dataClay assigning a new ID to it. If if is already registered,

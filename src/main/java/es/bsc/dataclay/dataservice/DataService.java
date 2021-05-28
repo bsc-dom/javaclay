@@ -2163,6 +2163,9 @@ public final class DataService implements DataServiceAPI {
                     // and EE exists
                     // can tell if the object actually exists
                     // summary: the object only exist in EE if it is loaded.
+                    if (obj == null) {
+                        return false;
+                    }
                     return obj.isLoaded();
             } else {
                 return false;

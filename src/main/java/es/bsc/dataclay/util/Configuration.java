@@ -178,6 +178,12 @@ public final class Configuration {
 		GRPC_BOSS_NUM_THREADS(-1, ConfType.INTEGER),
 		GRPC_WORKER_NUM_THREADS(-1, ConfType.INTEGER),
 
+		/** GRPC threadpool parallelism level. */
+		GRPC_THREADPOOL_PARALLELISM(-1, ConfType.INTEGER),
+
+		/** Deadline for grpc calls. */
+		GRPC_DEADLINE_MILLIS(30000, ConfType.INTEGER),
+
 		/** Indicates SQLite should be executed in memory. */
 		SQLITE_IN_MEMORY(false, ConfType.BOOLEAN),
 
@@ -270,9 +276,9 @@ public final class Configuration {
 		// ANY CALL TO LOGICMODULE 
 		/** Default value for number of retries in connection to LogicModule. 
 		 * NOTE: Clients can wait at init waitForBackends*/
-		MAX_RETRIES_LOGICMODULE(600, ConfType.SHORT),
+		MAX_RETRIES_LOGICMODULE(3, ConfType.SHORT),
 		/** Default value for sleeping before retrying in LM in millis. */
-		SLEEP_RETRIES_LOGICMODULE(1000, ConfType.SHORT),
+		SLEEP_RETRIES_LOGICMODULE(5000, ConfType.SHORT),
 
 		// EXECUTION RETRIES
 

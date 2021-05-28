@@ -609,7 +609,7 @@ public class LogicModule implements LogicModuleAPI {
      * Update APIs for all registered environments/storage locations
      */
     protected void updateAPIsFromDB() {
-        for (final ExecutionEnvironment execEnv : this.getAllExecutionEnvironmentsInfo(null, false).values()) {
+        for (final ExecutionEnvironment execEnv : this.getAllExecutionEnvironmentsInfo(null, false, false).values()) {
             try {
                 initRemoteTCPExecutionEnvironment(execEnv.getDataClayID(),
                         execEnv.getName(), execEnv.getHostname(), execEnv.getPort(), execEnv.getLang());
@@ -3670,11 +3670,12 @@ public class LogicModule implements LogicModuleAPI {
 
     @Override
     public Map<ExecutionEnvironmentID, ExecutionEnvironment> getAllExecutionEnvironmentsInfo(final Langs execEnvLang,
-                                                                                             final boolean getExternal) {
+                                                                                             final boolean getExternal,
+                                                                                             final boolean fromBackend) {
         final Map<ExecutionEnvironmentID, ExecutionEnvironment> execEnvs = this.logicMetadataMgr
                 .getAllExecutionEnvironmentsInfo(execEnvLang);
 
-        if (exposedIPForClient != null) {
+        if (!fromBackend && exposedIPForClient != null) {
             // All information send to client will use exposed IP configured
             for (final Entry<ExecutionEnvironmentID, ExecutionEnvironment> ee : execEnvs.entrySet()) {
                 ee.getValue().setHostname(exposedIPForClient);
@@ -3692,7 +3693,7 @@ public class LogicModule implements LogicModuleAPI {
                 }
 
                 // Get external exec envs
-                Map<ExecutionEnvironmentID, ExecutionEnvironment> result = externalLogicModule.getAllExecutionEnvironmentsInfo(execEnvLang, false);
+                Map<ExecutionEnvironmentID, ExecutionEnvironment> result = externalLogicModule.getAllExecutionEnvironmentsInfo(execEnvLang, false, false);
                 execEnvs.putAll(result);
             }
         }
@@ -3718,9 +3719,10 @@ public class LogicModule implements LogicModuleAPI {
     }
 
     @Override
-    public StorageLocation getStorageLocationInfo(final StorageLocationID backendID) {
+    public StorageLocation getStorageLocationInfo(final StorageLocationID backendID,
+                                                      final boolean fromBackend) {
         StorageLocation stLoc = logicMetadataMgr.getStorageLocationInfo(backendID);
-        if (exposedIPForClient != null) {
+        if (!fromBackend && exposedIPForClient != null) {
             // All information send to client will use exposed IP configured
             stLoc.setHostname(exposedIPForClient);
         }
@@ -3729,9 +3731,10 @@ public class LogicModule implements LogicModuleAPI {
     }
 
     @Override
-    public ExecutionEnvironment getExecutionEnvironmentInfo(final ExecutionEnvironmentID backendID) {
+    public ExecutionEnvironment getExecutionEnvironmentInfo(final ExecutionEnvironmentID backendID,
+                                                            final boolean fromBackend) {
         ExecutionEnvironment execEnv = logicMetadataMgr.getExecutionEnvironmentInfo(backendID);
-        if (exposedIPForClient != null) {
+        if (!fromBackend && exposedIPForClient != null) {
             // All information send to client will use exposed IP configured
             execEnv.setHostname(exposedIPForClient);
         }
@@ -3946,7 +3949,8 @@ public class LogicModule implements LogicModuleAPI {
      * @param theport Port
      * @return ID of the registered external dataclay
      */
-    private DataClayInstanceID registerExternalDataClayAux(final String thehostname, final int theport) {
+    private DataClayInstanceID registerExternalDataClayAux(final String thehostname,
+                                                           final int theport) {
         try {
 
 
@@ -4306,7 +4310,7 @@ public class LogicModule implements LogicModuleAPI {
             throw new DataClayRuntimeException(ERRORCODE.OBJECT_NOT_IN_BACKEND,
                     "Object is not in the backend where the method has to be executed", false);
         }
-        ExecutionEnvironment backend = this.getExecutionEnvironmentInfo(targetBackend);
+        ExecutionEnvironment backend = this.getExecutionEnvironmentInfo(targetBackend, true);
 
         // Get the language for the current session
         final Langs sessionLang = getSessionInfo(origSession).getLanguage();
@@ -4467,7 +4471,7 @@ public class LogicModule implements LogicModuleAPI {
             final int maxRetries = Math.max(Configuration.Flags.MAX_EXECUTION_RETRIES.getShortValue(), locations.size());
             for (short i = 1; i <= maxRetries; i++) {
                 try {
-                    final ExecutionEnvironment backend = this.getExecutionEnvironmentInfo(backendID);
+                    final ExecutionEnvironment backend = this.getExecutionEnvironmentInfo(backendID, true);
                     final DataServiceAPI dataSrvApi = getExecutionEnvironmentAPI(backend);
                     if (DEBUG_ENABLED) {
                         final Set<ImplementationID> implementationIDs = new HashSet<>();
