@@ -26,8 +26,6 @@ install:
   - sh: "curl -sflL 'https://raw.githubusercontent.com/appveyor/secure-file/master/install.sh' | bash -e -\n./appveyor-tools/secure-file -decrypt .appveyor/javaclay_pub.gpg.enc -secret $GPG_PUBLIC_KEY_SECRET -salt $GPG_PUBLIC_KEY_SALT \n./appveyor-tools/secure-file -decrypt .appveyor/javaclay_sec.gpg.enc -secret $GPG_PRIVATE_KEY_SECRET -salt $GPG_PRIVATE_KEY_SALT \ngpg --import .appveyor/javaclay_pub.gpg\ngpg --allow-secret-key-import --no-tty --batch --yes --import .appveyor/javaclay_sec.gpg\nsudo apt-get update\nsudo apt-get install -y openjdk-11-jdk maven\nmvn -version\necho $JAVA_HOME"
 cache: /home/appveyor/.m2
 build: off
-test_script:
-  - sh: mvn clean test
 deploy_script:
   - sh: ./release.sh --dev -y
 notifications:

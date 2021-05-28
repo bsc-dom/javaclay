@@ -42,7 +42,7 @@ if [[ "$GIT_BRANCH" != "$BRANCH_TO_CHECK" ]]; then
 fi
 
 if [ "$PROMPT" = true ]; then
-  read -p "Version defined is $VERSION. Is this ok? (y/n) " -n 1 -r
+  read -p "Version defined is $POM_VERSION. Is this ok? (y/n) " -n 1 -r
   echo    # (optional) move to a new line
   if [[ ! $REPLY =~ ^[Yy]$ ]]
   then
@@ -55,7 +55,7 @@ fi
 
 if [ "$DEV" = true ] ; then
 
-  mvn -P publish deploy -s settings.xml
+  mvn -DskipTests=true -P publish deploy -s settings.xml
 
 else
 
