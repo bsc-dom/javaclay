@@ -202,7 +202,7 @@ public final class DataServiceGrpcClient implements DataServiceAPI {
 		}
 
 		if (Configuration.Flags.GRPC_USE_FORK_JOIN_POOL.getBooleanValue()) {
-			chBuilder.executor(ForkJoinPool.commonPool());
+			chBuilder.executor(new ForkJoinPool());
 		}
 		chBuilder.maxInboundMetadataSize(Integer.MAX_VALUE);
 		chBuilder.maxHeaderListSize(Integer.MAX_VALUE);

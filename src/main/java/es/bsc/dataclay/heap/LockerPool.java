@@ -98,7 +98,7 @@ public final class LockerPool {
 		// it is not our critical path, since in our critical path everything is in cache and lockers exist.
 		//
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		synchronized (objectID.toString().intern()) { // ensure only one locker is created per object USE STRING INTERN SO ALL STRINGS ARE EQUAL!
+		synchronized (this) { // ensure only one locker is created per object USE STRING INTERN SO ALL STRINGS ARE EQUAL!
 			locker = lockers.get(objectID);
 			if (locker == null) {
 				//synchronized (this) { // ensure only one locker is created per object
@@ -156,7 +156,7 @@ public final class LockerPool {
 					logger.debug("[==Lockers==] Going to remove locker " + objectID);
 				}
 
-				synchronized (objectID.toString().intern()) { // prevent the object to be locked before cleaning
+				synchronized (this) { // prevent the object to be locked before cleaning
 					final ReentrantLock locker = lockers.get(objectID);
 					if (!locker.isLocked()) { // It could have been locked before
 						lockers.remove(objectID);
