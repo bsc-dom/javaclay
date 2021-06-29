@@ -1,4 +1,4 @@
-version: 2.6.1.build{build}
+version: javaclay.test.build{build}
 branches:
   except:
     - master
