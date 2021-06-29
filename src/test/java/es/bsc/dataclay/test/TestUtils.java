@@ -22,6 +22,7 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Random;
 
+import es.bsc.dataclay.util.Configuration;
 import org.apache.commons.io.FileUtils;
 
 import es.bsc.dataclay.util.ids.ObjectID;
@@ -499,7 +500,6 @@ public final class TestUtils {
 			e.printStackTrace();
 		}
 		fileDir.mkdirs();
-
 	}
 
 	public static void cleanDirectory(final String dirName) {

@@ -14,6 +14,7 @@ import es.bsc.dataclay.util.Configuration;
 import es.bsc.dataclay.util.FileAndAspectsUtils;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
@@ -27,6 +28,7 @@ import java.io.File;
 /**
  * @brief This class tests the openings, closes and basic operations of the DbHandler class.
  */
+@Ignore
 public final class SQLHandlerTest {
 
 	/** Tested database. */

@@ -2,7 +2,7 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/mu9mwf0g4ilav6dc/branch/main?svg=true&passingText=Passing+functional+tests&pendingText=Building+functional+tests)](https://dataclay.bsc.es/testing-report/)
 
 
-[![Maven Central](https://img.shields.io/maven-central/v/es.bsc.dataclay/dataclay/2.6)](https://search.maven.org/artifact/es.bsc.dataclay/dataclay/2.6/jar)
+[![Maven Central](https://img.shields.io/maven-central/v/es.bsc.dataclay/dataclay/2.5)](https://search.maven.org/artifact/es.bsc.dataclay/dataclay/2.5/jar)
 [![License](https://img.shields.io/github/license/bsc-dom/javaclay)](https://github.com/bsc-dom/javaclay/blob/develop/LICENSE.txt)
 [![Nexus](https://img.shields.io/nexus/s/es.bsc.dataclay/dataclay?server=https%3A%2F%2Foss.sonatype.org%2F
 )](https://oss.sonatype.org/#nexus-search;quick~dataclay)

@@ -20,6 +20,7 @@ public class AbstractManagerTest {
 
 	public void before() {
 		Configuration.Flags.STORAGE_PATH.setValue(System.getProperty("user.dir") + "/dbfiles");
+		Configuration.Flags.STORAGE_METADATA_PATH.setValue(System.getProperty("user.dir") + "/dbfiles");
 		dbHandler = initDBHandler();
 		dbHandler.open();
 		dataSource = dbHandler.getDataSource();

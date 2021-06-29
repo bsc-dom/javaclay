@@ -13,6 +13,7 @@ import java.util.Set;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
@@ -38,6 +39,7 @@ import es.bsc.dataclay.util.management.metadataservice.MetaDataInfo;
 import es.bsc.dataclay.util.management.metadataservice.StorageLocation;
 import es.bsc.dataclay.util.structs.Tuple;
 
+@Ignore
 public class MetaDataServiceTest extends AbstractManagerTest {
 
 	private MetaDataService mdservice; // !<@brief MetaDataService instance tested.

@@ -27,11 +27,7 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.UUID;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -75,6 +71,7 @@ import es.bsc.dataclay.util.yaml.CommonYAML;
  * @brief This class tests the ClassManager focusing in MetaClass functions.
  * @note This is a parameterized test.
  */
+@Ignore
 @RunWith(Parameterized.class)
 public final class ClassManagerClassTest extends AbstractManagerTest {
 
