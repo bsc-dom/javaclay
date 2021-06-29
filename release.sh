@@ -79,7 +79,7 @@ else
 
   # once released maven push pom.xml without SNAPSHOT tag in master
   cp pom.xml develop.pom.xml
-  sed -i "s/$VERSION-SNAPSHOT/$VERSION/g" pom.xml
+  sed -i "s/$NEW_VERSION-SNAPSHOT/$VERSION/g" pom.xml
   git add pom.xml
   git commit -m "Released $VERSION"
   git push
