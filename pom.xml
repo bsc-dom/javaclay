@@ -4,7 +4,7 @@
     <!-- Project info -->
     <groupId>es.bsc.dataclay</groupId>
     <artifactId>dataclay</artifactId>
-    <version>2.6.1</version>
+    <version>2.7-SNAPSHOT</version>
     <name>dataclay</name>
     <description>Next generation object storage</description>
     <url>https://dataclay.bsc.es</url>
@@ -31,7 +31,7 @@
         <connection>scm:git:git@github.com:bsc-dom/javaclay.git</connection>
         <developerConnection>scm:git:git@github.com:bsc-dom/javaclay.git</developerConnection>
         <url>http://github.com/bsc-dom/javaclay/tree/master</url>
-        <tag>2.6.1</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <!--License -->
