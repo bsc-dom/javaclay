@@ -61,7 +61,12 @@ else
   PREV_VERSION=$(echo "$VERSION - 0.1" | bc)
   NEW_VERSION=$(echo "$VERSION + 0.1" | bc)
   GIT_TAG=$VERSION
-
+  read -p "Version is $VERSION. Previous Version defined is $PREV_VERSION. New version will be $NEW_VERSION. Is this ok? (y/n) " -n 1 -r
+  echo    # (optional) move to a new line
+  if [[ ! $REPLY =~ ^[Yy]$ ]]
+  then
+      printError "Please modify pom.xml version"
+  fi
   # Modify README.md
   sed -i "s/$VERSION/$NEW_VERSION/g" README.md
   sed -i "s/$PREV_VERSION/$VERSION/g" README.md
