@@ -75,7 +75,7 @@ else
   git push
 
   # NOTE: maven will tag Git repository
-  mvn -P publish release:clean release:prepare release:perform -s settings.xml
+  mvn -DskipTests=true -P publish release:clean release:prepare release:perform -s settings.xml
 
   # once released maven push pom.xml without SNAPSHOT tag in master
   cp pom.xml develop.pom.xml
