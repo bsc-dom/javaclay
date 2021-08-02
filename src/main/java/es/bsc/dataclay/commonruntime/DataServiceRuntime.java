@@ -537,6 +537,9 @@ public final class DataServiceRuntime extends DataClayRuntime {
 		if (objectSessions != null) {
 			objectSessions.remove(sessionID);
 			LOGGER.debug("Detached object {} from session {}", objectID, sessionID);
+			if (objectSessions.isEmpty()) {
+				this.referencesHoldBySessions.remove(objectID);
+			}
 		}
 	}
 
@@ -705,12 +708,10 @@ public final class DataServiceRuntime extends DataClayRuntime {
 		final Set<ObjectID> retainedRefs = new HashSet<>();
 
 		// memory references
-		if (DEBUG_ENABLED && heapManger.getObjectIDsRetained().size() > 0) {
-			LOGGER.debug("Adding memory references: " + heapManger.getObjectIDsRetained());
-		}
 		retainedRefs.addAll(heapManger.getObjectIDsRetained());
 
-		if (DEBUG_ENABLED && this.referencesHoldBySessions.size() > 0) {
+		if (DEBUG_ENABLED) {
+			LOGGER.debug("[==GC==] Session refs: " + this.referencesHoldBySessions.size());
 			LOGGER.debug("References hold by sessions: " + this.referencesHoldBySessions.keySet());
 		}
 		// session references
@@ -728,19 +729,6 @@ public final class DataServiceRuntime extends DataClayRuntime {
 				final SessionID curSession = iterator.next();
 
 				// ===== CHECK SESSION EXPIRED ===== //
-				// ==== session counting design - Race condition ==== //
-				// Race condition: object is send between two nodes and they are both notifying
-				// 0 references. This is not
-				// solved using quarantine in SL since during quarantine period they could do
-				// the same and always send 0: while
-				// one is
-				// notifying 0, the other keeps the object, and send to the other before
-				// notifying 0.
-				// In order to avoid this, since session reference is added every time we
-				// communicate
-				// (even between nodes! not only client - node)
-				// we do NOT remove session reference till GGC asks TWO times
-
 				// Explicit closes of sessions set expire date to "now" but user can restart a
 				// session
 				// so, even if session is in quarantine, we must check date.

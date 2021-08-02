@@ -14,15 +14,14 @@ import java.util.*;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
-import es.bsc.dataclay.api.BackendID;
 import es.bsc.dataclay.dbhandler.sql.sqlite.SQLiteHandlerConfig;
 import es.bsc.dataclay.exceptions.metadataservice.*;
 import es.bsc.dataclay.logic.logicmetadata.LogicModuleMetadataMgr;
 import es.bsc.dataclay.logic.server.LogicModuleSrv;
+import es.bsc.dataclay.logic.GlobalGarbageCollector;
 import es.bsc.dataclay.util.management.metadataservice.*;
 import io.grpc.Status;
 import io.grpc.StatusRuntimeException;
-import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import es.bsc.dataclay.dbhandler.sql.sqlite.SQLiteDataSource;
@@ -32,8 +31,6 @@ import es.bsc.dataclay.commonruntime.DataServiceRuntime;
 import es.bsc.dataclay.communication.grpc.clients.CommonGrpcClient;
 import es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.Langs;
 import es.bsc.dataclay.dataservice.api.DataServiceAPI;
-import es.bsc.dataclay.dbhandler.DBHandler;
-import es.bsc.dataclay.dbhandler.DBHandlerConf;
 import es.bsc.dataclay.dbhandler.sql.SQLHandler;
 import es.bsc.dataclay.exceptions.DataClayException;
 import es.bsc.dataclay.exceptions.DataClayRuntimeException;
@@ -62,7 +59,6 @@ import es.bsc.dataclay.logic.datasetmgr.DataSetManager;
 import es.bsc.dataclay.logic.datasetmgr.DataSetManagerDB;
 import es.bsc.dataclay.logic.interfacemgr.InterfaceManager;
 import es.bsc.dataclay.logic.interfacemgr.InterfaceManagerDB;
-import es.bsc.dataclay.logic.logicmetadata.LogicMetadataDB;
 import es.bsc.dataclay.logic.logicmetadata.LogicMetadataIDs;
 import es.bsc.dataclay.logic.namespacemgr.NamespaceManager;
 import es.bsc.dataclay.logic.namespacemgr.NamespaceManagerDB;
@@ -73,10 +69,8 @@ import es.bsc.dataclay.logic.sessionmgr.SessionManagerDB;
 import es.bsc.dataclay.metadataservice.MetaDataService;
 import es.bsc.dataclay.metadataservice.MetaDataServiceDB;
 import es.bsc.dataclay.serialization.lib.DataClayDeserializationLib;
-import es.bsc.dataclay.serialization.lib.ObjectWithDataParamOrReturn;
 import es.bsc.dataclay.serialization.lib.SerializedParametersOrReturn;
 import es.bsc.dataclay.util.Configuration;
-import es.bsc.dataclay.util.DataClayObjectMetaData;
 import es.bsc.dataclay.util.FileAndAspectsUtils;
 import es.bsc.dataclay.util.configs.CfgAdminEnvLoader;
 import es.bsc.dataclay.util.events.listeners.ECA;
@@ -97,7 +91,6 @@ import es.bsc.dataclay.util.ids.OperationID;
 import es.bsc.dataclay.util.ids.PropertyID;
 import es.bsc.dataclay.util.ids.SessionID;
 import es.bsc.dataclay.util.ids.StorageLocationID;
-import es.bsc.dataclay.util.info.VersionInfo;
 import es.bsc.dataclay.util.management.accountmgr.Account;
 import es.bsc.dataclay.util.management.accountmgr.AccountRole;
 import es.bsc.dataclay.util.management.accountmgr.PasswordCredential;
@@ -198,6 +191,10 @@ public class LogicModule implements LogicModuleAPI {
     private NotificationManager notificationMgrApi;
     /** LogicModule metadata mgr. */
     private LogicModuleMetadataMgr logicMetadataMgr;
+
+    /** Global garbage collector. */
+    private GlobalGarbageCollector globalGarbageCollector;
+
     /**
      * LM public IDs (admin, contract, datasets...) This field contains all IDs that
      * must be the same even if we restart LM or for backups.
@@ -236,6 +233,11 @@ public class LogicModule implements LogicModuleAPI {
 
     /** Name of the LM */
     protected String name;
+
+    /** Indicates current number of objects in dataClay, including objects in memory,
+     * it needs GlobalGC enabled, the value is updated every GC interval.
+     */
+    public int currentNumberOfObjects;
 
     /**
      * LogicModule constructor
@@ -298,6 +300,8 @@ public class LogicModule implements LogicModuleAPI {
         datacontractMgrApi = new DataContractManager(mgmDataSource);
         logicMetadataMgr = new LogicModuleMetadataMgr(mgmDataSource);
         metaDataSrvApi = new MetaDataService(metadataDataSource);
+        globalGarbageCollector = new GlobalGarbageCollector(this);
+
         // Tricky initialization for the *ByLang table of tables
         for (final Langs lang : Langs.values()) {
             execEnvironments.put(lang, new HashMap<ExecutionEnvironmentID, Tuple<DataServiceAPI, ExecutionEnvironment>>());
@@ -586,7 +590,7 @@ public class LogicModule implements LogicModuleAPI {
      *            The language required.
      * @return DataServiceAPIs, the ones compatible with the language
      */
-    protected Map<ExecutionEnvironmentID, Tuple<DataServiceAPI, ExecutionEnvironment>> getExecutionEnvironments(final Langs lang) {
+    public Map<ExecutionEnvironmentID, Tuple<DataServiceAPI, ExecutionEnvironment>> getExecutionEnvironments(final Langs lang) {
         if (DEBUG_ENABLED) {
             LOGGER.debug("[==GetExecutionEnvironments==] Execution environments in language " + lang + " : " + execEnvironments.get(lang).keySet());
         }
@@ -598,7 +602,7 @@ public class LogicModule implements LogicModuleAPI {
      *
      * @return DataServiceAPIs
      */
-    protected Map<StorageLocationID, Tuple<DataServiceAPI, StorageLocation>> getStorageLocations() {
+    public Map<StorageLocationID, Tuple<DataServiceAPI, StorageLocation>> getStorageLocations() {
         if (DEBUG_ENABLED) {
             LOGGER.debug("[==GetStorageLocations==] Storage locations : " + storageLocations.keySet());
         }
@@ -4617,12 +4621,17 @@ public class LogicModule implements LogicModuleAPI {
     @Override
     public int getNumObjects() {
         LOGGER.debug("Getting number of objects in dataClay");
-        int numObjs = 0;
-        for (final Tuple<DataServiceAPI, StorageLocation> elem : this.getStorageLocations().values()) {
-            numObjs += elem.getFirst().getNumObjects();
+        if (currentNumberOfObjects >= 0) {
+            int numObjs = 0;
+            for (final Tuple<DataServiceAPI, StorageLocation> elem : this.getStorageLocations().values()) {
+                numObjs += elem.getFirst().getNumObjects();
+            }
+            LOGGER.debug("Found {} objects in dataClay", numObjs);
+            return numObjs;
+        } else {
+            LOGGER.debug("Found {} objects in dataClay", currentNumberOfObjects);
+            return currentNumberOfObjects;
         }
-        LOGGER.debug("Found {} objects in dataClay", numObjs);
-        return numObjs;
 
     }
 

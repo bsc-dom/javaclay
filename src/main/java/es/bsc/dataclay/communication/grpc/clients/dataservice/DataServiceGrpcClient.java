@@ -4,7 +4,7 @@
  */
 package es.bsc.dataclay.communication.grpc.clients.dataservice;
 
-import java.io.File;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -22,6 +22,7 @@ import es.bsc.dataclay.communication.grpc.generated.logicmodule.LogicModuleGrpc;
 import es.bsc.dataclay.communication.grpc.messages.common.CommonMessages;
 import es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages;
 import es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages;
+import es.bsc.dataclay.util.ObjectGraph;
 import io.grpc.netty.shaded.io.grpc.netty.GrpcSslContexts;
 import io.grpc.netty.shaded.io.netty.handler.ssl.SslContext;
 import io.grpc.netty.shaded.io.netty.handler.ssl.SslContextBuilder;
@@ -1021,26 +1022,6 @@ public final class DataServiceGrpcClient implements DataServiceAPI {
 	}
 
 	@Override
-	public void updateRefs(final Map<ObjectID, Integer> updateCounterRefs) {
-		final es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.UpdateRefsRequest.Builder builder = es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.UpdateRefsRequest
-				.newBuilder();
-		for (final Entry<ObjectID, Integer> entry : updateCounterRefs.entrySet()) {
-			final ObjectID oid = entry.getKey();
-			final Integer counter = entry.getValue();
-			builder.putRefsToUpdate(oid.getId().toString(), counter);
-		}
-		final es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.UpdateRefsRequest request = builder
-				.build();
-		ExceptionInfo response;
-		try {
-			response = blockingStub.updateRefs(request);
-		} catch (final Exception e) {
-			throw new RuntimeException(e.getMessage());
-		}
-		Utils.checkIsExc(response);
-	}
-
-	@Override
 	public Set<ObjectID> getRetainedReferences() {
 		GetRetainedReferencesResponse response;
 		try {
@@ -1215,6 +1196,59 @@ public final class DataServiceGrpcClient implements DataServiceAPI {
 			throw new RuntimeException(e.getMessage());
 		}
 		Utils.checkIsExc(response);
+	}
+
+	@Override
+	public void deleteSet(final Set<ObjectID> objectIDs) {
+		final DataserviceMessages.DeleteSetFromDBRequest.Builder builder = DataserviceMessages.DeleteSetFromDBRequest.newBuilder();
+		for (final ObjectID objectID : objectIDs) {
+			builder.addObjectIDs(Utils.getMsgID(objectID));
+		}
+		final DataserviceMessages.DeleteSetFromDBRequest request = builder.build();
+		ExceptionInfo response;
+		try {
+			response = blockingStub.deleteSetFromDB(request);
+		} catch (final StatusRuntimeException e) {
+			throw new RuntimeException(e.getMessage());
+		}
+		Utils.checkIsExc(response);
+	}
+
+	@Override
+	public ObjectGraph getObjectGraph() {
+		DataserviceMessages.GetObjectGraphResponse response;
+		try {
+
+			response = blockingStub.getObjectGraph(EmptyMessage.newBuilder().build());
+
+		} catch (final StatusRuntimeException e) {
+			throw new RuntimeException(e.getStatus().getDescription());
+		}
+		Utils.checkIsExc(response.getExcInfo());
+
+		// Deserialize graph
+		final ByteArrayInputStream bis = new ByteArrayInputStream(response.getSerializedGraph().toByteArray());
+		ObjectGraph result = null;
+		ObjectInput in = null;
+		try {
+			in = new ObjectInputStream(bis);
+			result = (ObjectGraph) in.readObject();
+
+			//FIXME: review exceptions
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (in != null) {
+					in.close();
+				}
+			} catch (IOException ex) {
+				// ignore close exception
+			}
+		}
+		return result;
 	}
 
 	@Override

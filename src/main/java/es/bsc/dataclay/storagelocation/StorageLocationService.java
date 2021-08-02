@@ -5,11 +5,12 @@
  */
 package es.bsc.dataclay.storagelocation;
 
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+import es.bsc.dataclay.exceptions.dbhandler.DbObjectNotExistException;
+import es.bsc.dataclay.util.ObjectGraph;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -42,11 +43,11 @@ public final class StorageLocationService {
 	private final DBHandlerConf dbBaseConf;
 
 	/** Disk Garbage collector. */
-	private DataClayDiskGC diskGC;
+	private StorageLocationGC diskGC;
 	
 	/** Runtime used to connect to other EE, SL or LM. */
 	private DataServiceRuntime runtime;
-	
+
 	/** Associated execution environment IDs. */
 	private final Set<ExecutionEnvironmentID> associatedExecutionEnvironmentIDs = ConcurrentHashMap.newKeySet();
 
@@ -95,7 +96,7 @@ public final class StorageLocationService {
 		associateExecutionEnvironment(associatedEEID);
 		runtime = theruntime;
 		if (Configuration.Flags.GLOBAL_GC_ENABLED.getBooleanValue()) {
-			diskGC = new DataClayDiskGC(this, theruntime, associatedEEID);
+			diskGC = new StorageLocationGC(this, theruntime);
 		}
 	}
 
@@ -116,7 +117,7 @@ public final class StorageLocationService {
 		}
 		getDBHandler(eeID).store(objectID, bytes);
 		if (Configuration.Flags.GLOBAL_GC_ENABLED.getBooleanValue()) {
-			this.diskGC.addToQueueReferenceCounting(eeID, objectID, bytes, false, true);
+			this.diskGC.updateGraphOfReferences(objectID, bytes);
 		}
 	}
 
@@ -134,9 +135,6 @@ public final class StorageLocationService {
 				LOGGER.debug("[StorageLocation] Getting object {} from {} ", objectID, eeID);
 		}
 		final byte[] bytes = getDBHandler(eeID).get(objectID);
-		if (Configuration.Flags.GLOBAL_GC_ENABLED.getBooleanValue()) {
-			this.diskGC.addToQueueReferenceCounting(eeID, objectID, bytes, true, false);
-		}
 		return bytes;
 	}
 
@@ -181,7 +179,7 @@ public final class StorageLocationService {
 			getDBHandler(eeID).update(objectID, newbytes);
 		}
 		if (Configuration.Flags.GLOBAL_GC_ENABLED.getBooleanValue()) {
-			this.diskGC.addToQueueReferenceCounting(eeID, objectID, newbytes, false, dirty);
+			this.diskGC.updateGraphOfReferences(objectID, newbytes);
 		}
 	}
 
@@ -198,7 +196,36 @@ public final class StorageLocationService {
 			LOGGER.debug("[StorageLocation] Deleting object {} from  {} ", objectID, eeID);
 		}
 		getDBHandler(eeID).delete(objectID);
+		if (Configuration.Flags.GLOBAL_GC_ENABLED.getBooleanValue()) {
+			this.diskGC.deleteObject(objectID);
+		}
 	}
+
+	/**
+	 * Delete set of objects in all EEs of current SL
+	 * @param objectIDs IDs of the objects
+	 */
+	public void deleteSet(final Set<ObjectID> objectIDs) {
+		for (ExecutionEnvironmentID eeID : getAssociateExecutionEnvironments()) {
+			for (ObjectID objectID : objectIDs) {
+				try {
+					getDBHandler(eeID).delete(objectID);
+					if (DEBUG_ENABLED) {
+						LOGGER.debug("[StorageLocation] Deleted object {} from  {} ", objectID, eeID);
+					}
+					if (Configuration.Flags.GLOBAL_GC_ENABLED.getBooleanValue()) {
+						this.diskGC.deleteObject(objectID);
+					}
+				} catch (DbObjectNotExistException e) {
+					//ignore if object not in EE: delete is a broadcast to all nodes in order to look for replicas
+					//TODO: can we improve and just call delete where we know there are replicas? race conditions...
+				}
+			}
+			// Vacuum db
+			this.vacuum(eeID);
+		}
+	}
+
 
 	/**
 	 * Vacuum database.
@@ -211,21 +238,6 @@ public final class StorageLocationService {
 			LOGGER.debug("[StorageLocation] Vacuum database {}", eeID);
 		}
 		getDBHandler(eeID).vacuum();
-	}
-
-	/**
-	 * Update counters of references.
-	 * 
-	 * @param updateCounterRefs
-	 *            Update counter of references.
-	 */
-	public void updateRefs(final Map<ObjectID, Integer> updateCounterRefs) {
-		if (DEBUG_ENABLED) {
-			LOGGER.debug("[StorageLocation] Updating references with " + updateCounterRefs.toString());
-		}
-		if (Configuration.Flags.GLOBAL_GC_ENABLED.getBooleanValue()) {
-			this.diskGC.updateRefs(updateCounterRefs);
-		}
 	}
 
 	/**
@@ -281,18 +293,13 @@ public final class StorageLocationService {
 	}
 
 	/**
-	 * Return number of references pointing to object.
-	 * 
-	 * @param objectID
-	 *            ID of object
-	 * @return Number of references pointing to object
+	 * Get object graph of current SL
+	 * @return Graph of references in current SL
 	 */
-	public int getNumReferencesTo(final ObjectID objectID) {
-		if (Configuration.Flags.GLOBAL_GC_ENABLED.getBooleanValue()) {
-			return this.diskGC.getNumReferencesTo(objectID);
-		}
-		return 0;
+	public ObjectGraph getObjectGraph() {
+		return this.diskGC.getObjectGraph();
 	}
+
 
 	/**
 	 * Return number of objects in current SL and associated EEs

@@ -312,32 +312,6 @@ public final class Configuration {
 		// ============== GLOBAL GC ===================== //
 		/** Interval to check and collect objects in disk. (IN MILLIS) */
 		GLOBALGC_COLLECT_TIME_INTERVAL(24 * 60 * 60 * 1000L, ConfType.LONG),
-		/** Interval to check and send remote reference countings. (IN MILLIS) */
-		GLOBALGC_CHECK_REMOTE_PENDING(12000L, ConfType.LONG),
-		/**
-		 * Interval to process pending reference counters. The idea is not to use same
-		 * collection interval to avoid retaining too much memory: one thing is the map
-		 * of counters (which is not released till collection or sending references to
-		 * other nodes) and other thing is the pending reference countings to process
-		 * (which are maps of oid -> num refs per each object). (IN MILLIS)
-		 */
-		GLOBALGC_PROCESS_COUNTINGS_INTERVAL(8000L, ConfType.LONG),
-
-		/**
-		 * Maximum time an object can be in quarantine. WARNING: this time must ensure
-		 * no race condition of wrong 0 references happen.
-		 */
-		GLOBALGC_MAX_TIME_QUARANTINE(16000L, ConfType.LONG),
-
-		/** Waiting millis to other GC threads to finish during shutdown process. */
-		GLOBALGC_WAIT_TO_SHUTDOWN(30000L, ConfType.LONG),
-
-		/**
-		 * Maximum number of objects to collect during an iteration, this allow us to avoid
-		 * infinite cleaning thread.
-		 */
-		GLOBALGC_MAX_OBJECTS_TO_COLLECT_ITERATION(1000, ConfType.INTEGER),
-
 		/**
 		 * Initial delay for collector thread to start working in hours
 		 */

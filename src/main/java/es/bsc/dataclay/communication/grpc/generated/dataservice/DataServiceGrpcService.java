@@ -29,7 +29,7 @@ public final class DataServiceGrpcService {
       "/communication/grpc/messages/dataservice" +
       "/dataservice_messages.proto\032Adataclay/co" +
       "mmunication/grpc/messages/common/common_" +
-      "messages.proto2\3122\n\013DataService\022\203\001\n\rinitB" +
+      "messages.proto2\3353\n\013DataService\022\203\001\n\rinitB" +
       "ackendID\022=.dataclay.communication.grpc.d" +
       "ataservice.InitBackendIDRequest\0321.datacl" +
       "ay.communication.grpc.common.ExceptionIn" +
@@ -135,65 +135,69 @@ public final class DataServiceGrpcService {
       "n.ExceptionInfo\"\000\022}\n\ndeleteToDB\022:.datacl" +
       "ay.communication.grpc.dataservice.Delete" +
       "ToDBRequest\0321.dataclay.communication.grp" +
-      "c.common.ExceptionInfo\"\000\022\207\001\n\nexistsInDB\022" +
-      ":.dataclay.communication.grpc.dataservic" +
-      "e.ExistsInDBRequest\032;.dataclay.communica" +
-      "tion.grpc.dataservice.ExistsInDBResponse" +
-      "\"\000\022\205\001\n\034cleanExecutionClassDirectory\0220.da" +
-      "taclay.communication.grpc.common.EmptyMe" +
-      "ssage\0321.dataclay.communication.grpc.comm" +
-      "on.ExceptionInfo\"\000\022w\n\016closeDbHandler\0220.d" +
-      "ataclay.communication.grpc.common.EmptyM" +
-      "essage\0321.dataclay.communication.grpc.com" +
-      "mon.ExceptionInfo\"\000\022q\n\010shutDown\0220.datacl" +
-      "ay.communication.grpc.common.EmptyMessag" +
-      "e\0321.dataclay.communication.grpc.common.E" +
-      "xceptionInfo\"\000\022}\n\024disconnectFromOthers\0220" +
-      ".dataclay.communication.grpc.common.Empt" +
-      "yMessage\0321.dataclay.communication.grpc.c" +
-      "ommon.ExceptionInfo\"\000\022\177\n\026registerPending" +
-      "Objects\0220.dataclay.communication.grpc.co" +
-      "mmon.EmptyMessage\0321.dataclay.communicati" +
-      "on.grpc.common.ExceptionInfo\"\000\022t\n\013cleanC" +
-      "aches\0220.dataclay.communication.grpc.comm" +
-      "on.EmptyMessage\0321.dataclay.communication" +
-      ".grpc.common.ExceptionInfo\"\000\022\207\001\n\017activat" +
-      "eTracing\022?.dataclay.communication.grpc.d" +
-      "ataservice.ActivateTracingRequest\0321.data" +
+      "c.common.ExceptionInfo\"\000\022\207\001\n\017deleteSetFr" +
+      "omDB\022?.dataclay.communication.grpc.datas" +
+      "ervice.DeleteSetFromDBRequest\0321.dataclay" +
+      ".communication.grpc.common.ExceptionInfo" +
+      "\"\000\022\207\001\n\nexistsInDB\022:.dataclay.communicati" +
+      "on.grpc.dataservice.ExistsInDBRequest\032;." +
+      "dataclay.communication.grpc.dataservice." +
+      "ExistsInDBResponse\"\000\022\205\001\n\034cleanExecutionC" +
+      "lassDirectory\0220.dataclay.communication.g" +
+      "rpc.common.EmptyMessage\0321.dataclay.commu" +
+      "nication.grpc.common.ExceptionInfo\"\000\022w\n\016" +
+      "closeDbHandler\0220.dataclay.communication." +
+      "grpc.common.EmptyMessage\0321.dataclay.comm" +
+      "unication.grpc.common.ExceptionInfo\"\000\022q\n" +
+      "\010shutDown\0220.dataclay.communication.grpc." +
+      "common.EmptyMessage\0321.dataclay.communica" +
+      "tion.grpc.common.ExceptionInfo\"\000\022}\n\024disc" +
+      "onnectFromOthers\0220.dataclay.communicatio" +
+      "n.grpc.common.EmptyMessage\0321.dataclay.co" +
+      "mmunication.grpc.common.ExceptionInfo\"\000\022" +
+      "\177\n\026registerPendingObjects\0220.dataclay.com" +
+      "munication.grpc.common.EmptyMessage\0321.da" +
+      "taclay.communication.grpc.common.Excepti" +
+      "onInfo\"\000\022t\n\013cleanCaches\0220.dataclay.commu" +
+      "nication.grpc.common.EmptyMessage\0321.data" +
       "clay.communication.grpc.common.Exception" +
-      "Info\"\000\022z\n\021deactivateTracing\0220.dataclay.c" +
-      "ommunication.grpc.common.EmptyMessage\0321." +
-      "dataclay.communication.grpc.common.Excep" +
-      "tionInfo\"\000\022v\n\tgetTraces\0220.dataclay.commu" +
-      "nication.grpc.common.EmptyMessage\0325.data" +
-      "clay.communication.grpc.common.GetTraces" +
-      "Response\"\000\022\177\n\013deleteAlias\022;.dataclay.com" +
-      "munication.grpc.dataservice.DeleteAliasR" +
-      "equest\0321.dataclay.communication.grpc.com" +
-      "mon.ExceptionInfo\"\000\022\227\001\n\027detachObjectFrom" +
-      "Session\022G.dataclay.communication.grpc.da" +
-      "taservice.DetachObjectFromSessionRequest" +
-      "\0321.dataclay.communication.grpc.common.Ex" +
-      "ceptionInfo\"\000\022\211\001\n\020closeSessionInDS\022@.dat" +
-      "aclay.communication.grpc.dataservice.Clo" +
-      "seSessionInDSRequest\0321.dataclay.communic" +
-      "ation.grpc.common.ExceptionInfo\"\000\022}\n\nupd" +
-      "ateRefs\022:.dataclay.communication.grpc.da" +
-      "taservice.UpdateRefsRequest\0321.dataclay.c" +
-      "ommunication.grpc.common.ExceptionInfo\"\000" +
-      "\022\223\001\n\025getRetainedReferences\0220.dataclay.co" +
-      "mmunication.grpc.common.EmptyMessage\032F.d" +
-      "ataclay.communication.grpc.dataservice.G" +
-      "etRetainedReferencesResponse\"\000\022~\n\rgetNum" +
-      "Objects\0220.dataclay.communication.grpc.co" +
-      "mmon.EmptyMessage\0329.dataclay.communicati" +
-      "on.grpc.common.GetNumObjectsResponse\"\000\022\202" +
-      "\001\n\021getNumObjectsInEE\0220.dataclay.communic" +
-      "ation.grpc.common.EmptyMessage\0329.datacla" +
-      "y.communication.grpc.common.GetNumObject" +
-      "sResponse\"\000BR\n8es.bsc.dataclay.communica" +
-      "tion.grpc.generated.dataserviceB\026DataSer" +
-      "viceGrpcServiceb\006proto3"
+      "Info\"\000\022\207\001\n\017activateTracing\022?.dataclay.co" +
+      "mmunication.grpc.dataservice.ActivateTra" +
+      "cingRequest\0321.dataclay.communication.grp" +
+      "c.common.ExceptionInfo\"\000\022z\n\021deactivateTr" +
+      "acing\0220.dataclay.communication.grpc.comm" +
+      "on.EmptyMessage\0321.dataclay.communication" +
+      ".grpc.common.ExceptionInfo\"\000\022v\n\tgetTrace" +
+      "s\0220.dataclay.communication.grpc.common.E" +
+      "mptyMessage\0325.dataclay.communication.grp" +
+      "c.common.GetTracesResponse\"\000\022\177\n\013deleteAl" +
+      "ias\022;.dataclay.communication.grpc.datase" +
+      "rvice.DeleteAliasRequest\0321.dataclay.comm" +
+      "unication.grpc.common.ExceptionInfo\"\000\022\227\001" +
+      "\n\027detachObjectFromSession\022G.dataclay.com" +
+      "munication.grpc.dataservice.DetachObject" +
+      "FromSessionRequest\0321.dataclay.communicat" +
+      "ion.grpc.common.ExceptionInfo\"\000\022\211\001\n\020clos" +
+      "eSessionInDS\022@.dataclay.communication.gr" +
+      "pc.dataservice.CloseSessionInDSRequest\0321" +
+      ".dataclay.communication.grpc.common.Exce" +
+      "ptionInfo\"\000\022\223\001\n\025getRetainedReferences\0220." +
+      "dataclay.communication.grpc.common.Empty" +
+      "Message\032F.dataclay.communication.grpc.da" +
+      "taservice.GetRetainedReferencesResponse\"" +
+      "\000\022~\n\rgetNumObjects\0220.dataclay.communicat" +
+      "ion.grpc.common.EmptyMessage\0329.dataclay." +
+      "communication.grpc.common.GetNumObjectsR" +
+      "esponse\"\000\022\202\001\n\021getNumObjectsInEE\0220.datacl" +
+      "ay.communication.grpc.common.EmptyMessag" +
+      "e\0329.dataclay.communication.grpc.common.G" +
+      "etNumObjectsResponse\"\000\022\205\001\n\016getObjectGrap" +
+      "h\0220.dataclay.communication.grpc.common.E" +
+      "mptyMessage\032?.dataclay.communication.grp" +
+      "c.dataservice.GetObjectGraphResponse\"\000BR" +
+      "\n8es.bsc.dataclay.communication.grpc.gen" +
+      "erated.dataserviceB\026DataServiceGrpcServi" +
+      "ceb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,

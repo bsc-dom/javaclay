@@ -30,6 +30,7 @@ import java.util.Timer;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
+import es.bsc.dataclay.util.ObjectGraph;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.objectweb.asm.util.CheckClassAdapter;
@@ -1917,7 +1918,8 @@ public final class DataService implements DataServiceAPI {
             registerAndStorePendingObject(instance, arrBytes, true);
             instance.setPendingToRegister(false);
 
-        } else if (instance.isDirty()) {
+        } else  {
+            // TODO: use dirty flag to avoid trips to SL? how to update SL graph of references?
             if (DEBUG_ENABLED) {
                 LOGGER.debug(
                         "[==GC==] Going to update dirty object in database object with ID " + instance.getObjectID());
@@ -1941,24 +1943,6 @@ public final class DataService implements DataServiceAPI {
              * getObjectID(), instance.getDataSetID()); }
              */
 
-        } else {
-            if (Configuration.Flags.GLOBAL_GC_ENABLED.getBooleanValue()) {
-                if (DEBUG_ENABLED) {
-                    LOGGER.debug(
-                            "[==GC==] Going to notify not dirty object to GlobalGC with ID " + instance.getObjectID());
-                }
-                final byte[] arrBytes = DataClaySerializationLib.serializeForDBGarbageCollection(instance, false, null,
-                        true);
-                if (arrBytes != null) {
-                    final byte[] refCountingBytes = DataClayDeserializationLib.extractReferenceCounting(arrBytes);
-                    this.storageLocation.update(this.executionEnvironmentID, instance.getObjectID(), refCountingBytes,
-                            false);
-
-                } else {
-                    LOGGER.debug("[==GC==] Found very volatile not modified (not sending to Disk) with ID "
-                            + instance.getObjectID());
-                }
-            }
         }
 
     }
@@ -2239,8 +2223,13 @@ public final class DataService implements DataServiceAPI {
     }
 
     @Override
-    public void updateRefs(final Map<ObjectID, Integer> updateCounterRefs) {
-        this.storageLocation.updateRefs(updateCounterRefs);
+    public void deleteSet(final Set<ObjectID> objectIDs) {
+        this.storageLocation.deleteSet(objectIDs);
+    }
+
+    @Override
+    public ObjectGraph getObjectGraph() {
+        return this.storageLocation.getObjectGraph();
     }
 
     @Override
@@ -2347,16 +2336,6 @@ public final class DataService implements DataServiceAPI {
     @Override
     public void disconnectFromOthers() {
         ownServer.disconnectFromOthers();
-    }
-
-    /**
-     * Return number of references pointing to object.
-     *
-     * @param objectID ID of object
-     * @return Number of references pointing to object
-     */
-    public int getNumReferencesTo(final ObjectID objectID) {
-        return this.storageLocation.getNumReferencesTo(objectID);
     }
 
     /**

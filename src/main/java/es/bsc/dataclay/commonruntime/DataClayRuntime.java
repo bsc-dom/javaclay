@@ -1264,7 +1264,11 @@ public abstract class DataClayRuntime {
 		if (DEBUG_ENABLED) {
 			String paramTypes = "";
 			for (Object param : params) {
-				paramTypes = paramTypes + param.getClass().getName() + ", ";
+				if (param == null) {
+					paramTypes = paramTypes + "null, ";
+				} else {
+					paramTypes = paramTypes + param.getClass().getName() + ", ";
+				}
 			}
 			LOGGER.debug("[==Serialization==] Serializing parameters: " + paramTypes);
 

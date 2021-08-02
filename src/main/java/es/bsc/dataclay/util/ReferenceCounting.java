@@ -90,6 +90,7 @@ public class ReferenceCounting {
 		}
 
 		// check if object was federated
+		// FIXME: serializing reference counting can create remote calls here to check exec env info
 		DataClayInstanceID curDataClayID = DataClayObject.getLib().getDataClayID();
 		if (dcObject.getReplicaLocations() != null && dcObject.getReplicaLocations().size() != 0) {
 			for (ExecutionEnvironmentID replicaLoc : dcObject.getReplicaLocations()) {

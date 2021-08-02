@@ -13,6 +13,7 @@ import es.bsc.dataclay.logic.sessionmgr.Session;
 import es.bsc.dataclay.serialization.lib.ObjectWithDataParamOrReturn;
 import es.bsc.dataclay.serialization.lib.SerializedParametersOrReturn;
 import es.bsc.dataclay.util.CommonManager;
+import es.bsc.dataclay.util.ObjectGraph;
 import es.bsc.dataclay.util.ids.DataClayInstanceID;
 import es.bsc.dataclay.util.ids.ExecutionEnvironmentID;
 import es.bsc.dataclay.util.ids.ImplementationID;
@@ -460,7 +461,21 @@ public interface DataServiceAPI extends CommonManager {
 	 */
 	void delete(final ExecutionEnvironmentID eeID, final ObjectID objectID);
 
+
+	/**
+	 * Delete set of objects from all EEs in current SL
+	 * @param objectIDs IDs of the objects to delete
+	 */
+	void deleteSet(final Set<ObjectID> objectIDs);
+
 	// ======================================= GARBAGE COLLECTION ================================= //
+
+	/**
+	 * Get SL object graph of references
+	 * @return Graph of references in current SL
+	 */
+	ObjectGraph getObjectGraph();
+
 	/**
 	 * Close session in DS. Used to notify that some objects are not longer 'retained' by sessions.
 	 * 
@@ -468,15 +483,6 @@ public interface DataServiceAPI extends CommonManager {
 	 *            ID of session.
 	 */
 	void closeSessionInDS(final SessionID sessionID);
-
-
-	/**
-	 * Update counters of references.
-	 * 
-	 * @param updateCounterRefs
-	 *            Update counter of references.
-	 */
-	void updateRefs(final Map<ObjectID, Integer> updateCounterRefs);
 
 	/**
 	 * Detach object from session, i.e. remove reference from session provided to object,

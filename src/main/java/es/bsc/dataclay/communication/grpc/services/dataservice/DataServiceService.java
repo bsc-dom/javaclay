@@ -4,6 +4,9 @@
  */
 package es.bsc.dataclay.communication.grpc.services.dataservice;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -16,6 +19,7 @@ import java.util.concurrent.TimeUnit;
 import com.google.protobuf.Any;
 import com.google.rpc.Code;
 import com.google.rpc.Status;
+import es.bsc.dataclay.util.ObjectGraph;
 import io.grpc.protobuf.StatusProto;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -84,19 +88,24 @@ import io.grpc.stub.StreamObserver;
  */
 public final class DataServiceService extends DataServiceGrpc.DataServiceImplBase {
 
-	/** Logger. */
+	/**
+	 * Logger.
+	 */
 	private static final Logger LOGGER = LogManager.getLogger("communication.LogicModule.service");
 
-	/** Actual DataService implementation. */
+	/**
+	 * Actual DataService implementation.
+	 */
 	private final DataService dataService;
-	/** Indicates if debug is enabled. */
+	/**
+	 * Indicates if debug is enabled.
+	 */
 	protected static final boolean DEBUG_ENABLED = Configuration.isDebugEnabled();
 
 	/**
 	 * Constructor
-	 * 
-	 * @param thedataService
-	 *            Dataservice to process calls
+	 *
+	 * @param thedataService Dataservice to process calls
 	 */
 	public DataServiceService(final DataService thedataService) {
 		this.dataService = thedataService;
@@ -105,7 +114,7 @@ public final class DataServiceService extends DataServiceGrpc.DataServiceImplBas
 
 	@Override
 	public void initBackendID(final InitBackendIDRequest request,
-			final io.grpc.stub.StreamObserver<CommonMessages.ExceptionInfo> responseObserver) {
+							  final io.grpc.stub.StreamObserver<CommonMessages.ExceptionInfo> responseObserver) {
 		try {
 			dataService.initBackendID(Utils.getStorageLocationID(request.getBackendID()));
 			Utils.returnExceptionInfoMessage(responseObserver);
@@ -119,7 +128,7 @@ public final class DataServiceService extends DataServiceGrpc.DataServiceImplBas
 
 	@Override
 	public void deployMetaClasses(final DeployMetaClassesRequest request,
-			final io.grpc.stub.StreamObserver<CommonMessages.ExceptionInfo> responseObserver) {
+								  final io.grpc.stub.StreamObserver<CommonMessages.ExceptionInfo> responseObserver) {
 		try {
 			final Map<String, MetaClass> deploymentPack = new ConcurrentHashMap<>();
 			for (final Entry<String, String> entry : request.getDeploymentPackMap().entrySet()) {
@@ -138,7 +147,7 @@ public final class DataServiceService extends DataServiceGrpc.DataServiceImplBas
 
 	@Override
 	public void deployClasses(final DeployClassesRequest request,
-			final io.grpc.stub.StreamObserver<CommonMessages.ExceptionInfo> responseObserver) {
+							  final io.grpc.stub.StreamObserver<CommonMessages.ExceptionInfo> responseObserver) {
 		try {
 			final Map<Tuple<String, MetaClassID>, byte[]> newClasses = new ConcurrentHashMap<>();
 			for (final Entry<String, ByteString> entry : request.getClassesToDeployMap().entrySet()) {
@@ -168,7 +177,7 @@ public final class DataServiceService extends DataServiceGrpc.DataServiceImplBas
 
 	@Override
 	public void enrichClass(final EnrichClassRequest request,
-			final io.grpc.stub.StreamObserver<CommonMessages.ExceptionInfo> responseObserver) {
+							final io.grpc.stub.StreamObserver<CommonMessages.ExceptionInfo> responseObserver) {
 
 		try {
 			dataService.enrichClass(request.getNamespace(), request.getClassname(),
@@ -190,7 +199,7 @@ public final class DataServiceService extends DataServiceGrpc.DataServiceImplBas
 	 */
 	@Override
 	public void newPersistentInstance(final NewPersistentInstanceRequest request,
-			final io.grpc.stub.StreamObserver<NewPersistentInstanceResponse> responseObserver) {
+									  final io.grpc.stub.StreamObserver<NewPersistentInstanceResponse> responseObserver) {
 
 		try {
 
@@ -205,7 +214,7 @@ public final class DataServiceService extends DataServiceGrpc.DataServiceImplBas
 			}
 			final ObjectID oid = dataService.newPersistentInstance(
 					Utils.getSessionID(request.getSessionID()),
-					Utils.getMetaClassID(request.getClassID()), 
+					Utils.getMetaClassID(request.getClassID()),
 					Utils.getImplementationID(request.getImplementationID()), ifaceBitMaps,
 					params);
 
@@ -224,7 +233,7 @@ public final class DataServiceService extends DataServiceGrpc.DataServiceImplBas
 
 	@Override
 	public void storeObjects(final StoreObjectsRequest request,
-			final io.grpc.stub.StreamObserver<CommonMessages.ExceptionInfo> responseObserver) {
+							 final io.grpc.stub.StreamObserver<CommonMessages.ExceptionInfo> responseObserver) {
 
 		try {
 			final List<ObjectWithDataParamOrReturn> objects = new ArrayList<>();
@@ -252,7 +261,7 @@ public final class DataServiceService extends DataServiceGrpc.DataServiceImplBas
 
 	@Override
 	public void getCopyOfObject(final GetCopyOfObjectRequest request,
-			final io.grpc.stub.StreamObserver<GetCopyOfObjectResponse> responseObserver) {
+								final io.grpc.stub.StreamObserver<GetCopyOfObjectResponse> responseObserver) {
 
 		try {
 
@@ -278,12 +287,12 @@ public final class DataServiceService extends DataServiceGrpc.DataServiceImplBas
 
 	@Override
 	public void updateObject(final UpdateObjectRequest request,
-			final io.grpc.stub.StreamObserver<CommonMessages.ExceptionInfo> responseObserver) {
+							 final io.grpc.stub.StreamObserver<CommonMessages.ExceptionInfo> responseObserver) {
 
 		try {
 
 			dataService.updateObject(
-					Utils.getSessionID(request.getSessionID()), 
+					Utils.getSessionID(request.getSessionID()),
 					Utils.getObjectID(request.getIntoObjectID()),
 					Utils.getParamsOrReturn(request.getFromObject()));
 
@@ -300,7 +309,7 @@ public final class DataServiceService extends DataServiceGrpc.DataServiceImplBas
 
 	@Override
 	public void getObjects(final GetObjectsRequest request,
-			final io.grpc.stub.StreamObserver<GetObjectsResponse> responseObserver) {
+						   final io.grpc.stub.StreamObserver<GetObjectsResponse> responseObserver) {
 
 		try {
 
@@ -337,7 +346,7 @@ public final class DataServiceService extends DataServiceGrpc.DataServiceImplBas
 
 	@Override
 	public void newVersion(final NewVersionRequest request,
-			final io.grpc.stub.StreamObserver<DataserviceMessages.NewVersionResponse> responseObserver) {
+						   final io.grpc.stub.StreamObserver<DataserviceMessages.NewVersionResponse> responseObserver) {
 
 		try {
 			ObjectID versionOID = dataService.newVersion(
@@ -360,7 +369,7 @@ public final class DataServiceService extends DataServiceGrpc.DataServiceImplBas
 
 	@Override
 	public void consolidateVersion(final ConsolidateVersionRequest request,
-			final io.grpc.stub.StreamObserver<CommonMessages.ExceptionInfo> responseObserver) {
+								   final io.grpc.stub.StreamObserver<CommonMessages.ExceptionInfo> responseObserver) {
 
 		try {
 			dataService.consolidateVersion(Utils.getSessionID(request.getSessionID()),
@@ -377,7 +386,7 @@ public final class DataServiceService extends DataServiceGrpc.DataServiceImplBas
 
 	@Override
 	public void upsertObjects(final UpsertObjectsRequest request,
-			final io.grpc.stub.StreamObserver<CommonMessages.ExceptionInfo> responseObserver) {
+							  final io.grpc.stub.StreamObserver<CommonMessages.ExceptionInfo> responseObserver) {
 
 		try {
 			final SessionID sessionID = Utils.getSessionID(request.getSessionID());
@@ -398,7 +407,7 @@ public final class DataServiceService extends DataServiceGrpc.DataServiceImplBas
 
 	@Override
 	public void newReplica(final NewReplicaRequest request,
-			final io.grpc.stub.StreamObserver<DataserviceMessages.NewReplicaResponse> responseObserver) {
+						   final io.grpc.stub.StreamObserver<DataserviceMessages.NewReplicaResponse> responseObserver) {
 		try {
 
 			Set<ObjectID> replicatedIDs = dataService.newReplica(Utils.getSessionID(request.getSessionID()),
@@ -424,7 +433,7 @@ public final class DataServiceService extends DataServiceGrpc.DataServiceImplBas
 
 	@Override
 	public void moveObjects(final MoveObjectsRequest request,
-			final io.grpc.stub.StreamObserver<MoveObjectsResponse> responseObserver) {
+							final io.grpc.stub.StreamObserver<MoveObjectsResponse> responseObserver) {
 		try {
 
 			final Set<ObjectID> result = dataService.moveObjects(Utils.getSessionID(request.getSessionID()),
@@ -449,7 +458,7 @@ public final class DataServiceService extends DataServiceGrpc.DataServiceImplBas
 
 	@Override
 	public void removeObjects(final RemoveObjectsRequest request,
-			final io.grpc.stub.StreamObserver<RemoveObjectsResponse> responseObserver) {
+							  final io.grpc.stub.StreamObserver<RemoveObjectsResponse> responseObserver) {
 		try {
 
 			final Set<ObjectID> objectIDs = new HashSet<>();
@@ -479,7 +488,7 @@ public final class DataServiceService extends DataServiceGrpc.DataServiceImplBas
 
 	@Override
 	public void migrateObjectsToBackends(final MigrateObjectsRequest request,
-			final io.grpc.stub.StreamObserver<MigrateObjectsResponse> responseObserver) {
+										 final io.grpc.stub.StreamObserver<MigrateObjectsResponse> responseObserver) {
 		try {
 
 			final Map<StorageLocationID, StorageLocation> backends = new ConcurrentHashMap<>();
@@ -521,7 +530,7 @@ public final class DataServiceService extends DataServiceGrpc.DataServiceImplBas
 
 	@Override
 	public void getClassIDFromObjectInMemory(final GetClassIDFromObjectInMemoryRequest request,
-			final io.grpc.stub.StreamObserver<GetClassIDFromObjectInMemoryResponse> responseObserver) {
+											 final io.grpc.stub.StreamObserver<GetClassIDFromObjectInMemoryResponse> responseObserver) {
 		try {
 
 			final ObjectID oid = Utils.getObjectID(request.getObjectID());
@@ -549,7 +558,7 @@ public final class DataServiceService extends DataServiceGrpc.DataServiceImplBas
 
 	@Override
 	public void makePersistent(final MakePersistentRequest request,
-			final io.grpc.stub.StreamObserver<CommonMessages.ExceptionInfo> responseObserver) {
+							   final io.grpc.stub.StreamObserver<CommonMessages.ExceptionInfo> responseObserver) {
 		LOGGER.debug("[==Serialization==] Received request for make persistent ");
 		try {
 			List<ObjectWithDataParamOrReturn> params = new ArrayList<>();
@@ -573,7 +582,7 @@ public final class DataServiceService extends DataServiceGrpc.DataServiceImplBas
 
 	@Override
 	public void federate(final DataserviceMessages.FederateRequest request,
-								 final io.grpc.stub.StreamObserver<CommonMessages.ExceptionInfo> responseObserver) {
+						 final io.grpc.stub.StreamObserver<CommonMessages.ExceptionInfo> responseObserver) {
 		try {
 
 			dataService.federate(Utils.getSessionID(request.getSessionID()),
@@ -592,7 +601,7 @@ public final class DataServiceService extends DataServiceGrpc.DataServiceImplBas
 
 	@Override
 	public void unfederate(final DataserviceMessages.UnfederateRequest request,
-						 final io.grpc.stub.StreamObserver<CommonMessages.ExceptionInfo> responseObserver) {
+						   final io.grpc.stub.StreamObserver<CommonMessages.ExceptionInfo> responseObserver) {
 		try {
 
 			dataService.unfederate(Utils.getSessionID(request.getSessionID()),
@@ -612,7 +621,7 @@ public final class DataServiceService extends DataServiceGrpc.DataServiceImplBas
 
 	@Override
 	public void notifyFederation(final DataserviceMessages.NotifyFederationRequest request,
-			final io.grpc.stub.StreamObserver<CommonMessages.ExceptionInfo> responseObserver) {
+								 final io.grpc.stub.StreamObserver<CommonMessages.ExceptionInfo> responseObserver) {
 		try {
 
 			List<ObjectWithDataParamOrReturn> params = new ArrayList<>();
@@ -634,7 +643,7 @@ public final class DataServiceService extends DataServiceGrpc.DataServiceImplBas
 
 	@Override
 	public void notifyUnfederation(final DataserviceMessages.NotifyUnfederationRequest request,
-			final io.grpc.stub.StreamObserver<CommonMessages.ExceptionInfo> responseObserver) {
+								   final io.grpc.stub.StreamObserver<CommonMessages.ExceptionInfo> responseObserver) {
 		try {
 			final Set<ObjectID> objectIDs = new HashSet<>();
 			for (final String oid : request.getObjectIDsList()) {
@@ -652,7 +661,7 @@ public final class DataServiceService extends DataServiceGrpc.DataServiceImplBas
 
 	@Override
 	public void executeImplementation(final ExecuteImplementationRequest request,
-			final io.grpc.stub.StreamObserver<ExecuteImplementationResponse> responseObserver) {
+									  final io.grpc.stub.StreamObserver<ExecuteImplementationResponse> responseObserver) {
 		try {
 
 			SerializedParametersOrReturn params = null;
@@ -689,7 +698,7 @@ public final class DataServiceService extends DataServiceGrpc.DataServiceImplBas
 
 	@Override
 	public void synchronize(final DataserviceMessages.SynchronizeRequest request,
-									  final io.grpc.stub.StreamObserver<CommonMessages.ExceptionInfo> responseObserver) {
+							final io.grpc.stub.StreamObserver<CommonMessages.ExceptionInfo> responseObserver) {
 		try {
 
 			SerializedParametersOrReturn params = null;
@@ -714,32 +723,10 @@ public final class DataServiceService extends DataServiceGrpc.DataServiceImplBas
 
 	@Override
 	public void closeSessionInDS(final CloseSessionInDSRequest request,
-			final io.grpc.stub.StreamObserver<CommonMessages.ExceptionInfo> responseObserver) {
+								 final io.grpc.stub.StreamObserver<CommonMessages.ExceptionInfo> responseObserver) {
 
 		try {
 			dataService.closeSessionInDS(Utils.getSessionID(request.getSessionID()));
-			Utils.returnExceptionInfoMessage(responseObserver);
-			responseObserver.onCompleted();
-
-		} catch (final Exception e) {
-			final ExceptionInfo resp = Utils.serializeException(e);
-			responseObserver.onNext(resp);
-			responseObserver.onCompleted();
-		}
-	}
-
-	@Override
-	public void updateRefs(
-			final es.bsc.dataclay.communication.grpc.messages.dataservice.DataserviceMessages.UpdateRefsRequest request,
-			final io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
-		try {
-			final Map<ObjectID, Integer> updateRefs = new ConcurrentHashMap<>();
-			if (request.getRefsToUpdateCount() > 0) {
-				for (final Entry<String, Integer> curEntry : request.getRefsToUpdateMap().entrySet()) {
-					updateRefs.put(Utils.getObjectID(curEntry.getKey()), curEntry.getValue());
-				}
-			}
-			dataService.updateRefs(updateRefs);
 			Utils.returnExceptionInfoMessage(responseObserver);
 			responseObserver.onCompleted();
 
@@ -784,7 +771,7 @@ public final class DataServiceService extends DataServiceGrpc.DataServiceImplBas
 	 */
 	@Override
 	public void cleanExecutionClassDirectory(final CommonMessages.EmptyMessage request,
-			final io.grpc.stub.StreamObserver<CommonMessages.ExceptionInfo> responseObserver) {
+											 final io.grpc.stub.StreamObserver<CommonMessages.ExceptionInfo> responseObserver) {
 		try {
 			dataService.cleanExecutionClassDirectory();
 			Utils.returnExceptionInfoMessage(responseObserver);
@@ -799,7 +786,7 @@ public final class DataServiceService extends DataServiceGrpc.DataServiceImplBas
 
 	@Override
 	public void closeDbHandler(final CommonMessages.EmptyMessage request,
-			final io.grpc.stub.StreamObserver<CommonMessages.ExceptionInfo> responseObserver) {
+							   final io.grpc.stub.StreamObserver<CommonMessages.ExceptionInfo> responseObserver) {
 		try {
 			dataService.closeDbHandler();
 			Utils.returnExceptionInfoMessage(responseObserver);
@@ -814,7 +801,7 @@ public final class DataServiceService extends DataServiceGrpc.DataServiceImplBas
 
 	@Override
 	public void shutDown(final CommonMessages.EmptyMessage request,
-			final io.grpc.stub.StreamObserver<CommonMessages.ExceptionInfo> responseObserver) {
+						 final io.grpc.stub.StreamObserver<CommonMessages.ExceptionInfo> responseObserver) {
 		try {
 			dataService.shutDown();
 			Utils.returnExceptionInfoMessage(responseObserver);
@@ -829,7 +816,7 @@ public final class DataServiceService extends DataServiceGrpc.DataServiceImplBas
 
 	@Override
 	public void disconnectFromOthers(final CommonMessages.EmptyMessage request,
-			final io.grpc.stub.StreamObserver<CommonMessages.ExceptionInfo> responseObserver) {
+									 final io.grpc.stub.StreamObserver<CommonMessages.ExceptionInfo> responseObserver) {
 		try {
 			dataService.disconnectFromOthers();
 			Utils.returnExceptionInfoMessage(responseObserver);
@@ -849,7 +836,7 @@ public final class DataServiceService extends DataServiceGrpc.DataServiceImplBas
 	 */
 	@Override
 	public void cleanCaches(final CommonMessages.EmptyMessage request,
-			final io.grpc.stub.StreamObserver<CommonMessages.ExceptionInfo> responseObserver) {
+							final io.grpc.stub.StreamObserver<CommonMessages.ExceptionInfo> responseObserver) {
 		try {
 			dataService.cleanCaches();
 			Utils.returnExceptionInfoMessage(responseObserver);
@@ -864,7 +851,7 @@ public final class DataServiceService extends DataServiceGrpc.DataServiceImplBas
 
 	@Override
 	public void activateTracing(final ActivateTracingRequest request,
-			final io.grpc.stub.StreamObserver<CommonMessages.ExceptionInfo> responseObserver) {
+								final io.grpc.stub.StreamObserver<CommonMessages.ExceptionInfo> responseObserver) {
 
 		final int currentAvailableTaskID = request.getTaskid();
 		try {
@@ -880,7 +867,7 @@ public final class DataServiceService extends DataServiceGrpc.DataServiceImplBas
 
 	@Override
 	public void deactivateTracing(final CommonMessages.EmptyMessage request,
-			final io.grpc.stub.StreamObserver<CommonMessages.ExceptionInfo> responseObserver) {
+								  final io.grpc.stub.StreamObserver<CommonMessages.ExceptionInfo> responseObserver) {
 		try {
 			dataService.deactivateTracing();
 			Utils.returnExceptionInfoMessage(responseObserver);
@@ -891,7 +878,7 @@ public final class DataServiceService extends DataServiceGrpc.DataServiceImplBas
 			responseObserver.onCompleted();
 		}
 	}
-	
+
 	@Override
 	public void getTraces(final EmptyMessage request, final StreamObserver<GetTracesResponse> responseObserver) {
 		try {
@@ -916,7 +903,7 @@ public final class DataServiceService extends DataServiceGrpc.DataServiceImplBas
 
 	@Override
 	public void registerPendingObjects(final CommonMessages.EmptyMessage request,
-			final io.grpc.stub.StreamObserver<CommonMessages.ExceptionInfo> responseObserver) {
+									   final io.grpc.stub.StreamObserver<CommonMessages.ExceptionInfo> responseObserver) {
 
 		try {
 			dataService.registerPendingObjects();
@@ -929,10 +916,10 @@ public final class DataServiceService extends DataServiceGrpc.DataServiceImplBas
 			responseObserver.onCompleted();
 		}
 	}
-	
+
 	@Override
 	public void exists(final DataserviceMessages.ExistsRequest request,
-			final io.grpc.stub.StreamObserver<DataserviceMessages.ExistsResponse> responseObserver) {
+					   final io.grpc.stub.StreamObserver<DataserviceMessages.ExistsResponse> responseObserver) {
 		try {
 			final ObjectID objectID = Utils.getObjectID(request.getObjectID());
 			final boolean result = dataService.exists(objectID);
@@ -949,15 +936,15 @@ public final class DataServiceService extends DataServiceGrpc.DataServiceImplBas
 			responseObserver.onCompleted();
 		}
 	}
-	
+
 	@Override
 	public void existsInDB(final DataserviceMessages.ExistsInDBRequest request,
-			final io.grpc.stub.StreamObserver<DataserviceMessages.ExistsInDBResponse> responseObserver) {
+						   final io.grpc.stub.StreamObserver<DataserviceMessages.ExistsInDBResponse> responseObserver) {
 		try {
 			final ObjectID objectID = Utils.getObjectID(request.getObjectID());
 
 			final boolean result = dataService.existsInDB(objectID);
-			
+
 			final DataserviceMessages.ExistsInDBResponse.Builder builder = DataserviceMessages.ExistsInDBResponse.newBuilder();
 			builder.setExists(result);
 			final DataserviceMessages.ExistsInDBResponse resp = builder.build();
@@ -975,7 +962,7 @@ public final class DataServiceService extends DataServiceGrpc.DataServiceImplBas
 
 	@Override
 	public void getNumObjects(final EmptyMessage request,
-					   final io.grpc.stub.StreamObserver<CommonMessages.GetNumObjectsResponse> responseObserver) {
+							  final io.grpc.stub.StreamObserver<CommonMessages.GetNumObjectsResponse> responseObserver) {
 		try {
 			final int result = dataService.getNumObjects();
 			final CommonMessages.GetNumObjectsResponse.Builder builder = CommonMessages.GetNumObjectsResponse.newBuilder();
@@ -994,7 +981,7 @@ public final class DataServiceService extends DataServiceGrpc.DataServiceImplBas
 
 	@Override
 	public void getNumObjectsInEE(final EmptyMessage request,
-							  final io.grpc.stub.StreamObserver<CommonMessages.GetNumObjectsResponse> responseObserver) {
+								  final io.grpc.stub.StreamObserver<CommonMessages.GetNumObjectsResponse> responseObserver) {
 		try {
 			final int result = dataService.getNumObjectsInEE();
 			final CommonMessages.GetNumObjectsResponse.Builder builder = CommonMessages.GetNumObjectsResponse.newBuilder();
@@ -1013,7 +1000,7 @@ public final class DataServiceService extends DataServiceGrpc.DataServiceImplBas
 
 	@Override
 	public void storeToDB(final DataserviceMessages.StoreToDBRequest request,
-			final io.grpc.stub.StreamObserver<CommonMessages.ExceptionInfo> responseObserver) {
+						  final io.grpc.stub.StreamObserver<CommonMessages.ExceptionInfo> responseObserver) {
 		try {
 			final ExecutionEnvironmentID eeID = Utils.getExecutionEnvironmentID(request.getExecutionEnvironmentID());
 			final ObjectID objectID = Utils.getObjectID(request.getObjectID());
@@ -1032,7 +1019,7 @@ public final class DataServiceService extends DataServiceGrpc.DataServiceImplBas
 
 	@Override
 	public void getFromDB(final DataserviceMessages.GetFromDBRequest request,
-			final io.grpc.stub.StreamObserver<DataserviceMessages.GetFromDBResponse> responseObserver) {
+						  final io.grpc.stub.StreamObserver<DataserviceMessages.GetFromDBResponse> responseObserver) {
 		try {
 			final ObjectID objectID = Utils.getObjectID(request.getObjectID());
 			final ExecutionEnvironmentID eeID = Utils.getExecutionEnvironmentID(request.getExecutionEnvironmentID());
@@ -1061,7 +1048,7 @@ public final class DataServiceService extends DataServiceGrpc.DataServiceImplBas
 
 	@Override
 	public void updateToDB(final DataserviceMessages.UpdateToDBRequest request,
-			final io.grpc.stub.StreamObserver<CommonMessages.ExceptionInfo> responseObserver) {
+						   final io.grpc.stub.StreamObserver<CommonMessages.ExceptionInfo> responseObserver) {
 		try {
 			final ExecutionEnvironmentID eeID = Utils.getExecutionEnvironmentID(request.getExecutionEnvironmentID());
 			final ObjectID objectID = Utils.getObjectID(request.getObjectID());
@@ -1080,7 +1067,7 @@ public final class DataServiceService extends DataServiceGrpc.DataServiceImplBas
 
 	@Override
 	public void deleteToDB(final DataserviceMessages.DeleteToDBRequest request,
-			final io.grpc.stub.StreamObserver<CommonMessages.ExceptionInfo> responseObserver) {
+						   final io.grpc.stub.StreamObserver<CommonMessages.ExceptionInfo> responseObserver) {
 		try {
 			final ExecutionEnvironmentID eeID = Utils.getExecutionEnvironmentID(request.getExecutionEnvironmentID());
 			final ObjectID objectID = Utils.getObjectID(request.getObjectID());
@@ -1095,6 +1082,63 @@ public final class DataServiceService extends DataServiceGrpc.DataServiceImplBas
 			responseObserver.onCompleted();
 		}
 	}
+
+	@Override
+	public void deleteSetFromDB(final DataserviceMessages.DeleteSetFromDBRequest request,
+								final io.grpc.stub.StreamObserver<CommonMessages.ExceptionInfo> responseObserver) {
+		try {
+			Set<ObjectID> objectIDs = new HashSet<>();
+			for (String objectID : request.getObjectIDsList()) {
+				objectIDs.add(Utils.getObjectID(objectID));
+			}
+			dataService.deleteSet(objectIDs);
+			Utils.returnExceptionInfoMessage(responseObserver);
+			responseObserver.onCompleted();
+
+		} catch (final Exception e) {
+			final ExceptionInfo resp = Utils.serializeException(e);
+			responseObserver.onNext(resp);
+			responseObserver.onCompleted();
+		}
+	}
+
+	@Override
+	public void getObjectGraph(final CommonMessages.EmptyMessage request,
+							   final io.grpc.stub.StreamObserver<DataserviceMessages.GetObjectGraphResponse> responseObserver) {
+		try {
+
+			final ObjectGraph objectGraph = dataService.getObjectGraph();
+			ByteArrayOutputStream bos = new ByteArrayOutputStream();
+			ObjectOutputStream out = null;
+			byte[] serializedGraph = null;
+			try {
+				out = new ObjectOutputStream(bos);
+				out.writeObject(objectGraph);
+				out.flush();
+				serializedGraph = bos.toByteArray();
+			} finally {
+				try {
+					bos.close();
+				} catch (IOException ex) {
+					// ignore close exception
+				}
+			}
+
+			final DataserviceMessages.GetObjectGraphResponse.Builder builder = DataserviceMessages.GetObjectGraphResponse.newBuilder();
+			builder.setSerializedGraph(ByteString.copyFrom(serializedGraph));
+			final DataserviceMessages.GetObjectGraphResponse resp = builder.build();
+			responseObserver.onNext(resp);
+			responseObserver.onCompleted();
+
+		} catch (final Exception e) {
+			final DataserviceMessages.GetObjectGraphResponse.Builder builder = DataserviceMessages.GetObjectGraphResponse.newBuilder();
+			builder.setExcInfo(Utils.serializeException(e));
+			final DataserviceMessages.GetObjectGraphResponse resp = builder.build();
+			responseObserver.onNext(resp);
+			responseObserver.onCompleted();
+		}
+	}
+
 
 	@Override
 	public void associateExecutionEnvironment(final DataserviceMessages.AssociateExecutionEnvironmentRequest request,
