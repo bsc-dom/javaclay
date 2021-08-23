@@ -280,7 +280,7 @@ public abstract class DataClayRuntime {
 		DataClayInstanceID curDcID = getDataClayID();
 		for (ExecutionEnvironment execEnv : execEnvs) {
 			if (execEnv.getDataClayInstanceID().equals(curDcID)) {
-				result.add(execEnv.getName());
+				result.add(execEnv.getName() + ":" + execEnv.getHostname() + ":" + execEnv.getPort());
 			}
 		}
 		return result;
