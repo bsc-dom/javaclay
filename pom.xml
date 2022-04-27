@@ -19,11 +19,12 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <exec.mainClass> property from commandline </exec.mainClass>
         <protoc.version>3.10.0</protoc.version>
-        <grpc.version>1.25.0</grpc.version>
+        <grpc.version>1.45.0</grpc.version>
         <asm.version>7.2</asm.version>
         <install.plugin.version>2.4</install.plugin.version>
         <downloadSources>false</downloadSources>
         <downloadJavadocs>false</downloadJavadocs>
+        <jetcd-version>0.7.0</jetcd-version>
     </properties>
 
     <!-- Repository -->
@@ -687,5 +688,10 @@
             </exclusion> <exclusion> <groupId>org.eclipse.core</groupId> <artifactId>org.eclipse.core.filesystem</artifactId>
             </exclusion> <exclusion> <groupId>org.eclipse.text</groupId> <artifactId>org.eclipse.text</artifactId>
             </exclusion> </exclusions> </dependency> -->
+        <dependency>
+            <groupId>io.etcd</groupId>
+            <artifactId>jetcd-core</artifactId>
+            <version>${jetcd-version}</version>
+        </dependency>
     </dependencies>
 </project>
