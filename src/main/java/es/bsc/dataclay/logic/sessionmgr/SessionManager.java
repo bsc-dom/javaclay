@@ -109,8 +109,8 @@ public final class SessionManager extends AbstractManager {
 		this.sessionDB.store(session);
 
 		// Update cache
-		//sessionCache.put(session.getDataClayID(),
-		//		new Tuple<>(session, session.getEndDate()));
+		sessionCache.put(session.getDataClayID(),
+				new Tuple<>(session, session.getEndDate()));
 		return new SessionInfo(session.getDataClayID(),
 				session.getAccountID(), session.getPropertiesOfClasses(), session.getSessionContracts(),
 				session.getSessionDataContracts(), session.getDataContractIDofStore(), session.getLanguage(),
@@ -269,7 +269,7 @@ public final class SessionManager extends AbstractManager {
 
 	@Override
 	public void cleanCaches() {
-		//sessionCache.clear();
+		sessionCache.clear();
 	}
 	/**
 	 * Finish cache threads.
