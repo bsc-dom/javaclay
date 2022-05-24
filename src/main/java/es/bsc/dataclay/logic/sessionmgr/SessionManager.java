@@ -9,6 +9,8 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
+import io.etcd.jetcd.Client;
+
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -53,6 +55,10 @@ public final class SessionManager extends AbstractManager {
 	/** Cache for ext sessions. */
 	private MemoryCache<DataClayInstanceID, Tuple<Session, Calendar>> extSessionCache;
 
+	/** ETCD */
+	private final Client etcdClient;
+	private final ETCDSessionManagerDB ETCDsessionDB;
+
 	/**
 	 * Instantiates an SessionManager that uses the Backend configuration provided.
 	 * 
@@ -71,6 +77,10 @@ public final class SessionManager extends AbstractManager {
 		// Init caches
 		this.sessionCache = new MemoryCache<>();
 		this.extSessionCache = new MemoryCache<>();
+
+		// ETCD
+		this.etcdClient = Client.builder().target("localhost:2379").build();
+		ETCDsessionDB = new ETCDSessionManagerDB(etcdClient);
 	}
 
 	/**
@@ -107,6 +117,9 @@ public final class SessionManager extends AbstractManager {
 				endDate, languageForSession, ifaceBitmaps);
 		session.setDataClayID(new SessionID());
 		this.sessionDB.store(session);
+
+		// ETCD
+		this.ETCDsessionDB.store(session);
 
 		// Update cache
 		sessionCache.put(session.getDataClayID(),
