@@ -14,6 +14,38 @@
 This repository holds the `dataclay` Java package. This package is used both
 by client and server (logic module and data services) components.
 
+
+## Packaging
+
+Build and push the docker images for different JDK versions and architectures.
+
+```bash
+# dsjava
+docker buildx build --platform linux/amd64,linux/arm64 \
+-t bscdataclay/dsjava:2.7-jdk11-bullseye -f Dockerfile.dsjava \
+--build-arg JDK_VERSION=11 \
+--build-arg JRE_VERSION=11-jre-bullseye --push .
+
+# logicmodule
+docker buildx build --platform linux/amd64,linux/arm64 \
+-t bscdataclay/logicmodule:2.7-jdk11-bullseye -f Dockerfile.logicmodule \
+--build-arg JDK_VERSION=11 \
+--build-arg JRE_VERSION=11-jre-bullseye --push .
+```
+
+To generate development images use the following tag:
+**devYYYYMMDD-jdk{version}-(bullseye|alpine|slim)**
+
+For example:
+
+```bash
+docker buildx build --platform linux/amd64,linux/arm64 \
+-t bscdataclay/dsjava:dev20220614-jdk11-bullseye -f Dockerfile.dsjava \
+--build-arg JDK_VERSION=11 \
+--build-arg JRE_VERSION=11-jre-bullseye --push .
+```
+
+
 ## Other resources
 
 [BSC official dataClay webpage](https://www.bsc.es/dataclay)
