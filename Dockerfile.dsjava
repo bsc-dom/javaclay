@@ -5,15 +5,17 @@ ARG JRE_VERSION=11-jre-bullseye
 
 # Crete builder image to compile javaclay with maven
 FROM maven:3.8.5-jdk-$JDK_VERSION AS builder
-WORKDIR /javaclay
-COPY . .
-RUN mvn clean package -Dmaven.test.skip
+COPY . /javaclay
+RUN mvn clean package -f /javaclay/pom.xml -Dmaven.test.skip
 
 # Copy jar file from builder image
 FROM openjdk:$JRE_VERSION  
 COPY --from=builder /javaclay/target/dataclay-2.7-SNAPSHOT-jar-with-dependencies.jar /javaclay/dataclay.jar
+
 # prepare storage dir
 RUN mkdir -p /dataclay/storage; \
     mkdir -p /dataclay/metadata
 
+# set workdir and entrypoint
+WORKDIR /workdir
 ENTRYPOINT ["java", "-cp", "/javaclay/dataclay.jar", "es.bsc.dataclay.dataservice.server.DataServiceSrv"]
