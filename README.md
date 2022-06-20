@@ -22,13 +22,19 @@ Build and push the docker images for different JDK versions and architectures.
 ```bash
 # dsjava
 docker buildx build --platform linux/amd64,linux/arm64 \
--t bscdataclay/dsjava:2.7-jdk11-bullseye -f Dockerfile.dsjava \
+-t bscdataclay/dsjava:2.7-jdk11-bullseye \
+-t bscdataclay/dsjava:2.7 \
+-t bscdataclay/dsjava:latest \
+-f Dockerfile.dsjava \
 --build-arg JDK_VERSION=11 \
 --build-arg JRE_VERSION=11-jre-bullseye --push .
 
 # logicmodule
 docker buildx build --platform linux/amd64,linux/arm64 \
--t bscdataclay/logicmodule:2.7-jdk11-bullseye -f Dockerfile.logicmodule \
+-t bscdataclay/logicmodule:2.7-jdk11-bullseye \
+-t bscdataclay/logicmodule:2.7 \
+-t bscdataclay/logicmodule:latest \
+-f Dockerfile.logicmodule \
 --build-arg JDK_VERSION=11 \
 --build-arg JRE_VERSION=11-jre-bullseye --push .
 ```
