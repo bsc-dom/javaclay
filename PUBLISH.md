@@ -57,3 +57,18 @@ docker buildx build --platform linux/amd64,linux/arm64 \
 --build-arg JDK_VERSION=11 \
 --build-arg JRE_VERSION=11-jre-bullseye --push .
 ```
+
+## Pre Release
+
+Create release branch from `develop`, update versions and create a pull request to `master`.
+
+Execute `mvn -P publish release:clean release:prepare release:perform -s settings.xml` to create a Release.
+
+## Post Release
+
+Update in `develop`:
+
+- pom.xml version
+- PUBLISH.md versions
+- README.md version
+
