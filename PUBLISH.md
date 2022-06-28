@@ -27,8 +27,8 @@ Execute `mvn -P publish release:clean release:prepare release:perform -s setting
 ```bash
 # dsjava
 docker buildx build --platform linux/amd64,linux/arm64 \
--t bscdataclay/dsjava:2.7-jdk11-bullseye \
--t bscdataclay/dsjava:2.7 \
+-t bscdataclay/dsjava:2.8-jdk11-bullseye \
+-t bscdataclay/dsjava:2.8 \
 -t bscdataclay/dsjava:latest \
 -f Dockerfile.dsjava \
 --build-arg JDK_VERSION=11 \
@@ -36,8 +36,8 @@ docker buildx build --platform linux/amd64,linux/arm64 \
 
 # logicmodule
 docker buildx build --platform linux/amd64,linux/arm64 \
--t bscdataclay/logicmodule:2.7-jdk11-bullseye \
--t bscdataclay/logicmodule:2.7 \
+-t bscdataclay/logicmodule:2.8-jdk11-bullseye \
+-t bscdataclay/logicmodule:2.8 \
 -t bscdataclay/logicmodule:latest \
 -f Dockerfile.logicmodule \
 --build-arg JDK_VERSION=11 \
