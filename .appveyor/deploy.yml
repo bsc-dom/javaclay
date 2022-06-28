@@ -1,4 +1,4 @@
-version: 2.7.build{build}
+version: javaclay.deploy.build{build}
 branches:
   except:
     - master
