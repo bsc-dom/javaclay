@@ -10,7 +10,7 @@ RUN mvn clean package -f /javaclay/pom.xml -Dmaven.test.skip
 
 # Copy jar file from builder image
 FROM openjdk:$JRE_VERSION  
-COPY --from=builder /javaclay/target/dataclay-2.7-SNAPSHOT-jar-with-dependencies.jar /javaclay/dataclay.jar
+COPY --from=builder /javaclay/target/dataclay-*-jar-with-dependencies.jar /javaclay/dataclay.jar
 
 # prepare storage dir
 RUN mkdir -p /dataclay/storage; \

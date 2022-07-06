@@ -1,50 +1,14 @@
-[![Build status](https://ci.appveyor.com/api/projects/status/p4s4g3p4wlbvgqqv/branch/develop?retina=true)](https://ci.appveyor.com/project/support-dataclay/javaclay/branch/develop)
-[![Build status](https://ci.appveyor.com/api/projects/status/p4s4g3p4wlbvgqqv/branch/develop?svg=true&passingText=Passing+functional+tests&pendingText=Building+functional+tests)](https://dataclay.bsc.es/testing-report/)
-
-
-[![Maven Central](https://img.shields.io/maven-central/v/es.bsc.dataclay/dataclay/2.6)](https://search.maven.org/artifact/es.bsc.dataclay/dataclay/2.6/jar)
-[![License](https://img.shields.io/github/license/bsc-dom/javaclay)](https://github.com/bsc-dom/javaclay/blob/develop/LICENSE.txt)
+[![Tests](https://github.com/bsc-dom/javaclay/actions/workflows/tests.yml/badge.svg)](https://github.com/bsc-dom/javaclay/actions/workflows/tests.yml)
+[![Maven Central](https://img.shields.io/maven-central/v/es.bsc.dataclay/dataclay/2.7)](https://search.maven.org/artifact/es.bsc.dataclay/dataclay/2.7/jar)
+[![License](https://img.shields.io/github/license/bsc-dom/javaclay)](https://github.com/bsc-dom/javaclay/blob/main/LICENSE.txt)
 [![Nexus](https://img.shields.io/nexus/s/es.bsc.dataclay/dataclay?server=https%3A%2F%2Foss.sonatype.org%2F
 )](https://oss.sonatype.org/#nexus-search;quick~dataclay)
-
 
 
 # dataClay java codebase
 
 This repository holds the `dataclay` Java package. This package is used both
 by client and server (logic module and data services) components.
-
-
-## Packaging
-
-Build and push the docker images for different JDK versions and architectures.
-
-```bash
-# dsjava
-docker buildx build --platform linux/amd64,linux/arm64 \
--t bscdataclay/dsjava:2.7-jdk11-bullseye -f Dockerfile.dsjava \
---build-arg JDK_VERSION=11 \
---build-arg JRE_VERSION=11-jre-bullseye --push .
-
-# logicmodule
-docker buildx build --platform linux/amd64,linux/arm64 \
--t bscdataclay/logicmodule:2.7-jdk11-bullseye -f Dockerfile.logicmodule \
---build-arg JDK_VERSION=11 \
---build-arg JRE_VERSION=11-jre-bullseye --push .
-```
-
-To generate development images use the following tag:
-**devYYYYMMDD-jdk{version}-(bullseye|alpine|slim)**
-
-For example:
-
-```bash
-docker buildx build --platform linux/amd64,linux/arm64 \
--t bscdataclay/dsjava:dev20220614-jdk11-bullseye -f Dockerfile.dsjava \
---build-arg JDK_VERSION=11 \
---build-arg JRE_VERSION=11-jre-bullseye --push .
-```
-
 
 ## Other resources
 
