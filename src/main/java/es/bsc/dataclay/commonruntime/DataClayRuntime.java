@@ -59,11 +59,13 @@ import es.bsc.dataclay.util.structs.MemoryCache;
 import es.bsc.dataclay.util.structs.Triple;
 import io.grpc.StatusRuntimeException;
 import org.apache.logging.log4j.core.LifeCycle;
+import es.bsc.dataclay.metadata.MetadataServiceAPI;
 
 import javax.xml.crypto.Data;
 
 /**
- * This class contains functions to interact with DataClay. This is an abstract class in order to provide same functionalities
+ * This class contains functions to interact with DataClay. This is an abstract
+ * class in order to provide same functionalities
  * to calls done from client-side and the ones done from a backend side.
  */
 public abstract class DataClayRuntime {
@@ -98,7 +100,7 @@ public abstract class DataClayRuntime {
 
 	/** Cache of metaData. */
 	public MemoryCache<ObjectID, MetaDataInfo> metaDataCache = new MemoryCache<>();
-	
+
 	/** Cache of alias -> oid. */
 	protected MemoryCache<String, Triple<ObjectID, MetaClassID, BackendID>> aliasCache;
 
@@ -108,17 +110,19 @@ public abstract class DataClayRuntime {
 	/** Under deserialization volatiles per thread. */
 	public final Map<ObjectID, ObjectWithDataParamOrReturn> underDeserializationVolatiles = new ConcurrentHashMap<>();
 
-
 	/** Pool for tasks. Initialized in sub-classes. */
 	protected ScheduledExecutorService threadPool;
 
 	/**
-	 * Set of object ids of volatile parameters that were send but did not arrive to any node yet.
+	 * Set of object ids of volatile parameters that were send but did not arrive to
+	 * any node yet.
 	 */
 	protected final Set<ObjectID> volatileParametersBeingSend = ConcurrentHashMap.newKeySet();
 
 	public int misses = 0;
 	public int hits = 0;
+
+	protected MetadataServiceAPI metadataService;
 
 	// CHECKSTYLE:ON
 
@@ -137,13 +141,13 @@ public abstract class DataClayRuntime {
 	 * Initialize session and connections.
 	 * 
 	 * @param logicModuleHost
-	 *            Name of the host of the logic module
+	 *                        Name of the host of the logic module
 	 * @param logicModulePort
-	 *            Port of the logic module
+	 *                        Port of the logic module
 	 * @param originHostName
-	 *            Name of the host using the lib.
+	 *                        Name of the host using the lib.
 	 * @throws Exception
-	 *             if connection could not be done for some reason.
+	 *                   if connection could not be done for some reason.
 	 */
 	protected void initialize(final String logicModuleHost, final int logicModulePort, final String originHostName)
 			throws Exception {
@@ -152,6 +156,10 @@ public abstract class DataClayRuntime {
 		logicModule = grpcClient.getLogicModuleAPI(logicModuleHost, logicModulePort);
 		LOGGER.info("Connected to LM!");
 		this.setInitialized(true);
+	}
+
+	public final MetadataServiceAPI getMetadataServiceAPI() {
+		return this.metadataService;
 	}
 
 	/**
@@ -165,35 +173,38 @@ public abstract class DataClayRuntime {
 
 	/**
 	 * Get all execution environments information.
-	 * @param lang Language
+	 * 
+	 * @param lang             Language
 	 * @param forceUpdateCache Indicates cache must be forcibly updated
 	 * @return All execution locations information
 	 */
 	public final Map<ExecutionEnvironmentID, ExecutionEnvironment> getAllExecutionEnvironmentsInfo(
 			final Langs lang, final boolean forceUpdateCache) {
 		// Check cache
-		if ((execEnvsCache != null && forceUpdateCache) || (execEnvsCache == null)){
+		if ((execEnvsCache != null && forceUpdateCache) || (execEnvsCache == null)) {
 			execEnvsCache.putAll(logicModule.getAllExecutionEnvironmentsInfo(lang, true, this.isDSLib()));
 		}
 		return execEnvsCache;
-	
+
 	}
 
 	/**
 	 * Get ExecutionEnvironment information
 	 *
 	 * @param execLocationID
-	 *            Execution location ID
+	 *                       Execution location ID
 	 * @return Execution location information
 	 */
 	public final ExecutionEnvironment getExecutionEnvironmentInfo(final BackendID execLocationID) {
 		ExecutionEnvironment execEnv = null;
 		for (Langs language : Langs.values()) {
-			Map<ExecutionEnvironmentID, ExecutionEnvironment> execEnvs = getAllExecutionEnvironmentsInfo(language, false);
+			Map<ExecutionEnvironmentID, ExecutionEnvironment> execEnvs = getAllExecutionEnvironmentsInfo(language,
+					false);
 			execEnv = execEnvs.get(execLocationID);
 			if (execEnv == null) {
 
-				LOGGER.debug("Execution environment info " + execLocationID + " not found in cache: " + execEnvs.keySet());
+				LOGGER.debug(
+						"Execution environment info " + execLocationID + " not found in cache: " + execEnvs.keySet());
 				execEnvs = getAllExecutionEnvironmentsInfo(language, true);
 				execEnv = execEnvs.get(execLocationID);
 				if (execEnv != null) {
@@ -206,19 +217,21 @@ public abstract class DataClayRuntime {
 		return execEnv;
 	}
 
-
 	/**
 	 * Get all execution environments in provided host
-	 * @param lang Language
+	 * 
+	 * @param lang     Language
 	 * @param hostname Host name
 	 * @return Set of execution environments in provided host
 	 */
-	public Map<BackendID, ExecutionEnvironment> getAllExecutionEnvironmentsAtHost(final Langs lang, final String hostname) {
+	public Map<BackendID, ExecutionEnvironment> getAllExecutionEnvironmentsAtHost(final Langs lang,
+			final String hostname) {
 		Map<BackendID, ExecutionEnvironment> execEnvsAtHost = new HashMap<>();
 		Map<ExecutionEnvironmentID, ExecutionEnvironment> execEnvs = getAllExecutionEnvironmentsInfo(lang, false);
 		// check if there is any execution.env in that host, otherwise update cache
 		for (ExecutionEnvironment env : execEnvs.values()) {
-			LOGGER.debug("Checking if environment hostname {} matches required hostname {}", env.getHostname(), hostname);
+			LOGGER.debug("Checking if environment hostname {} matches required hostname {}", env.getHostname(),
+					hostname);
 			if (env.getHostname().equals(hostname)) {
 				execEnvsAtHost.put(env.getDataClayID(), env);
 			}
@@ -236,21 +249,23 @@ public abstract class DataClayRuntime {
 
 	/**
 	 * Get all execution environments in provided dataClay instance
-	 * @param lang Language
+	 * 
+	 * @param lang               Language
 	 * @param dataClayInstanceID ID of dataClay to check
-	 * @param forceUpdate Indicates exec envs must be updated
+	 * @param forceUpdate        Indicates exec envs must be updated
 	 * @return Set of execution environments in provided dataClay instance
 	 */
 	public Map<ExecutionEnvironmentID, ExecutionEnvironment> getAllExecutionEnvironmentsAtDataClay(final Langs lang,
-																					  final DataClayInstanceID dataClayInstanceID,
-																								   final boolean forceUpdate) {
+			final DataClayInstanceID dataClayInstanceID,
+			final boolean forceUpdate) {
 		Map<ExecutionEnvironmentID, ExecutionEnvironment> execEnvsAtDC = new HashMap<>();
 		Map<ExecutionEnvironmentID, ExecutionEnvironment> execEnvs = null;
 		if (!forceUpdate) {
 			execEnvs = getAllExecutionEnvironmentsInfo(lang, false);
 			// check if there is any execution.env in that host, otherwise update cache
 			for (ExecutionEnvironment env : execEnvs.values()) {
-				LOGGER.debug("Checking if environment hostname {} matches required hostname {}", env.getDataClayInstanceID(), dataClayInstanceID);
+				LOGGER.debug("Checking if environment hostname {} matches required hostname {}",
+						env.getDataClayInstanceID(), dataClayInstanceID);
 				if (env.getDataClayInstanceID().equals(dataClayInstanceID)) {
 					execEnvsAtDC.put(env.getDataClayID(), env);
 				}
@@ -269,7 +284,8 @@ public abstract class DataClayRuntime {
 
 	/**
 	 * Get all backend names
-	 * @param lang Language
+	 * 
+	 * @param lang             Language
 	 * @param forceUpdateCache Indicates cache must be forcibly updated
 	 * @return All backed names information
 	 */
@@ -288,13 +304,15 @@ public abstract class DataClayRuntime {
 
 	/**
 	 * Get exec. environments with name provided
-	 * @param lang Language
+	 * 
+	 * @param lang        Language
 	 * @param backendName Name of backend
 	 * @return All backends with name provided
 	 */
 	public Set<BackendID> getBackendsWithName(final Langs lang, final String backendName) {
 		Set<BackendID> execEnvsWithName = new HashSet<>();
-		Map<ExecutionEnvironmentID, ExecutionEnvironment> execEnvs = getAllExecutionEnvironmentsInfo(Langs.LANG_JAVA, false);
+		Map<ExecutionEnvironmentID, ExecutionEnvironment> execEnvs = getAllExecutionEnvironmentsInfo(Langs.LANG_JAVA,
+				false);
 		// check if there is any execution.env in that host, otherwise update cache
 		DataClayInstanceID curDcID = getDataClayID();
 		for (ExecutionEnvironment env : execEnvs.values()) {
@@ -317,7 +335,7 @@ public abstract class DataClayRuntime {
 	 * Get execution location
 	 * 
 	 * @param objectID
-	 *            ID of the object connected.
+	 *                 ID of the object connected.
 	 * @return ExecutionEnvironmentID by hash
 	 */
 	public final ExecutionEnvironmentID getBackendIDFromObjectID(final ObjectID objectID) {
@@ -335,7 +353,7 @@ public abstract class DataClayRuntime {
 	 * Get remote execution environment
 	 * 
 	 * @param execLocationID
-	 *            ID of remote execution environment
+	 *                       ID of remote execution environment
 	 * @return Remote execution environment
 	 */
 	public final DataServiceAPI getRemoteExecutionEnvironment(final BackendID execLocationID) {
@@ -354,7 +372,7 @@ public abstract class DataClayRuntime {
 	 * Get remote execution environment
 	 * 
 	 * @param execLocationID
-	 *            ID of remote execution environment
+	 *                       ID of remote execution environment
 	 * @return Remote execution environment
 	 */
 	public DataServiceAPI getRemoteDSAPI(final ExecutionEnvironmentID execLocationID) {
@@ -368,57 +386,58 @@ public abstract class DataClayRuntime {
 		}
 	}
 
-
 	/**
 	 * Get external dataClay info
 	 * 
 	 * @param extDataClayID
-	 *            id of the external dataClay instance
+	 *                      id of the external dataClay instance
 	 * @return info of the external dataClay instance
 	 */
 	public DataClayInstance getExternalDataClayInfo(final DataClayInstanceID extDataClayID) {
 		return this.getLogicModuleAPI().getExternalDataClayInfo(extDataClayID);
 	}
-	
 
 	/**
 	 * Method that registers the info of a dataClay instance
 	 * 
 	 * @param dcHost
-	 *            entry port host of the external dataClay
+	 *               entry port host of the external dataClay
 	 * @param dcPort
-	 *            entry point port of the external dataClay
+	 *               entry point port of the external dataClay
 	 * @return ID of external registered dataClay.
 	 */
 	public DataClayInstanceID registerExternalDataClay(final String dcHost, final Integer dcPort) {
 		return this.getLogicModuleAPI().registerExternalDataClay(dcHost, dcPort);
 
 	}
-	
+
 	/**
-	 * ADMIN usage only. Method that registers the info of a dataClay instance but with overriden authority for SSL connections.
-	 * @param adminAccountID admin account id
-	 * @param  adminCredential admin credentials
+	 * ADMIN usage only. Method that registers the info of a dataClay instance but
+	 * with overriden authority for SSL connections.
+	 * 
+	 * @param adminAccountID  admin account id
+	 * @param adminCredential admin credentials
 	 * @param dcHost
-	 *            entry port host of the external dataClay
+	 *                        entry port host of the external dataClay
 	 * @param dcPort
-	 *            entry point port of the external dataClay
-	 * @param authority authority to use
+	 *                        entry point port of the external dataClay
+	 * @param authority       authority to use
 	 * @return ID of external registered dataClay.
 	 */
 	public DataClayInstanceID registerExternalDataClayOverrideAuthority(final AccountID adminAccountID,
 			final PasswordCredential adminCredential, final String dcHost, final int dcPort, final String authority) {
-		return this.getLogicModuleAPI().registerExternalDataClayOverrideAuthority(adminAccountID, adminCredential, dcHost, dcPort, authority);
+		return this.getLogicModuleAPI().registerExternalDataClayOverrideAuthority(adminAccountID, adminCredential,
+				dcHost, dcPort, authority);
 
 	}
-	
+
 	/**
 	 * Get external dataClay info
 	 * 
 	 * @param hostname
-	 *            host name of the external dataClay instance
+	 *                 host name of the external dataClay instance
 	 * @param port
-	 *            port of the external dataClay instance.
+	 *                 port of the external dataClay instance.
 	 * @return info of the external dataClay instance
 	 */
 	public DataClayInstanceID getExternalDataClayID(final String hostname, final int port) {
@@ -432,7 +451,7 @@ public abstract class DataClayRuntime {
 	 */
 	public DataClayInstanceID getDataClayID() {
 		if (this.dataClayInstanceID == null) {
-			dataClayInstanceID =  this.getLogicModuleAPI().getDataClayID();
+			dataClayInstanceID = this.getLogicModuleAPI().getDataClayID();
 		}
 		return dataClayInstanceID;
 	}
@@ -453,14 +472,14 @@ public abstract class DataClayRuntime {
 		this.grpcClient.finishClientConnections();
 		LOGGER.debug("Stopping thread pool");
 		this.threadPool.shutdown();
-		this.threadPool = null; 
+		this.threadPool = null;
 		this.grpcClient = null;
 		this.dataClayInstanceID = null;
 		boolean aliveThreads = true;
 		DataClayObject.clearStubInfosCache();
 		DataClayObject.clearExecStubInfosCache();
 		DataClayObject.clientRuntime = null;
-		for (int i = 0; i < 10; i++) { //maximum retries
+		for (int i = 0; i < 10; i++) { // maximum retries
 			boolean foundAliveThread = false;
 			String threadName = null;
 			for (Thread t : Thread.getAllStackTraces().keySet()) {
@@ -470,35 +489,36 @@ public abstract class DataClayRuntime {
 					break;
 				}
 			}
-			if (foundAliveThread) { 
+			if (foundAliveThread) {
 				LOGGER.warn("WARNING: Waiting for " + threadName + " thread to finish...");
 				try {
 					Thread.sleep(300);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
-			} else { 
+			} else {
 				aliveThreads = false;
-				break; 
+				break;
 			}
 		}
 		for (Thread t : Thread.getAllStackTraces().keySet()) {
 			String threadName = t.getName();
 			LOGGER.debug("Found alive thread while exiting: " + threadName);
 		}
-		if (aliveThreads) { 
+		if (aliveThreads) {
 			LOGGER.warn("WARNING: Some threads still alive while exiting application.");
 		}
-		//((LifeCycle) LogManager.getContext()).stop();
+		// ((LifeCycle) LogManager.getContext()).stop();
 		this.setInitialized(false);
 	}
 
 	/**
-	 * Get the IDs of the backends in which the object identified by the stub instance provided is located and the classname of
+	 * Get the IDs of the backends in which the object identified by the stub
+	 * instance provided is located and the classname of
 	 * the object.
 	 * 
 	 * @param objectID
-	 *            ID of the object
+	 *                 ID of the object
 	 * @return Object metadata.
 	 */
 	public final MetaDataInfo getObjectMetadata(final ObjectID objectID) {
@@ -541,13 +561,13 @@ public abstract class DataClayRuntime {
 	 * Remove metadata of object from cache
 	 *
 	 * @param objectID
-	 *            ID of the object
+	 *                 ID of the object
 	 */
 	public final void removeObjectMetadataFromCache(final ObjectID objectID) {
 		metaDataCache.remove(objectID);
 	}
 
-												// ================================================== //
+	// ================================================== //
 	// ================= FUNCTIONS ================== //
 	// ================================================== //
 
@@ -555,9 +575,10 @@ public abstract class DataClayRuntime {
 	 * Retrieves a copy of the specified object and all its subobjects
 	 * 
 	 * @param oid
-	 *            id of the object to be retrieved
+	 *                  id of the object to be retrieved
 	 * @param recursive
-	 *            retrieve a copy of the whole object copying also its subobjects or only the main object
+	 *                  retrieve a copy of the whole object copying also its
+	 *                  subobjects or only the main object
 	 * @return a volatile instance of the object
 	 */
 	public final DataClayObject getCopyOfObject(final ObjectID oid, final boolean recursive) {
@@ -578,9 +599,9 @@ public abstract class DataClayRuntime {
 	 * Updates a specific object (into) with the fields of another one (from)
 	 * 
 	 * @param into
-	 *            target object where data is put
+	 *             target object where data is put
 	 * @param from
-	 *            object containing the data to put
+	 *             object containing the data to put
 	 */
 	public final void updateObject(final ObjectID into, final DataClayObject from) {
 		final SessionID sessionID = getSessionID();
@@ -630,11 +651,12 @@ public abstract class DataClayRuntime {
 	}
 
 	/**
-	 * All volatiles provided are under deserialization. This function solves problems of 'hashcode' and other special functions
+	 * All volatiles provided are under deserialization. This function solves
+	 * problems of 'hashcode' and other special functions
 	 * needed during deserializations. See executeImpl.
 	 * 
 	 * @param volatileSet
-	 *            Volatiles under deserialization.
+	 *                    Volatiles under deserialization.
 	 */
 	public void addVolatileUnderDeserialization(final Collection<ObjectWithDataParamOrReturn> volatileSet) {
 		for (ObjectWithDataParamOrReturn vol : volatileSet) {
@@ -644,8 +666,9 @@ public abstract class DataClayRuntime {
 
 	/**
 	 * Remove volatiles under deserialization.
+	 * 
 	 * @param volatileSet
-	 *            Volatiles under deserialization.
+	 *                    Volatiles under deserialization.
 	 */
 	public void removeVolatilesUnderDeserialization(final Collection<ObjectWithDataParamOrReturn> volatileSet) {
 		for (ObjectWithDataParamOrReturn vol : volatileSet) {
@@ -658,15 +681,15 @@ public abstract class DataClayRuntime {
 	 * Get from Heap or create a new volatile in EE and load data on it.
 	 * 
 	 * @param classID
-	 *            ID of class of the object
+	 *                     ID of class of the object
 	 * @param objectID
-	 *            ID of the object
+	 *                     ID of the object
 	 * @param hint
-	 *            Hint of the object
+	 *                     Hint of the object
 	 * @param objWithData
-	 *            Data of the object
+	 *                     Data of the object
 	 * @param ifaceBitMaps
-	 *            Interface bitmaps
+	 *                     Interface bitmaps
 	 * @return Loaded volatile instance in EE.
 	 */
 	public DataClayObject getOrNewAndLoadVolatile(final MetaClassID classID, final ObjectID objectID,
@@ -686,9 +709,9 @@ public abstract class DataClayRuntime {
 	 * Check connection and parameters
 	 * 
 	 * @param paramNames
-	 *            Names of parameters
+	 *                   Names of parameters
 	 * @param params
-	 *            Parameters to check
+	 *                   Parameters to check
 	 */
 	public final void checkConnectionAndParams(final String[] paramNames, final Object[] params) {
 		RuntimeUtils.checkConnection(logicModule);
@@ -699,9 +722,9 @@ public abstract class DataClayRuntime {
 	 * Check parameters and connections and session
 	 * 
 	 * @param paramNames
-	 *            Names of parameters
+	 *                   Names of parameters
 	 * @param params
-	 *            Parameters to check
+	 *                   Parameters to check
 	 * @return Session ID
 	 */
 	public final SessionID checkAndGetSession(final String[] paramNames, final Object[] params) {
@@ -712,10 +735,11 @@ public abstract class DataClayRuntime {
 	}
 
 	/**
-	 * Method that gets info of an object given its ID if the object is accessible by using the given sesion.
+	 * Method that gets info of an object given its ID if the object is accessible
+	 * by using the given sesion.
 	 * 
 	 * @param alias
-	 *            alias of the object
+	 *              alias of the object
 	 * @return Currently id of object and hint.
 	 */
 	public final Triple<ObjectID, MetaClassID, BackendID> getObjectInfoByAlias(final String alias) {
@@ -738,7 +762,7 @@ public abstract class DataClayRuntime {
 	 * Method that gets an object given its alias.
 	 * 
 	 * @param alias
-	 *            alias of the object
+	 *              alias of the object
 	 * @return The object identified by alias provided
 	 */
 	public final DataClayObject getObjectByAlias(final String alias) {
@@ -762,15 +786,15 @@ public abstract class DataClayRuntime {
 	 * Method that gets an object given its alias and metaclass id.
 	 * 
 	 * @param alias
-	 *            alias of the object
+	 *                    alias of the object
 	 * @param metaClassID
-	 *            if of the object's metaclass
+	 *                    if of the object's metaclass
 	 * @param safe
-	 *            if true, check that alias exists
+	 *                    if true, check that alias exists
 	 * @return The object identified by the proved alias and metaclass.
 	 */
 	public final DataClayObject getObjectByAlias(final String alias, MetaClassID metaClassID, boolean safe) {
-		if(safe) {
+		if (safe) {
 			return this.getObjectByAlias(alias);
 		}
 
@@ -788,7 +812,7 @@ public abstract class DataClayRuntime {
 	 * Method that deletes the alias of an object
 	 * 
 	 * @param alias
-	 *            alias of the object to be removed
+	 *              alias of the object to be removed
 	 */
 	public final void deleteAlias(final String alias) {
 		final SessionID sessionID = getSessionID();
@@ -798,6 +822,7 @@ public abstract class DataClayRuntime {
 
 	/**
 	 * Method that deletes the alias of an object provided
+	 * 
 	 * @param dcObject the object
 	 */
 	public abstract void deleteAlias(final DataClayObject dcObject);
@@ -819,7 +844,7 @@ public abstract class DataClayRuntime {
 	 * Get class name from ID.
 	 * 
 	 * @param classID
-	 *            ID of class
+	 *                ID of class
 	 * @return Class name
 	 */
 	public abstract String getClassNameInternal(final MetaClassID classID);
@@ -828,7 +853,7 @@ public abstract class DataClayRuntime {
 	 * Get class name from ID
 	 * 
 	 * @param classID
-	 *            Class ID
+	 *                Class ID
 	 * @return Class name
 	 */
 	public final String getClassName(final MetaClassID classID) {
@@ -838,20 +863,27 @@ public abstract class DataClayRuntime {
 	}
 
 	/**
-	 * Helper function to prepare information for new replica - version - consolidate algorithms
-	 * @param objectID ID of the object
-	 * @param objectHint object hint
-	 * @param optDestBackendID Destination backend ID to get information from (can be null)
-	 * @param optDestHostname Destination hostname to get information from (can be null)
-	 * @param differentLocation if true, indicates that destination backend should be different than any location of the object
+	 * Helper function to prepare information for new replica - version -
+	 * consolidate algorithms
+	 * 
+	 * @param objectID          ID of the object
+	 * @param objectHint        object hint
+	 * @param optDestBackendID  Destination backend ID to get information from (can
+	 *                          be null)
+	 * @param optDestHostname   Destination hostname to get information from (can be
+	 *                          null)
+	 * @param differentLocation if true, indicates that destination backend should
+	 *                          be different than any location of the object
 	 * @return Tuple with destination backend API to call and:
-	 * 		Either information of dest backend with id provided, some exec env in host provided or random exec env.
+	 *         Either information of dest backend with id provided, some exec env in
+	 *         host provided or random exec env.
 	 */
-	private final Tuple<DataServiceAPI, ExecutionEnvironment> prepareNewReplicaVersionConsolidate(final ObjectID objectID,
-																									final BackendID objectHint,
-																									final BackendID optDestBackendID,
-																								  final String optDestHostname,
-																								  final boolean differentLocation) {
+	private final Tuple<DataServiceAPI, ExecutionEnvironment> prepareNewReplicaVersionConsolidate(
+			final ObjectID objectID,
+			final BackendID objectHint,
+			final BackendID optDestBackendID,
+			final String optDestHostname,
+			final boolean differentLocation) {
 		// Get an arbitrary object location
 		BackendID execLocationID = objectHint;
 		if (objectHint == null) {
@@ -876,8 +908,8 @@ public abstract class DataClayRuntime {
 				// no destination backend specified, get one randomly in which object is
 				// not registered
 				// === RANDOM === //
-				Map<ExecutionEnvironmentID, ExecutionEnvironment> backends =
-						this.getAllExecutionEnvironmentsAtDataClay(objectLanguage, this.getDataClayID(), false);
+				Map<ExecutionEnvironmentID, ExecutionEnvironment> backends = this
+						.getAllExecutionEnvironmentsAtDataClay(objectLanguage, this.getDataClayID(), false);
 
 				if (differentLocation) {
 					Set<BackendID> locations = this.getAllLocations(objectID);
@@ -893,8 +925,8 @@ public abstract class DataClayRuntime {
 					if (destBackend == null) {
 						LOGGER.debug("Could not find any different location for replica, updating available exec envs");
 
-						backends =
-								this.getAllExecutionEnvironmentsAtDataClay(objectLanguage, this.getDataClayID(), true);
+						backends = this.getAllExecutionEnvironmentsAtDataClay(objectLanguage, this.getDataClayID(),
+								true);
 						for (Entry<ExecutionEnvironmentID, ExecutionEnvironment> eeEntry : backends.entrySet()) {
 							ExecutionEnvironmentID eeID = eeEntry.getKey();
 							ExecutionEnvironment execEnv = eeEntry.getValue();
@@ -919,26 +951,30 @@ public abstract class DataClayRuntime {
 	}
 
 	/**
-	 * Creates a persistent new version of an object and its subobjects (always recursive). If a Backend is provided the object
+	 * Creates a persistent new version of an object and its subobjects (always
+	 * recursive). If a Backend is provided the object
 	 * is versioned to this backend, otherwise it is versioned to any backend
 	 * 
 	 * @param objectID
-	 *            ID of the object
-	 * @param objectHint object hint
-	 * @param classID ID of the class of the object
-	 * @param dataSetID ID of the dataset of the object
-	 * @param optDestBackendID ID of the backend in which to store the version the object (optional)
-	 * @param optDestHostname Hostname of the backend in which to replicate the object (optional)
+	 *                         ID of the object
+	 * @param objectHint       object hint
+	 * @param classID          ID of the class of the object
+	 * @param dataSetID        ID of the dataset of the object
+	 * @param optDestBackendID ID of the backend in which to store the version the
+	 *                         object (optional)
+	 * @param optDestHostname  Hostname of the backend in which to replicate the
+	 *                         object (optional)
 	 * @return Version ID and destination backend ID
 	 */
 	public final Tuple<ObjectID, BackendID> newVersion(final ObjectID objectID,
-													   final ExecutionEnvironmentID objectHint,
+			final ExecutionEnvironmentID objectHint,
 			final MetaClassID classID, final DataSetID dataSetID,
 			final BackendID optDestBackendID, final String optDestHostname) {
 		final SessionID sessionID = checkAndGetSession(new String[] { "ObjectID" }, new Object[] { objectID });
 
 		// FIXME: retry in different replica location if it fails
-		Tuple<DataServiceAPI, ExecutionEnvironment> destInfo = this.prepareNewReplicaVersionConsolidate(objectID, objectHint,
+		Tuple<DataServiceAPI, ExecutionEnvironment> destInfo = this.prepareNewReplicaVersionConsolidate(objectID,
+				objectHint,
 				optDestBackendID, optDestHostname, false);
 		DataServiceAPI dsAPI = destInfo.getFirst();
 		ExecutionEnvironment destBackend = destInfo.getSecond();
@@ -955,7 +991,8 @@ public abstract class DataClayRuntime {
 	}
 
 	/**
-	 * Makes the object with finalVersionID the definitive version of the object with originalObjectID. The original version is
+	 * Makes the object with finalVersionID the definitive version of the object
+	 * with originalObjectID. The original version is
 	 * deleted.
 	 * 
 	 * @param versionOID ID of version object to consolidate
@@ -978,28 +1015,34 @@ public abstract class DataClayRuntime {
 	}
 
 	/**
-	 * Replicates an object. If a Backend is provided the object is replicated to this backend, otherwise it is replicated to
+	 * Replicates an object. If a Backend is provided the object is replicated to
+	 * this backend, otherwise it is replicated to
 	 * any backend
 	 * 
 	 * @param objectID
-	 *            ID of the object
-	 * @param objectHint object hint
+	 *                         ID of the object
+	 * @param objectHint       object hint
 	 * @param optDestBackendID
-	 *            ID of the backend in which to replicate the object (optional)
-	 * @param optDestHostname Hostname of the backend in which to replicate the object (optional)
+	 *                         ID of the backend in which to replicate the object
+	 *                         (optional)
+	 * @param optDestHostname  Hostname of the backend in which to replicate the
+	 *                         object (optional)
 	 * @param recursive
-	 *            Indicates if we should also replicate all sub-objects or not.
-	 * @return The ID of the backend in which the replica was created or NULL if some error is thrown.
+	 *                         Indicates if we should also replicate all sub-objects
+	 *                         or not.
+	 * @return The ID of the backend in which the replica was created or NULL if
+	 *         some error is thrown.
 	 * 
 	 */
 	public final BackendID newReplica(final ObjectID objectID, final BackendID objectHint,
-									  final BackendID optDestBackendID, final String optDestHostname,
-									  final boolean recursive) {
+			final BackendID optDestBackendID, final String optDestHostname,
+			final boolean recursive) {
 		// FIXME: retry in different replica location if it fails
 
-		final SessionID sessionID = checkAndGetSession(new String[] { }, new Object[] {  });
+		final SessionID sessionID = checkAndGetSession(new String[] {}, new Object[] {});
 
-		Tuple<DataServiceAPI, ExecutionEnvironment> destInfo = this.prepareNewReplicaVersionConsolidate(objectID, objectHint,
+		Tuple<DataServiceAPI, ExecutionEnvironment> destInfo = this.prepareNewReplicaVersionConsolidate(objectID,
+				objectHint,
 				optDestBackendID, optDestHostname, true);
 		DataServiceAPI dsAPI = destInfo.getFirst();
 		ExecutionEnvironment destBackend = destInfo.getSecond();
@@ -1027,17 +1070,17 @@ public abstract class DataClayRuntime {
 	 * Move the replica of an object from one backend to another.
 	 * 
 	 * @param objectID
-	 *            ID of the object
+	 *                      ID of the object
 	 * @param classID
-	 *            Class ID of the object
+	 *                      Class ID of the object
 	 * @param hint
-	 *            Hint of the object
+	 *                      Hint of the object
 	 * @param srcBackendID
-	 *            ID of the backend containing the replica
+	 *                      ID of the backend containing the replica
 	 * @param destBackendID
-	 *            ID of the destination backend
+	 *                      ID of the destination backend
 	 * @param recursive
-	 *            Indicates if movement must be recursive or not.
+	 *                      Indicates if movement must be recursive or not.
 	 */
 	public final void moveObject(final ObjectID objectID, final MetaClassID classID, final BackendID hint,
 			final BackendID srcBackendID, final BackendID destBackendID, final boolean recursive) {
@@ -1089,7 +1132,7 @@ public abstract class DataClayRuntime {
 			if (obj != null) {
 				if (DEBUG_ENABLED) {
 					LOGGER.debug("[==Hint==] Setting hint (moveObject) on instance " + obj.getObjectID()
-					+ " the hint : " + getDSNameOfHint(newhint));
+							+ " the hint : " + getDSNameOfHint(newhint));
 				}
 				obj.setHint(newhint);
 				if (obj.getMasterLocation() != null) {
@@ -1106,11 +1149,11 @@ public abstract class DataClayRuntime {
 	 * Set a persistent object as read only Logic module API used for communication
 	 * 
 	 * @param objectID
-	 *            ID of the object
+	 *                 ID of the object
 	 * @param classID
-	 *            Class ID of the object
+	 *                 Class ID of the object
 	 * @param hint
-	 *            Hint of the object
+	 *                 Hint of the object
 	 */
 	public final void setObjectReadOnly(final ObjectID objectID, final MetaClassID classID, final BackendID hint) {
 		final SessionID sessionID = checkAndGetSession(new String[] { "ObjectID" }, new Object[] { objectID });
@@ -1121,11 +1164,11 @@ public abstract class DataClayRuntime {
 	 * Set a persistent object as read write
 	 * 
 	 * @param objectID
-	 *            ID of the object
+	 *                 ID of the object
 	 * @param classID
-	 *            Class ID of the object
+	 *                 Class ID of the object
 	 * @param hint
-	 *            Hint of the object
+	 *                 Hint of the object
 	 */
 	public final void setObjectReadWrite(final ObjectID objectID, final MetaClassID classID, final BackendID hint) {
 		final SessionID sessionID = checkAndGetSession(new String[] { "ObjectID" }, new Object[] { objectID });
@@ -1133,11 +1176,13 @@ public abstract class DataClayRuntime {
 	}
 
 	/**
-	 * Get the ID of some backend in which the object identified by the stub instance provided is located
+	 * Get the ID of some backend in which the object identified by the stub
+	 * instance provided is located
 	 * 
 	 * @param objectID
-	 *            ID of the object
-	 * @return ID of some backend in which the object is located or NULL if some error is thrown.
+	 *                 ID of the object
+	 * @return ID of some backend in which the object is located or NULL if some
+	 *         error is thrown.
 	 */
 	public final BackendID getLocation(final ObjectID objectID) {
 		checkConnectionAndParams(new String[] { "ObjectID" }, new Object[] { objectID });
@@ -1171,11 +1216,13 @@ public abstract class DataClayRuntime {
 	}
 
 	/**
-	 * Get the IDs of the backends in which the object identified by the stub instance provided is located.
+	 * Get the IDs of the backends in which the object identified by the stub
+	 * instance provided is located.
 	 * 
 	 * @param objectID
-	 *            ID of the object
-	 * @return IDs of the backends in which the object is located or NULL if some error is thrown.
+	 *                 ID of the object
+	 * @return IDs of the backends in which the object is located or NULL if some
+	 *         error is thrown.
 	 */
 	public final Set<BackendID> getAllLocations(final ObjectID objectID) {
 		checkConnectionAndParams(new String[] { "ObjectID" }, new Object[] { objectID });
@@ -1231,7 +1278,7 @@ public abstract class DataClayRuntime {
 	 * Get name of node associated to hint.
 	 * 
 	 * @param hint
-	 *            Hint
+	 *             Hint
 	 * @return name of node associated to hint
 	 */
 	public final String getDSNameOfHint(final BackendID hint) {
@@ -1245,17 +1292,19 @@ public abstract class DataClayRuntime {
 	 * Serialize parameters.
 	 * 
 	 * @param objectInWhichToExec
-	 *            Object in which to run method that needs serialization of parameters
+	 *                            Object in which to run method that needs
+	 *                            serialization of parameters
 	 * @param ifaceBitMaps
-	 *            Interface bitmaps
+	 *                            Interface bitmaps
 	 * @param implID
-	 *            ImplementationID
+	 *                            ImplementationID
 	 * @param params
-	 *            Parameters or return to serialize
+	 *                            Parameters or return to serialize
 	 * @param forUpdate
-	 *            Indicates whether this serialization is for an update or not
+	 *                            Indicates whether this serialization is for an
+	 *                            update or not
 	 * @param hintVolatiles
-	 *            Hint to set to volatiles
+	 *                            Hint to set to volatiles
 	 * @return Serialized parameters
 	 */
 	public final SerializedParametersOrReturn serializeParams(final DataClayObject objectInWhichToExec,
@@ -1294,13 +1343,14 @@ public abstract class DataClayRuntime {
 	 * Serialize parameters.
 	 * 
 	 * @param objectInWhichToExec
-	 *            Object in which to run method that needs serialization of parameters
+	 *                            Object in which to run method that needs
+	 *                            serialization of parameters
 	 * @param ifaceBitMaps
-	 *            Interface bitmaps
+	 *                            Interface bitmaps
 	 * @param implID
-	 *            ImplementationID
+	 *                            ImplementationID
 	 * @param ret
-	 *            Return to serialize
+	 *                            Return to serialize
 	 * @return Serialized parameters
 	 */
 	public final SerializedParametersOrReturn serializeReturn(final DataClayObject objectInWhichToExec,
@@ -1337,13 +1387,14 @@ public abstract class DataClayRuntime {
 	 * Deserialize parameters.
 	 * 
 	 * @param objectInWhichToExec
-	 *            Object in which to run method that needs deserialization of parameters.
+	 *                            Object in which to run method that needs
+	 *                            deserialization of parameters.
 	 * @param ifaceBitMaps
-	 *            Interface bitmaps
+	 *                            Interface bitmaps
 	 * @param implID
-	 *            ImplementationID
+	 *                            ImplementationID
 	 * @param serializedParams
-	 *            Parameters to deserialize
+	 *                            Parameters to deserialize
 	 * @return Serialized parameters
 	 */
 	public final Object[] deserializeParams(final DataClayObject objectInWhichToExec,
@@ -1367,9 +1418,9 @@ public abstract class DataClayRuntime {
 	 * Deserialize int heap objects provided for a make persistent call.
 	 * 
 	 * @param ifaceBitMaps
-	 *            Interface bitmaps
+	 *                         Interface bitmaps
 	 * @param serializedParams
-	 *            Objects to deserialize
+	 *                         Objects to deserialize
 	 * @return the deserialized parameters
 	 */
 	public final Object[] deserializeIntoHeap(final Map<MetaClassID, byte[]> ifaceBitMaps,
@@ -1385,13 +1436,14 @@ public abstract class DataClayRuntime {
 	 * Deserialize return.
 	 * 
 	 * @param objectInWhichToExec
-	 *            Object in which to run method that needs deserialization of return.
+	 *                            Object in which to run method that needs
+	 *                            deserialization of return.
 	 * @param ifaceBitMaps
-	 *            Interface bitmaps
+	 *                            Interface bitmaps
 	 * @param implID
-	 *            ImplementationID
+	 *                            ImplementationID
 	 * @param serializedReturn
-	 *            Return to deserialize
+	 *                            Return to deserialize
 	 * @return Deserialized return
 	 */
 	public final Object deserializeReturn(final DataClayObject objectInWhichToExec,
@@ -1408,14 +1460,15 @@ public abstract class DataClayRuntime {
 	}
 
 	/**
-	 * Internal Method that executes an implementation depending on client or server.
+	 * Internal Method that executes an implementation depending on client or
+	 * server.
 	 * 
 	 * @param objectInWhichToExec
-	 *            Object in which to exec
+	 *                            Object in which to exec
 	 * @param implID
-	 *            Implementation ID
+	 *                            Implementation ID
 	 * @param params
-	 *            Parameters
+	 *                            Parameters
 	 * @return the result of execution.
 	 * @note This function is called from a stub
 	 */
@@ -1426,11 +1479,11 @@ public abstract class DataClayRuntime {
 	 * Method that executes an implementation.
 	 * 
 	 * @param objectInWichToExec
-	 *            Object in which to exec
+	 *                           Object in which to exec
 	 * @param implIDStr
-	 *            Implementation ID as string
+	 *                           Implementation ID as string
 	 * @param params
-	 *            Parameters
+	 *                           Parameters
 	 * @return the result of execution.
 	 * @note This function is called from a stub
 	 */
@@ -1455,15 +1508,15 @@ public abstract class DataClayRuntime {
 	 * Execute a remote implementation in Location specified.
 	 * 
 	 * @param dcObject
-	 *            Object used as a 'portal' to other DS.
+	 *                         Object used as a 'portal' to other DS.
 	 * @param params
-	 *            Parameters to send
+	 *                         Parameters to send
 	 * @param remoteImplID
-	 *            ID of implementation to execute
+	 *                         ID of implementation to execute
 	 * @param remoteLocationID
-	 *            Location in which to execute
+	 *                         Location in which to execute
 	 * @param usingHint
-	 *            TRUE if using hint.
+	 *                         TRUE if using hint.
 	 * @return Result of execution.
 	 */
 	public final Object callExecuteToDS(final DataClayObject dcObject, final Object[] params,
@@ -1574,14 +1627,12 @@ public abstract class DataClayRuntime {
 
 					if (DEBUG_ENABLED) {
 						LOGGER.debug("[==Miss Jump==] MISS. The object " + dcObject.getObjectID()
-						+ " was not in the exec.location " + execLocationID + ". Retrying execution.");
+								+ " was not in the exec.location " + execLocationID + ". Retrying execution.");
 					}
 				}
 
 			}
 		}
-
-
 
 		if (serializedParams != null && serializedParams.getVolatileObjs() != null) {
 			// update hints in volatiles
@@ -1591,14 +1642,20 @@ public abstract class DataClayRuntime {
 							+ remoteLocationID);
 				}
 				if (numMisses > 0) {
-					// if there was a miss, it means that the persistent object in which we were executing 
-					// was not in the choosen location. As you can see in the serialize parameters function above
-					// we provide the execution environment as hint to set to volatile parameters. In EE, before
-					// deserialization of volatiles we check if the persistent object in which to execute a method is
-					// there, if not, EE raises and exception. Therefore, if there was a miss, we know that the 
-					// hint we set in volatile parameters is wrong, because they are going to be deserialized/stored
+					// if there was a miss, it means that the persistent object in which we were
+					// executing
+					// was not in the choosen location. As you can see in the serialize parameters
+					// function above
+					// we provide the execution environment as hint to set to volatile parameters.
+					// In EE, before
+					// deserialization of volatiles we check if the persistent object in which to
+					// execute a method is
+					// there, if not, EE raises and exception. Therefore, if there was a miss, we
+					// know that the
+					// hint we set in volatile parameters is wrong, because they are going to be
+					// deserialized/stored
 					// in the same location as the object with the method to execute
-					volatil.getDataClayObject().setHint(remoteLocationID); 
+					volatil.getDataClayObject().setHint(remoteLocationID);
 				}
 				volatileParametersBeingSend.remove(volatil.getObjectID());
 
@@ -1611,7 +1668,7 @@ public abstract class DataClayRuntime {
 					"[dataClay] ERROR: Trying to execute remotely but"
 							+ " not initialized/found. Please, check initialization of StorageItf or ClientManagementLib "
 							+ " was successfull or contact administrator.",
-							true);
+					true);
 		}
 
 		if (!executed) {
@@ -1622,14 +1679,14 @@ public abstract class DataClayRuntime {
 								+ " (in case of asynchronous makepersistent) and waiting time is not enough."
 								+ " Maybe the object does not exist anymore due to a remove. Or Maybe an "
 								+ "exception happened in the server and the call failed.",
-								dcObject.getObjectID(), dcObject.getClass().getName());
+						dcObject.getObjectID(), dcObject.getClass().getName());
 			}
 			throw new RuntimeException("[dataClay] ERROR: Trying to execute remotely object " + dcObject.getObjectID()
-			+ " of class " + dcObject.getClass().getName()
-			+ " but something went wrong. Maybe the object is still not stored "
-			+ " (in case of asynchronous makepersistent) and waiting time is not enough."
-			+ " Maybe the object does not exist anymore due to a remove. Or Maybe an "
-			+ "exception happened in the server and the call failed.");
+					+ " of class " + dcObject.getClass().getName()
+					+ " but something went wrong. Maybe the object is still not stored "
+					+ " (in case of asynchronous makepersistent) and waiting time is not enough."
+					+ " Maybe the object does not exist anymore due to a remove. Or Maybe an "
+					+ "exception happened in the server and the call failed.");
 		}
 
 		// ===== DESERIALIZE RETURN ===== //
@@ -1639,12 +1696,13 @@ public abstract class DataClayRuntime {
 
 	/**
 	 * Synchronize
+	 * 
 	 * @param dcObject
-	 *            Object used as a 'portal' to other DS.
+	 *                     Object used as a 'portal' to other DS.
 	 * @param params
-	 *            Parameters to send
+	 *                     Parameters to send
 	 * @param remoteImplID
-	 *            ID of implementation to execute
+	 *                     ID of implementation to execute
 	 */
 	public abstract void synchronize(final DataClayObject dcObject, final Object[] params,
 			final ImplementationID remoteImplID);
@@ -1653,7 +1711,7 @@ public abstract class DataClayRuntime {
 	 * Check if string is UUID
 	 * 
 	 * @param string
-	 *            string to check
+	 *               string to check
 	 * @return TRUE if it is an uuid. FALSE otherwise.
 	 */
 	private boolean isUUID(final String string) {
@@ -1669,7 +1727,7 @@ public abstract class DataClayRuntime {
 	 * Check if string is Compss DataClayID
 	 * 
 	 * @param string
-	 *            string to check
+	 *               string to check
 	 * @return TRUE if it is an uuid. FALSE otherwise.
 	 */
 	private boolean isCompssDataClayID(final String string) {
@@ -1692,16 +1750,19 @@ public abstract class DataClayRuntime {
 	 * Method that executes an implementation
 	 * 
 	 * @param objectID
-	 *            ID of the object
+	 *                                  ID of the object
 	 * @param className
-	 *            Name of the class of the object
+	 *                                  Name of the class of the object
 	 * @param operationNameAndSignature
-	 *            Name and Signature of the operation to be executed
+	 *                                  Name and Signature of the operation to be
+	 *                                  executed
 	 * @param params
-	 *            parameters for the operation
+	 *                                  parameters for the operation
 	 * @param target
-	 *            the backend where the execution must be performed
-	 * @return the resulting object corresponding to the execution of the operation if it succeeds. null otherwise. <br>
+	 *                                  the backend where the execution must be
+	 *                                  performed
+	 * @return the resulting object corresponding to the execution of the operation
+	 *         if it succeeds. null otherwise. <br>
 	 *         if the method is void, it returns null also but no ERROR is prompt.
 	 */
 	public final Object executeRemoteTask(final ObjectID objectID, final String className,
@@ -1764,14 +1825,17 @@ public abstract class DataClayRuntime {
 	}
 
 	/**
-	 * Check if instance exists in Heap or create a new PERSISTENT instance if needed
+	 * Check if instance exists in Heap or create a new PERSISTENT instance if
+	 * needed
 	 * 
 	 * @param classID
-	 *            ID of the class in case it is needed (not need to query) if null, look for class id in metadata.
+	 *                 ID of the class in case it is needed (not need to query) if
+	 *                 null, look for class id in metadata.
 	 * @param objectID
-	 *            ID of object
+	 *                 ID of object
 	 * @param hint
-	 *            Can be null. Hint in case object is a volatile in another DS and we need information.
+	 *                 Can be null. Hint in case object is a volatile in another DS
+	 *                 and we need information.
 	 * @return Instance
 	 */
 	public abstract DataClayObject getOrNewPersistentInstance(final MetaClassID classID, final ObjectID objectID,
@@ -1781,15 +1845,16 @@ public abstract class DataClayRuntime {
 	 * Create a new instance in a remote server and persist it.
 	 * 
 	 * @param classID
-	 *            ID of the class of the instance to create
+	 *                 ID of the class of the instance to create
 	 * @param stubInfo
-	 *            Stub information
+	 *                 Stub information
 	 * @param implID
-	 *            ID of the implementation of the constructor
+	 *                 ID of the implementation of the constructor
 	 * @param params
-	 *            Parameters to send to constructor
+	 *                 Parameters to send to constructor
 	 * @param locID
-	 *            (optional) Storage Location/ Execution Environment in which to store object.
+	 *                 (optional) Storage Location/ Execution Environment in which
+	 *                 to store object.
 	 * @return ObjectID of persisted instance.
 	 */
 	public final ObjectID newRemotePersistentInstance(final MetaClassID classID, final StubInfo stubInfo,
@@ -1829,40 +1894,41 @@ public abstract class DataClayRuntime {
 	}
 
 	/**
-	 * This method creates a new Persistent Object using the provided stub instance and, if indicated, all its associated
+	 * This method creates a new Persistent Object using the provided stub instance
+	 * and, if indicated, all its associated
 	 * objects also Logic module API used for communication
 	 * 
 	 * @param dcObject
-	 *            Instance to make persistent
+	 *                              Instance to make persistent
 	 * @param optionalDestBackendID
-	 *            Indicates which is the destination backend
+	 *                              Indicates which is the destination backend
 	 * @param recursive
-	 *            Indicates if make persistent is recursive
+	 *                              Indicates if make persistent is recursive
 	 * @param alias
-	 *            Alias for the object
+	 *                              Alias for the object
 	 * @return ID of the backend in which te object was persisted.
 	 * @note This function is called from a stub/execution class
 	 */
 	public abstract BackendID makePersistent(final DataClayObject dcObject, final BackendID optionalDestBackendID,
 			final boolean recursive, final String alias);
 
-
 	/**
 	 * Federate an object with an external dataClay
 	 *
 	 * @param dcObject
-	 *            object to federate
+	 *                           object to federate
 	 * @param externalDataClayID
-	 *            id of the external dataClay ID
+	 *                           id of the external dataClay ID
 	 * @param recursive
-	 *            Indicates if subobjects should be federated as well
+	 *                           Indicates if subobjects should be federated as well
 	 */
 	public void federateObject(final DataClayObject dcObject,
-							   final DataClayInstanceID externalDataClayID,
-							   final boolean recursive) {
+			final DataClayInstanceID externalDataClayID,
+			final boolean recursive) {
 
-		ExecutionEnvironmentID externalExecutionEnvironmentID =
-				this.getAllExecutionEnvironmentsAtDataClay(Langs.LANG_JAVA, externalDataClayID, false).keySet().iterator().next();
+		ExecutionEnvironmentID externalExecutionEnvironmentID = this
+				.getAllExecutionEnvironmentsAtDataClay(Langs.LANG_JAVA, externalDataClayID, false).keySet().iterator()
+				.next();
 		this.federateToBackend(dcObject, externalExecutionEnvironmentID, recursive);
 	}
 
@@ -1870,28 +1936,32 @@ public abstract class DataClayRuntime {
 	 * Federate an object with an external dataClay
 	 *
 	 * @param dcObject
-	 *            object to federate
+	 *                                       object to federate
 	 * @param externalExecutionEnvironmentID
-	 *            id of the external execution environment id
+	 *                                       id of the external execution
+	 *                                       environment id
 	 * @param recursive
-	 *            Indicates if subobjects should be federated as well
+	 *                                       Indicates if subobjects should be
+	 *                                       federated as well
 	 */
 	public abstract void federateToBackend(final DataClayObject dcObject,
-							   final ExecutionEnvironmentID externalExecutionEnvironmentID,
-							   final boolean recursive);
+			final ExecutionEnvironmentID externalExecutionEnvironmentID,
+			final boolean recursive);
+
 	/**
 	 * Unfederate an object with an external dataClay
 	 *
 	 * @param dcObject
-	 *            object to unfederate
+	 *                           object to unfederate
 	 * @param externalDataClayID
-	 *            id of the external dataClay
+	 *                           id of the external dataClay
 	 * @param recursive
-	 *            Indicates if subobjects should be unfederated as well
+	 *                           Indicates if subobjects should be unfederated as
+	 *                           well
 	 */
 	public void unfederateObject(final DataClayObject dcObject,
-								 final DataClayInstanceID externalDataClayID,
-								 final boolean recursive) {
+			final DataClayInstanceID externalDataClayID,
+			final boolean recursive) {
 		this.unfederateFromBackend(dcObject, null, recursive);
 	}
 
@@ -1899,48 +1969,53 @@ public abstract class DataClayRuntime {
 	 * Unfederate an object with an external backend
 	 *
 	 * @param dcObject
-	 *            object to unfederate
+	 *                                       object to unfederate
 	 * @param externalExecutionEnvironmentID
-	 *            id of the external execution environment id
+	 *                                       id of the external execution
+	 *                                       environment id
 	 * @param recursive
-	 *            Indicates if subobjects should be unfederated as well
+	 *                                       Indicates if subobjects should be
+	 *                                       unfederated as well
 	 */
 	public abstract void unfederateFromBackend(final DataClayObject dcObject,
-								 final ExecutionEnvironmentID externalExecutionEnvironmentID,
-								 final boolean recursive);
-	
+			final ExecutionEnvironmentID externalExecutionEnvironmentID,
+			final boolean recursive);
+
 	/**
 	 * Unfederate an object with all external dataClays
 	 * 
 	 * @param dcObject
-	 *            object to unfederate
+	 *                  object to unfederate
 	 * @param recursive
-	 *            Indicates if subobjects should be federated as well
+	 *                  Indicates if subobjects should be federated as well
 	 */
 	public void unfederateObjectWithAllDCs(final DataClayObject dcObject, final boolean recursive) {
 		throw new UnsupportedOperationException();
 
 	}
-	
+
 	/**
-	 * Unfederate all objects belonging/federated with external dataClay with id provided
+	 * Unfederate all objects belonging/federated with external dataClay with id
+	 * provided
+	 * 
 	 * @param extDataClayID External dataClay ID
 	 */
 	public void unfederateAllObjects(final DataClayInstanceID extDataClayID) {
 		throw new UnsupportedOperationException();
 	}
-	
+
 	/**
-	 * Unfederate all objects belonging/federated with ANY external dataClay 
+	 * Unfederate all objects belonging/federated with ANY external dataClay
 	 */
 	public void unfederateAllObjectsWithAllDCs() {
 		throw new UnsupportedOperationException();
 
 	}
-	
+
 	/**
 	 * Federate all dataClay objects from specified current dataClay
-	 * destination dataclay. 
+	 * destination dataclay.
+	 * 
 	 * @param destinationDataClayID Destination dataclay id
 	 */
 	public void federateAllObjects(
@@ -1950,22 +2025,25 @@ public abstract class DataClayRuntime {
 
 	/**
 	 * Import classes in namespace specified from an external dataClay
+	 * 
 	 * @param externalNamespace External namespace to get
-	 * @param extDataClayID External dataClay ID
+	 * @param extDataClayID     External dataClay ID
 	 */
 	public void importModelsFromExternalDataClay(final String externalNamespace,
-															 final DataClayInstanceID extDataClayID) {
+			final DataClayInstanceID extDataClayID) {
 		logicModule.importModelsFromExternalDataClay(externalNamespace, extDataClayID);
 
 	}
-	
+
 	/**
-	 * Migrate (unfederate and federate) all current dataClay objects from specified external dataclay di to
-	 * destination dataclay. 
-	 * @param originDataClayID Origin dataclay id
+	 * Migrate (unfederate and federate) all current dataClay objects from specified
+	 * external dataclay di to
+	 * destination dataclay.
+	 * 
+	 * @param originDataClayID      Origin dataclay id
 	 * @param destinationDataClayID Destination dataclay id
 	 */
-	public void migrateFederatedObjects(final DataClayInstanceID originDataClayID, 
+	public void migrateFederatedObjects(final DataClayInstanceID originDataClayID,
 			final DataClayInstanceID destinationDataClayID) {
 		throw new UnsupportedOperationException();
 	}
@@ -1974,9 +2052,9 @@ public abstract class DataClayRuntime {
 	 * Set DataSet ID
 	 * 
 	 * @param objectID
-	 *            ID of the object
+	 *                     ID of the object
 	 * @param newDataSetID
-	 *            New DataSetID
+	 *                     New DataSetID
 	 */
 	public final void setDataSetID(final ObjectID objectID, final DataSetID newDataSetID) {
 		final SessionID sessionID = checkAndGetSession(new String[] { "newDataSetID" }, new Object[] { newDataSetID });
@@ -1988,11 +2066,12 @@ public abstract class DataClayRuntime {
 	 * Recovers Object from OID and class ID
 	 * 
 	 * @param objectID
-	 *            ObjectID of the object
+	 *                 ObjectID of the object
 	 * @param classID
-	 *            ClassID of the object. Can be NULL. Null class ID makes dataClay to ask for object Mdata.
+	 *                 ClassID of the object. Can be NULL. Null class ID makes
+	 *                 dataClay to ask for object Mdata.
 	 * @param hint
-	 *            Hint of the object. Can be NULL if no hint.
+	 *                 Hint of the object. Can be NULL if no hint.
 	 * @return Instance of the object.
 	 */
 	public final DataClayObject getPersistedObjectByOID(final ObjectID objectID, final MetaClassID classID,
@@ -2020,11 +2099,12 @@ public abstract class DataClayRuntime {
 	public abstract HeapManager getDataClayHeapManager();
 
 	/**
-	 * Remove reference from Heap. Even if we remove it from the heap, the object won't be Garbage collected by JavaGC till
+	 * Remove reference from Heap. Even if we remove it from the heap, the object
+	 * won't be Garbage collected by JavaGC till
 	 * HeapManager flushes the object and releases it.
 	 * 
 	 * @param objectID
-	 *            ID of the object
+	 *                 ID of the object
 	 */
 	public final void removeFromHeap(final ObjectID objectID) {
 		this.dataClayHeapManager.removeFromHeap(objectID);
@@ -2034,7 +2114,7 @@ public abstract class DataClayRuntime {
 	 * Add to Heap
 	 * 
 	 * @param dcObject
-	 *            the object
+	 *                 the object
 	 */
 	public final void addToHeap(final DataClayObject dcObject) {
 		this.dataClayHeapManager.addToHeap(dcObject);
@@ -2044,7 +2124,7 @@ public abstract class DataClayRuntime {
 	 * Check if object exists in dataClay.
 	 * 
 	 * @param objectID
-	 *            ID of the object
+	 *                 ID of the object
 	 * @return TRUE if object exists. FALSE otherwise.
 	 */
 	public boolean objectExistsInDataClay(final ObjectID objectID) {
@@ -2060,12 +2140,11 @@ public abstract class DataClayRuntime {
 		return this.logicModule.getNumObjects();
 	}
 
-
 	/**
 	 * Get from Heap
 	 * 
 	 * @param objectID
-	 *            ID of the object
+	 *                 ID of the object
 	 * @return The object in Heap or null if not present
 	 */
 	public DataClayObject getFromHeap(final ObjectID objectID) {
@@ -2076,7 +2155,7 @@ public abstract class DataClayRuntime {
 	 * Check if there is an object with ID provided.
 	 * 
 	 * @param objectID
-	 *            ID of the object.
+	 *                 ID of the object.
 	 * @return TRUE if exists in memory. FALSE otherwise.
 	 */
 	public final boolean existsInHeap(final ObjectID objectID) {
@@ -2084,16 +2163,18 @@ public abstract class DataClayRuntime {
 	}
 
 	/**
-	 * Detach object from current session in use, i.e. remove reference from current session provided to object,
+	 * Detach object from current session in use, i.e. remove reference from current
+	 * session provided to object,
 	 * "dear garbage-collector, current session is not using the object anymore"
 	 *
 	 * @param objectID ID of the object to detach
-	 * @param hint Hint of the object to detach (can be null)
+	 * @param hint     Hint of the object to detach (can be null)
 	 */
 	public abstract void detachObjectFromSession(final ObjectID objectID, final ExecutionEnvironmentID hint);
 
 	/**
-	 * ADVANCED FUNCTION. Try not to use it. This function flushes all objects in Heap.
+	 * ADVANCED FUNCTION. Try not to use it. This function flushes all objects in
+	 * Heap.
 	 */
 	public final void flushAll() {
 		this.dataClayHeapManager.flushAll();
@@ -2108,7 +2189,6 @@ public abstract class DataClayRuntime {
 		return this.dataClayHeapManager.heapSize();
 	}
 
-
 	/**
 	 * Get number of loaded objects in heap.
 	 *
@@ -2118,13 +2198,12 @@ public abstract class DataClayRuntime {
 		return this.dataClayHeapManager.numLoadedObjs();
 	}
 
-
 	/**
 	 * Activate tracing in dataClay services
 	 * 
 	 */
 	public final void activateTracingInDataClayServices() {
-		if (DataClayExtrae.extraeTracingIsEnabled()) { //sanity check, only activate if extrae was properly initialized
+		if (DataClayExtrae.extraeTracingIsEnabled()) { // sanity check, only activate if extrae was properly initialized
 			this.logicModule.activateTracing(DataClayExtrae.getCurrentAvailableTaskID());
 		}
 	}
@@ -2133,7 +2212,7 @@ public abstract class DataClayRuntime {
 	 * Dectivate tracing
 	 */
 	public final void deactivateTracingInDataClayServices() {
-		if (DataClayExtrae.extraeTracingIsEnabled()) { //sanity check, only activate if extrae was properly initialized
+		if (DataClayExtrae.extraeTracingIsEnabled()) { // sanity check, only activate if extrae was properly initialized
 			this.logicModule.deactivateTracing();
 		}
 	}
@@ -2157,60 +2236,57 @@ public abstract class DataClayRuntime {
 	 * Get traces in dataClay services and store it in current workspace
 	 */
 	public final void getTracesInDataClayServices() {
-		
-		final Map<String, byte[]> traces = logicModule.getTraces();
-		
-		/*
-		final Map<String, Map<String, byte[]>> filesPerHost = new HashMap<>();
-		
-		for (final Entry<String, byte[]> traceFile : traces.entrySet()) { 
 
-		}*/
-		
+		final Map<String, byte[]> traces = logicModule.getTraces();
+
+		/*
+		 * final Map<String, Map<String, byte[]>> filesPerHost = new HashMap<>();
+		 * 
+		 * for (final Entry<String, byte[]> traceFile : traces.entrySet()) {
+		 * 
+		 * }
+		 */
+
 		int curTask = 0;
 		final String setPath = "set-0";
 		final String traceMpitsPath = "TRACE.mpits";
 		try {
-			
+
 			FileUtils.forceMkdir(new File(setPath));
 			File traceMpitsFile = new File(traceMpitsPath);
 
-			for (final Entry<String, byte[]> traceFile : traces.entrySet()) { 
+			for (final Entry<String, byte[]> traceFile : traces.entrySet()) {
 
 				final String fileName = traceFile.getKey();
 				final byte[] fileBytes = traceFile.getValue();
 
-					File tmpTraceFile = new File(setPath + File.separator + fileName);
-					final String path = tmpTraceFile.getAbsolutePath();
-					LOGGER.info("Storing file " + path);
-					
-					// Store Extrae temporary files
-					FileUtils.writeByteArrayToFile(tmpTraceFile, fileBytes);
-					
-					if (fileName.endsWith(".mpit")) {
-						final String newFilePointer = path + " named\n";
-						LOGGER.info("Adding line to " + traceMpitsFile.getAbsolutePath() + " file: " + newFilePointer);
-						FileUtils.writeStringToFile(traceMpitsFile, newFilePointer,Charset.defaultCharset(), true);
-					}
-					curTask++;	
+				File tmpTraceFile = new File(setPath + File.separator + fileName);
+				final String path = tmpTraceFile.getAbsolutePath();
+				LOGGER.info("Storing file " + path);
+
+				// Store Extrae temporary files
+				FileUtils.writeByteArrayToFile(tmpTraceFile, fileBytes);
+
+				if (fileName.endsWith(".mpit")) {
+					final String newFilePointer = path + " named\n";
+					LOGGER.info("Adding line to " + traceMpitsFile.getAbsolutePath() + " file: " + newFilePointer);
+					FileUtils.writeStringToFile(traceMpitsFile, newFilePointer, Charset.defaultCharset(), true);
+				}
+				curTask++;
 			}
-			
+
 			// cat trace.mpits
 			Scanner input = new Scanner(traceMpitsFile);
 
-			while (input.hasNextLine())
-			{
+			while (input.hasNextLine()) {
 				LOGGER.info(input.nextLine());
 			}
 			input.close();
-			
+
 		} catch (final Exception e) {
 			e.printStackTrace();
 		}
-		
-		
-		
-		
+
 	}
 
 	/**
@@ -2231,7 +2307,7 @@ public abstract class DataClayRuntime {
 	 * Lock object
 	 * 
 	 * @param objectID
-	 *            ID of object
+	 *                 ID of object
 	 */
 	public final void lock(final ObjectID objectID) {
 		this.lockerPool.lock(objectID);
@@ -2241,7 +2317,7 @@ public abstract class DataClayRuntime {
 	 * Unlock object
 	 * 
 	 * @param objectID
-	 *            ID of object
+	 *                 ID of object
 	 */
 	public final void unlock(final ObjectID objectID) {
 		this.lockerPool.unlock(objectID);
@@ -2277,7 +2353,7 @@ public abstract class DataClayRuntime {
 	 * ONLY for EE. Add +1 reference associated to thread session
 	 * 
 	 * @param objectID
-	 *            ID of the object
+	 *                 ID of the object
 	 */
 	public void addSessionReference(final ObjectID objectID) {
 		// do nothing: TODO: specialize it in a better way
@@ -2296,7 +2372,7 @@ public abstract class DataClayRuntime {
 	 * Set initialized flag
 	 * 
 	 * @param theinitialized
-	 *            Value to set
+	 *                       Value to set
 	 */
 	public void setInitialized(final boolean theinitialized) {
 		this.initialized = theinitialized;
@@ -2314,7 +2390,7 @@ public abstract class DataClayRuntime {
 	 * Choose execution/make persistent location.
 	 *
 	 * @param dcObject
-	 *            DataClay object.
+	 *                 DataClay object.
 	 * @return Chosen location.
 	 */
 	protected BackendID chooseLocation(final DataClayObject dcObject, final String alias) {
@@ -2324,9 +2400,9 @@ public abstract class DataClayRuntime {
 
 		final BackendID location;
 
-		if(alias != null) {
+		if (alias != null) {
 			location = getBackendIDFromAlias(alias);
-		}else {
+		} else {
 			location = getBackendIDFromObjectID(dcObject.getObjectID());
 		}
 
@@ -2338,14 +2414,15 @@ public abstract class DataClayRuntime {
 	 * Update the object id in both DataClayObject and HeapManager
 	 *
 	 * @param dcObject
-	 *            DataClay object.
+	 *                    DataClay object.
 	 * @param newObjectID
-	 *            the new object id.
+	 *                    the new object id.
 	 */
 	protected void updateObjectID(DataClayObject dcObject, ObjectID newObjectID) {
 		final ObjectID oldObjectID = dcObject.getObjectID();
 		dcObject.setObjectIDUnsafe(newObjectID);
 		dataClayHeapManager.removeFromHeap(oldObjectID);
-		dataClayHeapManager.addToHeap(dcObject);;
+		dataClayHeapManager.addToHeap(dcObject);
+		;
 	}
 }

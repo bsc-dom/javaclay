@@ -12,6 +12,7 @@ import es.bsc.dataclay.util.management.metadataservice.ExecutionEnvironment;
 import es.bsc.dataclay.util.structs.MemoryCache;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import io.etcd.jetcd.Client;
 
 import es.bsc.dataclay.DataClayExecutionObject;
 import es.bsc.dataclay.DataClayObject;
@@ -37,6 +38,7 @@ import es.bsc.dataclay.util.management.metadataservice.RegistrationInfo;
 import es.bsc.dataclay.util.reflection.Reflector;
 import es.bsc.dataclay.util.structs.MemoryCache;
 import es.bsc.dataclay.util.structs.Tuple;
+import es.bsc.dataclay.metadata.MetadataService;
 
 /**
  * This class contains functions for node to interact with other nodes.
@@ -58,24 +60,28 @@ public final class DataServiceRuntime extends DataClayRuntime {
 	private final MemoryCache<DataSetID, Boolean> datasetsCache;
 
 	/**
-	 * References hold by sessions. Resource note: Maximum size of this map is maximum number of objects allowed in EE x
+	 * References hold by sessions. Resource note: Maximum size of this map is
+	 * maximum number of objects allowed in EE x
 	 * sessions. TODO: think about compressing it.
 	 */
 	private final Map<ObjectID, Set<SessionID>> referencesHoldBySessions = new ConcurrentHashMap<>();
 
 	/**
-	 * Per each session, it's expiration date. This is used to control 'retained' objects from sessions in Garbage collection.
+	 * Per each session, it's expiration date. This is used to control 'retained'
+	 * objects from sessions in Garbage collection.
 	 */
 	private final Map<SessionID, Date> sessionsExpireDates = new ConcurrentHashMap<>();
 
 	/**
-	 * Sessions in quarantine. note: maximum size of this map is max number of sessions per EE: This map is needed to solve a
+	 * Sessions in quarantine. note: maximum size of this map is max number of
+	 * sessions per EE: This map is needed to solve a
 	 * race condition in Global Garbage collection (@see getReferenceCounting).
 	 */
 	private final Set<SessionID> quarantineSessions = ConcurrentHashMap.newKeySet();
 
 	/**
-	 * Indicates if tasks (garbage collectors,...) were scheduled or not. This is done to manage. multiple initializations.
+	 * Indicates if tasks (garbage collectors,...) were scheduled or not. This is
+	 * done to manage. multiple initializations.
 	 */
 	public boolean tasksScheduled = false;
 
@@ -83,7 +89,7 @@ public final class DataServiceRuntime extends DataClayRuntime {
 	 * Constructor.
 	 * 
 	 * @param newdsRef
-	 *            DS reference
+	 *                 DS reference
 	 */
 	public DataServiceRuntime(final DataService newdsRef) {
 		this.dsRef = newdsRef;
@@ -108,17 +114,21 @@ public final class DataServiceRuntime extends DataClayRuntime {
 	 * Initialize connections.
 	 * 
 	 * @param logicModuleHost
-	 *            Name of the host of the logic module
+	 *                        Name of the host of the logic module
 	 * @param logicModulePort
-	 *            Port of the logic module
+	 *                        Port of the logic module
 	 * @param originHostName
-	 *            Name of the host using the lib.
+	 *                        Name of the host using the lib.
 	 * @throws Exception
-	 *             if connection could not be done for some reason.
+	 *                   if connection could not be done for some reason.
 	 */
 	@Override
 	public void initialize(final String logicModuleHost, final int logicModulePort, final String originHostName)
 			throws Exception {
+
+		Client etcdClient = Client.builder().target("localhost:2379").build();
+		metadataService = new MetadataService(etcdClient);
+
 		super.initialize(logicModuleHost, logicModulePort, originHostName);
 		if (Configuration.Flags.MEMORY_GC_ENABLED.getBooleanValue() && !tasksScheduled) {
 			// Create Repetitively task
@@ -127,7 +137,7 @@ public final class DataServiceRuntime extends DataClayRuntime {
 			tasksScheduled = true;
 		}
 	}
-	
+
 	@Override
 	public DataClayExecutionObject getOrNewPersistentInstance(final MetaClassID classID, final ObjectID objectID,
 			final BackendID hint) {
@@ -135,12 +145,13 @@ public final class DataServiceRuntime extends DataClayRuntime {
 	}
 
 	/**
-	 * Get object from memory or database and WAIT in case we are still waiting for it to be persisted.
+	 * Get object from memory or database and WAIT in case we are still waiting for
+	 * it to be persisted.
 	 * 
 	 * @param objectID
-	 *            ID of the object to get
+	 *                 ID of the object to get
 	 * @param retry
-	 *            Indicates if we should retry and wait.
+	 *                 Indicates if we should retry and wait.
 	 * @return The the object.
 	 */
 	public DataClayExecutionObject getOrNewInstanceFromDB(final ObjectID objectID, final boolean retry) {
@@ -151,15 +162,15 @@ public final class DataServiceRuntime extends DataClayRuntime {
 	 * Get from Heap or create a new volatile in EE and load data on it.
 	 * 
 	 * @param classID
-	 *            ID of class of the object
+	 *                     ID of class of the object
 	 * @param objectID
-	 *            ID of the object
+	 *                     ID of the object
 	 * @param hint
-	 *            Hint of the object
+	 *                     Hint of the object
 	 * @param objWithData
-	 *            Data of the object
+	 *                     Data of the object
 	 * @param ifaceBitMaps
-	 *            Interface bitmaps
+	 *                     Interface bitmaps
 	 * @return Loaded volatile instance in EE.
 	 */
 	@Override
@@ -173,11 +184,11 @@ public final class DataServiceRuntime extends DataClayRuntime {
 	 * Deserialize data into instance.
 	 * 
 	 * @param instance
-	 *            Instance to be filled.
+	 *                     Instance to be filled.
 	 * @param data
-	 *            Data
+	 *                     Data
 	 * @param ifaceBitMaps
-	 *            Interface bitmaps
+	 *                     Interface bitmaps
 	 */
 	public void deserializeDataIntoInstance(final DataClayExecutionObject instance,
 			final ObjectWithDataParamOrReturn data, final Map<MetaClassID, byte[]> ifaceBitMaps) {
@@ -193,9 +204,9 @@ public final class DataServiceRuntime extends DataClayRuntime {
 	 * Checks session is valid.
 	 * 
 	 * @param dataSetID
-	 *            dataSetID to be accessed
+	 *                  dataSetID to be accessed
 	 * @param sessionID
-	 *            id of the session
+	 *                  id of the session
 	 */
 	public void checkSession(final DataSetID dataSetID, final SessionID sessionID) {
 		Boolean isPublic = datasetsCache.get(dataSetID);
@@ -219,7 +230,7 @@ public final class DataServiceRuntime extends DataClayRuntime {
 	 * Get session info
 	 * 
 	 * @param sessionID
-	 *            ID of session
+	 *                  ID of session
 	 * @return Session info.
 	 */
 	private Tuple<Tuple<DataSetID, Set<DataSetID>>, Calendar> getSessionInfo(final SessionID sessionID) {
@@ -235,9 +246,9 @@ public final class DataServiceRuntime extends DataClayRuntime {
 	 * Set instance to be weak proxy.
 	 * 
 	 * @param instance
-	 *            Instance to modify.
+	 *                 Instance to modify.
 	 * @param newHint
-	 *            Hint to set into instance.
+	 *                 Hint to set into instance.
 	 */
 	public void setWeakProxy(final DataClayExecutionObject instance, final ExecutionEnvironmentID newHint) {
 		lock(instance.getObjectID());
@@ -255,12 +266,13 @@ public final class DataServiceRuntime extends DataClayRuntime {
 	}
 
 	/**
-	 * Check if there is a volatile object with ID provided and if so, deserialize it since it is needed.
+	 * Check if there is a volatile object with ID provided and if so, deserialize
+	 * it since it is needed.
 	 * 
 	 * @param volatileObj
-	 *            Object to check.
+	 *                     Object to check.
 	 * @param ifaceBitMaps
-	 *            Interface bitmaps for deserialization.
+	 *                     Interface bitmaps for deserialization.
 	 * @return TRUE if it was filled and volatile, FALSE otherwise.
 	 */
 	private boolean checkAndFillVolatileUnderDeserialization(final DataClayExecutionObject volatileObj,
@@ -270,7 +282,7 @@ public final class DataServiceRuntime extends DataClayRuntime {
 		if (volatileParamOrRet != null) {
 			// Deserialize it
 			getOrNewAndLoadVolatile(volatileObj.getMetaClassID(), objectID, volatileObj.getHint(),
-							volatileParamOrRet, ifaceBitMaps);
+					volatileParamOrRet, ifaceBitMaps);
 			return true;
 		}
 		return false;
@@ -400,7 +412,8 @@ public final class DataServiceRuntime extends DataClayRuntime {
 			regInfos.add(regInfo);
 			// Location of object is 'this' EE.
 			// TODO: Review if we use hint of the object or the hint of the runtime.
-			final List<ObjectID> newID = logicModule.registerObjects(regInfos, (ExecutionEnvironmentID) dcObject.getHint(), Langs.LANG_JAVA);
+			final List<ObjectID> newID = logicModule.registerObjects(regInfos,
+					(ExecutionEnvironmentID) dcObject.getHint(), Langs.LANG_JAVA);
 			this.updateObjectID(dcObject, newID.get(0));
 			execObject.setPendingToRegister(false);
 			execObject.setAlias(alias);
@@ -411,8 +424,8 @@ public final class DataServiceRuntime extends DataClayRuntime {
 
 	@Override
 	public final void synchronize(final DataClayObject dcObject, final Object[] params,
-								  final ImplementationID remoteImplID) {
-		final SessionID sessionID = checkAndGetSession(new String[] { }, new Object[] { });
+			final ImplementationID remoteImplID) {
+		final SessionID sessionID = checkAndGetSession(new String[] {}, new Object[] {});
 
 		// ===== SERIALIZE PARAMETERS ===== //
 		// Serialize parameters
@@ -431,7 +444,7 @@ public final class DataServiceRuntime extends DataClayRuntime {
 	 * Set session ID for thread
 	 *
 	 * @param sessionID
-	 *            ID of session
+	 *                  ID of session
 	 */
 	public void setCurrentThreadSessionID(final SessionID sessionID) {
 		if (sessionID != null) {
@@ -468,7 +481,7 @@ public final class DataServiceRuntime extends DataClayRuntime {
 	 * Get remote execution environment
 	 *
 	 * @param execLocationID
-	 *            ID of remote execution environment
+	 *                       ID of remote execution environment
 	 * @return Remote execution environment
 	 */
 	public final DataServiceAPI getRemoteDSAPI(final ExecutionEnvironmentID execLocationID) {
@@ -482,9 +495,9 @@ public final class DataServiceRuntime extends DataClayRuntime {
 	 * Directly store objects in DS.
 	 * 
 	 * @param sessionID
-	 *            ID of session
+	 *                    ID of session
 	 * @param objsToStore
-	 *            serialized objects to store.
+	 *                    serialized objects to store.
 	 */
 	public void storeObjects(final SessionID sessionID, final List<ObjectWithDataParamOrReturn> objsToStore) {
 
@@ -507,28 +520,30 @@ public final class DataServiceRuntime extends DataClayRuntime {
 	}
 
 	/**
-	 * Add a new Hard reference to the object provided. All code in stubs/exec classes using objects in dataClayheap are using
-	 * weak references. In order to avoid objects to be GC without a flush in DB, HeapManager has hard-references to them and is
+	 * Add a new Hard reference to the object provided. All code in stubs/exec
+	 * classes using objects in dataClayheap are using
+	 * weak references. In order to avoid objects to be GC without a flush in DB,
+	 * HeapManager has hard-references to them and is
 	 * the only one able to release them. This function creates the hard-reference.
 	 * 
 	 * @param object
-	 *            Object to add
+	 *               Object to add
 	 */
 	public void retainInHeap(final DataClayObject object) {
 		((ExecutionEnvironmentHeapManager) this.dataClayHeapManager).retainInHeap(object);
 	}
 
 	/**
-	 * Release hard reference to object with ID provided. Without hard reference, the object can be Garbage collected by Java
+	 * Release hard reference to object with ID provided. Without hard reference,
+	 * the object can be Garbage collected by Java
 	 * GC.
 	 * 
 	 * @param objectID
-	 *            ID of the object
+	 *                 ID of the object
 	 */
 	public void releaseFromHeap(final ObjectID objectID) {
 		((ExecutionEnvironmentHeapManager) this.dataClayHeapManager).releaseFromHeap(objectID);
 	}
-
 
 	@Override
 	public void detachObjectFromSession(final ObjectID objectID, final ExecutionEnvironmentID hint) {
@@ -557,8 +572,8 @@ public final class DataServiceRuntime extends DataClayRuntime {
 
 	@Override
 	public void federateToBackend(final DataClayObject dcObject,
-								  final ExecutionEnvironmentID externalExecutionEnvironmentID,
-								  final boolean recursive) {
+			final ExecutionEnvironmentID externalExecutionEnvironmentID,
+			final boolean recursive) {
 		ObjectID objectID = dcObject.getObjectID();
 		ExecutionEnvironmentID objectHint = (ExecutionEnvironmentID) dcObject.getHint();
 		if (DEBUG_ENABLED) {
@@ -571,8 +586,8 @@ public final class DataServiceRuntime extends DataClayRuntime {
 
 	@Override
 	public void unfederateFromBackend(final DataClayObject dcObject,
-									  final ExecutionEnvironmentID externalExecutionEnvironmentID,
-									  final boolean recursive) {
+			final ExecutionEnvironmentID externalExecutionEnvironmentID,
+			final boolean recursive) {
 		ObjectID objectID = dcObject.getObjectID();
 		ExecutionEnvironmentID objectHint = (ExecutionEnvironmentID) dcObject.getHint();
 		if (DEBUG_ENABLED) {
@@ -613,12 +628,11 @@ public final class DataServiceRuntime extends DataClayRuntime {
 		return null;
 	}
 
-
 	/**
 	 * Add +1 reference associated to thread session
 	 * 
 	 * @param objectID
-	 *            ID of the object
+	 *                 ID of the object
 	 */
 	@Override
 	public void addSessionReference(final ObjectID objectID) {
@@ -683,7 +697,7 @@ public final class DataServiceRuntime extends DataClayRuntime {
 	 * Close session in EE. Subtract session references for GC.
 	 * 
 	 * @param sessionID
-	 *            ID of session closing.
+	 *                  ID of session closing.
 	 */
 	public void closeSessionInEE(final SessionID sessionID) {
 		if (DEBUG_ENABLED) {
@@ -831,7 +845,7 @@ public final class DataServiceRuntime extends DataClayRuntime {
 		return retainedRefs;
 	}
 
-		@Override
+	@Override
 	protected DataClayObjectLoader getDataClayObjectLoader() {
 		return this.dataClayObjLoader;
 	}
@@ -847,11 +861,12 @@ public final class DataServiceRuntime extends DataClayRuntime {
 	 * @if some exception occurs
 	 */
 	public void finishCacheThreads() {
-		//try {
-		//	this.sessionsCache.finishCacheThreads();
-		//} catch (final InterruptedException ex) {
-		//	LOGGER.debug("finishCacheThreads error", ex);
-		//}
+
+		// try {
+		// this.sessionsCache.finishCacheThreads();
+		// } catch (final InterruptedException ex) {
+		// LOGGER.debug("finishCacheThreads error", ex);
+		// }
 	}
 
 	/**

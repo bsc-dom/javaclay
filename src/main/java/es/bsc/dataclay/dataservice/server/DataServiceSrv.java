@@ -63,12 +63,13 @@ public final class DataServiceSrv {
 
 	/**
 	 * Start server
+	 * 
 	 * @param thecfgDS
-	 *            DS configuration
+	 *                 DS configuration
 	 * @param thecfgLM
-	 *            LM configuration
+	 *                 LM configuration
 	 * @throws Exception
-	 *             if some exception occurs
+	 *                   if some exception occurs
 	 */
 	public DataServiceSrv(final CfgDataService thecfgDS, final CfgLogic thecfgLM) throws Exception {
 		// Handler info
@@ -84,8 +85,9 @@ public final class DataServiceSrv {
 
 	/**
 	 * Start service.
+	 * 
 	 * @throws Exception
-	 *             if some exception occurs
+	 *                   if some exception occurs
 	 */
 	public void start() throws Exception {
 
@@ -143,8 +145,7 @@ public final class DataServiceSrv {
 		final String content = "READY";
 		try {
 			Files.write(Paths.get(Configuration.Flags.STATE_FILE_PATH.getStringValue()), content.getBytes());
-		}
-		catch(IOException e) {
+		} catch (IOException e) {
 			logger.error(Configuration.Flags.STATE_FILE_PATH + " not writable. Skipping file creation.");
 		}
 		grpcServer.blockUntilShutdown();
@@ -170,7 +171,8 @@ public final class DataServiceSrv {
 
 			if (DataServiceSrv.SYSTEM_EXIT_ERROR_CODE == 0) {
 				// TODO: specific exit codes for that error
-				// WARNING: A database failure happened, do not wait for python EEs, just restart SL
+				// WARNING: A database failure happened, do not wait for python EEs, just
+				// restart SL
 				// WARNING: objects in java memory are lost
 				logger.info("[{}] Waiting for associated execution environments to shut down...", srvName);
 				dataService.waitForExecutionEnvironmentsToFinish();
@@ -195,7 +197,8 @@ public final class DataServiceSrv {
 	 * Disconnect DS from others
 	 */
 	public void disconnectFromOthers() {
-		// This is done so all client connections should be closed before closing server connections.
+		// This is done so all client connections should be closed before closing server
+		// connections.
 		if (dSconnectedToLM) {
 			dataService.finishClientConnections();
 			dSconnectedToLM = false;
@@ -205,9 +208,10 @@ public final class DataServiceSrv {
 	/**
 	 * 
 	 * @param args
-	 *            args[0] == the manager configuration file path with the configuration for backends and so on
+	 *             args[0] == the manager configuration file path with the
+	 *             configuration for backends and so on
 	 * @throws Exception
-	 *             if some exception was thrown
+	 *                   if some exception was thrown
 	 */
 	public static void main(final String[] args) throws Exception {
 		final CfgDataService cfgDS = CfgDataServiceEnvLoader.parseConfiguration();
@@ -218,9 +222,10 @@ public final class DataServiceSrv {
 	/**
 	 * 
 	 * @param args
-	 *            args[0] == the manager configuration file path with the configuration for backends and so on
+	 *             args[0] == the manager configuration file path with the
+	 *             configuration for backends and so on
 	 * @throws Exception
-	 *             if some exception was thrown
+	 *                   if some exception was thrown
 	 * @return DSSrv for test.
 	 */
 	public static DataServiceSrv getForTest(final String[] args) throws Exception {
@@ -231,6 +236,7 @@ public final class DataServiceSrv {
 
 	/**
 	 * Used in mock testing
+	 * 
 	 * @return DataSercice
 	 */
 	public DataService getDataService() {
