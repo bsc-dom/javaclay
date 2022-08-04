@@ -13,11 +13,8 @@ public class MetadataService implements MetadataServiceAPI {
 
     private final Client etcdClient;
 
-    public MetadataService(final Client etcdClient) {
-        // ETCD
-        // this.etcdClient = Client.builder().target("localhost:2379").build();
-        // ETCDclassDB = new ETCDClassManagerDB(etcdClient);
-        this.etcdClient = etcdClient;
+    public MetadataService(final String etcdHost, final String etcdPort) {
+        this.etcdClient = Client.builder().target(etcdHost + ":" + etcdPort).build();
     }
 
     @Override

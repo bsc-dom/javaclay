@@ -12,7 +12,6 @@ import es.bsc.dataclay.util.management.metadataservice.ExecutionEnvironment;
 import es.bsc.dataclay.util.structs.MemoryCache;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import io.etcd.jetcd.Client;
 
 import es.bsc.dataclay.DataClayExecutionObject;
 import es.bsc.dataclay.DataClayObject;
@@ -126,8 +125,7 @@ public final class DataServiceRuntime extends DataClayRuntime {
 	public void initialize(final String logicModuleHost, final int logicModulePort, final String originHostName)
 			throws Exception {
 
-		Client etcdClient = Client.builder().target("localhost:2379").build();
-		metadataService = new MetadataService(etcdClient);
+		metadataService = new MetadataService("localhost", "2379");
 
 		super.initialize(logicModuleHost, logicModulePort, originHostName);
 		if (Configuration.Flags.MEMORY_GC_ENABLED.getBooleanValue() && !tasksScheduled) {
