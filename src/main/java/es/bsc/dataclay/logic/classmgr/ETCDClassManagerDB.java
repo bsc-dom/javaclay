@@ -75,8 +75,6 @@ import es.bsc.dataclay.util.management.classmgr.python.PythonPropertyInfo;
 import es.bsc.dataclay.util.management.classmgr.python.PythonTypeInfo;
 import es.bsc.dataclay.dbhandler.sql.sqlite.SQLiteDataSource;
 
-
-
 /**
  * Class manager data base.
  */
@@ -95,7 +93,7 @@ public final class ETCDClassManagerDB {
 	 * ETCDClassManagerDB constructor.
 	 * 
 	 * @param dataSource
-	 *            Name of the LM service managing.
+	 *                   Name of the LM service managing.
 	 */
 	public ETCDClassManagerDB(final Client dataSource) {
 		this.dataSource = dataSource;
@@ -103,57 +101,59 @@ public final class ETCDClassManagerDB {
 
 	/**
 	 * Store MetaClass into database
+	 * 
 	 * @param metaclass
-	 *            metaclass
+	 *                  metaclass
 	 * @return UUID of stored object
 	 */
 	public UUID storeMetaClass(final MetaClass metaclass) {
-		
+
 		final UUID uuid = metaclass.getDataClayID().getId();
 
 		// TODO Store properties, operations and Parent type
-		
+
 		// Properties
 		// final UUID[] properties = new UUID[metaclass.getProperties().size()];
 		// int i = 0;
 		// for (final Property prop : metaclass.getProperties()) {
-		// 	properties[i] = this.storeProperty(prop);
-		// 	i++;
+		// properties[i] = this.storeProperty(prop);
+		// i++;
 		// }
 
 		// Operations
 		// final UUID[] operations = new UUID[metaclass.getOperations().size()];
 		// i = 0;
 		// for (final Operation op : metaclass.getOperations()) {
-		// 	operations[i] = this.storeOperation(op);
-		// 	i++;
+		// operations[i] = this.storeOperation(op);
+		// i++;
 		// }
 
 		// ParentType
 		// UUID parentTypeID = null;
 		// if (metaclass.getParentType() != null) {
-		// 	parentTypeID = this.storeType(metaclass.getParentType());
+		// parentTypeID = this.storeType(metaclass.getParentType());
 		// }
 
 		KV kvClient = dataSource.getKVClient();
 
 		String key = "/metaclass/" + uuid;
 		ByteSequence keyBytes = ByteSequence.from(key.getBytes());
-		
+
 		String value = new JSONObject()
-			.put("uuid", uuid)
-			.put("namespace", metaclass.getNamespace())
-			.put("name", metaclass.getName())
-			.put("parentType", JSONObject.NULL)
-			.put("properties", JSONObject.NULL)
-			.put("operations", JSONObject.NULL)
-			.put("isAbstract", metaclass.getIsAbstract())
-			.put("namespaceID", metaclass.getNamespaceID().getId())
-			.put("extendedtypes", JSONObject.NULL)
-			.put("extensions", JSONObject.NULL).toString();
-		
+				.put("id", uuid)
+				.put("namespace", metaclass.getNamespace())
+				.put("class_name", metaclass.getName())
+				// .put("parentType", JSONObject.NULL)
+				// .put("properties", JSONObject.NULL)
+				// .put("operations", JSONObject.NULL)
+				// .put("isAbstract", metaclass.getIsAbstract())
+				// .put("namespaceID", metaclass.getNamespaceID().getId())
+				// .put("extendedtypes", JSONObject.NULL)
+				// .put("extensions", JSONObject.NULL)
+				.toString();
+
 		ByteSequence valueBytes = ByteSequence.from(value.getBytes());
-			
+
 		try {
 			kvClient.put(keyBytes, valueBytes).get();
 		} catch (InterruptedException | ExecutionException e) {
@@ -164,5 +164,3 @@ public final class ETCDClassManagerDB {
 		return null;
 	}
 }
-
-	
