@@ -1,19 +1,6 @@
 package es.bsc.dataclay.communication.grpc.generated.logicmodule;
 
 import static io.grpc.MethodDescriptor.generateFullMethodName;
-import static io.grpc.stub.ClientCalls.asyncBidiStreamingCall;
-import static io.grpc.stub.ClientCalls.asyncClientStreamingCall;
-import static io.grpc.stub.ClientCalls.asyncServerStreamingCall;
-import static io.grpc.stub.ClientCalls.asyncUnaryCall;
-import static io.grpc.stub.ClientCalls.blockingServerStreamingCall;
-import static io.grpc.stub.ClientCalls.blockingUnaryCall;
-import static io.grpc.stub.ClientCalls.futureUnaryCall;
-import static io.grpc.stub.ServerCalls.asyncBidiStreamingCall;
-import static io.grpc.stub.ServerCalls.asyncClientStreamingCall;
-import static io.grpc.stub.ServerCalls.asyncServerStreamingCall;
-import static io.grpc.stub.ServerCalls.asyncUnaryCall;
-import static io.grpc.stub.ServerCalls.asyncUnimplementedStreamingCall;
-import static io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall;
 
 /**
  * <pre>
@@ -21,13 +8,14 @@ import static io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall;
  * </pre>
  */
 @javax.annotation.Generated(
-    value = "by gRPC proto compiler (version 1.25.0)",
-    comments = "Source: dataclay/communication/grpc/generated/logicmodule/logicmodule.proto")
+    value = "by gRPC proto compiler (version 1.45.0)",
+    comments = "Source: protos/logicmodule.proto")
+@io.grpc.stub.annotations.GrpcGenerated
 public final class LogicModuleGrpc {
 
   private LogicModuleGrpc() {}
 
-  public static final String SERVICE_NAME = "dataclay.communication.grpc.logicmodule.LogicModule";
+  public static final String SERVICE_NAME = "protos.logicmodule.LogicModule";
 
   // Static method descriptors that strictly reflect the proto.
   private static volatile io.grpc.MethodDescriptor<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.AutoRegisterSLRequest,
@@ -3196,7 +3184,14 @@ public final class LogicModuleGrpc {
    * Creates a new async stub that supports all call types for the service
    */
   public static LogicModuleStub newStub(io.grpc.Channel channel) {
-    return new LogicModuleStub(channel);
+    io.grpc.stub.AbstractStub.StubFactory<LogicModuleStub> factory =
+      new io.grpc.stub.AbstractStub.StubFactory<LogicModuleStub>() {
+        @java.lang.Override
+        public LogicModuleStub newStub(io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
+          return new LogicModuleStub(channel, callOptions);
+        }
+      };
+    return LogicModuleStub.newStub(factory, channel);
   }
 
   /**
@@ -3204,7 +3199,14 @@ public final class LogicModuleGrpc {
    */
   public static LogicModuleBlockingStub newBlockingStub(
       io.grpc.Channel channel) {
-    return new LogicModuleBlockingStub(channel);
+    io.grpc.stub.AbstractStub.StubFactory<LogicModuleBlockingStub> factory =
+      new io.grpc.stub.AbstractStub.StubFactory<LogicModuleBlockingStub>() {
+        @java.lang.Override
+        public LogicModuleBlockingStub newStub(io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
+          return new LogicModuleBlockingStub(channel, callOptions);
+        }
+      };
+    return LogicModuleBlockingStub.newStub(factory, channel);
   }
 
   /**
@@ -3212,7 +3214,14 @@ public final class LogicModuleGrpc {
    */
   public static LogicModuleFutureStub newFutureStub(
       io.grpc.Channel channel) {
-    return new LogicModuleFutureStub(channel);
+    io.grpc.stub.AbstractStub.StubFactory<LogicModuleFutureStub> factory =
+      new io.grpc.stub.AbstractStub.StubFactory<LogicModuleFutureStub>() {
+        @java.lang.Override
+        public LogicModuleFutureStub newStub(io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
+          return new LogicModuleFutureStub(channel, callOptions);
+        }
+      };
+    return LogicModuleFutureStub.newStub(factory, channel);
   }
 
   /**
@@ -3226,77 +3235,77 @@ public final class LogicModuleGrpc {
      */
     public void autoregisterSL(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.AutoRegisterSLRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
-      asyncUnimplementedUnaryCall(getAutoregisterSLMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getAutoregisterSLMethod(), responseObserver);
     }
 
     /**
      */
     public void autoregisterEE(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.AutoRegisterEERequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.AutoRegisterEEResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getAutoregisterEEMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getAutoregisterEEMethod(), responseObserver);
     }
 
     /**
      */
     public void unregisterStorageLocation(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.UnregisterStorageLocationRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
-      asyncUnimplementedUnaryCall(getUnregisterStorageLocationMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getUnregisterStorageLocationMethod(), responseObserver);
     }
 
     /**
      */
     public void unregisterExecutionEnvironment(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.UnregisterExecutionEnvironmentRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
-      asyncUnimplementedUnaryCall(getUnregisterExecutionEnvironmentMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getUnregisterExecutionEnvironmentMethod(), responseObserver);
     }
 
     /**
      */
     public void checkAlive(es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
-      asyncUnimplementedUnaryCall(getCheckAliveMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getCheckAliveMethod(), responseObserver);
     }
 
     /**
      */
     public void notifyExecutionEnvironmentShutdown(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NotifyExecutionEnvironmentShutdownRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
-      asyncUnimplementedUnaryCall(getNotifyExecutionEnvironmentShutdownMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getNotifyExecutionEnvironmentShutdownMethod(), responseObserver);
     }
 
     /**
      */
     public void notifyStorageLocationShutdown(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NotifyStorageLocationShutdownRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
-      asyncUnimplementedUnaryCall(getNotifyStorageLocationShutdownMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getNotifyStorageLocationShutdownMethod(), responseObserver);
     }
 
     /**
      */
     public void existsActiveEnvironmentsForSL(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ExistsActiveEnvironmentsForSLRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ExistsActiveEnvironmentsForSLResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getExistsActiveEnvironmentsForSLMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getExistsActiveEnvironmentsForSLMethod(), responseObserver);
     }
 
     /**
      */
     public void performSetOfNewAccounts(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.PerformSetAccountsRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.PerformSetAccountsResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getPerformSetOfNewAccountsMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getPerformSetOfNewAccountsMethod(), responseObserver);
     }
 
     /**
      */
     public void performSetOfOperations(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.PerformSetOperationsRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.PerformSetOperationsResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getPerformSetOfOperationsMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getPerformSetOfOperationsMethod(), responseObserver);
     }
 
     /**
      */
     public void publishAddress(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.PublishAddressRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
-      asyncUnimplementedUnaryCall(getPublishAddressMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getPublishAddressMethod(), responseObserver);
     }
 
     /**
@@ -3306,28 +3315,28 @@ public final class LogicModuleGrpc {
      */
     public void newAccountNoAdmin(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewAccountNoAdminRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewAccountResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getNewAccountNoAdminMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getNewAccountNoAdminMethod(), responseObserver);
     }
 
     /**
      */
     public void newAccount(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewAccountRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewAccountResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getNewAccountMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getNewAccountMethod(), responseObserver);
     }
 
     /**
      */
     public void getAccountID(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetAccountIDRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetAccountIDResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getGetAccountIDMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getGetAccountIDMethod(), responseObserver);
     }
 
     /**
      */
     public void getAccountList(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetAccountListRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetAccountListResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getGetAccountListMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getGetAccountListMethod(), responseObserver);
     }
 
     /**
@@ -3337,14 +3346,14 @@ public final class LogicModuleGrpc {
      */
     public void newSession(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewSessionRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewSessionResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getNewSessionMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getNewSessionMethod(), responseObserver);
     }
 
     /**
      */
     public void getInfoOfSessionForDS(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetInfoOfSessionForDSRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetInfoOfSessionForDSResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getGetInfoOfSessionForDSMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getGetInfoOfSessionForDSMethod(), responseObserver);
     }
 
     /**
@@ -3354,77 +3363,77 @@ public final class LogicModuleGrpc {
      */
     public void newNamespace(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewNamespaceRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewNamespaceResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getNewNamespaceMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getNewNamespaceMethod(), responseObserver);
     }
 
     /**
      */
     public void removeNamespace(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RemoveNamespaceRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
-      asyncUnimplementedUnaryCall(getRemoveNamespaceMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getRemoveNamespaceMethod(), responseObserver);
     }
 
     /**
      */
     public void getNamespaceID(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetNamespaceIDRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetNamespaceIDResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getGetNamespaceIDMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getGetNamespaceIDMethod(), responseObserver);
     }
 
     /**
      */
     public void getNamespaceLang(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetNamespaceLangRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetNamespaceLangResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getGetNamespaceLangMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getGetNamespaceLangMethod(), responseObserver);
     }
 
     /**
      */
     public void getObjectDataSetID(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetObjectDataSetIDRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetObjectDataSetIDResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getGetObjectDataSetIDMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getGetObjectDataSetIDMethod(), responseObserver);
     }
 
     /**
      */
     public void importInterface(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ImportInterfaceRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
-      asyncUnimplementedUnaryCall(getImportInterfaceMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getImportInterfaceMethod(), responseObserver);
     }
 
     /**
      */
     public void importContract(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ImportContractRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
-      asyncUnimplementedUnaryCall(getImportContractMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getImportContractMethod(), responseObserver);
     }
 
     /**
      */
     public void getInfoOfClassesInNamespace(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetInfoOfClassesInNamespaceRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetInfoOfClassesInNamespaceResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getGetInfoOfClassesInNamespaceMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getGetInfoOfClassesInNamespaceMethod(), responseObserver);
     }
 
     /**
      */
     public void getImportedClassesInfoInNamespace(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetImportedClassesInfoInNamespaceRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetImportedClassesInfoInNamespaceResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getGetImportedClassesInfoInNamespaceMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getGetImportedClassesInfoInNamespaceMethod(), responseObserver);
     }
 
     /**
      */
     public void getClassIDfromImport(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassIDFromImportRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassIDFromImportResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getGetClassIDfromImportMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getGetClassIDfromImportMethod(), responseObserver);
     }
 
     /**
      */
     public void getNamespaces(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetNamespacesRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetNamespacesResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getGetNamespacesMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getGetNamespacesMethod(), responseObserver);
     }
 
     /**
@@ -3434,42 +3443,42 @@ public final class LogicModuleGrpc {
      */
     public void newDataSet(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewDataSetRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewDataSetResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getNewDataSetMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getNewDataSetMethod(), responseObserver);
     }
 
     /**
      */
     public void removeDataSet(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RemoveDataSetRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
-      asyncUnimplementedUnaryCall(getRemoveDataSetMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getRemoveDataSetMethod(), responseObserver);
     }
 
     /**
      */
     public void getDataSetID(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetDataSetIDRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetDataSetIDResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getGetDataSetIDMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getGetDataSetIDMethod(), responseObserver);
     }
 
     /**
      */
     public void checkDataSetIsPublic(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.CheckDataSetIsPublicRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.CheckDataSetIsPublicResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getCheckDataSetIsPublicMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getCheckDataSetIsPublicMethod(), responseObserver);
     }
 
     /**
      */
     public void getPublicDataSets(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetPublicDataSetsRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetPublicDataSetsResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getGetPublicDataSetsMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getGetPublicDataSetsMethod(), responseObserver);
     }
 
     /**
      */
     public void getAccountDataSets(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetAccountDataSetsRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetAccountDataSetsResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getGetAccountDataSetsMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getGetAccountDataSetsMethod(), responseObserver);
     }
 
     /**
@@ -3479,56 +3488,56 @@ public final class LogicModuleGrpc {
      */
     public void newClass(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewClassRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewClassResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getNewClassMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getNewClassMethod(), responseObserver);
     }
 
     /**
      */
     public void removeClass(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RemoveClassRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
-      asyncUnimplementedUnaryCall(getRemoveClassMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getRemoveClassMethod(), responseObserver);
     }
 
     /**
      */
     public void removeOperation(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RemoveOperationRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
-      asyncUnimplementedUnaryCall(getRemoveOperationMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getRemoveOperationMethod(), responseObserver);
     }
 
     /**
      */
     public void removeImplementation(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RemoveImplementationRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
-      asyncUnimplementedUnaryCall(getRemoveImplementationMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getRemoveImplementationMethod(), responseObserver);
     }
 
     /**
      */
     public void getOperationID(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetOperationIDRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetOperationIDResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getGetOperationIDMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getGetOperationIDMethod(), responseObserver);
     }
 
     /**
      */
     public void getPropertyID(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetPropertyIDRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetPropertyIDResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getGetPropertyIDMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getGetPropertyIDMethod(), responseObserver);
     }
 
     /**
      */
     public void getClassID(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassIDRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassIDResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getGetClassIDMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getGetClassIDMethod(), responseObserver);
     }
 
     /**
      */
     public void getClassInfo(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassInfoRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassInfoResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getGetClassInfoMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getGetClassInfoMethod(), responseObserver);
     }
 
     /**
@@ -3538,42 +3547,42 @@ public final class LogicModuleGrpc {
      */
     public void newContract(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewContractRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewContractResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getNewContractMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getNewContractMethod(), responseObserver);
     }
 
     /**
      */
     public void registerToPublicContract(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterToPublicContractRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
-      asyncUnimplementedUnaryCall(getRegisterToPublicContractMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getRegisterToPublicContractMethod(), responseObserver);
     }
 
     /**
      */
     public void registerToPublicContractOfNamespace(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterToPublicContractOfNamespaceRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterToPublicContractOfNamespaceResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getRegisterToPublicContractOfNamespaceMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getRegisterToPublicContractOfNamespaceMethod(), responseObserver);
     }
 
     /**
      */
     public void getContractIDsOfApplicant(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetContractIDsOfApplicantRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetContractIDsOfApplicantResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getGetContractIDsOfApplicantMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getGetContractIDsOfApplicantMethod(), responseObserver);
     }
 
     /**
      */
     public void getContractIDsOfProvider(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetContractIDsOfProviderRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetContractIDsOfProviderResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getGetContractIDsOfProviderMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getGetContractIDsOfProviderMethod(), responseObserver);
     }
 
     /**
      */
     public void getContractIDsOfApplicantWithProvider(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetContractsOfApplicantWithProvRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetContractsOfApplicantWithProvResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getGetContractIDsOfApplicantWithProviderMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getGetContractIDsOfApplicantWithProviderMethod(), responseObserver);
     }
 
     /**
@@ -3583,35 +3592,35 @@ public final class LogicModuleGrpc {
      */
     public void newDataContract(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewDataContractRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewDataContractResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getNewDataContractMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getNewDataContractMethod(), responseObserver);
     }
 
     /**
      */
     public void registerToPublicDataContract(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterToPublicDataContractRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
-      asyncUnimplementedUnaryCall(getRegisterToPublicDataContractMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getRegisterToPublicDataContractMethod(), responseObserver);
     }
 
     /**
      */
     public void getDataContractIDsOfApplicant(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetDataContractIDsOfApplicantRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetDataContractIDsOfApplicantResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getGetDataContractIDsOfApplicantMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getGetDataContractIDsOfApplicantMethod(), responseObserver);
     }
 
     /**
      */
     public void getDataContractIDsOfProvider(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetDataContractIDsOfProviderRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetDataContractIDsOfProviderResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getGetDataContractIDsOfProviderMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getGetDataContractIDsOfProviderMethod(), responseObserver);
     }
 
     /**
      */
     public void getDataContractInfoOfApplicantWithProvider(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetDataContractInfoOfApplicantWithProvRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetDataContractInfoOfApplicantWithProvResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getGetDataContractInfoOfApplicantWithProviderMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getGetDataContractInfoOfApplicantWithProviderMethod(), responseObserver);
     }
 
     /**
@@ -3621,21 +3630,21 @@ public final class LogicModuleGrpc {
      */
     public void newInterface(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewInterfaceRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewInterfaceResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getNewInterfaceMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getNewInterfaceMethod(), responseObserver);
     }
 
     /**
      */
     public void getInterfaceInfo(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetInterfaceInfoRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetInterfaceInfoResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getGetInterfaceInfoMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getGetInterfaceInfoMethod(), responseObserver);
     }
 
     /**
      */
     public void removeInterface(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RemoveInterfaceRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
-      asyncUnimplementedUnaryCall(getRemoveInterfaceMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getRemoveInterfaceMethod(), responseObserver);
     }
 
     /**
@@ -3645,28 +3654,28 @@ public final class LogicModuleGrpc {
      */
     public void getAllExecutionEnvironmentsInfo(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetAllExecutionEnvironmentsInfoRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetAllExecutionEnvironmentsInfoResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getGetAllExecutionEnvironmentsInfoMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getGetAllExecutionEnvironmentsInfoMethod(), responseObserver);
     }
 
     /**
      */
     public void getStorageLocationID(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationIDRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationIDResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getGetStorageLocationIDMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getGetStorageLocationIDMethod(), responseObserver);
     }
 
     /**
      */
     public void getStorageLocationInfo(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationInfoRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationInfoResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getGetStorageLocationInfoMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getGetStorageLocationInfoMethod(), responseObserver);
     }
 
     /**
      */
     public void getExecutionEnvironmentInfo(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentInfoRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentInfoResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getGetExecutionEnvironmentInfoMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getGetExecutionEnvironmentInfoMethod(), responseObserver);
     }
 
     /**
@@ -3676,77 +3685,77 @@ public final class LogicModuleGrpc {
      */
     public void getObjectInfo(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetObjectInfoRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetObjectInfoResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getGetObjectInfoMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getGetObjectInfoMethod(), responseObserver);
     }
 
     /**
      */
     public void getObjectFromAlias(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetObjectFromAliasRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetObjectFromAliasResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getGetObjectFromAliasMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getGetObjectFromAliasMethod(), responseObserver);
     }
 
     /**
      */
     public void deleteAlias(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.DeleteAliasRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.DeleteAliasResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getDeleteAliasMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getDeleteAliasMethod(), responseObserver);
     }
 
     /**
      */
     public void getObjectsMetaDataInfoOfClassForNM(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetObjectsMetaDataInfoOfClassForNMRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetObjectsMetaDataInfoOfClassForNMResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getGetObjectsMetaDataInfoOfClassForNMMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getGetObjectsMetaDataInfoOfClassForNMMethod(), responseObserver);
     }
 
     /**
      */
     public void addAlias(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.AddAliasRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
-      asyncUnimplementedUnaryCall(getAddAliasMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getAddAliasMethod(), responseObserver);
     }
 
     /**
      */
     public void registerObjectFromGC(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectForGCRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
-      asyncUnimplementedUnaryCall(getRegisterObjectFromGCMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getRegisterObjectFromGCMethod(), responseObserver);
     }
 
     /**
      */
     public void unregisterObjects(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.UnregisterObjectsRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
-      asyncUnimplementedUnaryCall(getUnregisterObjectsMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getUnregisterObjectsMethod(), responseObserver);
     }
 
     /**
      */
     public void registerObjects(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectsRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectsResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getRegisterObjectsMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getRegisterObjectsMethod(), responseObserver);
     }
 
     /**
      */
     public void setDataSetIDFromGarbageCollector(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.SetDataSetIDFromGarbageCollectorRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
-      asyncUnimplementedUnaryCall(getSetDataSetIDFromGarbageCollectorMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getSetDataSetIDFromGarbageCollectorMethod(), responseObserver);
     }
 
     /**
      */
     public void getMetadataByOID(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetMetadataByOIDRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetMetadataByOIDResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getGetMetadataByOIDMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getGetMetadataByOIDMethod(), responseObserver);
     }
 
     /**
      */
     public void getNumObjects(es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetNumObjectsResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getGetNumObjectsMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getGetNumObjectsMethod(), responseObserver);
     }
 
     /**
@@ -3756,28 +3765,28 @@ public final class LogicModuleGrpc {
      */
     public void setDataSetID(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.SetDataSetIDRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
-      asyncUnimplementedUnaryCall(getSetDataSetIDMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getSetDataSetIDMethod(), responseObserver);
     }
 
     /**
      */
     public void moveObject(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.MoveObjectRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.MoveObjectResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getMoveObjectMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getMoveObjectMethod(), responseObserver);
     }
 
     /**
      */
     public void setObjectReadOnly(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.SetObjectReadOnlyRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
-      asyncUnimplementedUnaryCall(getSetObjectReadOnlyMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getSetObjectReadOnlyMethod(), responseObserver);
     }
 
     /**
      */
     public void setObjectReadWrite(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.SetObjectReadWriteRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
-      asyncUnimplementedUnaryCall(getSetObjectReadWriteMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getSetObjectReadWriteMethod(), responseObserver);
     }
 
     /**
@@ -3787,14 +3796,14 @@ public final class LogicModuleGrpc {
      */
     public void executeImplementation(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ExecuteImplementationRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ExecuteImplementationResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getExecuteImplementationMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getExecuteImplementationMethod(), responseObserver);
     }
 
     /**
      */
     public void executeMethodOnTarget(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ExecuteMethodOnTargetRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ExecuteMethodOnTargetResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getExecuteMethodOnTargetMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getExecuteMethodOnTargetMethod(), responseObserver);
     }
 
     /**
@@ -3804,56 +3813,56 @@ public final class LogicModuleGrpc {
      */
     public void getDataClayID(es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetDataClayIDResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getGetDataClayIDMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getGetDataClayIDMethod(), responseObserver);
     }
 
     /**
      */
     public void registerExternalDataClay(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterExternalDataClayRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterExternalDataClayResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getRegisterExternalDataClayMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getRegisterExternalDataClayMethod(), responseObserver);
     }
 
     /**
      */
     public void registerExternalDataClayOverrideAuthority(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterExternalDataClayOverrideAuthorityRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterExternalDataClayResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getRegisterExternalDataClayOverrideAuthorityMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getRegisterExternalDataClayOverrideAuthorityMethod(), responseObserver);
     }
 
     /**
      */
     public void notifyRegistrationOfExternalDataClay(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NotifyRegistrationOfExternalDataClayRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NotifyRegistrationOfExternalDataClayResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getNotifyRegistrationOfExternalDataClayMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getNotifyRegistrationOfExternalDataClayMethod(), responseObserver);
     }
 
     /**
      */
     public void getExternalDataClayInfo(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExtDataClayInfoRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExtDataClayInfoResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getGetExternalDataClayInfoMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getGetExternalDataClayInfoMethod(), responseObserver);
     }
 
     /**
      */
     public void getExternalDataclayId(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExternalDataclayIDRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExternalDataclayIDResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getGetExternalDataclayIdMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getGetExternalDataclayIdMethod(), responseObserver);
     }
 
     /**
      */
     public void getClassesInNamespace(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassesInNamespaceRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassesInNamespaceResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getGetClassesInNamespaceMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getGetClassesInNamespaceMethod(), responseObserver);
     }
 
     /**
      */
     public void importModelsFromExternalDataClay(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ImportModelsFromExternalDataClayRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
-      asyncUnimplementedUnaryCall(getImportModelsFromExternalDataClayMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getImportModelsFromExternalDataClayMethod(), responseObserver);
     }
 
     /**
@@ -3863,14 +3872,14 @@ public final class LogicModuleGrpc {
      */
     public void getStubs(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStubsRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStubsResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getGetStubsMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getGetStubsMethod(), responseObserver);
     }
 
     /**
      */
     public void getBabelStubs(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetBabelStubsRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetBabelStubsResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getGetBabelStubsMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getGetBabelStubsMethod(), responseObserver);
     }
 
     /**
@@ -3880,14 +3889,14 @@ public final class LogicModuleGrpc {
      */
     public void registerECA(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterECARequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
-      asyncUnimplementedUnaryCall(getRegisterECAMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getRegisterECAMethod(), responseObserver);
     }
 
     /**
      */
     public void adviseEvent(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.AdviseEventRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
-      asyncUnimplementedUnaryCall(getAdviseEventMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getAdviseEventMethod(), responseObserver);
     }
 
     /**
@@ -3897,7 +3906,7 @@ public final class LogicModuleGrpc {
      */
     public void isPrefetchingEnabled(es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.IsPrefetchingEnabledResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getIsPrefetchingEnabledMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getIsPrefetchingEnabledMethod(), responseObserver);
     }
 
     /**
@@ -3907,21 +3916,21 @@ public final class LogicModuleGrpc {
      */
     public void getClassNameForDS(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassNameForDSRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassNameForDSResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getGetClassNameForDSMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getGetClassNameForDSMethod(), responseObserver);
     }
 
     /**
      */
     public void getClassNameAndNamespaceForDS(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassNameAndNamespaceForDSRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassNameAndNamespaceForDSResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getGetClassNameAndNamespaceForDSMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getGetClassNameAndNamespaceForDSMethod(), responseObserver);
     }
 
     /**
      */
     public void getContractIDOfDataClayProvider(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetContractIDOfDataClayProviderRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetContractIDOfDataClayProviderResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getGetContractIDOfDataClayProviderMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getGetContractIDOfDataClayProviderMethod(), responseObserver);
     }
 
     /**
@@ -3931,7 +3940,7 @@ public final class LogicModuleGrpc {
      */
     public void objectExistsInDataClay(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ObjectExistsInDataClayRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ObjectExistsInDataClayResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getObjectExistsInDataClayMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getObjectExistsInDataClayMethod(), responseObserver);
     }
 
     /**
@@ -3941,14 +3950,14 @@ public final class LogicModuleGrpc {
      */
     public void closeSession(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.CloseSessionRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
-      asyncUnimplementedUnaryCall(getCloseSessionMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getCloseSessionMethod(), responseObserver);
     }
 
     /**
      */
     public void getMetadataByOIDForDS(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetMetadataByOIDForDSRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetMetadataByOIDForDSResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getGetMetadataByOIDForDSMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getGetMetadataByOIDForDSMethod(), responseObserver);
     }
 
     /**
@@ -3958,756 +3967,756 @@ public final class LogicModuleGrpc {
      */
     public void activateTracing(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ActivateTracingRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
-      asyncUnimplementedUnaryCall(getActivateTracingMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getActivateTracingMethod(), responseObserver);
     }
 
     /**
      */
     public void deactivateTracing(es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
-      asyncUnimplementedUnaryCall(getDeactivateTracingMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getDeactivateTracingMethod(), responseObserver);
     }
 
     /**
      */
     public void getTraces(es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetTracesResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getGetTracesMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getGetTracesMethod(), responseObserver);
     }
 
     /**
      */
     public void cleanMetaDataCaches(es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
-      asyncUnimplementedUnaryCall(getCleanMetaDataCachesMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getCleanMetaDataCachesMethod(), responseObserver);
     }
 
     /**
      */
     public void closeManagerDb(es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
-      asyncUnimplementedUnaryCall(getCloseManagerDbMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getCloseManagerDbMethod(), responseObserver);
     }
 
     /**
      */
     public void closeDb(es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
-      asyncUnimplementedUnaryCall(getCloseDbMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getCloseDbMethod(), responseObserver);
     }
 
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
           .addMethod(
             getAutoregisterSLMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.AutoRegisterSLRequest,
                 es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>(
                   this, METHODID_AUTOREGISTER_SL)))
           .addMethod(
             getAutoregisterEEMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.AutoRegisterEERequest,
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.AutoRegisterEEResponse>(
                   this, METHODID_AUTOREGISTER_EE)))
           .addMethod(
             getUnregisterStorageLocationMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.UnregisterStorageLocationRequest,
                 es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>(
                   this, METHODID_UNREGISTER_STORAGE_LOCATION)))
           .addMethod(
             getUnregisterExecutionEnvironmentMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.UnregisterExecutionEnvironmentRequest,
                 es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>(
                   this, METHODID_UNREGISTER_EXECUTION_ENVIRONMENT)))
           .addMethod(
             getCheckAliveMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage,
                 es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>(
                   this, METHODID_CHECK_ALIVE)))
           .addMethod(
             getNotifyExecutionEnvironmentShutdownMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NotifyExecutionEnvironmentShutdownRequest,
                 es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>(
                   this, METHODID_NOTIFY_EXECUTION_ENVIRONMENT_SHUTDOWN)))
           .addMethod(
             getNotifyStorageLocationShutdownMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NotifyStorageLocationShutdownRequest,
                 es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>(
                   this, METHODID_NOTIFY_STORAGE_LOCATION_SHUTDOWN)))
           .addMethod(
             getExistsActiveEnvironmentsForSLMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ExistsActiveEnvironmentsForSLRequest,
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ExistsActiveEnvironmentsForSLResponse>(
                   this, METHODID_EXISTS_ACTIVE_ENVIRONMENTS_FOR_SL)))
           .addMethod(
             getPerformSetOfNewAccountsMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.PerformSetAccountsRequest,
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.PerformSetAccountsResponse>(
                   this, METHODID_PERFORM_SET_OF_NEW_ACCOUNTS)))
           .addMethod(
             getPerformSetOfOperationsMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.PerformSetOperationsRequest,
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.PerformSetOperationsResponse>(
                   this, METHODID_PERFORM_SET_OF_OPERATIONS)))
           .addMethod(
             getPublishAddressMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.PublishAddressRequest,
                 es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>(
                   this, METHODID_PUBLISH_ADDRESS)))
           .addMethod(
             getNewAccountNoAdminMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewAccountNoAdminRequest,
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewAccountResponse>(
                   this, METHODID_NEW_ACCOUNT_NO_ADMIN)))
           .addMethod(
             getNewAccountMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewAccountRequest,
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewAccountResponse>(
                   this, METHODID_NEW_ACCOUNT)))
           .addMethod(
             getGetAccountIDMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetAccountIDRequest,
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetAccountIDResponse>(
                   this, METHODID_GET_ACCOUNT_ID)))
           .addMethod(
             getGetAccountListMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetAccountListRequest,
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetAccountListResponse>(
                   this, METHODID_GET_ACCOUNT_LIST)))
           .addMethod(
             getNewSessionMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewSessionRequest,
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewSessionResponse>(
                   this, METHODID_NEW_SESSION)))
           .addMethod(
             getGetInfoOfSessionForDSMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetInfoOfSessionForDSRequest,
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetInfoOfSessionForDSResponse>(
                   this, METHODID_GET_INFO_OF_SESSION_FOR_DS)))
           .addMethod(
             getNewNamespaceMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewNamespaceRequest,
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewNamespaceResponse>(
                   this, METHODID_NEW_NAMESPACE)))
           .addMethod(
             getRemoveNamespaceMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RemoveNamespaceRequest,
                 es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>(
                   this, METHODID_REMOVE_NAMESPACE)))
           .addMethod(
             getGetNamespaceIDMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetNamespaceIDRequest,
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetNamespaceIDResponse>(
                   this, METHODID_GET_NAMESPACE_ID)))
           .addMethod(
             getGetNamespaceLangMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetNamespaceLangRequest,
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetNamespaceLangResponse>(
                   this, METHODID_GET_NAMESPACE_LANG)))
           .addMethod(
             getGetObjectDataSetIDMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetObjectDataSetIDRequest,
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetObjectDataSetIDResponse>(
                   this, METHODID_GET_OBJECT_DATA_SET_ID)))
           .addMethod(
             getImportInterfaceMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ImportInterfaceRequest,
                 es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>(
                   this, METHODID_IMPORT_INTERFACE)))
           .addMethod(
             getImportContractMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ImportContractRequest,
                 es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>(
                   this, METHODID_IMPORT_CONTRACT)))
           .addMethod(
             getGetInfoOfClassesInNamespaceMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetInfoOfClassesInNamespaceRequest,
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetInfoOfClassesInNamespaceResponse>(
                   this, METHODID_GET_INFO_OF_CLASSES_IN_NAMESPACE)))
           .addMethod(
             getGetImportedClassesInfoInNamespaceMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetImportedClassesInfoInNamespaceRequest,
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetImportedClassesInfoInNamespaceResponse>(
                   this, METHODID_GET_IMPORTED_CLASSES_INFO_IN_NAMESPACE)))
           .addMethod(
             getGetClassIDfromImportMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassIDFromImportRequest,
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassIDFromImportResponse>(
                   this, METHODID_GET_CLASS_IDFROM_IMPORT)))
           .addMethod(
             getGetNamespacesMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetNamespacesRequest,
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetNamespacesResponse>(
                   this, METHODID_GET_NAMESPACES)))
           .addMethod(
             getNewDataSetMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewDataSetRequest,
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewDataSetResponse>(
                   this, METHODID_NEW_DATA_SET)))
           .addMethod(
             getRemoveDataSetMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RemoveDataSetRequest,
                 es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>(
                   this, METHODID_REMOVE_DATA_SET)))
           .addMethod(
             getGetDataSetIDMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetDataSetIDRequest,
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetDataSetIDResponse>(
                   this, METHODID_GET_DATA_SET_ID)))
           .addMethod(
             getCheckDataSetIsPublicMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.CheckDataSetIsPublicRequest,
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.CheckDataSetIsPublicResponse>(
                   this, METHODID_CHECK_DATA_SET_IS_PUBLIC)))
           .addMethod(
             getGetPublicDataSetsMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetPublicDataSetsRequest,
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetPublicDataSetsResponse>(
                   this, METHODID_GET_PUBLIC_DATA_SETS)))
           .addMethod(
             getGetAccountDataSetsMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetAccountDataSetsRequest,
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetAccountDataSetsResponse>(
                   this, METHODID_GET_ACCOUNT_DATA_SETS)))
           .addMethod(
             getNewClassMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewClassRequest,
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewClassResponse>(
                   this, METHODID_NEW_CLASS)))
           .addMethod(
             getRemoveClassMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RemoveClassRequest,
                 es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>(
                   this, METHODID_REMOVE_CLASS)))
           .addMethod(
             getRemoveOperationMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RemoveOperationRequest,
                 es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>(
                   this, METHODID_REMOVE_OPERATION)))
           .addMethod(
             getRemoveImplementationMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RemoveImplementationRequest,
                 es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>(
                   this, METHODID_REMOVE_IMPLEMENTATION)))
           .addMethod(
             getGetOperationIDMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetOperationIDRequest,
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetOperationIDResponse>(
                   this, METHODID_GET_OPERATION_ID)))
           .addMethod(
             getGetPropertyIDMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetPropertyIDRequest,
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetPropertyIDResponse>(
                   this, METHODID_GET_PROPERTY_ID)))
           .addMethod(
             getGetClassIDMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassIDRequest,
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassIDResponse>(
                   this, METHODID_GET_CLASS_ID)))
           .addMethod(
             getGetClassInfoMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassInfoRequest,
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassInfoResponse>(
                   this, METHODID_GET_CLASS_INFO)))
           .addMethod(
             getNewContractMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewContractRequest,
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewContractResponse>(
                   this, METHODID_NEW_CONTRACT)))
           .addMethod(
             getRegisterToPublicContractMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterToPublicContractRequest,
                 es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>(
                   this, METHODID_REGISTER_TO_PUBLIC_CONTRACT)))
           .addMethod(
             getRegisterToPublicContractOfNamespaceMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterToPublicContractOfNamespaceRequest,
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterToPublicContractOfNamespaceResponse>(
                   this, METHODID_REGISTER_TO_PUBLIC_CONTRACT_OF_NAMESPACE)))
           .addMethod(
             getGetContractIDsOfApplicantMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetContractIDsOfApplicantRequest,
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetContractIDsOfApplicantResponse>(
                   this, METHODID_GET_CONTRACT_IDS_OF_APPLICANT)))
           .addMethod(
             getGetContractIDsOfProviderMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetContractIDsOfProviderRequest,
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetContractIDsOfProviderResponse>(
                   this, METHODID_GET_CONTRACT_IDS_OF_PROVIDER)))
           .addMethod(
             getGetContractIDsOfApplicantWithProviderMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetContractsOfApplicantWithProvRequest,
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetContractsOfApplicantWithProvResponse>(
                   this, METHODID_GET_CONTRACT_IDS_OF_APPLICANT_WITH_PROVIDER)))
           .addMethod(
             getNewDataContractMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewDataContractRequest,
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewDataContractResponse>(
                   this, METHODID_NEW_DATA_CONTRACT)))
           .addMethod(
             getRegisterToPublicDataContractMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterToPublicDataContractRequest,
                 es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>(
                   this, METHODID_REGISTER_TO_PUBLIC_DATA_CONTRACT)))
           .addMethod(
             getGetDataContractIDsOfApplicantMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetDataContractIDsOfApplicantRequest,
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetDataContractIDsOfApplicantResponse>(
                   this, METHODID_GET_DATA_CONTRACT_IDS_OF_APPLICANT)))
           .addMethod(
             getGetDataContractIDsOfProviderMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetDataContractIDsOfProviderRequest,
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetDataContractIDsOfProviderResponse>(
                   this, METHODID_GET_DATA_CONTRACT_IDS_OF_PROVIDER)))
           .addMethod(
             getGetDataContractInfoOfApplicantWithProviderMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetDataContractInfoOfApplicantWithProvRequest,
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetDataContractInfoOfApplicantWithProvResponse>(
                   this, METHODID_GET_DATA_CONTRACT_INFO_OF_APPLICANT_WITH_PROVIDER)))
           .addMethod(
             getNewInterfaceMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewInterfaceRequest,
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewInterfaceResponse>(
                   this, METHODID_NEW_INTERFACE)))
           .addMethod(
             getGetInterfaceInfoMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetInterfaceInfoRequest,
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetInterfaceInfoResponse>(
                   this, METHODID_GET_INTERFACE_INFO)))
           .addMethod(
             getRemoveInterfaceMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RemoveInterfaceRequest,
                 es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>(
                   this, METHODID_REMOVE_INTERFACE)))
           .addMethod(
             getGetAllExecutionEnvironmentsInfoMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetAllExecutionEnvironmentsInfoRequest,
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetAllExecutionEnvironmentsInfoResponse>(
                   this, METHODID_GET_ALL_EXECUTION_ENVIRONMENTS_INFO)))
           .addMethod(
             getGetStorageLocationIDMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationIDRequest,
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationIDResponse>(
                   this, METHODID_GET_STORAGE_LOCATION_ID)))
           .addMethod(
             getGetStorageLocationInfoMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationInfoRequest,
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationInfoResponse>(
                   this, METHODID_GET_STORAGE_LOCATION_INFO)))
           .addMethod(
             getGetExecutionEnvironmentInfoMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentInfoRequest,
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentInfoResponse>(
                   this, METHODID_GET_EXECUTION_ENVIRONMENT_INFO)))
           .addMethod(
             getGetObjectInfoMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetObjectInfoRequest,
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetObjectInfoResponse>(
                   this, METHODID_GET_OBJECT_INFO)))
           .addMethod(
             getGetObjectFromAliasMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetObjectFromAliasRequest,
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetObjectFromAliasResponse>(
                   this, METHODID_GET_OBJECT_FROM_ALIAS)))
           .addMethod(
             getDeleteAliasMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.DeleteAliasRequest,
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.DeleteAliasResponse>(
                   this, METHODID_DELETE_ALIAS)))
           .addMethod(
             getGetObjectsMetaDataInfoOfClassForNMMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetObjectsMetaDataInfoOfClassForNMRequest,
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetObjectsMetaDataInfoOfClassForNMResponse>(
                   this, METHODID_GET_OBJECTS_META_DATA_INFO_OF_CLASS_FOR_NM)))
           .addMethod(
             getAddAliasMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.AddAliasRequest,
                 es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>(
                   this, METHODID_ADD_ALIAS)))
           .addMethod(
             getRegisterObjectFromGCMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectForGCRequest,
                 es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>(
                   this, METHODID_REGISTER_OBJECT_FROM_GC)))
           .addMethod(
             getUnregisterObjectsMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.UnregisterObjectsRequest,
                 es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>(
                   this, METHODID_UNREGISTER_OBJECTS)))
           .addMethod(
             getRegisterObjectsMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectsRequest,
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectsResponse>(
                   this, METHODID_REGISTER_OBJECTS)))
           .addMethod(
             getSetDataSetIDFromGarbageCollectorMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.SetDataSetIDFromGarbageCollectorRequest,
                 es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>(
                   this, METHODID_SET_DATA_SET_IDFROM_GARBAGE_COLLECTOR)))
           .addMethod(
             getGetMetadataByOIDMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetMetadataByOIDRequest,
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetMetadataByOIDResponse>(
                   this, METHODID_GET_METADATA_BY_OID)))
           .addMethod(
             getGetNumObjectsMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage,
                 es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetNumObjectsResponse>(
                   this, METHODID_GET_NUM_OBJECTS)))
           .addMethod(
             getSetDataSetIDMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.SetDataSetIDRequest,
                 es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>(
                   this, METHODID_SET_DATA_SET_ID)))
           .addMethod(
             getMoveObjectMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.MoveObjectRequest,
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.MoveObjectResponse>(
                   this, METHODID_MOVE_OBJECT)))
           .addMethod(
             getSetObjectReadOnlyMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.SetObjectReadOnlyRequest,
                 es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>(
                   this, METHODID_SET_OBJECT_READ_ONLY)))
           .addMethod(
             getSetObjectReadWriteMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.SetObjectReadWriteRequest,
                 es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>(
                   this, METHODID_SET_OBJECT_READ_WRITE)))
           .addMethod(
             getExecuteImplementationMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ExecuteImplementationRequest,
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ExecuteImplementationResponse>(
                   this, METHODID_EXECUTE_IMPLEMENTATION)))
           .addMethod(
             getExecuteMethodOnTargetMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ExecuteMethodOnTargetRequest,
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ExecuteMethodOnTargetResponse>(
                   this, METHODID_EXECUTE_METHOD_ON_TARGET)))
           .addMethod(
             getGetDataClayIDMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage,
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetDataClayIDResponse>(
                   this, METHODID_GET_DATA_CLAY_ID)))
           .addMethod(
             getRegisterExternalDataClayMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterExternalDataClayRequest,
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterExternalDataClayResponse>(
                   this, METHODID_REGISTER_EXTERNAL_DATA_CLAY)))
           .addMethod(
             getRegisterExternalDataClayOverrideAuthorityMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterExternalDataClayOverrideAuthorityRequest,
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterExternalDataClayResponse>(
                   this, METHODID_REGISTER_EXTERNAL_DATA_CLAY_OVERRIDE_AUTHORITY)))
           .addMethod(
             getNotifyRegistrationOfExternalDataClayMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NotifyRegistrationOfExternalDataClayRequest,
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NotifyRegistrationOfExternalDataClayResponse>(
                   this, METHODID_NOTIFY_REGISTRATION_OF_EXTERNAL_DATA_CLAY)))
           .addMethod(
             getGetExternalDataClayInfoMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExtDataClayInfoRequest,
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExtDataClayInfoResponse>(
                   this, METHODID_GET_EXTERNAL_DATA_CLAY_INFO)))
           .addMethod(
             getGetExternalDataclayIdMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExternalDataclayIDRequest,
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExternalDataclayIDResponse>(
                   this, METHODID_GET_EXTERNAL_DATACLAY_ID)))
           .addMethod(
             getGetClassesInNamespaceMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassesInNamespaceRequest,
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassesInNamespaceResponse>(
                   this, METHODID_GET_CLASSES_IN_NAMESPACE)))
           .addMethod(
             getImportModelsFromExternalDataClayMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ImportModelsFromExternalDataClayRequest,
                 es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>(
                   this, METHODID_IMPORT_MODELS_FROM_EXTERNAL_DATA_CLAY)))
           .addMethod(
             getGetStubsMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStubsRequest,
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStubsResponse>(
                   this, METHODID_GET_STUBS)))
           .addMethod(
             getGetBabelStubsMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetBabelStubsRequest,
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetBabelStubsResponse>(
                   this, METHODID_GET_BABEL_STUBS)))
           .addMethod(
             getRegisterECAMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterECARequest,
                 es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>(
                   this, METHODID_REGISTER_ECA)))
           .addMethod(
             getAdviseEventMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.AdviseEventRequest,
                 es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>(
                   this, METHODID_ADVISE_EVENT)))
           .addMethod(
             getIsPrefetchingEnabledMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage,
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.IsPrefetchingEnabledResponse>(
                   this, METHODID_IS_PREFETCHING_ENABLED)))
           .addMethod(
             getGetClassNameForDSMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassNameForDSRequest,
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassNameForDSResponse>(
                   this, METHODID_GET_CLASS_NAME_FOR_DS)))
           .addMethod(
             getGetClassNameAndNamespaceForDSMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassNameAndNamespaceForDSRequest,
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassNameAndNamespaceForDSResponse>(
                   this, METHODID_GET_CLASS_NAME_AND_NAMESPACE_FOR_DS)))
           .addMethod(
             getGetContractIDOfDataClayProviderMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetContractIDOfDataClayProviderRequest,
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetContractIDOfDataClayProviderResponse>(
                   this, METHODID_GET_CONTRACT_IDOF_DATA_CLAY_PROVIDER)))
           .addMethod(
             getObjectExistsInDataClayMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ObjectExistsInDataClayRequest,
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ObjectExistsInDataClayResponse>(
                   this, METHODID_OBJECT_EXISTS_IN_DATA_CLAY)))
           .addMethod(
             getCloseSessionMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.CloseSessionRequest,
                 es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>(
                   this, METHODID_CLOSE_SESSION)))
           .addMethod(
             getGetMetadataByOIDForDSMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetMetadataByOIDForDSRequest,
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetMetadataByOIDForDSResponse>(
                   this, METHODID_GET_METADATA_BY_OIDFOR_DS)))
           .addMethod(
             getActivateTracingMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ActivateTracingRequest,
                 es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>(
                   this, METHODID_ACTIVATE_TRACING)))
           .addMethod(
             getDeactivateTracingMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage,
                 es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>(
                   this, METHODID_DEACTIVATE_TRACING)))
           .addMethod(
             getGetTracesMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage,
                 es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetTracesResponse>(
                   this, METHODID_GET_TRACES)))
           .addMethod(
             getCleanMetaDataCachesMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage,
                 es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>(
                   this, METHODID_CLEAN_META_DATA_CACHES)))
           .addMethod(
             getCloseManagerDbMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage,
                 es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>(
                   this, METHODID_CLOSE_MANAGER_DB)))
           .addMethod(
             getCloseDbMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage,
                 es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo>(
@@ -4721,19 +4730,15 @@ public final class LogicModuleGrpc {
    * Interface exported by the server.
    * </pre>
    */
-  public static final class LogicModuleStub extends io.grpc.stub.AbstractStub<LogicModuleStub> {
-    private LogicModuleStub(io.grpc.Channel channel) {
-      super(channel);
-    }
-
-    private LogicModuleStub(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
+  public static final class LogicModuleStub extends io.grpc.stub.AbstractAsyncStub<LogicModuleStub> {
+    private LogicModuleStub(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
     }
 
     @java.lang.Override
-    protected LogicModuleStub build(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
+    protected LogicModuleStub build(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       return new LogicModuleStub(channel, callOptions);
     }
 
@@ -4741,7 +4746,7 @@ public final class LogicModuleGrpc {
      */
     public void autoregisterSL(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.AutoRegisterSLRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getAutoregisterSLMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -4749,7 +4754,7 @@ public final class LogicModuleGrpc {
      */
     public void autoregisterEE(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.AutoRegisterEERequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.AutoRegisterEEResponse> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getAutoregisterEEMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -4757,7 +4762,7 @@ public final class LogicModuleGrpc {
      */
     public void unregisterStorageLocation(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.UnregisterStorageLocationRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getUnregisterStorageLocationMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -4765,7 +4770,7 @@ public final class LogicModuleGrpc {
      */
     public void unregisterExecutionEnvironment(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.UnregisterExecutionEnvironmentRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getUnregisterExecutionEnvironmentMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -4773,7 +4778,7 @@ public final class LogicModuleGrpc {
      */
     public void checkAlive(es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getCheckAliveMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -4781,7 +4786,7 @@ public final class LogicModuleGrpc {
      */
     public void notifyExecutionEnvironmentShutdown(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NotifyExecutionEnvironmentShutdownRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getNotifyExecutionEnvironmentShutdownMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -4789,7 +4794,7 @@ public final class LogicModuleGrpc {
      */
     public void notifyStorageLocationShutdown(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NotifyStorageLocationShutdownRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getNotifyStorageLocationShutdownMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -4797,7 +4802,7 @@ public final class LogicModuleGrpc {
      */
     public void existsActiveEnvironmentsForSL(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ExistsActiveEnvironmentsForSLRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ExistsActiveEnvironmentsForSLResponse> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getExistsActiveEnvironmentsForSLMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -4805,7 +4810,7 @@ public final class LogicModuleGrpc {
      */
     public void performSetOfNewAccounts(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.PerformSetAccountsRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.PerformSetAccountsResponse> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getPerformSetOfNewAccountsMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -4813,7 +4818,7 @@ public final class LogicModuleGrpc {
      */
     public void performSetOfOperations(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.PerformSetOperationsRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.PerformSetOperationsResponse> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getPerformSetOfOperationsMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -4821,7 +4826,7 @@ public final class LogicModuleGrpc {
      */
     public void publishAddress(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.PublishAddressRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getPublishAddressMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -4832,7 +4837,7 @@ public final class LogicModuleGrpc {
      */
     public void newAccountNoAdmin(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewAccountNoAdminRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewAccountResponse> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getNewAccountNoAdminMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -4840,7 +4845,7 @@ public final class LogicModuleGrpc {
      */
     public void newAccount(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewAccountRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewAccountResponse> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getNewAccountMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -4848,7 +4853,7 @@ public final class LogicModuleGrpc {
      */
     public void getAccountID(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetAccountIDRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetAccountIDResponse> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getGetAccountIDMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -4856,7 +4861,7 @@ public final class LogicModuleGrpc {
      */
     public void getAccountList(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetAccountListRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetAccountListResponse> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getGetAccountListMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -4867,7 +4872,7 @@ public final class LogicModuleGrpc {
      */
     public void newSession(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewSessionRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewSessionResponse> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getNewSessionMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -4875,7 +4880,7 @@ public final class LogicModuleGrpc {
      */
     public void getInfoOfSessionForDS(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetInfoOfSessionForDSRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetInfoOfSessionForDSResponse> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getGetInfoOfSessionForDSMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -4886,7 +4891,7 @@ public final class LogicModuleGrpc {
      */
     public void newNamespace(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewNamespaceRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewNamespaceResponse> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getNewNamespaceMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -4894,7 +4899,7 @@ public final class LogicModuleGrpc {
      */
     public void removeNamespace(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RemoveNamespaceRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getRemoveNamespaceMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -4902,7 +4907,7 @@ public final class LogicModuleGrpc {
      */
     public void getNamespaceID(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetNamespaceIDRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetNamespaceIDResponse> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getGetNamespaceIDMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -4910,7 +4915,7 @@ public final class LogicModuleGrpc {
      */
     public void getNamespaceLang(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetNamespaceLangRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetNamespaceLangResponse> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getGetNamespaceLangMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -4918,7 +4923,7 @@ public final class LogicModuleGrpc {
      */
     public void getObjectDataSetID(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetObjectDataSetIDRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetObjectDataSetIDResponse> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getGetObjectDataSetIDMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -4926,7 +4931,7 @@ public final class LogicModuleGrpc {
      */
     public void importInterface(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ImportInterfaceRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getImportInterfaceMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -4934,7 +4939,7 @@ public final class LogicModuleGrpc {
      */
     public void importContract(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ImportContractRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getImportContractMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -4942,7 +4947,7 @@ public final class LogicModuleGrpc {
      */
     public void getInfoOfClassesInNamespace(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetInfoOfClassesInNamespaceRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetInfoOfClassesInNamespaceResponse> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getGetInfoOfClassesInNamespaceMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -4950,7 +4955,7 @@ public final class LogicModuleGrpc {
      */
     public void getImportedClassesInfoInNamespace(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetImportedClassesInfoInNamespaceRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetImportedClassesInfoInNamespaceResponse> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getGetImportedClassesInfoInNamespaceMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -4958,7 +4963,7 @@ public final class LogicModuleGrpc {
      */
     public void getClassIDfromImport(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassIDFromImportRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassIDFromImportResponse> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getGetClassIDfromImportMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -4966,7 +4971,7 @@ public final class LogicModuleGrpc {
      */
     public void getNamespaces(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetNamespacesRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetNamespacesResponse> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getGetNamespacesMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -4977,7 +4982,7 @@ public final class LogicModuleGrpc {
      */
     public void newDataSet(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewDataSetRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewDataSetResponse> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getNewDataSetMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -4985,7 +4990,7 @@ public final class LogicModuleGrpc {
      */
     public void removeDataSet(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RemoveDataSetRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getRemoveDataSetMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -4993,7 +4998,7 @@ public final class LogicModuleGrpc {
      */
     public void getDataSetID(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetDataSetIDRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetDataSetIDResponse> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getGetDataSetIDMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -5001,7 +5006,7 @@ public final class LogicModuleGrpc {
      */
     public void checkDataSetIsPublic(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.CheckDataSetIsPublicRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.CheckDataSetIsPublicResponse> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getCheckDataSetIsPublicMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -5009,7 +5014,7 @@ public final class LogicModuleGrpc {
      */
     public void getPublicDataSets(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetPublicDataSetsRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetPublicDataSetsResponse> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getGetPublicDataSetsMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -5017,7 +5022,7 @@ public final class LogicModuleGrpc {
      */
     public void getAccountDataSets(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetAccountDataSetsRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetAccountDataSetsResponse> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getGetAccountDataSetsMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -5028,7 +5033,7 @@ public final class LogicModuleGrpc {
      */
     public void newClass(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewClassRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewClassResponse> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getNewClassMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -5036,7 +5041,7 @@ public final class LogicModuleGrpc {
      */
     public void removeClass(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RemoveClassRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getRemoveClassMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -5044,7 +5049,7 @@ public final class LogicModuleGrpc {
      */
     public void removeOperation(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RemoveOperationRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getRemoveOperationMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -5052,7 +5057,7 @@ public final class LogicModuleGrpc {
      */
     public void removeImplementation(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RemoveImplementationRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getRemoveImplementationMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -5060,7 +5065,7 @@ public final class LogicModuleGrpc {
      */
     public void getOperationID(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetOperationIDRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetOperationIDResponse> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getGetOperationIDMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -5068,7 +5073,7 @@ public final class LogicModuleGrpc {
      */
     public void getPropertyID(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetPropertyIDRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetPropertyIDResponse> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getGetPropertyIDMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -5076,7 +5081,7 @@ public final class LogicModuleGrpc {
      */
     public void getClassID(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassIDRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassIDResponse> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getGetClassIDMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -5084,7 +5089,7 @@ public final class LogicModuleGrpc {
      */
     public void getClassInfo(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassInfoRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassInfoResponse> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getGetClassInfoMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -5095,7 +5100,7 @@ public final class LogicModuleGrpc {
      */
     public void newContract(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewContractRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewContractResponse> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getNewContractMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -5103,7 +5108,7 @@ public final class LogicModuleGrpc {
      */
     public void registerToPublicContract(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterToPublicContractRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getRegisterToPublicContractMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -5111,7 +5116,7 @@ public final class LogicModuleGrpc {
      */
     public void registerToPublicContractOfNamespace(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterToPublicContractOfNamespaceRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterToPublicContractOfNamespaceResponse> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getRegisterToPublicContractOfNamespaceMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -5119,7 +5124,7 @@ public final class LogicModuleGrpc {
      */
     public void getContractIDsOfApplicant(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetContractIDsOfApplicantRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetContractIDsOfApplicantResponse> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getGetContractIDsOfApplicantMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -5127,7 +5132,7 @@ public final class LogicModuleGrpc {
      */
     public void getContractIDsOfProvider(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetContractIDsOfProviderRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetContractIDsOfProviderResponse> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getGetContractIDsOfProviderMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -5135,7 +5140,7 @@ public final class LogicModuleGrpc {
      */
     public void getContractIDsOfApplicantWithProvider(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetContractsOfApplicantWithProvRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetContractsOfApplicantWithProvResponse> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getGetContractIDsOfApplicantWithProviderMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -5146,7 +5151,7 @@ public final class LogicModuleGrpc {
      */
     public void newDataContract(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewDataContractRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewDataContractResponse> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getNewDataContractMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -5154,7 +5159,7 @@ public final class LogicModuleGrpc {
      */
     public void registerToPublicDataContract(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterToPublicDataContractRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getRegisterToPublicDataContractMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -5162,7 +5167,7 @@ public final class LogicModuleGrpc {
      */
     public void getDataContractIDsOfApplicant(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetDataContractIDsOfApplicantRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetDataContractIDsOfApplicantResponse> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getGetDataContractIDsOfApplicantMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -5170,7 +5175,7 @@ public final class LogicModuleGrpc {
      */
     public void getDataContractIDsOfProvider(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetDataContractIDsOfProviderRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetDataContractIDsOfProviderResponse> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getGetDataContractIDsOfProviderMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -5178,7 +5183,7 @@ public final class LogicModuleGrpc {
      */
     public void getDataContractInfoOfApplicantWithProvider(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetDataContractInfoOfApplicantWithProvRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetDataContractInfoOfApplicantWithProvResponse> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getGetDataContractInfoOfApplicantWithProviderMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -5189,7 +5194,7 @@ public final class LogicModuleGrpc {
      */
     public void newInterface(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewInterfaceRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewInterfaceResponse> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getNewInterfaceMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -5197,7 +5202,7 @@ public final class LogicModuleGrpc {
      */
     public void getInterfaceInfo(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetInterfaceInfoRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetInterfaceInfoResponse> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getGetInterfaceInfoMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -5205,7 +5210,7 @@ public final class LogicModuleGrpc {
      */
     public void removeInterface(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RemoveInterfaceRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getRemoveInterfaceMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -5216,7 +5221,7 @@ public final class LogicModuleGrpc {
      */
     public void getAllExecutionEnvironmentsInfo(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetAllExecutionEnvironmentsInfoRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetAllExecutionEnvironmentsInfoResponse> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getGetAllExecutionEnvironmentsInfoMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -5224,7 +5229,7 @@ public final class LogicModuleGrpc {
      */
     public void getStorageLocationID(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationIDRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationIDResponse> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getGetStorageLocationIDMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -5232,7 +5237,7 @@ public final class LogicModuleGrpc {
      */
     public void getStorageLocationInfo(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationInfoRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationInfoResponse> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getGetStorageLocationInfoMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -5240,7 +5245,7 @@ public final class LogicModuleGrpc {
      */
     public void getExecutionEnvironmentInfo(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentInfoRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentInfoResponse> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getGetExecutionEnvironmentInfoMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -5251,7 +5256,7 @@ public final class LogicModuleGrpc {
      */
     public void getObjectInfo(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetObjectInfoRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetObjectInfoResponse> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getGetObjectInfoMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -5259,7 +5264,7 @@ public final class LogicModuleGrpc {
      */
     public void getObjectFromAlias(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetObjectFromAliasRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetObjectFromAliasResponse> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getGetObjectFromAliasMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -5267,7 +5272,7 @@ public final class LogicModuleGrpc {
      */
     public void deleteAlias(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.DeleteAliasRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.DeleteAliasResponse> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getDeleteAliasMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -5275,7 +5280,7 @@ public final class LogicModuleGrpc {
      */
     public void getObjectsMetaDataInfoOfClassForNM(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetObjectsMetaDataInfoOfClassForNMRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetObjectsMetaDataInfoOfClassForNMResponse> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getGetObjectsMetaDataInfoOfClassForNMMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -5283,7 +5288,7 @@ public final class LogicModuleGrpc {
      */
     public void addAlias(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.AddAliasRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getAddAliasMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -5291,7 +5296,7 @@ public final class LogicModuleGrpc {
      */
     public void registerObjectFromGC(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectForGCRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getRegisterObjectFromGCMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -5299,7 +5304,7 @@ public final class LogicModuleGrpc {
      */
     public void unregisterObjects(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.UnregisterObjectsRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getUnregisterObjectsMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -5307,7 +5312,7 @@ public final class LogicModuleGrpc {
      */
     public void registerObjects(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectsRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectsResponse> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getRegisterObjectsMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -5315,7 +5320,7 @@ public final class LogicModuleGrpc {
      */
     public void setDataSetIDFromGarbageCollector(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.SetDataSetIDFromGarbageCollectorRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getSetDataSetIDFromGarbageCollectorMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -5323,7 +5328,7 @@ public final class LogicModuleGrpc {
      */
     public void getMetadataByOID(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetMetadataByOIDRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetMetadataByOIDResponse> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getGetMetadataByOIDMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -5331,7 +5336,7 @@ public final class LogicModuleGrpc {
      */
     public void getNumObjects(es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetNumObjectsResponse> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getGetNumObjectsMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -5342,7 +5347,7 @@ public final class LogicModuleGrpc {
      */
     public void setDataSetID(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.SetDataSetIDRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getSetDataSetIDMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -5350,7 +5355,7 @@ public final class LogicModuleGrpc {
      */
     public void moveObject(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.MoveObjectRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.MoveObjectResponse> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getMoveObjectMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -5358,7 +5363,7 @@ public final class LogicModuleGrpc {
      */
     public void setObjectReadOnly(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.SetObjectReadOnlyRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getSetObjectReadOnlyMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -5366,7 +5371,7 @@ public final class LogicModuleGrpc {
      */
     public void setObjectReadWrite(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.SetObjectReadWriteRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getSetObjectReadWriteMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -5377,7 +5382,7 @@ public final class LogicModuleGrpc {
      */
     public void executeImplementation(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ExecuteImplementationRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ExecuteImplementationResponse> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getExecuteImplementationMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -5385,7 +5390,7 @@ public final class LogicModuleGrpc {
      */
     public void executeMethodOnTarget(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ExecuteMethodOnTargetRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ExecuteMethodOnTargetResponse> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getExecuteMethodOnTargetMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -5396,7 +5401,7 @@ public final class LogicModuleGrpc {
      */
     public void getDataClayID(es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetDataClayIDResponse> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getGetDataClayIDMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -5404,7 +5409,7 @@ public final class LogicModuleGrpc {
      */
     public void registerExternalDataClay(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterExternalDataClayRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterExternalDataClayResponse> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getRegisterExternalDataClayMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -5412,7 +5417,7 @@ public final class LogicModuleGrpc {
      */
     public void registerExternalDataClayOverrideAuthority(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterExternalDataClayOverrideAuthorityRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterExternalDataClayResponse> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getRegisterExternalDataClayOverrideAuthorityMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -5420,7 +5425,7 @@ public final class LogicModuleGrpc {
      */
     public void notifyRegistrationOfExternalDataClay(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NotifyRegistrationOfExternalDataClayRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NotifyRegistrationOfExternalDataClayResponse> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getNotifyRegistrationOfExternalDataClayMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -5428,7 +5433,7 @@ public final class LogicModuleGrpc {
      */
     public void getExternalDataClayInfo(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExtDataClayInfoRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExtDataClayInfoResponse> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getGetExternalDataClayInfoMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -5436,7 +5441,7 @@ public final class LogicModuleGrpc {
      */
     public void getExternalDataclayId(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExternalDataclayIDRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExternalDataclayIDResponse> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getGetExternalDataclayIdMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -5444,7 +5449,7 @@ public final class LogicModuleGrpc {
      */
     public void getClassesInNamespace(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassesInNamespaceRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassesInNamespaceResponse> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getGetClassesInNamespaceMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -5452,7 +5457,7 @@ public final class LogicModuleGrpc {
      */
     public void importModelsFromExternalDataClay(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ImportModelsFromExternalDataClayRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getImportModelsFromExternalDataClayMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -5463,7 +5468,7 @@ public final class LogicModuleGrpc {
      */
     public void getStubs(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStubsRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStubsResponse> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getGetStubsMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -5471,7 +5476,7 @@ public final class LogicModuleGrpc {
      */
     public void getBabelStubs(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetBabelStubsRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetBabelStubsResponse> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getGetBabelStubsMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -5482,7 +5487,7 @@ public final class LogicModuleGrpc {
      */
     public void registerECA(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterECARequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getRegisterECAMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -5490,7 +5495,7 @@ public final class LogicModuleGrpc {
      */
     public void adviseEvent(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.AdviseEventRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getAdviseEventMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -5501,7 +5506,7 @@ public final class LogicModuleGrpc {
      */
     public void isPrefetchingEnabled(es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.IsPrefetchingEnabledResponse> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getIsPrefetchingEnabledMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -5512,7 +5517,7 @@ public final class LogicModuleGrpc {
      */
     public void getClassNameForDS(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassNameForDSRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassNameForDSResponse> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getGetClassNameForDSMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -5520,7 +5525,7 @@ public final class LogicModuleGrpc {
      */
     public void getClassNameAndNamespaceForDS(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassNameAndNamespaceForDSRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassNameAndNamespaceForDSResponse> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getGetClassNameAndNamespaceForDSMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -5528,7 +5533,7 @@ public final class LogicModuleGrpc {
      */
     public void getContractIDOfDataClayProvider(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetContractIDOfDataClayProviderRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetContractIDOfDataClayProviderResponse> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getGetContractIDOfDataClayProviderMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -5539,7 +5544,7 @@ public final class LogicModuleGrpc {
      */
     public void objectExistsInDataClay(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ObjectExistsInDataClayRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ObjectExistsInDataClayResponse> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getObjectExistsInDataClayMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -5550,7 +5555,7 @@ public final class LogicModuleGrpc {
      */
     public void closeSession(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.CloseSessionRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getCloseSessionMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -5558,7 +5563,7 @@ public final class LogicModuleGrpc {
      */
     public void getMetadataByOIDForDS(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetMetadataByOIDForDSRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetMetadataByOIDForDSResponse> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getGetMetadataByOIDForDSMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -5569,7 +5574,7 @@ public final class LogicModuleGrpc {
      */
     public void activateTracing(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ActivateTracingRequest request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getActivateTracingMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -5577,7 +5582,7 @@ public final class LogicModuleGrpc {
      */
     public void deactivateTracing(es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getDeactivateTracingMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -5585,7 +5590,7 @@ public final class LogicModuleGrpc {
      */
     public void getTraces(es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetTracesResponse> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getGetTracesMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -5593,7 +5598,7 @@ public final class LogicModuleGrpc {
      */
     public void cleanMetaDataCaches(es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getCleanMetaDataCachesMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -5601,7 +5606,7 @@ public final class LogicModuleGrpc {
      */
     public void closeManagerDb(es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getCloseManagerDbMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -5609,7 +5614,7 @@ public final class LogicModuleGrpc {
      */
     public void closeDb(es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage request,
         io.grpc.stub.StreamObserver<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getCloseDbMethod(), getCallOptions()), request, responseObserver);
     }
   }
@@ -5619,96 +5624,92 @@ public final class LogicModuleGrpc {
    * Interface exported by the server.
    * </pre>
    */
-  public static final class LogicModuleBlockingStub extends io.grpc.stub.AbstractStub<LogicModuleBlockingStub> {
-    private LogicModuleBlockingStub(io.grpc.Channel channel) {
-      super(channel);
-    }
-
-    private LogicModuleBlockingStub(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
+  public static final class LogicModuleBlockingStub extends io.grpc.stub.AbstractBlockingStub<LogicModuleBlockingStub> {
+    private LogicModuleBlockingStub(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
     }
 
     @java.lang.Override
-    protected LogicModuleBlockingStub build(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
+    protected LogicModuleBlockingStub build(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       return new LogicModuleBlockingStub(channel, callOptions);
     }
 
     /**
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo autoregisterSL(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.AutoRegisterSLRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getAutoregisterSLMethod(), getCallOptions(), request);
     }
 
     /**
      */
     public es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.AutoRegisterEEResponse autoregisterEE(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.AutoRegisterEERequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getAutoregisterEEMethod(), getCallOptions(), request);
     }
 
     /**
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo unregisterStorageLocation(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.UnregisterStorageLocationRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getUnregisterStorageLocationMethod(), getCallOptions(), request);
     }
 
     /**
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo unregisterExecutionEnvironment(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.UnregisterExecutionEnvironmentRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getUnregisterExecutionEnvironmentMethod(), getCallOptions(), request);
     }
 
     /**
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo checkAlive(es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getCheckAliveMethod(), getCallOptions(), request);
     }
 
     /**
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo notifyExecutionEnvironmentShutdown(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NotifyExecutionEnvironmentShutdownRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getNotifyExecutionEnvironmentShutdownMethod(), getCallOptions(), request);
     }
 
     /**
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo notifyStorageLocationShutdown(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NotifyStorageLocationShutdownRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getNotifyStorageLocationShutdownMethod(), getCallOptions(), request);
     }
 
     /**
      */
     public es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ExistsActiveEnvironmentsForSLResponse existsActiveEnvironmentsForSL(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ExistsActiveEnvironmentsForSLRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getExistsActiveEnvironmentsForSLMethod(), getCallOptions(), request);
     }
 
     /**
      */
     public es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.PerformSetAccountsResponse performSetOfNewAccounts(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.PerformSetAccountsRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getPerformSetOfNewAccountsMethod(), getCallOptions(), request);
     }
 
     /**
      */
     public es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.PerformSetOperationsResponse performSetOfOperations(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.PerformSetOperationsRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getPerformSetOfOperationsMethod(), getCallOptions(), request);
     }
 
     /**
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo publishAddress(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.PublishAddressRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getPublishAddressMethod(), getCallOptions(), request);
     }
 
@@ -5718,28 +5719,28 @@ public final class LogicModuleGrpc {
      * </pre>
      */
     public es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewAccountResponse newAccountNoAdmin(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewAccountNoAdminRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getNewAccountNoAdminMethod(), getCallOptions(), request);
     }
 
     /**
      */
     public es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewAccountResponse newAccount(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewAccountRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getNewAccountMethod(), getCallOptions(), request);
     }
 
     /**
      */
     public es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetAccountIDResponse getAccountID(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetAccountIDRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getGetAccountIDMethod(), getCallOptions(), request);
     }
 
     /**
      */
     public es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetAccountListResponse getAccountList(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetAccountListRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getGetAccountListMethod(), getCallOptions(), request);
     }
 
@@ -5749,14 +5750,14 @@ public final class LogicModuleGrpc {
      * </pre>
      */
     public es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewSessionResponse newSession(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewSessionRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getNewSessionMethod(), getCallOptions(), request);
     }
 
     /**
      */
     public es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetInfoOfSessionForDSResponse getInfoOfSessionForDS(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetInfoOfSessionForDSRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getGetInfoOfSessionForDSMethod(), getCallOptions(), request);
     }
 
@@ -5766,77 +5767,77 @@ public final class LogicModuleGrpc {
      * </pre>
      */
     public es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewNamespaceResponse newNamespace(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewNamespaceRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getNewNamespaceMethod(), getCallOptions(), request);
     }
 
     /**
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo removeNamespace(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RemoveNamespaceRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getRemoveNamespaceMethod(), getCallOptions(), request);
     }
 
     /**
      */
     public es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetNamespaceIDResponse getNamespaceID(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetNamespaceIDRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getGetNamespaceIDMethod(), getCallOptions(), request);
     }
 
     /**
      */
     public es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetNamespaceLangResponse getNamespaceLang(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetNamespaceLangRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getGetNamespaceLangMethod(), getCallOptions(), request);
     }
 
     /**
      */
     public es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetObjectDataSetIDResponse getObjectDataSetID(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetObjectDataSetIDRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getGetObjectDataSetIDMethod(), getCallOptions(), request);
     }
 
     /**
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo importInterface(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ImportInterfaceRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getImportInterfaceMethod(), getCallOptions(), request);
     }
 
     /**
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo importContract(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ImportContractRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getImportContractMethod(), getCallOptions(), request);
     }
 
     /**
      */
     public es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetInfoOfClassesInNamespaceResponse getInfoOfClassesInNamespace(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetInfoOfClassesInNamespaceRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getGetInfoOfClassesInNamespaceMethod(), getCallOptions(), request);
     }
 
     /**
      */
     public es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetImportedClassesInfoInNamespaceResponse getImportedClassesInfoInNamespace(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetImportedClassesInfoInNamespaceRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getGetImportedClassesInfoInNamespaceMethod(), getCallOptions(), request);
     }
 
     /**
      */
     public es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassIDFromImportResponse getClassIDfromImport(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassIDFromImportRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getGetClassIDfromImportMethod(), getCallOptions(), request);
     }
 
     /**
      */
     public es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetNamespacesResponse getNamespaces(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetNamespacesRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getGetNamespacesMethod(), getCallOptions(), request);
     }
 
@@ -5846,42 +5847,42 @@ public final class LogicModuleGrpc {
      * </pre>
      */
     public es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewDataSetResponse newDataSet(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewDataSetRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getNewDataSetMethod(), getCallOptions(), request);
     }
 
     /**
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo removeDataSet(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RemoveDataSetRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getRemoveDataSetMethod(), getCallOptions(), request);
     }
 
     /**
      */
     public es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetDataSetIDResponse getDataSetID(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetDataSetIDRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getGetDataSetIDMethod(), getCallOptions(), request);
     }
 
     /**
      */
     public es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.CheckDataSetIsPublicResponse checkDataSetIsPublic(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.CheckDataSetIsPublicRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getCheckDataSetIsPublicMethod(), getCallOptions(), request);
     }
 
     /**
      */
     public es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetPublicDataSetsResponse getPublicDataSets(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetPublicDataSetsRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getGetPublicDataSetsMethod(), getCallOptions(), request);
     }
 
     /**
      */
     public es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetAccountDataSetsResponse getAccountDataSets(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetAccountDataSetsRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getGetAccountDataSetsMethod(), getCallOptions(), request);
     }
 
@@ -5891,56 +5892,56 @@ public final class LogicModuleGrpc {
      * </pre>
      */
     public es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewClassResponse newClass(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewClassRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getNewClassMethod(), getCallOptions(), request);
     }
 
     /**
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo removeClass(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RemoveClassRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getRemoveClassMethod(), getCallOptions(), request);
     }
 
     /**
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo removeOperation(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RemoveOperationRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getRemoveOperationMethod(), getCallOptions(), request);
     }
 
     /**
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo removeImplementation(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RemoveImplementationRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getRemoveImplementationMethod(), getCallOptions(), request);
     }
 
     /**
      */
     public es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetOperationIDResponse getOperationID(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetOperationIDRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getGetOperationIDMethod(), getCallOptions(), request);
     }
 
     /**
      */
     public es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetPropertyIDResponse getPropertyID(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetPropertyIDRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getGetPropertyIDMethod(), getCallOptions(), request);
     }
 
     /**
      */
     public es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassIDResponse getClassID(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassIDRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getGetClassIDMethod(), getCallOptions(), request);
     }
 
     /**
      */
     public es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassInfoResponse getClassInfo(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassInfoRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getGetClassInfoMethod(), getCallOptions(), request);
     }
 
@@ -5950,42 +5951,42 @@ public final class LogicModuleGrpc {
      * </pre>
      */
     public es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewContractResponse newContract(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewContractRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getNewContractMethod(), getCallOptions(), request);
     }
 
     /**
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo registerToPublicContract(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterToPublicContractRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getRegisterToPublicContractMethod(), getCallOptions(), request);
     }
 
     /**
      */
     public es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterToPublicContractOfNamespaceResponse registerToPublicContractOfNamespace(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterToPublicContractOfNamespaceRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getRegisterToPublicContractOfNamespaceMethod(), getCallOptions(), request);
     }
 
     /**
      */
     public es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetContractIDsOfApplicantResponse getContractIDsOfApplicant(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetContractIDsOfApplicantRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getGetContractIDsOfApplicantMethod(), getCallOptions(), request);
     }
 
     /**
      */
     public es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetContractIDsOfProviderResponse getContractIDsOfProvider(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetContractIDsOfProviderRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getGetContractIDsOfProviderMethod(), getCallOptions(), request);
     }
 
     /**
      */
     public es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetContractsOfApplicantWithProvResponse getContractIDsOfApplicantWithProvider(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetContractsOfApplicantWithProvRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getGetContractIDsOfApplicantWithProviderMethod(), getCallOptions(), request);
     }
 
@@ -5995,35 +5996,35 @@ public final class LogicModuleGrpc {
      * </pre>
      */
     public es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewDataContractResponse newDataContract(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewDataContractRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getNewDataContractMethod(), getCallOptions(), request);
     }
 
     /**
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo registerToPublicDataContract(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterToPublicDataContractRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getRegisterToPublicDataContractMethod(), getCallOptions(), request);
     }
 
     /**
      */
     public es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetDataContractIDsOfApplicantResponse getDataContractIDsOfApplicant(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetDataContractIDsOfApplicantRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getGetDataContractIDsOfApplicantMethod(), getCallOptions(), request);
     }
 
     /**
      */
     public es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetDataContractIDsOfProviderResponse getDataContractIDsOfProvider(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetDataContractIDsOfProviderRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getGetDataContractIDsOfProviderMethod(), getCallOptions(), request);
     }
 
     /**
      */
     public es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetDataContractInfoOfApplicantWithProvResponse getDataContractInfoOfApplicantWithProvider(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetDataContractInfoOfApplicantWithProvRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getGetDataContractInfoOfApplicantWithProviderMethod(), getCallOptions(), request);
     }
 
@@ -6033,21 +6034,21 @@ public final class LogicModuleGrpc {
      * </pre>
      */
     public es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewInterfaceResponse newInterface(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewInterfaceRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getNewInterfaceMethod(), getCallOptions(), request);
     }
 
     /**
      */
     public es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetInterfaceInfoResponse getInterfaceInfo(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetInterfaceInfoRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getGetInterfaceInfoMethod(), getCallOptions(), request);
     }
 
     /**
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo removeInterface(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RemoveInterfaceRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getRemoveInterfaceMethod(), getCallOptions(), request);
     }
 
@@ -6057,28 +6058,28 @@ public final class LogicModuleGrpc {
      * </pre>
      */
     public es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetAllExecutionEnvironmentsInfoResponse getAllExecutionEnvironmentsInfo(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetAllExecutionEnvironmentsInfoRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getGetAllExecutionEnvironmentsInfoMethod(), getCallOptions(), request);
     }
 
     /**
      */
     public es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationIDResponse getStorageLocationID(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationIDRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getGetStorageLocationIDMethod(), getCallOptions(), request);
     }
 
     /**
      */
     public es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationInfoResponse getStorageLocationInfo(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationInfoRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getGetStorageLocationInfoMethod(), getCallOptions(), request);
     }
 
     /**
      */
     public es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentInfoResponse getExecutionEnvironmentInfo(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentInfoRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getGetExecutionEnvironmentInfoMethod(), getCallOptions(), request);
     }
 
@@ -6088,77 +6089,77 @@ public final class LogicModuleGrpc {
      * </pre>
      */
     public es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetObjectInfoResponse getObjectInfo(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetObjectInfoRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getGetObjectInfoMethod(), getCallOptions(), request);
     }
 
     /**
      */
     public es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetObjectFromAliasResponse getObjectFromAlias(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetObjectFromAliasRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getGetObjectFromAliasMethod(), getCallOptions(), request);
     }
 
     /**
      */
     public es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.DeleteAliasResponse deleteAlias(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.DeleteAliasRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getDeleteAliasMethod(), getCallOptions(), request);
     }
 
     /**
      */
     public es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetObjectsMetaDataInfoOfClassForNMResponse getObjectsMetaDataInfoOfClassForNM(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetObjectsMetaDataInfoOfClassForNMRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getGetObjectsMetaDataInfoOfClassForNMMethod(), getCallOptions(), request);
     }
 
     /**
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo addAlias(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.AddAliasRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getAddAliasMethod(), getCallOptions(), request);
     }
 
     /**
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo registerObjectFromGC(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectForGCRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getRegisterObjectFromGCMethod(), getCallOptions(), request);
     }
 
     /**
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo unregisterObjects(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.UnregisterObjectsRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getUnregisterObjectsMethod(), getCallOptions(), request);
     }
 
     /**
      */
     public es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectsResponse registerObjects(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectsRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getRegisterObjectsMethod(), getCallOptions(), request);
     }
 
     /**
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo setDataSetIDFromGarbageCollector(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.SetDataSetIDFromGarbageCollectorRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getSetDataSetIDFromGarbageCollectorMethod(), getCallOptions(), request);
     }
 
     /**
      */
     public es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetMetadataByOIDResponse getMetadataByOID(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetMetadataByOIDRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getGetMetadataByOIDMethod(), getCallOptions(), request);
     }
 
     /**
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetNumObjectsResponse getNumObjects(es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getGetNumObjectsMethod(), getCallOptions(), request);
     }
 
@@ -6168,28 +6169,28 @@ public final class LogicModuleGrpc {
      * </pre>
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo setDataSetID(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.SetDataSetIDRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getSetDataSetIDMethod(), getCallOptions(), request);
     }
 
     /**
      */
     public es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.MoveObjectResponse moveObject(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.MoveObjectRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getMoveObjectMethod(), getCallOptions(), request);
     }
 
     /**
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo setObjectReadOnly(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.SetObjectReadOnlyRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getSetObjectReadOnlyMethod(), getCallOptions(), request);
     }
 
     /**
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo setObjectReadWrite(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.SetObjectReadWriteRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getSetObjectReadWriteMethod(), getCallOptions(), request);
     }
 
@@ -6199,14 +6200,14 @@ public final class LogicModuleGrpc {
      * </pre>
      */
     public es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ExecuteImplementationResponse executeImplementation(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ExecuteImplementationRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getExecuteImplementationMethod(), getCallOptions(), request);
     }
 
     /**
      */
     public es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ExecuteMethodOnTargetResponse executeMethodOnTarget(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ExecuteMethodOnTargetRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getExecuteMethodOnTargetMethod(), getCallOptions(), request);
     }
 
@@ -6216,56 +6217,56 @@ public final class LogicModuleGrpc {
      * </pre>
      */
     public es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetDataClayIDResponse getDataClayID(es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getGetDataClayIDMethod(), getCallOptions(), request);
     }
 
     /**
      */
     public es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterExternalDataClayResponse registerExternalDataClay(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterExternalDataClayRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getRegisterExternalDataClayMethod(), getCallOptions(), request);
     }
 
     /**
      */
     public es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterExternalDataClayResponse registerExternalDataClayOverrideAuthority(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterExternalDataClayOverrideAuthorityRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getRegisterExternalDataClayOverrideAuthorityMethod(), getCallOptions(), request);
     }
 
     /**
      */
     public es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NotifyRegistrationOfExternalDataClayResponse notifyRegistrationOfExternalDataClay(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NotifyRegistrationOfExternalDataClayRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getNotifyRegistrationOfExternalDataClayMethod(), getCallOptions(), request);
     }
 
     /**
      */
     public es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExtDataClayInfoResponse getExternalDataClayInfo(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExtDataClayInfoRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getGetExternalDataClayInfoMethod(), getCallOptions(), request);
     }
 
     /**
      */
     public es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExternalDataclayIDResponse getExternalDataclayId(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExternalDataclayIDRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getGetExternalDataclayIdMethod(), getCallOptions(), request);
     }
 
     /**
      */
     public es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassesInNamespaceResponse getClassesInNamespace(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassesInNamespaceRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getGetClassesInNamespaceMethod(), getCallOptions(), request);
     }
 
     /**
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo importModelsFromExternalDataClay(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ImportModelsFromExternalDataClayRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getImportModelsFromExternalDataClayMethod(), getCallOptions(), request);
     }
 
@@ -6275,14 +6276,14 @@ public final class LogicModuleGrpc {
      * </pre>
      */
     public es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStubsResponse getStubs(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStubsRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getGetStubsMethod(), getCallOptions(), request);
     }
 
     /**
      */
     public es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetBabelStubsResponse getBabelStubs(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetBabelStubsRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getGetBabelStubsMethod(), getCallOptions(), request);
     }
 
@@ -6292,14 +6293,14 @@ public final class LogicModuleGrpc {
      * </pre>
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo registerECA(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterECARequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getRegisterECAMethod(), getCallOptions(), request);
     }
 
     /**
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo adviseEvent(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.AdviseEventRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getAdviseEventMethod(), getCallOptions(), request);
     }
 
@@ -6309,7 +6310,7 @@ public final class LogicModuleGrpc {
      * </pre>
      */
     public es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.IsPrefetchingEnabledResponse isPrefetchingEnabled(es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getIsPrefetchingEnabledMethod(), getCallOptions(), request);
     }
 
@@ -6319,21 +6320,21 @@ public final class LogicModuleGrpc {
      * </pre>
      */
     public es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassNameForDSResponse getClassNameForDS(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassNameForDSRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getGetClassNameForDSMethod(), getCallOptions(), request);
     }
 
     /**
      */
     public es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassNameAndNamespaceForDSResponse getClassNameAndNamespaceForDS(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassNameAndNamespaceForDSRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getGetClassNameAndNamespaceForDSMethod(), getCallOptions(), request);
     }
 
     /**
      */
     public es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetContractIDOfDataClayProviderResponse getContractIDOfDataClayProvider(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetContractIDOfDataClayProviderRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getGetContractIDOfDataClayProviderMethod(), getCallOptions(), request);
     }
 
@@ -6343,7 +6344,7 @@ public final class LogicModuleGrpc {
      * </pre>
      */
     public es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ObjectExistsInDataClayResponse objectExistsInDataClay(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ObjectExistsInDataClayRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getObjectExistsInDataClayMethod(), getCallOptions(), request);
     }
 
@@ -6353,14 +6354,14 @@ public final class LogicModuleGrpc {
      * </pre>
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo closeSession(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.CloseSessionRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getCloseSessionMethod(), getCallOptions(), request);
     }
 
     /**
      */
     public es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetMetadataByOIDForDSResponse getMetadataByOIDForDS(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetMetadataByOIDForDSRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getGetMetadataByOIDForDSMethod(), getCallOptions(), request);
     }
 
@@ -6370,42 +6371,42 @@ public final class LogicModuleGrpc {
      * </pre>
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo activateTracing(es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ActivateTracingRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getActivateTracingMethod(), getCallOptions(), request);
     }
 
     /**
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo deactivateTracing(es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getDeactivateTracingMethod(), getCallOptions(), request);
     }
 
     /**
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetTracesResponse getTraces(es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getGetTracesMethod(), getCallOptions(), request);
     }
 
     /**
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo cleanMetaDataCaches(es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getCleanMetaDataCachesMethod(), getCallOptions(), request);
     }
 
     /**
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo closeManagerDb(es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getCloseManagerDbMethod(), getCallOptions(), request);
     }
 
     /**
      */
     public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo closeDb(es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getCloseDbMethod(), getCallOptions(), request);
     }
   }
@@ -6415,19 +6416,15 @@ public final class LogicModuleGrpc {
    * Interface exported by the server.
    * </pre>
    */
-  public static final class LogicModuleFutureStub extends io.grpc.stub.AbstractStub<LogicModuleFutureStub> {
-    private LogicModuleFutureStub(io.grpc.Channel channel) {
-      super(channel);
-    }
-
-    private LogicModuleFutureStub(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
+  public static final class LogicModuleFutureStub extends io.grpc.stub.AbstractFutureStub<LogicModuleFutureStub> {
+    private LogicModuleFutureStub(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
     }
 
     @java.lang.Override
-    protected LogicModuleFutureStub build(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
+    protected LogicModuleFutureStub build(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       return new LogicModuleFutureStub(channel, callOptions);
     }
 
@@ -6435,7 +6432,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> autoregisterSL(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.AutoRegisterSLRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getAutoregisterSLMethod(), getCallOptions()), request);
     }
 
@@ -6443,7 +6440,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.AutoRegisterEEResponse> autoregisterEE(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.AutoRegisterEERequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getAutoregisterEEMethod(), getCallOptions()), request);
     }
 
@@ -6451,7 +6448,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> unregisterStorageLocation(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.UnregisterStorageLocationRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getUnregisterStorageLocationMethod(), getCallOptions()), request);
     }
 
@@ -6459,7 +6456,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> unregisterExecutionEnvironment(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.UnregisterExecutionEnvironmentRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getUnregisterExecutionEnvironmentMethod(), getCallOptions()), request);
     }
 
@@ -6467,7 +6464,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> checkAlive(
         es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getCheckAliveMethod(), getCallOptions()), request);
     }
 
@@ -6475,7 +6472,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> notifyExecutionEnvironmentShutdown(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NotifyExecutionEnvironmentShutdownRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getNotifyExecutionEnvironmentShutdownMethod(), getCallOptions()), request);
     }
 
@@ -6483,7 +6480,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> notifyStorageLocationShutdown(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NotifyStorageLocationShutdownRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getNotifyStorageLocationShutdownMethod(), getCallOptions()), request);
     }
 
@@ -6491,7 +6488,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ExistsActiveEnvironmentsForSLResponse> existsActiveEnvironmentsForSL(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ExistsActiveEnvironmentsForSLRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getExistsActiveEnvironmentsForSLMethod(), getCallOptions()), request);
     }
 
@@ -6499,7 +6496,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.PerformSetAccountsResponse> performSetOfNewAccounts(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.PerformSetAccountsRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getPerformSetOfNewAccountsMethod(), getCallOptions()), request);
     }
 
@@ -6507,7 +6504,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.PerformSetOperationsResponse> performSetOfOperations(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.PerformSetOperationsRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getPerformSetOfOperationsMethod(), getCallOptions()), request);
     }
 
@@ -6515,7 +6512,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> publishAddress(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.PublishAddressRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getPublishAddressMethod(), getCallOptions()), request);
     }
 
@@ -6526,7 +6523,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewAccountResponse> newAccountNoAdmin(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewAccountNoAdminRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getNewAccountNoAdminMethod(), getCallOptions()), request);
     }
 
@@ -6534,7 +6531,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewAccountResponse> newAccount(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewAccountRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getNewAccountMethod(), getCallOptions()), request);
     }
 
@@ -6542,7 +6539,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetAccountIDResponse> getAccountID(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetAccountIDRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getGetAccountIDMethod(), getCallOptions()), request);
     }
 
@@ -6550,7 +6547,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetAccountListResponse> getAccountList(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetAccountListRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getGetAccountListMethod(), getCallOptions()), request);
     }
 
@@ -6561,7 +6558,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewSessionResponse> newSession(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewSessionRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getNewSessionMethod(), getCallOptions()), request);
     }
 
@@ -6569,7 +6566,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetInfoOfSessionForDSResponse> getInfoOfSessionForDS(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetInfoOfSessionForDSRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getGetInfoOfSessionForDSMethod(), getCallOptions()), request);
     }
 
@@ -6580,7 +6577,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewNamespaceResponse> newNamespace(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewNamespaceRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getNewNamespaceMethod(), getCallOptions()), request);
     }
 
@@ -6588,7 +6585,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> removeNamespace(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RemoveNamespaceRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getRemoveNamespaceMethod(), getCallOptions()), request);
     }
 
@@ -6596,7 +6593,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetNamespaceIDResponse> getNamespaceID(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetNamespaceIDRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getGetNamespaceIDMethod(), getCallOptions()), request);
     }
 
@@ -6604,7 +6601,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetNamespaceLangResponse> getNamespaceLang(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetNamespaceLangRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getGetNamespaceLangMethod(), getCallOptions()), request);
     }
 
@@ -6612,7 +6609,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetObjectDataSetIDResponse> getObjectDataSetID(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetObjectDataSetIDRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getGetObjectDataSetIDMethod(), getCallOptions()), request);
     }
 
@@ -6620,7 +6617,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> importInterface(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ImportInterfaceRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getImportInterfaceMethod(), getCallOptions()), request);
     }
 
@@ -6628,7 +6625,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> importContract(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ImportContractRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getImportContractMethod(), getCallOptions()), request);
     }
 
@@ -6636,7 +6633,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetInfoOfClassesInNamespaceResponse> getInfoOfClassesInNamespace(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetInfoOfClassesInNamespaceRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getGetInfoOfClassesInNamespaceMethod(), getCallOptions()), request);
     }
 
@@ -6644,7 +6641,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetImportedClassesInfoInNamespaceResponse> getImportedClassesInfoInNamespace(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetImportedClassesInfoInNamespaceRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getGetImportedClassesInfoInNamespaceMethod(), getCallOptions()), request);
     }
 
@@ -6652,7 +6649,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassIDFromImportResponse> getClassIDfromImport(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassIDFromImportRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getGetClassIDfromImportMethod(), getCallOptions()), request);
     }
 
@@ -6660,7 +6657,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetNamespacesResponse> getNamespaces(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetNamespacesRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getGetNamespacesMethod(), getCallOptions()), request);
     }
 
@@ -6671,7 +6668,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewDataSetResponse> newDataSet(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewDataSetRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getNewDataSetMethod(), getCallOptions()), request);
     }
 
@@ -6679,7 +6676,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> removeDataSet(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RemoveDataSetRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getRemoveDataSetMethod(), getCallOptions()), request);
     }
 
@@ -6687,7 +6684,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetDataSetIDResponse> getDataSetID(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetDataSetIDRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getGetDataSetIDMethod(), getCallOptions()), request);
     }
 
@@ -6695,7 +6692,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.CheckDataSetIsPublicResponse> checkDataSetIsPublic(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.CheckDataSetIsPublicRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getCheckDataSetIsPublicMethod(), getCallOptions()), request);
     }
 
@@ -6703,7 +6700,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetPublicDataSetsResponse> getPublicDataSets(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetPublicDataSetsRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getGetPublicDataSetsMethod(), getCallOptions()), request);
     }
 
@@ -6711,7 +6708,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetAccountDataSetsResponse> getAccountDataSets(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetAccountDataSetsRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getGetAccountDataSetsMethod(), getCallOptions()), request);
     }
 
@@ -6722,7 +6719,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewClassResponse> newClass(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewClassRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getNewClassMethod(), getCallOptions()), request);
     }
 
@@ -6730,7 +6727,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> removeClass(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RemoveClassRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getRemoveClassMethod(), getCallOptions()), request);
     }
 
@@ -6738,7 +6735,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> removeOperation(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RemoveOperationRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getRemoveOperationMethod(), getCallOptions()), request);
     }
 
@@ -6746,7 +6743,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> removeImplementation(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RemoveImplementationRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getRemoveImplementationMethod(), getCallOptions()), request);
     }
 
@@ -6754,7 +6751,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetOperationIDResponse> getOperationID(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetOperationIDRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getGetOperationIDMethod(), getCallOptions()), request);
     }
 
@@ -6762,7 +6759,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetPropertyIDResponse> getPropertyID(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetPropertyIDRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getGetPropertyIDMethod(), getCallOptions()), request);
     }
 
@@ -6770,7 +6767,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassIDResponse> getClassID(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassIDRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getGetClassIDMethod(), getCallOptions()), request);
     }
 
@@ -6778,7 +6775,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassInfoResponse> getClassInfo(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassInfoRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getGetClassInfoMethod(), getCallOptions()), request);
     }
 
@@ -6789,7 +6786,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewContractResponse> newContract(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewContractRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getNewContractMethod(), getCallOptions()), request);
     }
 
@@ -6797,7 +6794,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> registerToPublicContract(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterToPublicContractRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getRegisterToPublicContractMethod(), getCallOptions()), request);
     }
 
@@ -6805,7 +6802,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterToPublicContractOfNamespaceResponse> registerToPublicContractOfNamespace(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterToPublicContractOfNamespaceRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getRegisterToPublicContractOfNamespaceMethod(), getCallOptions()), request);
     }
 
@@ -6813,7 +6810,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetContractIDsOfApplicantResponse> getContractIDsOfApplicant(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetContractIDsOfApplicantRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getGetContractIDsOfApplicantMethod(), getCallOptions()), request);
     }
 
@@ -6821,7 +6818,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetContractIDsOfProviderResponse> getContractIDsOfProvider(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetContractIDsOfProviderRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getGetContractIDsOfProviderMethod(), getCallOptions()), request);
     }
 
@@ -6829,7 +6826,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetContractsOfApplicantWithProvResponse> getContractIDsOfApplicantWithProvider(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetContractsOfApplicantWithProvRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getGetContractIDsOfApplicantWithProviderMethod(), getCallOptions()), request);
     }
 
@@ -6840,7 +6837,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewDataContractResponse> newDataContract(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewDataContractRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getNewDataContractMethod(), getCallOptions()), request);
     }
 
@@ -6848,7 +6845,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> registerToPublicDataContract(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterToPublicDataContractRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getRegisterToPublicDataContractMethod(), getCallOptions()), request);
     }
 
@@ -6856,7 +6853,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetDataContractIDsOfApplicantResponse> getDataContractIDsOfApplicant(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetDataContractIDsOfApplicantRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getGetDataContractIDsOfApplicantMethod(), getCallOptions()), request);
     }
 
@@ -6864,7 +6861,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetDataContractIDsOfProviderResponse> getDataContractIDsOfProvider(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetDataContractIDsOfProviderRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getGetDataContractIDsOfProviderMethod(), getCallOptions()), request);
     }
 
@@ -6872,7 +6869,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetDataContractInfoOfApplicantWithProvResponse> getDataContractInfoOfApplicantWithProvider(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetDataContractInfoOfApplicantWithProvRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getGetDataContractInfoOfApplicantWithProviderMethod(), getCallOptions()), request);
     }
 
@@ -6883,7 +6880,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewInterfaceResponse> newInterface(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NewInterfaceRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getNewInterfaceMethod(), getCallOptions()), request);
     }
 
@@ -6891,7 +6888,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetInterfaceInfoResponse> getInterfaceInfo(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetInterfaceInfoRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getGetInterfaceInfoMethod(), getCallOptions()), request);
     }
 
@@ -6899,7 +6896,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> removeInterface(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RemoveInterfaceRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getRemoveInterfaceMethod(), getCallOptions()), request);
     }
 
@@ -6910,7 +6907,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetAllExecutionEnvironmentsInfoResponse> getAllExecutionEnvironmentsInfo(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetAllExecutionEnvironmentsInfoRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getGetAllExecutionEnvironmentsInfoMethod(), getCallOptions()), request);
     }
 
@@ -6918,7 +6915,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationIDResponse> getStorageLocationID(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationIDRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getGetStorageLocationIDMethod(), getCallOptions()), request);
     }
 
@@ -6926,7 +6923,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationInfoResponse> getStorageLocationInfo(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStorageLocationInfoRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getGetStorageLocationInfoMethod(), getCallOptions()), request);
     }
 
@@ -6934,7 +6931,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentInfoResponse> getExecutionEnvironmentInfo(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExecutionEnvironmentInfoRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getGetExecutionEnvironmentInfoMethod(), getCallOptions()), request);
     }
 
@@ -6945,7 +6942,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetObjectInfoResponse> getObjectInfo(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetObjectInfoRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getGetObjectInfoMethod(), getCallOptions()), request);
     }
 
@@ -6953,7 +6950,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetObjectFromAliasResponse> getObjectFromAlias(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetObjectFromAliasRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getGetObjectFromAliasMethod(), getCallOptions()), request);
     }
 
@@ -6961,7 +6958,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.DeleteAliasResponse> deleteAlias(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.DeleteAliasRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getDeleteAliasMethod(), getCallOptions()), request);
     }
 
@@ -6969,7 +6966,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetObjectsMetaDataInfoOfClassForNMResponse> getObjectsMetaDataInfoOfClassForNM(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetObjectsMetaDataInfoOfClassForNMRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getGetObjectsMetaDataInfoOfClassForNMMethod(), getCallOptions()), request);
     }
 
@@ -6977,7 +6974,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> addAlias(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.AddAliasRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getAddAliasMethod(), getCallOptions()), request);
     }
 
@@ -6985,7 +6982,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> registerObjectFromGC(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectForGCRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getRegisterObjectFromGCMethod(), getCallOptions()), request);
     }
 
@@ -6993,7 +6990,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> unregisterObjects(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.UnregisterObjectsRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getUnregisterObjectsMethod(), getCallOptions()), request);
     }
 
@@ -7001,7 +6998,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectsResponse> registerObjects(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterObjectsRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getRegisterObjectsMethod(), getCallOptions()), request);
     }
 
@@ -7009,7 +7006,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> setDataSetIDFromGarbageCollector(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.SetDataSetIDFromGarbageCollectorRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getSetDataSetIDFromGarbageCollectorMethod(), getCallOptions()), request);
     }
 
@@ -7017,7 +7014,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetMetadataByOIDResponse> getMetadataByOID(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetMetadataByOIDRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getGetMetadataByOIDMethod(), getCallOptions()), request);
     }
 
@@ -7025,7 +7022,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetNumObjectsResponse> getNumObjects(
         es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getGetNumObjectsMethod(), getCallOptions()), request);
     }
 
@@ -7036,7 +7033,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> setDataSetID(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.SetDataSetIDRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getSetDataSetIDMethod(), getCallOptions()), request);
     }
 
@@ -7044,7 +7041,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.MoveObjectResponse> moveObject(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.MoveObjectRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getMoveObjectMethod(), getCallOptions()), request);
     }
 
@@ -7052,7 +7049,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> setObjectReadOnly(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.SetObjectReadOnlyRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getSetObjectReadOnlyMethod(), getCallOptions()), request);
     }
 
@@ -7060,7 +7057,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> setObjectReadWrite(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.SetObjectReadWriteRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getSetObjectReadWriteMethod(), getCallOptions()), request);
     }
 
@@ -7071,7 +7068,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ExecuteImplementationResponse> executeImplementation(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ExecuteImplementationRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getExecuteImplementationMethod(), getCallOptions()), request);
     }
 
@@ -7079,7 +7076,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ExecuteMethodOnTargetResponse> executeMethodOnTarget(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ExecuteMethodOnTargetRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getExecuteMethodOnTargetMethod(), getCallOptions()), request);
     }
 
@@ -7090,7 +7087,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetDataClayIDResponse> getDataClayID(
         es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getGetDataClayIDMethod(), getCallOptions()), request);
     }
 
@@ -7098,7 +7095,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterExternalDataClayResponse> registerExternalDataClay(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterExternalDataClayRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getRegisterExternalDataClayMethod(), getCallOptions()), request);
     }
 
@@ -7106,7 +7103,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterExternalDataClayResponse> registerExternalDataClayOverrideAuthority(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterExternalDataClayOverrideAuthorityRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getRegisterExternalDataClayOverrideAuthorityMethod(), getCallOptions()), request);
     }
 
@@ -7114,7 +7111,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NotifyRegistrationOfExternalDataClayResponse> notifyRegistrationOfExternalDataClay(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.NotifyRegistrationOfExternalDataClayRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getNotifyRegistrationOfExternalDataClayMethod(), getCallOptions()), request);
     }
 
@@ -7122,7 +7119,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExtDataClayInfoResponse> getExternalDataClayInfo(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExtDataClayInfoRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getGetExternalDataClayInfoMethod(), getCallOptions()), request);
     }
 
@@ -7130,7 +7127,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExternalDataclayIDResponse> getExternalDataclayId(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetExternalDataclayIDRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getGetExternalDataclayIdMethod(), getCallOptions()), request);
     }
 
@@ -7138,7 +7135,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassesInNamespaceResponse> getClassesInNamespace(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassesInNamespaceRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getGetClassesInNamespaceMethod(), getCallOptions()), request);
     }
 
@@ -7146,7 +7143,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> importModelsFromExternalDataClay(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ImportModelsFromExternalDataClayRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getImportModelsFromExternalDataClayMethod(), getCallOptions()), request);
     }
 
@@ -7157,7 +7154,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStubsResponse> getStubs(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetStubsRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getGetStubsMethod(), getCallOptions()), request);
     }
 
@@ -7165,7 +7162,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetBabelStubsResponse> getBabelStubs(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetBabelStubsRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getGetBabelStubsMethod(), getCallOptions()), request);
     }
 
@@ -7176,7 +7173,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> registerECA(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.RegisterECARequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getRegisterECAMethod(), getCallOptions()), request);
     }
 
@@ -7184,7 +7181,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> adviseEvent(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.AdviseEventRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getAdviseEventMethod(), getCallOptions()), request);
     }
 
@@ -7195,7 +7192,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.IsPrefetchingEnabledResponse> isPrefetchingEnabled(
         es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getIsPrefetchingEnabledMethod(), getCallOptions()), request);
     }
 
@@ -7206,7 +7203,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassNameForDSResponse> getClassNameForDS(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassNameForDSRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getGetClassNameForDSMethod(), getCallOptions()), request);
     }
 
@@ -7214,7 +7211,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassNameAndNamespaceForDSResponse> getClassNameAndNamespaceForDS(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetClassNameAndNamespaceForDSRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getGetClassNameAndNamespaceForDSMethod(), getCallOptions()), request);
     }
 
@@ -7222,7 +7219,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetContractIDOfDataClayProviderResponse> getContractIDOfDataClayProvider(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetContractIDOfDataClayProviderRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getGetContractIDOfDataClayProviderMethod(), getCallOptions()), request);
     }
 
@@ -7233,7 +7230,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ObjectExistsInDataClayResponse> objectExistsInDataClay(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ObjectExistsInDataClayRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getObjectExistsInDataClayMethod(), getCallOptions()), request);
     }
 
@@ -7244,7 +7241,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> closeSession(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.CloseSessionRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getCloseSessionMethod(), getCallOptions()), request);
     }
 
@@ -7252,7 +7249,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetMetadataByOIDForDSResponse> getMetadataByOIDForDS(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.GetMetadataByOIDForDSRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getGetMetadataByOIDForDSMethod(), getCallOptions()), request);
     }
 
@@ -7263,7 +7260,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> activateTracing(
         es.bsc.dataclay.communication.grpc.messages.logicmodule.LogicmoduleMessages.ActivateTracingRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getActivateTracingMethod(), getCallOptions()), request);
     }
 
@@ -7271,7 +7268,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> deactivateTracing(
         es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getDeactivateTracingMethod(), getCallOptions()), request);
     }
 
@@ -7279,7 +7276,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.GetTracesResponse> getTraces(
         es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getGetTracesMethod(), getCallOptions()), request);
     }
 
@@ -7287,7 +7284,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> cleanMetaDataCaches(
         es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getCleanMetaDataCachesMethod(), getCallOptions()), request);
     }
 
@@ -7295,7 +7292,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> closeManagerDb(
         es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getCloseManagerDbMethod(), getCallOptions()), request);
     }
 
@@ -7303,7 +7300,7 @@ public final class LogicModuleGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExceptionInfo> closeDb(
         es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.EmptyMessage request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getCloseDbMethod(), getCallOptions()), request);
     }
   }

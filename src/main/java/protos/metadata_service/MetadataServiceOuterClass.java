@@ -728,8 +728,8 @@ public final class MetadataServiceOuterClass {
 
   }
 
-  public interface NewAccountResponseOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:protos.metadata_service.NewAccountResponse)
+  public interface GetAccountRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:protos.metadata_service.GetAccountRequest)
       com.google.protobuf.MessageOrBuilder {
 
     /**
@@ -745,18 +745,18 @@ public final class MetadataServiceOuterClass {
         getUsernameBytes();
   }
   /**
-   * Protobuf type {@code protos.metadata_service.NewAccountResponse}
+   * Protobuf type {@code protos.metadata_service.GetAccountRequest}
    */
-  public  static final class NewAccountResponse extends
+  public  static final class GetAccountRequest extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:protos.metadata_service.NewAccountResponse)
-      NewAccountResponseOrBuilder {
+      // @@protoc_insertion_point(message_implements:protos.metadata_service.GetAccountRequest)
+      GetAccountRequestOrBuilder {
   private static final long serialVersionUID = 0L;
-    // Use NewAccountResponse.newBuilder() to construct.
-    private NewAccountResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    // Use GetAccountRequest.newBuilder() to construct.
+    private GetAccountRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-    private NewAccountResponse() {
+    private GetAccountRequest() {
       username_ = "";
     }
 
@@ -764,7 +764,7 @@ public final class MetadataServiceOuterClass {
     @SuppressWarnings({"unused"})
     protected java.lang.Object newInstance(
         UnusedPrivateParameter unused) {
-      return new NewAccountResponse();
+      return new GetAccountRequest();
     }
 
     @java.lang.Override
@@ -772,7 +772,7 @@ public final class MetadataServiceOuterClass {
     getUnknownFields() {
       return this.unknownFields;
     }
-    private NewAccountResponse(
+    private GetAccountRequest(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -817,15 +817,15 @@ public final class MetadataServiceOuterClass {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return protos.metadata_service.MetadataServiceOuterClass.internal_static_protos_metadata_service_NewAccountResponse_descriptor;
+      return protos.metadata_service.MetadataServiceOuterClass.internal_static_protos_metadata_service_GetAccountRequest_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return protos.metadata_service.MetadataServiceOuterClass.internal_static_protos_metadata_service_NewAccountResponse_fieldAccessorTable
+      return protos.metadata_service.MetadataServiceOuterClass.internal_static_protos_metadata_service_GetAccountRequest_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              protos.metadata_service.MetadataServiceOuterClass.NewAccountResponse.class, protos.metadata_service.MetadataServiceOuterClass.NewAccountResponse.Builder.class);
+              protos.metadata_service.MetadataServiceOuterClass.GetAccountRequest.class, protos.metadata_service.MetadataServiceOuterClass.GetAccountRequest.Builder.class);
     }
 
     public static final int USERNAME_FIELD_NUMBER = 1;
@@ -903,10 +903,10 @@ public final class MetadataServiceOuterClass {
       if (obj == this) {
        return true;
       }
-      if (!(obj instanceof protos.metadata_service.MetadataServiceOuterClass.NewAccountResponse)) {
+      if (!(obj instanceof protos.metadata_service.MetadataServiceOuterClass.GetAccountRequest)) {
         return super.equals(obj);
       }
-      protos.metadata_service.MetadataServiceOuterClass.NewAccountResponse other = (protos.metadata_service.MetadataServiceOuterClass.NewAccountResponse) obj;
+      protos.metadata_service.MetadataServiceOuterClass.GetAccountRequest other = (protos.metadata_service.MetadataServiceOuterClass.GetAccountRequest) obj;
 
       if (!getUsername()
           .equals(other.getUsername())) return false;
@@ -928,69 +928,69 @@ public final class MetadataServiceOuterClass {
       return hash;
     }
 
-    public static protos.metadata_service.MetadataServiceOuterClass.NewAccountResponse parseFrom(
+    public static protos.metadata_service.MetadataServiceOuterClass.GetAccountRequest parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static protos.metadata_service.MetadataServiceOuterClass.NewAccountResponse parseFrom(
+    public static protos.metadata_service.MetadataServiceOuterClass.GetAccountRequest parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static protos.metadata_service.MetadataServiceOuterClass.NewAccountResponse parseFrom(
+    public static protos.metadata_service.MetadataServiceOuterClass.GetAccountRequest parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static protos.metadata_service.MetadataServiceOuterClass.NewAccountResponse parseFrom(
+    public static protos.metadata_service.MetadataServiceOuterClass.GetAccountRequest parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static protos.metadata_service.MetadataServiceOuterClass.NewAccountResponse parseFrom(byte[] data)
+    public static protos.metadata_service.MetadataServiceOuterClass.GetAccountRequest parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static protos.metadata_service.MetadataServiceOuterClass.NewAccountResponse parseFrom(
+    public static protos.metadata_service.MetadataServiceOuterClass.GetAccountRequest parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static protos.metadata_service.MetadataServiceOuterClass.NewAccountResponse parseFrom(java.io.InputStream input)
+    public static protos.metadata_service.MetadataServiceOuterClass.GetAccountRequest parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static protos.metadata_service.MetadataServiceOuterClass.NewAccountResponse parseFrom(
+    public static protos.metadata_service.MetadataServiceOuterClass.GetAccountRequest parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
-    public static protos.metadata_service.MetadataServiceOuterClass.NewAccountResponse parseDelimitedFrom(java.io.InputStream input)
+    public static protos.metadata_service.MetadataServiceOuterClass.GetAccountRequest parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
-    public static protos.metadata_service.MetadataServiceOuterClass.NewAccountResponse parseDelimitedFrom(
+    public static protos.metadata_service.MetadataServiceOuterClass.GetAccountRequest parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-    public static protos.metadata_service.MetadataServiceOuterClass.NewAccountResponse parseFrom(
+    public static protos.metadata_service.MetadataServiceOuterClass.GetAccountRequest parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static protos.metadata_service.MetadataServiceOuterClass.NewAccountResponse parseFrom(
+    public static protos.metadata_service.MetadataServiceOuterClass.GetAccountRequest parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -1003,7 +1003,7 @@ public final class MetadataServiceOuterClass {
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-    public static Builder newBuilder(protos.metadata_service.MetadataServiceOuterClass.NewAccountResponse prototype) {
+    public static Builder newBuilder(protos.metadata_service.MetadataServiceOuterClass.GetAccountRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
     @java.lang.Override
@@ -1019,26 +1019,26 @@ public final class MetadataServiceOuterClass {
       return builder;
     }
     /**
-     * Protobuf type {@code protos.metadata_service.NewAccountResponse}
+     * Protobuf type {@code protos.metadata_service.GetAccountRequest}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:protos.metadata_service.NewAccountResponse)
-        protos.metadata_service.MetadataServiceOuterClass.NewAccountResponseOrBuilder {
+        // @@protoc_insertion_point(builder_implements:protos.metadata_service.GetAccountRequest)
+        protos.metadata_service.MetadataServiceOuterClass.GetAccountRequestOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return protos.metadata_service.MetadataServiceOuterClass.internal_static_protos_metadata_service_NewAccountResponse_descriptor;
+        return protos.metadata_service.MetadataServiceOuterClass.internal_static_protos_metadata_service_GetAccountRequest_descriptor;
       }
 
       @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return protos.metadata_service.MetadataServiceOuterClass.internal_static_protos_metadata_service_NewAccountResponse_fieldAccessorTable
+        return protos.metadata_service.MetadataServiceOuterClass.internal_static_protos_metadata_service_GetAccountRequest_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                protos.metadata_service.MetadataServiceOuterClass.NewAccountResponse.class, protos.metadata_service.MetadataServiceOuterClass.NewAccountResponse.Builder.class);
+                protos.metadata_service.MetadataServiceOuterClass.GetAccountRequest.class, protos.metadata_service.MetadataServiceOuterClass.GetAccountRequest.Builder.class);
       }
 
-      // Construct using protos.metadata_service.MetadataServiceOuterClass.NewAccountResponse.newBuilder()
+      // Construct using protos.metadata_service.MetadataServiceOuterClass.GetAccountRequest.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -1064,17 +1064,17 @@ public final class MetadataServiceOuterClass {
       @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return protos.metadata_service.MetadataServiceOuterClass.internal_static_protos_metadata_service_NewAccountResponse_descriptor;
+        return protos.metadata_service.MetadataServiceOuterClass.internal_static_protos_metadata_service_GetAccountRequest_descriptor;
       }
 
       @java.lang.Override
-      public protos.metadata_service.MetadataServiceOuterClass.NewAccountResponse getDefaultInstanceForType() {
-        return protos.metadata_service.MetadataServiceOuterClass.NewAccountResponse.getDefaultInstance();
+      public protos.metadata_service.MetadataServiceOuterClass.GetAccountRequest getDefaultInstanceForType() {
+        return protos.metadata_service.MetadataServiceOuterClass.GetAccountRequest.getDefaultInstance();
       }
 
       @java.lang.Override
-      public protos.metadata_service.MetadataServiceOuterClass.NewAccountResponse build() {
-        protos.metadata_service.MetadataServiceOuterClass.NewAccountResponse result = buildPartial();
+      public protos.metadata_service.MetadataServiceOuterClass.GetAccountRequest build() {
+        protos.metadata_service.MetadataServiceOuterClass.GetAccountRequest result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
@@ -1082,8 +1082,8 @@ public final class MetadataServiceOuterClass {
       }
 
       @java.lang.Override
-      public protos.metadata_service.MetadataServiceOuterClass.NewAccountResponse buildPartial() {
-        protos.metadata_service.MetadataServiceOuterClass.NewAccountResponse result = new protos.metadata_service.MetadataServiceOuterClass.NewAccountResponse(this);
+      public protos.metadata_service.MetadataServiceOuterClass.GetAccountRequest buildPartial() {
+        protos.metadata_service.MetadataServiceOuterClass.GetAccountRequest result = new protos.metadata_service.MetadataServiceOuterClass.GetAccountRequest(this);
         result.username_ = username_;
         onBuilt();
         return result;
@@ -1123,16 +1123,16 @@ public final class MetadataServiceOuterClass {
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof protos.metadata_service.MetadataServiceOuterClass.NewAccountResponse) {
-          return mergeFrom((protos.metadata_service.MetadataServiceOuterClass.NewAccountResponse)other);
+        if (other instanceof protos.metadata_service.MetadataServiceOuterClass.GetAccountRequest) {
+          return mergeFrom((protos.metadata_service.MetadataServiceOuterClass.GetAccountRequest)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(protos.metadata_service.MetadataServiceOuterClass.NewAccountResponse other) {
-        if (other == protos.metadata_service.MetadataServiceOuterClass.NewAccountResponse.getDefaultInstance()) return this;
+      public Builder mergeFrom(protos.metadata_service.MetadataServiceOuterClass.GetAccountRequest other) {
+        if (other == protos.metadata_service.MetadataServiceOuterClass.GetAccountRequest.getDefaultInstance()) return this;
         if (!other.getUsername().isEmpty()) {
           username_ = other.username_;
           onChanged();
@@ -1152,11 +1152,11 @@ public final class MetadataServiceOuterClass {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        protos.metadata_service.MetadataServiceOuterClass.NewAccountResponse parsedMessage = null;
+        protos.metadata_service.MetadataServiceOuterClass.GetAccountRequest parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (protos.metadata_service.MetadataServiceOuterClass.NewAccountResponse) e.getUnfinishedMessage();
+          parsedMessage = (protos.metadata_service.MetadataServiceOuterClass.GetAccountRequest) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -1254,41 +1254,459 @@ public final class MetadataServiceOuterClass {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:protos.metadata_service.NewAccountResponse)
+      // @@protoc_insertion_point(builder_scope:protos.metadata_service.GetAccountRequest)
     }
 
-    // @@protoc_insertion_point(class_scope:protos.metadata_service.NewAccountResponse)
-    private static final protos.metadata_service.MetadataServiceOuterClass.NewAccountResponse DEFAULT_INSTANCE;
+    // @@protoc_insertion_point(class_scope:protos.metadata_service.GetAccountRequest)
+    private static final protos.metadata_service.MetadataServiceOuterClass.GetAccountRequest DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new protos.metadata_service.MetadataServiceOuterClass.NewAccountResponse();
+      DEFAULT_INSTANCE = new protos.metadata_service.MetadataServiceOuterClass.GetAccountRequest();
     }
 
-    public static protos.metadata_service.MetadataServiceOuterClass.NewAccountResponse getDefaultInstance() {
+    public static protos.metadata_service.MetadataServiceOuterClass.GetAccountRequest getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    private static final com.google.protobuf.Parser<NewAccountResponse>
-        PARSER = new com.google.protobuf.AbstractParser<NewAccountResponse>() {
+    private static final com.google.protobuf.Parser<GetAccountRequest>
+        PARSER = new com.google.protobuf.AbstractParser<GetAccountRequest>() {
       @java.lang.Override
-      public NewAccountResponse parsePartialFrom(
+      public GetAccountRequest parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new NewAccountResponse(input, extensionRegistry);
+        return new GetAccountRequest(input, extensionRegistry);
       }
     };
 
-    public static com.google.protobuf.Parser<NewAccountResponse> parser() {
+    public static com.google.protobuf.Parser<GetAccountRequest> parser() {
       return PARSER;
     }
 
     @java.lang.Override
-    public com.google.protobuf.Parser<NewAccountResponse> getParserForType() {
+    public com.google.protobuf.Parser<GetAccountRequest> getParserForType() {
       return PARSER;
     }
 
     @java.lang.Override
-    public protos.metadata_service.MetadataServiceOuterClass.NewAccountResponse getDefaultInstanceForType() {
+    public protos.metadata_service.MetadataServiceOuterClass.GetAccountRequest getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface GetAccountResponseOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:protos.metadata_service.GetAccountResponse)
+      com.google.protobuf.MessageOrBuilder {
+  }
+  /**
+   * Protobuf type {@code protos.metadata_service.GetAccountResponse}
+   */
+  public  static final class GetAccountResponse extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:protos.metadata_service.GetAccountResponse)
+      GetAccountResponseOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use GetAccountResponse.newBuilder() to construct.
+    private GetAccountResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private GetAccountResponse() {
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new GetAccountResponse();
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private GetAccountResponse(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return protos.metadata_service.MetadataServiceOuterClass.internal_static_protos_metadata_service_GetAccountResponse_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return protos.metadata_service.MetadataServiceOuterClass.internal_static_protos_metadata_service_GetAccountResponse_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              protos.metadata_service.MetadataServiceOuterClass.GetAccountResponse.class, protos.metadata_service.MetadataServiceOuterClass.GetAccountResponse.Builder.class);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof protos.metadata_service.MetadataServiceOuterClass.GetAccountResponse)) {
+        return super.equals(obj);
+      }
+      protos.metadata_service.MetadataServiceOuterClass.GetAccountResponse other = (protos.metadata_service.MetadataServiceOuterClass.GetAccountResponse) obj;
+
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static protos.metadata_service.MetadataServiceOuterClass.GetAccountResponse parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static protos.metadata_service.MetadataServiceOuterClass.GetAccountResponse parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static protos.metadata_service.MetadataServiceOuterClass.GetAccountResponse parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static protos.metadata_service.MetadataServiceOuterClass.GetAccountResponse parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static protos.metadata_service.MetadataServiceOuterClass.GetAccountResponse parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static protos.metadata_service.MetadataServiceOuterClass.GetAccountResponse parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static protos.metadata_service.MetadataServiceOuterClass.GetAccountResponse parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static protos.metadata_service.MetadataServiceOuterClass.GetAccountResponse parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static protos.metadata_service.MetadataServiceOuterClass.GetAccountResponse parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static protos.metadata_service.MetadataServiceOuterClass.GetAccountResponse parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static protos.metadata_service.MetadataServiceOuterClass.GetAccountResponse parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static protos.metadata_service.MetadataServiceOuterClass.GetAccountResponse parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(protos.metadata_service.MetadataServiceOuterClass.GetAccountResponse prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code protos.metadata_service.GetAccountResponse}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:protos.metadata_service.GetAccountResponse)
+        protos.metadata_service.MetadataServiceOuterClass.GetAccountResponseOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return protos.metadata_service.MetadataServiceOuterClass.internal_static_protos_metadata_service_GetAccountResponse_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return protos.metadata_service.MetadataServiceOuterClass.internal_static_protos_metadata_service_GetAccountResponse_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                protos.metadata_service.MetadataServiceOuterClass.GetAccountResponse.class, protos.metadata_service.MetadataServiceOuterClass.GetAccountResponse.Builder.class);
+      }
+
+      // Construct using protos.metadata_service.MetadataServiceOuterClass.GetAccountResponse.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return protos.metadata_service.MetadataServiceOuterClass.internal_static_protos_metadata_service_GetAccountResponse_descriptor;
+      }
+
+      @java.lang.Override
+      public protos.metadata_service.MetadataServiceOuterClass.GetAccountResponse getDefaultInstanceForType() {
+        return protos.metadata_service.MetadataServiceOuterClass.GetAccountResponse.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public protos.metadata_service.MetadataServiceOuterClass.GetAccountResponse build() {
+        protos.metadata_service.MetadataServiceOuterClass.GetAccountResponse result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public protos.metadata_service.MetadataServiceOuterClass.GetAccountResponse buildPartial() {
+        protos.metadata_service.MetadataServiceOuterClass.GetAccountResponse result = new protos.metadata_service.MetadataServiceOuterClass.GetAccountResponse(this);
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof protos.metadata_service.MetadataServiceOuterClass.GetAccountResponse) {
+          return mergeFrom((protos.metadata_service.MetadataServiceOuterClass.GetAccountResponse)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(protos.metadata_service.MetadataServiceOuterClass.GetAccountResponse other) {
+        if (other == protos.metadata_service.MetadataServiceOuterClass.GetAccountResponse.getDefaultInstance()) return this;
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        protos.metadata_service.MetadataServiceOuterClass.GetAccountResponse parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (protos.metadata_service.MetadataServiceOuterClass.GetAccountResponse) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:protos.metadata_service.GetAccountResponse)
+    }
+
+    // @@protoc_insertion_point(class_scope:protos.metadata_service.GetAccountResponse)
+    private static final protos.metadata_service.MetadataServiceOuterClass.GetAccountResponse DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new protos.metadata_service.MetadataServiceOuterClass.GetAccountResponse();
+    }
+
+    public static protos.metadata_service.MetadataServiceOuterClass.GetAccountResponse getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<GetAccountResponse>
+        PARSER = new com.google.protobuf.AbstractParser<GetAccountResponse>() {
+      @java.lang.Override
+      public GetAccountResponse parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new GetAccountResponse(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<GetAccountResponse> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<GetAccountResponse> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public protos.metadata_service.MetadataServiceOuterClass.GetAccountResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -2722,43 +3140,43 @@ public final class MetadataServiceOuterClass {
 
   }
 
-  public interface GetAccountRequestOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:protos.metadata_service.GetAccountRequest)
+  public interface CloseSessionRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:protos.metadata_service.CloseSessionRequest)
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>string username = 1;</code>
-     * @return The username.
+     * <code>string id = 1;</code>
+     * @return The id.
      */
-    java.lang.String getUsername();
+    java.lang.String getId();
     /**
-     * <code>string username = 1;</code>
-     * @return The bytes for username.
+     * <code>string id = 1;</code>
+     * @return The bytes for id.
      */
     com.google.protobuf.ByteString
-        getUsernameBytes();
+        getIdBytes();
   }
   /**
-   * Protobuf type {@code protos.metadata_service.GetAccountRequest}
+   * Protobuf type {@code protos.metadata_service.CloseSessionRequest}
    */
-  public  static final class GetAccountRequest extends
+  public  static final class CloseSessionRequest extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:protos.metadata_service.GetAccountRequest)
-      GetAccountRequestOrBuilder {
+      // @@protoc_insertion_point(message_implements:protos.metadata_service.CloseSessionRequest)
+      CloseSessionRequestOrBuilder {
   private static final long serialVersionUID = 0L;
-    // Use GetAccountRequest.newBuilder() to construct.
-    private GetAccountRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    // Use CloseSessionRequest.newBuilder() to construct.
+    private CloseSessionRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-    private GetAccountRequest() {
-      username_ = "";
+    private CloseSessionRequest() {
+      id_ = "";
     }
 
     @java.lang.Override
     @SuppressWarnings({"unused"})
     protected java.lang.Object newInstance(
         UnusedPrivateParameter unused) {
-      return new GetAccountRequest();
+      return new CloseSessionRequest();
     }
 
     @java.lang.Override
@@ -2766,7 +3184,7 @@ public final class MetadataServiceOuterClass {
     getUnknownFields() {
       return this.unknownFields;
     }
-    private GetAccountRequest(
+    private CloseSessionRequest(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -2787,7 +3205,7 @@ public final class MetadataServiceOuterClass {
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
-              username_ = s;
+              id_ = s;
               break;
             }
             default: {
@@ -2811,47 +3229,47 @@ public final class MetadataServiceOuterClass {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return protos.metadata_service.MetadataServiceOuterClass.internal_static_protos_metadata_service_GetAccountRequest_descriptor;
+      return protos.metadata_service.MetadataServiceOuterClass.internal_static_protos_metadata_service_CloseSessionRequest_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return protos.metadata_service.MetadataServiceOuterClass.internal_static_protos_metadata_service_GetAccountRequest_fieldAccessorTable
+      return protos.metadata_service.MetadataServiceOuterClass.internal_static_protos_metadata_service_CloseSessionRequest_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              protos.metadata_service.MetadataServiceOuterClass.GetAccountRequest.class, protos.metadata_service.MetadataServiceOuterClass.GetAccountRequest.Builder.class);
+              protos.metadata_service.MetadataServiceOuterClass.CloseSessionRequest.class, protos.metadata_service.MetadataServiceOuterClass.CloseSessionRequest.Builder.class);
     }
 
-    public static final int USERNAME_FIELD_NUMBER = 1;
-    private volatile java.lang.Object username_;
+    public static final int ID_FIELD_NUMBER = 1;
+    private volatile java.lang.Object id_;
     /**
-     * <code>string username = 1;</code>
-     * @return The username.
+     * <code>string id = 1;</code>
+     * @return The id.
      */
-    public java.lang.String getUsername() {
-      java.lang.Object ref = username_;
+    public java.lang.String getId() {
+      java.lang.Object ref = id_;
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
         com.google.protobuf.ByteString bs = 
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
-        username_ = s;
+        id_ = s;
         return s;
       }
     }
     /**
-     * <code>string username = 1;</code>
-     * @return The bytes for username.
+     * <code>string id = 1;</code>
+     * @return The bytes for id.
      */
     public com.google.protobuf.ByteString
-        getUsernameBytes() {
-      java.lang.Object ref = username_;
+        getIdBytes() {
+      java.lang.Object ref = id_;
       if (ref instanceof java.lang.String) {
         com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
-        username_ = b;
+        id_ = b;
         return b;
       } else {
         return (com.google.protobuf.ByteString) ref;
@@ -2872,8 +3290,8 @@ public final class MetadataServiceOuterClass {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (!getUsernameBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, username_);
+      if (!getIdBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, id_);
       }
       unknownFields.writeTo(output);
     }
@@ -2884,8 +3302,8 @@ public final class MetadataServiceOuterClass {
       if (size != -1) return size;
 
       size = 0;
-      if (!getUsernameBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, username_);
+      if (!getIdBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, id_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -2897,13 +3315,13 @@ public final class MetadataServiceOuterClass {
       if (obj == this) {
        return true;
       }
-      if (!(obj instanceof protos.metadata_service.MetadataServiceOuterClass.GetAccountRequest)) {
+      if (!(obj instanceof protos.metadata_service.MetadataServiceOuterClass.CloseSessionRequest)) {
         return super.equals(obj);
       }
-      protos.metadata_service.MetadataServiceOuterClass.GetAccountRequest other = (protos.metadata_service.MetadataServiceOuterClass.GetAccountRequest) obj;
+      protos.metadata_service.MetadataServiceOuterClass.CloseSessionRequest other = (protos.metadata_service.MetadataServiceOuterClass.CloseSessionRequest) obj;
 
-      if (!getUsername()
-          .equals(other.getUsername())) return false;
+      if (!getId()
+          .equals(other.getId())) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -2915,76 +3333,76 @@ public final class MetadataServiceOuterClass {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
-      hash = (37 * hash) + USERNAME_FIELD_NUMBER;
-      hash = (53 * hash) + getUsername().hashCode();
+      hash = (37 * hash) + ID_FIELD_NUMBER;
+      hash = (53 * hash) + getId().hashCode();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
     }
 
-    public static protos.metadata_service.MetadataServiceOuterClass.GetAccountRequest parseFrom(
+    public static protos.metadata_service.MetadataServiceOuterClass.CloseSessionRequest parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static protos.metadata_service.MetadataServiceOuterClass.GetAccountRequest parseFrom(
+    public static protos.metadata_service.MetadataServiceOuterClass.CloseSessionRequest parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static protos.metadata_service.MetadataServiceOuterClass.GetAccountRequest parseFrom(
+    public static protos.metadata_service.MetadataServiceOuterClass.CloseSessionRequest parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static protos.metadata_service.MetadataServiceOuterClass.GetAccountRequest parseFrom(
+    public static protos.metadata_service.MetadataServiceOuterClass.CloseSessionRequest parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static protos.metadata_service.MetadataServiceOuterClass.GetAccountRequest parseFrom(byte[] data)
+    public static protos.metadata_service.MetadataServiceOuterClass.CloseSessionRequest parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static protos.metadata_service.MetadataServiceOuterClass.GetAccountRequest parseFrom(
+    public static protos.metadata_service.MetadataServiceOuterClass.CloseSessionRequest parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static protos.metadata_service.MetadataServiceOuterClass.GetAccountRequest parseFrom(java.io.InputStream input)
+    public static protos.metadata_service.MetadataServiceOuterClass.CloseSessionRequest parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static protos.metadata_service.MetadataServiceOuterClass.GetAccountRequest parseFrom(
+    public static protos.metadata_service.MetadataServiceOuterClass.CloseSessionRequest parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
-    public static protos.metadata_service.MetadataServiceOuterClass.GetAccountRequest parseDelimitedFrom(java.io.InputStream input)
+    public static protos.metadata_service.MetadataServiceOuterClass.CloseSessionRequest parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
-    public static protos.metadata_service.MetadataServiceOuterClass.GetAccountRequest parseDelimitedFrom(
+    public static protos.metadata_service.MetadataServiceOuterClass.CloseSessionRequest parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-    public static protos.metadata_service.MetadataServiceOuterClass.GetAccountRequest parseFrom(
+    public static protos.metadata_service.MetadataServiceOuterClass.CloseSessionRequest parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static protos.metadata_service.MetadataServiceOuterClass.GetAccountRequest parseFrom(
+    public static protos.metadata_service.MetadataServiceOuterClass.CloseSessionRequest parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -2997,7 +3415,7 @@ public final class MetadataServiceOuterClass {
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-    public static Builder newBuilder(protos.metadata_service.MetadataServiceOuterClass.GetAccountRequest prototype) {
+    public static Builder newBuilder(protos.metadata_service.MetadataServiceOuterClass.CloseSessionRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
     @java.lang.Override
@@ -3013,26 +3431,26 @@ public final class MetadataServiceOuterClass {
       return builder;
     }
     /**
-     * Protobuf type {@code protos.metadata_service.GetAccountRequest}
+     * Protobuf type {@code protos.metadata_service.CloseSessionRequest}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:protos.metadata_service.GetAccountRequest)
-        protos.metadata_service.MetadataServiceOuterClass.GetAccountRequestOrBuilder {
+        // @@protoc_insertion_point(builder_implements:protos.metadata_service.CloseSessionRequest)
+        protos.metadata_service.MetadataServiceOuterClass.CloseSessionRequestOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return protos.metadata_service.MetadataServiceOuterClass.internal_static_protos_metadata_service_GetAccountRequest_descriptor;
+        return protos.metadata_service.MetadataServiceOuterClass.internal_static_protos_metadata_service_CloseSessionRequest_descriptor;
       }
 
       @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return protos.metadata_service.MetadataServiceOuterClass.internal_static_protos_metadata_service_GetAccountRequest_fieldAccessorTable
+        return protos.metadata_service.MetadataServiceOuterClass.internal_static_protos_metadata_service_CloseSessionRequest_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                protos.metadata_service.MetadataServiceOuterClass.GetAccountRequest.class, protos.metadata_service.MetadataServiceOuterClass.GetAccountRequest.Builder.class);
+                protos.metadata_service.MetadataServiceOuterClass.CloseSessionRequest.class, protos.metadata_service.MetadataServiceOuterClass.CloseSessionRequest.Builder.class);
       }
 
-      // Construct using protos.metadata_service.MetadataServiceOuterClass.GetAccountRequest.newBuilder()
+      // Construct using protos.metadata_service.MetadataServiceOuterClass.CloseSessionRequest.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -3050,7 +3468,7 @@ public final class MetadataServiceOuterClass {
       @java.lang.Override
       public Builder clear() {
         super.clear();
-        username_ = "";
+        id_ = "";
 
         return this;
       }
@@ -3058,17 +3476,17 @@ public final class MetadataServiceOuterClass {
       @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return protos.metadata_service.MetadataServiceOuterClass.internal_static_protos_metadata_service_GetAccountRequest_descriptor;
+        return protos.metadata_service.MetadataServiceOuterClass.internal_static_protos_metadata_service_CloseSessionRequest_descriptor;
       }
 
       @java.lang.Override
-      public protos.metadata_service.MetadataServiceOuterClass.GetAccountRequest getDefaultInstanceForType() {
-        return protos.metadata_service.MetadataServiceOuterClass.GetAccountRequest.getDefaultInstance();
+      public protos.metadata_service.MetadataServiceOuterClass.CloseSessionRequest getDefaultInstanceForType() {
+        return protos.metadata_service.MetadataServiceOuterClass.CloseSessionRequest.getDefaultInstance();
       }
 
       @java.lang.Override
-      public protos.metadata_service.MetadataServiceOuterClass.GetAccountRequest build() {
-        protos.metadata_service.MetadataServiceOuterClass.GetAccountRequest result = buildPartial();
+      public protos.metadata_service.MetadataServiceOuterClass.CloseSessionRequest build() {
+        protos.metadata_service.MetadataServiceOuterClass.CloseSessionRequest result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
@@ -3076,9 +3494,9 @@ public final class MetadataServiceOuterClass {
       }
 
       @java.lang.Override
-      public protos.metadata_service.MetadataServiceOuterClass.GetAccountRequest buildPartial() {
-        protos.metadata_service.MetadataServiceOuterClass.GetAccountRequest result = new protos.metadata_service.MetadataServiceOuterClass.GetAccountRequest(this);
-        result.username_ = username_;
+      public protos.metadata_service.MetadataServiceOuterClass.CloseSessionRequest buildPartial() {
+        protos.metadata_service.MetadataServiceOuterClass.CloseSessionRequest result = new protos.metadata_service.MetadataServiceOuterClass.CloseSessionRequest(this);
+        result.id_ = id_;
         onBuilt();
         return result;
       }
@@ -3117,18 +3535,18 @@ public final class MetadataServiceOuterClass {
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof protos.metadata_service.MetadataServiceOuterClass.GetAccountRequest) {
-          return mergeFrom((protos.metadata_service.MetadataServiceOuterClass.GetAccountRequest)other);
+        if (other instanceof protos.metadata_service.MetadataServiceOuterClass.CloseSessionRequest) {
+          return mergeFrom((protos.metadata_service.MetadataServiceOuterClass.CloseSessionRequest)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(protos.metadata_service.MetadataServiceOuterClass.GetAccountRequest other) {
-        if (other == protos.metadata_service.MetadataServiceOuterClass.GetAccountRequest.getDefaultInstance()) return this;
-        if (!other.getUsername().isEmpty()) {
-          username_ = other.username_;
+      public Builder mergeFrom(protos.metadata_service.MetadataServiceOuterClass.CloseSessionRequest other) {
+        if (other == protos.metadata_service.MetadataServiceOuterClass.CloseSessionRequest.getDefaultInstance()) return this;
+        if (!other.getId().isEmpty()) {
+          id_ = other.id_;
           onChanged();
         }
         this.mergeUnknownFields(other.unknownFields);
@@ -3146,11 +3564,11 @@ public final class MetadataServiceOuterClass {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        protos.metadata_service.MetadataServiceOuterClass.GetAccountRequest parsedMessage = null;
+        protos.metadata_service.MetadataServiceOuterClass.CloseSessionRequest parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (protos.metadata_service.MetadataServiceOuterClass.GetAccountRequest) e.getUnfinishedMessage();
+          parsedMessage = (protos.metadata_service.MetadataServiceOuterClass.CloseSessionRequest) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -3160,78 +3578,78 @@ public final class MetadataServiceOuterClass {
         return this;
       }
 
-      private java.lang.Object username_ = "";
+      private java.lang.Object id_ = "";
       /**
-       * <code>string username = 1;</code>
-       * @return The username.
+       * <code>string id = 1;</code>
+       * @return The id.
        */
-      public java.lang.String getUsername() {
-        java.lang.Object ref = username_;
+      public java.lang.String getId() {
+        java.lang.Object ref = id_;
         if (!(ref instanceof java.lang.String)) {
           com.google.protobuf.ByteString bs =
               (com.google.protobuf.ByteString) ref;
           java.lang.String s = bs.toStringUtf8();
-          username_ = s;
+          id_ = s;
           return s;
         } else {
           return (java.lang.String) ref;
         }
       }
       /**
-       * <code>string username = 1;</code>
-       * @return The bytes for username.
+       * <code>string id = 1;</code>
+       * @return The bytes for id.
        */
       public com.google.protobuf.ByteString
-          getUsernameBytes() {
-        java.lang.Object ref = username_;
+          getIdBytes() {
+        java.lang.Object ref = id_;
         if (ref instanceof String) {
           com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
-          username_ = b;
+          id_ = b;
           return b;
         } else {
           return (com.google.protobuf.ByteString) ref;
         }
       }
       /**
-       * <code>string username = 1;</code>
-       * @param value The username to set.
+       * <code>string id = 1;</code>
+       * @param value The id to set.
        * @return This builder for chaining.
        */
-      public Builder setUsername(
+      public Builder setId(
           java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
   
-        username_ = value;
+        id_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>string username = 1;</code>
+       * <code>string id = 1;</code>
        * @return This builder for chaining.
        */
-      public Builder clearUsername() {
+      public Builder clearId() {
         
-        username_ = getDefaultInstance().getUsername();
+        id_ = getDefaultInstance().getId();
         onChanged();
         return this;
       }
       /**
-       * <code>string username = 1;</code>
-       * @param value The bytes for username to set.
+       * <code>string id = 1;</code>
+       * @param value The bytes for id to set.
        * @return This builder for chaining.
        */
-      public Builder setUsernameBytes(
+      public Builder setIdBytes(
           com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
         
-        username_ = value;
+        id_ = value;
         onChanged();
         return this;
       }
@@ -3248,459 +3666,41 @@ public final class MetadataServiceOuterClass {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:protos.metadata_service.GetAccountRequest)
+      // @@protoc_insertion_point(builder_scope:protos.metadata_service.CloseSessionRequest)
     }
 
-    // @@protoc_insertion_point(class_scope:protos.metadata_service.GetAccountRequest)
-    private static final protos.metadata_service.MetadataServiceOuterClass.GetAccountRequest DEFAULT_INSTANCE;
+    // @@protoc_insertion_point(class_scope:protos.metadata_service.CloseSessionRequest)
+    private static final protos.metadata_service.MetadataServiceOuterClass.CloseSessionRequest DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new protos.metadata_service.MetadataServiceOuterClass.GetAccountRequest();
+      DEFAULT_INSTANCE = new protos.metadata_service.MetadataServiceOuterClass.CloseSessionRequest();
     }
 
-    public static protos.metadata_service.MetadataServiceOuterClass.GetAccountRequest getDefaultInstance() {
+    public static protos.metadata_service.MetadataServiceOuterClass.CloseSessionRequest getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    private static final com.google.protobuf.Parser<GetAccountRequest>
-        PARSER = new com.google.protobuf.AbstractParser<GetAccountRequest>() {
+    private static final com.google.protobuf.Parser<CloseSessionRequest>
+        PARSER = new com.google.protobuf.AbstractParser<CloseSessionRequest>() {
       @java.lang.Override
-      public GetAccountRequest parsePartialFrom(
+      public CloseSessionRequest parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new GetAccountRequest(input, extensionRegistry);
+        return new CloseSessionRequest(input, extensionRegistry);
       }
     };
 
-    public static com.google.protobuf.Parser<GetAccountRequest> parser() {
+    public static com.google.protobuf.Parser<CloseSessionRequest> parser() {
       return PARSER;
     }
 
     @java.lang.Override
-    public com.google.protobuf.Parser<GetAccountRequest> getParserForType() {
+    public com.google.protobuf.Parser<CloseSessionRequest> getParserForType() {
       return PARSER;
     }
 
     @java.lang.Override
-    public protos.metadata_service.MetadataServiceOuterClass.GetAccountRequest getDefaultInstanceForType() {
-      return DEFAULT_INSTANCE;
-    }
-
-  }
-
-  public interface GetAccountResponseOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:protos.metadata_service.GetAccountResponse)
-      com.google.protobuf.MessageOrBuilder {
-  }
-  /**
-   * Protobuf type {@code protos.metadata_service.GetAccountResponse}
-   */
-  public  static final class GetAccountResponse extends
-      com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:protos.metadata_service.GetAccountResponse)
-      GetAccountResponseOrBuilder {
-  private static final long serialVersionUID = 0L;
-    // Use GetAccountResponse.newBuilder() to construct.
-    private GetAccountResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
-      super(builder);
-    }
-    private GetAccountResponse() {
-    }
-
-    @java.lang.Override
-    @SuppressWarnings({"unused"})
-    protected java.lang.Object newInstance(
-        UnusedPrivateParameter unused) {
-      return new GetAccountResponse();
-    }
-
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
-      return this.unknownFields;
-    }
-    private GetAccountResponse(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      this();
-      if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
-      }
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return protos.metadata_service.MetadataServiceOuterClass.internal_static_protos_metadata_service_GetAccountResponse_descriptor;
-    }
-
-    @java.lang.Override
-    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return protos.metadata_service.MetadataServiceOuterClass.internal_static_protos_metadata_service_GetAccountResponse_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              protos.metadata_service.MetadataServiceOuterClass.GetAccountResponse.class, protos.metadata_service.MetadataServiceOuterClass.GetAccountResponse.Builder.class);
-    }
-
-    private byte memoizedIsInitialized = -1;
-    @java.lang.Override
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
-
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    @java.lang.Override
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      unknownFields.writeTo(output);
-    }
-
-    @java.lang.Override
-    public int getSerializedSize() {
-      int size = memoizedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      size += unknownFields.getSerializedSize();
-      memoizedSize = size;
-      return size;
-    }
-
-    @java.lang.Override
-    public boolean equals(final java.lang.Object obj) {
-      if (obj == this) {
-       return true;
-      }
-      if (!(obj instanceof protos.metadata_service.MetadataServiceOuterClass.GetAccountResponse)) {
-        return super.equals(obj);
-      }
-      protos.metadata_service.MetadataServiceOuterClass.GetAccountResponse other = (protos.metadata_service.MetadataServiceOuterClass.GetAccountResponse) obj;
-
-      if (!unknownFields.equals(other.unknownFields)) return false;
-      return true;
-    }
-
-    @java.lang.Override
-    public int hashCode() {
-      if (memoizedHashCode != 0) {
-        return memoizedHashCode;
-      }
-      int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
-      hash = (29 * hash) + unknownFields.hashCode();
-      memoizedHashCode = hash;
-      return hash;
-    }
-
-    public static protos.metadata_service.MetadataServiceOuterClass.GetAccountResponse parseFrom(
-        java.nio.ByteBuffer data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static protos.metadata_service.MetadataServiceOuterClass.GetAccountResponse parseFrom(
-        java.nio.ByteBuffer data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static protos.metadata_service.MetadataServiceOuterClass.GetAccountResponse parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static protos.metadata_service.MetadataServiceOuterClass.GetAccountResponse parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static protos.metadata_service.MetadataServiceOuterClass.GetAccountResponse parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static protos.metadata_service.MetadataServiceOuterClass.GetAccountResponse parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static protos.metadata_service.MetadataServiceOuterClass.GetAccountResponse parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static protos.metadata_service.MetadataServiceOuterClass.GetAccountResponse parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static protos.metadata_service.MetadataServiceOuterClass.GetAccountResponse parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input);
-    }
-    public static protos.metadata_service.MetadataServiceOuterClass.GetAccountResponse parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static protos.metadata_service.MetadataServiceOuterClass.GetAccountResponse parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static protos.metadata_service.MetadataServiceOuterClass.GetAccountResponse parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-
-    @java.lang.Override
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder() {
-      return DEFAULT_INSTANCE.toBuilder();
-    }
-    public static Builder newBuilder(protos.metadata_service.MetadataServiceOuterClass.GetAccountResponse prototype) {
-      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
-    }
-    @java.lang.Override
-    public Builder toBuilder() {
-      return this == DEFAULT_INSTANCE
-          ? new Builder() : new Builder().mergeFrom(this);
-    }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * Protobuf type {@code protos.metadata_service.GetAccountResponse}
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:protos.metadata_service.GetAccountResponse)
-        protos.metadata_service.MetadataServiceOuterClass.GetAccountResponseOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return protos.metadata_service.MetadataServiceOuterClass.internal_static_protos_metadata_service_GetAccountResponse_descriptor;
-      }
-
-      @java.lang.Override
-      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return protos.metadata_service.MetadataServiceOuterClass.internal_static_protos_metadata_service_GetAccountResponse_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                protos.metadata_service.MetadataServiceOuterClass.GetAccountResponse.class, protos.metadata_service.MetadataServiceOuterClass.GetAccountResponse.Builder.class);
-      }
-
-      // Construct using protos.metadata_service.MetadataServiceOuterClass.GetAccountResponse.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessageV3
-                .alwaysUseFieldBuilders) {
-        }
-      }
-      @java.lang.Override
-      public Builder clear() {
-        super.clear();
-        return this;
-      }
-
-      @java.lang.Override
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return protos.metadata_service.MetadataServiceOuterClass.internal_static_protos_metadata_service_GetAccountResponse_descriptor;
-      }
-
-      @java.lang.Override
-      public protos.metadata_service.MetadataServiceOuterClass.GetAccountResponse getDefaultInstanceForType() {
-        return protos.metadata_service.MetadataServiceOuterClass.GetAccountResponse.getDefaultInstance();
-      }
-
-      @java.lang.Override
-      public protos.metadata_service.MetadataServiceOuterClass.GetAccountResponse build() {
-        protos.metadata_service.MetadataServiceOuterClass.GetAccountResponse result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      @java.lang.Override
-      public protos.metadata_service.MetadataServiceOuterClass.GetAccountResponse buildPartial() {
-        protos.metadata_service.MetadataServiceOuterClass.GetAccountResponse result = new protos.metadata_service.MetadataServiceOuterClass.GetAccountResponse(this);
-        onBuilt();
-        return result;
-      }
-
-      @java.lang.Override
-      public Builder clone() {
-        return super.clone();
-      }
-      @java.lang.Override
-      public Builder setField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return super.setField(field, value);
-      }
-      @java.lang.Override
-      public Builder clearField(
-          com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return super.clearField(field);
-      }
-      @java.lang.Override
-      public Builder clearOneof(
-          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return super.clearOneof(oneof);
-      }
-      @java.lang.Override
-      public Builder setRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, java.lang.Object value) {
-        return super.setRepeatedField(field, index, value);
-      }
-      @java.lang.Override
-      public Builder addRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return super.addRepeatedField(field, value);
-      }
-      @java.lang.Override
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof protos.metadata_service.MetadataServiceOuterClass.GetAccountResponse) {
-          return mergeFrom((protos.metadata_service.MetadataServiceOuterClass.GetAccountResponse)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(protos.metadata_service.MetadataServiceOuterClass.GetAccountResponse other) {
-        if (other == protos.metadata_service.MetadataServiceOuterClass.GetAccountResponse.getDefaultInstance()) return this;
-        this.mergeUnknownFields(other.unknownFields);
-        onChanged();
-        return this;
-      }
-
-      @java.lang.Override
-      public final boolean isInitialized() {
-        return true;
-      }
-
-      @java.lang.Override
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        protos.metadata_service.MetadataServiceOuterClass.GetAccountResponse parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (protos.metadata_service.MetadataServiceOuterClass.GetAccountResponse) e.getUnfinishedMessage();
-          throw e.unwrapIOException();
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-      @java.lang.Override
-      public final Builder setUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFields(unknownFields);
-      }
-
-      @java.lang.Override
-      public final Builder mergeUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.mergeUnknownFields(unknownFields);
-      }
-
-
-      // @@protoc_insertion_point(builder_scope:protos.metadata_service.GetAccountResponse)
-    }
-
-    // @@protoc_insertion_point(class_scope:protos.metadata_service.GetAccountResponse)
-    private static final protos.metadata_service.MetadataServiceOuterClass.GetAccountResponse DEFAULT_INSTANCE;
-    static {
-      DEFAULT_INSTANCE = new protos.metadata_service.MetadataServiceOuterClass.GetAccountResponse();
-    }
-
-    public static protos.metadata_service.MetadataServiceOuterClass.GetAccountResponse getDefaultInstance() {
-      return DEFAULT_INSTANCE;
-    }
-
-    private static final com.google.protobuf.Parser<GetAccountResponse>
-        PARSER = new com.google.protobuf.AbstractParser<GetAccountResponse>() {
-      @java.lang.Override
-      public GetAccountResponse parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new GetAccountResponse(input, extensionRegistry);
-      }
-    };
-
-    public static com.google.protobuf.Parser<GetAccountResponse> parser() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<GetAccountResponse> getParserForType() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public protos.metadata_service.MetadataServiceOuterClass.GetAccountResponse getDefaultInstanceForType() {
+    public protos.metadata_service.MetadataServiceOuterClass.CloseSessionRequest getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -4568,30 +4568,54 @@ public final class MetadataServiceOuterClass {
 
   }
 
-  public interface NewDatasetResponseOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:protos.metadata_service.NewDatasetResponse)
+  public interface GetAllExecutionEnvironmentsRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:protos.metadata_service.GetAllExecutionEnvironmentsRequest)
       com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>.protos.common.Langs language = 1;</code>
+     * @return The enum numeric value on the wire for language.
+     */
+    int getLanguageValue();
+    /**
+     * <code>.protos.common.Langs language = 1;</code>
+     * @return The language.
+     */
+    es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.Langs getLanguage();
+
+    /**
+     * <code>bool get_external = 2;</code>
+     * @return The getExternal.
+     */
+    boolean getGetExternal();
+
+    /**
+     * <code>bool from_backend = 3;</code>
+     * @return The fromBackend.
+     */
+    boolean getFromBackend();
   }
   /**
-   * Protobuf type {@code protos.metadata_service.NewDatasetResponse}
+   * Protobuf type {@code protos.metadata_service.GetAllExecutionEnvironmentsRequest}
    */
-  public  static final class NewDatasetResponse extends
+  public  static final class GetAllExecutionEnvironmentsRequest extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:protos.metadata_service.NewDatasetResponse)
-      NewDatasetResponseOrBuilder {
+      // @@protoc_insertion_point(message_implements:protos.metadata_service.GetAllExecutionEnvironmentsRequest)
+      GetAllExecutionEnvironmentsRequestOrBuilder {
   private static final long serialVersionUID = 0L;
-    // Use NewDatasetResponse.newBuilder() to construct.
-    private NewDatasetResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    // Use GetAllExecutionEnvironmentsRequest.newBuilder() to construct.
+    private GetAllExecutionEnvironmentsRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-    private NewDatasetResponse() {
+    private GetAllExecutionEnvironmentsRequest() {
+      language_ = 0;
     }
 
     @java.lang.Override
     @SuppressWarnings({"unused"})
     protected java.lang.Object newInstance(
         UnusedPrivateParameter unused) {
-      return new NewDatasetResponse();
+      return new GetAllExecutionEnvironmentsRequest();
     }
 
     @java.lang.Override
@@ -4599,7 +4623,7 @@ public final class MetadataServiceOuterClass {
     getUnknownFields() {
       return this.unknownFields;
     }
-    private NewDatasetResponse(
+    private GetAllExecutionEnvironmentsRequest(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -4617,6 +4641,22 @@ public final class MetadataServiceOuterClass {
             case 0:
               done = true;
               break;
+            case 8: {
+              int rawValue = input.readEnum();
+
+              language_ = rawValue;
+              break;
+            }
+            case 16: {
+
+              getExternal_ = input.readBool();
+              break;
+            }
+            case 24: {
+
+              fromBackend_ = input.readBool();
+              break;
+            }
             default: {
               if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
@@ -4638,15 +4678,54 @@ public final class MetadataServiceOuterClass {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return protos.metadata_service.MetadataServiceOuterClass.internal_static_protos_metadata_service_NewDatasetResponse_descriptor;
+      return protos.metadata_service.MetadataServiceOuterClass.internal_static_protos_metadata_service_GetAllExecutionEnvironmentsRequest_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return protos.metadata_service.MetadataServiceOuterClass.internal_static_protos_metadata_service_NewDatasetResponse_fieldAccessorTable
+      return protos.metadata_service.MetadataServiceOuterClass.internal_static_protos_metadata_service_GetAllExecutionEnvironmentsRequest_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              protos.metadata_service.MetadataServiceOuterClass.NewDatasetResponse.class, protos.metadata_service.MetadataServiceOuterClass.NewDatasetResponse.Builder.class);
+              protos.metadata_service.MetadataServiceOuterClass.GetAllExecutionEnvironmentsRequest.class, protos.metadata_service.MetadataServiceOuterClass.GetAllExecutionEnvironmentsRequest.Builder.class);
+    }
+
+    public static final int LANGUAGE_FIELD_NUMBER = 1;
+    private int language_;
+    /**
+     * <code>.protos.common.Langs language = 1;</code>
+     * @return The enum numeric value on the wire for language.
+     */
+    public int getLanguageValue() {
+      return language_;
+    }
+    /**
+     * <code>.protos.common.Langs language = 1;</code>
+     * @return The language.
+     */
+    public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.Langs getLanguage() {
+      @SuppressWarnings("deprecation")
+      es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.Langs result = es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.Langs.valueOf(language_);
+      return result == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.Langs.UNRECOGNIZED : result;
+    }
+
+    public static final int GET_EXTERNAL_FIELD_NUMBER = 2;
+    private boolean getExternal_;
+    /**
+     * <code>bool get_external = 2;</code>
+     * @return The getExternal.
+     */
+    public boolean getGetExternal() {
+      return getExternal_;
+    }
+
+    public static final int FROM_BACKEND_FIELD_NUMBER = 3;
+    private boolean fromBackend_;
+    /**
+     * <code>bool from_backend = 3;</code>
+     * @return The fromBackend.
+     */
+    public boolean getFromBackend() {
+      return fromBackend_;
     }
 
     private byte memoizedIsInitialized = -1;
@@ -4663,6 +4742,15 @@ public final class MetadataServiceOuterClass {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
+      if (language_ != es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.Langs.LANG_NONE.getNumber()) {
+        output.writeEnum(1, language_);
+      }
+      if (getExternal_ != false) {
+        output.writeBool(2, getExternal_);
+      }
+      if (fromBackend_ != false) {
+        output.writeBool(3, fromBackend_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -4672,6 +4760,18 @@ public final class MetadataServiceOuterClass {
       if (size != -1) return size;
 
       size = 0;
+      if (language_ != es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.Langs.LANG_NONE.getNumber()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(1, language_);
+      }
+      if (getExternal_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(2, getExternal_);
+      }
+      if (fromBackend_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(3, fromBackend_);
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -4682,11 +4782,16 @@ public final class MetadataServiceOuterClass {
       if (obj == this) {
        return true;
       }
-      if (!(obj instanceof protos.metadata_service.MetadataServiceOuterClass.NewDatasetResponse)) {
+      if (!(obj instanceof protos.metadata_service.MetadataServiceOuterClass.GetAllExecutionEnvironmentsRequest)) {
         return super.equals(obj);
       }
-      protos.metadata_service.MetadataServiceOuterClass.NewDatasetResponse other = (protos.metadata_service.MetadataServiceOuterClass.NewDatasetResponse) obj;
+      protos.metadata_service.MetadataServiceOuterClass.GetAllExecutionEnvironmentsRequest other = (protos.metadata_service.MetadataServiceOuterClass.GetAllExecutionEnvironmentsRequest) obj;
 
+      if (language_ != other.language_) return false;
+      if (getGetExternal()
+          != other.getGetExternal()) return false;
+      if (getFromBackend()
+          != other.getFromBackend()) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -4698,74 +4803,82 @@ public final class MetadataServiceOuterClass {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + LANGUAGE_FIELD_NUMBER;
+      hash = (53 * hash) + language_;
+      hash = (37 * hash) + GET_EXTERNAL_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getGetExternal());
+      hash = (37 * hash) + FROM_BACKEND_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getFromBackend());
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
     }
 
-    public static protos.metadata_service.MetadataServiceOuterClass.NewDatasetResponse parseFrom(
+    public static protos.metadata_service.MetadataServiceOuterClass.GetAllExecutionEnvironmentsRequest parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static protos.metadata_service.MetadataServiceOuterClass.NewDatasetResponse parseFrom(
+    public static protos.metadata_service.MetadataServiceOuterClass.GetAllExecutionEnvironmentsRequest parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static protos.metadata_service.MetadataServiceOuterClass.NewDatasetResponse parseFrom(
+    public static protos.metadata_service.MetadataServiceOuterClass.GetAllExecutionEnvironmentsRequest parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static protos.metadata_service.MetadataServiceOuterClass.NewDatasetResponse parseFrom(
+    public static protos.metadata_service.MetadataServiceOuterClass.GetAllExecutionEnvironmentsRequest parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static protos.metadata_service.MetadataServiceOuterClass.NewDatasetResponse parseFrom(byte[] data)
+    public static protos.metadata_service.MetadataServiceOuterClass.GetAllExecutionEnvironmentsRequest parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static protos.metadata_service.MetadataServiceOuterClass.NewDatasetResponse parseFrom(
+    public static protos.metadata_service.MetadataServiceOuterClass.GetAllExecutionEnvironmentsRequest parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static protos.metadata_service.MetadataServiceOuterClass.NewDatasetResponse parseFrom(java.io.InputStream input)
+    public static protos.metadata_service.MetadataServiceOuterClass.GetAllExecutionEnvironmentsRequest parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static protos.metadata_service.MetadataServiceOuterClass.NewDatasetResponse parseFrom(
+    public static protos.metadata_service.MetadataServiceOuterClass.GetAllExecutionEnvironmentsRequest parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
-    public static protos.metadata_service.MetadataServiceOuterClass.NewDatasetResponse parseDelimitedFrom(java.io.InputStream input)
+    public static protos.metadata_service.MetadataServiceOuterClass.GetAllExecutionEnvironmentsRequest parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
-    public static protos.metadata_service.MetadataServiceOuterClass.NewDatasetResponse parseDelimitedFrom(
+    public static protos.metadata_service.MetadataServiceOuterClass.GetAllExecutionEnvironmentsRequest parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-    public static protos.metadata_service.MetadataServiceOuterClass.NewDatasetResponse parseFrom(
+    public static protos.metadata_service.MetadataServiceOuterClass.GetAllExecutionEnvironmentsRequest parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static protos.metadata_service.MetadataServiceOuterClass.NewDatasetResponse parseFrom(
+    public static protos.metadata_service.MetadataServiceOuterClass.GetAllExecutionEnvironmentsRequest parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -4778,7 +4891,7 @@ public final class MetadataServiceOuterClass {
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-    public static Builder newBuilder(protos.metadata_service.MetadataServiceOuterClass.NewDatasetResponse prototype) {
+    public static Builder newBuilder(protos.metadata_service.MetadataServiceOuterClass.GetAllExecutionEnvironmentsRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
     @java.lang.Override
@@ -4794,26 +4907,26 @@ public final class MetadataServiceOuterClass {
       return builder;
     }
     /**
-     * Protobuf type {@code protos.metadata_service.NewDatasetResponse}
+     * Protobuf type {@code protos.metadata_service.GetAllExecutionEnvironmentsRequest}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:protos.metadata_service.NewDatasetResponse)
-        protos.metadata_service.MetadataServiceOuterClass.NewDatasetResponseOrBuilder {
+        // @@protoc_insertion_point(builder_implements:protos.metadata_service.GetAllExecutionEnvironmentsRequest)
+        protos.metadata_service.MetadataServiceOuterClass.GetAllExecutionEnvironmentsRequestOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return protos.metadata_service.MetadataServiceOuterClass.internal_static_protos_metadata_service_NewDatasetResponse_descriptor;
+        return protos.metadata_service.MetadataServiceOuterClass.internal_static_protos_metadata_service_GetAllExecutionEnvironmentsRequest_descriptor;
       }
 
       @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return protos.metadata_service.MetadataServiceOuterClass.internal_static_protos_metadata_service_NewDatasetResponse_fieldAccessorTable
+        return protos.metadata_service.MetadataServiceOuterClass.internal_static_protos_metadata_service_GetAllExecutionEnvironmentsRequest_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                protos.metadata_service.MetadataServiceOuterClass.NewDatasetResponse.class, protos.metadata_service.MetadataServiceOuterClass.NewDatasetResponse.Builder.class);
+                protos.metadata_service.MetadataServiceOuterClass.GetAllExecutionEnvironmentsRequest.class, protos.metadata_service.MetadataServiceOuterClass.GetAllExecutionEnvironmentsRequest.Builder.class);
       }
 
-      // Construct using protos.metadata_service.MetadataServiceOuterClass.NewDatasetResponse.newBuilder()
+      // Construct using protos.metadata_service.MetadataServiceOuterClass.GetAllExecutionEnvironmentsRequest.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -4831,23 +4944,29 @@ public final class MetadataServiceOuterClass {
       @java.lang.Override
       public Builder clear() {
         super.clear();
+        language_ = 0;
+
+        getExternal_ = false;
+
+        fromBackend_ = false;
+
         return this;
       }
 
       @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return protos.metadata_service.MetadataServiceOuterClass.internal_static_protos_metadata_service_NewDatasetResponse_descriptor;
+        return protos.metadata_service.MetadataServiceOuterClass.internal_static_protos_metadata_service_GetAllExecutionEnvironmentsRequest_descriptor;
       }
 
       @java.lang.Override
-      public protos.metadata_service.MetadataServiceOuterClass.NewDatasetResponse getDefaultInstanceForType() {
-        return protos.metadata_service.MetadataServiceOuterClass.NewDatasetResponse.getDefaultInstance();
+      public protos.metadata_service.MetadataServiceOuterClass.GetAllExecutionEnvironmentsRequest getDefaultInstanceForType() {
+        return protos.metadata_service.MetadataServiceOuterClass.GetAllExecutionEnvironmentsRequest.getDefaultInstance();
       }
 
       @java.lang.Override
-      public protos.metadata_service.MetadataServiceOuterClass.NewDatasetResponse build() {
-        protos.metadata_service.MetadataServiceOuterClass.NewDatasetResponse result = buildPartial();
+      public protos.metadata_service.MetadataServiceOuterClass.GetAllExecutionEnvironmentsRequest build() {
+        protos.metadata_service.MetadataServiceOuterClass.GetAllExecutionEnvironmentsRequest result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
@@ -4855,8 +4974,11 @@ public final class MetadataServiceOuterClass {
       }
 
       @java.lang.Override
-      public protos.metadata_service.MetadataServiceOuterClass.NewDatasetResponse buildPartial() {
-        protos.metadata_service.MetadataServiceOuterClass.NewDatasetResponse result = new protos.metadata_service.MetadataServiceOuterClass.NewDatasetResponse(this);
+      public protos.metadata_service.MetadataServiceOuterClass.GetAllExecutionEnvironmentsRequest buildPartial() {
+        protos.metadata_service.MetadataServiceOuterClass.GetAllExecutionEnvironmentsRequest result = new protos.metadata_service.MetadataServiceOuterClass.GetAllExecutionEnvironmentsRequest(this);
+        result.language_ = language_;
+        result.getExternal_ = getExternal_;
+        result.fromBackend_ = fromBackend_;
         onBuilt();
         return result;
       }
@@ -4895,16 +5017,25 @@ public final class MetadataServiceOuterClass {
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof protos.metadata_service.MetadataServiceOuterClass.NewDatasetResponse) {
-          return mergeFrom((protos.metadata_service.MetadataServiceOuterClass.NewDatasetResponse)other);
+        if (other instanceof protos.metadata_service.MetadataServiceOuterClass.GetAllExecutionEnvironmentsRequest) {
+          return mergeFrom((protos.metadata_service.MetadataServiceOuterClass.GetAllExecutionEnvironmentsRequest)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(protos.metadata_service.MetadataServiceOuterClass.NewDatasetResponse other) {
-        if (other == protos.metadata_service.MetadataServiceOuterClass.NewDatasetResponse.getDefaultInstance()) return this;
+      public Builder mergeFrom(protos.metadata_service.MetadataServiceOuterClass.GetAllExecutionEnvironmentsRequest other) {
+        if (other == protos.metadata_service.MetadataServiceOuterClass.GetAllExecutionEnvironmentsRequest.getDefaultInstance()) return this;
+        if (other.language_ != 0) {
+          setLanguageValue(other.getLanguageValue());
+        }
+        if (other.getGetExternal() != false) {
+          setGetExternal(other.getGetExternal());
+        }
+        if (other.getFromBackend() != false) {
+          setFromBackend(other.getFromBackend());
+        }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
@@ -4920,17 +5051,129 @@ public final class MetadataServiceOuterClass {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        protos.metadata_service.MetadataServiceOuterClass.NewDatasetResponse parsedMessage = null;
+        protos.metadata_service.MetadataServiceOuterClass.GetAllExecutionEnvironmentsRequest parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (protos.metadata_service.MetadataServiceOuterClass.NewDatasetResponse) e.getUnfinishedMessage();
+          parsedMessage = (protos.metadata_service.MetadataServiceOuterClass.GetAllExecutionEnvironmentsRequest) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
             mergeFrom(parsedMessage);
           }
         }
+        return this;
+      }
+
+      private int language_ = 0;
+      /**
+       * <code>.protos.common.Langs language = 1;</code>
+       * @return The enum numeric value on the wire for language.
+       */
+      public int getLanguageValue() {
+        return language_;
+      }
+      /**
+       * <code>.protos.common.Langs language = 1;</code>
+       * @param value The enum numeric value on the wire for language to set.
+       * @return This builder for chaining.
+       */
+      public Builder setLanguageValue(int value) {
+        language_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.protos.common.Langs language = 1;</code>
+       * @return The language.
+       */
+      public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.Langs getLanguage() {
+        @SuppressWarnings("deprecation")
+        es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.Langs result = es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.Langs.valueOf(language_);
+        return result == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.Langs.UNRECOGNIZED : result;
+      }
+      /**
+       * <code>.protos.common.Langs language = 1;</code>
+       * @param value The language to set.
+       * @return This builder for chaining.
+       */
+      public Builder setLanguage(es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.Langs value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        
+        language_ = value.getNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.protos.common.Langs language = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearLanguage() {
+        
+        language_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private boolean getExternal_ ;
+      /**
+       * <code>bool get_external = 2;</code>
+       * @return The getExternal.
+       */
+      public boolean getGetExternal() {
+        return getExternal_;
+      }
+      /**
+       * <code>bool get_external = 2;</code>
+       * @param value The getExternal to set.
+       * @return This builder for chaining.
+       */
+      public Builder setGetExternal(boolean value) {
+        
+        getExternal_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>bool get_external = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearGetExternal() {
+        
+        getExternal_ = false;
+        onChanged();
+        return this;
+      }
+
+      private boolean fromBackend_ ;
+      /**
+       * <code>bool from_backend = 3;</code>
+       * @return The fromBackend.
+       */
+      public boolean getFromBackend() {
+        return fromBackend_;
+      }
+      /**
+       * <code>bool from_backend = 3;</code>
+       * @param value The fromBackend to set.
+       * @return This builder for chaining.
+       */
+      public Builder setFromBackend(boolean value) {
+        
+        fromBackend_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>bool from_backend = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearFromBackend() {
+        
+        fromBackend_ = false;
+        onChanged();
         return this;
       }
       @java.lang.Override
@@ -4946,41 +5189,5734 @@ public final class MetadataServiceOuterClass {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:protos.metadata_service.NewDatasetResponse)
+      // @@protoc_insertion_point(builder_scope:protos.metadata_service.GetAllExecutionEnvironmentsRequest)
     }
 
-    // @@protoc_insertion_point(class_scope:protos.metadata_service.NewDatasetResponse)
-    private static final protos.metadata_service.MetadataServiceOuterClass.NewDatasetResponse DEFAULT_INSTANCE;
+    // @@protoc_insertion_point(class_scope:protos.metadata_service.GetAllExecutionEnvironmentsRequest)
+    private static final protos.metadata_service.MetadataServiceOuterClass.GetAllExecutionEnvironmentsRequest DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new protos.metadata_service.MetadataServiceOuterClass.NewDatasetResponse();
+      DEFAULT_INSTANCE = new protos.metadata_service.MetadataServiceOuterClass.GetAllExecutionEnvironmentsRequest();
     }
 
-    public static protos.metadata_service.MetadataServiceOuterClass.NewDatasetResponse getDefaultInstance() {
+    public static protos.metadata_service.MetadataServiceOuterClass.GetAllExecutionEnvironmentsRequest getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    private static final com.google.protobuf.Parser<NewDatasetResponse>
-        PARSER = new com.google.protobuf.AbstractParser<NewDatasetResponse>() {
+    private static final com.google.protobuf.Parser<GetAllExecutionEnvironmentsRequest>
+        PARSER = new com.google.protobuf.AbstractParser<GetAllExecutionEnvironmentsRequest>() {
       @java.lang.Override
-      public NewDatasetResponse parsePartialFrom(
+      public GetAllExecutionEnvironmentsRequest parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new NewDatasetResponse(input, extensionRegistry);
+        return new GetAllExecutionEnvironmentsRequest(input, extensionRegistry);
       }
     };
 
-    public static com.google.protobuf.Parser<NewDatasetResponse> parser() {
+    public static com.google.protobuf.Parser<GetAllExecutionEnvironmentsRequest> parser() {
       return PARSER;
     }
 
     @java.lang.Override
-    public com.google.protobuf.Parser<NewDatasetResponse> getParserForType() {
+    public com.google.protobuf.Parser<GetAllExecutionEnvironmentsRequest> getParserForType() {
       return PARSER;
     }
 
     @java.lang.Override
-    public protos.metadata_service.MetadataServiceOuterClass.NewDatasetResponse getDefaultInstanceForType() {
+    public protos.metadata_service.MetadataServiceOuterClass.GetAllExecutionEnvironmentsRequest getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface GetAllExecutionEnvironmentsResponseOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:protos.metadata_service.GetAllExecutionEnvironmentsResponse)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>map&lt;string, .protos.common.ExecutionEnvironment&gt; exec_envs = 1;</code>
+     */
+    int getExecEnvsCount();
+    /**
+     * <code>map&lt;string, .protos.common.ExecutionEnvironment&gt; exec_envs = 1;</code>
+     */
+    boolean containsExecEnvs(
+        java.lang.String key);
+    /**
+     * Use {@link #getExecEnvsMap()} instead.
+     */
+    @java.lang.Deprecated
+    java.util.Map<java.lang.String, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironment>
+    getExecEnvs();
+    /**
+     * <code>map&lt;string, .protos.common.ExecutionEnvironment&gt; exec_envs = 1;</code>
+     */
+    java.util.Map<java.lang.String, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironment>
+    getExecEnvsMap();
+    /**
+     * <code>map&lt;string, .protos.common.ExecutionEnvironment&gt; exec_envs = 1;</code>
+     */
+
+    es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironment getExecEnvsOrDefault(
+        java.lang.String key,
+        es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironment defaultValue);
+    /**
+     * <code>map&lt;string, .protos.common.ExecutionEnvironment&gt; exec_envs = 1;</code>
+     */
+
+    es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironment getExecEnvsOrThrow(
+        java.lang.String key);
+  }
+  /**
+   * Protobuf type {@code protos.metadata_service.GetAllExecutionEnvironmentsResponse}
+   */
+  public  static final class GetAllExecutionEnvironmentsResponse extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:protos.metadata_service.GetAllExecutionEnvironmentsResponse)
+      GetAllExecutionEnvironmentsResponseOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use GetAllExecutionEnvironmentsResponse.newBuilder() to construct.
+    private GetAllExecutionEnvironmentsResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private GetAllExecutionEnvironmentsResponse() {
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new GetAllExecutionEnvironmentsResponse();
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private GetAllExecutionEnvironmentsResponse(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 10: {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
+                execEnvs_ = com.google.protobuf.MapField.newMapField(
+                    ExecEnvsDefaultEntryHolder.defaultEntry);
+                mutable_bitField0_ |= 0x00000001;
+              }
+              com.google.protobuf.MapEntry<java.lang.String, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironment>
+              execEnvs__ = input.readMessage(
+                  ExecEnvsDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistry);
+              execEnvs_.getMutableMap().put(
+                  execEnvs__.getKey(), execEnvs__.getValue());
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return protos.metadata_service.MetadataServiceOuterClass.internal_static_protos_metadata_service_GetAllExecutionEnvironmentsResponse_descriptor;
+    }
+
+    @SuppressWarnings({"rawtypes"})
+    @java.lang.Override
+    protected com.google.protobuf.MapField internalGetMapField(
+        int number) {
+      switch (number) {
+        case 1:
+          return internalGetExecEnvs();
+        default:
+          throw new RuntimeException(
+              "Invalid map field number: " + number);
+      }
+    }
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return protos.metadata_service.MetadataServiceOuterClass.internal_static_protos_metadata_service_GetAllExecutionEnvironmentsResponse_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              protos.metadata_service.MetadataServiceOuterClass.GetAllExecutionEnvironmentsResponse.class, protos.metadata_service.MetadataServiceOuterClass.GetAllExecutionEnvironmentsResponse.Builder.class);
+    }
+
+    public static final int EXEC_ENVS_FIELD_NUMBER = 1;
+    private static final class ExecEnvsDefaultEntryHolder {
+      static final com.google.protobuf.MapEntry<
+          java.lang.String, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironment> defaultEntry =
+              com.google.protobuf.MapEntry
+              .<java.lang.String, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironment>newDefaultInstance(
+                  protos.metadata_service.MetadataServiceOuterClass.internal_static_protos_metadata_service_GetAllExecutionEnvironmentsResponse_ExecEnvsEntry_descriptor, 
+                  com.google.protobuf.WireFormat.FieldType.STRING,
+                  "",
+                  com.google.protobuf.WireFormat.FieldType.MESSAGE,
+                  es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironment.getDefaultInstance());
+    }
+    private com.google.protobuf.MapField<
+        java.lang.String, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironment> execEnvs_;
+    private com.google.protobuf.MapField<java.lang.String, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironment>
+    internalGetExecEnvs() {
+      if (execEnvs_ == null) {
+        return com.google.protobuf.MapField.emptyMapField(
+            ExecEnvsDefaultEntryHolder.defaultEntry);
+      }
+      return execEnvs_;
+    }
+
+    public int getExecEnvsCount() {
+      return internalGetExecEnvs().getMap().size();
+    }
+    /**
+     * <code>map&lt;string, .protos.common.ExecutionEnvironment&gt; exec_envs = 1;</code>
+     */
+
+    public boolean containsExecEnvs(
+        java.lang.String key) {
+      if (key == null) { throw new java.lang.NullPointerException(); }
+      return internalGetExecEnvs().getMap().containsKey(key);
+    }
+    /**
+     * Use {@link #getExecEnvsMap()} instead.
+     */
+    @java.lang.Deprecated
+    public java.util.Map<java.lang.String, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironment> getExecEnvs() {
+      return getExecEnvsMap();
+    }
+    /**
+     * <code>map&lt;string, .protos.common.ExecutionEnvironment&gt; exec_envs = 1;</code>
+     */
+
+    public java.util.Map<java.lang.String, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironment> getExecEnvsMap() {
+      return internalGetExecEnvs().getMap();
+    }
+    /**
+     * <code>map&lt;string, .protos.common.ExecutionEnvironment&gt; exec_envs = 1;</code>
+     */
+
+    public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironment getExecEnvsOrDefault(
+        java.lang.String key,
+        es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironment defaultValue) {
+      if (key == null) { throw new java.lang.NullPointerException(); }
+      java.util.Map<java.lang.String, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironment> map =
+          internalGetExecEnvs().getMap();
+      return map.containsKey(key) ? map.get(key) : defaultValue;
+    }
+    /**
+     * <code>map&lt;string, .protos.common.ExecutionEnvironment&gt; exec_envs = 1;</code>
+     */
+
+    public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironment getExecEnvsOrThrow(
+        java.lang.String key) {
+      if (key == null) { throw new java.lang.NullPointerException(); }
+      java.util.Map<java.lang.String, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironment> map =
+          internalGetExecEnvs().getMap();
+      if (!map.containsKey(key)) {
+        throw new java.lang.IllegalArgumentException();
+      }
+      return map.get(key);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      com.google.protobuf.GeneratedMessageV3
+        .serializeStringMapTo(
+          output,
+          internalGetExecEnvs(),
+          ExecEnvsDefaultEntryHolder.defaultEntry,
+          1);
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      for (java.util.Map.Entry<java.lang.String, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironment> entry
+           : internalGetExecEnvs().getMap().entrySet()) {
+        com.google.protobuf.MapEntry<java.lang.String, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironment>
+        execEnvs__ = ExecEnvsDefaultEntryHolder.defaultEntry.newBuilderForType()
+            .setKey(entry.getKey())
+            .setValue(entry.getValue())
+            .build();
+        size += com.google.protobuf.CodedOutputStream
+            .computeMessageSize(1, execEnvs__);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof protos.metadata_service.MetadataServiceOuterClass.GetAllExecutionEnvironmentsResponse)) {
+        return super.equals(obj);
+      }
+      protos.metadata_service.MetadataServiceOuterClass.GetAllExecutionEnvironmentsResponse other = (protos.metadata_service.MetadataServiceOuterClass.GetAllExecutionEnvironmentsResponse) obj;
+
+      if (!internalGetExecEnvs().equals(
+          other.internalGetExecEnvs())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (!internalGetExecEnvs().getMap().isEmpty()) {
+        hash = (37 * hash) + EXEC_ENVS_FIELD_NUMBER;
+        hash = (53 * hash) + internalGetExecEnvs().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static protos.metadata_service.MetadataServiceOuterClass.GetAllExecutionEnvironmentsResponse parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static protos.metadata_service.MetadataServiceOuterClass.GetAllExecutionEnvironmentsResponse parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static protos.metadata_service.MetadataServiceOuterClass.GetAllExecutionEnvironmentsResponse parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static protos.metadata_service.MetadataServiceOuterClass.GetAllExecutionEnvironmentsResponse parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static protos.metadata_service.MetadataServiceOuterClass.GetAllExecutionEnvironmentsResponse parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static protos.metadata_service.MetadataServiceOuterClass.GetAllExecutionEnvironmentsResponse parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static protos.metadata_service.MetadataServiceOuterClass.GetAllExecutionEnvironmentsResponse parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static protos.metadata_service.MetadataServiceOuterClass.GetAllExecutionEnvironmentsResponse parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static protos.metadata_service.MetadataServiceOuterClass.GetAllExecutionEnvironmentsResponse parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static protos.metadata_service.MetadataServiceOuterClass.GetAllExecutionEnvironmentsResponse parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static protos.metadata_service.MetadataServiceOuterClass.GetAllExecutionEnvironmentsResponse parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static protos.metadata_service.MetadataServiceOuterClass.GetAllExecutionEnvironmentsResponse parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(protos.metadata_service.MetadataServiceOuterClass.GetAllExecutionEnvironmentsResponse prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code protos.metadata_service.GetAllExecutionEnvironmentsResponse}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:protos.metadata_service.GetAllExecutionEnvironmentsResponse)
+        protos.metadata_service.MetadataServiceOuterClass.GetAllExecutionEnvironmentsResponseOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return protos.metadata_service.MetadataServiceOuterClass.internal_static_protos_metadata_service_GetAllExecutionEnvironmentsResponse_descriptor;
+      }
+
+      @SuppressWarnings({"rawtypes"})
+      protected com.google.protobuf.MapField internalGetMapField(
+          int number) {
+        switch (number) {
+          case 1:
+            return internalGetExecEnvs();
+          default:
+            throw new RuntimeException(
+                "Invalid map field number: " + number);
+        }
+      }
+      @SuppressWarnings({"rawtypes"})
+      protected com.google.protobuf.MapField internalGetMutableMapField(
+          int number) {
+        switch (number) {
+          case 1:
+            return internalGetMutableExecEnvs();
+          default:
+            throw new RuntimeException(
+                "Invalid map field number: " + number);
+        }
+      }
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return protos.metadata_service.MetadataServiceOuterClass.internal_static_protos_metadata_service_GetAllExecutionEnvironmentsResponse_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                protos.metadata_service.MetadataServiceOuterClass.GetAllExecutionEnvironmentsResponse.class, protos.metadata_service.MetadataServiceOuterClass.GetAllExecutionEnvironmentsResponse.Builder.class);
+      }
+
+      // Construct using protos.metadata_service.MetadataServiceOuterClass.GetAllExecutionEnvironmentsResponse.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        internalGetMutableExecEnvs().clear();
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return protos.metadata_service.MetadataServiceOuterClass.internal_static_protos_metadata_service_GetAllExecutionEnvironmentsResponse_descriptor;
+      }
+
+      @java.lang.Override
+      public protos.metadata_service.MetadataServiceOuterClass.GetAllExecutionEnvironmentsResponse getDefaultInstanceForType() {
+        return protos.metadata_service.MetadataServiceOuterClass.GetAllExecutionEnvironmentsResponse.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public protos.metadata_service.MetadataServiceOuterClass.GetAllExecutionEnvironmentsResponse build() {
+        protos.metadata_service.MetadataServiceOuterClass.GetAllExecutionEnvironmentsResponse result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public protos.metadata_service.MetadataServiceOuterClass.GetAllExecutionEnvironmentsResponse buildPartial() {
+        protos.metadata_service.MetadataServiceOuterClass.GetAllExecutionEnvironmentsResponse result = new protos.metadata_service.MetadataServiceOuterClass.GetAllExecutionEnvironmentsResponse(this);
+        int from_bitField0_ = bitField0_;
+        result.execEnvs_ = internalGetExecEnvs();
+        result.execEnvs_.makeImmutable();
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof protos.metadata_service.MetadataServiceOuterClass.GetAllExecutionEnvironmentsResponse) {
+          return mergeFrom((protos.metadata_service.MetadataServiceOuterClass.GetAllExecutionEnvironmentsResponse)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(protos.metadata_service.MetadataServiceOuterClass.GetAllExecutionEnvironmentsResponse other) {
+        if (other == protos.metadata_service.MetadataServiceOuterClass.GetAllExecutionEnvironmentsResponse.getDefaultInstance()) return this;
+        internalGetMutableExecEnvs().mergeFrom(
+            other.internalGetExecEnvs());
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        protos.metadata_service.MetadataServiceOuterClass.GetAllExecutionEnvironmentsResponse parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (protos.metadata_service.MetadataServiceOuterClass.GetAllExecutionEnvironmentsResponse) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private com.google.protobuf.MapField<
+          java.lang.String, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironment> execEnvs_;
+      private com.google.protobuf.MapField<java.lang.String, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironment>
+      internalGetExecEnvs() {
+        if (execEnvs_ == null) {
+          return com.google.protobuf.MapField.emptyMapField(
+              ExecEnvsDefaultEntryHolder.defaultEntry);
+        }
+        return execEnvs_;
+      }
+      private com.google.protobuf.MapField<java.lang.String, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironment>
+      internalGetMutableExecEnvs() {
+        onChanged();;
+        if (execEnvs_ == null) {
+          execEnvs_ = com.google.protobuf.MapField.newMapField(
+              ExecEnvsDefaultEntryHolder.defaultEntry);
+        }
+        if (!execEnvs_.isMutable()) {
+          execEnvs_ = execEnvs_.copy();
+        }
+        return execEnvs_;
+      }
+
+      public int getExecEnvsCount() {
+        return internalGetExecEnvs().getMap().size();
+      }
+      /**
+       * <code>map&lt;string, .protos.common.ExecutionEnvironment&gt; exec_envs = 1;</code>
+       */
+
+      public boolean containsExecEnvs(
+          java.lang.String key) {
+        if (key == null) { throw new java.lang.NullPointerException(); }
+        return internalGetExecEnvs().getMap().containsKey(key);
+      }
+      /**
+       * Use {@link #getExecEnvsMap()} instead.
+       */
+      @java.lang.Deprecated
+      public java.util.Map<java.lang.String, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironment> getExecEnvs() {
+        return getExecEnvsMap();
+      }
+      /**
+       * <code>map&lt;string, .protos.common.ExecutionEnvironment&gt; exec_envs = 1;</code>
+       */
+
+      public java.util.Map<java.lang.String, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironment> getExecEnvsMap() {
+        return internalGetExecEnvs().getMap();
+      }
+      /**
+       * <code>map&lt;string, .protos.common.ExecutionEnvironment&gt; exec_envs = 1;</code>
+       */
+
+      public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironment getExecEnvsOrDefault(
+          java.lang.String key,
+          es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironment defaultValue) {
+        if (key == null) { throw new java.lang.NullPointerException(); }
+        java.util.Map<java.lang.String, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironment> map =
+            internalGetExecEnvs().getMap();
+        return map.containsKey(key) ? map.get(key) : defaultValue;
+      }
+      /**
+       * <code>map&lt;string, .protos.common.ExecutionEnvironment&gt; exec_envs = 1;</code>
+       */
+
+      public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironment getExecEnvsOrThrow(
+          java.lang.String key) {
+        if (key == null) { throw new java.lang.NullPointerException(); }
+        java.util.Map<java.lang.String, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironment> map =
+            internalGetExecEnvs().getMap();
+        if (!map.containsKey(key)) {
+          throw new java.lang.IllegalArgumentException();
+        }
+        return map.get(key);
+      }
+
+      public Builder clearExecEnvs() {
+        internalGetMutableExecEnvs().getMutableMap()
+            .clear();
+        return this;
+      }
+      /**
+       * <code>map&lt;string, .protos.common.ExecutionEnvironment&gt; exec_envs = 1;</code>
+       */
+
+      public Builder removeExecEnvs(
+          java.lang.String key) {
+        if (key == null) { throw new java.lang.NullPointerException(); }
+        internalGetMutableExecEnvs().getMutableMap()
+            .remove(key);
+        return this;
+      }
+      /**
+       * Use alternate mutation accessors instead.
+       */
+      @java.lang.Deprecated
+      public java.util.Map<java.lang.String, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironment>
+      getMutableExecEnvs() {
+        return internalGetMutableExecEnvs().getMutableMap();
+      }
+      /**
+       * <code>map&lt;string, .protos.common.ExecutionEnvironment&gt; exec_envs = 1;</code>
+       */
+      public Builder putExecEnvs(
+          java.lang.String key,
+          es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironment value) {
+        if (key == null) { throw new java.lang.NullPointerException(); }
+        if (value == null) { throw new java.lang.NullPointerException(); }
+        internalGetMutableExecEnvs().getMutableMap()
+            .put(key, value);
+        return this;
+      }
+      /**
+       * <code>map&lt;string, .protos.common.ExecutionEnvironment&gt; exec_envs = 1;</code>
+       */
+
+      public Builder putAllExecEnvs(
+          java.util.Map<java.lang.String, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ExecutionEnvironment> values) {
+        internalGetMutableExecEnvs().getMutableMap()
+            .putAll(values);
+        return this;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:protos.metadata_service.GetAllExecutionEnvironmentsResponse)
+    }
+
+    // @@protoc_insertion_point(class_scope:protos.metadata_service.GetAllExecutionEnvironmentsResponse)
+    private static final protos.metadata_service.MetadataServiceOuterClass.GetAllExecutionEnvironmentsResponse DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new protos.metadata_service.MetadataServiceOuterClass.GetAllExecutionEnvironmentsResponse();
+    }
+
+    public static protos.metadata_service.MetadataServiceOuterClass.GetAllExecutionEnvironmentsResponse getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<GetAllExecutionEnvironmentsResponse>
+        PARSER = new com.google.protobuf.AbstractParser<GetAllExecutionEnvironmentsResponse>() {
+      @java.lang.Override
+      public GetAllExecutionEnvironmentsResponse parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new GetAllExecutionEnvironmentsResponse(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<GetAllExecutionEnvironmentsResponse> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<GetAllExecutionEnvironmentsResponse> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public protos.metadata_service.MetadataServiceOuterClass.GetAllExecutionEnvironmentsResponse getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface GetDataclayIDResponseOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:protos.metadata_service.GetDataclayIDResponse)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>string dataclay_id = 1;</code>
+     * @return The dataclayId.
+     */
+    java.lang.String getDataclayId();
+    /**
+     * <code>string dataclay_id = 1;</code>
+     * @return The bytes for dataclayId.
+     */
+    com.google.protobuf.ByteString
+        getDataclayIdBytes();
+  }
+  /**
+   * Protobuf type {@code protos.metadata_service.GetDataclayIDResponse}
+   */
+  public  static final class GetDataclayIDResponse extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:protos.metadata_service.GetDataclayIDResponse)
+      GetDataclayIDResponseOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use GetDataclayIDResponse.newBuilder() to construct.
+    private GetDataclayIDResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private GetDataclayIDResponse() {
+      dataclayId_ = "";
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new GetDataclayIDResponse();
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private GetDataclayIDResponse(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 10: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              dataclayId_ = s;
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return protos.metadata_service.MetadataServiceOuterClass.internal_static_protos_metadata_service_GetDataclayIDResponse_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return protos.metadata_service.MetadataServiceOuterClass.internal_static_protos_metadata_service_GetDataclayIDResponse_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              protos.metadata_service.MetadataServiceOuterClass.GetDataclayIDResponse.class, protos.metadata_service.MetadataServiceOuterClass.GetDataclayIDResponse.Builder.class);
+    }
+
+    public static final int DATACLAY_ID_FIELD_NUMBER = 1;
+    private volatile java.lang.Object dataclayId_;
+    /**
+     * <code>string dataclay_id = 1;</code>
+     * @return The dataclayId.
+     */
+    public java.lang.String getDataclayId() {
+      java.lang.Object ref = dataclayId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        dataclayId_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string dataclay_id = 1;</code>
+     * @return The bytes for dataclayId.
+     */
+    public com.google.protobuf.ByteString
+        getDataclayIdBytes() {
+      java.lang.Object ref = dataclayId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        dataclayId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (!getDataclayIdBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, dataclayId_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (!getDataclayIdBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, dataclayId_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof protos.metadata_service.MetadataServiceOuterClass.GetDataclayIDResponse)) {
+        return super.equals(obj);
+      }
+      protos.metadata_service.MetadataServiceOuterClass.GetDataclayIDResponse other = (protos.metadata_service.MetadataServiceOuterClass.GetDataclayIDResponse) obj;
+
+      if (!getDataclayId()
+          .equals(other.getDataclayId())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + DATACLAY_ID_FIELD_NUMBER;
+      hash = (53 * hash) + getDataclayId().hashCode();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static protos.metadata_service.MetadataServiceOuterClass.GetDataclayIDResponse parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static protos.metadata_service.MetadataServiceOuterClass.GetDataclayIDResponse parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static protos.metadata_service.MetadataServiceOuterClass.GetDataclayIDResponse parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static protos.metadata_service.MetadataServiceOuterClass.GetDataclayIDResponse parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static protos.metadata_service.MetadataServiceOuterClass.GetDataclayIDResponse parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static protos.metadata_service.MetadataServiceOuterClass.GetDataclayIDResponse parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static protos.metadata_service.MetadataServiceOuterClass.GetDataclayIDResponse parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static protos.metadata_service.MetadataServiceOuterClass.GetDataclayIDResponse parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static protos.metadata_service.MetadataServiceOuterClass.GetDataclayIDResponse parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static protos.metadata_service.MetadataServiceOuterClass.GetDataclayIDResponse parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static protos.metadata_service.MetadataServiceOuterClass.GetDataclayIDResponse parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static protos.metadata_service.MetadataServiceOuterClass.GetDataclayIDResponse parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(protos.metadata_service.MetadataServiceOuterClass.GetDataclayIDResponse prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code protos.metadata_service.GetDataclayIDResponse}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:protos.metadata_service.GetDataclayIDResponse)
+        protos.metadata_service.MetadataServiceOuterClass.GetDataclayIDResponseOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return protos.metadata_service.MetadataServiceOuterClass.internal_static_protos_metadata_service_GetDataclayIDResponse_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return protos.metadata_service.MetadataServiceOuterClass.internal_static_protos_metadata_service_GetDataclayIDResponse_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                protos.metadata_service.MetadataServiceOuterClass.GetDataclayIDResponse.class, protos.metadata_service.MetadataServiceOuterClass.GetDataclayIDResponse.Builder.class);
+      }
+
+      // Construct using protos.metadata_service.MetadataServiceOuterClass.GetDataclayIDResponse.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        dataclayId_ = "";
+
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return protos.metadata_service.MetadataServiceOuterClass.internal_static_protos_metadata_service_GetDataclayIDResponse_descriptor;
+      }
+
+      @java.lang.Override
+      public protos.metadata_service.MetadataServiceOuterClass.GetDataclayIDResponse getDefaultInstanceForType() {
+        return protos.metadata_service.MetadataServiceOuterClass.GetDataclayIDResponse.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public protos.metadata_service.MetadataServiceOuterClass.GetDataclayIDResponse build() {
+        protos.metadata_service.MetadataServiceOuterClass.GetDataclayIDResponse result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public protos.metadata_service.MetadataServiceOuterClass.GetDataclayIDResponse buildPartial() {
+        protos.metadata_service.MetadataServiceOuterClass.GetDataclayIDResponse result = new protos.metadata_service.MetadataServiceOuterClass.GetDataclayIDResponse(this);
+        result.dataclayId_ = dataclayId_;
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof protos.metadata_service.MetadataServiceOuterClass.GetDataclayIDResponse) {
+          return mergeFrom((protos.metadata_service.MetadataServiceOuterClass.GetDataclayIDResponse)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(protos.metadata_service.MetadataServiceOuterClass.GetDataclayIDResponse other) {
+        if (other == protos.metadata_service.MetadataServiceOuterClass.GetDataclayIDResponse.getDefaultInstance()) return this;
+        if (!other.getDataclayId().isEmpty()) {
+          dataclayId_ = other.dataclayId_;
+          onChanged();
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        protos.metadata_service.MetadataServiceOuterClass.GetDataclayIDResponse parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (protos.metadata_service.MetadataServiceOuterClass.GetDataclayIDResponse) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private java.lang.Object dataclayId_ = "";
+      /**
+       * <code>string dataclay_id = 1;</code>
+       * @return The dataclayId.
+       */
+      public java.lang.String getDataclayId() {
+        java.lang.Object ref = dataclayId_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          dataclayId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string dataclay_id = 1;</code>
+       * @return The bytes for dataclayId.
+       */
+      public com.google.protobuf.ByteString
+          getDataclayIdBytes() {
+        java.lang.Object ref = dataclayId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          dataclayId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string dataclay_id = 1;</code>
+       * @param value The dataclayId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setDataclayId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        dataclayId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string dataclay_id = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearDataclayId() {
+        
+        dataclayId_ = getDefaultInstance().getDataclayId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string dataclay_id = 1;</code>
+       * @param value The bytes for dataclayId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setDataclayIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        dataclayId_ = value;
+        onChanged();
+        return this;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:protos.metadata_service.GetDataclayIDResponse)
+    }
+
+    // @@protoc_insertion_point(class_scope:protos.metadata_service.GetDataclayIDResponse)
+    private static final protos.metadata_service.MetadataServiceOuterClass.GetDataclayIDResponse DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new protos.metadata_service.MetadataServiceOuterClass.GetDataclayIDResponse();
+    }
+
+    public static protos.metadata_service.MetadataServiceOuterClass.GetDataclayIDResponse getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<GetDataclayIDResponse>
+        PARSER = new com.google.protobuf.AbstractParser<GetDataclayIDResponse>() {
+      @java.lang.Override
+      public GetDataclayIDResponse parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new GetDataclayIDResponse(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<GetDataclayIDResponse> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<GetDataclayIDResponse> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public protos.metadata_service.MetadataServiceOuterClass.GetDataclayIDResponse getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface AutoRegisterEERequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:protos.metadata_service.AutoRegisterEERequest)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>string id = 1;</code>
+     * @return The id.
+     */
+    java.lang.String getId();
+    /**
+     * <code>string id = 1;</code>
+     * @return The bytes for id.
+     */
+    com.google.protobuf.ByteString
+        getIdBytes();
+
+    /**
+     * <code>string hostname = 2;</code>
+     * @return The hostname.
+     */
+    java.lang.String getHostname();
+    /**
+     * <code>string hostname = 2;</code>
+     * @return The bytes for hostname.
+     */
+    com.google.protobuf.ByteString
+        getHostnameBytes();
+
+    /**
+     * <code>int32 port = 3;</code>
+     * @return The port.
+     */
+    int getPort();
+
+    /**
+     * <code>string sl_name = 4;</code>
+     * @return The slName.
+     */
+    java.lang.String getSlName();
+    /**
+     * <code>string sl_name = 4;</code>
+     * @return The bytes for slName.
+     */
+    com.google.protobuf.ByteString
+        getSlNameBytes();
+
+    /**
+     * <code>.protos.common.Langs lang = 5;</code>
+     * @return The enum numeric value on the wire for lang.
+     */
+    int getLangValue();
+    /**
+     * <code>.protos.common.Langs lang = 5;</code>
+     * @return The lang.
+     */
+    es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.Langs getLang();
+  }
+  /**
+   * <pre>
+   * ************
+   * Autoregister
+   * ************
+   * </pre>
+   *
+   * Protobuf type {@code protos.metadata_service.AutoRegisterEERequest}
+   */
+  public  static final class AutoRegisterEERequest extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:protos.metadata_service.AutoRegisterEERequest)
+      AutoRegisterEERequestOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use AutoRegisterEERequest.newBuilder() to construct.
+    private AutoRegisterEERequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private AutoRegisterEERequest() {
+      id_ = "";
+      hostname_ = "";
+      slName_ = "";
+      lang_ = 0;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new AutoRegisterEERequest();
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private AutoRegisterEERequest(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 10: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              id_ = s;
+              break;
+            }
+            case 18: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              hostname_ = s;
+              break;
+            }
+            case 24: {
+
+              port_ = input.readInt32();
+              break;
+            }
+            case 34: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              slName_ = s;
+              break;
+            }
+            case 40: {
+              int rawValue = input.readEnum();
+
+              lang_ = rawValue;
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return protos.metadata_service.MetadataServiceOuterClass.internal_static_protos_metadata_service_AutoRegisterEERequest_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return protos.metadata_service.MetadataServiceOuterClass.internal_static_protos_metadata_service_AutoRegisterEERequest_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              protos.metadata_service.MetadataServiceOuterClass.AutoRegisterEERequest.class, protos.metadata_service.MetadataServiceOuterClass.AutoRegisterEERequest.Builder.class);
+    }
+
+    public static final int ID_FIELD_NUMBER = 1;
+    private volatile java.lang.Object id_;
+    /**
+     * <code>string id = 1;</code>
+     * @return The id.
+     */
+    public java.lang.String getId() {
+      java.lang.Object ref = id_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        id_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string id = 1;</code>
+     * @return The bytes for id.
+     */
+    public com.google.protobuf.ByteString
+        getIdBytes() {
+      java.lang.Object ref = id_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        id_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int HOSTNAME_FIELD_NUMBER = 2;
+    private volatile java.lang.Object hostname_;
+    /**
+     * <code>string hostname = 2;</code>
+     * @return The hostname.
+     */
+    public java.lang.String getHostname() {
+      java.lang.Object ref = hostname_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        hostname_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string hostname = 2;</code>
+     * @return The bytes for hostname.
+     */
+    public com.google.protobuf.ByteString
+        getHostnameBytes() {
+      java.lang.Object ref = hostname_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        hostname_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int PORT_FIELD_NUMBER = 3;
+    private int port_;
+    /**
+     * <code>int32 port = 3;</code>
+     * @return The port.
+     */
+    public int getPort() {
+      return port_;
+    }
+
+    public static final int SL_NAME_FIELD_NUMBER = 4;
+    private volatile java.lang.Object slName_;
+    /**
+     * <code>string sl_name = 4;</code>
+     * @return The slName.
+     */
+    public java.lang.String getSlName() {
+      java.lang.Object ref = slName_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        slName_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string sl_name = 4;</code>
+     * @return The bytes for slName.
+     */
+    public com.google.protobuf.ByteString
+        getSlNameBytes() {
+      java.lang.Object ref = slName_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        slName_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int LANG_FIELD_NUMBER = 5;
+    private int lang_;
+    /**
+     * <code>.protos.common.Langs lang = 5;</code>
+     * @return The enum numeric value on the wire for lang.
+     */
+    public int getLangValue() {
+      return lang_;
+    }
+    /**
+     * <code>.protos.common.Langs lang = 5;</code>
+     * @return The lang.
+     */
+    public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.Langs getLang() {
+      @SuppressWarnings("deprecation")
+      es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.Langs result = es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.Langs.valueOf(lang_);
+      return result == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.Langs.UNRECOGNIZED : result;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (!getIdBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, id_);
+      }
+      if (!getHostnameBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, hostname_);
+      }
+      if (port_ != 0) {
+        output.writeInt32(3, port_);
+      }
+      if (!getSlNameBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 4, slName_);
+      }
+      if (lang_ != es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.Langs.LANG_NONE.getNumber()) {
+        output.writeEnum(5, lang_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (!getIdBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, id_);
+      }
+      if (!getHostnameBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, hostname_);
+      }
+      if (port_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(3, port_);
+      }
+      if (!getSlNameBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, slName_);
+      }
+      if (lang_ != es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.Langs.LANG_NONE.getNumber()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(5, lang_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof protos.metadata_service.MetadataServiceOuterClass.AutoRegisterEERequest)) {
+        return super.equals(obj);
+      }
+      protos.metadata_service.MetadataServiceOuterClass.AutoRegisterEERequest other = (protos.metadata_service.MetadataServiceOuterClass.AutoRegisterEERequest) obj;
+
+      if (!getId()
+          .equals(other.getId())) return false;
+      if (!getHostname()
+          .equals(other.getHostname())) return false;
+      if (getPort()
+          != other.getPort()) return false;
+      if (!getSlName()
+          .equals(other.getSlName())) return false;
+      if (lang_ != other.lang_) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + ID_FIELD_NUMBER;
+      hash = (53 * hash) + getId().hashCode();
+      hash = (37 * hash) + HOSTNAME_FIELD_NUMBER;
+      hash = (53 * hash) + getHostname().hashCode();
+      hash = (37 * hash) + PORT_FIELD_NUMBER;
+      hash = (53 * hash) + getPort();
+      hash = (37 * hash) + SL_NAME_FIELD_NUMBER;
+      hash = (53 * hash) + getSlName().hashCode();
+      hash = (37 * hash) + LANG_FIELD_NUMBER;
+      hash = (53 * hash) + lang_;
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static protos.metadata_service.MetadataServiceOuterClass.AutoRegisterEERequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static protos.metadata_service.MetadataServiceOuterClass.AutoRegisterEERequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static protos.metadata_service.MetadataServiceOuterClass.AutoRegisterEERequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static protos.metadata_service.MetadataServiceOuterClass.AutoRegisterEERequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static protos.metadata_service.MetadataServiceOuterClass.AutoRegisterEERequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static protos.metadata_service.MetadataServiceOuterClass.AutoRegisterEERequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static protos.metadata_service.MetadataServiceOuterClass.AutoRegisterEERequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static protos.metadata_service.MetadataServiceOuterClass.AutoRegisterEERequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static protos.metadata_service.MetadataServiceOuterClass.AutoRegisterEERequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static protos.metadata_service.MetadataServiceOuterClass.AutoRegisterEERequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static protos.metadata_service.MetadataServiceOuterClass.AutoRegisterEERequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static protos.metadata_service.MetadataServiceOuterClass.AutoRegisterEERequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(protos.metadata_service.MetadataServiceOuterClass.AutoRegisterEERequest prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * <pre>
+     * ************
+     * Autoregister
+     * ************
+     * </pre>
+     *
+     * Protobuf type {@code protos.metadata_service.AutoRegisterEERequest}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:protos.metadata_service.AutoRegisterEERequest)
+        protos.metadata_service.MetadataServiceOuterClass.AutoRegisterEERequestOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return protos.metadata_service.MetadataServiceOuterClass.internal_static_protos_metadata_service_AutoRegisterEERequest_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return protos.metadata_service.MetadataServiceOuterClass.internal_static_protos_metadata_service_AutoRegisterEERequest_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                protos.metadata_service.MetadataServiceOuterClass.AutoRegisterEERequest.class, protos.metadata_service.MetadataServiceOuterClass.AutoRegisterEERequest.Builder.class);
+      }
+
+      // Construct using protos.metadata_service.MetadataServiceOuterClass.AutoRegisterEERequest.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        id_ = "";
+
+        hostname_ = "";
+
+        port_ = 0;
+
+        slName_ = "";
+
+        lang_ = 0;
+
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return protos.metadata_service.MetadataServiceOuterClass.internal_static_protos_metadata_service_AutoRegisterEERequest_descriptor;
+      }
+
+      @java.lang.Override
+      public protos.metadata_service.MetadataServiceOuterClass.AutoRegisterEERequest getDefaultInstanceForType() {
+        return protos.metadata_service.MetadataServiceOuterClass.AutoRegisterEERequest.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public protos.metadata_service.MetadataServiceOuterClass.AutoRegisterEERequest build() {
+        protos.metadata_service.MetadataServiceOuterClass.AutoRegisterEERequest result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public protos.metadata_service.MetadataServiceOuterClass.AutoRegisterEERequest buildPartial() {
+        protos.metadata_service.MetadataServiceOuterClass.AutoRegisterEERequest result = new protos.metadata_service.MetadataServiceOuterClass.AutoRegisterEERequest(this);
+        result.id_ = id_;
+        result.hostname_ = hostname_;
+        result.port_ = port_;
+        result.slName_ = slName_;
+        result.lang_ = lang_;
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof protos.metadata_service.MetadataServiceOuterClass.AutoRegisterEERequest) {
+          return mergeFrom((protos.metadata_service.MetadataServiceOuterClass.AutoRegisterEERequest)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(protos.metadata_service.MetadataServiceOuterClass.AutoRegisterEERequest other) {
+        if (other == protos.metadata_service.MetadataServiceOuterClass.AutoRegisterEERequest.getDefaultInstance()) return this;
+        if (!other.getId().isEmpty()) {
+          id_ = other.id_;
+          onChanged();
+        }
+        if (!other.getHostname().isEmpty()) {
+          hostname_ = other.hostname_;
+          onChanged();
+        }
+        if (other.getPort() != 0) {
+          setPort(other.getPort());
+        }
+        if (!other.getSlName().isEmpty()) {
+          slName_ = other.slName_;
+          onChanged();
+        }
+        if (other.lang_ != 0) {
+          setLangValue(other.getLangValue());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        protos.metadata_service.MetadataServiceOuterClass.AutoRegisterEERequest parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (protos.metadata_service.MetadataServiceOuterClass.AutoRegisterEERequest) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private java.lang.Object id_ = "";
+      /**
+       * <code>string id = 1;</code>
+       * @return The id.
+       */
+      public java.lang.String getId() {
+        java.lang.Object ref = id_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          id_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string id = 1;</code>
+       * @return The bytes for id.
+       */
+      public com.google.protobuf.ByteString
+          getIdBytes() {
+        java.lang.Object ref = id_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          id_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string id = 1;</code>
+       * @param value The id to set.
+       * @return This builder for chaining.
+       */
+      public Builder setId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        id_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string id = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearId() {
+        
+        id_ = getDefaultInstance().getId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string id = 1;</code>
+       * @param value The bytes for id to set.
+       * @return This builder for chaining.
+       */
+      public Builder setIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        id_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object hostname_ = "";
+      /**
+       * <code>string hostname = 2;</code>
+       * @return The hostname.
+       */
+      public java.lang.String getHostname() {
+        java.lang.Object ref = hostname_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          hostname_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string hostname = 2;</code>
+       * @return The bytes for hostname.
+       */
+      public com.google.protobuf.ByteString
+          getHostnameBytes() {
+        java.lang.Object ref = hostname_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          hostname_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string hostname = 2;</code>
+       * @param value The hostname to set.
+       * @return This builder for chaining.
+       */
+      public Builder setHostname(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        hostname_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string hostname = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearHostname() {
+        
+        hostname_ = getDefaultInstance().getHostname();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string hostname = 2;</code>
+       * @param value The bytes for hostname to set.
+       * @return This builder for chaining.
+       */
+      public Builder setHostnameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        hostname_ = value;
+        onChanged();
+        return this;
+      }
+
+      private int port_ ;
+      /**
+       * <code>int32 port = 3;</code>
+       * @return The port.
+       */
+      public int getPort() {
+        return port_;
+      }
+      /**
+       * <code>int32 port = 3;</code>
+       * @param value The port to set.
+       * @return This builder for chaining.
+       */
+      public Builder setPort(int value) {
+        
+        port_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 port = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearPort() {
+        
+        port_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object slName_ = "";
+      /**
+       * <code>string sl_name = 4;</code>
+       * @return The slName.
+       */
+      public java.lang.String getSlName() {
+        java.lang.Object ref = slName_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          slName_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string sl_name = 4;</code>
+       * @return The bytes for slName.
+       */
+      public com.google.protobuf.ByteString
+          getSlNameBytes() {
+        java.lang.Object ref = slName_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          slName_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string sl_name = 4;</code>
+       * @param value The slName to set.
+       * @return This builder for chaining.
+       */
+      public Builder setSlName(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        slName_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string sl_name = 4;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearSlName() {
+        
+        slName_ = getDefaultInstance().getSlName();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string sl_name = 4;</code>
+       * @param value The bytes for slName to set.
+       * @return This builder for chaining.
+       */
+      public Builder setSlNameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        slName_ = value;
+        onChanged();
+        return this;
+      }
+
+      private int lang_ = 0;
+      /**
+       * <code>.protos.common.Langs lang = 5;</code>
+       * @return The enum numeric value on the wire for lang.
+       */
+      public int getLangValue() {
+        return lang_;
+      }
+      /**
+       * <code>.protos.common.Langs lang = 5;</code>
+       * @param value The enum numeric value on the wire for lang to set.
+       * @return This builder for chaining.
+       */
+      public Builder setLangValue(int value) {
+        lang_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.protos.common.Langs lang = 5;</code>
+       * @return The lang.
+       */
+      public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.Langs getLang() {
+        @SuppressWarnings("deprecation")
+        es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.Langs result = es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.Langs.valueOf(lang_);
+        return result == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.Langs.UNRECOGNIZED : result;
+      }
+      /**
+       * <code>.protos.common.Langs lang = 5;</code>
+       * @param value The lang to set.
+       * @return This builder for chaining.
+       */
+      public Builder setLang(es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.Langs value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        
+        lang_ = value.getNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.protos.common.Langs lang = 5;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearLang() {
+        
+        lang_ = 0;
+        onChanged();
+        return this;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:protos.metadata_service.AutoRegisterEERequest)
+    }
+
+    // @@protoc_insertion_point(class_scope:protos.metadata_service.AutoRegisterEERequest)
+    private static final protos.metadata_service.MetadataServiceOuterClass.AutoRegisterEERequest DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new protos.metadata_service.MetadataServiceOuterClass.AutoRegisterEERequest();
+    }
+
+    public static protos.metadata_service.MetadataServiceOuterClass.AutoRegisterEERequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<AutoRegisterEERequest>
+        PARSER = new com.google.protobuf.AbstractParser<AutoRegisterEERequest>() {
+      @java.lang.Override
+      public AutoRegisterEERequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new AutoRegisterEERequest(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<AutoRegisterEERequest> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<AutoRegisterEERequest> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public protos.metadata_service.MetadataServiceOuterClass.AutoRegisterEERequest getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface RegisterObjectRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:protos.metadata_service.RegisterObjectRequest)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>string session_id = 1;</code>
+     * @return The sessionId.
+     */
+    java.lang.String getSessionId();
+    /**
+     * <code>string session_id = 1;</code>
+     * @return The bytes for sessionId.
+     */
+    com.google.protobuf.ByteString
+        getSessionIdBytes();
+
+    /**
+     * <code>.protos.common.ObjectMetadata object_md = 2;</code>
+     * @return Whether the objectMd field is set.
+     */
+    boolean hasObjectMd();
+    /**
+     * <code>.protos.common.ObjectMetadata object_md = 2;</code>
+     * @return The objectMd.
+     */
+    es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectMetadata getObjectMd();
+    /**
+     * <code>.protos.common.ObjectMetadata object_md = 2;</code>
+     */
+    es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectMetadataOrBuilder getObjectMdOrBuilder();
+  }
+  /**
+   * Protobuf type {@code protos.metadata_service.RegisterObjectRequest}
+   */
+  public  static final class RegisterObjectRequest extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:protos.metadata_service.RegisterObjectRequest)
+      RegisterObjectRequestOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use RegisterObjectRequest.newBuilder() to construct.
+    private RegisterObjectRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private RegisterObjectRequest() {
+      sessionId_ = "";
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new RegisterObjectRequest();
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private RegisterObjectRequest(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 10: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              sessionId_ = s;
+              break;
+            }
+            case 18: {
+              es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectMetadata.Builder subBuilder = null;
+              if (objectMd_ != null) {
+                subBuilder = objectMd_.toBuilder();
+              }
+              objectMd_ = input.readMessage(es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectMetadata.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(objectMd_);
+                objectMd_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return protos.metadata_service.MetadataServiceOuterClass.internal_static_protos_metadata_service_RegisterObjectRequest_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return protos.metadata_service.MetadataServiceOuterClass.internal_static_protos_metadata_service_RegisterObjectRequest_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              protos.metadata_service.MetadataServiceOuterClass.RegisterObjectRequest.class, protos.metadata_service.MetadataServiceOuterClass.RegisterObjectRequest.Builder.class);
+    }
+
+    public static final int SESSION_ID_FIELD_NUMBER = 1;
+    private volatile java.lang.Object sessionId_;
+    /**
+     * <code>string session_id = 1;</code>
+     * @return The sessionId.
+     */
+    public java.lang.String getSessionId() {
+      java.lang.Object ref = sessionId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        sessionId_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string session_id = 1;</code>
+     * @return The bytes for sessionId.
+     */
+    public com.google.protobuf.ByteString
+        getSessionIdBytes() {
+      java.lang.Object ref = sessionId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        sessionId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int OBJECT_MD_FIELD_NUMBER = 2;
+    private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectMetadata objectMd_;
+    /**
+     * <code>.protos.common.ObjectMetadata object_md = 2;</code>
+     * @return Whether the objectMd field is set.
+     */
+    public boolean hasObjectMd() {
+      return objectMd_ != null;
+    }
+    /**
+     * <code>.protos.common.ObjectMetadata object_md = 2;</code>
+     * @return The objectMd.
+     */
+    public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectMetadata getObjectMd() {
+      return objectMd_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectMetadata.getDefaultInstance() : objectMd_;
+    }
+    /**
+     * <code>.protos.common.ObjectMetadata object_md = 2;</code>
+     */
+    public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectMetadataOrBuilder getObjectMdOrBuilder() {
+      return getObjectMd();
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (!getSessionIdBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, sessionId_);
+      }
+      if (objectMd_ != null) {
+        output.writeMessage(2, getObjectMd());
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (!getSessionIdBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, sessionId_);
+      }
+      if (objectMd_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, getObjectMd());
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof protos.metadata_service.MetadataServiceOuterClass.RegisterObjectRequest)) {
+        return super.equals(obj);
+      }
+      protos.metadata_service.MetadataServiceOuterClass.RegisterObjectRequest other = (protos.metadata_service.MetadataServiceOuterClass.RegisterObjectRequest) obj;
+
+      if (!getSessionId()
+          .equals(other.getSessionId())) return false;
+      if (hasObjectMd() != other.hasObjectMd()) return false;
+      if (hasObjectMd()) {
+        if (!getObjectMd()
+            .equals(other.getObjectMd())) return false;
+      }
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + SESSION_ID_FIELD_NUMBER;
+      hash = (53 * hash) + getSessionId().hashCode();
+      if (hasObjectMd()) {
+        hash = (37 * hash) + OBJECT_MD_FIELD_NUMBER;
+        hash = (53 * hash) + getObjectMd().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static protos.metadata_service.MetadataServiceOuterClass.RegisterObjectRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static protos.metadata_service.MetadataServiceOuterClass.RegisterObjectRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static protos.metadata_service.MetadataServiceOuterClass.RegisterObjectRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static protos.metadata_service.MetadataServiceOuterClass.RegisterObjectRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static protos.metadata_service.MetadataServiceOuterClass.RegisterObjectRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static protos.metadata_service.MetadataServiceOuterClass.RegisterObjectRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static protos.metadata_service.MetadataServiceOuterClass.RegisterObjectRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static protos.metadata_service.MetadataServiceOuterClass.RegisterObjectRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static protos.metadata_service.MetadataServiceOuterClass.RegisterObjectRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static protos.metadata_service.MetadataServiceOuterClass.RegisterObjectRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static protos.metadata_service.MetadataServiceOuterClass.RegisterObjectRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static protos.metadata_service.MetadataServiceOuterClass.RegisterObjectRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(protos.metadata_service.MetadataServiceOuterClass.RegisterObjectRequest prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code protos.metadata_service.RegisterObjectRequest}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:protos.metadata_service.RegisterObjectRequest)
+        protos.metadata_service.MetadataServiceOuterClass.RegisterObjectRequestOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return protos.metadata_service.MetadataServiceOuterClass.internal_static_protos_metadata_service_RegisterObjectRequest_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return protos.metadata_service.MetadataServiceOuterClass.internal_static_protos_metadata_service_RegisterObjectRequest_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                protos.metadata_service.MetadataServiceOuterClass.RegisterObjectRequest.class, protos.metadata_service.MetadataServiceOuterClass.RegisterObjectRequest.Builder.class);
+      }
+
+      // Construct using protos.metadata_service.MetadataServiceOuterClass.RegisterObjectRequest.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        sessionId_ = "";
+
+        if (objectMdBuilder_ == null) {
+          objectMd_ = null;
+        } else {
+          objectMd_ = null;
+          objectMdBuilder_ = null;
+        }
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return protos.metadata_service.MetadataServiceOuterClass.internal_static_protos_metadata_service_RegisterObjectRequest_descriptor;
+      }
+
+      @java.lang.Override
+      public protos.metadata_service.MetadataServiceOuterClass.RegisterObjectRequest getDefaultInstanceForType() {
+        return protos.metadata_service.MetadataServiceOuterClass.RegisterObjectRequest.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public protos.metadata_service.MetadataServiceOuterClass.RegisterObjectRequest build() {
+        protos.metadata_service.MetadataServiceOuterClass.RegisterObjectRequest result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public protos.metadata_service.MetadataServiceOuterClass.RegisterObjectRequest buildPartial() {
+        protos.metadata_service.MetadataServiceOuterClass.RegisterObjectRequest result = new protos.metadata_service.MetadataServiceOuterClass.RegisterObjectRequest(this);
+        result.sessionId_ = sessionId_;
+        if (objectMdBuilder_ == null) {
+          result.objectMd_ = objectMd_;
+        } else {
+          result.objectMd_ = objectMdBuilder_.build();
+        }
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof protos.metadata_service.MetadataServiceOuterClass.RegisterObjectRequest) {
+          return mergeFrom((protos.metadata_service.MetadataServiceOuterClass.RegisterObjectRequest)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(protos.metadata_service.MetadataServiceOuterClass.RegisterObjectRequest other) {
+        if (other == protos.metadata_service.MetadataServiceOuterClass.RegisterObjectRequest.getDefaultInstance()) return this;
+        if (!other.getSessionId().isEmpty()) {
+          sessionId_ = other.sessionId_;
+          onChanged();
+        }
+        if (other.hasObjectMd()) {
+          mergeObjectMd(other.getObjectMd());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        protos.metadata_service.MetadataServiceOuterClass.RegisterObjectRequest parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (protos.metadata_service.MetadataServiceOuterClass.RegisterObjectRequest) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private java.lang.Object sessionId_ = "";
+      /**
+       * <code>string session_id = 1;</code>
+       * @return The sessionId.
+       */
+      public java.lang.String getSessionId() {
+        java.lang.Object ref = sessionId_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          sessionId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string session_id = 1;</code>
+       * @return The bytes for sessionId.
+       */
+      public com.google.protobuf.ByteString
+          getSessionIdBytes() {
+        java.lang.Object ref = sessionId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          sessionId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string session_id = 1;</code>
+       * @param value The sessionId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setSessionId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        sessionId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string session_id = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearSessionId() {
+        
+        sessionId_ = getDefaultInstance().getSessionId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string session_id = 1;</code>
+       * @param value The bytes for sessionId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setSessionIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        sessionId_ = value;
+        onChanged();
+        return this;
+      }
+
+      private es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectMetadata objectMd_;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectMetadata, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectMetadata.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectMetadataOrBuilder> objectMdBuilder_;
+      /**
+       * <code>.protos.common.ObjectMetadata object_md = 2;</code>
+       * @return Whether the objectMd field is set.
+       */
+      public boolean hasObjectMd() {
+        return objectMdBuilder_ != null || objectMd_ != null;
+      }
+      /**
+       * <code>.protos.common.ObjectMetadata object_md = 2;</code>
+       * @return The objectMd.
+       */
+      public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectMetadata getObjectMd() {
+        if (objectMdBuilder_ == null) {
+          return objectMd_ == null ? es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectMetadata.getDefaultInstance() : objectMd_;
+        } else {
+          return objectMdBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.protos.common.ObjectMetadata object_md = 2;</code>
+       */
+      public Builder setObjectMd(es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectMetadata value) {
+        if (objectMdBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          objectMd_ = value;
+          onChanged();
+        } else {
+          objectMdBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.protos.common.ObjectMetadata object_md = 2;</code>
+       */
+      public Builder setObjectMd(
+          es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectMetadata.Builder builderForValue) {
+        if (objectMdBuilder_ == null) {
+          objectMd_ = builderForValue.build();
+          onChanged();
+        } else {
+          objectMdBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.protos.common.ObjectMetadata object_md = 2;</code>
+       */
+      public Builder mergeObjectMd(es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectMetadata value) {
+        if (objectMdBuilder_ == null) {
+          if (objectMd_ != null) {
+            objectMd_ =
+              es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectMetadata.newBuilder(objectMd_).mergeFrom(value).buildPartial();
+          } else {
+            objectMd_ = value;
+          }
+          onChanged();
+        } else {
+          objectMdBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.protos.common.ObjectMetadata object_md = 2;</code>
+       */
+      public Builder clearObjectMd() {
+        if (objectMdBuilder_ == null) {
+          objectMd_ = null;
+          onChanged();
+        } else {
+          objectMd_ = null;
+          objectMdBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.protos.common.ObjectMetadata object_md = 2;</code>
+       */
+      public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectMetadata.Builder getObjectMdBuilder() {
+        
+        onChanged();
+        return getObjectMdFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.protos.common.ObjectMetadata object_md = 2;</code>
+       */
+      public es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectMetadataOrBuilder getObjectMdOrBuilder() {
+        if (objectMdBuilder_ != null) {
+          return objectMdBuilder_.getMessageOrBuilder();
+        } else {
+          return objectMd_ == null ?
+              es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectMetadata.getDefaultInstance() : objectMd_;
+        }
+      }
+      /**
+       * <code>.protos.common.ObjectMetadata object_md = 2;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectMetadata, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectMetadata.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectMetadataOrBuilder> 
+          getObjectMdFieldBuilder() {
+        if (objectMdBuilder_ == null) {
+          objectMdBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectMetadata, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectMetadata.Builder, es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.ObjectMetadataOrBuilder>(
+                  getObjectMd(),
+                  getParentForChildren(),
+                  isClean());
+          objectMd_ = null;
+        }
+        return objectMdBuilder_;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:protos.metadata_service.RegisterObjectRequest)
+    }
+
+    // @@protoc_insertion_point(class_scope:protos.metadata_service.RegisterObjectRequest)
+    private static final protos.metadata_service.MetadataServiceOuterClass.RegisterObjectRequest DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new protos.metadata_service.MetadataServiceOuterClass.RegisterObjectRequest();
+    }
+
+    public static protos.metadata_service.MetadataServiceOuterClass.RegisterObjectRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<RegisterObjectRequest>
+        PARSER = new com.google.protobuf.AbstractParser<RegisterObjectRequest>() {
+      @java.lang.Override
+      public RegisterObjectRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new RegisterObjectRequest(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<RegisterObjectRequest> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<RegisterObjectRequest> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public protos.metadata_service.MetadataServiceOuterClass.RegisterObjectRequest getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface GetObjectFromAliasRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:protos.metadata_service.GetObjectFromAliasRequest)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>string session_id = 1;</code>
+     * @return The sessionId.
+     */
+    java.lang.String getSessionId();
+    /**
+     * <code>string session_id = 1;</code>
+     * @return The bytes for sessionId.
+     */
+    com.google.protobuf.ByteString
+        getSessionIdBytes();
+
+    /**
+     * <code>string alias_name = 2;</code>
+     * @return The aliasName.
+     */
+    java.lang.String getAliasName();
+    /**
+     * <code>string alias_name = 2;</code>
+     * @return The bytes for aliasName.
+     */
+    com.google.protobuf.ByteString
+        getAliasNameBytes();
+
+    /**
+     * <code>string dataset_name = 3;</code>
+     * @return The datasetName.
+     */
+    java.lang.String getDatasetName();
+    /**
+     * <code>string dataset_name = 3;</code>
+     * @return The bytes for datasetName.
+     */
+    com.google.protobuf.ByteString
+        getDatasetNameBytes();
+  }
+  /**
+   * Protobuf type {@code protos.metadata_service.GetObjectFromAliasRequest}
+   */
+  public  static final class GetObjectFromAliasRequest extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:protos.metadata_service.GetObjectFromAliasRequest)
+      GetObjectFromAliasRequestOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use GetObjectFromAliasRequest.newBuilder() to construct.
+    private GetObjectFromAliasRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private GetObjectFromAliasRequest() {
+      sessionId_ = "";
+      aliasName_ = "";
+      datasetName_ = "";
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new GetObjectFromAliasRequest();
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private GetObjectFromAliasRequest(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 10: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              sessionId_ = s;
+              break;
+            }
+            case 18: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              aliasName_ = s;
+              break;
+            }
+            case 26: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              datasetName_ = s;
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return protos.metadata_service.MetadataServiceOuterClass.internal_static_protos_metadata_service_GetObjectFromAliasRequest_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return protos.metadata_service.MetadataServiceOuterClass.internal_static_protos_metadata_service_GetObjectFromAliasRequest_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              protos.metadata_service.MetadataServiceOuterClass.GetObjectFromAliasRequest.class, protos.metadata_service.MetadataServiceOuterClass.GetObjectFromAliasRequest.Builder.class);
+    }
+
+    public static final int SESSION_ID_FIELD_NUMBER = 1;
+    private volatile java.lang.Object sessionId_;
+    /**
+     * <code>string session_id = 1;</code>
+     * @return The sessionId.
+     */
+    public java.lang.String getSessionId() {
+      java.lang.Object ref = sessionId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        sessionId_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string session_id = 1;</code>
+     * @return The bytes for sessionId.
+     */
+    public com.google.protobuf.ByteString
+        getSessionIdBytes() {
+      java.lang.Object ref = sessionId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        sessionId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int ALIAS_NAME_FIELD_NUMBER = 2;
+    private volatile java.lang.Object aliasName_;
+    /**
+     * <code>string alias_name = 2;</code>
+     * @return The aliasName.
+     */
+    public java.lang.String getAliasName() {
+      java.lang.Object ref = aliasName_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        aliasName_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string alias_name = 2;</code>
+     * @return The bytes for aliasName.
+     */
+    public com.google.protobuf.ByteString
+        getAliasNameBytes() {
+      java.lang.Object ref = aliasName_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        aliasName_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int DATASET_NAME_FIELD_NUMBER = 3;
+    private volatile java.lang.Object datasetName_;
+    /**
+     * <code>string dataset_name = 3;</code>
+     * @return The datasetName.
+     */
+    public java.lang.String getDatasetName() {
+      java.lang.Object ref = datasetName_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        datasetName_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string dataset_name = 3;</code>
+     * @return The bytes for datasetName.
+     */
+    public com.google.protobuf.ByteString
+        getDatasetNameBytes() {
+      java.lang.Object ref = datasetName_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        datasetName_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (!getSessionIdBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, sessionId_);
+      }
+      if (!getAliasNameBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, aliasName_);
+      }
+      if (!getDatasetNameBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, datasetName_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (!getSessionIdBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, sessionId_);
+      }
+      if (!getAliasNameBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, aliasName_);
+      }
+      if (!getDatasetNameBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, datasetName_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof protos.metadata_service.MetadataServiceOuterClass.GetObjectFromAliasRequest)) {
+        return super.equals(obj);
+      }
+      protos.metadata_service.MetadataServiceOuterClass.GetObjectFromAliasRequest other = (protos.metadata_service.MetadataServiceOuterClass.GetObjectFromAliasRequest) obj;
+
+      if (!getSessionId()
+          .equals(other.getSessionId())) return false;
+      if (!getAliasName()
+          .equals(other.getAliasName())) return false;
+      if (!getDatasetName()
+          .equals(other.getDatasetName())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + SESSION_ID_FIELD_NUMBER;
+      hash = (53 * hash) + getSessionId().hashCode();
+      hash = (37 * hash) + ALIAS_NAME_FIELD_NUMBER;
+      hash = (53 * hash) + getAliasName().hashCode();
+      hash = (37 * hash) + DATASET_NAME_FIELD_NUMBER;
+      hash = (53 * hash) + getDatasetName().hashCode();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static protos.metadata_service.MetadataServiceOuterClass.GetObjectFromAliasRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static protos.metadata_service.MetadataServiceOuterClass.GetObjectFromAliasRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static protos.metadata_service.MetadataServiceOuterClass.GetObjectFromAliasRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static protos.metadata_service.MetadataServiceOuterClass.GetObjectFromAliasRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static protos.metadata_service.MetadataServiceOuterClass.GetObjectFromAliasRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static protos.metadata_service.MetadataServiceOuterClass.GetObjectFromAliasRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static protos.metadata_service.MetadataServiceOuterClass.GetObjectFromAliasRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static protos.metadata_service.MetadataServiceOuterClass.GetObjectFromAliasRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static protos.metadata_service.MetadataServiceOuterClass.GetObjectFromAliasRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static protos.metadata_service.MetadataServiceOuterClass.GetObjectFromAliasRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static protos.metadata_service.MetadataServiceOuterClass.GetObjectFromAliasRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static protos.metadata_service.MetadataServiceOuterClass.GetObjectFromAliasRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(protos.metadata_service.MetadataServiceOuterClass.GetObjectFromAliasRequest prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code protos.metadata_service.GetObjectFromAliasRequest}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:protos.metadata_service.GetObjectFromAliasRequest)
+        protos.metadata_service.MetadataServiceOuterClass.GetObjectFromAliasRequestOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return protos.metadata_service.MetadataServiceOuterClass.internal_static_protos_metadata_service_GetObjectFromAliasRequest_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return protos.metadata_service.MetadataServiceOuterClass.internal_static_protos_metadata_service_GetObjectFromAliasRequest_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                protos.metadata_service.MetadataServiceOuterClass.GetObjectFromAliasRequest.class, protos.metadata_service.MetadataServiceOuterClass.GetObjectFromAliasRequest.Builder.class);
+      }
+
+      // Construct using protos.metadata_service.MetadataServiceOuterClass.GetObjectFromAliasRequest.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        sessionId_ = "";
+
+        aliasName_ = "";
+
+        datasetName_ = "";
+
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return protos.metadata_service.MetadataServiceOuterClass.internal_static_protos_metadata_service_GetObjectFromAliasRequest_descriptor;
+      }
+
+      @java.lang.Override
+      public protos.metadata_service.MetadataServiceOuterClass.GetObjectFromAliasRequest getDefaultInstanceForType() {
+        return protos.metadata_service.MetadataServiceOuterClass.GetObjectFromAliasRequest.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public protos.metadata_service.MetadataServiceOuterClass.GetObjectFromAliasRequest build() {
+        protos.metadata_service.MetadataServiceOuterClass.GetObjectFromAliasRequest result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public protos.metadata_service.MetadataServiceOuterClass.GetObjectFromAliasRequest buildPartial() {
+        protos.metadata_service.MetadataServiceOuterClass.GetObjectFromAliasRequest result = new protos.metadata_service.MetadataServiceOuterClass.GetObjectFromAliasRequest(this);
+        result.sessionId_ = sessionId_;
+        result.aliasName_ = aliasName_;
+        result.datasetName_ = datasetName_;
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof protos.metadata_service.MetadataServiceOuterClass.GetObjectFromAliasRequest) {
+          return mergeFrom((protos.metadata_service.MetadataServiceOuterClass.GetObjectFromAliasRequest)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(protos.metadata_service.MetadataServiceOuterClass.GetObjectFromAliasRequest other) {
+        if (other == protos.metadata_service.MetadataServiceOuterClass.GetObjectFromAliasRequest.getDefaultInstance()) return this;
+        if (!other.getSessionId().isEmpty()) {
+          sessionId_ = other.sessionId_;
+          onChanged();
+        }
+        if (!other.getAliasName().isEmpty()) {
+          aliasName_ = other.aliasName_;
+          onChanged();
+        }
+        if (!other.getDatasetName().isEmpty()) {
+          datasetName_ = other.datasetName_;
+          onChanged();
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        protos.metadata_service.MetadataServiceOuterClass.GetObjectFromAliasRequest parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (protos.metadata_service.MetadataServiceOuterClass.GetObjectFromAliasRequest) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private java.lang.Object sessionId_ = "";
+      /**
+       * <code>string session_id = 1;</code>
+       * @return The sessionId.
+       */
+      public java.lang.String getSessionId() {
+        java.lang.Object ref = sessionId_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          sessionId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string session_id = 1;</code>
+       * @return The bytes for sessionId.
+       */
+      public com.google.protobuf.ByteString
+          getSessionIdBytes() {
+        java.lang.Object ref = sessionId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          sessionId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string session_id = 1;</code>
+       * @param value The sessionId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setSessionId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        sessionId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string session_id = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearSessionId() {
+        
+        sessionId_ = getDefaultInstance().getSessionId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string session_id = 1;</code>
+       * @param value The bytes for sessionId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setSessionIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        sessionId_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object aliasName_ = "";
+      /**
+       * <code>string alias_name = 2;</code>
+       * @return The aliasName.
+       */
+      public java.lang.String getAliasName() {
+        java.lang.Object ref = aliasName_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          aliasName_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string alias_name = 2;</code>
+       * @return The bytes for aliasName.
+       */
+      public com.google.protobuf.ByteString
+          getAliasNameBytes() {
+        java.lang.Object ref = aliasName_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          aliasName_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string alias_name = 2;</code>
+       * @param value The aliasName to set.
+       * @return This builder for chaining.
+       */
+      public Builder setAliasName(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        aliasName_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string alias_name = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearAliasName() {
+        
+        aliasName_ = getDefaultInstance().getAliasName();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string alias_name = 2;</code>
+       * @param value The bytes for aliasName to set.
+       * @return This builder for chaining.
+       */
+      public Builder setAliasNameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        aliasName_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object datasetName_ = "";
+      /**
+       * <code>string dataset_name = 3;</code>
+       * @return The datasetName.
+       */
+      public java.lang.String getDatasetName() {
+        java.lang.Object ref = datasetName_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          datasetName_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string dataset_name = 3;</code>
+       * @return The bytes for datasetName.
+       */
+      public com.google.protobuf.ByteString
+          getDatasetNameBytes() {
+        java.lang.Object ref = datasetName_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          datasetName_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string dataset_name = 3;</code>
+       * @param value The datasetName to set.
+       * @return This builder for chaining.
+       */
+      public Builder setDatasetName(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        datasetName_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string dataset_name = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearDatasetName() {
+        
+        datasetName_ = getDefaultInstance().getDatasetName();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string dataset_name = 3;</code>
+       * @param value The bytes for datasetName to set.
+       * @return This builder for chaining.
+       */
+      public Builder setDatasetNameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        datasetName_ = value;
+        onChanged();
+        return this;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:protos.metadata_service.GetObjectFromAliasRequest)
+    }
+
+    // @@protoc_insertion_point(class_scope:protos.metadata_service.GetObjectFromAliasRequest)
+    private static final protos.metadata_service.MetadataServiceOuterClass.GetObjectFromAliasRequest DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new protos.metadata_service.MetadataServiceOuterClass.GetObjectFromAliasRequest();
+    }
+
+    public static protos.metadata_service.MetadataServiceOuterClass.GetObjectFromAliasRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<GetObjectFromAliasRequest>
+        PARSER = new com.google.protobuf.AbstractParser<GetObjectFromAliasRequest>() {
+      @java.lang.Override
+      public GetObjectFromAliasRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new GetObjectFromAliasRequest(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<GetObjectFromAliasRequest> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<GetObjectFromAliasRequest> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public protos.metadata_service.MetadataServiceOuterClass.GetObjectFromAliasRequest getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface GetObjectFromAliasResponseOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:protos.metadata_service.GetObjectFromAliasResponse)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>string object_id = 1;</code>
+     * @return The objectId.
+     */
+    java.lang.String getObjectId();
+    /**
+     * <code>string object_id = 1;</code>
+     * @return The bytes for objectId.
+     */
+    com.google.protobuf.ByteString
+        getObjectIdBytes();
+
+    /**
+     * <code>string class_id = 2;</code>
+     * @return The classId.
+     */
+    java.lang.String getClassId();
+    /**
+     * <code>string class_id = 2;</code>
+     * @return The bytes for classId.
+     */
+    com.google.protobuf.ByteString
+        getClassIdBytes();
+
+    /**
+     * <code>string hint = 3;</code>
+     * @return The hint.
+     */
+    java.lang.String getHint();
+    /**
+     * <code>string hint = 3;</code>
+     * @return The bytes for hint.
+     */
+    com.google.protobuf.ByteString
+        getHintBytes();
+  }
+  /**
+   * Protobuf type {@code protos.metadata_service.GetObjectFromAliasResponse}
+   */
+  public  static final class GetObjectFromAliasResponse extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:protos.metadata_service.GetObjectFromAliasResponse)
+      GetObjectFromAliasResponseOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use GetObjectFromAliasResponse.newBuilder() to construct.
+    private GetObjectFromAliasResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private GetObjectFromAliasResponse() {
+      objectId_ = "";
+      classId_ = "";
+      hint_ = "";
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new GetObjectFromAliasResponse();
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private GetObjectFromAliasResponse(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 10: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              objectId_ = s;
+              break;
+            }
+            case 18: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              classId_ = s;
+              break;
+            }
+            case 26: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              hint_ = s;
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return protos.metadata_service.MetadataServiceOuterClass.internal_static_protos_metadata_service_GetObjectFromAliasResponse_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return protos.metadata_service.MetadataServiceOuterClass.internal_static_protos_metadata_service_GetObjectFromAliasResponse_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              protos.metadata_service.MetadataServiceOuterClass.GetObjectFromAliasResponse.class, protos.metadata_service.MetadataServiceOuterClass.GetObjectFromAliasResponse.Builder.class);
+    }
+
+    public static final int OBJECT_ID_FIELD_NUMBER = 1;
+    private volatile java.lang.Object objectId_;
+    /**
+     * <code>string object_id = 1;</code>
+     * @return The objectId.
+     */
+    public java.lang.String getObjectId() {
+      java.lang.Object ref = objectId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        objectId_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string object_id = 1;</code>
+     * @return The bytes for objectId.
+     */
+    public com.google.protobuf.ByteString
+        getObjectIdBytes() {
+      java.lang.Object ref = objectId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        objectId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int CLASS_ID_FIELD_NUMBER = 2;
+    private volatile java.lang.Object classId_;
+    /**
+     * <code>string class_id = 2;</code>
+     * @return The classId.
+     */
+    public java.lang.String getClassId() {
+      java.lang.Object ref = classId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        classId_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string class_id = 2;</code>
+     * @return The bytes for classId.
+     */
+    public com.google.protobuf.ByteString
+        getClassIdBytes() {
+      java.lang.Object ref = classId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        classId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int HINT_FIELD_NUMBER = 3;
+    private volatile java.lang.Object hint_;
+    /**
+     * <code>string hint = 3;</code>
+     * @return The hint.
+     */
+    public java.lang.String getHint() {
+      java.lang.Object ref = hint_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        hint_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string hint = 3;</code>
+     * @return The bytes for hint.
+     */
+    public com.google.protobuf.ByteString
+        getHintBytes() {
+      java.lang.Object ref = hint_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        hint_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (!getObjectIdBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, objectId_);
+      }
+      if (!getClassIdBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, classId_);
+      }
+      if (!getHintBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, hint_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (!getObjectIdBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, objectId_);
+      }
+      if (!getClassIdBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, classId_);
+      }
+      if (!getHintBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, hint_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof protos.metadata_service.MetadataServiceOuterClass.GetObjectFromAliasResponse)) {
+        return super.equals(obj);
+      }
+      protos.metadata_service.MetadataServiceOuterClass.GetObjectFromAliasResponse other = (protos.metadata_service.MetadataServiceOuterClass.GetObjectFromAliasResponse) obj;
+
+      if (!getObjectId()
+          .equals(other.getObjectId())) return false;
+      if (!getClassId()
+          .equals(other.getClassId())) return false;
+      if (!getHint()
+          .equals(other.getHint())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + OBJECT_ID_FIELD_NUMBER;
+      hash = (53 * hash) + getObjectId().hashCode();
+      hash = (37 * hash) + CLASS_ID_FIELD_NUMBER;
+      hash = (53 * hash) + getClassId().hashCode();
+      hash = (37 * hash) + HINT_FIELD_NUMBER;
+      hash = (53 * hash) + getHint().hashCode();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static protos.metadata_service.MetadataServiceOuterClass.GetObjectFromAliasResponse parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static protos.metadata_service.MetadataServiceOuterClass.GetObjectFromAliasResponse parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static protos.metadata_service.MetadataServiceOuterClass.GetObjectFromAliasResponse parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static protos.metadata_service.MetadataServiceOuterClass.GetObjectFromAliasResponse parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static protos.metadata_service.MetadataServiceOuterClass.GetObjectFromAliasResponse parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static protos.metadata_service.MetadataServiceOuterClass.GetObjectFromAliasResponse parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static protos.metadata_service.MetadataServiceOuterClass.GetObjectFromAliasResponse parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static protos.metadata_service.MetadataServiceOuterClass.GetObjectFromAliasResponse parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static protos.metadata_service.MetadataServiceOuterClass.GetObjectFromAliasResponse parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static protos.metadata_service.MetadataServiceOuterClass.GetObjectFromAliasResponse parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static protos.metadata_service.MetadataServiceOuterClass.GetObjectFromAliasResponse parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static protos.metadata_service.MetadataServiceOuterClass.GetObjectFromAliasResponse parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(protos.metadata_service.MetadataServiceOuterClass.GetObjectFromAliasResponse prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code protos.metadata_service.GetObjectFromAliasResponse}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:protos.metadata_service.GetObjectFromAliasResponse)
+        protos.metadata_service.MetadataServiceOuterClass.GetObjectFromAliasResponseOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return protos.metadata_service.MetadataServiceOuterClass.internal_static_protos_metadata_service_GetObjectFromAliasResponse_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return protos.metadata_service.MetadataServiceOuterClass.internal_static_protos_metadata_service_GetObjectFromAliasResponse_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                protos.metadata_service.MetadataServiceOuterClass.GetObjectFromAliasResponse.class, protos.metadata_service.MetadataServiceOuterClass.GetObjectFromAliasResponse.Builder.class);
+      }
+
+      // Construct using protos.metadata_service.MetadataServiceOuterClass.GetObjectFromAliasResponse.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        objectId_ = "";
+
+        classId_ = "";
+
+        hint_ = "";
+
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return protos.metadata_service.MetadataServiceOuterClass.internal_static_protos_metadata_service_GetObjectFromAliasResponse_descriptor;
+      }
+
+      @java.lang.Override
+      public protos.metadata_service.MetadataServiceOuterClass.GetObjectFromAliasResponse getDefaultInstanceForType() {
+        return protos.metadata_service.MetadataServiceOuterClass.GetObjectFromAliasResponse.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public protos.metadata_service.MetadataServiceOuterClass.GetObjectFromAliasResponse build() {
+        protos.metadata_service.MetadataServiceOuterClass.GetObjectFromAliasResponse result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public protos.metadata_service.MetadataServiceOuterClass.GetObjectFromAliasResponse buildPartial() {
+        protos.metadata_service.MetadataServiceOuterClass.GetObjectFromAliasResponse result = new protos.metadata_service.MetadataServiceOuterClass.GetObjectFromAliasResponse(this);
+        result.objectId_ = objectId_;
+        result.classId_ = classId_;
+        result.hint_ = hint_;
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof protos.metadata_service.MetadataServiceOuterClass.GetObjectFromAliasResponse) {
+          return mergeFrom((protos.metadata_service.MetadataServiceOuterClass.GetObjectFromAliasResponse)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(protos.metadata_service.MetadataServiceOuterClass.GetObjectFromAliasResponse other) {
+        if (other == protos.metadata_service.MetadataServiceOuterClass.GetObjectFromAliasResponse.getDefaultInstance()) return this;
+        if (!other.getObjectId().isEmpty()) {
+          objectId_ = other.objectId_;
+          onChanged();
+        }
+        if (!other.getClassId().isEmpty()) {
+          classId_ = other.classId_;
+          onChanged();
+        }
+        if (!other.getHint().isEmpty()) {
+          hint_ = other.hint_;
+          onChanged();
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        protos.metadata_service.MetadataServiceOuterClass.GetObjectFromAliasResponse parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (protos.metadata_service.MetadataServiceOuterClass.GetObjectFromAliasResponse) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private java.lang.Object objectId_ = "";
+      /**
+       * <code>string object_id = 1;</code>
+       * @return The objectId.
+       */
+      public java.lang.String getObjectId() {
+        java.lang.Object ref = objectId_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          objectId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string object_id = 1;</code>
+       * @return The bytes for objectId.
+       */
+      public com.google.protobuf.ByteString
+          getObjectIdBytes() {
+        java.lang.Object ref = objectId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          objectId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string object_id = 1;</code>
+       * @param value The objectId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setObjectId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        objectId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string object_id = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearObjectId() {
+        
+        objectId_ = getDefaultInstance().getObjectId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string object_id = 1;</code>
+       * @param value The bytes for objectId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setObjectIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        objectId_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object classId_ = "";
+      /**
+       * <code>string class_id = 2;</code>
+       * @return The classId.
+       */
+      public java.lang.String getClassId() {
+        java.lang.Object ref = classId_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          classId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string class_id = 2;</code>
+       * @return The bytes for classId.
+       */
+      public com.google.protobuf.ByteString
+          getClassIdBytes() {
+        java.lang.Object ref = classId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          classId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string class_id = 2;</code>
+       * @param value The classId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setClassId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        classId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string class_id = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearClassId() {
+        
+        classId_ = getDefaultInstance().getClassId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string class_id = 2;</code>
+       * @param value The bytes for classId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setClassIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        classId_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object hint_ = "";
+      /**
+       * <code>string hint = 3;</code>
+       * @return The hint.
+       */
+      public java.lang.String getHint() {
+        java.lang.Object ref = hint_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          hint_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string hint = 3;</code>
+       * @return The bytes for hint.
+       */
+      public com.google.protobuf.ByteString
+          getHintBytes() {
+        java.lang.Object ref = hint_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          hint_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string hint = 3;</code>
+       * @param value The hint to set.
+       * @return This builder for chaining.
+       */
+      public Builder setHint(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        hint_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string hint = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearHint() {
+        
+        hint_ = getDefaultInstance().getHint();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string hint = 3;</code>
+       * @param value The bytes for hint to set.
+       * @return This builder for chaining.
+       */
+      public Builder setHintBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        hint_ = value;
+        onChanged();
+        return this;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:protos.metadata_service.GetObjectFromAliasResponse)
+    }
+
+    // @@protoc_insertion_point(class_scope:protos.metadata_service.GetObjectFromAliasResponse)
+    private static final protos.metadata_service.MetadataServiceOuterClass.GetObjectFromAliasResponse DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new protos.metadata_service.MetadataServiceOuterClass.GetObjectFromAliasResponse();
+    }
+
+    public static protos.metadata_service.MetadataServiceOuterClass.GetObjectFromAliasResponse getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<GetObjectFromAliasResponse>
+        PARSER = new com.google.protobuf.AbstractParser<GetObjectFromAliasResponse>() {
+      @java.lang.Override
+      public GetObjectFromAliasResponse parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new GetObjectFromAliasResponse(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<GetObjectFromAliasResponse> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<GetObjectFromAliasResponse> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public protos.metadata_service.MetadataServiceOuterClass.GetObjectFromAliasResponse getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface DeleteAliasRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:protos.metadata_service.DeleteAliasRequest)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>string session_id = 1;</code>
+     * @return The sessionId.
+     */
+    java.lang.String getSessionId();
+    /**
+     * <code>string session_id = 1;</code>
+     * @return The bytes for sessionId.
+     */
+    com.google.protobuf.ByteString
+        getSessionIdBytes();
+
+    /**
+     * <code>string alias_name = 2;</code>
+     * @return The aliasName.
+     */
+    java.lang.String getAliasName();
+    /**
+     * <code>string alias_name = 2;</code>
+     * @return The bytes for aliasName.
+     */
+    com.google.protobuf.ByteString
+        getAliasNameBytes();
+
+    /**
+     * <code>string dataset_name = 3;</code>
+     * @return The datasetName.
+     */
+    java.lang.String getDatasetName();
+    /**
+     * <code>string dataset_name = 3;</code>
+     * @return The bytes for datasetName.
+     */
+    com.google.protobuf.ByteString
+        getDatasetNameBytes();
+  }
+  /**
+   * Protobuf type {@code protos.metadata_service.DeleteAliasRequest}
+   */
+  public  static final class DeleteAliasRequest extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:protos.metadata_service.DeleteAliasRequest)
+      DeleteAliasRequestOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use DeleteAliasRequest.newBuilder() to construct.
+    private DeleteAliasRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private DeleteAliasRequest() {
+      sessionId_ = "";
+      aliasName_ = "";
+      datasetName_ = "";
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new DeleteAliasRequest();
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private DeleteAliasRequest(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 10: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              sessionId_ = s;
+              break;
+            }
+            case 18: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              aliasName_ = s;
+              break;
+            }
+            case 26: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              datasetName_ = s;
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return protos.metadata_service.MetadataServiceOuterClass.internal_static_protos_metadata_service_DeleteAliasRequest_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return protos.metadata_service.MetadataServiceOuterClass.internal_static_protos_metadata_service_DeleteAliasRequest_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              protos.metadata_service.MetadataServiceOuterClass.DeleteAliasRequest.class, protos.metadata_service.MetadataServiceOuterClass.DeleteAliasRequest.Builder.class);
+    }
+
+    public static final int SESSION_ID_FIELD_NUMBER = 1;
+    private volatile java.lang.Object sessionId_;
+    /**
+     * <code>string session_id = 1;</code>
+     * @return The sessionId.
+     */
+    public java.lang.String getSessionId() {
+      java.lang.Object ref = sessionId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        sessionId_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string session_id = 1;</code>
+     * @return The bytes for sessionId.
+     */
+    public com.google.protobuf.ByteString
+        getSessionIdBytes() {
+      java.lang.Object ref = sessionId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        sessionId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int ALIAS_NAME_FIELD_NUMBER = 2;
+    private volatile java.lang.Object aliasName_;
+    /**
+     * <code>string alias_name = 2;</code>
+     * @return The aliasName.
+     */
+    public java.lang.String getAliasName() {
+      java.lang.Object ref = aliasName_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        aliasName_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string alias_name = 2;</code>
+     * @return The bytes for aliasName.
+     */
+    public com.google.protobuf.ByteString
+        getAliasNameBytes() {
+      java.lang.Object ref = aliasName_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        aliasName_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int DATASET_NAME_FIELD_NUMBER = 3;
+    private volatile java.lang.Object datasetName_;
+    /**
+     * <code>string dataset_name = 3;</code>
+     * @return The datasetName.
+     */
+    public java.lang.String getDatasetName() {
+      java.lang.Object ref = datasetName_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        datasetName_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string dataset_name = 3;</code>
+     * @return The bytes for datasetName.
+     */
+    public com.google.protobuf.ByteString
+        getDatasetNameBytes() {
+      java.lang.Object ref = datasetName_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        datasetName_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (!getSessionIdBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, sessionId_);
+      }
+      if (!getAliasNameBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, aliasName_);
+      }
+      if (!getDatasetNameBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, datasetName_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (!getSessionIdBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, sessionId_);
+      }
+      if (!getAliasNameBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, aliasName_);
+      }
+      if (!getDatasetNameBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, datasetName_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof protos.metadata_service.MetadataServiceOuterClass.DeleteAliasRequest)) {
+        return super.equals(obj);
+      }
+      protos.metadata_service.MetadataServiceOuterClass.DeleteAliasRequest other = (protos.metadata_service.MetadataServiceOuterClass.DeleteAliasRequest) obj;
+
+      if (!getSessionId()
+          .equals(other.getSessionId())) return false;
+      if (!getAliasName()
+          .equals(other.getAliasName())) return false;
+      if (!getDatasetName()
+          .equals(other.getDatasetName())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + SESSION_ID_FIELD_NUMBER;
+      hash = (53 * hash) + getSessionId().hashCode();
+      hash = (37 * hash) + ALIAS_NAME_FIELD_NUMBER;
+      hash = (53 * hash) + getAliasName().hashCode();
+      hash = (37 * hash) + DATASET_NAME_FIELD_NUMBER;
+      hash = (53 * hash) + getDatasetName().hashCode();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static protos.metadata_service.MetadataServiceOuterClass.DeleteAliasRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static protos.metadata_service.MetadataServiceOuterClass.DeleteAliasRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static protos.metadata_service.MetadataServiceOuterClass.DeleteAliasRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static protos.metadata_service.MetadataServiceOuterClass.DeleteAliasRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static protos.metadata_service.MetadataServiceOuterClass.DeleteAliasRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static protos.metadata_service.MetadataServiceOuterClass.DeleteAliasRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static protos.metadata_service.MetadataServiceOuterClass.DeleteAliasRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static protos.metadata_service.MetadataServiceOuterClass.DeleteAliasRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static protos.metadata_service.MetadataServiceOuterClass.DeleteAliasRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static protos.metadata_service.MetadataServiceOuterClass.DeleteAliasRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static protos.metadata_service.MetadataServiceOuterClass.DeleteAliasRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static protos.metadata_service.MetadataServiceOuterClass.DeleteAliasRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(protos.metadata_service.MetadataServiceOuterClass.DeleteAliasRequest prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code protos.metadata_service.DeleteAliasRequest}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:protos.metadata_service.DeleteAliasRequest)
+        protos.metadata_service.MetadataServiceOuterClass.DeleteAliasRequestOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return protos.metadata_service.MetadataServiceOuterClass.internal_static_protos_metadata_service_DeleteAliasRequest_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return protos.metadata_service.MetadataServiceOuterClass.internal_static_protos_metadata_service_DeleteAliasRequest_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                protos.metadata_service.MetadataServiceOuterClass.DeleteAliasRequest.class, protos.metadata_service.MetadataServiceOuterClass.DeleteAliasRequest.Builder.class);
+      }
+
+      // Construct using protos.metadata_service.MetadataServiceOuterClass.DeleteAliasRequest.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        sessionId_ = "";
+
+        aliasName_ = "";
+
+        datasetName_ = "";
+
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return protos.metadata_service.MetadataServiceOuterClass.internal_static_protos_metadata_service_DeleteAliasRequest_descriptor;
+      }
+
+      @java.lang.Override
+      public protos.metadata_service.MetadataServiceOuterClass.DeleteAliasRequest getDefaultInstanceForType() {
+        return protos.metadata_service.MetadataServiceOuterClass.DeleteAliasRequest.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public protos.metadata_service.MetadataServiceOuterClass.DeleteAliasRequest build() {
+        protos.metadata_service.MetadataServiceOuterClass.DeleteAliasRequest result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public protos.metadata_service.MetadataServiceOuterClass.DeleteAliasRequest buildPartial() {
+        protos.metadata_service.MetadataServiceOuterClass.DeleteAliasRequest result = new protos.metadata_service.MetadataServiceOuterClass.DeleteAliasRequest(this);
+        result.sessionId_ = sessionId_;
+        result.aliasName_ = aliasName_;
+        result.datasetName_ = datasetName_;
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof protos.metadata_service.MetadataServiceOuterClass.DeleteAliasRequest) {
+          return mergeFrom((protos.metadata_service.MetadataServiceOuterClass.DeleteAliasRequest)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(protos.metadata_service.MetadataServiceOuterClass.DeleteAliasRequest other) {
+        if (other == protos.metadata_service.MetadataServiceOuterClass.DeleteAliasRequest.getDefaultInstance()) return this;
+        if (!other.getSessionId().isEmpty()) {
+          sessionId_ = other.sessionId_;
+          onChanged();
+        }
+        if (!other.getAliasName().isEmpty()) {
+          aliasName_ = other.aliasName_;
+          onChanged();
+        }
+        if (!other.getDatasetName().isEmpty()) {
+          datasetName_ = other.datasetName_;
+          onChanged();
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        protos.metadata_service.MetadataServiceOuterClass.DeleteAliasRequest parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (protos.metadata_service.MetadataServiceOuterClass.DeleteAliasRequest) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private java.lang.Object sessionId_ = "";
+      /**
+       * <code>string session_id = 1;</code>
+       * @return The sessionId.
+       */
+      public java.lang.String getSessionId() {
+        java.lang.Object ref = sessionId_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          sessionId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string session_id = 1;</code>
+       * @return The bytes for sessionId.
+       */
+      public com.google.protobuf.ByteString
+          getSessionIdBytes() {
+        java.lang.Object ref = sessionId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          sessionId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string session_id = 1;</code>
+       * @param value The sessionId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setSessionId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        sessionId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string session_id = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearSessionId() {
+        
+        sessionId_ = getDefaultInstance().getSessionId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string session_id = 1;</code>
+       * @param value The bytes for sessionId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setSessionIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        sessionId_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object aliasName_ = "";
+      /**
+       * <code>string alias_name = 2;</code>
+       * @return The aliasName.
+       */
+      public java.lang.String getAliasName() {
+        java.lang.Object ref = aliasName_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          aliasName_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string alias_name = 2;</code>
+       * @return The bytes for aliasName.
+       */
+      public com.google.protobuf.ByteString
+          getAliasNameBytes() {
+        java.lang.Object ref = aliasName_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          aliasName_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string alias_name = 2;</code>
+       * @param value The aliasName to set.
+       * @return This builder for chaining.
+       */
+      public Builder setAliasName(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        aliasName_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string alias_name = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearAliasName() {
+        
+        aliasName_ = getDefaultInstance().getAliasName();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string alias_name = 2;</code>
+       * @param value The bytes for aliasName to set.
+       * @return This builder for chaining.
+       */
+      public Builder setAliasNameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        aliasName_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object datasetName_ = "";
+      /**
+       * <code>string dataset_name = 3;</code>
+       * @return The datasetName.
+       */
+      public java.lang.String getDatasetName() {
+        java.lang.Object ref = datasetName_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          datasetName_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string dataset_name = 3;</code>
+       * @return The bytes for datasetName.
+       */
+      public com.google.protobuf.ByteString
+          getDatasetNameBytes() {
+        java.lang.Object ref = datasetName_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          datasetName_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string dataset_name = 3;</code>
+       * @param value The datasetName to set.
+       * @return This builder for chaining.
+       */
+      public Builder setDatasetName(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        datasetName_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string dataset_name = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearDatasetName() {
+        
+        datasetName_ = getDefaultInstance().getDatasetName();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string dataset_name = 3;</code>
+       * @param value The bytes for datasetName to set.
+       * @return This builder for chaining.
+       */
+      public Builder setDatasetNameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        datasetName_ = value;
+        onChanged();
+        return this;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:protos.metadata_service.DeleteAliasRequest)
+    }
+
+    // @@protoc_insertion_point(class_scope:protos.metadata_service.DeleteAliasRequest)
+    private static final protos.metadata_service.MetadataServiceOuterClass.DeleteAliasRequest DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new protos.metadata_service.MetadataServiceOuterClass.DeleteAliasRequest();
+    }
+
+    public static protos.metadata_service.MetadataServiceOuterClass.DeleteAliasRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<DeleteAliasRequest>
+        PARSER = new com.google.protobuf.AbstractParser<DeleteAliasRequest>() {
+      @java.lang.Override
+      public DeleteAliasRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new DeleteAliasRequest(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<DeleteAliasRequest> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<DeleteAliasRequest> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public protos.metadata_service.MetadataServiceOuterClass.DeleteAliasRequest getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -4992,10 +10928,15 @@ public final class MetadataServiceOuterClass {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_protos_metadata_service_NewAccountRequest_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_protos_metadata_service_NewAccountResponse_descriptor;
+    internal_static_protos_metadata_service_GetAccountRequest_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_protos_metadata_service_NewAccountResponse_fieldAccessorTable;
+      internal_static_protos_metadata_service_GetAccountRequest_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_protos_metadata_service_GetAccountResponse_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_protos_metadata_service_GetAccountResponse_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_protos_metadata_service_NewSessionRequest_descriptor;
   private static final 
@@ -5007,25 +10948,60 @@ public final class MetadataServiceOuterClass {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_protos_metadata_service_NewSessionResponse_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_protos_metadata_service_GetAccountRequest_descriptor;
+    internal_static_protos_metadata_service_CloseSessionRequest_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_protos_metadata_service_GetAccountRequest_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_protos_metadata_service_GetAccountResponse_descriptor;
-  private static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_protos_metadata_service_GetAccountResponse_fieldAccessorTable;
+      internal_static_protos_metadata_service_CloseSessionRequest_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_protos_metadata_service_NewDatasetRequest_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_protos_metadata_service_NewDatasetRequest_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_protos_metadata_service_NewDatasetResponse_descriptor;
+    internal_static_protos_metadata_service_GetAllExecutionEnvironmentsRequest_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_protos_metadata_service_NewDatasetResponse_fieldAccessorTable;
+      internal_static_protos_metadata_service_GetAllExecutionEnvironmentsRequest_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_protos_metadata_service_GetAllExecutionEnvironmentsResponse_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_protos_metadata_service_GetAllExecutionEnvironmentsResponse_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_protos_metadata_service_GetAllExecutionEnvironmentsResponse_ExecEnvsEntry_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_protos_metadata_service_GetAllExecutionEnvironmentsResponse_ExecEnvsEntry_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_protos_metadata_service_GetDataclayIDResponse_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_protos_metadata_service_GetDataclayIDResponse_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_protos_metadata_service_AutoRegisterEERequest_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_protos_metadata_service_AutoRegisterEERequest_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_protos_metadata_service_RegisterObjectRequest_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_protos_metadata_service_RegisterObjectRequest_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_protos_metadata_service_GetObjectFromAliasRequest_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_protos_metadata_service_GetObjectFromAliasRequest_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_protos_metadata_service_GetObjectFromAliasResponse_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_protos_metadata_service_GetObjectFromAliasResponse_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_protos_metadata_service_DeleteAliasRequest_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_protos_metadata_service_DeleteAliasRequest_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -5036,31 +11012,73 @@ public final class MetadataServiceOuterClass {
   static {
     java.lang.String[] descriptorData = {
       "\n\035protos/metadata_service.proto\022\027protos." +
-      "metadata_service\"7\n\021NewAccountRequest\022\020\n" +
-      "\010username\030\001 \001(\t\022\020\n\010password\030\002 \001(\t\"&\n\022New" +
-      "AccountResponse\022\020\n\010username\030\001 \001(\t\"P\n\021New" +
+      "metadata_service\032\033google/protobuf/empty." +
+      "proto\032\034protos/common_messages.proto\"7\n\021N" +
+      "ewAccountRequest\022\020\n\010username\030\001 \001(\t\022\020\n\010pa" +
+      "ssword\030\002 \001(\t\"%\n\021GetAccountRequest\022\020\n\010use" +
+      "rname\030\001 \001(\t\"\024\n\022GetAccountResponse\"P\n\021New" +
       "SessionRequest\022\020\n\010username\030\001 \001(\t\022\020\n\010pass" +
       "word\030\002 \001(\t\022\027\n\017default_dataset\030\003 \001(\t\" \n\022N" +
-      "ewSessionResponse\022\n\n\002id\030\001 \001(\t\"%\n\021GetAcco" +
-      "untRequest\022\020\n\010username\030\001 \001(\t\"\024\n\022GetAccou" +
-      "ntResponse\"H\n\021NewDatasetRequest\022\020\n\010usern" +
-      "ame\030\001 \001(\t\022\020\n\010password\030\002 \001(\t\022\017\n\007dataset\030\003" +
-      " \001(\t\"\024\n\022NewDatasetResponse2\265\003\n\017MetadataS" +
-      "ervice\022g\n\nNewAccount\022*.protos.metadata_s" +
-      "ervice.NewAccountRequest\032+.protos.metada" +
-      "ta_service.NewAccountResponse\"\000\022g\n\nGetAc" +
-      "count\022*.protos.metadata_service.GetAccou" +
-      "ntRequest\032+.protos.metadata_service.GetA" +
-      "ccountResponse\"\000\022g\n\nNewSession\022*.protos." +
-      "metadata_service.NewSessionRequest\032+.pro" +
-      "tos.metadata_service.NewSessionResponse\"" +
-      "\000\022g\n\nNewDataset\022*.protos.metadata_servic" +
-      "e.NewDatasetRequest\032+.protos.metadata_se" +
-      "rvice.NewDatasetResponse\"\000b\006proto3"
+      "ewSessionResponse\022\n\n\002id\030\001 \001(\t\"!\n\023CloseSe" +
+      "ssionRequest\022\n\n\002id\030\001 \001(\t\"H\n\021NewDatasetRe" +
+      "quest\022\020\n\010username\030\001 \001(\t\022\020\n\010password\030\002 \001(" +
+      "\t\022\017\n\007dataset\030\003 \001(\t\"x\n\"GetAllExecutionEnv" +
+      "ironmentsRequest\022&\n\010language\030\001 \001(\0162\024.pro" +
+      "tos.common.Langs\022\024\n\014get_external\030\002 \001(\010\022\024" +
+      "\n\014from_backend\030\003 \001(\010\"\332\001\n#GetAllExecution" +
+      "EnvironmentsResponse\022]\n\texec_envs\030\001 \003(\0132" +
+      "J.protos.metadata_service.GetAllExecutio" +
+      "nEnvironmentsResponse.ExecEnvsEntry\032T\n\rE" +
+      "xecEnvsEntry\022\013\n\003key\030\001 \001(\t\0222\n\005value\030\002 \001(\013" +
+      "2#.protos.common.ExecutionEnvironment:\0028" +
+      "\001\",\n\025GetDataclayIDResponse\022\023\n\013dataclay_i" +
+      "d\030\001 \001(\t\"x\n\025AutoRegisterEERequest\022\n\n\002id\030\001" +
+      " \001(\t\022\020\n\010hostname\030\002 \001(\t\022\014\n\004port\030\003 \001(\005\022\017\n\007" +
+      "sl_name\030\004 \001(\t\022\"\n\004lang\030\005 \001(\0162\024.protos.com" +
+      "mon.Langs\"]\n\025RegisterObjectRequest\022\022\n\nse" +
+      "ssion_id\030\001 \001(\t\0220\n\tobject_md\030\002 \001(\0132\035.prot" +
+      "os.common.ObjectMetadata\"Y\n\031GetObjectFro" +
+      "mAliasRequest\022\022\n\nsession_id\030\001 \001(\t\022\022\n\nali" +
+      "as_name\030\002 \001(\t\022\024\n\014dataset_name\030\003 \001(\t\"O\n\032G" +
+      "etObjectFromAliasResponse\022\021\n\tobject_id\030\001" +
+      " \001(\t\022\020\n\010class_id\030\002 \001(\t\022\014\n\004hint\030\003 \001(\t\"R\n\022" +
+      "DeleteAliasRequest\022\022\n\nsession_id\030\001 \001(\t\022\022" +
+      "\n\nalias_name\030\002 \001(\t\022\024\n\014dataset_name\030\003 \001(\t" +
+      "2\352\010\n\017MetadataService\022R\n\nNewAccount\022*.pro" +
+      "tos.metadata_service.NewAccountRequest\032\026" +
+      ".google.protobuf.Empty\"\000\022g\n\nGetAccount\022*" +
+      ".protos.metadata_service.GetAccountReque" +
+      "st\032+.protos.metadata_service.GetAccountR" +
+      "esponse\"\000\022g\n\nNewSession\022*.protos.metadat" +
+      "a_service.NewSessionRequest\032+.protos.met" +
+      "adata_service.NewSessionResponse\"\000\022V\n\014Cl" +
+      "oseSession\022,.protos.metadata_service.Clo" +
+      "seSessionRequest\032\026.google.protobuf.Empty" +
+      "\"\000\022R\n\nNewDataset\022*.protos.metadata_servi" +
+      "ce.NewDatasetRequest\032\026.google.protobuf.E" +
+      "mpty\"\000\022\232\001\n\033GetAllExecutionEnvironments\022;" +
+      ".protos.metadata_service.GetAllExecution" +
+      "EnvironmentsRequest\032<.protos.metadata_se" +
+      "rvice.GetAllExecutionEnvironmentsRespons" +
+      "e\"\000\022Y\n\rGetDataclayID\022\026.google.protobuf.E" +
+      "mpty\032..protos.metadata_service.GetDatacl" +
+      "ayIDResponse\"\000\022Z\n\016AutoregisterEE\022..proto" +
+      "s.metadata_service.AutoRegisterEERequest" +
+      "\032\026.google.protobuf.Empty\"\000\022Z\n\016RegisterOb" +
+      "ject\022..protos.metadata_service.RegisterO" +
+      "bjectRequest\032\026.google.protobuf.Empty\"\000\022\177" +
+      "\n\022GetObjectFromAlias\0222.protos.metadata_s" +
+      "ervice.GetObjectFromAliasRequest\0323.proto" +
+      "s.metadata_service.GetObjectFromAliasRes" +
+      "ponse\"\000\022T\n\013DeleteAlias\022+.protos.metadata" +
+      "_service.DeleteAliasRequest\032\026.google.pro" +
+      "tobuf.Empty\"\000b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
+          com.google.protobuf.EmptyProto.getDescriptor(),
+          es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.getDescriptor(),
         });
     internal_static_protos_metadata_service_NewAccountRequest_descriptor =
       getDescriptor().getMessageTypes().get(0);
@@ -5068,48 +11086,98 @@ public final class MetadataServiceOuterClass {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_protos_metadata_service_NewAccountRequest_descriptor,
         new java.lang.String[] { "Username", "Password", });
-    internal_static_protos_metadata_service_NewAccountResponse_descriptor =
-      getDescriptor().getMessageTypes().get(1);
-    internal_static_protos_metadata_service_NewAccountResponse_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_protos_metadata_service_NewAccountResponse_descriptor,
-        new java.lang.String[] { "Username", });
-    internal_static_protos_metadata_service_NewSessionRequest_descriptor =
-      getDescriptor().getMessageTypes().get(2);
-    internal_static_protos_metadata_service_NewSessionRequest_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_protos_metadata_service_NewSessionRequest_descriptor,
-        new java.lang.String[] { "Username", "Password", "DefaultDataset", });
-    internal_static_protos_metadata_service_NewSessionResponse_descriptor =
-      getDescriptor().getMessageTypes().get(3);
-    internal_static_protos_metadata_service_NewSessionResponse_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_protos_metadata_service_NewSessionResponse_descriptor,
-        new java.lang.String[] { "Id", });
     internal_static_protos_metadata_service_GetAccountRequest_descriptor =
-      getDescriptor().getMessageTypes().get(4);
+      getDescriptor().getMessageTypes().get(1);
     internal_static_protos_metadata_service_GetAccountRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_protos_metadata_service_GetAccountRequest_descriptor,
         new java.lang.String[] { "Username", });
     internal_static_protos_metadata_service_GetAccountResponse_descriptor =
-      getDescriptor().getMessageTypes().get(5);
+      getDescriptor().getMessageTypes().get(2);
     internal_static_protos_metadata_service_GetAccountResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_protos_metadata_service_GetAccountResponse_descriptor,
         new java.lang.String[] { });
+    internal_static_protos_metadata_service_NewSessionRequest_descriptor =
+      getDescriptor().getMessageTypes().get(3);
+    internal_static_protos_metadata_service_NewSessionRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_protos_metadata_service_NewSessionRequest_descriptor,
+        new java.lang.String[] { "Username", "Password", "DefaultDataset", });
+    internal_static_protos_metadata_service_NewSessionResponse_descriptor =
+      getDescriptor().getMessageTypes().get(4);
+    internal_static_protos_metadata_service_NewSessionResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_protos_metadata_service_NewSessionResponse_descriptor,
+        new java.lang.String[] { "Id", });
+    internal_static_protos_metadata_service_CloseSessionRequest_descriptor =
+      getDescriptor().getMessageTypes().get(5);
+    internal_static_protos_metadata_service_CloseSessionRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_protos_metadata_service_CloseSessionRequest_descriptor,
+        new java.lang.String[] { "Id", });
     internal_static_protos_metadata_service_NewDatasetRequest_descriptor =
       getDescriptor().getMessageTypes().get(6);
     internal_static_protos_metadata_service_NewDatasetRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_protos_metadata_service_NewDatasetRequest_descriptor,
         new java.lang.String[] { "Username", "Password", "Dataset", });
-    internal_static_protos_metadata_service_NewDatasetResponse_descriptor =
+    internal_static_protos_metadata_service_GetAllExecutionEnvironmentsRequest_descriptor =
       getDescriptor().getMessageTypes().get(7);
-    internal_static_protos_metadata_service_NewDatasetResponse_fieldAccessorTable = new
+    internal_static_protos_metadata_service_GetAllExecutionEnvironmentsRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_protos_metadata_service_NewDatasetResponse_descriptor,
-        new java.lang.String[] { });
+        internal_static_protos_metadata_service_GetAllExecutionEnvironmentsRequest_descriptor,
+        new java.lang.String[] { "Language", "GetExternal", "FromBackend", });
+    internal_static_protos_metadata_service_GetAllExecutionEnvironmentsResponse_descriptor =
+      getDescriptor().getMessageTypes().get(8);
+    internal_static_protos_metadata_service_GetAllExecutionEnvironmentsResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_protos_metadata_service_GetAllExecutionEnvironmentsResponse_descriptor,
+        new java.lang.String[] { "ExecEnvs", });
+    internal_static_protos_metadata_service_GetAllExecutionEnvironmentsResponse_ExecEnvsEntry_descriptor =
+      internal_static_protos_metadata_service_GetAllExecutionEnvironmentsResponse_descriptor.getNestedTypes().get(0);
+    internal_static_protos_metadata_service_GetAllExecutionEnvironmentsResponse_ExecEnvsEntry_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_protos_metadata_service_GetAllExecutionEnvironmentsResponse_ExecEnvsEntry_descriptor,
+        new java.lang.String[] { "Key", "Value", });
+    internal_static_protos_metadata_service_GetDataclayIDResponse_descriptor =
+      getDescriptor().getMessageTypes().get(9);
+    internal_static_protos_metadata_service_GetDataclayIDResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_protos_metadata_service_GetDataclayIDResponse_descriptor,
+        new java.lang.String[] { "DataclayId", });
+    internal_static_protos_metadata_service_AutoRegisterEERequest_descriptor =
+      getDescriptor().getMessageTypes().get(10);
+    internal_static_protos_metadata_service_AutoRegisterEERequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_protos_metadata_service_AutoRegisterEERequest_descriptor,
+        new java.lang.String[] { "Id", "Hostname", "Port", "SlName", "Lang", });
+    internal_static_protos_metadata_service_RegisterObjectRequest_descriptor =
+      getDescriptor().getMessageTypes().get(11);
+    internal_static_protos_metadata_service_RegisterObjectRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_protos_metadata_service_RegisterObjectRequest_descriptor,
+        new java.lang.String[] { "SessionId", "ObjectMd", });
+    internal_static_protos_metadata_service_GetObjectFromAliasRequest_descriptor =
+      getDescriptor().getMessageTypes().get(12);
+    internal_static_protos_metadata_service_GetObjectFromAliasRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_protos_metadata_service_GetObjectFromAliasRequest_descriptor,
+        new java.lang.String[] { "SessionId", "AliasName", "DatasetName", });
+    internal_static_protos_metadata_service_GetObjectFromAliasResponse_descriptor =
+      getDescriptor().getMessageTypes().get(13);
+    internal_static_protos_metadata_service_GetObjectFromAliasResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_protos_metadata_service_GetObjectFromAliasResponse_descriptor,
+        new java.lang.String[] { "ObjectId", "ClassId", "Hint", });
+    internal_static_protos_metadata_service_DeleteAliasRequest_descriptor =
+      getDescriptor().getMessageTypes().get(14);
+    internal_static_protos_metadata_service_DeleteAliasRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_protos_metadata_service_DeleteAliasRequest_descriptor,
+        new java.lang.String[] { "SessionId", "AliasName", "DatasetName", });
+    com.google.protobuf.EmptyProto.getDescriptor();
+    es.bsc.dataclay.communication.grpc.messages.common.CommonMessages.getDescriptor();
   }
 
   // @@protoc_insertion_point(outer_class_scope)
