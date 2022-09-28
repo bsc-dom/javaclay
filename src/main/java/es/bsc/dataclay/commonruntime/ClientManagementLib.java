@@ -106,42 +106,46 @@ public final class ClientManagementLib {
 	 * @return TRUE if connections were successfully initiliazed. FALSE, otherwise.
 	 */
 	public static boolean initializeCMLib(final String configFilePathArg) {
-		String configFilePath = configFilePathArg;
+		// String configFilePath = configFilePathArg;
 		try {
-			File configFile = null;
-			boolean fileExists = false;
-			if (configFilePath != null && !configFilePath.isEmpty()) {
-				LOGGER.info("Initializing client library with provided file located at {}", configFilePath);
-				configFile = new File(configFilePath);
-				fileExists = configFile.isFile() && configFile.exists();
-			}
-			if (!fileExists) {
-				configFilePath = ProcessEnvironment.getInstance().get(CONFIGFILEPATH_ENV);
-				if (configFilePath != null && !configFilePath.isEmpty()) {
-					configFile = new File(configFilePath);
-					fileExists = configFile.isFile() && configFile.exists();
-				}
+			// File configFile = null;
+			// boolean fileExists = false;
+			// if (configFilePath != null && !configFilePath.isEmpty()) {
+			// 	LOGGER.info("Initializing client library with provided file located at {}", configFilePath);
+			// 	configFile = new File(configFilePath);
+			// 	fileExists = configFile.isFile() && configFile.exists();
+			// }
+			// if (!fileExists) {
+			// 	configFilePath = ProcessEnvironment.getInstance().get(CONFIGFILEPATH_ENV);
+			// 	if (configFilePath != null && !configFilePath.isEmpty()) {
+			// 		configFile = new File(configFilePath);
+			// 		fileExists = configFile.isFile() && configFile.exists();
+			// 	}
 
-				if (fileExists) {
-					LOGGER.info("Found {}. Initializing client library with properties located at {}",
-							CONFIGFILEPATH_ENV, configFilePath);
-				} else {
-					final Path path = Paths.get(CONFIGFILEPATH).normalize();
-					LOGGER.warn("Unsuccessful while trying to load file from the environment variable `{}={}`. "
-							+ "Fallback to default location: {}", CONFIGFILEPATH_ENV, CONFIGFILEPATH, path.toAbsolutePath());
-					configFilePath = path.toAbsolutePath().toString();
-					configFile = new File(configFilePath);
+			// 	if (fileExists) {
+			// 		LOGGER.info("Found {}. Initializing client library with properties located at {}",
+			// 				CONFIGFILEPATH_ENV, configFilePath);
+			// 	} else {
+			// 		final Path path = Paths.get(CONFIGFILEPATH).normalize();
+			// 		LOGGER.warn("Unsuccessful while trying to load file from the environment variable `{}={}`. "
+			// 				+ "Fallback to default location: {}", CONFIGFILEPATH_ENV, CONFIGFILEPATH, path.toAbsolutePath());
+			// 		configFilePath = path.toAbsolutePath().toString();
+			// 		configFile = new File(configFilePath);
 
-				}
-			}
+			// 	}
+			// }
 
-			final FileInputStream configFileStr = new FileInputStream(configFile);
-			final Properties prop = new Properties();
-			prop.load(configFileStr);
-			configFileStr.close();
+			// final FileInputStream configFileStr = new FileInputStream(configFile);
+			// final Properties prop = new Properties();
+			// prop.load(configFileStr);
+			// configFileStr.close();
 
-			final String host = prop.getProperty(KEYLOGICHOST);
-			final Integer port = new Integer(prop.getProperty(KEYLOGICTCPPORT));
+			// String host = prop.getProperty(KEYLOGICHOST);
+			// Integer port = new Integer(prop.getProperty(KEYLOGICTCPPORT));
+
+			final String host = System.getenv("LOGICMODULE_HOST");
+			final Integer port = Integer.parseInt(System.getenv("LOGICMODULE_PORT_TCP"));
+			
 			if (clientLib != null) {
 				// If commonLib is not null, it means it was previously initialized and we are
 				// restarting it. So, close it

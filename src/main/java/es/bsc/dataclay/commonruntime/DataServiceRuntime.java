@@ -125,7 +125,12 @@ public final class DataServiceRuntime extends DataClayRuntime {
 	public void initialize(final String logicModuleHost, final int logicModulePort, final String originHostName)
 			throws Exception {
 
-		metadataService = new MetadataService("localhost", "2379");
+		// TODO: Add vars to settings.
+		final String etcdHost = System.getenv("ETCD_HOST");
+		String etcdPort = System.getenv("ETCD_PORT");
+		if (etcdPort == null) etcdPort = "2379";
+		
+		metadataService = new MetadataService(etcdHost, etcdPort);
 
 		super.initialize(logicModuleHost, logicModulePort, originHostName);
 		if (Configuration.Flags.MEMORY_GC_ENABLED.getBooleanValue() && !tasksScheduled) {
