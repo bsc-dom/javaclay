@@ -143,8 +143,15 @@ public final class ClientManagementLib {
 			// String host = prop.getProperty(KEYLOGICHOST);
 			// Integer port = new Integer(prop.getProperty(KEYLOGICTCPPORT));
 
-			final String host = System.getenv("LOGICMODULE_HOST");
-			final Integer port = Integer.parseInt(System.getenv("LOGICMODULE_PORT_TCP"));
+			String host = System.getenv("LOGICMODULE_HOST");
+			if (host == null || host.isEmpty()) {
+				host = "127.0.0.1";
+			}
+			String portStr = System.getenv("LOGICMODULE_PORT_TCP");
+			if (portStr == null || host.isEmpty()) {
+				portStr = "11034";
+			}
+			Integer port = Integer.parseInt(portStr);
 			
 			if (clientLib != null) {
 				// If commonLib is not null, it means it was previously initialized and we are
