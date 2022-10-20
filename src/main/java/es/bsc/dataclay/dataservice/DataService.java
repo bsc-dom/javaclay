@@ -88,6 +88,7 @@ import es.bsc.dataclay.util.management.stubs.StubInfo;
 import es.bsc.dataclay.util.reflection.Reflector;
 import es.bsc.dataclay.util.structs.Tuple;
 import io.grpc.StatusRuntimeException;
+import es.bsc.dataclay.metadata.MetadataServiceAPI;
 
 // CHECKSTYLE:ON
 
@@ -172,10 +173,10 @@ public final class DataService implements DataServiceAPI {
      * @param theownServer  Reference to server instance using this DataService
      *                      implementation.
      * @post Creates a Data Service and initializes the objectDB in the path
-     * provided.
+     *       provided.
      */
     public DataService(final String newdsName, final String newdsHostname, final int newdsTCPPort,
-                       final DBHandlerConf dbHandlerconf, final DataServiceSrv theownServer) {
+            final DBHandlerConf dbHandlerconf, final DataServiceSrv theownServer) {
         dsName = newdsName;
         dsHostname = newdsHostname;
         dsPort = newdsTCPPort;
@@ -183,7 +184,6 @@ public final class DataService implements DataServiceAPI {
         this.storageLocation = new StorageLocationService(dbHandlerconf);
         this.runtime = new DataServiceRuntime(this);
         initEEInfo();
-
 
     }
 
@@ -243,7 +243,7 @@ public final class DataService implements DataServiceAPI {
      * @throws Exception If an error occurs during this process
      */
     public void initLocalWithAutoregistration(final String logicModuleHost, final int tcpLogicModulePort,
-                                              final String dataServiceName) throws Exception {
+            final String dataServiceName) throws Exception {
 
         this.runtime.initialize(logicModuleHost, tcpLogicModulePort, dataServiceName);
         DataClayObject.setLib(runtime);
@@ -260,6 +260,10 @@ public final class DataService implements DataServiceAPI {
         final LogicModuleAPI lmAPI = this.runtime.getLogicModuleAPI();
         lmAPI.autoregisterSL(this.storageLocationID, dsName, dsHostname, dsPort);
         lmAPI.autoregisterEE(executionEnvironmentID, dsName, dsHostname, dsPort, Langs.LANG_JAVA);
+
+        final MetadataServiceAPI mdsAPI = this.runtime.getMetadataServiceAPI();
+        mdsAPI.autoregisterSL(dsName, dsHostname, dsPort);
+
         this.storageLocation.initialize(runtime, this.executionEnvironmentID);
     }
 
@@ -280,7 +284,6 @@ public final class DataService implements DataServiceAPI {
     public ExecutionEnvironmentID getExecutionEnvironmentID() {
         return executionEnvironmentID;
     }
-
 
     @Override
     public void initBackendID(final StorageLocationID newbackendID) {
@@ -325,26 +328,25 @@ public final class DataService implements DataServiceAPI {
         }
     }
 
-
     @Override
     public void deployClasses(final String namespaceName, final Map<Tuple<String, MetaClassID>, byte[]> classesToDeploy,
-                              final Map<String, byte[]> classesAspects, final Map<String, byte[]> stubYamls) {
+            final Map<String, byte[]> classesAspects, final Map<String, byte[]> stubYamls) {
         runtime.setCurrentThreadSessionID(new SessionID());
 
         // Create temporary directories
         final String namespaceDir = Configuration.Flags.EXECUTION_CLASSES_PATH.getStringValue();
 
-		// Create directories if needed
-		FileAndAspectsUtils.createDirectory(namespaceDir);
-		LOGGER.debug("Received " + classesToDeploy.size() + " classes ");
+        // Create directories if needed
+        FileAndAspectsUtils.createDirectory(namespaceDir);
+        LOGGER.debug("Received " + classesToDeploy.size() + " classes ");
 
-		for (final Entry<Tuple<String, MetaClassID>, byte[]> curEntry : classesToDeploy.entrySet()) {
-			final String className = curEntry.getKey().getFirst();
-			final String finalClassName = namespaceName + "." + className;
-			LOGGER.debug("Storing class " + finalClassName);
-			final byte[] classToDeploy = curEntry.getValue();
-			try {
-				FileAndAspectsUtils.storeClass(namespaceDir, finalClassName + ".class", classToDeploy);
+        for (final Entry<Tuple<String, MetaClassID>, byte[]> curEntry : classesToDeploy.entrySet()) {
+            final String className = curEntry.getKey().getFirst();
+            final String finalClassName = namespaceName + "." + className;
+            LOGGER.debug("Storing class " + finalClassName);
+            final byte[] classToDeploy = curEntry.getValue();
+            try {
+                FileAndAspectsUtils.storeClass(namespaceDir, finalClassName + ".class", classToDeploy);
 
             } catch (final Exception ex) {
                 ex.printStackTrace();
@@ -353,17 +355,15 @@ public final class DataService implements DataServiceAPI {
             }
         }
 
-
-
-		for (final Entry<Tuple<String, MetaClassID>, byte[]> curEntry : classesToDeploy.entrySet()) {
-			final String className = curEntry.getKey().getFirst();
-			final String finalClassName = namespaceName + "." + className;
-			final byte[] classToDeploy = curEntry.getValue();
-			//  Verify class
-			LOGGER.debug("Checking class " + finalClassName);
-			checkGeneratedClass(classToDeploy);
-			DataClayClassLoaderSrv.getClass(finalClassName);
-		}
+        for (final Entry<Tuple<String, MetaClassID>, byte[]> curEntry : classesToDeploy.entrySet()) {
+            final String className = curEntry.getKey().getFirst();
+            final String finalClassName = namespaceName + "." + className;
+            final byte[] classToDeploy = curEntry.getValue();
+            // Verify class
+            LOGGER.debug("Checking class " + finalClassName);
+            checkGeneratedClass(classToDeploy);
+            DataClayClassLoaderSrv.getClass(finalClassName);
+        }
 
         // Store yamls into final path
         for (final Entry<String, byte[]> curEntry : stubYamls.entrySet()) {
@@ -381,7 +381,7 @@ public final class DataService implements DataServiceAPI {
 
     @Override
     public void enrichClass(final String namespaceName, final String className, final byte[] classToDeploy,
-                            final byte[] classAspects, final byte[] stubYaml) {
+            final byte[] classAspects, final byte[] stubYaml) {
 
         try {
 
@@ -426,7 +426,7 @@ public final class DataService implements DataServiceAPI {
      *
      * @param className name of the class
      * @return A tuple with the directory where the class resides and the actual
-     * file name.
+     *         file name.
      */
     private Tuple<File, String> getTargetDirAndClassFileName(final String className) {
         String packageName = "";
@@ -447,8 +447,8 @@ public final class DataService implements DataServiceAPI {
 
     @Override
     public ObjectID newPersistentInstance(final SessionID sessionID, final MetaClassID classID,
-                                          final ImplementationID implementationID, final Map<MetaClassID, byte[]> ifaceBitMaps,
-                                          final SerializedParametersOrReturn params) {
+            final ImplementationID implementationID, final Map<MetaClassID, byte[]> ifaceBitMaps,
+            final SerializedParametersOrReturn params) {
 
         runtime.setCurrentThreadSessionID(sessionID);
         if (Configuration.mockTesting) {
@@ -501,10 +501,12 @@ public final class DataService implements DataServiceAPI {
 
     /**
      * Update hints in serialized objects provided to use current backend id
+     * 
      * @param objects serialized objects to update
      */
     private void updateHintsToCurrentExecEnv(List<ObjectWithDataParamOrReturn> objects) {
-        // NOTE: update hints of objects since they come from other backends in this call
+        // NOTE: update hints of objects since they come from other backends in this
+        // call
         // Prepare hints to update
         Map<ObjectID, ExecutionEnvironmentID> hintsMapping = new HashMap<>();
         for (final ObjectWithDataParamOrReturn object : objects) {
@@ -524,8 +526,8 @@ public final class DataService implements DataServiceAPI {
 
     @Override
     public void storeObjects(final SessionID sessionID,
-                             final List<ObjectWithDataParamOrReturn> objects,
-                             final boolean moving, final Set<ObjectID> idsWithAlias) {
+            final List<ObjectWithDataParamOrReturn> objects,
+            final boolean moving, final Set<ObjectID> idsWithAlias) {
         if (DEBUG_ENABLED) {
             LOGGER.debug("[==Store==] Storing " + objects.size() + " objects.");
             for (ObjectWithDataParamOrReturn objectWithDataParamOrReturn : objects) {
@@ -533,7 +535,8 @@ public final class DataService implements DataServiceAPI {
             }
         }
         runtime.setCurrentThreadSessionID(sessionID);
-        // NOTE: update hints of objects since they come from other backends in this call
+        // NOTE: update hints of objects since they come from other backends in this
+        // call
         // Prepare hints to update
         this.updateHintsToCurrentExecEnv(objects);
 
@@ -606,7 +609,8 @@ public final class DataService implements DataServiceAPI {
      * @return Deserialized instances
      * @brief Deserialize and load the data of objects provided into heap
      */
-    private Object[] storeInMemory(final SessionID sessionID, final List<ObjectWithDataParamOrReturn> objectsToPersist) {
+    private Object[] storeInMemory(final SessionID sessionID,
+            final List<ObjectWithDataParamOrReturn> objectsToPersist) {
 
         final Map<MetaClassID, byte[]> ifaceBitMaps = null; // TODO: get for current session
 
@@ -651,8 +655,8 @@ public final class DataService implements DataServiceAPI {
 
     @Override
     public void federate(final SessionID sessionID, final ObjectID objectID,
-                  final ExecutionEnvironmentID externalExecutionEnvironmentID,
-                  final boolean recursive) {
+            final ExecutionEnvironmentID externalExecutionEnvironmentID,
+            final boolean recursive) {
         try {
 
             // create lots of objects here and stash them somewhere
@@ -662,11 +666,13 @@ public final class DataService implements DataServiceAPI {
             // Get the original object.
             final Set<ObjectID> objectIDs = new HashSet<>();
             objectIDs.add(objectID);
-            final List<ObjectWithDataParamOrReturn> serializedObjs = getObjects(sessionID, objectIDs, new HashSet<ObjectID>(), recursive, externalExecutionEnvironmentID,
+            final List<ObjectWithDataParamOrReturn> serializedObjs = getObjects(sessionID, objectIDs,
+                    new HashSet<ObjectID>(), recursive, externalExecutionEnvironmentID,
                     1);
 
             // Store it in destination backend
-            // TODO: check that current dataClay/EE has permission to federate the object (refederation use-case)
+            // TODO: check that current dataClay/EE has permission to federate the object
+            // (refederation use-case)
             // delegation mechanism?
             final DataServiceAPI dataServiceApi = runtime.getRemoteExecutionEnvironment(externalExecutionEnvironmentID);
             dataServiceApi.notifyFederation(sessionID, serializedObjs);
@@ -675,8 +681,8 @@ public final class DataService implements DataServiceAPI {
             LOGGER.debug(" Federate got exception", ex);
             throw ex;
         } finally {
-            //Do not remove for function called inside methods
-            //runtime.removeCurrentThreadSessionID();
+            // Do not remove for function called inside methods
+            // runtime.removeCurrentThreadSessionID();
         }
         LOGGER.debug("<---- Finished federation of " + objectID);
     }
@@ -687,13 +693,12 @@ public final class DataService implements DataServiceAPI {
         try {
 
             // create lots of objects here and stash them somewhere
-            //runtime.setCurrentThreadSessionID(sessionID);
+            // runtime.setCurrentThreadSessionID(sessionID);
             LOGGER.debug("----> Notified federation");
-
 
             // if objects received have alias, they must be registered
             List<RegistrationInfo> regInfos = new ArrayList<>();
-            for (ObjectWithDataParamOrReturn objectWithDataParamOrReturn: objectsToPersist) {
+            for (ObjectWithDataParamOrReturn objectWithDataParamOrReturn : objectsToPersist) {
                 ObjectID objectID = objectWithDataParamOrReturn.getObjectID();
                 DataClayObjectMetaData metaData = objectWithDataParamOrReturn.getMetaData();
                 if (metaData.getAlias() != null && !metaData.getAlias().isEmpty()) {
@@ -711,7 +716,6 @@ public final class DataService implements DataServiceAPI {
                         (ExecutionEnvironmentID) this.executionEnvironmentID, Langs.LANG_JAVA);
             }
 
-
             final Object[] federatedInstances = storeInMemory(null, objectsToPersist);
             for (final Object federatedInstance : federatedInstances) {
                 final DataClayObject federatedDataClayObj = (DataClayObject) federatedInstance;
@@ -725,22 +729,22 @@ public final class DataService implements DataServiceAPI {
             }
             LOGGER.debug("<---- Finished notification of federation");
 
-
         } catch (final Exception ex) {
             LOGGER.debug(" Notify federation got exception", ex);
             throw ex;
         } finally {
-            //runtime.removeCurrentThreadSessionID();
+            // runtime.removeCurrentThreadSessionID();
         }
 
     }
 
     @Override
     public void unfederate(final SessionID sessionID, final ObjectID objectID,
-                         final ExecutionEnvironmentID externalExecutionEnvironmentID,
-                         final boolean recursive) {
+            final ExecutionEnvironmentID externalExecutionEnvironmentID,
+            final boolean recursive) {
 
-        // TODO: redirect unfederation to owner if current dataClay is not the owner, check origLoc belongs to current dataClay
+        // TODO: redirect unfederation to owner if current dataClay is not the owner,
+        // check origLoc belongs to current dataClay
         try {
             LOGGER.debug("----> Starting unfederation of {} from {}", objectID, externalExecutionEnvironmentID);
             runtime.setCurrentThreadSessionID(sessionID);
@@ -753,11 +757,13 @@ public final class DataService implements DataServiceAPI {
 
             Map<ExecutionEnvironmentID, Set<ObjectID>> unfederatePerBackend = new HashMap<>();
             for (ObjectWithDataParamOrReturn objectWithDataParamOrReturn : serializedObjs) {
-                Set<ExecutionEnvironmentID> replicaLocs = objectWithDataParamOrReturn.getMetaData().getReplicaLocations();
+                Set<ExecutionEnvironmentID> replicaLocs = objectWithDataParamOrReturn.getMetaData()
+                        .getReplicaLocations();
                 for (ExecutionEnvironmentID replicaLoc : replicaLocs) {
                     ExecutionEnvironment execEnv = this.runtime.getExecutionEnvironmentInfo(replicaLoc);
                     if (!execEnv.getDataClayInstanceID().equals(this.runtime.getDataClayID())) {
-                        if (externalExecutionEnvironmentID != null && !replicaLoc.equals(externalExecutionEnvironmentID)) {
+                        if (externalExecutionEnvironmentID != null
+                                && !replicaLoc.equals(externalExecutionEnvironmentID)) {
                             continue;
                         }
                         Set<ObjectID> objsInBackend = unfederatePerBackend.get(replicaLoc);
@@ -778,8 +784,8 @@ public final class DataService implements DataServiceAPI {
             LOGGER.debug(" Unfederate got exception", ex);
             throw ex;
         } finally {
-            //Do not remove for function called inside methods
-            //runtime.removeCurrentThreadSessionID();
+            // Do not remove for function called inside methods
+            // runtime.removeCurrentThreadSessionID();
         }
         LOGGER.debug("<---- Finished unfederation of " + objectID);
     }
@@ -788,9 +794,9 @@ public final class DataService implements DataServiceAPI {
     public void notifyUnfederation(final SessionID sessionID, final Set<ObjectID> objectIDs) {
         try {
             // create lots of objects here and stash them somewhere
-            //if (sessionID != null) {
-            //    runtime.setCurrentThreadSessionID(sessionID);
-            //}
+            // if (sessionID != null) {
+            // runtime.setCurrentThreadSessionID(sessionID);
+            // }
             LOGGER.debug("----> Starting notification of unfederation of " + objectIDs);
             for (final ObjectID objectID : objectIDs) {
                 final DataClayObject instance = runtime.getOrNewInstanceFromDB(objectID, true);
@@ -811,7 +817,7 @@ public final class DataService implements DataServiceAPI {
             LOGGER.debug("Notify unfederate got exception", ex);
             throw ex;
         } finally {
-            //runtime.removeCurrentThreadSessionID();
+            // runtime.removeCurrentThreadSessionID();
 
         }
         LOGGER.debug("<---- Finished notification of unfederation of " + objectIDs);
@@ -820,7 +826,7 @@ public final class DataService implements DataServiceAPI {
 
     @Override
     public SerializedParametersOrReturn executeImplementation(final ObjectID objectID, final ImplementationID implID,
-                                                              final SerializedParametersOrReturn params, final SessionID sessionID) {
+            final SerializedParametersOrReturn params, final SessionID sessionID) {
 
         try {
             // create lots of objects here and stash them somewhere
@@ -921,7 +927,7 @@ public final class DataService implements DataServiceAPI {
      * @return Serialized operation result.
      */
     public Object runImplementation(final DataClayObject instance, final ImplementationID implID,
-                                    final Object[] params) {
+            final Object[] params) {
         // =================== EXECUTION ===================//
         // In case we change namespace (executeInternal called from commonlib)
         final Object result = instance.run(implID, params);
@@ -931,8 +937,8 @@ public final class DataService implements DataServiceAPI {
 
     @Override
     public void synchronize(final SessionID sessionID, final ObjectID objectID, final ImplementationID implID,
-                                    final SerializedParametersOrReturn params,
-                                    final ExecutionEnvironmentID callingBackend) {
+            final SerializedParametersOrReturn params,
+            final ExecutionEnvironmentID callingBackend) {
         LOGGER.debug("--> Synchronize started for object {} and calling backend {}", objectID, callingBackend);
 
         // first update field
@@ -943,7 +949,8 @@ public final class DataService implements DataServiceAPI {
         ExecutionEnvironmentID originalLocation = instance.getOriginLocation();
         if (originalLocation != null) {
             if (callingBackend == null || !originalLocation.equals(callingBackend)) {
-                LOGGER.debug("--> Synchronize: calling object {} original location {} to synchronize", objectID, originalLocation);
+                LOGGER.debug("--> Synchronize: calling object {} original location {} to synchronize", objectID,
+                        originalLocation);
                 final DataServiceAPI dataServiceApi = runtime.getRemoteExecutionEnvironment(originalLocation);
                 dataServiceApi.synchronize(sessionID, objectID, implID, params, this.executionEnvironmentID);
             }
@@ -951,10 +958,11 @@ public final class DataService implements DataServiceAPI {
 
         Set<ExecutionEnvironmentID> replicaLocations = instance.getReplicaLocations();
         if (replicaLocations != null) {
-            for (ExecutionEnvironmentID replicaLocation: replicaLocations) {
+            for (ExecutionEnvironmentID replicaLocation : replicaLocations) {
                 if (replicaLocation != null) {
                     if (callingBackend == null || !replicaLocation.equals(callingBackend)) {
-                        LOGGER.debug("--> Synchronize: calling object {} replica location {} to synchronize", objectID, replicaLocation);
+                        LOGGER.debug("--> Synchronize: calling object {} replica location {} to synchronize", objectID,
+                                replicaLocation);
                         final DataServiceAPI dataServiceApi = runtime.getRemoteExecutionEnvironment(replicaLocation);
                         dataServiceApi.synchronize(sessionID, objectID, implID, params, this.executionEnvironmentID);
                     }
@@ -962,7 +970,6 @@ public final class DataService implements DataServiceAPI {
             }
         }
         LOGGER.debug("<-- Finished synchronize for object {} and calling backend {}", objectID, callingBackend);
-
 
     }
 
@@ -1043,7 +1050,8 @@ public final class DataService implements DataServiceAPI {
                 }
             }
 
-            // NOTE: update hints of objects since they come from other backends in this call
+            // NOTE: update hints of objects since they come from other backends in this
+            // call
             // Prepare hints to update
             this.updateHintsToCurrentExecEnv(updatedObjectsHere);
 
@@ -1061,12 +1069,13 @@ public final class DataService implements DataServiceAPI {
      * Update object in another backend.
      *
      * @param sessionID           ID of session
-     * @param objectsInOtherNodes List of metadata of objects to update and its bytes. It is useful
+     * @param objectsInOtherNodes List of metadata of objects to update and its
+     *                            bytes. It is useful
      *                            to avoid multiple trips.
      * @throws RemoteException if some exception occurs
      */
     private void upsertObjectsInOtherBackend(final SessionID sessionID,
-                                             final List<ObjectWithDataParamOrReturn> objectsInOtherNodes) {
+            final List<ObjectWithDataParamOrReturn> objectsInOtherNodes) {
         // Prepare to unify calls (only one call for DS)
         final Map<ExecutionEnvironmentID, List<ObjectWithDataParamOrReturn>> objectsPerBackend = new ConcurrentHashMap<>();
 
@@ -1109,7 +1118,7 @@ public final class DataService implements DataServiceAPI {
 
     @Override
     public SerializedParametersOrReturn getCopyOfObject(final SessionID sessionID, final ObjectID objectID,
-                                                        final boolean recursive) {
+            final boolean recursive) {
         if (DEBUG_ENABLED) {
             LOGGER.debug("[==GetCopyOfObject==] Retrieving copy of " + objectID);
         }
@@ -1119,7 +1128,8 @@ public final class DataService implements DataServiceAPI {
         final Set<ObjectID> objectIDs = new HashSet<>();
         objectIDs.add(objectID);
 
-        final List<ObjectWithDataParamOrReturn> serializedObjs = getObjects(sessionID, objectIDs, new HashSet<ObjectID>(), recursive, null, 0);
+        final List<ObjectWithDataParamOrReturn> serializedObjs = getObjects(sessionID, objectIDs,
+                new HashSet<ObjectID>(), recursive, null, 0);
         // Prepare OIDs
         if (DEBUG_ENABLED) {
             LOGGER.debug("[==GetCopyOfObject==] Objects obtained to return a copy of " + objectID);
@@ -1153,7 +1163,7 @@ public final class DataService implements DataServiceAPI {
 
     @Override
     public void updateObject(final SessionID sessionID, final ObjectID intoObjectID,
-                             final SerializedParametersOrReturn fromObject) {
+            final SerializedParametersOrReturn fromObject) {
         try {
             // create lots of objects here and stash them somewhere
             if (sessionID != null) {
@@ -1201,9 +1211,9 @@ public final class DataService implements DataServiceAPI {
 
     @Override
     public List<ObjectWithDataParamOrReturn> getObjects(final SessionID sessionID, final Set<ObjectID> objectIDs,
-                                                        final Set<ObjectID> alreadyObtainedObjs,
-                                                        final boolean recursive, final ExecutionEnvironmentID replicaDestBackendID,
-                                                        final int updateReplicaLocs) {
+            final Set<ObjectID> alreadyObtainedObjs,
+            final boolean recursive, final ExecutionEnvironmentID replicaDestBackendID,
+            final int updateReplicaLocs) {
         LOGGER.debug("----> Starting get objects " + objectIDs);
 
         final List<ObjectWithDataParamOrReturn> result = new ArrayList<>();
@@ -1222,32 +1232,39 @@ public final class DataService implements DataServiceAPI {
                         final ObjectID curObID = idAndHint.getFirst();
                         final ExecutionEnvironmentID hint = idAndHint.getSecond();
 
-                        if (DEBUG_ENABLED) {  LOGGER.debug("[==Get==] Getting " + curObID); }
+                        if (DEBUG_ENABLED) {
+                            LOGGER.debug("[==Get==] Getting " + curObID);
+                        }
                         it.remove();
                         if (alreadyObtainedObjs.contains(curObID)) {
                             // Already read
-                            if (DEBUG_ENABLED) {  LOGGER.debug("[==Get==] Object {} already obtained", curObID); }
+                            if (DEBUG_ENABLED) {
+                                LOGGER.debug("[==Get==] Object {} already obtained", curObID);
+                            }
                             continue;
                         }
 
                         if (hint != null && !hint.equals(this.executionEnvironmentID)) {
                             // GET IN OTHER BACKEND
                             if (DEBUG_ENABLED) {
-                                LOGGER.debug("[==Get==] {} is not in this backend obj hint {} != current loc {} ", curObID, hint, this.executionEnvironmentID);
+                                LOGGER.debug("[==Get==] {} is not in this backend obj hint {} != current loc {} ",
+                                        curObID, hint, this.executionEnvironmentID);
                             }
                             objectsInOtherBackend.add(new Tuple<>(curObID, hint));
                             continue;
                         }
 
                         try {
-                            final ObjectWithDataParamOrReturn objWithData = getObjectInternal(curObID, replicaDestBackendID,
+                            final ObjectWithDataParamOrReturn objWithData = getObjectInternal(curObID,
+                                    replicaDestBackendID,
                                     updateReplicaLocs);
                             if (objWithData != null) {
                                 result.add(objWithData);
                                 alreadyObtainedObjs.add(curObID);
                                 // Get associated objects (recursive)
                                 final DataClayObjectMetaData metadata = objWithData.getMetaData();
-                                for (final Entry<Integer, ObjectID> associatedOIDEntry : metadata.getOids().entrySet()) {
+                                for (final Entry<Integer, ObjectID> associatedOIDEntry : metadata.getOids()
+                                        .entrySet()) {
                                     final Integer tag = associatedOIDEntry.getKey();
                                     final ObjectID associatedOID = associatedOIDEntry.getValue();
                                     if (!alreadyObtainedObjs.contains(associatedOID)) {
@@ -1257,20 +1274,23 @@ public final class DataService implements DataServiceAPI {
                             }
                         } catch (final DbObjectNotExistException e) {
                             // GET IN OTHER BACKEND
-                            if (DEBUG_ENABLED) {  LOGGER.debug("[==Get==] Not in this backend (wrong or null hint): " + curObID); }
+                            if (DEBUG_ENABLED) {
+                                LOGGER.debug("[==Get==] Not in this backend (wrong or null hint): " + curObID);
+                            }
                             objectsInOtherBackend.add(new Tuple<>(curObID, null));
                         }
                     }
                 } else {
-                    final ObjectWithDataParamOrReturn objWithData = getObjectInternal(objectID, replicaDestBackendID, updateReplicaLocs);
+                    final ObjectWithDataParamOrReturn objWithData = getObjectInternal(objectID, replicaDestBackendID,
+                            updateReplicaLocs);
                     if (objWithData != null) {
                         result.add(objWithData);
                     }
                 }
             }
 
-            result.addAll(getObjectsInOtherBackend(sessionID, objectsInOtherBackend, alreadyObtainedObjs, true, replicaDestBackendID, updateReplicaLocs));
-
+            result.addAll(getObjectsInOtherBackend(sessionID, objectsInOtherBackend, alreadyObtainedObjs, true,
+                    replicaDestBackendID, updateReplicaLocs));
 
         } finally {
             /*
@@ -1287,16 +1307,19 @@ public final class DataService implements DataServiceAPI {
     /**
      * Get object internal function
      *
-     * @param objectID   ID of the object ot get
-     * @param replicaDestBackendID Destination backend of objects being obtained for replica
-     * @param updateReplicaLocs If 1, provided replica dest backend id must be added to replica locs of obtained objects
-     *                          If 2, provided replica dest backend id must be removed from replica locs
-     *                          If 0, replicaDestBackendID field is ignored
+     * @param objectID             ID of the object ot get
+     * @param replicaDestBackendID Destination backend of objects being obtained for
+     *                             replica
+     * @param updateReplicaLocs    If 1, provided replica dest backend id must be
+     *                             added to replica locs of obtained objects
+     *                             If 2, provided replica dest backend id must be
+     *                             removed from replica locs
+     *                             If 0, replicaDestBackendID field is ignored
      * @return Object with data
      */
     private ObjectWithDataParamOrReturn getObjectInternal(final ObjectID objectID,
-                                                          final ExecutionEnvironmentID replicaDestBackendID,
-                                                          final int updateReplicaLocs) {
+            final ExecutionEnvironmentID replicaDestBackendID,
+            final int updateReplicaLocs) {
         if (DEBUG_ENABLED) {
             LOGGER.debug("[==Get==] Getting/Creating instance for " + objectID);
         }
@@ -1308,7 +1331,8 @@ public final class DataService implements DataServiceAPI {
             final List<DataClayObject> pendingObjs = new LinkedList<>();
             final ListIterator<DataClayObject> it = pendingObjs.listIterator(pendingObjs.size());
             if (replicaDestBackendID != null && updateReplicaLocs == 1) { // update = 1 means new replica/federation
-                if (instance.getReplicaLocations() != null && instance.getReplicaLocations().contains(replicaDestBackendID)) {
+                if (instance.getReplicaLocations() != null
+                        && instance.getReplicaLocations().contains(replicaDestBackendID)) {
                     // already replicated
                     LOGGER.debug("[==Get==] WARNING: Already replicated " + objectID + ". Skipping get");
                     return null;
@@ -1317,15 +1341,18 @@ public final class DataService implements DataServiceAPI {
             objWithData = DataClaySerializationLib.serializeDataClayObjectWithData(instance, runtime, false, null, it,
                     false, instance.getHint(), false);
             if (replicaDestBackendID != null && updateReplicaLocs == 1) {
-                    LOGGER.debug("[==Get==] Setting object {} replica location {}", objectID, replicaDestBackendID);
-                    instance.addReplicaLocations(replicaDestBackendID);
-                    instance.setDirty(true);
-                    LOGGER.debug("[==Get==] Serializing object {} with dest replica locs {}", objectID, objWithData.getMetaData().getReplicaLocations());
-                    LOGGER.debug("[==Get==] Setting object {} original location {} ", objectID, this.executionEnvironmentID);
-                    objWithData.getMetaData().setOriginLocation(this.executionEnvironmentID);
+                LOGGER.debug("[==Get==] Setting object {} replica location {}", objectID, replicaDestBackendID);
+                instance.addReplicaLocations(replicaDestBackendID);
+                instance.setDirty(true);
+                LOGGER.debug("[==Get==] Serializing object {} with dest replica locs {}", objectID,
+                        objWithData.getMetaData().getReplicaLocations());
+                LOGGER.debug("[==Get==] Setting object {} original location {} ", objectID,
+                        this.executionEnvironmentID);
+                objWithData.getMetaData().setOriginLocation(this.executionEnvironmentID);
             } else if (updateReplicaLocs == 2) {
                 if (replicaDestBackendID != null) {
-                    LOGGER.debug("[==Get==] Removing from object {} the replica location {}", objectID, replicaDestBackendID);
+                    LOGGER.debug("[==Get==] Removing from object {} the replica location {}", objectID,
+                            replicaDestBackendID);
                     instance.removeReplicaLocation(replicaDestBackendID);
                 } else {
                     LOGGER.debug("[==Get==] Removing from object {} all replica locations", objectID);
@@ -1334,7 +1361,6 @@ public final class DataService implements DataServiceAPI {
                 }
                 instance.setDirty(true);
             }
-
 
         } finally {
             runtime.unlock(objectID);
@@ -1346,22 +1372,27 @@ public final class DataService implements DataServiceAPI {
      * Get object in another backend. This function is called from DbHandler in a
      * recursive get.
      *
-     * @param sessionID           ID of session
-     * @param objectsInOtherNodes List of metadata of objects to read. It is useful to avoid
-     *                            multiple trips.
-     * @param recursive           Indicates is recursive
-     * @param replicaDestBackendID Destination backend of objects being obtained for replica
-     * @param updateReplicaLocs If 1, provided replica dest backend id must be added to replica locs of obtained objects
-     *                          If 2, provided replica dest backend id must be removed from replica locs
-     *                          If 0, replicaDestBackendID field is ignored
-     * @return Map of serialized object where key is the objectID. Object is not serialized if flag getOnlyRefs=true
+     * @param sessionID            ID of session
+     * @param objectsInOtherNodes  List of metadata of objects to read. It is useful
+     *                             to avoid
+     *                             multiple trips.
+     * @param recursive            Indicates is recursive
+     * @param replicaDestBackendID Destination backend of objects being obtained for
+     *                             replica
+     * @param updateReplicaLocs    If 1, provided replica dest backend id must be
+     *                             added to replica locs of obtained objects
+     *                             If 2, provided replica dest backend id must be
+     *                             removed from replica locs
+     *                             If 0, replicaDestBackendID field is ignored
+     * @return Map of serialized object where key is the objectID. Object is not
+     *         serialized if flag getOnlyRefs=true
      */
     private List<ObjectWithDataParamOrReturn> getObjectsInOtherBackend(final SessionID sessionID,
-                                                                       final List<Tuple<ObjectID, ExecutionEnvironmentID>> objectsInOtherNodes,
-                                                                       final Set<ObjectID> alreadyObtainedObjs,
-                                                                       final boolean recursive,
-                                                                       final ExecutionEnvironmentID replicaDestBackendID,
-                                                                       final int updateReplicaLocs) {
+            final List<Tuple<ObjectID, ExecutionEnvironmentID>> objectsInOtherNodes,
+            final Set<ObjectID> alreadyObtainedObjs,
+            final boolean recursive,
+            final ExecutionEnvironmentID replicaDestBackendID,
+            final int updateReplicaLocs) {
 
         final List<ObjectWithDataParamOrReturn> result = new ArrayList<>();
 
@@ -1423,7 +1454,7 @@ public final class DataService implements DataServiceAPI {
 
     @Override
     public Map<ObjectID, ExecutionEnvironmentID> removeObjects(final SessionID sessionID, final Set<ObjectID> objectIDs,
-                                                               final boolean recursive, final boolean moving, final ExecutionEnvironmentID newHint) {
+            final boolean recursive, final boolean moving, final ExecutionEnvironmentID newHint) {
 
         final Map<ObjectID, ExecutionEnvironmentID> removedObjs = new ConcurrentHashMap<>();
         try {
@@ -1505,7 +1536,7 @@ public final class DataService implements DataServiceAPI {
      * @throws DbObjectNotExistException if object is not in database
      */
     private void removeObjectInternal(final SessionID sessionID, final ObjectID objectID, final boolean moving,
-                                      final ExecutionEnvironmentID newHint) {
+            final ExecutionEnvironmentID newHint) {
         if (DEBUG_ENABLED) {
             LOGGER.debug("[==Remove==] Removing object " + objectID);
         }
@@ -1575,13 +1606,14 @@ public final class DataService implements DataServiceAPI {
      * @param sessionID           ID of session removing
      * @param objectsInOtherNodes List of objects to remove in other backends
      * @param recursive           Indicates is recursive
-     * @param moving              Indicates objects are being removed due to a movement.
+     * @param moving              Indicates objects are being removed due to a
+     *                            movement.
      * @param newHint             New hint to be set
      * @return ID of objects and for each object, its BackendID.
      */
     private Map<ObjectID, ExecutionEnvironmentID> removeObjectsInOtherBackend(final SessionID sessionID,
-                                                                              final List<ObjectID> objectsInOtherNodes, final boolean recursive, final boolean moving,
-                                                                              final ExecutionEnvironmentID newHint) {
+            final List<ObjectID> objectsInOtherNodes, final boolean recursive, final boolean moving,
+            final ExecutionEnvironmentID newHint) {
         final Map<ObjectID, ExecutionEnvironmentID> result = new ConcurrentHashMap<>();
 
         // Prepare to unify calls (only one call for DS)
@@ -1628,8 +1660,8 @@ public final class DataService implements DataServiceAPI {
 
     @Override
     public Set<ObjectID> newReplica(final SessionID sessionID, final ObjectID objectID,
-                                                      final ExecutionEnvironmentID destBackendID,
-                                                      final boolean recursive) {
+            final ExecutionEnvironmentID destBackendID,
+            final boolean recursive) {
         LOGGER.debug("----> Starting new replica of " + objectID);
 
         // Get the original object.
@@ -1650,7 +1682,7 @@ public final class DataService implements DataServiceAPI {
 
     @Override
     public ObjectID newVersion(final SessionID sessionID, final ObjectID objectID,
-                           final ExecutionEnvironmentID destBackendID) {
+            final ExecutionEnvironmentID destBackendID) {
         if (DEBUG_ENABLED) {
             LOGGER.debug("----> Starting new version for {} to destination backend {}", objectID, destBackendID);
         }
@@ -1658,7 +1690,8 @@ public final class DataService implements DataServiceAPI {
         // Get the original object.
         final Set<ObjectID> objectIDs = new HashSet<>();
         objectIDs.add(objectID);
-        final List<ObjectWithDataParamOrReturn> serializedObjs = getObjects(sessionID, objectIDs, new HashSet<ObjectID>(),true, null, 0);
+        final List<ObjectWithDataParamOrReturn> serializedObjs = getObjects(sessionID, objectIDs,
+                new HashSet<ObjectID>(), true, null, 0);
 
         // Prepare OIDs
         if (DEBUG_ENABLED) {
@@ -1715,7 +1748,8 @@ public final class DataService implements DataServiceAPI {
         // Consolidate in this backend - the complete version is here
         final Set<ObjectID> objectIDs = new HashSet<>();
         objectIDs.add(finalVersionObjectID);
-        final List<ObjectWithDataParamOrReturn> versionObjects = getObjects(sessionID, objectIDs, new HashSet<ObjectID>(),true, null, 0);
+        final List<ObjectWithDataParamOrReturn> versionObjects = getObjects(sessionID, objectIDs,
+                new HashSet<ObjectID>(), true, null, 0);
 
         ExecutionEnvironmentID rootLocation = null;
         final Map<ObjectID, ObjectID> versionToOriginal = new HashMap<>();
@@ -1732,7 +1766,7 @@ public final class DataService implements DataServiceAPI {
             }
 
         }
-         // Update original objects
+        // Update original objects
         for (final ObjectWithDataParamOrReturn versionObject : versionObjects) {
             final DataClayObjectMetaData versionMetaData = versionObject.getMetaData();
             // Modify metadata to use new Object IDs
@@ -1765,7 +1799,7 @@ public final class DataService implements DataServiceAPI {
 
     @Override
     public Set<ObjectID> moveObjects(final SessionID sessionID, final ObjectID objectID,
-                                     final ExecutionEnvironmentID destLocation, final boolean recursive) {
+            final ExecutionEnvironmentID destLocation, final boolean recursive) {
         final Set<ObjectID> updateMetadataof = new HashSet<>();
 
         try {
@@ -1780,7 +1814,8 @@ public final class DataService implements DataServiceAPI {
             // Get the the original object.
             objectIDs.add(objectID);
 
-            final List<ObjectWithDataParamOrReturn> serializedObjs = getObjects(sessionID, objectIDs, new HashSet<ObjectID>(), recursive, null, 0);
+            final List<ObjectWithDataParamOrReturn> serializedObjs = getObjects(sessionID, objectIDs,
+                    new HashSet<ObjectID>(), recursive, null, 0);
 
             final Set<ObjectID> objectsToRemove = new HashSet<>();
             final List<ObjectWithDataParamOrReturn> objectsToMove = new ArrayList<>();
@@ -1861,7 +1896,7 @@ public final class DataService implements DataServiceAPI {
 
         } catch (
 
-                final Exception ex) {
+        final Exception ex) {
             LOGGER.debug("moveObjects error", ex);
 
         } finally {
@@ -1918,8 +1953,9 @@ public final class DataService implements DataServiceAPI {
             registerAndStorePendingObject(instance, arrBytes, true);
             instance.setPendingToRegister(false);
 
-        } else  {
-            // TODO: use dirty flag to avoid trips to SL? how to update SL graph of references?
+        } else {
+            // TODO: use dirty flag to avoid trips to SL? how to update SL graph of
+            // references?
             if (DEBUG_ENABLED) {
                 LOGGER.debug(
                         "[==GC==] Going to update dirty object in database object with ID " + instance.getObjectID());
@@ -1954,7 +1990,7 @@ public final class DataService implements DataServiceAPI {
      * @param sync     Indicates if register is synchronous or asynchronous
      */
     private void registerObject(final DataClayExecutionObject instance,
-                                               final boolean sync) {
+            final boolean sync) {
         // Inform MDS about new object !
         final Map<ObjectID, MetaClassID> storedObjs = new ConcurrentHashMap<>();
         storedObjs.put(instance.getObjectID(), instance.getMetaClassID());
@@ -1976,7 +2012,9 @@ public final class DataService implements DataServiceAPI {
             }
         } catch (final Exception e) {
             // object already registered due to add alias / it's a replica
-            LOGGER.debug("[==RegisterPending==] Exception occurred while registering object, ignoring if already registered ", e);
+            LOGGER.debug(
+                    "[==RegisterPending==] Exception occurred while registering object, ignoring if already registered ",
+                    e);
         }
         LOGGER.debug("[==RegisterPending==] Object registered");
     }
@@ -1990,10 +2028,9 @@ public final class DataService implements DataServiceAPI {
     private void storePendingObject(final DataClayExecutionObject instance, final byte[] arrBytes) {
 
         LOGGER.debug("[==RegisterPending==] Registering pending object with ID " + instance.getObjectID() + " of class "
-                            + instance.getClass().getName() + ". System.id = " + System.identityHashCode(instance));
+                + instance.getClass().getName() + ". System.id = " + System.identityHashCode(instance));
 
         this.storageLocation.store(this.executionEnvironmentID, instance.getObjectID(), arrBytes);
-
 
     }
 
@@ -2005,11 +2042,11 @@ public final class DataService implements DataServiceAPI {
      * @param sync     Indicates if register is synchronous or asynchronous
      */
     private void registerAndStorePendingObject(final DataClayExecutionObject instance, final byte[] arrBytes,
-                                               final boolean sync) {
+            final boolean sync) {
         storePendingObject(instance, arrBytes);
         registerObject(instance, sync);
 
-	}
+    }
 
     /**
      * Register all pending objects
@@ -2042,7 +2079,7 @@ public final class DataService implements DataServiceAPI {
      * @param classID       ID of the class
      */
     public void executeLazyTask(final ImplementationID implID, final ObjectID paramObjectID, final SessionID sessionID,
-                                final MetaClassID classID) {
+            final MetaClassID classID) {
         // TODO: check session?
         try {
             // create lots of objects here and stash them somewhere
@@ -2061,7 +2098,7 @@ public final class DataService implements DataServiceAPI {
             // ============================ DESERIALIZE PARAMETERS
             // ============================ //
             final DataClayObject paramInstance = runtime.getOrNewInstanceFromDB(paramObjectID, true);
-            final Object[] loadedparams = new Object[]{paramInstance};
+            final Object[] loadedparams = new Object[] { paramInstance };
 
             // =================================== GET INSTANCE
             // ===================================//
@@ -2135,22 +2172,22 @@ public final class DataService implements DataServiceAPI {
         if (DEBUG_ENABLED) {
             LOGGER.debug("[==Exists==] Checking if object {} exists in current EE", objectID);
         }
-        runtime.lock(objectID);  // RACE CONDITION: object is being unloaded but still not in SL
+        runtime.lock(objectID); // RACE CONDITION: object is being unloaded but still not in SL
         try {
             final boolean inheap = this.runtime.existsInHeap(objectID);
             if (inheap) {
-                    final DataClayExecutionObject obj = this.runtime.getFromHeap(objectID);
-                    // object might be in heap but as a "proxy"
-                    // since this function is used from SL after checking if the object is in
-                    // database,
-                    // we return false if the object is not loaded so the combination of SL exists
-                    // and EE exists
-                    // can tell if the object actually exists
-                    // summary: the object only exist in EE if it is loaded.
-                    if (obj == null) {
-                        return false;
-                    }
-                    return obj.isLoaded();
+                final DataClayExecutionObject obj = this.runtime.getFromHeap(objectID);
+                // object might be in heap but as a "proxy"
+                // since this function is used from SL after checking if the object is in
+                // database,
+                // we return false if the object is not loaded so the combination of SL exists
+                // and EE exists
+                // can tell if the object actually exists
+                // summary: the object only exist in EE if it is loaded.
+                if (obj == null) {
+                    return false;
+                }
+                return obj.isLoaded();
             } else {
                 return false;
             }
@@ -2163,7 +2200,6 @@ public final class DataService implements DataServiceAPI {
     public void closeSessionInDS(final SessionID sessionID) {
         this.runtime.closeSessionInEE(sessionID);
     }
-
 
     @Override
     public void detachObjectFromSession(final ObjectID objectID, final SessionID sessionID) {
@@ -2213,7 +2249,7 @@ public final class DataService implements DataServiceAPI {
 
     @Override
     public void update(final ExecutionEnvironmentID eeID, final ObjectID objectID, final byte[] newbytes,
-                       final boolean dirty) {
+            final boolean dirty) {
         this.storageLocation.update(eeID, objectID, newbytes, dirty);
     }
 
@@ -2236,7 +2272,6 @@ public final class DataService implements DataServiceAPI {
     public Set<ObjectID> getRetainedReferences() {
         return runtime.getRetainedReferences();
     }
-
 
     // ============= OTHER =========== //
 
@@ -2364,9 +2399,9 @@ public final class DataService implements DataServiceAPI {
         lmAPI.notifyStorageLocationShutdown(this.storageLocationID);
     }
 
-
     /**
-     * Wait for all execution environments associated to current data service to finish and return
+     * Wait for all execution environments associated to current data service to
+     * finish and return
      */
     public void waitForExecutionEnvironmentsToFinish() {
         final LogicModuleAPI lmAPI = this.runtime.getLogicModuleAPI();
@@ -2383,7 +2418,6 @@ public final class DataService implements DataServiceAPI {
             }
         }
     }
-
 
     @Override
     public int getNumObjectsInEE() {

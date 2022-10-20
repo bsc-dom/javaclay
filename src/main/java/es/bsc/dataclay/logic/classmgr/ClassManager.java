@@ -16,6 +16,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import io.etcd.jetcd.Client;
+
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -109,6 +111,11 @@ public final class ClassManager extends AbstractManager {
 	/** Cache of Stubs. */
 	private final MemoryCache<StubInfo, Triple<String, byte[], byte[]>> stubsCache;
 
+	/** ETCD */
+	private final Client etcdClient;
+	private final ETCDClassManagerDB ETCDclassDB;
+
+
 	/**
 	 * Instantiates an Class Manager that uses the Backend configuration
 	 *        provided.
@@ -126,6 +133,10 @@ public final class ClassManager extends AbstractManager {
 		stubsCache = new MemoryCache<>();
 		this.classDB = new ClassManagerDB(dataSource);
 		this.classDB.createTables();
+
+		// ETCD
+		this.etcdClient = Client.builder().target("localhost:2379").build();
+		ETCDclassDB = new ETCDClassManagerDB(etcdClient);
 	}
 
 	/**
@@ -309,6 +320,8 @@ public final class ClassManager extends AbstractManager {
 
 		// We store now the new Metaclass on the Database
 		classDB.storeMetaClass(metaClass);
+		// ETCD
+		ETCDclassDB.storeMetaClass(metaClass);
 
 		logger.info("Registered class {} in namespace {} with ID {}", metaClass.getName(), namespace,
 				metaClass.getDataClayID());
