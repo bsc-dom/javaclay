@@ -4,7 +4,7 @@
     <!-- Project info -->
     <groupId>es.bsc.dataclay</groupId>
     <artifactId>dataclay</artifactId>
-    <version>2.8-SNAPSHOT</version>
+    <version>3.0.0-alpha.1</version>
     <name>dataclay</name>
     <description>Next generation object storage</description>
     <url>https://dataclay.bsc.es</url>
@@ -125,29 +125,29 @@
                     <shadedArtifactAttached>true</shadedArtifactAttached>
                 </configuration>
             </plugin>
-			<plugin>
-				<artifactId>maven-assembly-plugin</artifactId>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
                 <version>3.3.0</version>
-				<configuration>
-					<descriptorRefs>
-						<descriptorRef>jar-with-dependencies</descriptorRef>
-					</descriptorRefs>
-					<archive>
-						<manifestEntries>
-							<Multi-Release>true</Multi-Release>
-						</manifestEntries>
-					</archive>
-				</configuration>
-				<executions>
-					<execution>
-						<id>make-assembly</id>
-						<phase>package</phase>
+                <configuration>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                    <archive>
+                        <manifestEntries>
+                            <Multi-Release>true</Multi-Release>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
                         <goals>
-							<goal>single</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
@@ -241,8 +241,7 @@
                             <minimizeJar>false</minimizeJar>
                             <shadedArtifactAttached>true</shadedArtifactAttached>
                             <transformers>
-                                <transformer implementation="com.github.edwgiz.maven_shade_plugin.log4j2_cache_transformer.PluginsCacheFileTransformer">
-                                </transformer>
+                                <transformer implementation="com.github.edwgiz.maven_shade_plugin.log4j2_cache_transformer.PluginsCacheFileTransformer"></transformer>
                             </transformers>
                             <filters>
 

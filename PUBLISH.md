@@ -25,10 +25,13 @@ Execute `mvn -P publish release:clean release:prepare release:perform -s setting
 **Release images:**
 
 ```bash
+
+VERSION=3.0.0-alpha.1
+
 # dsjava
 docker buildx build --platform linux/amd64,linux/arm64 \
--t bscdataclay/dsjava:2.8-jdk11-bullseye \
--t bscdataclay/dsjava:2.8 \
+-t bscdataclay/dsjava:$VERSION-jdk11-bullseye \
+-t bscdataclay/dsjava:$VERSION \
 -t bscdataclay/dsjava:latest \
 -f Dockerfile.dsjava \
 --build-arg JDK_VERSION=11 \
@@ -36,8 +39,8 @@ docker buildx build --platform linux/amd64,linux/arm64 \
 
 # logicmodule
 docker buildx build --platform linux/amd64,linux/arm64 \
--t bscdataclay/logicmodule:2.8-jdk11-bullseye \
--t bscdataclay/logicmodule:2.8 \
+-t bscdataclay/logicmodule:$VERSION-jdk11-bullseye \
+-t bscdataclay/logicmodule:$VERSION \
 -t bscdataclay/logicmodule:latest \
 -f Dockerfile.logicmodule \
 --build-arg JDK_VERSION=11 \
@@ -60,7 +63,7 @@ docker buildx build --platform linux/amd64,linux/arm64 \
 
 ## Pre Release
 
-Create release branch from `develop`, update versions and create a pull request to `master`.
+Create release branch, update versions and create a pull request to `master`.
 
 Execute `mvn -P publish release:clean release:prepare release:perform -s settings.xml` to create a Release.
 
